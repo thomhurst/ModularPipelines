@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add tags to Compute Engine     virtual machine instances
 /// </summary>
+/// <param name="Tags">Specifies strings to be attached to the instance for later identifying the instance when adding network firewall rules. Multiple tags can be attached by repeating this flag.</param>
+/// <param name="InstanceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "add-tags")]
 public record GcloudPreviewComputeInstancesAddTagsOptions(
+    [property: CliOption("--tags", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Tags,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Zone of the instance to set tags on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

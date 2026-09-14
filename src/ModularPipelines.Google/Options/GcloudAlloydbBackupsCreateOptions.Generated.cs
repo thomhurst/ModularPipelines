@@ -10,17 +10,59 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// creates a new AlloyDB backup within a given     project
 /// </summary>
+/// <param name="Cluster">AlloyDB cluster ID</param>
+/// <param name="Region">The region of the cluster to backup.</param>
+/// <param name="Backup"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "backups", "create")]
 public record GcloudAlloydbBackupsCreateOptions(
+    [property: CliOption("--cluster", Format = OptionFormat.EqualsSeparated)] string Cluster,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Backup
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the backup. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the backup. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the backup. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the backup. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
 }

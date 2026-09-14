@@ -16,9 +16,78 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new service     perimeter
 /// </summary>
+/// <param name="Title">Short human-readable title for the service perimeter.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "perimeters", "create")]
-public record GcloudAccessContextManagerPerimetersCreateOptions : GcloudOptions
+public record GcloudAccessContextManagerPerimetersCreateOptions(
+    [property: CliOption("--title", Format = OptionFormat.EqualsSeparated)] string Title
+) : GcloudOptions
 {
+    /// <summary>
+    /// Comma-separated list of IDs for access levels (in the same policy) that an intra-perimeter request must satisfy to be allowed.
+    /// </summary>
+    [CliOption("--access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AccessLevels { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Long-form description of service perimeter.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Path to a file containing a list of Engress Policies. This file contains a list of YAML-compliant objects representing Engress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--egress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? EgressPolicies { get; set; }
+
+    /// <summary>
+    /// Path to a file containing a list of Ingress Policies. This file contains a list of YAML-compliant objects representing Ingress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--ingress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? IngressPolicies { get; set; }
+
+    /// <summary>
+    /// Type of the perimeter. PERIMETER_TYPE must be one of: bridge Allows resources in different regular service perimeters to import and export data between each other. A project may belong to multiple bridge service perimeters (only if it also belongs to a regular service perimeter). Both restricted and unrestricted service lists, as well as access level lists, must be empty. regular Allows resources within this service perimeter to import and export data amongst themselves. A project may belong to at most one regular service perimeter.
+    /// </summary>
+    [CliOption("--perimeter-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterType { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of resources (currently only projects, in the form projects/&lt;projectnumber&gt;) in this perimeter.
+    /// </summary>
+    [CliOption("--resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Resources { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of services to which the perimeter boundary does apply (for example, storage.googleapis.com).
+    /// </summary>
+    [CliOption("--restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RestrictedServices { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to a YAML file containing the full VPC Accessible Services configuration. This file should contain a single YAML object representing a VpcAccessibleServices message as described in the API reference. This cannot be used with --vpc-allowed-services or --enable-vpc-accessible-services. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--vpc-accessible-services", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Whether to restrict API calls within the perimeter to those in the vpc-allowed-services list.
+    /// </summary>
+    [CliFlag("--enable-vpc-accessible-services")]
+    public bool? EnableVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of APIs accessible from within the Service Perimeter. In order to include all restricted services, use reference "RESTRICTED-SERVICES". Requires vpc-accessible-services be enabled.
+    /// </summary>
+    [CliOption("--vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VpcAllowedServices { get; set; }
+
 }

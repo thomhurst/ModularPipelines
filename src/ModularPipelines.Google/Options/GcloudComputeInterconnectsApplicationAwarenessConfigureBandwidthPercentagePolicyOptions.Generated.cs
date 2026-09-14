@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// awareness     configure-bandwidth-percentage-policy - configure bandwidth percentage     policy for application awareness configuration of a Compute Engine     interconnect
 /// </summary>
+/// <param name="BandwidthPercentages">A list of bandwidth percentages, for configuring the bandwidth percentage policy or traffic shaping. For configuring bandwidth percentages for the bandwidth percentage policy: 1. Each bandwidth percentage value must be an integer between 1-100. 2. It is required to provide a percentage value for each class. 3. The sum of all bandwidth percentages must be 100. For configuring bandwidth percentages for traffic shaping: 1. Each bandwidth percentage value must be an integer between 1-100. 2. It is not required to provide a percentage value for each class. 3. The sum of all bandwidth percentages does not need to be 100.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "application-awareness", "configure-bandwidth-percentage-policy")]
 public record GcloudComputeInterconnectsApplicationAwarenessConfigureBandwidthPercentagePolicyOptions(
+    [property: CliOption("--bandwidth-percentages", Format = OptionFormat.EqualsSeparated)] string BandwidthPercentages,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Enable or disable application awareness on the interconnect. Application awareness enablement will fail if the application awareness configuration is not specified. Use --no-enabled to disable it.
+    /// </summary>
+    [CliFlag("--enabled")]
+    public bool? Enabled { get; set; }
+
+    /// <summary>
+    /// Negates --enabled. Enable or disable application awareness on the interconnect. Application awareness enablement will fail if the application awareness configuration is not specified. Use --no-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-enabled")]
+    public bool? NoEnabled { get; set; }
+
+    /// <summary>
+    /// Add profile description for application awareness.
+    /// </summary>
+    [CliOption("--profile-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ProfileDescription { get; set; }
+
 }

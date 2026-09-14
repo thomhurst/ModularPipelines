@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set machine type for Compute     Engine virtual machines
 /// </summary>
+/// <param name="InstanceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "set-machine-type")]

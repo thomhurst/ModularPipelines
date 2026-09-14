@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("certificate-manager", "trust-configs", "create")]
-public record GcloudCertificateManagerTrustConfigsCreateOptions : GcloudOptions
+public record GcloudCertificateManagerTrustConfigsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: Allowlisted PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a comma (','). One file can contain multiple certificates. Examples: Single file: --allowlisted-certificates=ac.pem Multiple files: --allowlisted-certificates=ac1.pem,ac2.pem
+    /// </summary>
+    [CliOption("--allowlisted-certificates", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowlistedCertificates { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Trust Store with the given trust anchor and intermediate CA PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a semicolon (';') and quote them ('"'). One file can contain multiple certificates. Intermediate CAs are optional. Examples: Single files: --trust-store trust-anchors=ta.pem,intermediate-cas=ica.pem No intermediate CAs: --trust-store trust-anchors=ta.pem Multiple files: --trust-store trust-anchors="ta1.pem;ta2.pem",intermediate-cas="ica1.pem;ica2.pem"
+    /// </summary>
+    [CliOption("--trust-store", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TrustStore { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(AllowlistedCertificates?.Any() == true || TrustStore?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of AllowlistedCertificates or TrustStore must be specified.", [nameof(AllowlistedCertificates), nameof(TrustStore)]);
+        }
+    }
+
 }

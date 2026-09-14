@@ -16,9 +16,44 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a new Cloud DNS policy
 /// </summary>
+/// <param name="Description">A description of the policy.</param>
+/// <param name="Networks">The comma separated list of network names to associate with the policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "policies", "create")]
-public record GcloudDnsPoliciesCreateOptions : GcloudOptions
+public record GcloudDnsPoliciesCreateOptions(
+    [property: CliOption("--description", Format = OptionFormat.EqualsSeparated)] string Description,
+    [property: CliOption("--networks", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Networks
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of alternative name servers to forward to. Non-RFC1918 addresses will forward to the target through the Internet.RFC1918 addresses will forward through the VPC.
+    /// </summary>
+    [CliOption("--alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AlternativeNameServers { get; set; }
+
+    /// <summary>
+    /// Specifies whether to allow networks bound to this policy to use DNS64 for IPv6-only VM instances.
+    /// </summary>
+    [CliFlag("--enable-dns64-all-queries")]
+    public bool? EnableDns64AllQueries { get; set; }
+
+    /// <summary>
+    /// Specifies whether to allow networks bound to this policy to receive DNS queries sent by VMs or applications over VPN connections. Defaults to False.
+    /// </summary>
+    [CliFlag("--enable-inbound-forwarding")]
+    public bool? EnableInboundForwarding { get; set; }
+
+    /// <summary>
+    /// Specifies whether to enable query logging. Defaults to False.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// List of alternative name servers to forward to. All addresses specified for this parameter will be reached through the VPC.
+    /// </summary>
+    [CliOption("--private-alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PrivateAlternativeNameServers { get; set; }
+
 }

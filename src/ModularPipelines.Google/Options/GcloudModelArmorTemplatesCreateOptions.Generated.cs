@@ -21,4 +21,100 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("model-armor", "templates", "create")]
 public record GcloudModelArmorTemplatesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Filters configuration. At least one of these must be specified: Malicious URI filter settings. Responsible AI Filter settings. Prompt injection and Jailbreak Filter settings. Tells whether the Malicious URI filter is enabled or disabled. MALICIOUS_URI_FILTER_SETTINGS_ENFORCEMENT must be one of: disabled Disabled enabled Enabled
+    /// </summary>
+    [CliOption("--malicious-uri-filter-settings-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? MaliciousUriFilterSettingsEnforcement { get; set; }
+
+    /// <summary>
+    /// Filters configuration. At least one of these must be specified: Malicious URI filter settings. Responsible AI Filter settings. Prompt injection and Jailbreak Filter settings. Required, List of Responsible AI filters enabled for template. confidenceLevel Confidence level for this RAI filter. During data sanitization, if data is classified under this filter with a confidence level equal to or greater than the specified level, a positive match is reported. If the confidence level is unspecified (i.e., 0), the system will use a reasonable default level based on the filter_type. filterType Type of responsible AI filter. Shorthand Example: --rai-settings-filters=confidenceLevel=string,filterType=string --rai-settings-filters=confidenceLevel=string,filterType=string JSON Example: --rai-settings-filters='[{"confidenceLevel": "string", "filterType": "string"}]' File Example: --rai-settings-filters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// Filters configuration. At least one of these must be specified: Malicious URI filter settings. Responsible AI Filter settings. Prompt injection and Jailbreak Filter settings. Sensitive Data Protection settings. Arguments for the sdp configuration. At most one of these can be specified: Sensitive Data Protection basic configuration. Sensitive Data Protection Advanced configuration. Tells whether the Sensitive Data Protection basic config is enabled or disabled. BASIC_CONFIG_FILTER_ENFORCEMENT must be one of: disabled Disabled enabled Enabled
+    /// </summary>
+    [CliOption("--basic-config-filter-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? BasicConfigFilterEnforcement { get; set; }
+
+    /// <summary>
+    /// Filters configuration. At least one of these must be specified: Malicious URI filter settings. Responsible AI Filter settings. Prompt injection and Jailbreak Filter settings. Sensitive Data Protection settings. Arguments for the sdp configuration. At most one of these can be specified: Sensitive Data Protection basic configuration. Sensitive Data Protection Advanced configuration. Optional Sensitive Data Protection Deidentify template resource name. If provided then DeidentifyContent action is performed during Sanitization using this template and inspect template. The De-identified data will be returned in SdpDeidentifyResult. Note that all info-types present in the deidentify template must be present in inspect template. e.g. organizations/{organization}/deidentifyTemplates/{deidentify_template}, projects/{project}/deidentifyTemplates/{deidentify_template} organizations/{organization}/locations/{location}/deidentifyTemplates/{deidentify_template} projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
+    /// </summary>
+    [CliOption("--advanced-config-deidentify-template", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvancedConfigDeidentifyTemplate { get; set; }
+
+    /// <summary>
+    /// Filters configuration. At least one of these must be specified: Malicious URI filter settings. Responsible AI Filter settings. Prompt injection and Jailbreak Filter settings. Sensitive Data Protection settings. Arguments for the sdp configuration. At most one of these can be specified: Sensitive Data Protection basic configuration. Sensitive Data Protection Advanced configuration. Sensitive Data Protection inspect template resource name If only inspect template is provided (de-identify template not provided), then Sensitive Data Protection InspectContent action is performed during Sanitization. All Sensitive Data Protection findings identified during inspection will be returned as SdpFinding in SdpInsepctionResult e.g. organizations/{organization}/inspectTemplates/{inspect_template}, projects/{project}/inspectTemplates/{inspect_template} organizations/{organization}/locations/{location}/inspectTemplates/{inspect_template} projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
+    /// </summary>
+    [CliOption("--advanced-config-inspect-template", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvancedConfigInspectTemplate { get; set; }
+
+    /// <summary>
+    /// Filters configuration. At least one of these must be specified: Malicious URI filter settings. Responsible AI Filter settings. Prompt injection and Jailbreak Filter settings. Confidence level for this filter. Confidence level is used to determine the threshold for the filter. If detection confidence is equal to or greater than the specified level, a positive match is reported. Confidence level will only be used if the filter is enabled. PI_AND_JAILBREAK_FILTER_SETTINGS_CONFIDENCE_LEVEL must be one of: high Low chance of false positives. low-and-above Highest chance of a false positive. medium-and-above Some chance of false positives.
+    /// </summary>
+    [CliOption("--pi-and-jailbreak-filter-settings-confidence-level", Format = OptionFormat.EqualsSeparated)]
+    public string? PiAndJailbreakFilterSettingsConfidenceLevel { get; set; }
+
+    /// <summary>
+    /// Filters configuration. At least one of these must be specified: Malicious URI filter settings. Responsible AI Filter settings. Prompt injection and Jailbreak Filter settings. Tells whether Prompt injection and Jailbreak filter is enabled or disabled. PI_AND_JAILBREAK_FILTER_SETTINGS_ENFORCEMENT must be one of: disabled Enabled enabled Enabled
+    /// </summary>
+    [CliOption("--pi-and-jailbreak-filter-settings-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? PiAndJailbreakFilterSettingsEnforcement { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server stores the request ID for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata Indicates the custom error code set by the user to be returned to the end user if the LLM response trips Model Armor filters.
+    /// </summary>
+    [CliOption("--template-metadata-custom-llm-response-safety-error-code", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateMetadataCustomLlmResponseSafetyErrorCode { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata Indicates the custom error message set by the user to be returned to the end user if the LLM response trips Model Armor filters.
+    /// </summary>
+    [CliOption("--template-metadata-custom-llm-response-safety-error-message", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateMetadataCustomLlmResponseSafetyErrorMessage { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata Indicates the custom error code set by the user to be returned to the end user by the service extension if the prompt trips Model Armor filters.
+    /// </summary>
+    [CliOption("--template-metadata-custom-prompt-safety-error-code", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateMetadataCustomPromptSafetyErrorCode { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata Indicates the custom error message set by the user to be returned to the end user if the prompt trips Model Armor filters.
+    /// </summary>
+    [CliOption("--template-metadata-custom-prompt-safety-error-message", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateMetadataCustomPromptSafetyErrorMessage { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata If true, partial detector failures should be ignored.
+    /// </summary>
+    [CliFlag("--template-metadata-ignore-partial-invocation-failures")]
+    public bool? TemplateMetadataIgnorePartialInvocationFailures { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata If true, log template crud operations.
+    /// </summary>
+    [CliFlag("--template-metadata-log-operations")]
+    public bool? TemplateMetadataLogOperations { get; set; }
+
+    /// <summary>
+    /// Message describing TemplateMetadata If true, log sanitize operations.
+    /// </summary>
+    [CliFlag("--template-metadata-log-sanitize-operations")]
+    public bool? TemplateMetadataLogSanitizeOperations { get; set; }
+
 }

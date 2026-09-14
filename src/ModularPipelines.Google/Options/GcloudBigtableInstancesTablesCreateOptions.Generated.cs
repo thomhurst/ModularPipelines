@@ -16,9 +16,60 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new Cloud Bigtable table
 /// </summary>
+/// <param name="ColumnFamilies">A double-quote (") wrapped list of family name and corresponding garbage collection rules concatenated by :, where the rules are optional. For example: "family_1,family_2:maxage=5d&amp;&amp;maxversions=2,family_3:maxage=10d||maxversions=5"</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "instances", "tables", "create")]
-public record GcloudBigtableInstancesTablesCreateOptions : GcloudOptions
+public record GcloudBigtableInstancesTablesCreateOptions(
+    [property: CliOption("--column-families", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> ColumnFamilies
+) : GcloudOptions
 {
+    /// <summary>
+    /// The length of time to retain change stream data for the table, in the range of [1 day, 7 days]. Acceptable units are days (d), hours (h), minutes (m), and seconds (s). Passing in a value for this option enables a change stream for the table. Examples: 5d or 48h.
+    /// </summary>
+    [CliOption("--change-stream-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangeStreamRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Once specified, the table is deletion protected.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// The row key schema for the table. The schema is defined in a YAML or JSON file, equivalent to the StructType protobuf message. Example YAML: encoding: delimitedBytes: delimiter: '#' fields: - fieldName: field1 type: bytesType: encoding: raw: {} - fieldName: field2 type: bytesType: encoding: raw: {}
+    /// </summary>
+    [CliOption("--row-key-schema-definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? RowKeySchemaDefinitionFile { get; set; }
+
+    /// <summary>
+    /// By default, Base64 encoding is applied to all binary fields in the YAML/JSON file (for example, encoding.delimitedBytes.delimiter). Use this to indicate that all binary fields are already encoded in the YAML/JSON file and should not be encoded again.
+    /// </summary>
+    [CliFlag("--row-key-schema-pre-encoded-bytes")]
+    public bool? RowKeySchemaPreEncodedBytes { get; set; }
+
+    /// <summary>
+    /// Row keys where the table should initially be split. For example: car,key
+    /// </summary>
+    [CliOption("--splits", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Splits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Once set, enables the default automated backup policy (retention_period=7d, frequency=1d) for the table.
+    /// </summary>
+    [CliFlag("--enable-automated-backup")]
+    public bool? EnableAutomatedBackup { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Group for automated backup policy parameters. List of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format projects/{project}/locations/{zone}. Setting this flag will enable automated backup for the table. If automated backup retention period is not specified, it defaults to 7 days.
+    /// </summary>
+    [CliOption("--automated-backup-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutomatedBackupLocations { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Group for automated backup policy parameters. The retention period of automated backup in the format of 30d for 30 days. Min retention period is 3d and max is 90d. Setting this flag will enable automated backup for the table. If automated backup retention period is not specified, it defaults to 7 days.
+    /// </summary>
+    [CliOption("--automated-backup-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupRetentionPeriod { get; set; }
+
 }

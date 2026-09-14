@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a service account key
 /// </summary>
+/// <param name="IamAccount">The service account from which to delete a key. To list all service accounts in the project, run: $ gcloud iam service-accounts list</param>
+/// <param name="Key"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "delete")]
 public record GcloudIamServiceAccountsKeysDeleteOptions(
+    [property: CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)] string IamAccount,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
 ) : GcloudOptions
 {

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list connections to a service via VPC     peering for a project network
 /// </summary>
+/// <param name="Network">The network in the current project to list connections with the service</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "vpc-peerings", "list")]
-public record GcloudServicesVpcPeeringsListOptions : GcloudOptions
+public record GcloudServicesVpcPeeringsListOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// The service to list connections
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

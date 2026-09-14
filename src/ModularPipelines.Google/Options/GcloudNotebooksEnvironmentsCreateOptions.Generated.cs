@@ -21,4 +21,58 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("notebooks", "environments", "create")]
 public record GcloudNotebooksEnvironmentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerRepository { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The tag of the container image. If not specified, this defaults to the latest tag.
+    /// </summary>
+    [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerTag { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the Google Cloud project that this VM image belongs to.Format: projects/{project_id}.
+    /// </summary>
+    [CliOption("--vm-image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageProject { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
+    /// </summary>
+    [CliOption("--vm-image-family", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageFamily { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Use this VM image name to find the image.
+    /// </summary>
+    [CliOption("--vm-image-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageName { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A brief description of this environment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Name to display on the UI.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Path to a Bash script that automatically runs after a notebook instance fully boots up. The path must be a URL or Cloud Storage path(gs://path-to-file/file-name).
+    /// </summary>
+    [CliOption("--post-startup-script", Format = OptionFormat.EqualsSeparated)]
+    public string? PostStartupScript { get; set; }
+
 }

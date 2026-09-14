@@ -17,10 +17,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list long running operations
 /// </summary>
+/// <param name="Location">Location of the operations.</param>
+/// <param name="OperationFilter">Filter expression that specifies the operations to return.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "operations", "list")]
-public record GcloudLoggingOperationsListOptions : GcloudOptions
+public record GcloudLoggingOperationsListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--operation-filter", Format = OptionFormat.EqualsSeparated)] string OperationFilter
+) : GcloudOptions
 {
     /// <summary>
     /// The next_page_token value returned from a previous List request, if any.

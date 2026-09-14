@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list BigLake Delta Sharing     shares
 /// </summary>
+/// <param name="Catalog">Catalog resource - The catalog to list shares from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument --catalog on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "delta-sharing", "shares", "list")]
-public record GcloudBiglakeDeltaSharingSharesListOptions : GcloudOptions
+public record GcloudBiglakeDeltaSharingSharesListOptions(
+    [property: CliOption("--catalog", Format = OptionFormat.EqualsSeparated)] string Catalog
+) : GcloudOptions
 {
 }

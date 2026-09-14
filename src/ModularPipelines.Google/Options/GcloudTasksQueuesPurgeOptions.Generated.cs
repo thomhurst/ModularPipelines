@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// purge a queue by deleting all of its tasks
 /// </summary>
+/// <param name="Queue"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "purge")]

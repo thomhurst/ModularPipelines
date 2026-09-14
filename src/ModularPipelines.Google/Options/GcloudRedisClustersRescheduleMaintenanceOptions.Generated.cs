@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reschedule maintenance     window for a Memorystore for Redis Cluster instance
 /// </summary>
+/// <param name="RescheduleType">Reschedule type to use for the reschedule maintenance window. RESCHEDULE_TYPE must be one of: immediate Reschedule the maintenance to perform now. specific-time Reschedule the maintenance to a specific time.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "reschedule-maintenance")]
-public record GcloudRedisClustersRescheduleMaintenanceOptions : GcloudOptions
+public record GcloudRedisClustersRescheduleMaintenanceOptions(
+    [property: CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)] string RescheduleType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Time in RFC3339 format, for example: 2012-11-15T16:19:00.094Z
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
 }

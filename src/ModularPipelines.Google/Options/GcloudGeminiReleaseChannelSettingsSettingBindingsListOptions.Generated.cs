@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list     settingBindings
 /// </summary>
+/// <param name="ReleaseChannelSetting">ReleaseChannelSetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --release-channel-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the releaseChannelSetting or fully qualified identifier for the releaseChannelSetting. To set the release-channel-setting attribute: ▸ provide the argument --release-channel-setting on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gemini", "release-channel-settings", "setting-bindings", "list")]
-public record GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions : GcloudOptions
+public record GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions(
+    [property: CliOption("--release-channel-setting", Format = OptionFormat.EqualsSeparated)] string ReleaseChannelSetting
+) : GcloudOptions
 {
+    /// <summary>
+    /// ReleaseChannelSetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --release-channel-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the releaseChannelSetting resource. To set the location attribute: ▸ provide the argument --release-channel-setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

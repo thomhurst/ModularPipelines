@@ -44,7 +44,7 @@ public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions? options = null,
+        GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

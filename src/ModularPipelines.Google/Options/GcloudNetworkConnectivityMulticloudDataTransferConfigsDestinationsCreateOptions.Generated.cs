@@ -16,9 +16,44 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// configs destinations     create - create a destination
 /// </summary>
+/// <param name="Endpoints">Required, The list of DestinationEndpoint resources configured for the IP prefix. asn The ASN of the remote IP prefix. csp The CSP of the remote IP prefix. Shorthand Example: --endpoints=asn=int,csp=string --endpoints=asn=int,csp=string JSON Example: --endpoints='[{"asn": int, "csp": "string"}]' File Example: --endpoints=path_to_file.(yaml|json)</param>
+/// <param name="IpPrefix">The IP prefix that represents your workload on another CSP.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "multicloud-data-transfer-configs", "destinations", "create")]
-public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsCreateOptions(
+    [property: CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Endpoints,
+    [property: CliOption("--ip-prefix", Format = OptionFormat.EqualsSeparated)] string IpPrefix
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// User-defined labels. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate Destination resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
 }

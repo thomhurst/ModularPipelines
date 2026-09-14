@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,147 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new     GoldengateDeployment
 /// </summary>
+/// <param name="DisplayName">The display name for the GoldengateDeployment.</param>
+/// <param name="OdbSubnet">OdbSubnet resource - The name of the OdbSubnet associated with the GoldengateDeployment for IP allocation. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ▸ provide the argument --odb-subnet on the command line.</param>
+/// <param name="PropertiesDeploymentType">Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. A valid Goldengate Deployment type. For a list of supported types, use the ListGoldengateDeploymentTypes operation. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="OggDataAdminUsername">Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Ogg data of the GoldengateDeployment. This must be specified. The Goldengate deployment console username. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="OggDataDeployment">Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Ogg data of the GoldengateDeployment. This must be specified. The name given to the Goldengate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="MaintenanceWindowDay">Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. Days of the week. MAINTENANCE_WINDOW_DAY must be one of: friday Friday monday Monday saturday Saturday sunday Sunday thursday Thursday tuesday Tuesday wednesday Wednesday This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="MaintenanceWindowStartHour">Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. Start hour for maintenance period. Hour is in UTC. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "goldengate-deployments", "create")]
-public record GcloudOracleDatabaseGoldengateDeploymentsCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseGoldengateDeploymentsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--odb-subnet", Format = OptionFormat.EqualsSeparated)] string OdbSubnet,
+    [property: CliOption("--properties-deployment-type", Format = OptionFormat.EqualsSeparated)] string PropertiesDeploymentType,
+    [property: CliOption("--ogg-data-admin-username", Format = OptionFormat.EqualsSeparated)] string OggDataAdminUsername,
+    [property: CliOption("--ogg-data-deployment", Format = OptionFormat.EqualsSeparated)] string OggDataDeployment,
+    [property: CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)] string MaintenanceWindowDay,
+    [property: CliOption("--maintenance-window-start-hour", Format = OptionFormat.EqualsSeparated)] string MaintenanceWindowStartHour
+) : GcloudOptions
 {
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Minimum number of OCPUs to be made available for this Deployment.
+    /// </summary>
+    [CliOption("--properties-cpu-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesCpuCoreCount { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The description of the GoldengateDeployment.
+    /// </summary>
+    [CliOption("--properties-description", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDescription { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The environment type of the GoldengateDeployment.
+    /// </summary>
+    [CliOption("--properties-environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesEnvironmentType { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. Indicates if auto scaling is enabled for the Deployment's CPU core count.
+    /// </summary>
+    [CliFlag("--properties-is-auto-scaling-enabled")]
+    public bool? PropertiesIsAutoScalingEnabled { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Oracle license model that applies to a Deployment. PROPERTIES_LICENSE_MODEL must be one of: bring-your-own-license The license model is bring your own license. license-included The license model is included.
+    /// </summary>
+    [CliOption("--properties-license-model", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesLicenseModel { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Ogg data of the GoldengateDeployment. This must be specified. Version of OGG
+    /// </summary>
+    [CliOption("--ogg-data-version", Format = OptionFormat.EqualsSeparated)]
+    public string? OggDataVersion { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Ogg data of the GoldengateDeployment. This must be specified. Arguments for the deployment password options. At most one of these can be specified: The Goldengate deployment console password in plain text.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--ogg-data-admin-password", Format = OptionFormat.EqualsSeparated)]
+    public string? OggDataAdminPassword { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Ogg data of the GoldengateDeployment. This must be specified. Arguments for the deployment password options. At most one of these can be specified: Or at least one of these can be specified: SecretVersion resource - The Goldengate deployment console password secret version. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▹ provide the argument --ogg-data-admin-password-secret-version on the command line with a fully specified name; ▹ provide the argument --project on the command line; ▹ set the property core/project. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret-version attribute: ▹ provide the argument --ogg-data-admin-password-secret-version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--ogg-data-admin-password-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? OggDataAdminPasswordSecretVersion { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. The Ogg data of the GoldengateDeployment. This must be specified. Arguments for the deployment password options. At most one of these can be specified: Or at least one of these can be specified: SecretVersion resource - The Goldengate deployment console password secret version. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▹ provide the argument --ogg-data-admin-password-secret-version on the command line with a fully specified name; ▹ provide the argument --project on the command line; ▹ set the property core/project. The secret id of the secretVersion resource. To set the secret attribute: ▹ provide the argument --ogg-data-admin-password-secret-version on the command line with a fully specified name; ▹ provide the argument --secret on the command line.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
+    public string? Secret { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. Defines auto upgrade period for bundle releases. Manually configured period cannot be longer than service defined period for bundle releases. This period must be shorter or equal to major release upgrade period. Not passing this field during create will equate to using the service default.
+    /// </summary>
+    [CliOption("--maintenance-config-bundle-release-upgrade-period-days", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceConfigBundleReleaseUpgradePeriodDays { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. Defines auto upgrade period for interim releases. This period must be shorter or equal to bundle release upgrade period.
+    /// </summary>
+    [CliOption("--maintenance-config-interim-release-upgrade-period-days", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceConfigInterimReleaseUpgradePeriodDays { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. By default auto upgrade for interim releases are not enabled. If auto-upgrade is enabled for interim release, you have to specify interim_release_upgrade_period_days too.
+    /// </summary>
+    [CliFlag("--maintenance-config-is-interim-release-auto-upgrade-enabled")]
+    public bool? MaintenanceConfigIsInterimReleaseAutoUpgradeEnabled { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. Defines auto upgrade period for major releases. Manually configured period cannot be longer than service defined period for major releases. Not passing this field during create will equate to using the service default.
+    /// </summary>
+    [CliOption("--maintenance-config-major-release-upgrade-period-days", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceConfigMajorReleaseUpgradePeriodDays { get; set; }
+
+    /// <summary>
+    /// Properties of GoldengateDeployment. This must be specified. The maintenance configuration of the GoldengateDeployment. The maintenance window of the GoldengateDeployment. Defines auto upgrade period for releases with security fix. Manually configured period cannot be longer than service defined period for security releases. Not passing this field during create will equate to using the service default.
+    /// </summary>
+    [CliOption("--maintenance-config-security-patch-upgrade-period-days", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceConfigSecurityPatchUpgradePeriodDays { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The GCP Oracle zone where Oracle GoldengateDeployment is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability.
+    /// </summary>
+    [CliOption("--gcp-oracle-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? GcpOracleZone { get; set; }
+
+    /// <summary>
+    /// The labels or tags associated with the GoldengateDeployment. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// For resources [goldengate_deployment, odb-network, odb-subnet], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// For resources [odb-network, odb-subnet], provides fallback value for resource odb-network attribute. When the resource's full URI path is not provided, odb-network will fallback to this flag value.
+    /// </summary>
+    [CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbNetwork { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
 }

@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set the IAM policy for a keyring
 /// </summary>
+/// <param name="Keyring"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keyrings", "set-iam-policy")]

@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a backend bucket
 /// </summary>
+/// <param name="BackendBucketName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-buckets", "describe")]

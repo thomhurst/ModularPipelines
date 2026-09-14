@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set deletion to     the transaction
 /// </summary>
+/// <param name="Name">DNS name of the record-set to be removed.</param>
+/// <param name="Ttl">TTL for the record-set to be removed.</param>
+/// <param name="Type">Type of the record-set to be removed.</param>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+/// <param name="Rrdatas"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "transaction", "remove")]
 public record GcloudDnsRecordSetsTransactionRemoveOptions(
+    [property: CliOption("--name", Format = OptionFormat.EqualsSeparated)] string Name,
+    [property: CliOption("--ttl", Format = OptionFormat.EqualsSeparated)] string Ttl,
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type,
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Rrdatas
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Path of the file which contains the transaction.
+    /// </summary>
+    [CliOption("--transaction-file", Format = OptionFormat.EqualsSeparated)]
+    public string? TransactionFile { get; set; }
+
 }

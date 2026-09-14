@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// gets the protected     resources summary
 /// </summary>
+/// <param name="Keyname">Key resource - The KMS key resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyname on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument --keyname on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "inventory", "get-protected-resources-summary")]
-public record GcloudKmsInventoryGetProtectedResourcesSummaryOptions : GcloudOptions
+public record GcloudKmsInventoryGetProtectedResourcesSummaryOptions(
+    [property: CliOption("--keyname", Format = OptionFormat.EqualsSeparated)] string Keyname
+) : GcloudOptions
 {
+    /// <summary>
+    /// Key resource - The KMS key resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyname on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The KMS keyring of the key. To set the keyring attribute: ▸ provide the argument --keyname on the command line with a fully specified name; ▸ provide the argument --keyring on the command line.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The KMS key resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyname on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the key. To set the location attribute: ▸ provide the argument --keyname on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// If permission is denied at the organization level, fall back to the project level scope. FALLBACK_SCOPE must be one of: FALLBACK_SCOPE_UNSPECIFIED, FALLBACK_SCOPE_PROJECT.
+    /// </summary>
+    [CliOption("--fallback-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? FallbackScope { get; set; }
+
 }

@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Google Compute Engine     network attachment
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-attachments", "update")]

@@ -17,6 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists Cloud Storage objects
 /// </summary>
+/// <param name="Urls"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "objects", "list")]

@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM     permissions for a Compute Engine organization firewall policy
 /// </summary>
+/// <param name="Permissions">The permissions to test.</param>
+/// <param name="FirewallPolicy"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "firewall-policies", "test-iam-permissions")]
 public record GcloudPreviewComputeFirewallPoliciesTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Organization ID in which the organization firewall policy is to be described. Must be set if FIREWALL_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

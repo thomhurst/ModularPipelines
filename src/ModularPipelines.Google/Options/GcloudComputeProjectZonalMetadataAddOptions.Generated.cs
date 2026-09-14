@@ -10,15 +10,21 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add or update project zonal     metadata
 /// </summary>
+/// <param name="Metadata">The project zonal metadata key-value pairs that you want to add or update</param>
+/// <param name="Zone">The zone in which you want to add or update project zonal metadata</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "project-zonal-metadata", "add")]
-public record GcloudComputeProjectZonalMetadataAddOptions : GcloudOptions
+public record GcloudComputeProjectZonalMetadataAddOptions(
+    [property: CliOption("--metadata", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> Metadata,
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
 }

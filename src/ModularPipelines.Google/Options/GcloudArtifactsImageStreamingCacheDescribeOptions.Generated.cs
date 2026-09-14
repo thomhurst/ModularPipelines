@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// checks and describes the     prewarmed status of an artifact
 /// </summary>
+/// <param name="StreamLocation">The target Cloud Region where the artifact should be prewarmed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "image-streaming-cache", "describe")]
-public record GcloudArtifactsImageStreamingCacheDescribeOptions : GcloudOptions
+public record GcloudArtifactsImageStreamingCacheDescribeOptions(
+    [property: CliOption("--stream-location", Format = OptionFormat.EqualsSeparated)] string StreamLocation
+) : GcloudOptions
 {
 }

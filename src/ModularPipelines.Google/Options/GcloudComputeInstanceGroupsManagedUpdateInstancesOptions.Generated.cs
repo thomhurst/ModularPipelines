@@ -10,17 +10,64 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// immediately     update selected instances in a Compute Engine managed instance group
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "update-instances")]
 public record GcloudComputeInstanceGroupsManagedUpdateInstancesOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Update all instances in the group.
+    /// </summary>
+    [CliFlag("--all-instances")]
+    public bool? AllInstances { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Names of instances to update.
+    /// </summary>
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Instances { get; set; }
+
+    /// <summary>
+    /// Use this flag to minimize disruption as much as possible or to apply a more disruptive action than is strictly necessary. The MIG performs at least this action on each instance while updating. If the update requires a more disruptive action than the one specified here, then the more disruptive action is performed. If you omit this flag, the update uses the minimal-action value from the MIG's update policy, unless it is not set in which case the default is replace. MINIMAL_ACTION must be one of: none No action refresh Apply the new configuration without stopping VMs, if possible. For example, use ``refresh`` to apply changes that only affect metadata or additional disks. restart Apply the new configuration without replacing VMs, if possible. For example, stopping VMs and starting them again is sufficient to apply changes to machine type. replace Replace old VMs according to the --replacement-method flag.
+    /// </summary>
+    [CliOption("--minimal-action", Format = OptionFormat.EqualsSeparated)]
+    public string? MinimalAction { get; set; }
+
+    /// <summary>
+    /// Use this flag to prevent an update if it requires more disruption than you can afford. At most, the MIG performs the specified action on each instance while updating. If the update requires a more disruptive action than the one specified here, then the update fails and no changes are made. If you omit this flag, the update uses the most-disruptive-allowed-action value from the MIG's update policy, unless it is not set in which case the default is replace. MOST_DISRUPTIVE_ALLOWED_ACTION must be one of: none No action refresh Apply the new configuration without stopping VMs, if possible. For example, use ``refresh`` to apply changes that only affect metadata or additional disks. restart Apply the new configuration without replacing VMs, if possible. For example, stopping VMs and starting them again is sufficient to apply changes to machine type. replace Replace old VMs according to the --replacement-method flag.
+    /// </summary>
+    [CliOption("--most-disruptive-allowed-action", Format = OptionFormat.EqualsSeparated)]
+    public string? MostDisruptiveAllowedAction { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllInstances == true ? 1 : 0) + (Instances?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AllInstances or Instances must be specified.", [nameof(AllInstances), nameof(Instances)]);
+        }
+    }
+
 }

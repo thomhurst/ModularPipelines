@@ -17,6 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// updates a firewall rule
 /// </summary>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "update")]

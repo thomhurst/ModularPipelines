@@ -10,15 +10,55 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a multicast group consumer activation
 /// </summary>
+/// <param name="MulticastConsumerAssociation">The multicast consumer association to be used.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "multicast-group-consumer-activations", "create")]
-public record GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions : GcloudOptions
+public record GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions(
+    [property: CliOption("--multicast-consumer-association", Format = OptionFormat.EqualsSeparated)] string MulticastConsumerAssociation
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast group consumer activation.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether to enable logging for this multicast group consumer activation. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Whether to enable logging for this multicast group consumer activation. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The multicast group range activation to be used.
+    /// </summary>
+    [CliOption("--multicast-group-range-activation", Format = OptionFormat.EqualsSeparated)]
+    public string? MulticastGroupRangeActivation { get; set; }
+
 }

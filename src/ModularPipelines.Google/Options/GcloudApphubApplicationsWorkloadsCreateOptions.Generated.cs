@@ -16,9 +16,60 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an Apphub application     workload
 /// </summary>
+/// <param name="DiscoveredWorkload">DiscoveredWorkload resource - The discovered workload resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-workload on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --discovered-workload on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the discoveredWorkload or fully qualified identifier for the discoveredWorkload. To set the discovered_workload attribute: ▸ provide the argument --discovered-workload on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apphub", "applications", "workloads", "create")]
-public record GcloudApphubApplicationsWorkloadsCreateOptions : GcloudOptions
+public record GcloudApphubApplicationsWorkloadsCreateOptions(
+    [property: CliOption("--discovered-workload", Format = OptionFormat.EqualsSeparated)] string DiscoveredWorkload
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Business owners of the workload
+    /// </summary>
+    [CliOption("--business-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? BusinessOwners { get; set; }
+
+    /// <summary>
+    /// Criticality Type of the workload. CRITICALITY_TYPE must be one of: HIGH High impact LOW Low impact MEDIUM Medium impact MISSION_CRITICAL Mission critical service, application or workload TYPE_UNSPECIFIED Unspecified criticality type
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Description of the Workload
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Developer owners of the workload
+    /// </summary>
+    [CliOption("--developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Human-friendly display name
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Environment Type of the workload. ENVIRONMENT_TYPE must be one of: DEVELOPMENT Development environment PRODUCTION Production environment STAGING Staging environment TEST Test environment TYPE_UNSPECIFIED Unspecified environment type
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Operator owners of the workload
+    /// </summary>
+    [CliOption("--operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? OperatorOwners { get; set; }
+
 }

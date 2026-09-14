@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "indexes", "fields", "update")]
-public record GcloudFirestoreIndexesFieldsUpdateOptions : GcloudOptions
+public record GcloudFirestoreIndexesFieldsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: If provided, the field's current index configuration will be reverted to inherit from its ancestor index configurations.
+    /// </summary>
+    [CliFlag("--clear-exemption")]
+    public bool? ClearExemption { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: If provided, the field will no longer be indexed at all.
+    /// </summary>
+    [CliFlag("--disable-indexes")]
+    public bool? DisableIndexes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: An index for the field. This flag can be repeated to provide multiple indexes. Any existing indexes will be overwritten with the ones provided. Any omitted indexes will be deleted if they currently exist. The following keys are allowed: order Specifies the order. Valid options are: 'ascending', 'descending'. Exactly one of 'order' or 'array-config' must be specified. array-config Specifies the configuration for an array field. The only valid option is 'contains'. Exactly one of 'order' or 'array-config' must be specified.
+    /// </summary>
+    [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Index { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearExemption == true ? 1 : 0) + (DisableIndexes == true ? 1 : 0) + (Index?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ClearExemption, DisableIndexes, or Index must be specified.", [nameof(ClearExemption), nameof(DisableIndexes), nameof(Index)]);
+        }
+    }
+
 }

@@ -10,17 +10,70 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a custom role for a project or an     organization
 /// </summary>
+/// <param name="RoleId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "roles", "create")]
 public record GcloudIamRolesCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the role you want to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project of the role you want to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The JSON or YAML file with the IAM Role to create. See https://docs.cloud.google.com/iam/docs/reference/rest/v1/projects.roles.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The description of the role you want to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The permissions of the role you want to create. Use commas to separate them.
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated)]
+    public string? Permissions { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The state of the role you want to create. This represents a role's lifecycle phase: ALPHA, BETA, GA, DEPRECATED, DISABLED, EAP.
+    /// </summary>
+    [CliOption("--stage", Format = OptionFormat.EqualsSeparated)]
+    public string? Stage { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The title of the role you want to create.
+    /// </summary>
+    [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
+    public string? Title { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization or Project must be specified.", [nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

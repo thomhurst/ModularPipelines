@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,160 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("cluster-director", "clusters", "create")]
 public record GcloudClusterDirectorClustersCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Configuration of the cluster specs in the form of a JSON object. See example below: --config='{ "networkResources": { "network0": { "config": { "newNetwork": { "network": "network0" } } } }, "storageResources": { "lustre0": { "config": { "newLustre": { "capacityGb": 1200, "filesystem": "lustre-fs" } } } }, "computeResources": { "compute0": { "config": { "newOnDemandInstances": { "machineType": "n2-standard-4", "zone": "us-central1-a" } } } }, "orchestrator": { "slurm": { "nodeSets": [ { "id": "nodeset0", "computeId": "compute0" } ] } } }' --format json. Shorthand Example: --config=computeResources={string={config={newDwsFlexInstances={machineType=string,maxDuration=string,zone=string},newFlexStartInstances={machineType=string,maxDuration=string,zone=string},newOnDemandInstances={machineType=string,zone=string},newReservedInstances={reservation=string},newSpotInstances={machineType=string,terminationAction=string,zone=string}}}},description=string,labels={string=string},name=string,networkResources={string={config={existingComputeNetwork={network=string,subnetwork=string},existingNetwork={network=string,subnetwork=string},newComputeNetwork={description=string,network=string},newNetwork={description=string,network=string}}}},orchestrator={slurm={defaultPartition=string,epilogBashScripts,loginNodes={bootDisk={sizeGb=int,type=string},count=int,enableOsLogin=boolean,enablePublicIps=boolean,labels={string=string},machineType=string,startupScript=string,storageConfigs=[{id=string,localMount=string}],zone=string},nodeSets=[{computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}]}],partitions=[{id=string,nodeSetIds=[string]}],prologBashScripts}},storageResources={string={config={existingBucket={bucket=string},existingFilestore={filestore=string},existingLustre={lustre=string},newBucket={autoclass={enabled=boolean},bucket=string,hierarchicalNamespace={enabled=boolean},storageClass=string},newFilestore={description=string,fileShares=[{capacityGb=int,fileShare=string}],filestore=string,id=string,protocol=string,tier=string},newLustre={capacityGb=int,description=string,filesystem=string,id=string,lustre=string,perUnitStorageThroughput=int}}}} JSON Example: --config='{"computeResources": {"string": {"config": {"newDwsFlexInstances": {"machineType": "string", "maxDuration": "string", "zone": "string"}, "newFlexStartInstances": {"machineType": "string", "maxDuration": "string", "zone": "string"}, "newOnDemandInstances": {"machineType": "string", "zone": "string"}, "newReservedInstances": {"reservation": "string"}, "newSpotInstances": {"machineType": "string", "terminationAction": "string", "zone": "string"}}}}, "description": "string", "labels": {"string": "string"}, "name": "string", "networkResources": {"string": {"config": {"existingComputeNetwork": {"network": "string", "subnetwork": "string"}, "existingNetwork": {"network": "string", "subnetwork": "string"}, "newComputeNetwork": {"description": "string", "network": "string"}, "newNetwork": {"description": "string", "network": "string"}}}}, "orchestrator": {"slurm": {"defaultPartition": "string", "epilogBashScripts", "loginNodes": {"bootDisk": {"sizeGb": int, "type": "string"}, "count": int, "enableOsLogin": boolean, "enablePublicIps": boolean, "labels": {"string": "string"}, "machineType": "string", "startupScript": "string", "storageConfigs": [{"id": "string", "localMount": "string"}], "zone": "string"}, "nodeSets": [{"computeId": "string", "computeInstance": {"bootDisk": {"sizeGb": int, "type": "string"}, "labels": {"string": "string"}, "startupScript": "string"}, "id": "string", "maxDynamicNodeCount": int, "staticNodeCount": int, "storageConfigs": [{"id": "string", "localMount": "string"}]}], "partitions": [{"id": "string", "nodeSetIds": ["string"]}], "prologBashScripts"}}, "storageResources": {"string": {"config": {"existingBucket": {"bucket": "string"}, "existingFilestore": {"filestore": "string"}, "existingLustre": {"lustre": "string"}, "newBucket": {"autoclass": {"enabled": boolean}, "bucket": "string", "hierarchicalNamespace": {"enabled": boolean}, "storageClass": "string"}, "newFilestore": {"description": "string", "fileShares": [{"capacityGb": int, "fileShare": "string"}], "filestore": "string", "id": "string", "protocol": "string", "tier": "string"}, "newLustre": {"capacityGb": int, "description": "string", "filesystem": "string", "id": "string", "lustre": "string", "perUnitStorageThroughput": int}}}}}' File Example: --config=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Reference of existing Google Cloud Storage bucket. id: ID of the bucket resource, used to refer to this resource in storage-configs. name: Name of the existing Cloud Storage bucket to import from your project in the format of bucket-name. For example --buckets id=my-bucket,name=bucket-1. Sets buckets value. id Required, sets id value. name Required, sets name value. Shorthand Example: --buckets=id=string,name=string --buckets=id=string,name=string JSON Example: --buckets='[{"id": "string", "name": "string"}]' File Example: --buckets=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--buckets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Buckets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to create a Google Cloud Storage bucket. Required fields: ▫ id ▫ name For example --create-buckets id=my-bucket,name=bucket-1,storageClass=STANDARD,enableHNS=true Supported storageClass values: ▫ STANDARD ▫ NEARLINE ▫ COLDLINE ▫ ARCHIVE Defaults: ▫ storageClass: STANDARD Note: ▫ Either storageClass or enableAutoclass can be set. ▫ HNS: Hierarchical namespace. Hierarchical namespace buckets cannot use Autoclass. Sets create_buckets value. Shorthand Example: --create-buckets=enableAutoclass=boolean,enableHNS=boolean,id=string,name=string,storageClass=string --create-buckets=enableAutoclass=boolean,enableHNS=boolean,id=string,name=string,storageClass=string JSON Example: --create-buckets='[{"enableAutoclass": boolean, "enableHNS": boolean, "id": "string", "name": "string", "storageClass": "string"}]' File Example: --create-buckets=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--create-buckets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CreateBuckets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to create a filestore instance. Required fields: ▫ id ▫ name ▫ tier ▫ capacityGb ▫ fileshare For example --create-filestores id=my-fs,name=locations/us-central1/instances/filestore-1,tier=REGIONAL,capacityGb=1024,fileshare=share1 id: Alphanumeric identifier of the filestore resource. Can be used to refer to this resource in storage-configs. name: Name of the filestore instance to create in your project in the format of locations/us-central1/instances/filestore-1. capacityGb: Size of the filestore in GiB. Must be between 1024 and 102400, and must meet scalability requirements described at https://cloud.google.com/filestore/docs/service-tiers. fileshare: The directory on a Filestore instance where all shared files are stored. Must match the regex [a-z]([-a-z0-9]*[a-z0-9])?, be 1-63 characters in length, and comply with RFC1035. Supported protocol values: ▫ NFSV3 ▫ NFSV41 ▫ If not specified, defaults to NFSV3 Defaults: ▫ protocol: NFSV3. Sets create_filestores value. Shorthand Example: --create-filestores=capacityGb=int,description=string,fileshare=string,id=string,name=string,protocol=string,tier=string --create-filestores=capacityGb=int,description=string,fileshare=string,id=string,name=string,protocol=string,tier=string JSON Example: --create-filestores='[{"capacityGb": int, "description": "string", "fileshare": "string", "id": "string", "name": "string", "protocol": "string", "tier": "string"}]' File Example: --create-filestores=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--create-filestores", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CreateFilestores { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to create a Lustre instance. Required fields: ▫ id ▫ name ▫ capacityGb ▫ filesystem. id: ID of the lustre resource, used to refer to this resource in storage-configs. name: Name of the Managed Lustre instance to create in your project in the format of locations/us-central1/instances/lustre-1. For example --create-lustres id=my-lustre,name=locations/us-central1/instances/lustre-1,capacityGb=1024,filesystem=fs-1,perUnitStorageThroughput=1000 Values for perUnitStorageThroughput: 125, 250, 500, 1000. Sets create_lustres value. Shorthand Example: --create-lustres=capacityGb=int,description=string,filesystem=string,id=string,name=string,perUnitStorageThroughput=int --create-lustres=capacityGb=int,description=string,filesystem=string,id=string,name=string,perUnitStorageThroughput=int JSON Example: --create-lustres='[{"capacityGb": int, "description": "string", "filesystem": "string", "id": "string", "name": "string", "perUnitStorageThroughput": int}]' File Example: --create-lustres=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--create-lustres", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CreateLustres { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Description of the cluster. For example --description "My cluster"
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Reference of existing filestore instance. id: ID of the filestore resource, used to refer to this resource in storage-configs. name: Name of the existing filestore instance to import from your project in the format of locations/us-central1/instances/filestore-1. For example --filestores id=my-fs,name=locations/us-central1/instances/filestore-1. Sets filestores value. id Required, sets id value. name Required, sets name value. Shorthand Example: --filestores=id=string,name=string --filestores=id=string,name=string JSON Example: --filestores='[{"id": "string", "name": "string"}]' File Example: --filestores=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--filestores", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Filestores { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define cluster Flex Start instances. For example --flex-start-instances id=c1,zone=us-central1-a,machineType=n1-standard-1,maxDuration=10000s. Sets flex_start_instances value. id Required, sets id value. machineType Required, sets machineType value. maxDuration Required, sets maxDuration value. zone Required, sets zone value. Shorthand Example: --flex-start-instances=id=string,machineType=string,maxDuration=string,zone=string --flex-start-instances=id=string,machineType=string,maxDuration=string,zone=string JSON Example: --flex-start-instances='[{"id": "string", "machineType": "string", "maxDuration": "string", "zone": "string"}]' File Example: --flex-start-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--flex-start-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? FlexStartInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Cluster labels as key value pairs. For example --labels key1=value1,key2=value2. Sets labels value. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --labels={string=string} JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Reference of existing Lustre instance. id: ID of the lustre resource, used to refer to this resource in storage-configs. name: Name of the existing Managed Lustre instance to import from your project in the format of locations/us-central1/instances/lustre-1. For example --lustres id=my-lustre,name=locations/us-central1/instances/lustre-1. Sets lustres value. id Required, sets id value. name Required, sets name value. Shorthand Example: --lustres=id=string,name=string --lustres=id=string,name=string JSON Example: --lustres='[{"id": "string", "name": "string"}]' File Example: --lustres=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--lustres", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Lustres { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define cluster on demand instances. For example --on-demand-instances id=c1,zone=us-central1-a,machineType=n1-standard-1. Sets on_demand_instances value. id Required, sets id value. machineType Required, sets machineType value. zone Required, sets zone value. Shorthand Example: --on-demand-instances=id=string,machineType=string,zone=string --on-demand-instances=id=string,machineType=string,zone=string JSON Example: --on-demand-instances='[{"id": "string", "machineType": "string", "zone": "string"}]' File Example: --on-demand-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--on-demand-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OnDemandInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define cluster reserved instances. For example --reserved-instances id=c1,reservation=zones/us-central1-a/reservations/reservation-1. Sets reserved_instances value. id Required, sets id value. reservation Sets reservation value. Shorthand Example: --reserved-instances=id=string,reservation=string --reserved-instances=id=string,reservation=string JSON Example: --reserved-instances='[{"id": "string", "reservation": "string"}]' File Example: --reserved-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--reserved-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ReservedInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define slurm cluster default partition. For example --slurm-default-partition p1
+    /// </summary>
+    [CliOption("--slurm-default-partition", Format = OptionFormat.EqualsSeparated)]
+    public string? SlurmDefaultPartition { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Slurm epilog bash scripts. For example --slurm-epilog-scripts script1.sh,script2.sh
+    /// </summary>
+    [CliOption("--slurm-epilog-scripts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SlurmEpilogScripts { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define slurm cluster login node. Required: ▫ machineType ▫ zone For example --slurm-login-node machineType=n1-standard-1,zone=us-central1-a,count=1 Defaults: ▫ count: 1 ▫ enableOsLogin: true ▫ enablePublicIPs: true ▫ bootDisk.sizeGb: 100 Note: ▫ startupScript: ◇ Either str or file_path ◇ For file_path, only bash file format (.sh or .bash) is supported. ◇ For file_path, only absolute path is supported. ▫ bootDisk: ◇ Must be 50 GB or greater. Sets slurm_login_node value. Shorthand Example: --slurm-login-node=bootDisk={sizeGb=int,type=string},count=int,enableOsLogin=boolean,enablePublicIps=boolean,labels={string=string},machineType=string,startupScript=string,storageConfigs=[{id=string,localMount=string}],zone=string JSON Example: --slurm-login-node='{"bootDisk": {"sizeGb": int, "type": "string"}, "count": int, "enableOsLogin": boolean, "enablePublicIps": boolean, "labels": {"string": "string"}, "machineType": "string", "startupScript": "string", "storageConfigs": [{"id": "string", "localMount": "string"}], "zone": "string"}' File Example: --slurm-login-node=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--slurm-login-node", Format = OptionFormat.EqualsSeparated)]
+    public string? SlurmLoginNode { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define slurm cluster nodeset config. Required fields: ▫ id For example --slurm-node-sets id=ns1,computeId=c1,staticNodeCount=1,maxDynamicNodeCount=2,computeInstance=[startupScript="echo hello",labels="k1=v1"] Defaults: Note: ▫ startupScript: ◇ Either str or file_path ◇ For file_path, only bash file format (.sh or .bash) is supported. ◇ For file_path, only absolute path is supported. Sets slurm_node_sets value. Shorthand Example: --slurm-node-sets=computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}] --slurm-node-sets=computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}] JSON Example: --slurm-node-sets='[{"computeId": "string", "computeInstance": {"bootDisk": {"sizeGb": int, "type": "string"}, "labels": {"string": "string"}, "startupScript": "string"}, "id": "string", "maxDynamicNodeCount": int, "staticNodeCount": int, "storageConfigs": [{"id": "string", "localMount": "string"}]}]' File Example: --slurm-node-sets=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--slurm-node-sets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SlurmNodeSets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define slurm cluster partitions. For example --slurm-partitions id=p1,nodesetIds=[ns1,ns2]. Sets slurm_partitions value. id Required, sets id value. nodeSetIds Required, sets nodeSetIds value. Shorthand Example: --slurm-partitions=id=string,nodeSetIds=[string] --slurm-partitions=id=string,nodeSetIds=[string] JSON Example: --slurm-partitions='[{"id": "string", "nodeSetIds": ["string"]}]' File Example: --slurm-partitions=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--slurm-partitions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SlurmPartitions { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Slurm prolog bash scripts. For example --slurm-prolog-scripts script1.sh,script2.sh
+    /// </summary>
+    [CliOption("--slurm-prolog-scripts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SlurmPrologScripts { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Parameters to define cluster spot instances. For example --spot-instances id=c1,zone=us-central1-a,machineType=n1-standard-1. Sets spot_instances value. id Required, sets id value. machineType Required, sets machineType value. terminationAction Sets terminationAction value. zone Required, sets zone value. Shorthand Example: --spot-instances=id=string,machineType=string,terminationAction=string,zone=string --spot-instances=id=string,machineType=string,terminationAction=string,zone=string JSON Example: --spot-instances='[{"id": "string", "machineType": "string", "terminationAction": "string", "zone": "string"}]' File Example: --spot-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--spot-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SpotInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Network configuration for the cluster. At most one of these can be specified: Parameters to create a VPC (Virtual Private Cloud) network. Required fields: ◇ name Name: Must match the regex [a-z]([-a-z0-9]*[a-z0-9])?, be 1-63 characters in length, and comply with RFC1035. Description: A description of the network. Maximum of 2048 characters. For example --create-network name=network-1,description="My network". Sets create_network value. Shorthand Example: --create-network=description=string,name=string JSON Example: --create-network='{"description": "string", "name": "string"}' File Example: --create-network=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--create-network", Format = OptionFormat.EqualsSeparated)]
+    public string? CreateNetwork { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Network configuration for the cluster. At most one of these can be specified: Or at least one of these can be specified: Use an existing network source for the cluster. Reference of existing network name. If the network is in a different project (Shared VPC), specify the project ID using --network-project. For example --network network-1 This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Network configuration for the cluster. At most one of these can be specified: Or at least one of these can be specified: Use an existing network source for the cluster. Reference of existing subnetwork name. If the subnetwork is in a different project (Shared VPC), specify the project ID using --network-project. For example --subnet regions/us-central1/subnetworks/subnet-1 This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. Network configuration for the cluster. At most one of these can be specified: Or at least one of these can be specified: Use an existing network source for the cluster. Project ID of the project containing the network and subnetwork resources, if different from the cluster project (e.g. for Shared VPC).
+    /// </summary>
+    [CliOption("--network-project", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkProject { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. At most one of these can be specified: If specified, creates a cluster with sensible defaults: ◇ Compute: 2x a3-megagpu-8g nodes (Flex Start, max duration 7 days). ◇ Login: 1x n2-standard-16 node. ◇ Storage: 36TB Lustre storage (scratch disk).
+    /// </summary>
+    [CliFlag("--quickstart-cluster")]
+    public bool? QuickstartCluster { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning. Exactly one of these must be specified: Or at least one of these can be specified: Flag Configurations to define cluster spec. At most one of these can be specified: Reference a pre-defined architecture. Available options: ◇ a3-ultra: 4x reserved nodes (requires --reserved-instances), 1x login node (n2-standard-16), 36TB Lustre storage, and 5.1TB Filestore storage. ◇ a4-high-flex-start: 4x a4-highgpu-8g compute nodes (Flex Start), 1x login node (n2-standard-16), 18TB Lustre storage, and 2TB Filestore storage. ◇ a4x-high: 18x reserved nodes (requires --reserved-instances), 1x login node (n2-standard-16), and 36TB Lustre storage. ◇ g4-flex-start: 4x g4-standard-384 compute nodes (Flex Start), 1x login node (n2-standard-16), 36TB Lustre storage, and 10.2TB Filestore storage. ◇ h4d-highmem-flex-start: 4x h4d-highmem-192 compute nodes (Flex Start), 1x login node (n2-standard-16), 18TB Lustre storage, and 1TB Filestore storage. REFERENCE_ARCHITECTURE must be one of: a3-ultra, a4-high-flex-start, a4x-high, g4-flex-start, h4d-highmem-flex-start.
+    /// </summary>
+    [CliOption("--reference-architecture", Format = OptionFormat.EqualsSeparated)]
+    public GcloudReferenceArchitecture? ReferenceArchitecture { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

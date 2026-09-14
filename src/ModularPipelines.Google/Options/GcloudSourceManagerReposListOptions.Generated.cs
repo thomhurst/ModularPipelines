@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all repositories under a Secure     Source Manager instance
 /// </summary>
+/// <param name="Instance">A Secure Source Manager instance ID.</param>
+/// <param name="Region">Location resource - The Secure Source Manager location to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the region attribute: ▸ provide the argument --region on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source-manager", "repos", "list")]
-public record GcloudSourceManagerReposListOptions : GcloudOptions
+public record GcloudSourceManagerReposListOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region
+) : GcloudOptions
 {
     /// <summary>
     /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.

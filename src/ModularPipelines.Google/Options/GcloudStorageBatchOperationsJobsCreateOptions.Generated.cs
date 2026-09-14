@@ -10,17 +10,156 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new batch operation     job
 /// </summary>
+/// <param name="ManifestLocation">Source specifying objects to perform batch operations on. Must be one of</param>
+/// <param name="IncludedObjectPrefixes">Source specifying objects to perform batch operations on. Must be one of</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "batch-operations", "jobs", "create")]
-public record GcloudStorageBatchOperationsJobsCreateOptions : GcloudOptions
+public record GcloudStorageBatchOperationsJobsCreateOptions(
+    [property: CliOption("--manifest-location", Format = OptionFormat.EqualsSeparated)] string ManifestLocation,
+    [property: CliOption("--included-object-prefixes", Format = OptionFormat.EqualsSeparated)] string IncludedObjectPrefixes
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Source specifying objects to perform batch operations on. You can specify either a bucket-based source or a project-based source. Exactly one of these must be specified: Use bucket(s) as the source. Exactly one of these must be specified: Bucket containing the objects that the batch job will operate on.
+    /// </summary>
+    [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? Bucket { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Source specifying objects to perform batch operations on. You can specify either a bucket-based source or a project-based source. Exactly one of these must be specified: Use bucket(s) as the source. Exactly one of these must be specified: List of buckets containing the objects that the batch job will operate on.
+    /// </summary>
+    [CliOption("--bucket-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? BucketList { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Use a project as the source. At most one of these can be specified: The unique identifier of a dry run job to use as the baseline. Specifying this ID ensures the job is executed against the same set of objects validated during the dry run.
+    /// </summary>
+    [CliOption("--dry-run-job-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DryRunJobId { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Use a project as the source. At most one of these can be specified: Or at least one of these can be specified: The resource identifier of the Storage Insights dataset configuration. Format: projects/{project}/locations/{location}/datasetConfigs/{datasetConfig} This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--insights-dataset-config", Format = OptionFormat.EqualsSeparated)]
+    public string? InsightsDataSetConfig { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Use a project as the source. At most one of these can be specified: Or at least one of these can be specified: Project name of the objects to be transformed. e.g. my-project or 123456. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--target-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetProject { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Use a project as the source. At most one of these can be specified: Or at least one of these can be specified: Filters expressed in Common Expression Language (CEL) to apply to buckets. E.g. "bucket_name == 'my-bucket'".
+    /// </summary>
+    [CliOption("--bucket-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? BucketFilters { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Use a project as the source. At most one of these can be specified: Or at least one of these can be specified: Filters expressed in Common Expression Language (CEL) to apply to objects. E.g. "size &gt; 100".
+    /// </summary>
+    [CliOption("--object-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? ObjectFilters { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Use a project as the source. At most one of these can be specified: Or at least one of these can be specified: A comma-separated list of Cloud Storage locations (e.g., us-central1) to include in the job. Only buckets and objects within these locations will be discovered from the configured Storage Insights dataset. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--target-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetLocations { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Use a project as the source. At most one of these can be specified: Or at least one of these can be specified: The exact Storage Insights snapshot timestamp to use for the job compatible with the RFC 3339 format (e.g., 2024-01-02T03:04:00.123456Z). Can only be specified if --target-locations is specified. If omitted, the job automatically defaults to the most recent snapshot timestamp that is successfully populated in both object and bucket attributes views across all specified locations. This snapshot time is precise to the microsecond. Any finer precision is truncated.
+    /// </summary>
+    [CliOption("--target-snapshot-time", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetSnapshotTime { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Sets object metadata. To set how content should be displayed, specify the the key-value pair Content-Disposition={VALUE}. To set how content is encoded (e.g. "gzip"), specify the key-value pair Content-Encoding={VALUE}. To set content's language (e.g. "en" signifies "English"), specify the key-value pair Content-Language={VALUE}. To set the type of data contained in the object (e.g. "text/html"), specify the key-value pair Content-Type={VALUE}. To set how caches should handle requests and responses, specify the key-value pair Cache-Control={VALUE}. To set custom time for Cloud Storage objects in RFC 3339 format, specify the key-value pair Custom-Time={VALUE}. To set object retention, specify Retain-Until={TIMESTAMP} in RFC 3339 format and Retention-Mode={MODE} where mode can be Locked or Unlocked. To set custom metadata on objects, specify key-value pairs {CUSTOM-KEY}:{VALUE}. Note that all predefined keys (e.g. Content-Disposition) are case-insensitive. Any other key that is not specified above will be treated as a custom key. To clear a field, provide the key with an empty value (e.g. Content-Disposition=). Multiple key-value pairs can be specified by separating them with commas. For example, --put-metadata=Content-Disposition=inline,Content-Encoding=gzip
+    /// </summary>
+    [CliOption("--put-metadata", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? PutMetadata { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Rewrites object and the specified metadata. Currently only supports rewriting kms-key and storage-class. To rewrite the Cloud KMS key that will be used to encrypt the object, specify the key-value pair kms-key={KEY}. To rewrite the object storage classes, specify the key-value pair storage-class={STORAGE_CLASS} where storage-class can be one of STANDARD, NEARLINE, COLDLINE, or ARCHIVE. If an object's storage class is set to a different value than it currently has, a full byte copy of the object will be made. If Autoclass is enabled on the bucket, storage class changes will be ignored by Cloud Storage. A metadata field MUST be specified, and multiple key-value pairs can be specified by separating them with commas. For example: ▸ --rewrite-object=kms-key=projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/CRYPTO_KEY,storage-class=STANDARD
+    /// </summary>
+    [CliOption("--rewrite-object", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? RewriteObject { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Path to a local YAML or JSON file containing object ACL updates. The file must use the following format: grants: ▸ entity: ENTITY role: ROLE remove_entities: ▸ ENTITY For example: grants: ▸ entity: allAuthenticatedUsers role: READER remove_entities: ▸ allUsers
+    /// </summary>
+    [CliOption("--set-object-acls-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SetObjectAclsFromFile { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at most one of these can be specified: Describes options to update object custom contexts. Clears all object custom contexts.
+    /// </summary>
+    [CliFlag("--clear-all-object-custom-contexts")]
+    public bool? ClearAllObjectCustomContexts { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at most one of these can be specified: Describes options to update object custom contexts. Or at least one of these can be specified: Flags for updating or clearing individual custom contexts. A key cannot be present in both --update-object-custom-contexts and --clear-object-custom-contexts. Removes object custom contexts by key. If an entry is not found, it will be ignored. e.g. --clear-object-custom-contexts=key1,key2
+    /// </summary>
+    [CliOption("--clear-object-custom-contexts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ClearObjectCustomContexts { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at most one of these can be specified: Describes options to update object custom contexts. Or at least one of these can be specified: Flags for updating or clearing individual custom contexts. A key cannot be present in both --update-object-custom-contexts and --clear-object-custom-contexts. Flags for specifying custom context updates in key-value pairs or from a file. At most one of these can be specified: Inserts or updates object custom contexts. If an existing entry is found, the value will be updated, otherwise the entry would be added. e.g. --update-object-custom-contexts=key1=val1,key2=val2
+    /// </summary>
+    [CliOption("--update-object-custom-contexts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateObjectCustomContexts { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at most one of these can be specified: Describes options to update object custom contexts. Or at least one of these can be specified: Flags for updating or clearing individual custom contexts. A key cannot be present in both --update-object-custom-contexts and --clear-object-custom-contexts. Flags for specifying custom context updates in key-value pairs or from a file. At most one of these can be specified: Path to a local JSON or YAML file containing custom contexts one wants to update on an object. If an entry is found, any fields set in the payload will be updated, otherwise the entry would be added. For example: 1. The following JSON document shows two key value pairs, i.e. (key1, value1) and (key2, value2): { "key1": {"value": "value1"}, "key2": {"value": "value2"} } 2. The following YAML document shows two key value pairs, i.e. (key1, value1) and (key2, value2): key1: value: value1 key2: value: value2 Note: Currently object contexts only supports string format for values.
+    /// </summary>
+    [CliOption("--update-object-custom-contexts-file", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateObjectCustomContextsFile { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at least one of these can be specified: Describes options to delete objects. If this flag is set, objects specified in source will be deleted. When versioning is enabled on the buckets, live objects in versioned buckets will become noncurrent and objects that were already noncurrent will be skipped. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--delete-object")]
+    public bool? DeleteObject { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at least one of these can be specified: Describes options to delete objects. If this flag is set and versioning is enabled on the buckets, both live and noncurrent objects will be permanently deleted.
+    /// </summary>
+    [CliFlag("--enable-permanent-object-deletion")]
+    public bool? EnablePermanentObjectDeletion { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at least one of these can be specified: Describes options to update object hold. Sets or unsets object event based holds state. When object event based hold is set, object cannot be deleted or replaced. Use --put-object-event-based-hold to enable and --no-put-object-event-based-hold to disable.
+    /// </summary>
+    [CliFlag("--put-object-event-based-hold")]
+    public bool? PutObjectEventBasedHold { get; set; }
+
+    /// <summary>
+    /// Negates --put-object-event-based-hold. Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at least one of these can be specified: Describes options to update object hold. Sets or unsets object event based holds state. When object event based hold is set, object cannot be deleted or replaced. Use --put-object-event-based-hold to enable and --no-put-object-event-based-hold to disable.
+    /// </summary>
+    [CliFlag("--no-put-object-event-based-hold")]
+    public bool? NoPutObjectEventBasedHold { get; set; }
+
+    /// <summary>
+    /// Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at least one of these can be specified: Describes options to update object hold. Sets or unsets object temporary holds state. When object temporary hold is set, object cannot be deleted or replaced. Use --put-object-temporary-hold to enable and --no-put-object-temporary-hold to disable.
+    /// </summary>
+    [CliFlag("--put-object-temporary-hold")]
+    public bool? PutObjectTemporaryHold { get; set; }
+
+    /// <summary>
+    /// Negates --put-object-temporary-hold. Source specifying objects to perform batch operations on. Must be one of Transformation to be performed on the objects. Exactly one of these must be specified: Or at least one of these can be specified: Describes options to update object hold. Sets or unsets object temporary holds state. When object temporary hold is set, object cannot be deleted or replaced. Use --put-object-temporary-hold to enable and --no-put-object-temporary-hold to disable.
+    /// </summary>
+    [CliFlag("--no-put-object-temporary-hold")]
+    public bool? NoPutObjectTemporaryHold { get; set; }
+
     /// <summary>
     /// Description for the batch job.
     /// </summary>
@@ -32,5 +171,18 @@ public record GcloudStorageBatchOperationsJobsCreateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Bucket) ? 1 : 0) + (BucketList?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Bucket or BucketList must be specified.", [nameof(Bucket), nameof(BucketList)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(IncludedObjectPrefixes) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ManifestLocation) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of IncludedObjectPrefixes or ManifestLocation must be specified.", [nameof(IncludedObjectPrefixes), nameof(ManifestLocation)]);
+        }
+    }
 
 }

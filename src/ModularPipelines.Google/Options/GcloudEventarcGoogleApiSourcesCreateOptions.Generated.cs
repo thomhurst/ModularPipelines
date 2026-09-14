@@ -10,15 +10,68 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Eventarc Google API     source
 /// </summary>
+/// <param name="DestinationMessageBus">Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument --destination-message-bus on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "google-api-sources", "create")]
-public record GcloudEventarcGoogleApiSourcesCreateOptions : GcloudOptions
+public record GcloudEventarcGoogleApiSourcesCreateOptions(
+    [property: CliOption("--destination-message-bus", Format = OptionFormat.EqualsSeparated)] string DestinationMessageBus
+) : GcloudOptions
 {
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. This must be specified. Project ID of the Google Cloud project for the message bus. To set the project attribute: ▸ provide the argument --destination-message-bus on the command line with a fully specified name; ▸ provide the argument --destination-message-bus-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--destination-message-bus-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationMessageBusProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Fully qualified name of the crypto key to use for customer-managed encryption. If this is unspecified, Google-managed keys will be used for encryption.
+    /// </summary>
+    [CliOption("--crypto-key", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoKey { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The logging config for the Google API source. LOGGING_CONFIG must be one of: NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
+    /// </summary>
+    [CliOption("--logging-config", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLoggingConfig? LoggingConfig { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The organization subscription for the resource. Use --organization-subscription to enable and --no-organization-subscription to disable.
+    /// </summary>
+    [CliFlag("--organization-subscription")]
+    public bool? OrganizationSubscription { get; set; }
+
+    /// <summary>
+    /// Negates --organization-subscription. At most one of these can be specified: The organization subscription for the resource. Use --organization-subscription to enable and --no-organization-subscription to disable.
+    /// </summary>
+    [CliFlag("--no-organization-subscription")]
+    public bool? NoOrganizationSubscription { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The project subscriptions for the resource.
+    /// </summary>
+    [CliOption("--project-subscriptions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ProjectSubscriptions { get; set; }
+
 }

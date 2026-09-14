@@ -16,9 +16,76 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deploy an index to a Vertex AI     index endpoint
 /// </summary>
+/// <param name="DeployedIndexId">Id of the deployed index.</param>
+/// <param name="DisplayName">Display name of the deployed index.</param>
+/// <param name="Index">ID of the index.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "index-endpoints", "deploy-index")]
-public record GcloudAiIndexEndpointsDeployIndexOptions : GcloudOptions
+public record GcloudAiIndexEndpointsDeployIndexOptions(
+    [property: CliOption("--deployed-index-id", Format = OptionFormat.EqualsSeparated)] string DeployedIndexId,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--index", Format = OptionFormat.EqualsSeparated)] string Index
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of allowed JWT issuers for a deployed index. Each entry must be a valid Google service account, in the following format: service-account-name@project-id.iam.gserviceaccount.com
+    /// </summary>
+    [CliOption("--allowed-issuers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedIssuers { get; set; }
+
+    /// <summary>
+    /// List of JWT audiences that are allowed to access a deployed index. JWT containing any of these audiences (https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section -4.1.3) will be accepted.
+    /// </summary>
+    [CliOption("--audiences", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Audiences { get; set; }
+
+    /// <summary>
+    /// Deployment group can be no longer than 64 characters (eg:test, prod). If not set, we will use the default deployment group. Creating deployment_groups with reserved_ip_ranges is a recommended practice when the peered network has multiple peering ranges.This creates your deployments from predictable IP spaces for easier traffic administration.
+    /// </summary>
+    [CliOption("--deployment-group", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentGroup { get; set; }
+
+    /// <summary>
+    /// The deployment tier that the deployed index is deployed to. If not specified, a system-chosen default tier is used. DEPLOYMENT_TIER must be (only one value is supported): storage.
+    /// </summary>
+    [CliOption("--deployment-tier", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentTier { get; set; }
+
+    /// <summary>
+    /// If true, online prediction access logs are sent to Cloud Logging. These logs are standard server access logs, containing information like timestamp and latency for each prediction request.
+    /// </summary>
+    [CliFlag("--enable-access-logging")]
+    public bool? EnableAccessLogging { get; set; }
+
+    /// <summary>
+    /// The machine resources to be used for each node of this deployment. For available machine types, see https://cloud.google.com/ai-platform-unified/docs/predictions/machine-types.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Maximum number of machine replicas the deployed index will be always deployed on.
+    /// </summary>
+    [CliOption("--max-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MaxReplicaCount { get; set; }
+
+    /// <summary>
+    /// Minimum number of machine replicas the deployed index will be always deployed on. If specified, the value must be equal to or larger than 1.
+    /// </summary>
+    [CliOption("--min-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MinReplicaCount { get; set; }
+
+    /// <summary>
+    /// A pair of project-id and network the PSC index will be deployed to. For example: --psc-automation-configs=project-id=my-project,network=my-network. For multiple networks, this flag can be repeated: --psc-automation-configs=project-id=my-project,network=my-network --psc-automation-configs=project-id=my-project2,network=my-network2
+    /// </summary>
+    [CliOption("--psc-automation-configs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PscAutomationConfigs { get; set; }
+
+    /// <summary>
+    /// List of reserved IP ranges deployed index will be deployed to.
+    /// </summary>
+    [CliOption("--reserved-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ReservedIpRanges { get; set; }
+
 }

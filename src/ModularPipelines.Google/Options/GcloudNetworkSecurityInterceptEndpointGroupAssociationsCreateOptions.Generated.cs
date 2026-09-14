@@ -10,15 +10,51 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Intercept Endpoint Group Association
 /// </summary>
+/// <param name="Network">Network resource - Intercept Endpoint Group Association. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network-name attribute: ▸ provide the argument --network on the command line.</param>
+/// <param name="InterceptEndpointGroup">Intercept endpoint group resource - Intercept Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --intercept-endpoint-group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the intercept endpoint group or fully qualified identifier for the intercept endpoint group. To set the id attribute: ▸ provide the argument --intercept-endpoint-group on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "intercept-endpoint-group-associations", "create")]
-public record GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions : GcloudOptions
+public record GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
+    [property: CliOption("--intercept-endpoint-group", Format = OptionFormat.EqualsSeparated)] string InterceptEndpointGroup
+) : GcloudOptions
 {
+    /// <summary>
+    /// Intercept endpoint group resource - Intercept Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --intercept-endpoint-group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the intercept endpoint group. To set the location attribute: ▸ provide the argument --intercept-endpoint-group on the command line with a fully specified name; ▸ provide the argument --intercept-endpoint-group-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument networksecurity.projects.locations.interceptEndpointGroupAssociations on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--intercept-endpoint-group-location", Format = OptionFormat.EqualsSeparated)]
+    public string? InterceptEndpointGroupLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
 }

@@ -6,21 +6,211 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// import an image into Compute Engine
 /// </summary>
+/// <param name="ImageName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "images", "import")]
 public record GcloudComputeImagesImportOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The command you're using is deprecated and will be removed by December 31, 2025. We recommend using gcloud compute migration image-imports instead. See our official documentation for more information. https://cloud.google.com/migrate/virtual-machines/docs/5.0/migrate/image_import.
+    /// </summary>
+    [CliFlag("--cmd-deprecated")]
+    public bool? CmdDeprecated { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Image import from local file, Cloud Storage or Compute Engine image. At most one of these can be specified: A local file, or the Cloud Storage URI of the virtual disk file to import. For example: gs://my-bucket/my-image.vmdk or ./my-local-image.vmdk. For more information about Cloud Storage URIs, see https://cloud.google.com/storage/docs/request-endpoints#json-api.
+    /// </summary>
+    [CliOption("--source-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Image import from local file, Cloud Storage or Compute Engine image. At most one of these can be specified: An existing Compute Engine image from which to import.
+    /// </summary>
+    [CliOption("--source-image", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceImage { get; set; }
+
+    /// <summary>
+    /// Image import from AWS. Access key ID for a temporary AWS credential. This ID must be generated using the AWS Security Token Service. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--aws-access-key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsAccessKeyId { get; set; }
+
+    /// <summary>
+    /// Image import from AWS. AWS region of the image that you want to import. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--aws-region", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsRegion { get; set; }
+
+    /// <summary>
+    /// Image import from AWS. Secret access key for a temporary AWS credential. This key must be generated using the AWS Security Token Service. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--aws-secret-access-key", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsSecretAccessKey { get; set; }
+
+    /// <summary>
+    /// Image import from AWS. Session token for a temporary AWS credential. This session token must be generated using the AWS Security Token Service. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--aws-session-token", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsSessionToken { get; set; }
+
+    /// <summary>
+    /// Image import from AWS. Specify whether to import from an AMI or disk image. Exactly one of these must be specified: If importing a disk image, specify the following: If importing an AMI, specify the following two flags: S3 resource path of the exported image file that you want to import.
+    /// </summary>
+    [CliOption("--aws-source-ami-file-path", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsSourceAmiFilePath { get; set; }
+
+    /// <summary>
+    /// Image import from AWS. Specify whether to import from an AMI or disk image. Exactly one of these must be specified: If importing a disk image, specify the following: If importing an AMI, specify the following two flags: An AWS S3 bucket location where the converted image file can be temporarily exported to before the import to Cloud Storage. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--aws-ami-export-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsAmiExportLocation { get; set; }
+
+    /// <summary>
+    /// Image import from AWS. Specify whether to import from an AMI or disk image. Exactly one of these must be specified: If importing a disk image, specify the following: If importing an AMI, specify the following two flags: AWS AMI ID of the image to import. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--aws-ami-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AwsAmiId { get; set; }
+
+    /// <summary>
+    /// Temporary VMs are created in your project during image import. Set this flag so that these temporary VMs are not assigned external IP addresses. Note: The image import process requires package managers to be installed on the operating system for the virtual disk. These package managers might need to make requests to package repositories that are outside Google Cloud. To allow access for these updates, you need to configure Cloud NAT and Private Google Access. For more information, see https://cloud.google.com/compute/docs/import/importing-virtual-disks#no-external-ip.
+    /// </summary>
+    [CliFlag("--no-address")]
+    public bool? NoAddress { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Image import and export tools use Cloud Build to import and export images to and from your project. Cloud Build uses a specific service account to execute builds on your behalf. The Cloud Build service account generates an access token for other service accounts and it is also used for authentication when building the artifacts for the image import tool. Use this flag to to specify a user-managed service account for image import and export. If you don't specify this flag, Cloud Build runs using your project's default Cloud Build service account. To set this option, specify the email address of the desired user-managed service account. Note: You must specify the --logs-location flag when you set a user-managed service account. At minimum, the specified user-managed service account needs to have the following roles assigned: ◆ roles/compute.admin ◆ roles/iam.serviceAccountTokenCreator ◆ roles/iam.serviceAccountUser
+    /// </summary>
+    [CliOption("--cloudbuild-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudbuildServiceAccount { get; set; }
+
+    /// <summary>
+    /// A temporary virtual machine instance is created in your project during image import. Image import tooling on this temporary instance must be authenticated. A Compute Engine service account is an identity attached to an instance. Its access tokens can be accessed through the instance metadata server and can be used to authenticate image import tooling on the instance. To set this option, specify the email address corresponding to the required Compute Engine service account. If not provided, the image import on the temporary instance uses the project's default Compute Engine service account. At a minimum, you need to grant the following roles to the specified Cloud Build service account: ◆ roles/compute.storageAdmin ◆ roles/storage.objectViewer
+    /// </summary>
+    [CliOption("--compute-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ComputeServiceAccount { get; set; }
+
+    /// <summary>
+    /// Description to set for the imported image.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Family to set for the imported image.
+    /// </summary>
+    [CliOption("--family", Format = OptionFormat.EqualsSeparated)]
+    public string? Family { get; set; }
+
+    /// <summary>
+    /// Installs the guest environment on the image. See https://cloud.google.com/compute/docs/images/guest-environment. Enabled by default, use --no-guest-environment to disable.
+    /// </summary>
+    [CliFlag("--guest-environment")]
+    public bool? GuestEnvironment { get; set; }
+
+    /// <summary>
+    /// Negates --guest-environment. Installs the guest environment on the image. See https://cloud.google.com/compute/docs/images/guest-environment. Enabled by default, use --no-guest-environment to disable.
+    /// </summary>
+    [CliFlag("--no-guest-environment")]
+    public bool? NoGuestEnvironment { get; set; }
+
+    /// <summary>
+    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be (only one value is supported): UEFI_COMPATIBLE.
+    /// </summary>
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GuestOsFeatures { get; set; }
+
+    /// <summary>
+    /// Directory in Cloud Storage to hold build logs. If not set, gs://&lt;project num&gt;.cloudbuild-logs.googleusercontent.com/ is created and used.
+    /// </summary>
+    [CliOption("--log-location", Format = OptionFormat.EqualsSeparated)]
+    public string? LogLocation { get; set; }
+
+    /// <summary>
+    /// Name of the network in your project to use for the image import. When you import an image, the import tool creates and uses temporary VMs in your project for the import process. Use this flag to specify the network to use for these temporary VMs.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Specifies a Cloud Storage location, either regional or multi-regional, where image content is to be stored. If not specified, the multi-region location closest to the source is chosen automatically.
+    /// </summary>
+    [CliOption("--storage-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageLocation { get; set; }
+
+    /// <summary>
+    /// Name of the subnetwork in your project to use for the image import. When you import an image, the import tool creates and uses temporary VMs in your project for the import process. Use this flag to specify the subnetwork to use for these temporary VMs. ◆ If the network resource is in legacy mode, do not provide this property. ◆ If the network is in auto subnet mode, specifying the subnetwork is optional. ◆ If the network is in custom subnet mode, then this field must be specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Maximum time an import can last before it fails as "TIMEOUT". For example, if you specify 2h, the process fails after 2 hours. See $ gcloud topic datetimes for information about duration formats. This timeout option has a maximum value of 24 hours. If you are importing a large image that takes longer than 24 hours to import, either use the RAW disk format to reduce the time needed for converting the image, or split the data into several smaller images.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
+    /// <summary>
+    /// Zone to use when importing the image. When you import an image, the import tool creates and uses temporary VMs in your project for the import process. Use this flag to specify the zone to use for these temporary VMs. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies that the disk has no bootable OS installed on it. Imports the disk without making it bootable or installing Google tools on it.
+    /// </summary>
+    [CliFlag("--data-disk")]
+    public bool? DataDisk { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Specifies that you want to import an image with an existing license. Importing an image with an existing license is known as bring your own license (BYOL). --byol can be specified in any of the following ways: + `--byol --os=rhel-8`: imports a RHEL 8 image with an existing license. + `--os=rhel-8-byol`: imports a RHEL 8 image with an existing license. + `--byol`: detects the OS contained on the disk, and imports the image with an existing license. For more information about BYOL, see: https://cloud.google.com/compute/docs/nodes/bringing-your-own-licenses
+    /// </summary>
+    [CliFlag("--byol")]
+    public bool? Byol { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Specifies the OS of the disk image being imported. OS must be one of: centos-7, centos-stream-8, centos-stream-9, debian-10, debian-11, debian-8, debian-9, opensuse-15, rhel-6, rhel-6-byol, rhel-7, rhel-7-byol, rhel-8, rhel-8-byol, rhel-9, rhel-9-byol, rocky-8, rocky-9, sles-12, sles-12-byol, sles-15, sles-15-byol, sles-sap-12, sles-sap-12-byol, sles-sap-15, sles-sap-15-byol, ubuntu-1404, ubuntu-1604, ubuntu-1804, ubuntu-2004, ubuntu-2204, windows-10-x64-byol, windows-10-x86-byol, windows-11-x64-byol, windows-2008r2, windows-2008r2-byol, windows-2012, windows-2012-byol, windows-2012r2, windows-2012r2-byol, windows-2016, windows-2016-byol, windows-2019, windows-2019-byol, windows-2022, windows-2022-byol, windows-7-x64-byol, windows-7-x86-byol, windows-8-x64-byol, windows-8-x86-byol.
+    /// </summary>
+    [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
+    public string? Os { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(CmdDeprecated == true))
+        {
+            yield return new ValidationResult("At least one of CmdDeprecated must be specified.", [nameof(CmdDeprecated)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SourceFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceImage) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SourceFile or SourceImage must be specified.", [nameof(SourceFile), nameof(SourceImage)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AwsSourceAmiFilePath) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AwsAmiExportLocation) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AwsAmiId) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AwsSourceAmiFilePath, AwsAmiExportLocation, or AwsAmiId must be specified.", [nameof(AwsSourceAmiFilePath), nameof(AwsAmiExportLocation), nameof(AwsAmiId)]);
+        }
+    }
+
 }

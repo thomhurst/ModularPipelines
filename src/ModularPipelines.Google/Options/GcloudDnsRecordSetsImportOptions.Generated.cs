@@ -16,11 +16,44 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// zone
 /// </summary>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+/// <param name="RecordsFile"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "import")]
 public record GcloudDnsRecordSetsImportOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RecordsFile
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Indicates that all existing record-sets should be deleted before importing the record-sets in the records-file.
+    /// </summary>
+    [CliFlag("--delete-all-existing")]
+    public bool? DeleteAllExisting { get; set; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Indicates that NS records for the origin of a zone should be imported if defined
+    /// </summary>
+    [CliFlag("--replace-origin-ns")]
+    public bool? ReplaceOriginNs { get; set; }
+
+    /// <summary>
+    /// Skip incrementing the serial number of the SOA record when making changes to the record-sets.
+    /// </summary>
+    [CliFlag("--skip-soa-update")]
+    public bool? SkipSoaUpdate { get; set; }
+
+    /// <summary>
+    /// Indicates that the input records-file is in BIND zone format. If omitted, indicates that the records-file is in YAML format.
+    /// </summary>
+    [CliFlag("--zone-file-format")]
+    public bool? ZoneFileFormat { get; set; }
+
 }

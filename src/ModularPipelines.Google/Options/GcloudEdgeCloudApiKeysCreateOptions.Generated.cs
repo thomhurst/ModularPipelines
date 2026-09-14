@@ -10,15 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Google Distributed Cloud API     key
 /// </summary>
+/// <param name="ServiceAccount">The ID of the service account to bind the API key to.</param>
+/// <param name="Zone">The Google Distributed Cloud zone ID where the API key will be created.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "api-keys", "create")]
-public record GcloudEdgeCloudApiKeysCreateOptions : GcloudOptions
+public record GcloudEdgeCloudApiKeysCreateOptions(
+    [property: CliOption("--service-account", Format = OptionFormat.EqualsSeparated)] string ServiceAccount,
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
+    /// <summary>
+    /// API target restriction. Can be specified multiple times. Each instance is a comma-separated list of key=value pairs. ◆ Required keys: 'service'. ◆ Optional keys: 'methods'. 'methods' should be a pipe-separated string. Omit the 'methods' key to allow all methods. Examples: ◆ --api-target service="compute.test-api.com",methods="*" ◆ --api-target service="storage.test-api.com",methods="GET|LIST" ◆ --api-target service="pubsub.test-api.com"
+    /// </summary>
+    [CliOption("--api-target", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ApiTarget { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The validity duration for the key (e.g., 3600s, 1h, 1d). Default and maximum allowed is 366d.
+    /// </summary>
+    [CliOption("--validity", Format = OptionFormat.EqualsSeparated)]
+    public string? Validity { get; set; }
+
 }

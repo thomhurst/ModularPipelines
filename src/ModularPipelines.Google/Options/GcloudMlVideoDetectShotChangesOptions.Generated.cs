@@ -17,6 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// detect shot changes in videos
 /// </summary>
+/// <param name="InputPath"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "video", "detect-shot-changes")]

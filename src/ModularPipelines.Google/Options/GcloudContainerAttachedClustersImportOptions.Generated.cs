@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,61 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import fleet membership for an     Attached cluster
 /// </summary>
+/// <param name="Distribution">Set the base platform type of the cluster to attach. Examples: $ gcloud container attached clusters import --distribution=aks $ gcloud container attached clusters import --distribution=eks $ gcloud container attached clusters import --distribution=generic</param>
+/// <param name="PlatformVersion">Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.</param>
+/// <param name="Context">kubectl config This must be specified. Context to use in the kubeconfig. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="FleetMembership">Fleet membership resource - Membership of the registered cluster. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --fleet-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fleet_membership or fully qualified identifier for the fleet_membership. To set the fleet_membership attribute: ▸ provide the argument --fleet-membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attached", "clusters", "import")]
-public record GcloudContainerAttachedClustersImportOptions : GcloudOptions
+public record GcloudContainerAttachedClustersImportOptions(
+    [property: CliOption("--distribution", Format = OptionFormat.EqualsSeparated)] string Distribution,
+    [property: CliOption("--platform-version", Format = OptionFormat.EqualsSeparated)] string PlatformVersion,
+    [property: CliOption("--context", Format = OptionFormat.EqualsSeparated)] string Context,
+    [property: CliOption("--fleet-membership", Format = OptionFormat.EqualsSeparated)] string FleetMembership
+) : GcloudOptions
 {
+    /// <summary>
+    /// kubectl config This must be specified. Path to the kubeconfig file. If not provided, the default at ~/.kube/config will be used.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// Fleet membership resource - Membership of the registered cluster. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --fleet-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the fleet_membership. To set the location attribute: ▸ provide the argument --fleet-membership on the command line with a fully specified name; ▸ provide the argument --fleet-membership-location on the command line; ▸ set the property container_attached/location.
+    /// </summary>
+    [CliOption("--fleet-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? FleetMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Location resource - Google Cloud location to import attached cluster.. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_attached/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Proxy config ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property container_attached/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - Google Cloud location to import attached cluster.. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_attached/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Proxy config Validate the cluster to import, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Location resource - Google Cloud location to import attached cluster.. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_attached/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Proxy config Name of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretName { get; set; }
+
+    /// <summary>
+    /// Location resource - Google Cloud location to import attached cluster.. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_attached/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Proxy config Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretNamespace { get; set; }
+
 }

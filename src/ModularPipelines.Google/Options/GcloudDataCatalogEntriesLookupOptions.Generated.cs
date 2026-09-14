@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lookup a Data Catalog entry by its     target name
 /// </summary>
+/// <param name="Resource"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "lookup")]

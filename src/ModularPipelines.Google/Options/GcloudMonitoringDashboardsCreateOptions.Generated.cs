@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitoring", "dashboards", "create")]
-public record GcloudMonitoringDashboardsCreateOptions : GcloudOptions
+public record GcloudMonitoringDashboardsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Dashboard configuration, in either JSON or YAML format, as a string.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a JSON or YAML file containing the dashboard configuration. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// When set, validate the dashboard but do not save it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Config) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Config or ConfigFromFile must be specified.", [nameof(Config), nameof(ConfigFromFile)]);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "acls", "create")]
-public record GcloudManagedKafkaAclsCreateOptions : GcloudOptions
+public record GcloudManagedKafkaAclsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a JSON or YAML file containing the acl entries to use in the acl. Use a full or relative path to a local file containing the value of acl_entries.
+    /// </summary>
+    [CliOption("--acl-entries-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AclEntriesFromFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: An acl entry that configures access for a principal, for a specific operation on the acl's resource pattern. This flag can be repeated. PRINCIPAL is the principal. Specified as Google Cloud account, with the Kafka StandardAuthorizer prefix "User:". For example: "User:admin@project.iam.gserviceaccount.com". Can be the wildcard "User:*" to refer to all users. OPERATION is the operation type. Allowed values are: ALL, READ, WRITE, CREATE, DELETE, ALTER, DESCRIBE, CLUSTER_ACTION, DESCRIBE_CONFIGS, ALTER_CONFIGS, IDEMPOTENT_WRITE. PERMISSION-TYPE is the permission type. Allowed values are: ALLOW, DENY. HOST is the host. Must be set to "*" for Managed Service for Apache Kafka. Example acl-entry: "principal=User:admin@project.iam.gserviceaccount.com,operation=ALL,permission-type=ALLOW,host=*"
+    /// </summary>
+    [CliOption("--acl-entry", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AclEntry { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AclEntriesFromFile) ? 1 : 0) + (AclEntry?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AclEntriesFromFile or AclEntry must be specified.", [nameof(AclEntriesFromFile), nameof(AclEntry)]);
+        }
+    }
+
 }

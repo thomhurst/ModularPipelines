@@ -99,7 +99,7 @@ public record GcloudRunJobsUpdateOptions : GcloudOptions
     /// Set the maximum time (deadline) a job task attempt can run for. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--task-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? TaskTimeout { get; set; }
+    public string? TaskTimeout { get; set; }
 
     /// <summary>
     /// Number of tasks that must run to completion for the execution to be considered done.

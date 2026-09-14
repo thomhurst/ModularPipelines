@@ -26,7 +26,7 @@ public record GcloudDataprocWorkflowTemplatesCreateOptions : GcloudOptions
     /// The duration for which a DAG of jobs can run before being auto-cancelled, such as "10m" or "16h". See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--dag-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? DagTimeout { get; set; }
+    public string? DagTimeout { get; set; }
 
     /// <summary>
     /// The KMS key used to encrypt sensitive data in the workflow template.

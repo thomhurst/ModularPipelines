@@ -10,15 +10,193 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Anthos cluster on Azure
 /// </summary>
+/// <param name="AzureRegion">Azure location to deploy the cluster. Refer to your Azure subscription for available locations.</param>
+/// <param name="ClusterVersion">Kubernetes version to use for the cluster.</param>
+/// <param name="FleetProject">ID or number of the Fleet host project where the cluster is registered.</param>
+/// <param name="PodAddressCidrBlocks">IP address range for the pods in this cluster in CIDR notation (e.g. 10.0.0.0/8).</param>
+/// <param name="ResourceGroupId">ID of the Azure Resource Group to associate the cluster with.</param>
+/// <param name="ServiceAddressCidrBlocks">IP address range for the services IPs in CIDR notation (e.g. 10.0.0.0/8).</param>
+/// <param name="SshPublicKey">SSH public key to use for authentication.</param>
+/// <param name="VnetId">ID of the Azure Virtual Network to associate with the cluster.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "azure", "clusters", "create")]
-public record GcloudContainerAzureClustersCreateOptions : GcloudOptions
+public record GcloudContainerAzureClustersCreateOptions(
+    [property: CliOption("--azure-region", Format = OptionFormat.EqualsSeparated)] string AzureRegion,
+    [property: CliOption("--cluster-version", Format = OptionFormat.EqualsSeparated)] string ClusterVersion,
+    [property: CliOption("--fleet-project", Format = OptionFormat.EqualsSeparated)] string FleetProject,
+    [property: CliOption("--pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] string PodAddressCidrBlocks,
+    [property: CliOption("--resource-group-id", Format = OptionFormat.EqualsSeparated)] string ResourceGroupId,
+    [property: CliOption("--service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] string ServiceAddressCidrBlocks,
+    [property: CliOption("--ssh-public-key", Format = OptionFormat.EqualsSeparated)] string SshPublicKey,
+    [property: CliOption("--vnet-id", Format = OptionFormat.EqualsSeparated)] string VnetId
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Authentication configuration Exactly one of these must be specified: Client resource - Azure client to use for cluster creation. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument --client on the command line.
+    /// </summary>
+    [CliOption("--client", Format = OptionFormat.EqualsSeparated)]
+    public string? Client { get; set; }
+
+    /// <summary>
+    /// Authentication configuration Exactly one of these must be specified: Client resource - Azure client to use for cluster creation. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Application to manage Azure resources. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--azure-application-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureApplicationId { get; set; }
+
+    /// <summary>
+    /// Authentication configuration Exactly one of these must be specified: Client resource - Azure client to use for cluster creation. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Tenant to manage Azure resources. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--azure-tenant-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureTenantId { get; set; }
+
+    /// <summary>
+    /// Proxy config Groups of users that can perform operations as a cluster administrator.
+    /// </summary>
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminGroups { get; set; }
+
+    /// <summary>
+    /// Proxy config Users that can perform operations as a cluster administrator. If not specified, the value of property core/account is used.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Proxy config Annotations for the cluster.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Proxy config Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Proxy config URL the of the Azure Key Vault key (with its version) to use to encrypt / decrypt config data.
+    /// </summary>
+    [CliOption("--config-encryption-key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigEncryptionKeyId { get; set; }
+
+    /// <summary>
+    /// Proxy config RSA key of the Azure Key Vault public key to use for encrypting config data.
+    /// </summary>
+    [CliOption("--config-encryption-public-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigEncryptionPublicKey { get; set; }
+
+    /// <summary>
+    /// Proxy config URL the of the Azure Key Vault key (with its version) to use to encrypt / decrypt cluster secrets.
+    /// </summary>
+    [CliOption("--database-encryption-key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseEncryptionKeyId { get; set; }
+
+    /// <summary>
+    /// Proxy config Description for the cluster.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Proxy config Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Negates --enable-managed-prometheus. Proxy config Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--no-enable-managed-prometheus")]
+    public bool? NoEnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Proxy config ARM ID of the subnet where the control plane load balancer is deployed. When unspecified, it defaults to the control plane subnet ID.
+    /// </summary>
+    [CliOption("--endpoint-subnet-id", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointSubnetId { get; set; }
+
+    /// <summary>
+    /// Proxy config Set the components that have logging enabled. Examples: $ gcloud container azure clusters create --logging=SYSTEM $ gcloud container azure clusters create --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
+    /// </summary>
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLogging? Logging { get; set; }
+
+    /// <summary>
+    /// Proxy config Size of the main volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--main-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? MainVolumeSize { get; set; }
+
+    /// <summary>
+    /// Proxy config Placement info for the control plane replicas. Replica placement is of format subnetid:zone, for example subnetid12345:1
+    /// </summary>
+    [CliOption("--replica-placements", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ReplicaPlacements { get; set; }
+
+    /// <summary>
+    /// Proxy config Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeSize { get; set; }
+
+    /// <summary>
+    /// Proxy config ARM ID of the subnet where Kubernetes private service type load balancers are deployed, when the Service lacks a subnet annotation.
+    /// </summary>
+    [CliOption("--service-load-balancer-subnet-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceLoadBalancerSubnetId { get; set; }
+
+    /// <summary>
+    /// Proxy config Subnet ID of an existing VNET to use for the cluster control plane.
+    /// </summary>
+    [CliOption("--subnet-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetId { get; set; }
+
+    /// <summary>
+    /// Proxy config Applies the given tags (comma separated) on the cluster. Example: $ gcloud container azure clusters create EXAMPLE_CLUSTER \ --tags=tag1=one,tag2=two
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Proxy config Validate the creation of the cluster, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Proxy config Azure Virtual Machine Size (e.g. Standard_DS1_v).
+    /// </summary>
+    [CliOption("--vm-size", Format = OptionFormat.EqualsSeparated)]
+    public int? VmSize { get; set; }
+
+    /// <summary>
+    /// Proxy config The ARM ID the of the resource group containing proxy keyvault. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-resource-group-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyResourceGroupId { get; set; }
+
+    /// <summary>
+    /// Proxy config The URL the of the proxy setting secret with its version. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretId { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Client) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AzureApplicationId) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AzureTenantId) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Client, AzureApplicationId, or AzureTenantId must be specified.", [nameof(Client), nameof(AzureApplicationId), nameof(AzureTenantId)]);
+        }
+    }
+
 }

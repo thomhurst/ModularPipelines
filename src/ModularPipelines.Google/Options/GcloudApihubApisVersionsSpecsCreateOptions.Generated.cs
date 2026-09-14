@@ -16,9 +16,108 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Spec
 /// </summary>
+/// <param name="DisplayName">The display name of the spec. This can contain the file name of the spec.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "apis", "versions", "specs", "create")]
-public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions
+public record GcloudApihubApisVersionsSpecsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ◇ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ◇ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --spec-type-enum-values=description=string,displayName=string,id=string,immutable=boolean --spec-type-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --spec-type-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --spec-type-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--spec-type-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SpecTypeEnumValues { get; set; }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--spec-type-json-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SpecTypeJsonValues { get; set; }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--spec-type-string-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SpecTypeStringValues { get; set; }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--spec-type-uri-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SpecTypeUriValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. The list of user defined attributes associated with the spec. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. The uri of the externally hosted documentation.
+    /// </summary>
+    [CliOption("--documentation-external-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? DocumentationExternalUri { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. Enum specifying the parsing mode for OpenAPI Specification (OAS) parsing. PARSING_MODE must be one of: relaxed Parsing of the Spec on create and update is relaxed, meaning that parsing errors the spec contents will not fail the API call. strict Parsing of the Spec on create and update is strict, meaning that parsing errors in the spec contents will fail the API call.
+    /// </summary>
+    [CliOption("--parsing-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ParsingMode { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. The URI of the spec source in case file is uploaded from an external version control system.
+    /// </summary>
+    [CliOption("--source-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceUri { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. The contents of the spec. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--contents", Format = OptionFormat.EqualsSeparated)]
+    public string? Contents { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. The mime type of the content for example application/json, application/yaml, application/wsdl etc. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--contents-mime-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ContentsMimeType { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. Timestamp when the linting response was generated. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-create-time", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseCreateTime { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. Name of the linter used. LINT_RESPONSE_LINTER must be one of: other Linter type other. spectral Linter type spectral. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-linter", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseLinter { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. Name of the linting application. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-source", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseSource { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. Lint state represents success or failure for linting. LINT_RESPONSE_STATE must be one of: lint-state-error Linting encountered errors. lint-state-success Linting was completed successfully. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-state", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseState { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. Array of issues found in the analyzed document. code Rule code unique to each rule defined in linter. message Human-readable message describing the issue found by the linter. path An array of strings indicating the location in the analyzed document where the rule was triggered. range Object describing where in the file the issue was found. end End of the issue. character Character position within the line (zero-indexed). line Line number (zero-indexed). start Start of the issue. character Character position within the line (zero-indexed). line Line number (zero-indexed). severity Severity level of the rule violation. Shorthand Example: --lint-response-issues=code=string,message=string,path=[string],range={end={character=int,line=int},start={character=int,line=int}},severity=string --lint-response-issues=code=string,message=string,path=[string],range={end={character=int,line=int},start={character=int,line=int}},severity=string JSON Example: --lint-response-issues='[{"code": "string", "message": "string", "path": ["string"], "range": {"end": {"character": int, "line": int}, "start": {"character": int, "line": int}}, "severity": "string"}]' File Example: --lint-response-issues=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--lint-response-issues", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? LintResponseIssues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The spec contents. LintResponse contains the response from the linter. Summary of all issue types and counts for each severity level. count Count of issues with the given severity. severity Severity of the issue. Shorthand Example: --lint-response-summary=count=int,severity=string --lint-response-summary=count=int,severity=string JSON Example: --lint-response-summary='[{"count": int, "severity": "string"}]' File Example: --lint-response-summary=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--lint-response-summary", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? LintResponseSummary { get; set; }
+
 }

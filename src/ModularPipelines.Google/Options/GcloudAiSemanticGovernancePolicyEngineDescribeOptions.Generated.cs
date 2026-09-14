@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe the     semantic governance policy engine config
 /// </summary>
+/// <param name="Location">Cloud location of the semantic governance policy engine.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "semantic-governance-policy-engine", "describe")]
-public record GcloudAiSemanticGovernancePolicyEngineDescribeOptions : GcloudOptions
+public record GcloudAiSemanticGovernancePolicyEngineDescribeOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
 }

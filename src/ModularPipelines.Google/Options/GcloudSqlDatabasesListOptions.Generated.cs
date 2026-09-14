@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists databases for a Cloud SQL instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "databases", "list")]
-public record GcloudSqlDatabasesListOptions : GcloudOptions
+public record GcloudSqlDatabasesListOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance
+) : GcloudOptions
 {
 }

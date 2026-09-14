@@ -10,15 +10,92 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new     policy-based route
 /// </summary>
+/// <param name="Network">Fully-qualified URL of the network that this route applies to. E.g. projects/my-project/global/networks/my-network</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "policy-based-routes", "create")]
-public record GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Optional description of this resource. Provide this field when you create the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Destination IP range of outgoing packets that this policy-based route applies to.
+    /// </summary>
+    [CliOption("--destination-range", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRange { get; set; }
+
+    /// <summary>
+    /// IP protocol that this policy-based route applies to. Valid values are TCP, UDP, and ALL. Default is ALL.
+    /// </summary>
+    [CliOption("--ip-protocol", Format = OptionFormat.EqualsSeparated)]
+    public string? IpProtocol { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Priority of this policy-based route. Priority is used to break ties in cases where there are more than one matching policy-based routes found. In cases where multiple policy-based routes are matched, the one with the lowest-numbered priority value wins. The default value is 1000. The priority value must be from 1 to 65535, inclusive. Note the priority of policy-based route is always higher than other types of route (e.g. static routes/advanced routes)
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// Internet protocol versions that this policy-based route applies to. For this version, only IPV4 is supported. PROTOCOL_VERSION must be one of: ipv4, ipv6, protocol-version-unspecified.
+    /// </summary>
+    [CliOption("--protocol-version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudProtocolVersion? ProtocolVersion { get; set; }
+
+    /// <summary>
+    /// Source IP range of outgoing packets that this policy-based route applies to.
+    /// </summary>
+    [CliOption("--source-range", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceRange { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Cloud region to install this policy-based route on interconnect attachment. Use all to install it on all interconnect attachments. Note if both --tags and --interconnect-attachment-region are not set, then the policy-based route will be installed in all network endpoints, including VMs, VPNs, and Interconnect attachements, in the network.
+    /// </summary>
+    [CliOption("--interconnect-attachment-region", Format = OptionFormat.EqualsSeparated)]
+    public string? InterconnectAttachmentRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of VM instance tags that this route applies to. VM instances that have ANY of tags specified here installs this route. Note if both --tags and --interconnect-attachment-region are not set, then the policy-based route will be installed in all endpoints, including VMs, VPNs, and Interconnect attachements, in the network.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: IP of a global access enabled L4 ILB that should be the next hop to handle packets.
+    /// </summary>
+    [CliOption("--next-hop-ilb-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopIlbIp { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Next hop should be other routes that handle packets. This effectively excludes matching packets being applied on other policy-based routes with a lower priority. NEXT_HOP_OTHER_ROUTES must be one of: default-routing, other-routes-unspecified.
+    /// </summary>
+    [CliOption("--next-hop-other-routes", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNextHopOtherRoutes? NextHopOtherRoutes { get; set; }
+
 }

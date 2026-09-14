@@ -10,15 +10,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// get the update history of assets that overlaps a     time window
 /// </summary>
+/// <param name="AssetNames">A list of full names of the assets to get the history for. For more information, see: https://cloud.google.com/apis/design/resource_names#full_resource_name</param>
+/// <param name="ContentType">Asset content type. Specifying resource will export resource metadata, specifying iam-policy will export the IAM policy for each child asset, specifying org-policy will export the Org Policy set on child assets, specifying access-policy will export the Access Policy set on child assets, specifying os-inventory will export the OS inventory of VM instances, and specifying relationship will export relationships of the assets. CONTENT_TYPE must be one of: resource, iam-policy, org-policy, access-policy, os-inventory, relationship.</param>
+/// <param name="StartTime">Start time of the time window (inclusive) for the asset history. Must be after the current time minus 35 days. See $ gcloud topic datetimes for information on time formats.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "get-history")]
-public record GcloudAssetGetHistoryOptions : GcloudOptions
+public record GcloudAssetGetHistoryOptions(
+    [property: CliOption("--asset-names", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> AssetNames,
+    [property: CliOption("--content-type", Format = OptionFormat.EqualsSeparated)] GcloudContentType ContentType,
+    [property: CliOption("--start-time", Format = OptionFormat.EqualsSeparated)] string StartTime
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the organization which is the root asset.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The project which is the root asset. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// End time of the time window (exclusive) for the asset history. Defaults to current time if not specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// A list of relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to take a snapshot. This argument will only be honoured if content_type=RELATIONSHIP. If specified and non-empty, only relationships matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported relationship types.
+    /// </summary>
+    [CliOption("--relationship-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RelationshipTypes { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization or Project must be specified.", [nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

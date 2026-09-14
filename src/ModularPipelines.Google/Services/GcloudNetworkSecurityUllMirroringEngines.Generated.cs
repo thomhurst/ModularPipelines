@@ -44,7 +44,7 @@ public class GcloudNetworkSecurityUllMirroringEngines
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityUllMirroringEnginesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityUllMirroringEnginesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudNetworkSecurityUllMirroringEngines
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityUllMirroringEnginesListNetworksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityUllMirroringEnginesListNetworksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

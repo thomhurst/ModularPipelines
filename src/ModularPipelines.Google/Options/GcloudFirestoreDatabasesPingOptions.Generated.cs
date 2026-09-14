@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// times the connection and ping time for a     Firestore with MongoDB compatibility database
 /// </summary>
+/// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore databases ping --database='foo'</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "databases", "ping")]
-public record GcloudFirestoreDatabasesPingOptions : GcloudOptions
+public record GcloudFirestoreDatabasesPingOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database
+) : GcloudOptions
 {
 }

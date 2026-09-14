@@ -16,11 +16,52 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// troubleshoot IAM allow     and deny policies
 /// </summary>
+/// <param name="Permission">IAM permission to check. The permssion can be in the v1 or v2 format. For example, resourcemanager.projects.get or cloudresourcemanager.googleapis.com/projects.get. For a list of permissions, see https://cloud.google.com/iam/docs/permissions-reference and https://cloud.google.com/iam/docs/deny-permissions-support</param>
+/// <param name="PrincipalEmail">Email address that identifies the principal to check. Only Google Accounts and service accounts are supported.</param>
+/// <param name="Resource"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy-intelligence", "troubleshoot-policy", "iam")]
 public record GcloudPolicyIntelligenceTroubleshootPolicyIamOptions(
+    [property: CliOption("--permission", Format = OptionFormat.EqualsSeparated)] string Permission,
+    [property: CliOption("--principal-email", Format = OptionFormat.EqualsSeparated)] string PrincipalEmail,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The request destination IP address to use when checking conditional bindings. For example, 198.1.1.1.
+    /// </summary>
+    [CliOption("--destination-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationIp { get; set; }
+
+    /// <summary>
+    /// The request destination port to use when checking conditional bindings. For example, 8080.
+    /// </summary>
+    [CliOption("--destination-port", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationPort { get; set; }
+
+    /// <summary>
+    /// The request timestamp to use when checking conditional bindings. This string must adhere to UTC format (RFC 3339). For example,2021-01-01T00:00:00Z. For more information, see: https://tools.ietf.org/html/rfc3339
+    /// </summary>
+    [CliOption("--request-time", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestTime { get; set; }
+
+    /// <summary>
+    /// The resource name value to use when checking conditional bindings. For accepted values, see: https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-name.
+    /// </summary>
+    [CliOption("--resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceName { get; set; }
+
+    /// <summary>
+    /// The resource service value to use when checking conditional bindings. For accepted values, see: https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-service
+    /// </summary>
+    [CliOption("--resource-service", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceService { get; set; }
+
+    /// <summary>
+    /// The resource type value to use when checking conditional bindings. For accepted values, see: https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-type
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceType { get; set; }
+
 }

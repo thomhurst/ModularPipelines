@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add Cloud CDN Signed     URL key to a backend service
 /// </summary>
+/// <param name="KeyFile">The file containing the RFC 4648 Section 5 base64url encoded 128-bit secret key for Cloud CDN Signed URL. It is vital that the key is strongly random. One way to generate such a key is with the following command: head -c 16 /dev/random | base64 | tr +/ -_ &gt; [KEY_FILE_NAME]</param>
+/// <param name="KeyName">Name of the Cloud CDN Signed URL key.</param>
+/// <param name="BackendServiceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "add-signed-url-key")]
 public record GcloudComputeBackendServicesAddSignedUrlKeyOptions(
+    [property: CliOption("--key-file", Format = OptionFormat.EqualsSeparated)] string KeyFile,
+    [property: CliOption("--key-name", Format = OptionFormat.EqualsSeparated)] string KeyName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
 ) : GcloudOptions
 {

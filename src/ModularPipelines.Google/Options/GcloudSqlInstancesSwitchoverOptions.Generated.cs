@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// switches over a Cloud SQL instance to one     of its replicas
 /// </summary>
+/// <param name="Replica"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "switchover")]

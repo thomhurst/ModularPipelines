@@ -16,11 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// zone
 /// </summary>
+/// <param name="Type">DNS record type of the record-set (e.g. A, AAAA, MX etc.).</param>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+/// <param name="DnsName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "delete")]
 public record GcloudDnsRecordSetsDeleteOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type,
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DnsName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

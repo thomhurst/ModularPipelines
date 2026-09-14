@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a BigLake Delta     Sharing catalog
 /// </summary>
+/// <param name="Location">The location of the catalog.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "delta-sharing", "catalogs", "create")]
-public record GcloudBiglakeDeltaSharingCatalogsCreateOptions : GcloudOptions
+public record GcloudBiglakeDeltaSharingCatalogsCreateOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
+    /// <summary>
+    /// Cloud KMS key name for encryption of resources in the catalog.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// The interval for refreshing metadata from the remote catalog (e.g. 300s or 5m).
+    /// </summary>
+    [CliOption("--refresh-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? RefreshInterval { get; set; }
+
+    /// <summary>
+    /// The service directory resource name for private networking.
+    /// </summary>
+    [CliOption("--service-directory-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDirectoryName { get; set; }
+
 }

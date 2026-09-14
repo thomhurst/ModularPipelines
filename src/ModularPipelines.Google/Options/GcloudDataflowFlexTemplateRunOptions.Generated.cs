@@ -10,17 +10,177 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// runs a job from the specified path
 /// </summary>
+/// <param name="TemplateFileGcsLocation">Google Cloud Storage location of the flex template to run. (Must be a URL beginning with 'gs://'.)</param>
+/// <param name="JobName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "flex-template", "run")]
 public record GcloudDataflowFlexTemplateRunOptions(
+    [property: CliOption("--template-file-gcs-location", Format = OptionFormat.EqualsSeparated)] string TemplateFileGcsLocation,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string JobName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Additional experiments to pass to the job. Example: --additional-experiments=experiment1,experiment2=value2
+    /// </summary>
+    [CliOption("--additional-experiments", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalExperiments { get; set; }
+
+    /// <summary>
+    /// Additional pipeline options to pass to the job. Example: --additional-pipeline-options=option1=value1,option2=value2
+    /// </summary>
+    [CliOption("--additional-pipeline-options", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalPipelineOptions { get; set; }
+
+    /// <summary>
+    /// Additional user labels to pass to the job. Example: --additional-user-labels='key1=value1,key2=value2'
+    /// </summary>
+    [CliOption("--additional-user-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalUserLabels { get; set; }
+
+    /// <summary>
+    /// Cloud KMS key to protect the job resources.
+    /// </summary>
+    [CliOption("--dataflow-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? DataflowKmsKey { get; set; }
+
+    /// <summary>
+    /// Cloud Dataflow workers must not use public IP addresses. Overrides the default dataflow/disable_public_ips property value for this command invocation.
+    /// </summary>
+    [CliFlag("--disable-public-ips")]
+    public bool? DisablePublicIps { get; set; }
+
+    /// <summary>
+    /// Enabling Streaming Engine for the streaming job. Overrides the default dataflow/enable_streaming_engine property value for this command invocation.
+    /// </summary>
+    [CliFlag("--enable-streaming-engine")]
+    public bool? EnableStreamingEngine { get; set; }
+
+    /// <summary>
+    /// Enable Turnkey Alerts for this job. Disabled by default. Use --enable-turnkey-alerts to enable and --no-enable-turnkey-alerts to disable.
+    /// </summary>
+    [CliFlag("--enable-turnkey-alerts")]
+    public bool? EnableTurnkeyAlerts { get; set; }
+
+    /// <summary>
+    /// Negates --enable-turnkey-alerts. Enable Turnkey Alerts for this job. Disabled by default. Use --enable-turnkey-alerts to enable and --no-enable-turnkey-alerts to disable.
+    /// </summary>
+    [CliFlag("--no-enable-turnkey-alerts")]
+    public bool? NoEnableTurnkeyAlerts { get; set; }
+
+    /// <summary>
+    /// FlexRS goal for the flex template job. FLEXRS_GOAL must be one of: COST_OPTIMIZED, SPEED_OPTIMIZED.
+    /// </summary>
+    [CliOption("--flexrs-goal", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFlexrsGoal? FlexrsGoal { get; set; }
+
+    /// <summary>
+    /// The machine type to use for launching the job. If not set, Dataflow will select a default machine type.
+    /// </summary>
+    [CliOption("--launcher-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? LauncherMachineType { get; set; }
+
+    /// <summary>
+    /// The timeout in seconds for the launcher VM. If not set, Dataflow uses a default timeout.
+    /// </summary>
+    [CliOption("--launcher-vm-timeout-secs", Format = OptionFormat.EqualsSeparated)]
+    public int? LauncherVmTimeoutSecs { get; set; }
+
+    /// <summary>
+    /// Maximum number of workers to run.
+    /// </summary>
+    [CliOption("--max-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWorkers { get; set; }
+
+    /// <summary>
+    /// Compute Engine network for launching instances to run your pipeline.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Initial number of workers to use.
+    /// </summary>
+    [CliOption("--num-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? NumWorkers { get; set; }
+
+    /// <summary>
+    /// Parameters to pass to the job. For information about specifying an alternative delimiter, see gcloud topic escaping.
+    /// </summary>
+    [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Parameters { get; set; }
+
+    /// <summary>
+    /// Region ID of the job's regional endpoint. Defaults to 'us-central1'.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Service account to run the workers as.
+    /// </summary>
+    [CliOption("--service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// Default Google Cloud Storage location to stage local files.(Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--staging-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StagingLocation { get; set; }
+
+    /// <summary>
+    /// Compute Engine subnetwork for launching instances to run your pipeline.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Default Google Cloud Storage location to stage temporary files. If not set, defaults to the value for --staging-location.(Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--temp-location", Format = OptionFormat.EqualsSeparated)]
+    public string? TempLocation { get; set; }
+
+    /// <summary>
+    /// Type of machine to use for workers. Defaults to server-specified.
+    /// </summary>
+    [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMachineType { get; set; }
+
+    /// <summary>
+    /// Set this to true for streaming update jobs. Use --update to enable and --no-update to disable.
+    /// </summary>
+    [CliFlag("--update")]
+    public bool? Update { get; set; }
+
+    /// <summary>
+    /// Negates --update. Set this to true for streaming update jobs. Use --update to enable and --no-update to disable.
+    /// </summary>
+    [CliFlag("--no-update")]
+    public bool? NoUpdate { get; set; }
+
+    /// <summary>
+    /// Transform name mappings for the streaming update job.
+    /// </summary>
+    [CliOption("--transform-name-mappings", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TransformNameMappings { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region to run the workers in.
+    /// </summary>
+    [CliOption("--worker-region", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone to run the workers in.
+    /// </summary>
+    [CliOption("--worker-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerZone { get; set; }
+
 }

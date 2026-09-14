@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("certificate-manager", "maps", "entries", "create")]
-public record GcloudCertificateManagerMapsEntriesCreateOptions : GcloudOptions
+public record GcloudCertificateManagerMapsEntriesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Arguments to configure matcher for the certificate map entry. Exactly one of these must be specified: A domain name (FQDN), which controls when list of certificates specified in the resource will be taken under consideration for certificate selection.
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? Hostname { get; set; }
+
+    /// <summary>
+    /// Arguments to configure matcher for the certificate map entry. Exactly one of these must be specified: The certificate will be used as the default cert if no other certificate in the map matches on SNI.
+    /// </summary>
+    [CliFlag("--set-primary")]
+    public bool? SetPrimary { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Hostname) ? 1 : 0) + (SetPrimary == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Hostname or SetPrimary must be specified.", [nameof(Hostname), nameof(SetPrimary)]);
+        }
+    }
+
 }

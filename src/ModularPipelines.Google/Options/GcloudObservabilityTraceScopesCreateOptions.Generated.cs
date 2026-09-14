@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create traceScopes
 /// </summary>
+/// <param name="ResourceNames">Names of the projects that are included in this trace scope. ◆ projects/[PROJECT_ID] A trace scope can include a maximum of 20 projects.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("observability", "trace-scopes", "create")]
-public record GcloudObservabilityTraceScopesCreateOptions : GcloudOptions
+public record GcloudObservabilityTraceScopesCreateOptions(
+    [property: CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> ResourceNames
+) : GcloudOptions
 {
+    /// <summary>
+    /// Describes this trace scope. The maximum length of the description is 8000 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

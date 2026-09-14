@@ -21,4 +21,28 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "lakes", "authorize")]
 public record GcloudDataplexLakesAuthorizeOptions : GcloudOptions
 {
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: The identifier of the project whose resources the service agent will manage.
+    /// </summary>
+    [CliOption("--project-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? ProjectResource { get; set; }
+
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: The identifier of the Cloud Storage bucket that the service agent will manage.
+    /// </summary>
+    [CliOption("--storage-bucket-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageBucketResource { get; set; }
+
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: Or at least one of these can be specified: Fields to identify the BigQuery dataset. The identifier of the BigQuery dataset that the service agent will manage. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bigquery-dataset-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryDataSetResource { get; set; }
+
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: Or at least one of these can be specified: Fields to identify the BigQuery dataset. The identifier of the project where the BigQuery dataset is located. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--secondary-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryProject { get; set; }
+
 }

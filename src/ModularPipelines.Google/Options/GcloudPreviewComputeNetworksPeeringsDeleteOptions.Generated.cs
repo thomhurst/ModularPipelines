@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Compute Engine     network peering
 /// </summary>
+/// <param name="Network">The name of the network in the current project containing the peering.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "peerings", "delete")]
 public record GcloudPreviewComputeNetworksPeeringsDeleteOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

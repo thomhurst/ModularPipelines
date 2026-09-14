@@ -10,15 +10,159 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Anthos on     bare metal admin cluster
 /// </summary>
+/// <param name="Version">Anthos cluster on bare metal version for the admin cluster resource.</param>
+/// <param name="IslandModePodAddressCidrBlocks">Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="IslandModeServiceAddressCidrBlocks">Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="LvpNodeMountsConfigPath">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Path for the LVP node mounts class. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="LvpNodeMountsConfigStorageClass">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Storage class for LVP node mounts. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "admin-clusters", "create")]
-public record GcloudContainerBareMetalAdminClustersCreateOptions : GcloudOptions
+public record GcloudContainerBareMetalAdminClustersCreateOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version,
+    [property: CliOption("--island-mode-pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> IslandModePodAddressCidrBlocks,
+    [property: CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> IslandModeServiceAddressCidrBlocks,
+    [property: CliOption("--lvp-node-mounts-config-path", Format = OptionFormat.EqualsSeparated)] string LvpNodeMountsConfigPath,
+    [property: CliOption("--lvp-node-mounts-config-storage-class", Format = OptionFormat.EqualsSeparated)] string LvpNodeMountsConfigStorageClass
+) : GcloudOptions
 {
+    /// <summary>
+    /// Anthos on bare metal admin cluster load balancer configuration. This must be specified. Control plane load balancer port configuration. This must be specified. Control plane load balancer port configuration.
+    /// </summary>
+    [CliOption("--control-plane-load-balancer-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneLoadBalancerPort { get; set; }
+
+    /// <summary>
+    /// VIPs used by the load balancer. This must be specified. VIP for the Kubernetes API of this cluster.
+    /// </summary>
+    [CliOption("--control-plane-vip", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneVip { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. ManualLB typed load balancers configuration.
+    /// </summary>
+    [CliFlag("--enable-manual-lb")]
+    public bool? EnableManualLb { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: API Server argument configuration.
+    /// </summary>
+    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ApiServerArgs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Anthos on bare metal cluster control plane node pool configuration. This must be specified. Anthos on bare metal node pool configuration for control plane nodes. This must be specified. Anthos on bare metal node configuration for control plane nodes. This must be specified. Populate control plane node config. Exactly one of these must be specified: Control plane node configuration.
+    /// </summary>
+    [CliOption("--control-plane-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodeConfigs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Labels assigned to nodes of a node pool.
+    /// </summary>
+    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Node taint applied to every Kubernetes node in a node pool.
+    /// </summary>
+    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: Number of subdirectories to create under path.
+    /// </summary>
+    [CliOption("--shared-path-pv-count", Format = OptionFormat.EqualsSeparated)]
+    public string? SharedPathPvCount { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Path for the LVP share class. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-path", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpSharePath { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Storage class for LVP share. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpShareStorageClass { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Users that will be granted the view role on the admin cluster, providing view only access to the cluster.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Annotations on the Anthos on bare metal resource.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Description for the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+    /// </summary>
+    [CliFlag("--enable-application-logs")]
+    public bool? EnableApplicationLogs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. User name used to access node machines.
+    /// </summary>
+    [CliOption("--login-user", Format = OptionFormat.EqualsSeparated)]
+    public string? LoginUser { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. IPv4 addresses to be placed into maintenance mode.
+    /// </summary>
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Maximum number of pods a node can run.
+    /// </summary>
+    [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPodsPerNode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. Address of the proxy server. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
+    public string? Uri { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy.
+    /// </summary>
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NoProxy { get; set; }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new Bigtable schema bundle
 /// </summary>
+/// <param name="ProtoDescriptorsFile">Path of a file that contains a protobuf-serialized google.protobuf.FileDescriptorSet message. If specified, the schema bundle contains the protobuf schema. To generate the file, install and run protoc with the following command: protoc --proto_path=IMPORT_PATH --include_imports --descriptor_set_out=DESCRIPTOR_OUTPUT_LOCATION path/to/file.proto where the --proto_path option specificies where to look for .proto files when resolving import directives (the current directory is used if you do not provide a value), and the --descriptor_set_out option specifies where you want the generated FileDescriptorSet to be written.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "schema-bundles", "create")]
-public record GcloudBigtableSchemaBundlesCreateOptions : GcloudOptions
+public record GcloudBigtableSchemaBundlesCreateOptions(
+    [property: CliOption("--proto-descriptors-file", Format = OptionFormat.EqualsSeparated)] string ProtoDescriptorsFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

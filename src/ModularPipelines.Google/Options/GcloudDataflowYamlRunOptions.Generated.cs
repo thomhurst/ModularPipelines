@@ -10,17 +10,166 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// runs a job from the specified path
 /// </summary>
+/// <param name="JobName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "yaml", "run")]
 public record GcloudDataflowYamlRunOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string JobName
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Inline definition of the YAML pipeline to run.
+    /// </summary>
+    [CliOption("--yaml-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? YamlPipeline { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path of a file defining the YAML pipeline to run. (Must be a local file or a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--yaml-pipeline-file", Format = OptionFormat.EqualsSeparated)]
+    public string? YamlPipelineFile { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Additional experiments to pass to the job. Example: --additional-experiments=experiment1,experiment2=value2
+    /// </summary>
+    [CliOption("--additional-experiments", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalExperiments { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Additional pipeline options to pass to the job. Example: --additional-pipeline-options=option1=value1,option2=value2 For a list of available options, see the Dataflow reference: https://cloud.google.com/dataflow/docs/reference/pipeline-options
+    /// </summary>
+    [CliOption("--additional-pipeline-options", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalPipelineOptions { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Additional user labels to pass to the job. Example: --additional-user-labels='key1=value1,key2=value2'
+    /// </summary>
+    [CliOption("--additional-user-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalUserLabels { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Cloud KMS key to protect the job resources.
+    /// </summary>
+    [CliOption("--dataflow-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? DataflowKmsKey { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. If specified, Cloud Dataflow workers will not use public IP addresses. Overrides the default dataflow/disable_public_ips property value for this command invocation.
+    /// </summary>
+    [CliFlag("--disable-public-ips")]
+    public bool? DisablePublicIps { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Enable Streaming Engine for the streaming job. Overrides the default dataflow/enable_streaming_engine property value for this command invocation.
+    /// </summary>
+    [CliFlag("--enable-streaming-engine")]
+    public bool? EnableStreamingEngine { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Jinja2 variables to be used in reifying the yaml.
+    /// </summary>
+    [CliOption("--jinja-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? JinjaVariables { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. The machine type to use for launching the job. If not set, Dataflow will select a default machine type.
+    /// </summary>
+    [CliOption("--launcher-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? LauncherMachineType { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Maximum number of workers to run.
+    /// </summary>
+    [CliOption("--max-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWorkers { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Compute Engine network for launching worker instances to run the pipeline. If not set, the default network is used.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Initial number of workers to use.
+    /// </summary>
+    [CliOption("--num-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? NumWorkers { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Region ID of the job's regional endpoint. Defaults to 'us-central1'.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Service account to run the workers as.
+    /// </summary>
+    [CliOption("--service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Google Cloud Storage location to stage local files. If not set, defaults to the value for --temp-location.(Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--staging-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StagingLocation { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Compute Engine subnetwork for launching worker instances to run the pipeline. If not set, the default subnetwork is used.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Google Cloud Storage location to stage temporary files. If not set, defaults to the value for --staging-location.(Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--temp-location", Format = OptionFormat.EqualsSeparated)]
+    public string? TempLocation { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Google Cloud Storage location of the YAML template to run. (Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--template-file-gcs-location", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateFileGcsLocation { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Type of machine to use for workers. Defaults to server-specified.
+    /// </summary>
+    [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMachineType { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Specify this flag to update a streaming job. Use --update to enable and --no-update to disable.
+    /// </summary>
+    [CliFlag("--update")]
+    public bool? Update { get; set; }
+
+    /// <summary>
+    /// Negates --update. --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Specify this flag to update a streaming job. Use --update to enable and --no-update to disable.
+    /// </summary>
+    [CliFlag("--no-update")]
+    public bool? NoUpdate { get; set; }
+
+    /// <summary>
+    /// --pipeline-options=[OPTIONS=VALUE;OPTION=VALUE,...] (DEPRECATED) Pipeline options to pass to the job. The --pipeline-options flag is deprecated. Pipeline options should be passed using --additional-pipeline-options flag. Transform name mappings for the streaming update job.
+    /// </summary>
+    [CliOption("--transform-name-mappings", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TransformNameMappings { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(YamlPipeline) ? 1 : 0) + (!string.IsNullOrWhiteSpace(YamlPipelineFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of YamlPipeline or YamlPipelineFile must be specified.", [nameof(YamlPipeline), nameof(YamlPipelineFile)]);
+        }
+    }
+
 }

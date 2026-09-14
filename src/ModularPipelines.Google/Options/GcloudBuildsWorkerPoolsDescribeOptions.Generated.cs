@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a worker pool used by Cloud     Build
 /// </summary>
+/// <param name="WorkerPool"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "worker-pools", "describe")]

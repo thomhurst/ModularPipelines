@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Bigtable materialized     view
 /// </summary>
+/// <param name="DeletionProtection">Whether the view is protected from deletion.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "materialized-views", "update")]
-public record GcloudBigtableMaterializedViewsUpdateOptions : GcloudOptions
+public record GcloudBigtableMaterializedViewsUpdateOptions(
+    [property: CliOption("--deletion-protection", Format = OptionFormat.EqualsSeparated)] string DeletionProtection
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

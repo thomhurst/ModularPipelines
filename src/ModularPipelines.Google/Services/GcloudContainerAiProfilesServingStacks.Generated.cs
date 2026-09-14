@@ -44,7 +44,7 @@ public class GcloudContainerAiProfilesServingStacks
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAiProfilesServingStacksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAiProfilesServingStacksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudContainerAiProfilesServingStacks
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAiProfilesServingStacksListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerAiProfilesServingStacksListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -17,6 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new inventory     report config
 /// </summary>
+/// <param name="SourceBucketUrl"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "inventory-reports", "create")]

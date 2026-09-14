@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// points     download-recreate-install-script - download an installation script for     recreating a Monitoring Point
 /// </summary>
+/// <param name="Location">The location of the Network Monitoring Provider (example: global).</param>
+/// <param name="MonitoringPoint">The ID of the Monitoring Point.</param>
+/// <param name="NetworkMonitoringProvider">The ID of the Network Monitoring Provider.</param>
+/// <param name="OutputFile">The path to save the downloaded install script.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "download-recreate-install-script")]
-public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions : GcloudOptions
+public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--monitoring-point", Format = OptionFormat.EqualsSeparated)] string MonitoringPoint,
+    [property: CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)] string NetworkMonitoringProvider,
+    [property: CliOption("--output-file", Format = OptionFormat.EqualsSeparated)] string OutputFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// The hostname of the Monitoring Point, e.g. "test-vm".
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? Hostname { get; set; }
+
 }

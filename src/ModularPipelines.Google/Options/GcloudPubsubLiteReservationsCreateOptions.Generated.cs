@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Pub/Sub Lite reservation
 /// </summary>
+/// <param name="Location">Location resource - Identifies the Cloud location this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+/// <param name="ThroughputCapacity">Reservation throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages.</param>
+/// <param name="Reservation"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-reservations", "create")]
 public record GcloudPubsubLiteReservationsCreateOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--throughput-capacity", Format = OptionFormat.EqualsSeparated)] string ThroughputCapacity,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {

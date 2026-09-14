@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list existing Bigtable logical views
 /// </summary>
+/// <param name="Instance">Instance resource - The instance to list logical views for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument --instance on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "logical-views", "list")]
-public record GcloudBigtableLogicalViewsListOptions : GcloudOptions
+public record GcloudBigtableLogicalViewsListOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance
+) : GcloudOptions
 {
 }

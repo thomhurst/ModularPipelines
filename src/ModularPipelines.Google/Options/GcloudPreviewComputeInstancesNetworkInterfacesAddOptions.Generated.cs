@@ -17,6 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add a Dynamic     Network Interface to a Compute Engine instance
 /// </summary>
+/// <param name="InstanceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "network-interfaces", "add")]

@@ -16,11 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// adds a new term to an     existing route policy of a Comute Engine router
 /// </summary>
+/// <param name="Match">--actions=[ACTION;...] Semicolon separated CEL expressions for the actions to take when the rule matches. CEL expression for matching a route.</param>
+/// <param name="PolicyName">--actions=[ACTION;...] Semicolon separated CEL expressions for the actions to take when the rule matches. Name of the route policy to which to add the term.</param>
+/// <param name="Priority">--actions=[ACTION;...] Semicolon separated CEL expressions for the actions to take when the rule matches. Order of the term within the policy.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "add-route-policy-term")]
 public record GcloudComputeRoutersAddRoutePolicyTermOptions(
+    [property: CliOption("--match", Format = OptionFormat.EqualsSeparated)] string Match,
+    [property: CliOption("--policy-name", Format = OptionFormat.EqualsSeparated)] string PolicyName,
+    [property: CliOption("--priority", Format = OptionFormat.EqualsSeparated)] string Priority,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Region of the router to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

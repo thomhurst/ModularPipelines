@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list budgets
 /// </summary>
+/// <param name="BillingAccount">Billing account resource - List billing budgets associated with parent account. This represents a Cloud resource. This must be specified. ID of the billing-account or fully qualified identifier for the billing-account. To set the billing-account attribute: ▸ provide the argument --billing-account on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "budgets", "list")]
-public record GcloudBillingBudgetsListOptions : GcloudOptions
+public record GcloudBillingBudgetsListOptions(
+    [property: CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)] string BillingAccount
+) : GcloudOptions
 {
 }

@@ -21,4 +21,28 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "fields", "ttls", "update")]
 public record GcloudFirestoreFieldsTtlsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Set to make this field no longer the TTL for its collection group.
+    /// </summary>
+    [CliFlag("--disable-ttl")]
+    public bool? DisableTtl { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Set to enable this field as the TTL for its collection group. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--enable-ttl")]
+    public bool? EnableTtl { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: The offset, relative to the timestamp value from the TTL-enabled field, used to determine the document's expiration time. If unset, defaults to 0.
+    /// </summary>
+    [CliOption("--expiration-offset", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationOffset { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -10,15 +10,59 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new access level
 /// </summary>
+/// <param name="Title">Short human-readable title of the access level.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "levels", "create")]
-public record GcloudAccessContextManagerLevelsCreateOptions : GcloudOptions
+public record GcloudAccessContextManagerLevelsCreateOptions(
+    [property: CliOption("--title", Format = OptionFormat.EqualsSeparated)] string Title
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Level specification. Exactly one of these must be specified: Custom level specification. Basic level specification. Path to a file representing an expression that represents an access level. The expression is in the Common Expression Language (CEL) format. For example: expression: "origin.region_code in ['US', 'CA']"
+    /// </summary>
+    [CliOption("--custom-level-spec", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomLevelSpec { get; set; }
+
+    /// <summary>
+    /// Level specification. Exactly one of these must be specified: Custom level specification. Basic level specification. Path to a file containing a list of basic access level conditions. An access level condition file is a YAML-formatted list of conditions, which are YAML objects representing a Condition as described in the API reference. For example: - ipSubnetworks: - 162.222.181.197/24 - 2001:db8::/48 - members: - user:user@example.com This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--basic-level-spec", Format = OptionFormat.EqualsSeparated)]
+    public string? BasicLevelSpec { get; set; }
+
+    /// <summary>
+    /// Level specification. Exactly one of these must be specified: Custom level specification. Basic level specification. For a basic level, determines how conditions are combined. COMBINE_FUNCTION must be one of: and, or.
+    /// </summary>
+    [CliOption("--combine-function", Format = OptionFormat.EqualsSeparated)]
+    public GcloudCombineFunction? CombineFunction { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Long-form description of access level.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CustomLevelSpec) ? 1 : 0) + (!string.IsNullOrWhiteSpace(BasicLevelSpec) ? 1 : 0) + (CombineFunction is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CustomLevelSpec, BasicLevelSpec, or CombineFunction must be specified.", [nameof(CustomLevelSpec), nameof(BasicLevelSpec), nameof(CombineFunction)]);
+        }
+    }
+
 }

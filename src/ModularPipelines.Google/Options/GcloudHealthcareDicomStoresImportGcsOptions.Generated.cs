@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import DICOM objects into a     Cloud Healthcare API DICOM store
 /// </summary>
+/// <param name="GcsUri">Google Cloud Storage URI containing DICOM object data. It must match individual DICOM files or use wildcards to import multiple files from one or more directories. ◆ Use * to match 0 or more non-separator characters. For example, gs://BUCKET/DIRECTORY/Example*.dcm matches Example.dcm and Example22.dcm in DIRECTORY. ◆ Use ** to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a filename extension (such as .dcm), which imports all files with the filename extension in the specified directory and its subdirectories. For example, gs://BUCKET/DIRECTORY/**.dcm imports all files with the .dcm filename extension in DIRECTORY and its subdirectories. ◆ Use ? to match 1 character. For example, gs://BUCKET/DIRECTORY/Example?.dcm matches Example1.dcm but does not match Example.dcm or Example01.dcm.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "dicom-stores", "import", "gcs")]
-public record GcloudHealthcareDicomStoresImportGcsOptions : GcloudOptions
+public record GcloudHealthcareDicomStoresImportGcsOptions(
+    [property: CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)] string GcsUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

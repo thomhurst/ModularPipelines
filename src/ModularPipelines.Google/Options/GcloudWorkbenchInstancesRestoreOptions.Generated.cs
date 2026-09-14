@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restores the workbench instance to a     snapshot state
 /// </summary>
+/// <param name="Snapshot">Snapshot source to be restored from This must be specified. The snapshot name to be restored from. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="SnapshotProject">Snapshot source to be restored from This must be specified. The project id of the snapshot to be restored from. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "restore")]
-public record GcloudWorkbenchInstancesRestoreOptions : GcloudOptions
+public record GcloudWorkbenchInstancesRestoreOptions(
+    [property: CliOption("--snapshot", Format = OptionFormat.EqualsSeparated)] string Snapshot,
+    [property: CliOption("--snapshot-project", Format = OptionFormat.EqualsSeparated)] string SnapshotProject
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

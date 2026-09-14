@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// disable VPC     Service Controls for the peering connection
 /// </summary>
+/// <param name="Network">The network in the current project that is peered with the service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "vpc-peerings", "disable-vpc-service-controls")]
-public record GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions : GcloudOptions
+public record GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The service to enable VPC service controls for.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

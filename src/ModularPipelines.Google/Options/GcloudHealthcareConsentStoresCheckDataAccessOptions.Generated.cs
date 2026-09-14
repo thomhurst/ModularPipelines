@@ -10,15 +10,25 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// check the consent for     a particular data ID
 /// </summary>
+/// <param name="DataId">The unique identifier of the data to check access for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "consent-stores", "check-data-access")]
-public record GcloudHealthcareConsentStoresCheckDataAccessOptions : GcloudOptions
+public record GcloudHealthcareConsentStoresCheckDataAccessOptions(
+    [property: CliOption("--data-id", Format = OptionFormat.EqualsSeparated)] string DataId
+) : GcloudOptions
 {
+    /// <summary>
+    /// Comma-separated list of request attributes associated with this access request. Each attribute has the form "KEY=VALUE".
+    /// </summary>
+    [CliOption("--request-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
+
 }

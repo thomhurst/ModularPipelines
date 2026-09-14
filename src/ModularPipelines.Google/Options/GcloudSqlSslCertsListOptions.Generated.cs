@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists all SSL certs for a Cloud SQL instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl-certs", "list")]
-public record GcloudSqlSslCertsListOptions : GcloudOptions
+public record GcloudSqlSslCertsListOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance
+) : GcloudOptions
 {
 }

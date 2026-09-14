@@ -10,15 +10,27 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Managed Service for Apache     Kafka topic
 /// </summary>
+/// <param name="Partitions">The number of partitions in a topic. You can increase the partition count for a topic, but you cannot decrease it. Increasing partitions for a topic that uses a key might change how messages are distributed.</param>
+/// <param name="ReplicationFactor">The number of replicas of each partition. A replication factor of 3 is recommended for high availability.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "topics", "create")]
-public record GcloudManagedKafkaTopicsCreateOptions : GcloudOptions
+public record GcloudManagedKafkaTopicsCreateOptions(
+    [property: CliOption("--partitions", Format = OptionFormat.EqualsSeparated)] string Partitions,
+    [property: CliOption("--replication-factor", Format = OptionFormat.EqualsSeparated)] string ReplicationFactor
+) : GcloudOptions
 {
+    /// <summary>
+    /// Configuration for the topic that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: cleanup.policy=compact,compression.type=producer. If you provide a map with a key that already exists, only that configuration is updated. If the map contains a key that does not exist, the entry is appended to the topic configuration.
+    /// </summary>
+    [CliOption("--configs", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Configs { get; set; }
+
 }

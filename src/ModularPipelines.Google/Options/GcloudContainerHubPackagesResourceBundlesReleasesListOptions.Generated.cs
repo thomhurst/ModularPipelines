@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list     Releases of a Resource Bundle
 /// </summary>
+/// <param name="ResourceBundle">Resource Bundle name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "resource-bundles", "releases", "list")]
-public record GcloudContainerHubPackagesResourceBundlesReleasesListOptions : GcloudOptions
+public record GcloudContainerHubPackagesResourceBundlesReleasesListOptions(
+    [property: CliOption("--resource-bundle", Format = OptionFormat.EqualsSeparated)] string ResourceBundle
+) : GcloudOptions
 {
     /// <summary>
     /// Google Cloud zone or region.

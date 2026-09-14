@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-login", "ssh-keys", "remove")]
-public record GcloudComputeOsLoginSshKeysRemoveOptions : GcloudOptions
+public record GcloudComputeOsLoginSshKeysRemoveOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The SSH public key to remove from the OS Login Profile. Key value can either be the SSH key or the OS Login fingerprint of the key.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The path to a file containing an SSH public key to remove from the OS Login Profile. Key value can either be the SSH key or the OS Login fingerprint of the key.
+    /// </summary>
+    [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyFile { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Key) ? 1 : 0) + (!string.IsNullOrWhiteSpace(KeyFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Key or KeyFile must be specified.", [nameof(Key), nameof(KeyFile)]);
+        }
+    }
+
 }

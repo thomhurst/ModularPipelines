@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,104 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "query")]
-public record GcloudAssetQueryOptions : GcloudOptions
+public record GcloudAssetQueryOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the folder which is the root asset.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the organization which is the root asset.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The project which is the root asset. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The query or job reference of the query request. Exactly one of these must be specified: Reference to the query job, which is from the previous call.
+    /// </summary>
+    [CliOption("--job-reference", Format = OptionFormat.EqualsSeparated)]
+    public string? JobReference { get; set; }
+
+    /// <summary>
+    /// The query or job reference of the query request. Exactly one of these must be specified: A BigQuery Standard SQL compatible statement. If the query execution finishes within timeout and there is no pagination, the full query results will be returned. Otherwise, pass job_reference from previous call as --job-reference to obtain the full results.
+    /// </summary>
+    [CliOption("--statement", Format = OptionFormat.EqualsSeparated)]
+    public string? Statement { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. The maximum number of rows to return in the results. One page is also limited to 10 MB.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. A page token received from previous call.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
+    public string? PageToken { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. Maximum amount of time that the client will wait for the query to complete.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. Specifies what time period or point in time to query asset metadata at. At most one of these can be specified: Timestamp to take a snapshot on assets. This can only be a current or past time. If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query at different times may return different results. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--snapshot-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotTime { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. Specifies what time period or point in time to query asset metadata at. At most one of these can be specified: Or at least one of these can be specified: Specifies what time period or point in time to query asset metadata at. Start time of the time window (inclusive) for the asset history. Must be after the current time minus 35 days. See $ gcloud topic datetimes for information on time formats. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. Specifies what time period or point in time to query asset metadata at. At most one of these can be specified: Or at least one of these can be specified: Specifies what time period or point in time to query asset metadata at. End time of the time window (exclusive) for the asset history. Defaults to current time if not specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. Specifies the action that occurs if the destination table or partition already exists. WRITE_DISPOSITION must be one of: write-append If the table or partition already exists, BigQuery appends the data to the table or the latest partition. write-empty If the table already exists and contains data, an error is returned. write-truncate If the table or partition already exists, BigQuery overwrites the entire table or all the partition's data.
+    /// </summary>
+    [CliOption("--write-disposition", Format = OptionFormat.EqualsSeparated)]
+    public string? WriteDisposition { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. Table resource - The bigquery-table for the export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --bigquery-table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the table or fully qualified identifier for the table. To set the table attribute: ◆ provide the argument --bigquery-table on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bigquery-table", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryTable { get; set; }
+
+    /// <summary>
+    /// The BigQuery destination for query system. Table resource - The bigquery-table for the export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --bigquery-table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The id of the BigQuery dataset. To set the bigquery-dataset attribute: ◆ provide the argument --bigquery-table on the command line with a fully specified name; ◆ provide the argument --bigquery-dataset on the command line.
+    /// </summary>
+    [CliOption("--bigquery-dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryDataSet { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(JobReference) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Statement) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of JobReference or Statement must be specified.", [nameof(JobReference), nameof(Statement)]);
+        }
+    }
+
 }

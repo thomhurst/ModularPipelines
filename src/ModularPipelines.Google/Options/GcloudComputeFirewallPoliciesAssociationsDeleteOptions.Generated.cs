@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Compute     Engine organization firewall policy association
 /// </summary>
+/// <param name="FirewallPolicy">Short name or ID of the firewall policy ID of the association.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "associations", "delete")]
 public record GcloudComputeFirewallPoliciesAssociationsDeleteOptions(
+    [property: CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)] string FirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// ID of the organization in which the firewall policy is to be detached. Must be set if FIREWALL_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

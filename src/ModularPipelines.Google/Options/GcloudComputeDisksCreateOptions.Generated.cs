@@ -18,6 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create Compute Engine persistent disks
 /// </summary>
+/// <param name="DiskName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "create")]

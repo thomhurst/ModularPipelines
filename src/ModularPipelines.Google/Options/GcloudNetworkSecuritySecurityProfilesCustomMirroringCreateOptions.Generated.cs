@@ -10,15 +10,49 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create     a new Custom Mirroring Profile
 /// </summary>
+/// <param name="MirroringEndpointGroup">Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the mirroring endpoint group or fully qualified identifier for the mirroring endpoint group. To set the id attribute: ▸ provide the argument --mirroring-endpoint-group on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "security-profiles", "custom-mirroring", "create")]
-public record GcloudNetworkSecuritySecurityProfilesCustomMirroringCreateOptions : GcloudOptions
+public record GcloudNetworkSecuritySecurityProfilesCustomMirroringCreateOptions(
+    [property: CliOption("--mirroring-endpoint-group", Format = OptionFormat.EqualsSeparated)] string MirroringEndpointGroup
+) : GcloudOptions
 {
+    /// <summary>
+    /// Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Location of the mirroring endpoint group. To set the location attribute: ▸ provide the argument --mirroring-endpoint-group on the command line with a fully specified name; ▸ provide the argument --mirroring-endpoint-group-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument security_profile on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--mirroring-endpoint-group-location", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringEndpointGroupLocation { get; set; }
+
+    /// <summary>
+    /// Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project ID of the mirroring endpoint group. To set the project attribute: ▸ provide the argument --mirroring-endpoint-group on the command line with a fully specified name; ▸ provide the argument --mirroring-endpoint-group-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project; ▸ provide the argument security_profile on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--mirroring-endpoint-group-project", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringEndpointGroupProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is False.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Brief description of the security profile
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

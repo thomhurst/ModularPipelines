@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// acknowledge an existing     Assured Workloads compliance violation
 /// </summary>
+/// <param name="Comment">Business justification used added to acknowledge a violation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "violations", "acknowledge")]
-public record GcloudAssuredWorkloadsViolationsAcknowledgeOptions : GcloudOptions
+public record GcloudAssuredWorkloadsViolationsAcknowledgeOptions(
+    [property: CliOption("--comment", Format = OptionFormat.EqualsSeparated)] string Comment
+) : GcloudOptions
 {
+    /// <summary>
+    /// the acknowledge type for specified violation, which is one of: SINGLE_VIOLATION - to acknowledge specified violation, EXISTING_CHILD_RESOURCE_VIOLATIONS - to acknowledge specified org policy violation and all associated child resource violations.
+    /// </summary>
+    [CliOption("--acknowledge-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcknowledgeType { get; set; }
+
 }

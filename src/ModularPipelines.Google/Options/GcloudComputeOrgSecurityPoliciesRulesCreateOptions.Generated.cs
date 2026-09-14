@@ -10,17 +10,101 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Compute Engine     organizationsecurity policy rule
 /// </summary>
+/// <param name="Action">Action to take if the request matches the match condition. ACTION must be one of: allow Allows the request from HTTP(S) Load Balancing. deny (DEPRECATED) Only used for Hierarchical Firewalls. deny-403 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 403. deny-404 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 404. deny-502 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 502. goto-next Defers enforcement to the next policy in the hierarchy. redirect Redirects the request from HTTP(S) Load Balancing, based on redirect options.</param>
+/// <param name="SecurityPolicy">short name of the security policy into which the rule should be inserted.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "rules", "create")]
 public record GcloudComputeOrgSecurityPoliciesRulesCreateOptions(
+    [property: CliOption("--action", Format = OptionFormat.EqualsSeparated)] string Action,
+    [property: CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)] string SecurityPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Specified for Hierarchical Cloud Armor rules.
+    /// </summary>
+    [CliFlag("--cloud-armor")]
+    public bool? CloudArmor { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Destination IP ranges to match for this rule. Can only be specified if DIRECTION is egress.
+    /// </summary>
+    [CliOption("--dest-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestIpRanges { get; set; }
+
+    /// <summary>
+    /// Direction of the traffic the rule is applied. The default is to apply on incoming traffic. DIRECTION must be one of: INGRESS, EGRESS.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// A list of destination protocols and ports to which the firewall rule will apply.
+    /// </summary>
+    [CliOption("--layer4-configs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Layer4Configs { get; set; }
+
+    /// <summary>
+    /// Organization which the organization security policy belongs to. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// If specified, the action will not be enforced.
+    /// </summary>
+    [CliFlag("--preview")]
+    public bool? Preview { get; set; }
+
+    /// <summary>
+    /// List of URLs of target resources to which the rule is applied.
+    /// </summary>
+    [CliOption("--target-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetResources { get; set; }
+
+    /// <summary>
+    /// List of target service accounts for the rule.
+    /// </summary>
+    [CliOption("--target-service-accounts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetServiceAccounts { get; set; }
+
+    /// <summary>
+    /// Security policy rule matcher. At most one of these can be specified: The Cloud Armor rules language expression to match for this rule.
+    /// </summary>
+    [CliOption("--expression", Format = OptionFormat.EqualsSeparated)]
+    public string? Expression { get; set; }
+
+    /// <summary>
+    /// Security policy rule matcher. At most one of these can be specified: The source IPs/IP ranges to match for this rule. To match all IPs specify *.
+    /// </summary>
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcIpRanges { get; set; }
+
 }

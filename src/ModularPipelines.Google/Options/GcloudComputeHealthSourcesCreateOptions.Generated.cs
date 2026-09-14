@@ -16,9 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a health source
 /// </summary>
+/// <param name="HealthAggregationPolicy">URL to the health aggregation policy resource. Must be set. Must be regional and in the same region as the HealthSource. Can be mutated.</param>
+/// <param name="Sources">URLs to the source resources. Must be size 1. Must be a BackendService if the sourceType is BACKEND_SERVICE. The BackendService must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the HealthSource (cross-region deployment for INTERNAL_MANAGED is not supported). The BackendService may use only IGs, MIGs, or NEGs of type GCE_VM_IP or GCE_VM_IP_PORT. The BackendService may not use haPolicy. Can be mutated.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-sources", "create")]
-public record GcloudComputeHealthSourcesCreateOptions : GcloudOptions
+public record GcloudComputeHealthSourcesCreateOptions(
+    [property: CliOption("--health-aggregation-policy", Format = OptionFormat.EqualsSeparated)] string HealthAggregationPolicy,
+    [property: CliOption("--sources", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Sources
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A textual description of the HealthSource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies the type of the HealthSource. The only allowed value is BACKEND_SERVICE. Must be specified when the HealthSource is created, and cannot be mutated. SOURCE_TYPE must be (only one value is supported): backend-service.
+    /// </summary>
+    [CliOption("--source-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceType { get; set; }
+
 }

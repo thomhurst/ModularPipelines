@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a specified instance
 /// </summary>
+/// <param name="Service">The service ID.</param>
+/// <param name="Version">The version ID.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "instances", "delete")]
 public record GcloudAppInstancesDeleteOptions(
+    [property: CliOption("--service", Format = OptionFormat.EqualsSeparated)] string Service,
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {

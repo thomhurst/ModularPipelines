@@ -6,21 +6,114 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a configuration file     for generated credentials
 /// </summary>
+/// <param name="OutputFile">Location to store the generated credential configuration file.</param>
+/// <param name="WorkforcePoolUserProject">The client project number used to identify the application (client project) to the server when calling Google APIs. The user principal must have serviceusage.services.use IAM permission to use the specified project.</param>
+/// <param name="Audience"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "create-cred-config")]
 public record GcloudIamWorkforcePoolsCreateCredConfigOptions(
+    [property: CliOption("--output-file", Format = OptionFormat.EqualsSeparated)] string OutputFile,
+    [property: CliOption("--workforce-pool-user-project", Format = OptionFormat.EqualsSeparated)] string WorkforcePoolUserProject,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Audience
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Credential types. Exactly one of these must be specified: The location of the file which stores the credential.
+    /// </summary>
+    [CliOption("--credential-source-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceFile { get; set; }
+
+    /// <summary>
+    /// Credential types. Exactly one of these must be specified: The URL to obtain the credential from.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--credential-source-url", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceUrl { get; set; }
+
+    /// <summary>
+    /// Credential types. Exactly one of these must be specified: The full command to run to retrieve the credential. Must be an absolute path for the program including arguments.
+    /// </summary>
+    [CliOption("--executable-command", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableCommand { get; set; }
+
+    /// <summary>
+    /// Subject token field name (key) in a JSON credential source.
+    /// </summary>
+    [CliOption("--credential-source-field-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceFieldName { get; set; }
+
+    /// <summary>
+    /// Headers to use when querying the credential-source-url.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--credential-source-headers", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceHeaders { get; set; }
+
+    /// <summary>
+    /// Format of the credential source (JSON or text).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--credential-source-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceType { get; set; }
+
+    /// <summary>
+    /// The type of token being used for authorization. This defaults to urn:ietf:params:oauth:token-type:id_token.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--subject-token-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SubjectTokenType { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Timeout duration, in milliseconds, to wait for the executable to finish when the command is running in interactive mode.
+    /// </summary>
+    [CliOption("--executable-interactive-timeout-millis", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableInteractiveTimeoutMillis { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Absolute path to the file storing the executable response.
+    /// </summary>
+    [CliOption("--executable-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableOutputFile { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Timeout duration, in milliseconds, to wait for the executable to finish.
+    /// </summary>
+    [CliOption("--executable-timeout-millis", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableTimeoutMillis { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Email of the service account to impersonate. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Lifetime duration of the service account access token in seconds. Defaults to one hour if not specified. If a lifetime greater than one hour is required, the service account must be added as an allowed value in an Organization Policy that enforces the constraints/iam.allowServiceAccountCredentialLifetimeExtension constraint.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--service-account-token-lifetime-seconds", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountTokenLifetimeSeconds { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CredentialSourceFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(CredentialSourceUrl) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ExecutableCommand) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CredentialSourceFile, CredentialSourceUrl, or ExecutableCommand must be specified.", [nameof(CredentialSourceFile), nameof(CredentialSourceUrl), nameof(ExecutableCommand)]);
+        }
+    }
+
 }

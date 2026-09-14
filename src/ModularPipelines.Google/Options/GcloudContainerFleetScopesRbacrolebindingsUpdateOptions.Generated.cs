@@ -18,6 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a fleet     scope RBAC RoleBinding
 /// </summary>
+/// <param name="Rbacr"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "rbacrolebindings", "update")]

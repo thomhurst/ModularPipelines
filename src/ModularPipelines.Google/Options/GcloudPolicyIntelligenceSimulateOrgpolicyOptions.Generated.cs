@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// understand how changes to     organization policies could affect your resources
 /// </summary>
+/// <param name="Organization">Organization ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy-intelligence", "simulate", "orgpolicy")]
-public record GcloudPolicyIntelligenceSimulateOrgpolicyOptions : GcloudOptions
+public record GcloudPolicyIntelligenceSimulateOrgpolicyOptions(
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization
+) : GcloudOptions
 {
+    /// <summary>
+    /// Path to the JSON or YAML file that contains the custom constraints to simulate. Multiple custom constraints can be simulated by providing multiple, comma-separated paths. For example: --custom-constraints=constraint1.json,constraint2.json
+    /// </summary>
+    [CliOption("--custom-constraints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CustomConstraints { get; set; }
+
+    /// <summary>
+    /// Path to the JSON or YAML file that contains the organization policy to simulate. Multiple policies can be simulated by providing multiple, comma-separated paths. For example: --policies=p1.json,p2.json
+    /// </summary>
+    [CliOption("--policies", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Policies { get; set; }
+
 }

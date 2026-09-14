@@ -16,11 +16,28 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enables a Google Cloud Platform service     on a Google Distributed Cloud zone
 /// </summary>
+/// <param name="Location">Location resource - Google Cloud Platform region This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+/// <param name="Zone">Google Distributed Cloud zone.</param>
+/// <param name="ServiceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "services", "enable")]
 public record GcloudEdgeCloudServicesEnableOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Service ID.
+    /// </summary>
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
+    public string? Id { get; set; }
+
 }

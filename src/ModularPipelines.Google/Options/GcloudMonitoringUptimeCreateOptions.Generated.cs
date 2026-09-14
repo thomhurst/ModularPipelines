@@ -6,16 +6,19 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new uptime check or synthetic     monitor
 /// </summary>
+/// <param name="DisplayName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitoring", "uptime", "create")]
@@ -23,4 +26,179 @@ public record GcloudMonitoringUptimeCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DisplayName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Uptime check resource. Exactly one of these must be specified: The target of the Synthetic Monitor. This is the fully qualified GCFv2 resource name.
+    /// </summary>
+    [CliOption("--synthetic-target", Format = OptionFormat.EqualsSeparated)]
+    public string? SyntheticTarget { get; set; }
+
+    /// <summary>
+    /// Uptime check resource. Exactly one of these must be specified: Or at least one of these can be specified: Monitored resource group The group of resources being monitored. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--group-id", Format = OptionFormat.EqualsSeparated)]
+    public string? GroupId { get; set; }
+
+    /// <summary>
+    /// Uptime check resource. Exactly one of these must be specified: Or at least one of these can be specified: Monitored resource group The resource type of the group members, defaults to gce-instance. GROUP_TYPE must be one of: aws-elb-load-balancer Uptime check against a group of Amazon ELB load balancers. gce-instance Uptime check against a group of instances from Google Cloud or Amazon Web Services.
+    /// </summary>
+    [CliOption("--group-type", Format = OptionFormat.EqualsSeparated)]
+    public string? GroupType { get; set; }
+
+    /// <summary>
+    /// Uptime check resource. Exactly one of these must be specified: Or at least one of these can be specified: Monitored resource Values for all of the labels listed in the associated monitored resource descriptor. See https://cloud.google.com/monitoring/api/resources for more information and allowed keys. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--resource-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceLabels { get; set; }
+
+    /// <summary>
+    /// Uptime check resource. Exactly one of these must be specified: Or at least one of these can be specified: Monitored resource Type of monitored resource, defaults to uptime-url. RESOURCE_TYPE must be one of: aws-ec2-instance Uptime check against an AWS EC2 instance. aws-elb-load-balancer Uptime check against an ElasticLoadBalancer. cloud-run-revision Uptime check against a Cloud Run revision. gae-app Uptime check against an App Engine module. gce-instance Uptime check against a Compute Engine instance. servicedirectory-service Uptime check against a Service Directory service. uptime-url Uptime check against a URL.
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The request body associated with the HTTP POST request. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--body", Format = OptionFormat.EqualsSeparated)]
+    public string? Body { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The content type header to use for the check, defaults to unspecified. Can only be set if --protocol is http or https. CONTENT_TYPE must be one of: unspecified Not specified url-encoded URL encoded user-provided User provided
+    /// </summary>
+    [CliOption("--content-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ContentType { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. A user-provided content type header to use for the check. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--custom-content-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomContentType { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The list of headers to send as part of the uptime check request. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--headers", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Headers { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. Whether to encrypt the header information, defaults to false. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--mask-headers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaskHeaders { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The password to use when authenticating with the HTTP server. Can only be set if --protocol is http or https.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The path to the page against which to run the check, defaults to /. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. Number of ICMP pings to send alongside the request.
+    /// </summary>
+    [CliOption("--pings-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PingsCount { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The port on the server against which to run the check. Defaults to 80 when --protocol is http. Defaults to 443 when --protocol is https. Required if --protocol is tcp.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The protocol of the request, defaults to http. PROTOCOL must be one of: http An HTTP check. https An HTTPS check. tcp A TCP check.
+    /// </summary>
+    [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The HTTP request method to use, defaults to get. Can only be set if --protocol is http or https. REQUEST_METHOD must be one of: get HTTP GET method post HTTP POST method
+    /// </summary>
+    [CliOption("--request-method", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestMethod { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The type of authentication to use for the HTTP request. Can only be set if --protocol is https. SERVICE_AGENT_AUTH must be (only one value is supported): oidc-token OIDC Token authentication
+    /// </summary>
+    [CliOption("--service-agent-auth", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAgentAuth { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The username to use when authenticating with the HTTP server. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string? Username { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. Whether to include SSL certificate validation as a part of the uptime check, defaults to false. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--validate-ssl", Format = OptionFormat.EqualsSeparated)]
+    public string? ValidateSsl { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. Uptime check status. At most one of these can be specified: List of HTTP status classes. The uptime check only passes when the response code is contained in this list. Defaults to 2xx. Can only be set if --protocol is http or https. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code
+    /// </summary>
+    [CliOption("--status-classes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatusClasses { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. Uptime check status. At most one of these can be specified: List of HTTP Status Codes. The uptime check will only pass if the response code is present in this list. Can only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--status-codes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatusCodes { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. String, regex or JSON content to match. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--matcher-content", Format = OptionFormat.EqualsSeparated)]
+    public string? MatcherContent { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The type of content matcher that is applied to the server output, defaults to contains-string. MATCHER_TYPE must be one of: contains-string Response contains string matches-json-path Response matches at JSONPath matches-regex Response matches regex not-contains-string Response does not contain string not-matches-json-path Response does not match at JSONPath not-matches-regex Response does not match regex
+    /// </summary>
+    [CliOption("--matcher-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MatcherType { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. JSONPath within the response output pointing to the expected content to match. Only used if --matcher-type is matches-json-path or not-matches-json-path. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--json-path", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonPath { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The type of JSONPath match that is applied to the JSON output, defaults to exact-match. Only used if --matcher-type is matches-json-path or not-matches-json-path. JSON_PATH_MATCHER_TYPE must be one of: exact-match Response matches exact string at JSONPath regex-match Response matches regex at JSONPath
+    /// </summary>
+    [CliOption("--json-path-matcher-type", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonPathMatcherType { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The time between uptime check or synthetic monitor executions in minutes, defaults to 1. Can be set for synthetic monitors. PERIOD must be one of: 1 One minute 10 Ten minutes 15 Fifteen minutes 5 Five minutes
+    /// </summary>
+    [CliOption("--period", Format = OptionFormat.EqualsSeparated)]
+    public string? Period { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The list of regions from which the check is run. At least 3 regions must be selected. Defaults to all available regions. field must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4
+    /// </summary>
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Regions { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. The maximum amount of time in seconds to wait for the request to complete, defaults to 60. Can be set for synthetic monitors.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Settings. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--user-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UserLabels { get; set; }
+
 }

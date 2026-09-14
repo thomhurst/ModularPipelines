@@ -16,9 +16,42 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// templates components connections     create - create a connection
 /// </summary>
+/// <param name="DestinationComponentUri">Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. This must be specified. ID of the component or fully qualified identifier for the component. To set the component attribute: ▸ provide the argument --destination-component-uri on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "components", "connections", "create")]
-public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsCreateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsCreateOptions(
+    [property: CliOption("--destination-component-uri", Format = OptionFormat.EqualsSeparated)] string DestinationComponentUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// For resources [connection, destination-component-uri], provides fallback value for resource application-template attribute. When the resource's full URI path is not provided, application-template will fallback to this flag value.
+    /// </summary>
+    [CliOption("--application-template", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationTemplate { get; set; }
+
+    /// <summary>
+    /// The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. Shorthand Example: --destination-component-parameters=key=string,value={...} --destination-component-parameters=key=string,value={...} JSON Example: --destination-component-parameters='[{"key": "string", "value": {...}}]' File Example: --destination-component-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--destination-component-parameters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestinationComponentParameters { get; set; }
+
+    /// <summary>
+    /// For resources [connection, destination-component-uri], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --source-component-parameters=key=string,value={...} --source-component-parameters=key=string,value={...} JSON Example: --source-component-parameters='[{"key": "string", "value": {...}}]' File Example: --source-component-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--source-component-parameters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceComponentParameters { get; set; }
+
+    /// <summary>
+    /// For resources [connection, destination-component-uri], provides fallback value for resource space attribute. When the resource's full URI path is not provided, space will fallback to this flag value.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
 }

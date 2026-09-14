@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get a policy on the given attachment point with     the given name
 /// </summary>
+/// <param name="AttachmentPoint">Resource to which the policy is attached. For valid formats, see https://cloud.google.com/iam/help/deny/attachment-point.</param>
+/// <param name="Kind">Policy type. Use denypolicies for deny policies.</param>
+/// <param name="PolicyId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "policies", "get")]
 public record GcloudIamPoliciesGetOptions(
+    [property: CliOption("--attachment-point", Format = OptionFormat.EqualsSeparated)] string AttachmentPoint,
+    [property: CliOption("--kind", Format = OptionFormat.EqualsSeparated)] string Kind,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyId
 ) : GcloudOptions
 {

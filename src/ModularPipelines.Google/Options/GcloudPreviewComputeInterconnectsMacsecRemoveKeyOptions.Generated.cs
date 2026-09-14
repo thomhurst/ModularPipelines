@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// shared     key from a Compute Engine interconnect MACsec configuration
 /// </summary>
+/// <param name="KeyName">The name of pre-shared key being removed from MACsec configuration of the interconnect.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "macsec", "remove-key")]
 public record GcloudPreviewComputeInterconnectsMacsecRemoveKeyOptions(
+    [property: CliOption("--key-name", Format = OptionFormat.EqualsSeparated)] string KeyName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

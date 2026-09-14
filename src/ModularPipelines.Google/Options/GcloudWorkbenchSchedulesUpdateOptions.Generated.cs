@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "schedules", "update")]
-public record GcloudWorkbenchSchedulesUpdateOptions : GcloudOptions
+public record GcloudWorkbenchSchedulesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Configuration of the schedule. At least one of these must be specified: Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * ", or "TZ=America/New_York 1 * * * ".
+    /// </summary>
+    [CliOption("--cron-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? CronSchedule { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. At least one of these must be specified: The display name of the schedule.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. At least one of these must be specified: Enables new scheduled runs to be queued when max_concurrent_runs limit is reached. If set to true, new runs will be queued instead of skipped.
+    /// </summary>
+    [CliFlag("--enable-queueing")]
+    public bool? EnableQueueing { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. At least one of these must be specified: Timestamp after which no new runs can be scheduled. If specified, the schedule will be completed when either end_time is reached or when scheduled_run_count &gt;= max_run_count. If neither end time nor max_run_count is specified, new runs will keep getting scheduled until this Schedule is paused or deleted. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. At least one of these must be specified: Maximum number of runs that can be started concurrently for this Schedule. This is the limit for starting the scheduled requests and not the execution of the notebook execution jobs created by the requests.
+    /// </summary>
+    [CliOption("--max-concurrent-runs", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConcurrentRuns { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. At least one of these must be specified: The max runs for the schedule.
+    /// </summary>
+    [CliOption("--max-runs", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRuns { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. At least one of these must be specified: The timestamp after which the first run can be scheduled. Defaults to the schedule creation time. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(CronSchedule) || !string.IsNullOrWhiteSpace(DisplayName) || EnableQueueing == true || !string.IsNullOrWhiteSpace(EndTime) || !string.IsNullOrWhiteSpace(MaxConcurrentRuns) || !string.IsNullOrWhiteSpace(MaxRuns) || !string.IsNullOrWhiteSpace(StartTime)))
+        {
+            yield return new ValidationResult("At least one of CronSchedule, DisplayName, EnableQueueing, EndTime, MaxConcurrentRuns, MaxRuns, or StartTime must be specified.", [nameof(CronSchedule), nameof(DisplayName), nameof(EnableQueueing), nameof(EndTime), nameof(MaxConcurrentRuns), nameof(MaxRuns), nameof(StartTime)]);
+        }
+    }
+
 }

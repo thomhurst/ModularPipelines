@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Network     Monitoring Providers
 /// </summary>
+/// <param name="Location">Location resource - Parent value for ListNetworkMonitoringProvidersRequest. Format: projects/{project}/locations/{location} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "list")]
-public record GcloudNetworkManagementNetworkMonitoringProvidersListOptions : GcloudOptions
+public record GcloudNetworkManagementNetworkMonitoringProvidersListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
 }

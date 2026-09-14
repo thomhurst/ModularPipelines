@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists the configurations for a given     service
 /// </summary>
+/// <param name="Service">The name of service for which to list existing configurations.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "configs", "list")]
-public record GcloudEndpointsConfigsListOptions : GcloudOptions
+public record GcloudEndpointsConfigsListOptions(
+    [property: CliOption("--service", Format = OptionFormat.EqualsSeparated)] string Service
+) : GcloudOptions
 {
 }

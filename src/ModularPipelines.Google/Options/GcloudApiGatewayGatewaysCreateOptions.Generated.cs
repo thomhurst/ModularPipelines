@@ -10,15 +10,43 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new gateway
 /// </summary>
+/// <param name="ApiConfig">Api config resource - Resource name for API config the gateway will use. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api-config or fully qualified identifier for the api-config. To set the api-config attribute: ▸ provide the argument --api-config on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("api-gateway", "gateways", "create")]
-public record GcloudApiGatewayGatewaysCreateOptions : GcloudOptions
+public record GcloudApiGatewayGatewaysCreateOptions(
+    [property: CliOption("--api-config", Format = OptionFormat.EqualsSeparated)] string ApiConfig
+) : GcloudOptions
 {
+    /// <summary>
+    /// Api config resource - Resource name for API config the gateway will use. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. API ID. To set the api attribute: ▸ provide the argument --api-config on the command line with a fully specified name; ▸ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human readable name which can optionally be supplied.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

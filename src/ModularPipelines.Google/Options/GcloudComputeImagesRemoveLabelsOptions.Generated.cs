@@ -10,17 +10,40 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// remove labels from Google Compute     Engine images
 /// </summary>
+/// <param name="ImageName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "images", "remove-labels")]
 public record GcloudComputeImagesRemoveLabelsOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Remove all labels from the resource.
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A comma-separated list of label keys to remove from the resource.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((All == true ? 1 : 0) + (Labels?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of All or Labels must be specified.", [nameof(All), nameof(Labels)]);
+        }
+    }
+
 }

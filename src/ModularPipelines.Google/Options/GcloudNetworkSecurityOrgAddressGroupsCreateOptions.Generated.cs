@@ -10,15 +10,52 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an address group
 /// </summary>
+/// <param name="Capacity">Capacity of the address group.</param>
+/// <param name="Type">Type of the address group. TYPE must be one of: ipv4, ipv6.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "org-address-groups", "create")]
-public record GcloudNetworkSecurityOrgAddressGroupsCreateOptions : GcloudOptions
+public record GcloudNetworkSecurityOrgAddressGroupsCreateOptions(
+    [property: CliOption("--capacity", Format = OptionFormat.EqualsSeparated)] string Capacity,
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] GcloudType Type
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the address group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Items of the address group.
+    /// </summary>
+    [CliOption("--items", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Items { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of Address Group purposes. PURPOSE must be one of: cloud-armor, default.
+    /// </summary>
+    [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPurpose? Purpose { get; set; }
+
 }

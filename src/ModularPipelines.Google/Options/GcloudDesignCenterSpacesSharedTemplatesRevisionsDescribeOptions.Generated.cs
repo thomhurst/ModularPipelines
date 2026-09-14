@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe     a shared template revision
 /// </summary>
+/// <param name="Revision"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "shared-templates", "revisions", "describe")]

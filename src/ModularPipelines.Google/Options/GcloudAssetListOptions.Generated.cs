@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,26 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "list")]
-public record GcloudAssetListOptions : GcloudOptions
+public record GcloudAssetListOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the folder which is the root asset.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the organization which is the root asset.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The project which is the root asset. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
     /// <summary>
     /// A list of asset types (i.e., "compute.googleapis.com/Disk") to take a snapshot. If specified and non-empty, only assets matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported asset types.
     /// </summary>
@@ -45,5 +64,14 @@ public record GcloudAssetListOptions : GcloudOptions
     /// </summary>
     [CliOption("--snapshot-time", Format = OptionFormat.EqualsSeparated)]
     public string? SnapshotTime { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+    }
 
 }

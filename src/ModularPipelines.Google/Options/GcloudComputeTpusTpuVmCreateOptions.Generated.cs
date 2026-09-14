@@ -10,15 +10,152 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Cloud TPU VM node
 /// </summary>
+/// <param name="Version">Runtime version for the TPU, such as 2.3. For a list of available versions run: gcloud compute tpus tpu-vm versions list</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "tpu-vm", "create")]
-public record GcloudComputeTpusTpuVmCreateOptions : GcloudOptions
+public record GcloudComputeTpusTpuVmCreateOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Specifies the boot disk configuration. $ gcloud compute tpus tpu-vm create \ --boot-disk kms-key=&lt;full_kms_key_name_here&gt; The following keys are allowed: kms-key Specifies the fully qualified Cloud KMS cryptokey name which will be used to protect the disk. KMS cryptokey name format: projects/&lt;kms-project&gt;/locations/&lt;kms-location&gt;/keyRings/&lt;kms-keyring&gt;/cryptoKeys/&lt;key-name&gt;
+    /// </summary>
+    [CliOption("--boot-disk", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? BootDisk { get; set; }
+
+    /// <summary>
+    /// Additional data disks for the TPU VM. This flag must be repeated to provide multiple data disks. For example: $ gcloud compute tpus tpu-vm create \ --data-disk \ source=projects/my-project/zones/us-central1-c/disks/my-disk,\ mode=read-only The following keys are allowed: source Specifies the full path to an existing disk. Required. The disk must be in the same zone. mode Specifies the mode in which to attach this disk. Valid options are 'read-write', 'read-only'. If not specified, the default is 'read-write'.
+    /// </summary>
+    [CliOption("--data-disk", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DataDisk { get; set; }
+
+    /// <summary>
+    /// Text description of the TPU.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Indicate that the IP addresses for the node should be internal. The default is that external IP addresses will be associated with the TPU workers.
+    /// </summary>
+    [CliFlag("--internal-ips")]
+    public bool? InternalIps { get; set; }
+
+    /// <summary>
+    /// Resource labels to represent user-provided metadata. See https://cloud.google.com/compute/docs/labeling-resources for details.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of comma-separated metadata key-value pairs for the Cloud TPU VM node. Example: --metadata='key1=value1,key2=value2'
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
+
+    /// <summary>
+    /// Same as --metadata except the value for the entry will be read from a local file. Example: --metadata-from-file='key1=value1.txt'
+    /// </summary>
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? MetadataFromFile { get; set; }
+
+    /// <summary>
+    /// Network that this TPU will be a part of.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// If provided, the TPU will be preemptible and time-limited. It may be preempted to free up resources for standard TPUs, and will only be able to run for a limited amount of time. Preemptible TPUs cannot be restarted.
+    /// </summary>
+    [CliFlag("--preemptible")]
+    public bool? Preemptible { get; set; }
+
+    /// <summary>
+    /// Specifies the networking queue count for TPU VM instances. Both Rx and Tx queues will be set to this number. If it's not specified, a default queue count will be assigned. For Virtio-net, each interface will get min(floor(#vCPU / #vNIC), 32) queues. For gVNIC, each interface will get min(floor(#vCPU / #vNIC / 2), 16) queues.
+    /// </summary>
+    [CliOption("--queue-count", Format = OptionFormat.EqualsSeparated)]
+    public int? QueueCount { get; set; }
+
+    /// <summary>
+    /// CIDR Range for the TPU. The IP range that the TPU will select an IP address from. Must be in CIDR notation and a /29 range, for example 192.168.0.0/29. Errors will occur if the CIDR range has already been used for a currently existing TPU, the CIDR range conflicts with any networks in the user's provided network, or the provided network is peered with another network that is using that CIDR range.
+    /// </summary>
+    [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
+    public string? Range { get; set; }
+
+    /// <summary>
+    /// When specified, will attempt to create the TPU node under reservations made in the current project. The reservations can be made separately but used in aggregated form. i.e., the user can make a reservation of 128 V2 TPUs and later on make another reservation of 128 V2 TPUs then creates a v2-256 TPU instance. If there exists no reservation or not sufficient amount of reserved cores under the project, the request will fail due to lack of capacity.
+    /// </summary>
+    [CliFlag("--reserved")]
+    public bool? Reserved { get; set; }
+
+    /// <summary>
+    /// List of comma-separated scopes to be made available for the service account.
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Scopes { get; set; }
+
+    /// <summary>
+    /// Email address of the service account. If empty, default Google Compute Engine service account will be used.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Specifies that the TPU instances are created with secure boot enabled. This implicitly makes them Shielded VM instances.
+    /// </summary>
+    [CliFlag("--shielded-secure-boot")]
+    public bool? ShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// If specified, create this VM as a spot VM. Spot VMs make unused capacity available at highly discounted rates. Spot VMs may be preempted at any time if the capacity is needed, but unless preempted there is no limit on runtime duration. Spot VM TPUs cannot be restarted, and must be recreated again.
+    /// </summary>
+    [CliFlag("--spot")]
+    public bool? Spot { get; set; }
+
+    /// <summary>
+    /// Subnetwork that this TPU will be a part of.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. See https://cloud.google.com/vpc/docs/add-remove-network-tags for more details.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specify a TPU node in either chips or cores At most one of these can be specified: Core based TPU configuration Chip based TPU configuration TPU accelerator type for the TPU. If not specified, this defaults to v2-8. For a list of available accelerator types run: gcloud compute tpus tpu-vm accelerator-types list
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// Specify a TPU node in either chips or cores At most one of these can be specified: Core based TPU configuration Chip based TPU configuration Chip topology for TPU. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--topology", Format = OptionFormat.EqualsSeparated)]
+    public string? Topology { get; set; }
+
+    /// <summary>
+    /// Specify a TPU node in either chips or cores At most one of these can be specified: Core based TPU configuration Chip based TPU configuration Type of TPU. TYPE must be one of: v2, v3, v4. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
 }

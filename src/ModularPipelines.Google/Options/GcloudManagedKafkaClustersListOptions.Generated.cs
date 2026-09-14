@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all Managed Service for Apache     Kafka clusters in a given location
 /// </summary>
+/// <param name="Location">Location resource - Identifies the region which contains all the clusters to be listed. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "clusters", "list")]
-public record GcloudManagedKafkaClustersListOptions : GcloudOptions
+public record GcloudManagedKafkaClustersListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
 }

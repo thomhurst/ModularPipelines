@@ -16,9 +16,28 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create     Package Rollouts Release
 /// </summary>
+/// <param name="ResourceBundle">Resource Bundle name.</param>
+/// <param name="Source">Source file or directory to create the Release from. e.g. --source=manifest.yaml, --source=/manifests-dir/, --source=/manifests-dir/*.yaml</param>
+/// <param name="Version">Version of the Release to create.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "resource-bundles", "releases", "create")]
-public record GcloudContainerHubPackagesResourceBundlesReleasesCreateOptions : GcloudOptions
+public record GcloudContainerHubPackagesResourceBundlesReleasesCreateOptions(
+    [property: CliOption("--resource-bundle", Format = OptionFormat.EqualsSeparated)] string ResourceBundle,
+    [property: CliOption("--source", Format = OptionFormat.EqualsSeparated)] string Source,
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
+    /// <summary>
+    /// Lifecycle of the Release.
+    /// </summary>
+    [CliOption("--lifecycle", Format = OptionFormat.EqualsSeparated)]
+    public string? Lifecycle { get; set; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// undeploy an index from a Vertex     AI index endpoint
 /// </summary>
+/// <param name="DeployedIndexId">Id of the deployed index.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "index-endpoints", "undeploy-index")]
-public record GcloudAiIndexEndpointsUndeployIndexOptions : GcloudOptions
+public record GcloudAiIndexEndpointsUndeployIndexOptions(
+    [property: CliOption("--deployed-index-id", Format = OptionFormat.EqualsSeparated)] string DeployedIndexId
+) : GcloudOptions
 {
 }

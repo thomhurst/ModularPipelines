@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// configs destinations     list - list destinations
 /// </summary>
+/// <param name="MulticloudDataTransferConfig">MulticloudDataTransferConfig resource - The name of the parent resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --multicloud-data-transfer-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicloudDataTransferConfig or fully qualified identifier for the multicloudDataTransferConfig. To set the multicloud-data-transfer-config attribute: ▸ provide the argument --multicloud-data-transfer-config on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "multicloud-data-transfer-configs", "destinations", "list")]
-public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsListOptions : GcloudOptions
+public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsListOptions(
+    [property: CliOption("--multicloud-data-transfer-config", Format = OptionFormat.EqualsSeparated)] string MulticloudDataTransferConfig
+) : GcloudOptions
 {
+    /// <summary>
+    /// MulticloudDataTransferConfig resource - The name of the parent resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --multicloud-data-transfer-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the multicloudDataTransferConfig resource. To set the location attribute: ▸ provide the argument --multicloud-data-transfer-config on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// If true, allow partial responses for multi-regional aggregated list requests.
     /// </summary>

@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// sets the list of     named ports for an instance group
 /// </summary>
+/// <param name="NamedPorts">The comma-separated list of key:value pairs representing the service name and the port that it is running on. To clear the list of named ports pass empty list as flag value. For example: $ gcloud compute instance-groups managed set-named-ports \ example-instance-group --named-ports ""</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "set-named-ports")]
 public record GcloudComputeInstanceGroupsManagedSetNamedPortsOptions(
+    [property: CliOption("--named-ports", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> NamedPorts,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Region of the instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

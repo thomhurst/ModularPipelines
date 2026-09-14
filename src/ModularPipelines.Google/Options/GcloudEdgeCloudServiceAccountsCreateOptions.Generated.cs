@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a Service Account on a     Google Distributed Cloud zone
 /// </summary>
+/// <param name="Zone">Google Distributed Cloud zone name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "service-accounts", "create")]
-public record GcloudEdgeCloudServiceAccountsCreateOptions : GcloudOptions
+public record GcloudEdgeCloudServiceAccountsCreateOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

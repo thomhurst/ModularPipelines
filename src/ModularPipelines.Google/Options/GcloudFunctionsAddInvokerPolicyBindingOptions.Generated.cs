@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// adds an invoker binding to     the IAM policy of a Google Cloud Function
 /// </summary>
+/// <param name="Member">The principal to add to the IAM policy. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functions", "add-invoker-policy-binding")]
-public record GcloudFunctionsAddInvokerPolicyBindingOptions : GcloudOptions
+public record GcloudFunctionsAddInvokerPolicyBindingOptions(
+    [property: CliOption("--member", Format = OptionFormat.EqualsSeparated)] string Member
+) : GcloudOptions
 {
 }

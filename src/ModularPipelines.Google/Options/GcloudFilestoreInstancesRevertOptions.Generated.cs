@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// revert a Filestore instance
 /// </summary>
+/// <param name="TargetSnapshot">Name of the Filestore snapshot to revert to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "instances", "revert")]
-public record GcloudFilestoreInstancesRevertOptions : GcloudOptions
+public record GcloudFilestoreInstancesRevertOptions(
+    [property: CliOption("--target-snapshot", Format = OptionFormat.EqualsSeparated)] string TargetSnapshot
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

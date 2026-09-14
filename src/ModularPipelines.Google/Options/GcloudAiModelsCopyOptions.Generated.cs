@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// copy a model
 /// </summary>
+/// <param name="SourceModel">The resource name of the Model to copy. That Model must be in the same Project. Format: projects/{project}/locations/{location}/models/{model}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "models", "copy")]
-public record GcloudAiModelsCopyOptions : GcloudOptions
+public record GcloudAiModelsCopyOptions(
+    [property: CliOption("--source-model", Format = OptionFormat.EqualsSeparated)] string SourceModel
+) : GcloudOptions
 {
+    /// <summary>
+    /// The Cloud KMS resource identifier of the customer managed encryption key used to protect the resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as the destination region of the model to be copied.
+    /// </summary>
+    [CliOption("--kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyName { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to copy the model into. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to copy the model into. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Copy source_model into a new Model with this ID. The ID will become the final component of the model resource name. This value may be up to 63 characters, and valid characters are [a-z0-9-]. The first character cannot be a number or hyphen.
+    /// </summary>
+    [CliOption("--destination-model-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationModelId { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to copy the model into. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Specify this field to copy source_model into this existing Model as a new version. Format: projects/{project}/locations/{location}/models/{model}.
+    /// </summary>
+    [CliOption("--destination-parent-model", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationParentModel { get; set; }
+
 }

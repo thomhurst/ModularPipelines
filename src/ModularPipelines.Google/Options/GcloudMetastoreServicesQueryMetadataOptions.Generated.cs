@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// execute a SQL query against a     Dataproc Metastore Service's metadata
 /// </summary>
+/// <param name="Query">Use Google Standard SQL query for Cloud Spanner and MySQL query syntax for Cloud SQL. Cloud Spanner SQL is described at https://cloud.google.com/spanner/docs/query-syntax)"</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "query-metadata")]
-public record GcloudMetastoreServicesQueryMetadataOptions : GcloudOptions
+public record GcloudMetastoreServicesQueryMetadataOptions(
+    [property: CliOption("--query", Format = OptionFormat.EqualsSeparated)] string Query
+) : GcloudOptions
 {
 }

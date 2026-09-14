@@ -16,9 +16,16 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// uploads a new SSL certificate
 /// </summary>
+/// <param name="Certificate">The file path for the new certificate to upload. Must be in PEM x.509 format including the header and footer.</param>
+/// <param name="DisplayName">A display name for this certificate.</param>
+/// <param name="PrivateKey">The file path to a local RSA private key file. The private key must be PEM encoded with header and footer and must be 2048 bits or fewer.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "ssl-certificates", "create")]
-public record GcloudAppSslCertificatesCreateOptions : GcloudOptions
+public record GcloudAppSslCertificatesCreateOptions(
+    [property: CliOption("--certificate", Format = OptionFormat.EqualsSeparated)] string Certificate,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--private-key", Format = OptionFormat.EqualsSeparated)] string PrivateKey
+) : GcloudOptions
 {
 }

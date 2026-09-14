@@ -10,15 +10,70 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a multicast     group range
 /// </summary>
+/// <param name="MulticastDomain">The multicast domain to be used.</param>
+/// <param name="ReservedInternalRange">The reserved internal range to be used.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "multicast-group-ranges", "create")]
-public record GcloudNetworkServicesMulticastGroupRangesCreateOptions : GcloudOptions
+public record GcloudNetworkServicesMulticastGroupRangesCreateOptions(
+    [property: CliOption("--multicast-domain", Format = OptionFormat.EqualsSeparated)] string MulticastDomain,
+    [property: CliOption("--reserved-internal-range", Format = OptionFormat.EqualsSeparated)] string ReservedInternalRange
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional list of consumer projects that can use this multicast group range.
+    /// </summary>
+    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ConsumerAcceptList { get; set; }
+
+    /// <summary>
+    /// The description for the multicast group range.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Distribution scope of this multicast group range. DISTRIBUTION_SCOPE must be one of: distribution-scope-unspecified, intra-region, intra-zone.
+    /// </summary>
+    [CliOption("--distribution-scope", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDistributionScope? DistributionScope { get; set; }
+
+    /// <summary>
+    /// Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Whether an empty consumer accept list will reject all consumer projects.
+    /// </summary>
+    [CliFlag("--require-explicit-accept")]
+    public bool? RequireExplicitAccept { get; set; }
+
 }

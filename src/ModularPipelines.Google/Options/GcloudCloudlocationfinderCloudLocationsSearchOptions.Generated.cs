@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// search cloudLocations
 /// </summary>
+/// <param name="SourceCloudLocation">Source cloud location resource - The source Cloud location. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-cloud-location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-cloud-location on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ location is always global. This must be specified. ID of the source_cloud_location or fully qualified identifier for the source_cloud_location. To set the cloud_location attribute: ▸ provide the argument --source-cloud-location on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudlocationfinder", "cloud-locations", "search")]
-public record GcloudCloudlocationfinderCloudLocationsSearchOptions : GcloudOptions
+public record GcloudCloudlocationfinderCloudLocationsSearchOptions(
+    [property: CliOption("--source-cloud-location", Format = OptionFormat.EqualsSeparated)] string SourceCloudLocation
+) : GcloudOptions
 {
+    /// <summary>
+    /// Maximum number of resources to return.
+    /// </summary>
+    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
+    public string? Limit { get; set; }
+
+    /// <summary>
+    /// Location resource - The resource location. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ location is always global with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ location is always global.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - The resource location. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ location is always global with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Maximum number of resources per page.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// Location resource - The resource location. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ location is always global with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Query to use for searching Cloudlocations.
+    /// </summary>
+    [CliOption("--query", Format = OptionFormat.EqualsSeparated)]
+    public string? Query { get; set; }
+
 }

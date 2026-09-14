@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lookup apiHubInstances
 /// </summary>
+/// <param name="Location">Location resource - There will always be only one Api Hub instance for a Google Cloud project across all locations. The parent resource for the Api Hub instance resource. Format: projects/{project}/locations/{location} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "api-hub-instances", "lookup")]
-public record GcloudApihubApiHubInstancesLookupOptions : GcloudOptions
+public record GcloudApihubApiHubInstancesLookupOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
 }

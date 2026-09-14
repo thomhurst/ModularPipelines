@@ -180,7 +180,7 @@ public class GcloudNetworkServices : IGcloudNetworkServices
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkServicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -16,18 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLoadBalancingScheme
 {
-    [EnumValue("EXTERNAL")]
-    External,
-
     [EnumValue("EXTERNAL_MANAGED")]
     ExternalManaged,
 
-    [EnumValue("INTERNAL")]
-    Internal,
-
     [EnumValue("INTERNAL_MANAGED")]
-    InternalManaged,
-
-    [EnumValue("INTERNAL_SELF_MANAGED")]
-    InternalSelfManaged
+    InternalManaged
 }

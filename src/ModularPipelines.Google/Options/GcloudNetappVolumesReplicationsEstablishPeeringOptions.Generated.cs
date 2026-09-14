@@ -16,9 +16,34 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// establish peering     for Hybrid replication
 /// </summary>
+/// <param name="PeerClusterName">Name of the destination cluster to be peered with the source cluster.</param>
+/// <param name="PeerSvmName">Name of the local source vserver svm to be peered with the destination cluster.</param>
+/// <param name="PeerVolumeName">Name of the source volume to be peered with the destination volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "replications", "establish-peering")]
-public record GcloudNetappVolumesReplicationsEstablishPeeringOptions : GcloudOptions
+public record GcloudNetappVolumesReplicationsEstablishPeeringOptions(
+    [property: CliOption("--peer-cluster-name", Format = OptionFormat.EqualsSeparated)] string PeerClusterName,
+    [property: CliOption("--peer-svm-name", Format = OptionFormat.EqualsSeparated)] string PeerSvmName,
+    [property: CliOption("--peer-volume-name", Format = OptionFormat.EqualsSeparated)] string PeerVolumeName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of ip addresses to be used for peering. This is required for cluster peering, not required for svm peering.
+    /// </summary>
+    [CliOption("--peer-ip-addresses", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PeerIpAddresses { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume that the Replication is based on This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
+
 }

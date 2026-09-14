@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Compute Engine     interconnect group
 /// </summary>
+/// <param name="IntendedTopologyCapability">The reliability the user intends this group to be capable of, in terms of the Interconnect product SLAs.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "groups", "create")]
 public record GcloudComputeInterconnectsGroupsCreateOptions(
+    [property: CliOption("--intended-topology-capability", Format = OptionFormat.EqualsSeparated)] string IntendedTopologyCapability,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// An optional, textual description for the interconnect group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Member interconnects to add to the interconnect group initially.
+    /// </summary>
+    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Interconnects { get; set; }
+
 }

@@ -10,17 +10,96 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// import data into an AlloyDB cluster from     Google Cloud Storage
 /// </summary>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Cluster"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "import")]
 public record GcloudAlloydbClustersImportOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// URI of the source file for import. This must be specified. Path to the Google Cloud Storage file from which import has to be done.
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsUri { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. CSV import options for the cluster. Specify source file type.
+    /// </summary>
+    [CliFlag("--sql")]
+    public bool? Sql { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. CSV import options for the cluster. Specify source file type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--csv")]
+    public bool? Csv { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. CSV import options for the cluster. Table name to which the data has to be imported. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. CSV import options for the cluster. Comma-separated list of column names to be used for import.
+    /// </summary>
+    [CliOption("--columns", Format = OptionFormat.EqualsSeparated)]
+    public string? Columns { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. CSV import options for the cluster. Escape character in the source file.
+    /// </summary>
+    [CliOption("--escape-character", Format = OptionFormat.EqualsSeparated)]
+    public string? EscapeCharacter { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. CSV import options for the cluster. Field delimiter in the source file.
+    /// </summary>
+    [CliOption("--field-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? FieldDelimiter { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. CSV import options for the cluster. Quote character in the source file.
+    /// </summary>
+    [CliOption("--quote-character", Format = OptionFormat.EqualsSeparated)]
+    public string? QuoteCharacter { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Database name.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Database user for the import.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Sql == true ? 1 : 0) + (Csv == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Table) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Columns) ? 1 : 0) + (!string.IsNullOrWhiteSpace(EscapeCharacter) ? 1 : 0) + (!string.IsNullOrWhiteSpace(FieldDelimiter) ? 1 : 0) + (!string.IsNullOrWhiteSpace(QuoteCharacter) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Sql, Csv, Table, Columns, EscapeCharacter, FieldDelimiter, or QuoteCharacter must be specified.", [nameof(Sql), nameof(Csv), nameof(Table), nameof(Columns), nameof(EscapeCharacter), nameof(FieldDelimiter), nameof(QuoteCharacter)]);
+        }
+    }
+
 }

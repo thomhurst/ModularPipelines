@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete notification     configurations from a bucket
 /// </summary>
+/// <param name="Urls"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "notifications", "delete")]

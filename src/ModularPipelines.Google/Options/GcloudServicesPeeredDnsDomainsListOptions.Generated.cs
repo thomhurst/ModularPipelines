@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the peered DNS domains for a     private service connection
 /// </summary>
+/// <param name="Network">Network in the consumer project peered with the service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "peered-dns-domains", "list")]
-public record GcloudServicesPeeredDnsDomainsListOptions : GcloudOptions
+public record GcloudServicesPeeredDnsDomainsListOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Name of the service to list the peered DNS domains for.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

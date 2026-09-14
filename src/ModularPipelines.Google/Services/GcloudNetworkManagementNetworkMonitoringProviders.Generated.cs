@@ -66,7 +66,7 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -77,11 +77,11 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        GcloudNetworkManagementNetworkMonitoringProvidersCreateOptions? options = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersGenerateMonitoringPointConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersGenerateMonitoringPointConfigOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -137,11 +137,11 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateProviderAccessTokenAsync(
-        GcloudNetworkManagementNetworkMonitoringProvidersGenerateProviderAccessTokenOptions? options = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersGenerateProviderAccessTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersGenerateProviderAccessTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -152,11 +152,11 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudNetworkManagementNetworkMonitoringProvidersListOptions? options = null,
+        GcloudNetworkManagementNetworkMonitoringProvidersListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementNetworkMonitoringProvidersListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

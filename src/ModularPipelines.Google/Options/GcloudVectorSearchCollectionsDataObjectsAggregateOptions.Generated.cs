@@ -16,9 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// aggregate data     objects
 /// </summary>
+/// <param name="AggregationMethod">The aggregation method to apply to the query. AGGREGATION_METHOD must be (only one value is supported): count Count the number of data objects that match the filter.</param>
+/// <param name="Collection">The collection to aggregate data objects from.</param>
+/// <param name="Location">Location of the collection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "aggregate")]
-public record GcloudVectorSearchCollectionsDataObjectsAggregateOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsDataObjectsAggregateOptions(
+    [property: CliOption("--aggregation-method", Format = OptionFormat.EqualsSeparated)] string AggregationMethod,
+    [property: CliOption("--collection", Format = OptionFormat.EqualsSeparated)] string Collection,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
+    /// <summary>
+    /// A filter expression in JSON format to apply to the aggregate, e.g. '{"genre": {"$eq": "sci-fi"}}'.
+    /// </summary>
+    [CliOption("--json-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonFilter { get; set; }
+
 }

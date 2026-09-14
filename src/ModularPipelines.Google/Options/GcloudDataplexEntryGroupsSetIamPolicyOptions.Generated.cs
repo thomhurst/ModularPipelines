@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set an IAM policy binding for     a Dataplex Entry Group as defined in a JSON or YAML file
 /// </summary>
+/// <param name="PolicyFile"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entry-groups", "set-iam-policy")]

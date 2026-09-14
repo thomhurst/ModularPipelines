@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restore a domain from the     specified backup
 /// </summary>
+/// <param name="Backup">Name of the domain backup from which you want to restore the Managed Microsoft AD domain.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "restore")]
-public record GcloudActiveDirectoryDomainsRestoreOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsRestoreOptions(
+    [property: CliOption("--backup", Format = OptionFormat.EqualsSeparated)] string Backup
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

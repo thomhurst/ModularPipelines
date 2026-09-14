@@ -10,15 +10,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// clone a Google Cloud Firestore database     from another
 /// </summary>
+/// <param name="DestinationDatabase">Destination database to clone to. Destination database will be created in the same location as the source database. This value should be 4-63 characters. Valid characters are /[a-z][0-9]-/ with first character a letter and the last a letter or a number. Must not be UUID-like /[0-9a-f]8(-[0-9a-f]4)3-[0-9a-f]12/. Using "(default)" database ID is also allowed. For example, to clone to database testdb: $ gcloud firestore databases clone --destination-database=testdb</param>
+/// <param name="SnapshotTime">Snapshot time at which to clone. This must be a whole minute, in the past, and not earlier than the source database's earliest_version_time. Additionally, if older than one hour in the past, PITR must be enabled on the source database. For example, to restore from snapshot 2025-05-26T10:20:00.00Z of source database source-db: $ gcloud firestore databases clone \ --source-database=projects/PROJECT_ID/databases/source-db \ --snapshot-time=2025-05-26T10:20:00.00Z</param>
+/// <param name="SourceDatabase">The source database to clone from. For example, to clone from database source-db: $ gcloud firestore databases clone \ --source-database=projects/PROJECT_ID/databases/source-db</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "databases", "clone")]
-public record GcloudFirestoreDatabasesCloneOptions : GcloudOptions
+public record GcloudFirestoreDatabasesCloneOptions(
+    [property: CliOption("--destination-database", Format = OptionFormat.EqualsSeparated)] string DestinationDatabase,
+    [property: CliOption("--snapshot-time", Format = OptionFormat.EqualsSeparated)] string SnapshotTime,
+    [property: CliOption("--source-database", Format = OptionFormat.EqualsSeparated)] string SourceDatabase
+) : GcloudOptions
 {
+    /// <summary>
+    /// Tags to attach to the destination database. Example: --tags=key1=value1,key2=value2 For example, to attach tags to a database: $ --tags=key1=value1,key2=value2
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// The encryption configuration of the new database being created from the database. If not specified, the same encryption settings as the database will be used. To create a CMEK-enabled database: $ gcloud firestore databases clone \
+    /// </summary>
+    [CliOption("--encryption-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// The encryption configuration of the new database being created from the database. If not specified, the same encryption settings as the database will be used. To create a CMEK-enabled database: $ gcloud firestore databases clone \
+    /// </summary>
+    [CliOption("--kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyName { get; set; }
+
 }

@@ -16,11 +16,28 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an IAM policy     binding to a Compute Engine backend bucket
 /// </summary>
+/// <param name="Member">The principal to add the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+/// <param name="Role">Role name to assign to the principal. The role name is the complete path of a predefined role, such as roles/logging.viewer, or the role ID for a custom role, such as organizations/{ORGANIZATION_ID}/roles/logging.viewer.</param>
+/// <param name="BackendBucket"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "add-iam-policy-binding")]
 public record GcloudComputeBackendBucketsAddIamPolicyBindingOptions(
+    [property: CliOption("--member", Format = OptionFormat.EqualsSeparated)] string Member,
+    [property: CliOption("--role", Format = OptionFormat.EqualsSeparated)] string Role,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucket
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend bucket is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend bucket to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

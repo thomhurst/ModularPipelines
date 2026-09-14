@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,29 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "domains", "update-ldaps-settings")]
 public record GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Disable LDAPS by deleting all existing certificates. Certificates will need to be re-uploaded if LDAPS is to be re-enabled.
+    /// </summary>
+    [CliFlag("--clear-certificates")]
+    public bool? ClearCertificates { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: PKCS#12-formatted pfx file that specifies the certificate chain used to configure LDAPS. If certificate-password is not specified, command will prompt user for secret. Use a full or relative path to a local file containing the value of certificate_pfx_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--certificate-pfx-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificatePfxFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Password used to encrypt the PKCS#12 certificate. If not specified, command will prompt user for secret.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--certificate-password", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificatePassword { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

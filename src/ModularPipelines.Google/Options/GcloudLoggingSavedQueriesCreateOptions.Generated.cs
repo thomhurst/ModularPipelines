@@ -10,15 +10,89 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Logging saved query
 /// </summary>
+/// <param name="DisplayName">Display name for the saved query.</param>
+/// <param name="Location">Location to create the saved query in.</param>
+/// <param name="Visibility">Visibility of the saved query. VISIBILITY must be one of: private, shared.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "saved-queries", "create")]
-public record GcloudLoggingSavedQueriesCreateOptions : GcloudOptions
+public record GcloudLoggingSavedQueriesCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--visibility", Format = OptionFormat.EqualsSeparated)] GcloudVisibility Visibility
+) : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: SQL query text.
+    /// </summary>
+    [CliOption("--sql-query-text", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlQueryText { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Filter expression for the log-based query.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Comma-separated list of fields to include in the summary. This flag must be specified if --summary-field-start or --summary-field-end are provided.
+    /// </summary>
+    [CliOption("--summary-fields", Format = OptionFormat.EqualsSeparated)]
+    public string? SummaryFields { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Setting for number of characters to display for each summary field: characters will be counted from the end of the string. Requires the --summary-fields flag to be specified as well.
+    /// </summary>
+    [CliOption("--summary-field-end", Format = OptionFormat.EqualsSeparated)]
+    public string? SummaryFieldEnd { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Setting for number of characters to display for each summary field: characters will be counted from the start of the string. Requires the --summary-fields flag to be specified as well.
+    /// </summary>
+    [CliOption("--summary-field-start", Format = OptionFormat.EqualsSeparated)]
+    public string? SummaryFieldStart { get; set; }
+
+    /// <summary>
+    /// A textual description for the saved query.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// ID of the saved query to create.
+    /// </summary>
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Billing account of the saved query to create.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the saved query to create.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the saved query to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the saved query to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

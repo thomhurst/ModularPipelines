@@ -10,17 +10,88 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create     a Compute Engine Snapshot Schedule Resource Policy
 /// </summary>
+/// <param name="MaxRetentionDays">Maximum number of days snapshot can be retained.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "resource-policies", "create", "snapshot-schedule")]
 public record GcloudPreviewComputeResourcePoliciesCreateSnapshotScheduleOptions(
+    [property: CliOption("--max-retention-days", Format = OptionFormat.EqualsSeparated)] string MaxRetentionDays,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Cycle Frequency Group. Exactly one of these must be specified: Using a file: Using command flags: A JSON/YAML file which specifies a weekly schedule. The file should contain the following fields: day: Day of the week with the same choices as --weekly-schedule. startTime: Start time of the snapshot schedule with the same format as --start-time. For more information about using a file, see https://cloud.google.com/compute/docs/disks/scheduled-snapshots#create_snapshot_schedule. Use a full or relative path to a local file containing the value of weekly_schedule.
+    /// </summary>
+    [CliOption("--weekly-schedule-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? WeeklyScheduleFromFile { get; set; }
+
+    /// <summary>
+    /// Cycle Frequency Group. Exactly one of these must be specified: Using a file: Using command flags: Start time for the disk snapshot schedule in UTC. For example, --start-time="15:00". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Cycle Frequency Group. Exactly one of these must be specified: Using a file: Using command flags: Exactly one of these must be specified: Snapshot schedule starts daily at START_TIME.
+    /// </summary>
+    [CliFlag("--daily-schedule")]
+    public bool? DailySchedule { get; set; }
+
+    /// <summary>
+    /// Cycle Frequency Group. Exactly one of these must be specified: Using a file: Using command flags: Exactly one of these must be specified: Snapshot schedule occurs every n hours starting at START_TIME.
+    /// </summary>
+    [CliOption("--hourly-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? HourlySchedule { get; set; }
+
+    /// <summary>
+    /// Cycle Frequency Group. Exactly one of these must be specified: Using a file: Using command flags: Exactly one of these must be specified: Snapshot schedule occurs weekly on WEEKLY_SCHEDULE at START_TIME. WEEKLY_CYCLE must be one of: monday, tuesday, wednesday, thursday, friday, saturday, sunday.
+    /// </summary>
+    [CliOption("--weekly-schedule", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWeeklySchedule? WeeklySchedule { get; set; }
+
+    /// <summary>
+    /// Snapshot properties An optional, textual description for the backend.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Snapshot properties Retention behavior of automatic snapshots in the event of source disk deletion. ON_SOURCE_DISK_DELETE must be one of: apply-retention-policy Continue to apply the retention window to automatically-created snapshots when the source disk is deleted. keep-auto-snapshots Keep automatically-created snapshots when the source disk is deleted. This is the default behavior.
+    /// </summary>
+    [CliOption("--on-source-disk-delete", Format = OptionFormat.EqualsSeparated)]
+    public string? OnSourceDiskDelete { get; set; }
+
+    /// <summary>
+    /// Snapshot properties Region of the resource policy to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Snapshot properties Create an application consistent snapshot by informing the OS to prepare for the snapshot process.
+    /// </summary>
+    [CliFlag("--guest-flush")]
+    public bool? GuestFlush { get; set; }
+
+    /// <summary>
+    /// Snapshot properties List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. The label is added to each snapshot created by the schedule.
+    /// </summary>
+    [CliOption("--snapshot-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SnapshotLabels { get; set; }
+
+    /// <summary>
+    /// Snapshot properties Google Cloud Storage location, either regional or multi-regional, where snapshot content is to be stored. If absent, a nearby regional or multi-regional location is chosen automatically.
+    /// </summary>
+    [CliOption("--storage-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageLocation { get; set; }
+
 }

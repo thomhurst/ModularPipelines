@@ -10,15 +10,42 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud NetApp Host Group
 /// </summary>
+/// <param name="Hosts">List of hosts in the host group.</param>
+/// <param name="OsType">String indicating the OS type of the hosts in the host group. The supported values are: 'LINUX', 'WINDOWS', 'ESXI'. OS_TYPE must be one of: LINUX, WINDOWS, ESXI.</param>
+/// <param name="Type">String indicating the type of host group. The supported values are: 'ISCSI_INITIATOR'. TYPE must be (only one value is supported): ISCSI_INITIATOR.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "host-groups", "create")]
-public record GcloudNetappHostGroupsCreateOptions : GcloudOptions
+public record GcloudNetappHostGroupsCreateOptions(
+    [property: CliOption("--hosts", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Hosts,
+    [property: CliOption("--os-type", Format = OptionFormat.EqualsSeparated)] GcloudOsType OsType,
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Host Group
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

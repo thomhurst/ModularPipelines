@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace-add-ons", "deployments", "create")]
-public record GcloudWorkspaceAddOnsDeploymentsCreateOptions : GcloudOptions
+public record GcloudWorkspaceAddOnsDeploymentsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: path to the deployment file
+    /// </summary>
+    [CliOption("--deployment-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: json string of the deploymentObject
+    /// </summary>
+    [CliOption("--deployment-object", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentObject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DeploymentFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DeploymentObject) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DeploymentFile or DeploymentObject must be specified.", [nameof(DeploymentFile), nameof(DeploymentObject)]);
+        }
+    }
+
 }

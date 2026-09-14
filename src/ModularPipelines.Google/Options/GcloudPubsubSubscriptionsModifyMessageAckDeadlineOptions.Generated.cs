@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// modifies the ACK     deadline for a specific Cloud Pub/Sub message
 /// </summary>
+/// <param name="AckDeadline">The number of seconds the system will wait for a subscriber to acknowledge receiving a message before re-attempting delivery.</param>
+/// <param name="AckIds">One or more ACK_IDs to modify the deadline for. An ACK_ID is a string that is returned to subscribers (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.ReceivedMessage). along with the message. The ACK_ID is different from the message ID (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.PubsubMessage).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "modify-message-ack-deadline")]
-public record GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions : GcloudOptions
+public record GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions(
+    [property: CliOption("--ack-deadline", Format = OptionFormat.EqualsSeparated)] string AckDeadline,
+    [property: CliOption("--ack-ids", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> AckIds
+) : GcloudOptions
 {
 }

@@ -16,9 +16,60 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an Apphub application     service
 /// </summary>
+/// <param name="DiscoveredService">DiscoveredService resource - The discovered service resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --discovered-service on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the discoveredService or fully qualified identifier for the discoveredService. To set the discovered_service attribute: ▸ provide the argument --discovered-service on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apphub", "applications", "services", "create")]
-public record GcloudApphubApplicationsServicesCreateOptions : GcloudOptions
+public record GcloudApphubApplicationsServicesCreateOptions(
+    [property: CliOption("--discovered-service", Format = OptionFormat.EqualsSeparated)] string DiscoveredService
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Business owners of the service
+    /// </summary>
+    [CliOption("--business-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? BusinessOwners { get; set; }
+
+    /// <summary>
+    /// Criticality Type of the service. CRITICALITY_TYPE must be one of: HIGH High impact LOW Low impact MEDIUM Medium impact MISSION_CRITICAL Mission critical service, application or workload TYPE_UNSPECIFIED Unspecified criticality type
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Description of the service
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Developer owners of the service
+    /// </summary>
+    [CliOption("--developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Human-friendly display name
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Environment Type of the service. ENVIRONMENT_TYPE must be one of: DEVELOPMENT Development environment PRODUCTION Production environment STAGING Staging environment TEST Test environment TYPE_UNSPECIFIED Unspecified environment type
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Operator owners of the service
+    /// </summary>
+    [CliOption("--operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? OperatorOwners { get; set; }
+
 }

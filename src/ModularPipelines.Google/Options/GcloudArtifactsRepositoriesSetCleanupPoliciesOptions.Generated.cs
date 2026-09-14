@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "repositories", "set-cleanup-policies")]
-public record GcloudArtifactsRepositoriesSetCleanupPoliciesOptions : GcloudOptions
+public record GcloudArtifactsRepositoriesSetCleanupPoliciesOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: Disable deleting images according to cleanup policies.
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Path to a local JSON formatted file containing valid cleanup policies.
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(DryRun == true || !string.IsNullOrWhiteSpace(Policy)))
+        {
+            yield return new ValidationResult("At least one of DryRun or Policy must be specified.", [nameof(DryRun), nameof(Policy)]);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-configs", "disable")]
-public record GcloudStorageIntelligenceConfigsDisableOptions : GcloudOptions
+public record GcloudStorageIntelligenceConfigsDisableOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies organization id for the storage intelligence config.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies project for the storage intelligence config.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies sub-folder id for the storage intelligence config.
+    /// </summary>
+    [CliOption("--sub-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? SubFolder { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SubFolder) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization, Project, or SubFolder must be specified.", [nameof(Organization), nameof(Project), nameof(SubFolder)]);
+        }
+    }
+
 }

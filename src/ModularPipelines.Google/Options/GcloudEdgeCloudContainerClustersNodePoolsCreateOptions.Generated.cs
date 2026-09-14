@@ -10,15 +10,63 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Edge     Container node pool
 /// </summary>
+/// <param name="NodeCount">Default nodeCount used by this node pool.</param>
+/// <param name="NodeLocation">Google Edge Cloud zone where nodes in this node pool will be created.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "container", "clusters", "node-pools", "create")]
-public record GcloudEdgeCloudContainerClustersNodePoolsCreateOptions : GcloudOptions
+public record GcloudEdgeCloudContainerClustersNodePoolsCreateOptions(
+    [property: CliOption("--node-count", Format = OptionFormat.EqualsSeparated)] int NodeCount,
+    [property: CliOption("--node-location", Format = OptionFormat.EqualsSeparated)] string NodeLocation
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Google Cloud KMS key that will be used to secure local disks on nodes in this node pool. The Edge Container service account for this project must have roles/cloudkms.cryptoKeyEncrypterDecrypter on the key. If not provided, a Google-managed key will be used instead.
+    /// </summary>
+    [CliOption("--local-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalDiskKmsKey { get; set; }
+
+    /// <summary>
+    /// Overwrite the default LRO maximum timeout.
+    /// </summary>
+    [CliOption("--lro-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? LroTimeout { get; set; }
+
+    /// <summary>
+    /// Only machines matching this filter will be allowed to join the node pool. The filtering language accepts strings like "name=&lt;name&gt;", and is documented in more detail at https://google.aip.dev/160.
+    /// </summary>
+    [CliOption("--machine-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineFilter { get; set; }
+
+    /// <summary>
+    /// Comma-delimited list of key-value pairs that comprise labels for the individual nodes in the node pool. This flag sets the Kubernetes labels, unlike --labels which sets the cloud resource labels.
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Name for the storage schema of worker nodes.
+    /// </summary>
+    [CliOption("--node-storage-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeStorageSchema { get; set; }
+
 }

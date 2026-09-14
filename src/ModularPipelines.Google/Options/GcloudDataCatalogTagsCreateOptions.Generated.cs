@@ -16,9 +16,46 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Data Catalog entry tag
 /// </summary>
+/// <param name="TagFile">Path to a JSON or YAML file containing the tag. The file should contain a JSON/YAML object with a key and value for each field that should be set. See $ gcloud topic datetimes for information on how to specify timestamp fields. For example: { "dbl_field": 123, "str_field": "String", "bool_field": true, "ts_field": "1970-01-01T00:00:00.000Z", "enum_field": "ENUM_A", }</param>
+/// <param name="Entry">Entry resource - Entry to attach the tag to. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument --entry on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="TagTemplate">Tag template resource - Tag template. --tag-template-location defaults to the tag's location. --tag-template-project defaults to the tag's project. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the tag template or fully qualified identifier for the tag template. To set the tag_template attribute: ▸ provide the argument --tag-template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tags", "create")]
-public record GcloudDataCatalogTagsCreateOptions : GcloudOptions
+public record GcloudDataCatalogTagsCreateOptions(
+    [property: CliOption("--tag-file", Format = OptionFormat.EqualsSeparated)] string TagFile,
+    [property: CliOption("--entry", Format = OptionFormat.EqualsSeparated)] string Entry,
+    [property: CliOption("--tag-template", Format = OptionFormat.EqualsSeparated)] string TagTemplate
+) : GcloudOptions
 {
+    /// <summary>
+    /// Entry resource - Entry to attach the tag to. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group of the entry. To set the entry-group attribute: ▸ provide the argument --entry on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Entry to attach the tag to. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the entry. To set the location attribute: ▸ provide the argument --entry on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Tag template resource - Tag template. --tag-template-location defaults to the tag's location. --tag-template-project defaults to the tag's project. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Location of the tag template. To set the location attribute: ▸ provide the argument --tag-template on the command line with a fully specified name; ▸ provide the argument --tag-template-location on the command line; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--tag-template-location", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplateLocation { get; set; }
+
+    /// <summary>
+    /// Tag template resource - Tag template. --tag-template-location defaults to the tag's location. --tag-template-project defaults to the tag's project. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project of the tag template. To set the project attribute: ▸ provide the argument --tag-template on the command line with a fully specified name; ▸ provide the argument --tag-template-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--tag-template-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplateProject { get; set; }
+
+    /// <summary>
+    /// Scope within the parent resource that the tag is attached to. Scopes allow users to attach tags to individual columns based on the parent resource's schema. To attach a tag to a nested column, use '.' to separate the column names: 'outer_column.inner_column'.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
 }

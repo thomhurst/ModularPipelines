@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "restore")]
-public record GcloudMetastoreServicesRestoreOptions : GcloudOptions
+public record GcloudMetastoreServicesRestoreOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The backup resource or the location of the backup artifacts to store from. Exactly one of these must be specified: The backup resource to restore from. This can be the backup's ID, fully-qualified URL, or relative name in the form projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}.
+    /// </summary>
+    [CliOption("--backup", Format = OptionFormat.EqualsSeparated)]
+    public string? Backup { get; set; }
+
+    /// <summary>
+    /// The backup resource or the location of the backup artifacts to store from. Exactly one of these must be specified: The location of the backup artifacts to restore from. This should be a Cloud Storage URI, contains backup avro files under "avro/", backup_metastore.json and service.json, in the form gs://&lt;path_to_backup&gt;.
+    /// </summary>
+    [CliOption("--backup-location", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The type of restore to perform. RESTORE_TYPE must be one of: full The service's metadata and configuration are restored. metadata-only Only the service's metadata is restored.
+    /// </summary>
+    [CliOption("--restore-type", Format = OptionFormat.EqualsSeparated)]
+    public string? RestoreType { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Backup) ? 1 : 0) + (!string.IsNullOrWhiteSpace(BackupLocation) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Backup or BackupLocation must be specified.", [nameof(Backup), nameof(BackupLocation)]);
+        }
+    }
+
 }

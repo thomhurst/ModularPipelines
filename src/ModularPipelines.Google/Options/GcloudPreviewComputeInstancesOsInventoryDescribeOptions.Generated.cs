@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe a Compute     Engine virtual instance's OS inventory data
 /// </summary>
+/// <param name="InstanceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "os-inventory", "describe")]

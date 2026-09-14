@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,87 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "datascans", "create", "data-documentation")]
-public record GcloudDataplexDatascansCreateDataDocumentationOptions : GcloudOptions
+public record GcloudDataplexDatascansCreateDataDocumentationOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Data source for the data documentation scan. Exactly one of these must be specified: The Dataplex entity that contains the data for the data documentation scan, of the form: projects/{project_id_or_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. Currently only BigQuery table is supported.
+    /// </summary>
+    [CliOption("--data-source-entity", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSourceEntity { get; set; }
+
+    /// <summary>
+    /// Data source for the data documentation scan. Exactly one of these must be specified: Fully-qualified service resource name of the cloud resource that contains the data for the data documentation scan, of the form: //bigquery.{universe_domain}/projects/{project_id_or_number}/datasets/{dataset_id}/tables/{table_id}.
+    /// </summary>
+    [CliOption("--data-source-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSourceResource { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Description of the data documentation scan.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Display name of the data documentation scan.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Publish data documentation results to Knowledge Catalog.
+    /// </summary>
+    [CliFlag("--enable-catalog-publishing")]
+    public bool? EnableCatalogPublishing { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. At most one of --async | --validate-only can be specified. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. At most one of --async | --validate-only can be specified. At most one of these can be specified: Validate the create action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: If set, the scan runs one-time shortly after data documentation scan creation.
+    /// </summary>
+    [CliOption("--on-demand", Format = OptionFormat.EqualsSeparated)]
+    public string? OnDemand { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *. This field is required for RECURRING scans. The argument is only valid when --on-demand is not set.
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? Schedule { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data documentation scan one-time trigger settings. If set, the data documentation scan runs once, and is auto-deleted once the ttl_after_scan_completion expires.
+    /// </summary>
+    [CliFlag("--one-time")]
+    public bool? OneTime { get; set; }
+
+    /// <summary>
+    /// Data documentation scan settings. Data documentation scan execution settings. Data documentation scan trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data documentation scan one-time trigger settings. The time to live for one-time scans. Default value is 24 hours, minimum value is 0 seconds, and maximum value is 365 days. The time is calculated from the data scan job completion time. If value is set as 0 seconds, the scan will be immediately deleted upon job completion, regardless of whether the job succeeded or failed. The value should be a number followed by a unit suffix "s". Example: "100s" for 100 seconds. The argument is only valid when --one-time is set.
+    /// </summary>
+    [CliOption("--ttl-after-scan-completion", Format = OptionFormat.EqualsSeparated)]
+    public string? TtlAfterScanCompletion { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DataSourceEntity) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DataSourceResource) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DataSourceEntity or DataSourceResource must be specified.", [nameof(DataSourceEntity), nameof(DataSourceResource)]);
+        }
+    }
+
 }

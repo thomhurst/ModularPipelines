@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deletes a Cloud Firestore user creds
 /// </summary>
+/// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore user-creds delete --database='foo'</param>
+/// <param name="UserCreds"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "user-creds", "delete")]
 public record GcloudFirestoreUserCredsDeleteOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UserCreds
 ) : GcloudOptions
 {

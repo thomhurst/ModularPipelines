@@ -10,15 +10,31 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Google Compute Engine     rollout plan
 /// </summary>
+/// <param name="WavesFromFile">Path to a YAML or JSON file containing the wave definitions for the rollout plan.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "rollout-plans", "create")]
-public record GcloudComputeRolloutPlansCreateOptions : GcloudOptions
+public record GcloudComputeRolloutPlansCreateOptions(
+    [property: CliOption("--waves-from-file", Format = OptionFormat.EqualsSeparated)] string WavesFromFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// An optional description of this rollout plan.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The location scope of the rollout plan. LOCATION_SCOPE must be one of: ZONAL, REGIONAL.
+    /// </summary>
+    [CliOption("--location-scope", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLocationScope? LocationScope { get; set; }
+
 }

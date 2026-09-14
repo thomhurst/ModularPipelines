@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM     permissions for a storage pool
 /// </summary>
+/// <param name="Permissions">Permissions to be tested.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "storage-pools", "test-iam-permissions")]
-public record GcloudPreviewComputeStoragePoolsTestIamPermissionsOptions : GcloudOptions
+public record GcloudPreviewComputeStoragePoolsTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions
+) : GcloudOptions
 {
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,130 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("builds", "triggers", "create", "pubsub")]
 public record GcloudBuildsTriggersCreatePubsubOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Path to Build Trigger config file (JSON or YAML format). For more details, see https://cloud.google.com/cloud-build/docs/api/reference/rest/v1/projects.triggers#BuildTrigger
+    /// </summary>
+    [CliOption("--trigger-config", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration The topic to which this trigger should subscribe. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
+    public string? Topic { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Build trigger description.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Build trigger name.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Require manual approval for triggered builds. Use --require-approval to enable and --no-require-approval to disable.
+    /// </summary>
+    [CliFlag("--require-approval")]
+    public bool? RequireApproval { get; set; }
+
+    /// <summary>
+    /// Negates --require-approval. Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Require manual approval for triggered builds. Use --require-approval to enable and --no-require-approval to disable.
+    /// </summary>
+    [CliFlag("--no-require-approval")]
+    public bool? NoRequireApproval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild. If no service account is set, then the standard Cloud Build service account ([PROJECT_NUM]@system.gserviceaccount.com) is used instead. Format: projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration CEL filter expression for the trigger. See https://cloud.google.com/build/docs/filter-build-events-using-cel for more details.
+    /// </summary>
+    [CliOption("--subscription-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? SubscriptionFilter { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Parameters to be substituted in the build specification. For example: $ gcloud builds triggers create pubsub ... \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Substitutions can be applied to user-defined variables (starting with an underscore) and to the following built-in variables: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
+    /// </summary>
+    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Substitutions { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Exactly one of these must be specified: Path to a YAML or JSON file containing the build configuration in the repository. For more details, see: https://cloud.google.com/cloud-build/docs/build-config
+    /// </summary>
+    [CliOption("--build-config", Format = OptionFormat.EqualsSeparated)]
+    public string? BuildConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Exactly one of these must be specified: Local path to a YAML or JSON file containing a build configuration.
+    /// </summary>
+    [CliOption("--inline-config", Format = OptionFormat.EqualsSeparated)]
+    public string? InlineConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Exactly one of these must be specified: Or at least one of these can be specified: Dockerfile build configuration flags Path of Dockerfile to use for builds in the repository. If specified, a build config will be generated to run docker build using the specified file. The filename is relative to the Dockerfile directory. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--dockerfile", Format = OptionFormat.EqualsSeparated)]
+    public string? Dockerfile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Exactly one of these must be specified: Or at least one of these can be specified: Dockerfile build configuration flags Location of the directory containing the Dockerfile in the repository. The directory will also be used as the Docker build context.
+    /// </summary>
+    [CliOption("--dockerfile-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? DockerfileDir { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Exactly one of these must be specified: Or at least one of these can be specified: Dockerfile build configuration flags Docker image name to build. If not specified, gcr.io/PROJECT/github.com/REPO_OWNER/REPO_NAME:$COMMIT_SHA will be used. Use a build configuration (cloudbuild.yaml) file for building multiple images in a single trigger.
+    /// </summary>
+    [CliOption("--dockerfile-image", Format = OptionFormat.EqualsSeparated)]
+    public string? DockerfileImage { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Flags for repository and branch information At most one of these can be specified: Branch to build.
+    /// </summary>
+    [CliOption("--branch", Format = OptionFormat.EqualsSeparated)]
+    public string? Branch { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Flags for repository and branch information At most one of these can be specified: Tag to build.
+    /// </summary>
+    [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Flags for repository information At most one of these can be specified: Repository resource (2nd gen) to use, in the format "projects/*/locations/*/connections/*/repositories/".
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Flags for repository information At most one of these can be specified: Or at least one of these can be specified: 1st-gen repository settings. URI of the repository (1st gen). Currently only HTTP URIs for GitHub and Cloud Source Repositories are supported. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
+    public string? Repo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Flags for repository information At most one of these can be specified: Or at least one of these can be specified: 1st-gen repository settings. Type of the repository (1st gen). Currently only GitHub and Cloud Source Repository types are supported. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--repo-type", Format = OptionFormat.EqualsSeparated)]
+    public string? RepoType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Flags for repository information At most one of these can be specified: Or at least one of these can be specified: 1st-gen repository settings. The resource name of the GitHub Enterprise config that should be applied to this source (1st gen). Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id} or projects/{project}/githubEnterpriseConfigs/{id}
+    /// </summary>
+    [CliOption("--github-enterprise-config", Format = OptionFormat.EqualsSeparated)]
+    public string? GithubEnterpriseConfig { get; set; }
+
 }

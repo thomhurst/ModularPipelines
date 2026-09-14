@@ -10,15 +10,46 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// analyzes resource move
 /// </summary>
+/// <param name="Project">The project ID or number to perform the analysis.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "analyze-move")]
-public record GcloudAssetAnalyzeMoveOptions : GcloudOptions
+public record GcloudAssetAnalyzeMoveOptions(
+    [property: CliOption("--project", Format = OptionFormat.EqualsSeparated)] string Project
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The destination folder ID to perform the analysis.
+    /// </summary>
+    [CliOption("--destination-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationFolder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The destination organization ID to perform the analysis.
+    /// </summary>
+    [CliOption("--destination-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationOrganization { get; set; }
+
+    /// <summary>
+    /// Determines whether to perform analysis against blockers only. Leaving it empty means the full analysis will be performed including warnings and blockers for the specified resource move.
+    /// </summary>
+    [CliOption("--blockers-only", Format = OptionFormat.EqualsSeparated)]
+    public string? BlockersOnly { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DestinationFolder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationOrganization) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DestinationFolder or DestinationOrganization must be specified.", [nameof(DestinationFolder), nameof(DestinationOrganization)]);
+        }
+    }
+
 }

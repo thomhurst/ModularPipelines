@@ -44,7 +44,7 @@ public class GcloudDatabaseMigrationConversionWorkspacesMappingRules
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConversionWorkspacesMappingRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConversionWorkspacesMappingRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class GcloudDatabaseMigrationConversionWorkspacesMappingRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudDatabaseMigrationConversionWorkspacesMappingRulesListOptions? options = null,
+        GcloudDatabaseMigrationConversionWorkspacesMappingRulesListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationConversionWorkspacesMappingRulesListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

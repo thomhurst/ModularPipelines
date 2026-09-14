@@ -10,15 +10,37 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// creates a glossary term
 /// </summary>
+/// <param name="Parent">Immediate parent of the created glossary term.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "glossaries", "terms", "create")]
-public record GcloudDataplexGlossariesTermsCreateOptions : GcloudOptions
+public record GcloudDataplexGlossariesTermsCreateOptions(
+    [property: CliOption("--parent", Format = OptionFormat.EqualsSeparated)] string Parent
+) : GcloudOptions
 {
+    /// <summary>
+    /// Description of the glossary term.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the glossary term.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

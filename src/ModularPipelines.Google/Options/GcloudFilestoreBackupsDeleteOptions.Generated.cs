@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Filestore backup
 /// </summary>
+/// <param name="Region">Compute region (e.g. us-central1) for the backup.</param>
+/// <param name="Backup"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "backups", "delete")]
 public record GcloudFilestoreBackupsDeleteOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Backup
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

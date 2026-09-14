@@ -16,9 +16,52 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an     enterprise-certificate configuration file for Linux
 /// </summary>
+/// <param name="Label">The PKCS #11 label for the target credentials. The certificate, public key, and private key MUST have the same label. enterprise-certificate-proxy will use all three objects.</param>
+/// <param name="Module">The full file path to the PKCS #11 module.</param>
+/// <param name="Slot">The PKCS #11 slot containing the target credentials.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "enterprise-certificate-config", "create", "linux")]
-public record GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions : GcloudOptions
+public record GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions(
+    [property: CliOption("--label", Format = OptionFormat.EqualsSeparated)] string Label,
+    [property: CliOption("--module", Format = OptionFormat.EqualsSeparated)] string Module,
+    [property: CliOption("--slot", Format = OptionFormat.EqualsSeparated)] string Slot
+) : GcloudOptions
 {
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp", Format = OptionFormat.EqualsSeparated)]
+    public string? Ecp { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy shared client library. This flag must be the full path to the shared library.
+    /// </summary>
+    [CliOption("--ecp-client", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpClient { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the ECP HTTP proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp-http-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpHttpProxy { get; set; }
+
+    /// <summary>
+    /// Override the file path that the enterprise-certificate-proxy configuration is written to.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy shared tls offload library. This flag must be the full path to the shared library.
+    /// </summary>
+    [CliOption("--tls-offload", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsOffload { get; set; }
+
+    /// <summary>
+    /// The user pin used to login to the PKCS #11 module. If there is no user pin leave this field empty.
+    /// </summary>
+    [CliOption("--user-pin", Format = OptionFormat.EqualsSeparated)]
+    public string? UserPin { get; set; }
+
 }

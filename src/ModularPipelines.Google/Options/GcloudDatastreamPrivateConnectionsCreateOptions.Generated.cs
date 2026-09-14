@@ -10,15 +10,65 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Datastream private     connection
 /// </summary>
+/// <param name="DisplayName">Friendly name for the private connection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "private-connections", "create")]
-public record GcloudDatastreamPrivateConnectionsCreateOptions : GcloudOptions
+public record GcloudDatastreamPrivateConnectionsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for Private Service Connect Interface configuration. Full URI of the network attachment that datastream will connect to.For example, this would be of the form:network-attachment=projects/test-project/regions/us-central1/networkAttachments/my-na
+    /// </summary>
+    [CliOption("--network-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkAttachment { get; set; }
+
+    /// <summary>
+    /// Arguments for VPC Peering configuration. A free subnet for peering. (CIDR of /29). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Arguments for VPC Peering configuration. Vpc resource - Resource ID of the VPC network to peer with. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --vpc on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. This must be specified. ID of the vpc or fully qualified identifier for the vpc. To set the vpc attribute: ▫ provide the argument --vpc on the command line.
+    /// </summary>
+    [CliOption("--vpc", Format = OptionFormat.EqualsSeparated)]
+    public string? Vpc { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// If set, the request will retrieve the project id to allow in the network attachment Datastream will connect to.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(NetworkAttachment) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NetworkAttachment must be specified.", [nameof(NetworkAttachment)]);
+        }
+    }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list snapshots for a Bare Metal     Solution boot volume
 /// </summary>
+/// <param name="Volume">Volume resource - The Bare Metal Solution volume to list snapshots of. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument --volume on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "volumes", "snapshots", "list")]
-public record GcloudBmsVolumesSnapshotsListOptions : GcloudOptions
+public record GcloudBmsVolumesSnapshotsListOptions(
+    [property: CliOption("--volume", Format = OptionFormat.EqualsSeparated)] string Volume
+) : GcloudOptions
 {
+    /// <summary>
+    /// Volume resource - The Bare Metal Solution volume to list snapshots of. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region of the resource. To set the region attribute: ▸ provide the argument --volume on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

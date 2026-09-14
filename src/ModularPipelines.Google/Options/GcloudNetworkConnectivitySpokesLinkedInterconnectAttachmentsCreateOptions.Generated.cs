@@ -10,15 +10,75 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new VLAN attachment spoke
 /// </summary>
+/// <param name="Hub">Hub that the spoke will attach to. The hub must already exist.</param>
+/// <param name="InterconnectAttachments">VLAN attachments that the spoke provides connectivity to. The resources must already exist.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "linked-interconnect-attachments", "create")]
-public record GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsCreateOptions(
+    [property: CliOption("--hub", Format = OptionFormat.EqualsSeparated)] string Hub,
+    [property: CliOption("--interconnect-attachments", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> InterconnectAttachments
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the spoke to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+    /// </summary>
+    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+    /// </summary>
+    [CliOption("--exclude-import-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeImportRanges { get; set; }
+
+    /// <summary>
+    /// The group that the spoke will be added to. The group must already exist. If unset, the spoke will be added to the ``default`` group.
+    /// </summary>
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public string? Group { get; set; }
+
+    /// <summary>
+    /// Dynamic routes fully encompassed by include export ranges are included during export to hub. If it's empty, the spoke exports all dynamic routes to the hub.
+    /// </summary>
+    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Hub routes fully encompassed by include import ranges are included during import from hub. If it's empty, the spoke does not import any subnets from the hub. If it's empty and site-to-site-data-transfer is true, the spoke imports all IPv4 site-to-site dynamic routes from the hub.
+    /// </summary>
+    [CliOption("--include-import-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeImportRanges { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Whether to enable site-to-site data transfer for this spoke. Data transfer is available only in supported locations (https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations).
+    /// </summary>
+    [CliFlag("--site-to-site-data-transfer")]
+    public bool? SiteToSiteDataTransfer { get; set; }
+
 }

@@ -16,11 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update an AlloyDB user's database roles     within a given cluster and region
 /// </summary>
+/// <param name="Cluster">AlloyDB cluster ID</param>
+/// <param name="DbRoles">Comma separated list of database roles this new user will be granted upon creation.</param>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Username"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "set-roles")]
 public record GcloudAlloydbUsersSetRolesOptions(
+    [property: CliOption("--cluster", Format = OptionFormat.EqualsSeparated)] string Cluster,
+    [property: CliOption("--db-roles", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> DbRoles,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If the user already exists and has extra roles, keep them.
+    /// </summary>
+    [CliOption("--keep-extra-roles", Format = OptionFormat.EqualsSeparated)]
+    public string? KeepExtraRoles { get; set; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,45 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notebooks", "instances", "update")]
-public record GcloudNotebooksInstancesUpdateOptions : GcloudOptions
+public record GcloudNotebooksInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: Count of cores of this accelerator.
+    /// </summary>
+    [CliOption("--accelerator-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AcceleratorCoreCount { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Type of this accelerator. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_A100, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, TPU_V2, TPU_V3, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Labels to apply to this instance. These can be later modified by the setLabels method.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The Compute Engine machine type.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(AcceleratorCoreCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || Labels?.Any() == true || !string.IsNullOrWhiteSpace(MachineType)))
+        {
+            yield return new ValidationResult("At least one of AcceleratorCoreCount, AcceleratorType, Labels, or MachineType must be specified.", [nameof(AcceleratorCoreCount), nameof(AcceleratorType), nameof(Labels), nameof(MachineType)]);
+        }
+    }
+
 }

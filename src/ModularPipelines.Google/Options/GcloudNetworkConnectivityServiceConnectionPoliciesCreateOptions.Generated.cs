@@ -10,15 +10,65 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a     new Service Connection Policy
 /// </summary>
+/// <param name="Network">Network resource - Network that this service connection policy applies to. E.g. projects/my-project/global/networks/net1 This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.</param>
+/// <param name="ServiceClass">Service class that this policy is created for. E.g. my-service-class-ad32fa4b</param>
+/// <param name="Subnets">This must be specified. Subnetwork resource - Subnetwork to use for IP address management. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --subnets on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --subnets on the command line with a fully specified name; ▸ provide the argument --region on the command line. This must be specified. IDs of the subnetworks or fully qualified identifiers for the subnetworks. To set the subnetwork attribute: ▫ provide the argument --subnets on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "service-connection-policies", "create")]
-public record GcloudNetworkConnectivityServiceConnectionPoliciesCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityServiceConnectionPoliciesCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
+    [property: CliOption("--service-class", Format = OptionFormat.EqualsSeparated)] string ServiceClass,
+    [property: CliOption("--subnets", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Subnets
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of projects, folders, or orgs where the producer instance can be located in the form "projects/123456789", folders/123456789", or "organizations/123456789".
+    /// </summary>
+    [CliOption("--allowed-google-producers-resource-hierarchy-level", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedGoogleProducersResourceHierarchyLevel { get; set; }
+
+    /// <summary>
+    /// Option that determines where the producer instances can be located for which connections can be created in the network controlled by this policy. PRODUCER_INSTANCE_LOCATION must be one of: custom-resource-hierarchy-levels The producer instance must be located in one of the values provided in the allowed-google-producers-resource-hierarchy-level flag. none The producer instance must be within the same project as this connection policy.
+    /// </summary>
+    [CliOption("--producer-instance-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ProducerInstanceLocation { get; set; }
+
+    /// <summary>
+    /// Max number of PSC connections for this policy.
+    /// </summary>
+    [CliOption("--psc-connection-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? PscConnectionLimit { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the Service Connection Policy to be created.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// For resources [service_connection_policy, subnets], provides fallback value for resource region attribute. When the resource's full URI path is not provided, region will fallback to this flag value.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

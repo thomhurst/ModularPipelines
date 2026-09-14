@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// renames a named configuration
 /// </summary>
+/// <param name="NewName">Specifies the new name of the configuration.</param>
+/// <param name="ConfigurationName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "config", "configurations", "rename")]
 public record GcloudPreviewConfigConfigurationsRenameOptions(
+    [property: CliOption("--new-name", Format = OptionFormat.EqualsSeparated)] string NewName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigurationName
 ) : GcloudOptions
 {

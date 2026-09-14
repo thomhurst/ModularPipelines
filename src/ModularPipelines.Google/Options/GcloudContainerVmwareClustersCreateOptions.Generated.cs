@@ -10,15 +10,285 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Anthos cluster on     VMware
 /// </summary>
+/// <param name="Version">Anthos Cluster on VMware version for the cluster resource</param>
+/// <param name="AdminClusterMembership">Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container vmware clusters create</param>
+/// <param name="ControlPlaneVip">Anthos on VMware cluster load balancer configurations This must be specified. VIPs used by the load balancer This must be specified. VIP for the Kubernetes API of this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="IngressVip">Anthos on VMware cluster load balancer configurations This must be specified. VIPs used by the load balancer This must be specified. VIP for ingress traffic into this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="PodAddressCidrBlocks">VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="ServiceAddressCidrBlocks">VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "create")]
-public record GcloudContainerVmwareClustersCreateOptions : GcloudOptions
+public record GcloudContainerVmwareClustersCreateOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version,
+    [property: CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)] string AdminClusterMembership,
+    [property: CliOption("--control-plane-vip", Format = OptionFormat.EqualsSeparated)] string ControlPlaneVip,
+    [property: CliOption("--ingress-vip", Format = OptionFormat.EqualsSeparated)] string IngressVip,
+    [property: CliOption("--pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] string PodAddressCidrBlocks,
+    [property: CliOption("--service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] string ServiceAddressCidrBlocks
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// or $ gcloud container vmware clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipProject { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container vmware clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: MetalLB Configuration At most one of these can be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud gcloud container vmware clusters create --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
+    /// </summary>
+    [CliOption("--metal-lb-config-address-pools", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbConfigAddressPools { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. F5 Big IP Configuration NodePort for control plane service.
+    /// </summary>
+    [CliOption("--control-plane-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodePort { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. F5 Big IP Configuration NodePort for ingress service's http.
+    /// </summary>
+    [CliOption("--ingress-http-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? IngressHttpNodePort { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. F5 Big IP Configuration NodePort for ingress service's https.
+    /// </summary>
+    [CliOption("--ingress-https-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? IngressHttpsNodePort { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. F5 Big IP Configuration NodePort for konnectivity service running as a sidecar in each kube-apiserver pod.
+    /// </summary>
+    [CliOption("--konnectivity-server-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? KonnectivityServerNodePort { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. F5 Big IP Configuration F5 Big IP load balancer address. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--f5-config-address", Format = OptionFormat.EqualsSeparated)]
+    public string? F5ConfigAddress { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. F5 Big IP Configuration F5 Big IP load balancer partition. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--f5-config-partition", Format = OptionFormat.EqualsSeparated)]
+    public string? F5ConfigPartition { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. F5 Big IP Configuration F5 Big IP load balancer pool name if using SNAT.
+    /// </summary>
+    [CliOption("--f5-config-snat-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? F5ConfigSnatPool { get; set; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address Static IP addresses for the control plane nodes. The number of IP addresses should match the number of replicas for the control plane nodes, specified by --replicas. To specify the control plane IP block, $ gcloud gcloud container vmware clusters create --control-plane-ip-block 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;'
+    /// </summary>
+    [CliOption("--control-plane-ip-block", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneIpBlock { get; set; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address DNS search domains.
+    /// </summary>
+    [CliOption("--dns-search-domains", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DnsSearchDomains { get; set; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address DNS server IP address.
+    /// </summary>
+    [CliOption("--dns-servers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DnsServers { get; set; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address NTP server IP address.
+    /// </summary>
+    [CliOption("--ntp-servers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NtpServers { get; set; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address IP configuration used by the VMware User Cluster At most one of these can be specified: DHCP configuration group. Enable DHCP IP allocation for VMware user clusters. While using DHCP, manual load balancing mode is not supported. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses.
+    /// </summary>
+    [CliFlag("--enable-dhcp")]
+    public bool? EnableDhcp { get; set; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. Control plane v2 mode configurations. Common parameters for all hosts irrespective of their IP address IP configuration used by the VMware User Cluster At most one of these can be specified: DHCP configuration group. Static IP configuration group At most one of these can be specified: Static IP configurations. Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block. Example: To specify two Static IP blocks, $ gcloud gcloud container vmware clusters create --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16' --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4' Use quote around the flag value to escape semicolon in the terminal.
+    /// </summary>
+    [CliOption("--static-ip-config-ip-blocks", Format = OptionFormat.EqualsSeparated)]
+    public string? StaticIpConfigIpBlocks { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster. To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators. Examples: $ gcloud container vmware clusters create --admin-users alice@example.com --admin-users bob@example.com
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminUsers { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Annotations on the VMware user cluster.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Description for the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+    /// </summary>
+    [CliFlag("--disable-aag-config")]
+    public bool? DisableAagConfig { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+    /// </summary>
+    [CliFlag("--disable-vsphere-csi")]
+    public bool? DisableVsphereCsi { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If set, deploy the cluster-health-controller.
+    /// </summary>
+    [CliFlag("--enable-auto-repair")]
+    public bool? EnableAutoRepair { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If set, enable VM tracking.
+    /// </summary>
+    [CliFlag("--enable-vm-tracking")]
+    public bool? EnableVmTracking { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If not specified, control-plane-only is set to False. In the next upgrade operation, all worker node pools will be upgraded together with the control plane. Example: To upgrade the control plane only and keep worker node pools version unchanged, first specify the policy: $ gcloud container vmware clusters create CLUSTER \ --upgrade-policy control-plane-only=True Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION After upgrading only the cluster control plane, to upgrade an individual node pool, run: $ gcloud container vmware node-pools update NODE_POOL \ --version=VERSION Example: Alternatively, to upgrade both the control plane and all worker node pools, first specify the policy: $ gcloud container vmware clusters create CLUSTER \ --upgrade-policy control-plane-only=False Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION
+    /// </summary>
+    [CliOption("--upgrade-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? UpgradePolicy { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)
+    /// </summary>
+    [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpus { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Enable controle plane node auto resize.
+    /// </summary>
+    [CliFlag("--enable-auto-resize")]
+    public bool? EnableAutoResize { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Number of control plane nodes for this VMware user cluster. (default: 1 replica).
+    /// </summary>
+    [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? Replicas { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. At most one of these can be specified: If set, disable control plane v2.
+    /// </summary>
+    [CliFlag("--disable-control-plane-v2")]
+    public bool? DisableControlPlaneV2 { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. At most one of these can be specified: If set, enable control plane v2.
+    /// </summary>
+    [CliFlag("--enable-control-plane-v2")]
+    public bool? EnableControlPlaneV2 { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If set, enable advanced networking. Requires dataplane_v2_enabled to be set true.
+    /// </summary>
+    [CliFlag("--enable-advanced-networking")]
+    public bool? EnableAdvancedNetworking { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. If set, enables Dataplane V2.
+    /// </summary>
+    [CliFlag("--enable-dataplane-v2")]
+    public bool? EnableDataplaneV2 { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter CA certificate public key for SSL verification.
+    /// </summary>
+    [CliOption("--vcenter-ca-cert-data", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterCaCertData { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter cluster for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterCluster { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter datacenter for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-datacenter", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterDatacenter { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter datastore for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-datastore", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterDatastore { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter folder for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterFolder { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter resource pool for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-resource-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterResourcePool { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Anti-affinity group configurations Storage configurations Auto-repair configurations Upgrade policy for the cluster. Control plane node configurations Auto resize configurations Dataplane V2 configurations vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter storage policy for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-storage-policy-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterStoragePolicyName { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of MetalLbConfigAddressPools must be specified.", [nameof(MetalLbConfigAddressPools)]);
+        }
+    }
+
 }

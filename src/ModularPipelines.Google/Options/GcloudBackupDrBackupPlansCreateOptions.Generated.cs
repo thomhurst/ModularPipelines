@@ -10,15 +10,75 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// creates a new Backup Plan
 /// </summary>
+/// <param name="BackupVault">Backup Vault resource - The backup vault where the backups gets stored using this backup plan. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the Backup Vault or fully qualified identifier for the Backup Vault. To set the name attribute: ▸ provide the argument --backup-vault on the command line.</param>
+/// <param name="ResourceType">Type of resource to which the backup plan should be applied. For example: ◆ compute.&lt;UNIVERSE_DOMAIN&gt;/Instance for Compute Engine instances. ◆ file.&lt;UNIVERSE_DOMAIN&gt;/Instance for Filestore instances.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backup-plans", "create")]
-public record GcloudBackupDrBackupPlansCreateOptions : GcloudOptions
+public record GcloudBackupDrBackupPlansCreateOptions(
+    [property: CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)] string BackupVault,
+    [property: CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)] string ResourceType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Backup rule that defines parameters for when and how a backup is created. This flag can be repeated to create more backup rules. Parameters for the backup rule include: rule-id Name of the backup rule. The name must be unique and start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. retention-days Duration for which backup data should be retained. It must be defined in "days". The value should be greater than or equal to the enforced retention period set for the backup vault. recurrence Frequency for the backup schedule. It must be either: HOURLY, DAILY, WEEKLY, MONTHLY or YEARLY. backup-window-start Start time of the interval during which backup jobs should be executed. It can be defined as backup-window-start=2, that means backup window starts at 2 a.m. The start time and end time must have an interval of 6 hours. backup-window-end End time of the interval during which backup jobs should be executed. It can be defined as backup-window-end=14, that means backup window ends at 2 p.m. The start time and end time must have an interval of 6 hours. Jobs are queued at the beginning of the window and will be marked as SKIPPED if they do not start by the end time. Jobs that are in progress will not be canceled at the end time. time-zone The time zone to be used for the backup schedule. The value must exist in the IANA tz database (https://www.iana.org/time-zones). The default value is UTC. E.g., Europe/Paris Following flags are mutually exclusive: hourly-frequency Frequency for hourly backups. An hourly frequency of 2 means backup jobs will run every 2 hours from start time till the end time defined. The hourly frequency must be between 4 and 23. The value is needed only if recurrence type is HOURLY. days-of-week Days of the week when the backup job should be executed. The value is needed if recurrence type is WEEKLY. E.g., MONDAY,TUESDAY days-of-month Days of the month when the backup job should be executed. The value is needed only if recurrence type is YEARLY. E.g.,"1,5,14" months Month for the backup schedule. The value is needed only if recurrence type is YEARLY. E.g., JANUARY, MARCH week-day-of-month Recurring day of the week in the month or year when the backup job should be executed. E.g. FIRST-SUNDAY, THIRD-MONDAY. The value can only be provided if the recurrence type is MONTHLY or YEARLY. Allowed values for the number of week - FIRST, SECOND, THIRD, FOURTH, LAST. Allowed values for days of the week - MONDAY to SUNDAY. E.g., "rule-id=sample-daily-rule,recurrence=WEEKLY,backup-window-start=2,backup-window-end=14,retention-days=20,days-of-week='SUNDAY MONDAY'"
+    /// </summary>
+    [CliOption("--backup-rule", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? BackupRule { get; set; }
+
+    /// <summary>
+    /// Workload-specific properties for Compute Engine instance backups generated by this plan. guest-flush Indicates whether to perform a guest flush operation before taking a compute backup. When set to true, the system will attempt to ensure application-consistent backups. When set to false, the system will create crash-consistent backups. Default value is false. Following properties are mutually exclusive: boot-disk-only Indicates whether to backup only the boot disk of the compute instance. When set to true, only the boot disk is backed up. disk-exclusion-labels Key-value pairs of labels used to identify disks to be excluded from backup for the compute instance. Examples: --compute-instance-properties=guest-flush=true,boot-disk-only=true --compute-instance-properties=disk-exclusion-labels=backup=exclude
+    /// </summary>
+    [CliOption("--compute-instance-properties", Format = OptionFormat.EqualsSeparated)]
+    public string? ComputeInstanceProperties { get; set; }
+
+    /// <summary>
+    /// Provide a description of the backup plan, such as specific use cases and relevant details, in 2048 characters or less. E.g., This is a backup plan that performs a daily backup at 6 p.m. and retains data for 3 months.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Workload-specific properties for disk backups generated by this plan. guest-flush Indicates whether to perform a guest flush operation before taking a disk backup. When set to true, the system will attempt to ensure application-consistent backups. When set to false, the system will create crash-consistent backups. Default value is false. Example: --disk-properties=guest-flush=true
+    /// </summary>
+    [CliOption("--disk-properties", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskProperties { get; set; }
+
+    /// <summary>
+    /// If you have assigned labels to your resources for grouping, you can provide the label using this flag.A label is a key-value pair. Keys must start with a lowercase character and contain only hyphens (-), underscores (), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Configures how long logs will be stored. It is defined in "days". This value should be greater than or equal to minimum enforced retention duration of the backup vault.
+    /// </summary>
+    [CliOption("--log-retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? LogRetentionDays { get; set; }
+
+    /// <summary>
+    /// Configure the maximum retention period for on-demand backups. The value must be greater than or equal to the minimum enforced retention period set on the backup vault.
+    /// </summary>
+    [CliOption("--max-custom-on-demand-retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxCustomOnDemandRetentionDays { get; set; }
+
 }

@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get a membership     graph of just a member or both a member and a group
 /// </summary>
+/// <param name="Labels">The labels of the groups in the membership graph.</param>
+/// <param name="MemberEmail">The email address of the member to get the membership graph for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "memberships", "get-membership-graph")]
-public record GcloudIdentityGroupsMembershipsGetMembershipGraphOptions : GcloudOptions
+public record GcloudIdentityGroupsMembershipsGetMembershipGraphOptions(
+    [property: CliOption("--labels", Format = OptionFormat.EqualsSeparated)] string Labels,
+    [property: CliOption("--member-email", Format = OptionFormat.EqualsSeparated)] string MemberEmail
+) : GcloudOptions
 {
+    /// <summary>
+    /// The email address of the group to constrain the membership graph with.
+    /// </summary>
+    [CliOption("--group-email", Format = OptionFormat.EqualsSeparated)]
+    public string? GroupEmail { get; set; }
+
 }

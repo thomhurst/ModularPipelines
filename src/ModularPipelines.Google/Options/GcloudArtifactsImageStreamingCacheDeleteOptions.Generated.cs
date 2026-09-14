@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes the prewarmed state     of a specific artifact from a specific stream location
 /// </summary>
+/// <param name="StreamLocation">The target Cloud Region where the artifact should be prewarmed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "image-streaming-cache", "delete")]
-public record GcloudArtifactsImageStreamingCacheDeleteOptions : GcloudOptions
+public record GcloudArtifactsImageStreamingCacheDeleteOptions(
+    [property: CliOption("--stream-location", Format = OptionFormat.EqualsSeparated)] string StreamLocation
+) : GcloudOptions
 {
 }

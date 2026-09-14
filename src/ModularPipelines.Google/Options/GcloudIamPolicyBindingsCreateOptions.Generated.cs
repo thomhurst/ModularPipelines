@@ -16,9 +16,78 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create PolicyBinding instance
 /// </summary>
+/// <param name="Policy">The resource name of the policy to be bound. The binding parent and policy must belong to the same organization.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "policy-bindings", "create")]
-public record GcloudIamPolicyBindingsCreateOptions : GcloudOptions
+public record GcloudIamPolicyBindingsCreateOptions(
+    [property: CliOption("--policy", Format = OptionFormat.EqualsSeparated)] string Policy
+) : GcloudOptions
 {
+    /// <summary>
+    /// The full resource name of the resource to which the policy will be bound. Immutable once set. This must be specified. Arguments for the target. At most one of these can be specified: The full resource name that's used for principal access boundary policy bindings. The principal set must be directly parented by the policy binding's parent or same as the parent if the target is a project, folder, or organization. Examples: ▫ For bindings parented by an organization: ◇ Organization: //cloudresourcemanager.googleapis.com/organizations/ORGANIZATION_ID ◇ Workforce Identity: //iam.googleapis.com/locations/global/workforcePools/WORKFORCE_POOL_ID ◇ Workspace Identity: //iam.googleapis.com/locations/global/workspace/WORKSPACE_ID ▫ For bindings parented by a folder: ◇ Folder: //cloudresourcemanager.googleapis.com/folders/FOLDER_ID ▫ For bindings parented by a project: ◇ Project: ▹ //cloudresourcemanager.googleapis.com/projects/PROJECT_NUMBER ▹ //cloudresourcemanager.googleapis.com/projects/PROJECT_ID ◇ Workload Identity Pool: //iam.googleapis.com/projects/PROJECT_NUMBER/locations/LOCATION/workloadIdentityPools/WORKLOAD_POOL_ID
+    /// </summary>
+    [CliOption("--target-principal-set", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetPrincipalSet { get; set; }
+
+    /// <summary>
+    /// The full resource name of the resource to which the policy will be bound. Immutable once set. This must be specified. Arguments for the target. At most one of these can be specified: The full resource name that's used for access policy bindings. Examples: ▹ Organization: //cloudresourcemanager.googleapis.com/organizations/ORGANIZATION_ID ▹ Folder: //cloudresourcemanager.googleapis.com/folders/FOLDER_ID ▹ Project: ▪ //cloudresourcemanager.googleapis.com/projects/PROJECT_NUMBER ▪ //cloudresourcemanager.googleapis.com/projects/PROJECT_ID
+    /// </summary>
+    [CliOption("--target-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResource { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. User-defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. The description of the policy binding. Must be less than or equal to 63 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. The etag for the policy binding. If this is provided on update, it must match the server's etag.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. The kind of the policy to attach in this binding. This field must be one of the following: ◆ Left empty (will be automatically set to the policy kind) ◆ The input policy kind. POLICY_KIND must be one of: access Access policy kind. principal-access-boundary Principal access boundary policy kind
+    /// </summary>
+    [CliOption("--policy-kind", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyKind { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+    /// </summary>
+    [CliOption("--condition-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDescription { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. Textual representation of an expression in Common Expression Language syntax.
+    /// </summary>
+    [CliOption("--condition-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionExpression { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
+    /// </summary>
+    [CliOption("--condition-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionLocation { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
+    /// </summary>
+    [CliOption("--condition-title", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionTitle { get; set; }
+
 }

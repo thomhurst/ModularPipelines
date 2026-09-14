@@ -16,9 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restore a Cloud Bigtable backup to a new     table
 /// </summary>
+/// <param name="Destination">Table resource - The destination to restore to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the destination attribute: ▸ provide the argument --destination on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="Source">Backup resource - The source to restore from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the source attribute: ▸ provide the argument --source on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "tables", "restore")]
-public record GcloudBigtableTablesRestoreOptions : GcloudOptions
+public record GcloudBigtableTablesRestoreOptions(
+    [property: CliOption("--destination", Format = OptionFormat.EqualsSeparated)] string Destination,
+    [property: CliOption("--source", Format = OptionFormat.EqualsSeparated)] string Source
+) : GcloudOptions
 {
+    /// <summary>
+    /// Table resource - The destination to restore to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument --destination on the command line with a fully specified name; ▸ provide the argument --destination-instance on the command line; ▸ provide the argument --source-instance on the command line.
+    /// </summary>
+    [CliOption("--destination-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationInstance { get; set; }
+
+    /// <summary>
+    /// Backup resource - The source to restore from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable cluster. To set the cluster attribute: ▸ provide the argument --source on the command line with a fully specified name; ▸ provide the argument --source-cluster on the command line.
+    /// </summary>
+    [CliOption("--source-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCluster { get; set; }
+
+    /// <summary>
+    /// Backup resource - The source to restore from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument --source on the command line with a fully specified name; ▸ provide the argument --source-instance on the command line; ▸ provide the argument --destination-instance on the command line.
+    /// </summary>
+    [CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstance { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

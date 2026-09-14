@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete domain mappings for Cloud Run     for Anthos
 /// </summary>
+/// <param name="Domain">DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the DomainMapping or fully qualified identifier for the DomainMapping. To set the domain attribute: ▸ provide the argument --domain on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "domain-mappings", "delete")]
-public record GcloudRunDomainMappingsDeleteOptions : GcloudOptions
+public record GcloudRunDomainMappingsDeleteOptions(
+    [property: CliOption("--domain", Format = OptionFormat.EqualsSeparated)] string Domain
+) : GcloudOptions
 {
+    /// <summary>
+    /// DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Specific to Cloud Run for Anthos: Kubernetes namespace for the DomainMapping. To set the namespace attribute: ▸ provide the argument --domain on the command line with a fully specified name; ▸ provide the argument --namespace on the command line; ▸ set the property run/namespace; ▸ For Cloud Run on Kubernetes Engine, defaults to "default". Otherwise, defaults to project ID.; ▸ provide the argument project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. Defaults to --no-async. Use --async to enable and --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. Defaults to --no-async. Use --async to enable and --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
 }

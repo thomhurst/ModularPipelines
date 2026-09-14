@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list     settingBindings
 /// </summary>
+/// <param name="GeminiGcpEnablementSetting">GeminiGcpEnablementSetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gemini-gcp-enablement-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the geminiGcpEnablementSetting or fully qualified identifier for the geminiGcpEnablementSetting. To set the gemini-gcp-enablement-setting attribute: ▸ provide the argument --gemini-gcp-enablement-setting on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gemini", "gemini-gcp-enablement-settings", "setting-bindings", "list")]
-public record GcloudGeminiGeminiGcpEnablementSettingsSettingBindingsListOptions : GcloudOptions
+public record GcloudGeminiGeminiGcpEnablementSettingsSettingBindingsListOptions(
+    [property: CliOption("--gemini-gcp-enablement-setting", Format = OptionFormat.EqualsSeparated)] string GeminiGcpEnablementSetting
+) : GcloudOptions
 {
+    /// <summary>
+    /// GeminiGcpEnablementSetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gemini-gcp-enablement-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the geminiGcpEnablementSetting resource. To set the location attribute: ▸ provide the argument --gemini-gcp-enablement-setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

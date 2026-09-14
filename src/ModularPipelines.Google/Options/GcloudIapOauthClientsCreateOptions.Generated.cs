@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud IAP OAuth client in the     project
 /// </summary>
+/// <param name="DisplayName">User friendly name for the Cloud IAP OAuth client.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "oauth-clients", "create")]
-public record GcloudIapOauthClientsCreateOptions : GcloudOptions
+public record GcloudIapOauthClientsCreateOptions(
+    [property: CliOption("--display_name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
 }

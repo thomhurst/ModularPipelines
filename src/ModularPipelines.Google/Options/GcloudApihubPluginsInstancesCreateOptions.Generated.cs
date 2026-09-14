@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,90 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Plugin Instance
 /// </summary>
+/// <param name="Actions">Required, The action status for the plugin instance. actionId This should map to one of the [action id][google.cloud.apihub.v1.PluginActionConfig.id] specified in [actions_config][google.cloud.apihub.v1.Plugin.actions_config] in the plugin. curationConfig This configuration should be provided if the plugin action is publishing data to API hub curate layer. curationType The curation type for this plugin instance. customCuration Custom curation information for this plugin instance. curation The unique name of the curation resource. This will be the name of the curation resource in the format: projects/{project}/locations/{location}/curations/{curation}. scheduleCronExpression The schedule for this plugin instance action. This can only be set if the plugin supports API_HUB_SCHEDULE_TRIGGER mode for this action. scheduleTimeZone The time zone for the schedule cron expression. If not provided, UTC will be used. serviceAccount The service account used to publish data. Note, the service account will only be accepted for non-Google Cloud plugins like OPDK. Shorthand Example: --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string JSON Example: --actions='[{"actionId": "string", "curationConfig": {"curationType": "string", "customCuration": {"curation": "string"}}, "scheduleCronExpression": "string", "scheduleTimeZone": "string", "serviceAccount": "string"}]' File Example: --actions=path_to_file.(yaml|json)</param>
+/// <param name="DisplayName">The display name for this plugin instance. Max length is 255 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "plugins", "instances", "create")]
-public record GcloudApihubPluginsInstancesCreateOptions : GcloudOptions
+public record GcloudApihubPluginsInstancesCreateOptions(
+    [property: CliOption("--actions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Actions,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// AuthConfig represents the authentication information. The additional information for this plugin instance corresponding to the additional config template of the plugin. This information will be sent to plugin hosting service on each call to plugin hosted service. The key will be the config_variable_template.display_name to uniquely identify the config variable. KEY Sets KEY value. VALUE Sets VALUE value. boolValue The config variable value in case of config variable of type boolean. enumValue The config variable value in case of config variable of type enum. description Description of the option. displayName Display name of the option. id Id of the option. intValue The config variable value in case of config variable of type integer. multiIntValues The config variable value in case of config variable of type multi integer. values The config variable value of data type multi int. multiSelectValues The config variable value in case of config variable of type multi select. values The config variable value of data type multi select. description Description of the option. displayName Display name of the option. id Id of the option. multiStringValues The config variable value in case of config variable of type multi string. values The config variable value of data type multi string. secretValue The config variable value in case of config variable of type secret. secretVersion The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*. stringValue The config variable value in case of config variable of type string. Shorthand Example: --additional-config=string={boolValue=boolean,enumValue={description=string,displayName=string,id=string},intValue=int,multiIntValues={values=[int]},multiSelectValues={values=[{description=string,displayName=string,id=string}]},multiStringValues={values=[string]},secretValue={secretVersion=string},stringValue=string} JSON Example: --additional-config='{"string": {"boolValue": boolean, "enumValue": {"description": "string", "displayName": "string", "id": "string"}, "intValue": int, "multiIntValues": {"values": [int]}, "multiSelectValues": {"values": [{"description": "string", "displayName": "string", "id": "string"}]}, "multiStringValues": {"values": ["string"]}, "secretValue": {"secretVersion": "string"}, "stringValue": "string"}}' File Example: --additional-config=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--additional-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalConfig { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. The source environment's config present in the gateway instance linked to the plugin instance. The key is the source_environment name from the SourceEnvironment message. KEY Sets KEY value. VALUE Sets VALUE value. createTime The time at which the environment was created at the source. sourceEnvironment The name of the environment at the source. This should map to [Deployment][google.cloud.apihub.v1.SourceEnvironment.source_environment]. sourceEnvironmentUri The location where additional information about source environments can be found. The location should be relative path of the environment manifest with respect to a plugin instance. updateTime The time at which the environment was last updated at the source. Shorthand Example: --source-environments-config=string={createTime=string,sourceEnvironment=string,sourceEnvironmentUri=string,updateTime=string} JSON Example: --source-environments-config='{"string": {"createTime": "string", "sourceEnvironment": "string", "sourceEnvironmentUri": "string", "updateTime": "string"}}' File Example: --source-environments-config=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--source-environments-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceEnvironmentsConfig { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. The source project id of the plugin instance. This will be the id of runtime project in case of Google Cloud based plugins and org id in case of non-Google Cloud based plugins. This field will be a required field for Google provided on-ramp plugins.
+    /// </summary>
+    [CliOption("--source-project-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceProjectId { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. The authentication type. AUTH_CONFIG_TYPE must be one of: api-key API Key authentication. google-service-account Google service account authentication. no-auth No authentication. oauth2-client-credentials Oauth 2.0 client credentials grant authentication. user-password Username and password authentication. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--auth-config-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthConfigType { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. The location of the API key. The default value is QUERY. API_KEY_CONFIG_HTTP_ELEMENT_LOCATION must be one of: body Element is in the HTTP request body. cookie Element is in the HTTP request cookie. header Element is in the HTTP request header. path Element is in the HTTP request path. query Element is in the HTTP request query. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--api-key-config-http-element-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKeyConfigHttpElementLocation { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. The parameter name of the API key. E.g. If the API request is "https://example.com/act?api_key=&lt;API KEY&gt;", "api_key" would be the parameter name. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--api-key-config-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKeyConfigName { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. This must be specified. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--api-key-config-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKeyConfigSecretVersion { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. The client identifier. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oauth2-client-credentials-config-id", Format = OptionFormat.EqualsSeparated)]
+    public string? Oauth2ClientCredentialsConfigId { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. This must be specified. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--oauth2-client-credentials-config-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? Oauth2ClientCredentialsConfigSecretVersion { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. This must be specified. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--user-password-config-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? UserPasswordConfigSecretVersion { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Username.
+    /// </summary>
+    [CliOption("--user-password-config-username", Format = OptionFormat.EqualsSeparated)]
+    public string? UserPasswordConfigUsername { get; set; }
+
 }

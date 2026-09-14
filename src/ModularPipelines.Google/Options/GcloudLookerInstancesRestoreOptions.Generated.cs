@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restore a Looker instance from a backup
 /// </summary>
+/// <param name="Backup">The ID of the backup instance in the format projects/{project}/locations/{location}/instances/{instance}/backups/{backup}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("looker", "instances", "restore")]
-public record GcloudLookerInstancesRestoreOptions : GcloudOptions
+public record GcloudLookerInstancesRestoreOptions(
+    [property: CliOption("--backup", Format = OptionFormat.EqualsSeparated)] string Backup
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

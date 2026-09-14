@@ -10,17 +10,36 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// describes a Compute Engine network firewall policy pakcet mirroring     rule
 /// </summary>
+/// <param name="FirewallPolicy">Firewall policy ID with which to describe rule.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "mirroring-rules", "describe")]
 public record GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesDescribeOptions(
+    [property: CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)] string FirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Use this flag to indicate that firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(GlobalFirewallPolicy == true))
+        {
+            yield return new ValidationResult("At least one of GlobalFirewallPolicy must be specified.", [nameof(GlobalFirewallPolicy)]);
+        }
+    }
+
 }

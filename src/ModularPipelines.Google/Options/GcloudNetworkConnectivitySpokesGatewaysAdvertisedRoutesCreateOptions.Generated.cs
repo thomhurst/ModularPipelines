@@ -10,15 +10,59 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new gateway advertised route
 /// </summary>
+/// <param name="IpRange">Advertise this IP range.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "gateways", "advertised-routes", "create")]
-public record GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions(
+    [property: CliOption("--ip-range", Format = OptionFormat.EqualsSeparated)] string IpRange
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The gateway should advertise this route toward the hub.
+    /// </summary>
+    [CliFlag("--advertise-to-hub")]
+    public bool? AdvertiseToHub { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the advertised route to be created.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// This route's priority. Must be between 0 and 65335.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(AdvertiseToHub == true))
+        {
+            yield return new ValidationResult("At least one of AdvertiseToHub must be specified.", [nameof(AdvertiseToHub)]);
+        }
+    }
+
 }

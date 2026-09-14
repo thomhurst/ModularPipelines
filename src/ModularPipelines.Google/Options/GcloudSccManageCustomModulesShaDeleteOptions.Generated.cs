@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Security Health     Analytics custom module
 /// </summary>
+/// <param name="ModuleIdOrName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "sha", "delete")]

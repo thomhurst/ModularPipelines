@@ -10,15 +10,31 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// reschedule maintenance     window for a Redis instance
 /// </summary>
+/// <param name="RescheduleType">Reschedule type to use for the reschedule maintenance window. Reschedule Type must be one of:IMMEDIATE, NEXT-AVAILABLE-WINDOW, or SPECIFIC-TIME. RESCHEDULE_TYPE must be one of: immediate Reschedule the maintenance window to perform now. next-available-window Reschedule the maintenance window to the next available window. specific-time Reschedule the maintenance window to a specific time.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "instances", "reschedule-maintenance")]
-public record GcloudRedisInstancesRescheduleMaintenanceOptions : GcloudOptions
+public record GcloudRedisInstancesRescheduleMaintenanceOptions(
+    [property: CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)] GcloudRescheduleType RescheduleType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Time in RFC3339 format, for example: 2012-11-15T16:19:00.094Z
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
 }

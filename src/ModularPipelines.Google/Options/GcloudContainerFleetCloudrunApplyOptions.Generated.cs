@@ -21,4 +21,34 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "cloudrun", "apply")]
 public record GcloudContainerFleetCloudrunApplyOptions : GcloudOptions
 {
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The location/name of the GKE cluster. The location can be a zone or a region for e.g us-central1-a/my-cluster.
+    /// </summary>
+    [CliOption("--gke-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeCluster { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The URI of a GKE cluster that you want to register to Hub; for example, 'https://container.googleapis.com/v1/projects/my-project/locations/us-central1-a/clusters/my-cluster'. To obtain the URI, you can run 'gcloud container clusters list --uri'. Note that this should only be provided if the cluster being registered is a GKE cluster. The service will validate the provided URI to confirm that it maps to a valid GKE cluster."
+    /// </summary>
+    [CliOption("--gke-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeUri { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The cluster context as it appears in the kubeconfig file. You can get this value from the command line by running command: kubectl config current-context. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public string? Context { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The kubeconfig file containing an entry for the cluster. Defaults to $KUBECONFIG if it is set in the environment, otherwise defaults to $HOME/.kube/config.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// The path to CloudRun custom resource config file.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
 }

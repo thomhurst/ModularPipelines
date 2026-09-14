@@ -10,15 +10,51 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud NetApp Volume     Replication
 /// </summary>
+/// <param name="DestinationVolumeParameters">Required, sets destination_volume_parameters value. description Sets description value. share_name Sets share_name value. storage_pool Required, sets storage_pool value. tiering_policy Sets tiering_policy value. cooling-threshold-days Sets cooling-threshold-days value. tier-action Sets tier-action value. volume_id Sets volume_id value. Shorthand Example: --destination-volume-parameters='description=string,share_name=string,storage_pool=string,tiering_policy={"cooling-threshold-days": int, "tier-action": "string"},volume_id=string' JSON Example: --destination-volume-parameters='{"description": "string", "share_name": "string", "storage_pool": "string", "tiering_policy": {"cooling-threshold-days": int, "tier-action": "string"}, "volume_id": "string"}' File Example: --destination-volume-parameters=path_to_file.(yaml|json)</param>
+/// <param name="ReplicationSchedule">The schedule for the Replication.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "replications", "create")]
-public record GcloudNetappVolumesReplicationsCreateOptions : GcloudOptions
+public record GcloudNetappVolumesReplicationsCreateOptions(
+    [property: CliOption("--destination-volume-parameters", Format = OptionFormat.EqualsSeparated)] string DestinationVolumeParameters,
+    [property: CliOption("--replication-schedule", Format = OptionFormat.EqualsSeparated)] string ReplicationSchedule
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Location of the user cluster.
+    /// </summary>
+    [CliOption("--cluster-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterLocation { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Replication
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume that the Replication is based on This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
+
 }

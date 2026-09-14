@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get register     parameters (including availability) of a specific domain
 /// </summary>
+/// <param name="Domain"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "get-register-parameters")]

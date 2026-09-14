@@ -10,17 +10,112 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new AI Platform version
 /// </summary>
+/// <param name="Model">Name of the model.</param>
+/// <param name="Version"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "versions", "create")]
 public record GcloudAiPlatformVersionsCreateOptions(
+    [property: CliOption("--model", Format = OptionFormat.EqualsSeparated)] string Model,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Manage the accelerator config for GPU serving. When deploying a model with Compute Engine Machine Types, a GPU accelerator may also be selected. type The type of the accelerator. Choices are 'nvidia-tesla-a100', 'nvidia-tesla-k80', 'nvidia-tesla-p100', 'nvidia-tesla-p4', 'nvidia-tesla-t4', 'nvidia-tesla-v100'. count The number of accelerators to attach to each machine running the job. If not specified, the default value is 1. Your model must be specially designed to accommodate more than 1 accelerator per machine. To configure how many replicas your model has, set the manualScaling or autoScaling parameters.
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Path to a YAML configuration file containing configuration parameters for the Version (https://cloud.google.com/ai-platform/prediction/docs/reference/rest/v1/projects.models.versions) to create. The file is in YAML format. Note that not all attributes of a version are configurable; available attributes (with example values) are: description: A free-form description of the version. deploymentUri: gs://path/to/source runtimeVersion: '2.1' # Set only one of either manualScaling or autoScaling. manualScaling: nodes: 10 # The number of nodes to allocate for this model. autoScaling: minNodes: 0 # The minimum number of nodes to allocate for this model. labels: user-defined-key: user-defined-value The name of the version must always be specified via the required VERSION argument. Only one of manualScaling or autoScaling can be specified. If both are specified in same yaml file an error will be returned. If an option is specified both in the configuration file and via command-line arguments, the command-line arguments override the configuration file.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Description of the version.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. ML framework used to train this version of the model. If not specified, defaults to 'tensorflow'. FRAMEWORK must be one of: scikit-learn, tensorflow, xgboost.
+    /// </summary>
+    [CliOption("--framework", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFramework? Framework { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Type of machine on which to serve the model. Currently only applies to online prediction. For available machine types, see https://cloud.google.com/ai-platform/prediction/docs/machine-types-online-prediction#available_machine_types.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Location of model/ "directory" (see https://cloud.google.com/ai-platform/prediction/docs/deploying-models#upload-model). This overrides deploymentUri in the --config file. If this flag is not passed, deploymentUri must be specified in the file from --config. Can be a Cloud Storage (gs://) path or local file path (no prefix). In the latter case the files will be uploaded to Cloud Storage and a --staging-bucket argument is required.
+    /// </summary>
+    [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
+    public string? Origin { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Version of Python used when creating the version. Choices are 3.7, 3.5, and 2.7. However, this value must be compatible with the chosen runtime version for the job. Must be used with a compatible runtime version: ◆ 3.7 is compatible with runtime versions 1.15 and later. ◆ 3.5 is compatible with runtime versions 1.4 through 1.14. ◆ 2.7 is compatible with runtime versions 1.15 and earlier.
+    /// </summary>
+    [CliOption("--python-version", Format = OptionFormat.EqualsSeparated)]
+    public string? PythonVersion { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Google Cloud region of the regional endpoint to use for this command. For the global endpoint, the region needs to be specified as global. Learn more about regional endpoints and see a list of available regions: https://cloud.google.com/ai-platform/prediction/docs/regional-endpoints REGION must be one of: global, asia-east1, asia-northeast1, asia-southeast1, australia-southeast1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, us-central1, us-east1, us-east4, us-west1.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. AI Platform runtime version for this job. Must be specified unless --master-image-uri is specified instead. It is defined in documentation along with the list of supported versions: https://cloud.google.com/ai-platform/prediction/docs/runtime-version-list
+    /// </summary>
+    [CliOption("--runtime-version", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeVersion { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. Bucket in which to stage training archives. Required only if a file upload is necessary (that is, other flags include local paths) and no other flags implicitly specify an upload path.
+    /// </summary>
+    [CliOption("--staging-bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? StagingBucket { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. The maximum number of nodes to scale this model under load.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. List of key-value pairs to set as metrics' target for autoscaling. Autoscaling could be based on CPU usage or GPU duty cycle, valid key could be cpu-usage or gpu-duty-cycle.
+    /// </summary>
+    [CliOption("--metric-targets", Format = OptionFormat.EqualsSeparated)]
+    public string? MetricTargets { get; set; }
+
+    /// <summary>
+    /// Configure the autoscaling settings to be deployed. The minimum number of nodes to scale this model under load.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodes { get; set; }
+
 }

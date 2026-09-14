@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set the IAM     policy binding for a Compute Engine instant snapshot
 /// </summary>
+/// <param name="InstantSnapshotName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instant-snapshots", "set-iam-policy")]

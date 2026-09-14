@@ -16,9 +16,54 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new workforce pool under an     organization
 /// </summary>
+/// <param name="Organization">The parent organization of the workforce pool to create.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "create")]
-public record GcloudIamWorkforcePoolsCreateOptions : GcloudOptions
+public record GcloudIamWorkforcePoolsCreateOptions(
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization
+) : GcloudOptions
 {
+    /// <summary>
+    /// Services allowed for web sign-in with the workforce pool. The flag accepts multiple values with the key as domain and value as the domain of the service allowed for web sign-in. If not set, by default all the services are allowed.
+    /// </summary>
+    [CliOption("--allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedServices { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description for the workforce pool. Cannot exceed 256 characters in length.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Disable programmatic sign-in for workforce pool users.
+    /// </summary>
+    [CliFlag("--disable-programmatic-signin")]
+    public bool? DisableProgrammaticSignin { get; set; }
+
+    /// <summary>
+    /// Whether or not the workforce pool is disabled.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// A display name for the workforce pool. Cannot exceed 32 characters in length.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// How long the Google Cloud access tokens, console sign-in sessions, and gcloud sign-in sessions from this workforce pool are valid. Must be greater than 15 minutes (900s) and less than 12 hours (43200s). If not configured, minted credentials will have a default duration of one hour (3600s).
+    /// </summary>
+    [CliOption("--session-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionDuration { get; set; }
+
 }

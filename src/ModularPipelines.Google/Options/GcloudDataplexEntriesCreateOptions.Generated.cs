@@ -10,15 +10,103 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Dataplex Entry resource
 /// </summary>
+/// <param name="EntryType">Entry type resource - Arguments and flags that define the Dataplex EntryType you want to reference. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the entry type or fully qualified identifier for the entry type. To set the entry_type attribute: ▸ provide the argument --entry-type on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entries", "create")]
-public record GcloudDataplexEntriesCreateOptions : GcloudOptions
+public record GcloudDataplexEntriesCreateOptions(
+    [property: CliOption("--entry-type", Format = OptionFormat.EqualsSeparated)] string EntryType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Entry type resource - Arguments and flags that define the Dataplex EntryType you want to reference. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location of the EntryType resource. To set the entry-type-location attribute: ▸ provide the argument --entry-type on the command line with a fully specified name; ▸ provide the argument --entry-type-location on the command line.
+    /// </summary>
+    [CliOption("--entry-type-location", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryTypeLocation { get; set; }
+
+    /// <summary>
+    /// Entry type resource - Arguments and flags that define the Dataplex EntryType you want to reference. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The project of the EntryType resource. To set the entry-type-project attribute: ▸ provide the argument --entry-type on the command line with a fully specified name; ▸ provide the argument --entry-type-project on the command line.
+    /// </summary>
+    [CliOption("--entry-type-project", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryTypeProject { get; set; }
+
+    /// <summary>
+    /// Path to a YAML or JSON file containing Aspects to add or update. When this flag is specified, only Aspects referenced in the file are going to be added or updated. Specifying this flag does not remove any Aspects from the entry. In other words, specifying this flag will not lead to a full replacement of Aspects with a contents of the provided file. Content of the file contains a map, where keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. Values in the map represent Aspect's content, which must conform to a template defined for a given ASPECT_TYPE. Each Aspect will be replaced fully by the provided content. That means data in the Aspect will be replaced and not merged with existing contents of that Aspect in the Entry. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself) or point to a specific column defined in the schema. For example: Schema.some_column. Example YAML format: project-id1.us-central1.my-aspect-type1: data: aspectField1: someValue aspectField2: someOtherValue project-id2.us-central1.my-aspect-type2@Schema.column1: data: aspectField3: someValue3 Example JSON format: { "project-id1.us-central1.my-aspect-type1": { "data": { "aspectField1": "someValue", "aspectField2": "someOtherValue" } }, "project-id2.us-central1.my-aspect-type2@Schema.column1": { "data": { "aspectField3": "someValue3" } } }
+    /// </summary>
+    [CliOption("--aspects", Format = OptionFormat.EqualsSeparated)]
+    public string? Aspects { get; set; }
+
+    /// <summary>
+    /// A name for the entry that can reference it in an external system. The maximum size of the field is 4000 characters.
+    /// </summary>
+    [CliOption("--fully-qualified-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FullyQualifiedName { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ◆ provide the argument --parent-entry on the command line.
+    /// </summary>
+    [CliOption("--parent-entry", Format = OptionFormat.EqualsSeparated)]
+    public string? ParentEntry { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. Information about individual items in the hierarchy of an Entry.
+    /// </summary>
+    [CliOption("--entry-source-ancestors", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EntrySourceAncestors { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. The creation date and time of the resource in the source system.
+    /// </summary>
+    [CliOption("--entry-source-create-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceCreateTime { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. Description of the Entry.
+    /// </summary>
+    [CliOption("--entry-source-description", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceDescription { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. User friendly display name.
+    /// </summary>
+    [CliOption("--entry-source-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceDisplayName { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--entry-source-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? EntrySourceLabels { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. The platform containing the source system.
+    /// </summary>
+    [CliOption("--entry-source-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourcePlatform { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. The name of the resource in the source system.
+    /// </summary>
+    [CliOption("--entry-source-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceResource { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. The name of the source system.
+    /// </summary>
+    [CliOption("--entry-source-system", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceSystem { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the parent Entry you want to reference. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property dataplex/location. To set the entry_group attribute: ◆ provide the argument --parent-entry on the command line with a fully specified name; ◆ provide the argument --entry_group on the command line. Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. The update date and time of the resource in the source system.
+    /// </summary>
+    [CliOption("--entry-source-update-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EntrySourceUpdateTime { get; set; }
+
 }

@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Security Command Center     notification config
 /// </summary>
+/// <param name="NotificationConfigId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "notifications", "delete")]

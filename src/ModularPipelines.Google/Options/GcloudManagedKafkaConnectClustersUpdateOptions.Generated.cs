@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,89 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("managed-kafka", "connect-clusters", "update")]
 public record GcloudManagedKafkaConnectClustersUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// At least one of these must be specified: The number of vCPUs to provision for the cluster. The minimum is 3.
+    /// </summary>
+    [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpu { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The memory to provision for the cluster in bytes. The value must be between 1 GiB and 8 GiB per vCPU. Ex. 1024Mi, 4Gi.
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all the configurations for the topic.
+    /// </summary>
+    [CliFlag("--clear-configs")]
+    public bool? ClearConfigs { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: The path to the JSON or YAML file containing the configuration that are overridden from the cluster or connector defaults. This also supports inline JSON or YAML. Sets config_file value. Input Example: --config-file=string File Example: --config-file=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Configuration for the connect cluster that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: cleanup.policy=compact,compression.type=producer.
+    /// </summary>
+    [CliOption("--configs", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Configs { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all the DNS domain names for the connect cluster.
+    /// </summary>
+    [CliFlag("--clear-dns-names")]
+    public bool? ClearDnsNames { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: DNS domain name from the subnet's network to be made visible to the Connect Cluster.
+    /// </summary>
+    [CliOption("--dns-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DnsName { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all the labels from the connect cluster.
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all the secrets from the connect cluster.
+    /// </summary>
+    [CliFlag("--clear-secrets")]
+    public bool? ClearSecrets { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Secrets to load into workers. Exact SecretVersions from Secret Manager must be provided -- aliases are not supported. Up to 32 secrets may be loaded into one cluster. Format: projects/&lt;project-id&gt;/secrets/&lt;secret-name&gt;/versions/&lt;version-id&gt;
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
+    public string? Secret { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: VPC subnet to make available to the Kafka Connect cluster. Structured like: projects/{project}/regions/{region}/subnetworks/{subnet_id}. The primary subnet is used to create a Private Service Connect (PSC) interface for the Kafka Connect workers. It must be located in the same region as the Connect cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--primary-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? PrimarySubnet { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: (DEPRECATED) Additional subnet to make available to the Kafka Connect cluster. Structured like: projects/{project}/regions/{region}/subnetworks/{subnet_id}. The --additional-subnet flag is deprecated and will be removed in a future version. Managed Kafka Connect clusters can now reach any endpoint accessible from the primary subnet without the need to define additional subnets. Please see https://cloud.google.com/managed-service-for-apache-kafka/docs/connect-cluster/create-connect-cluster#worker-subnet for more information.
+    /// </summary>
+    [CliOption("--additional-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? AdditionalSubnet { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

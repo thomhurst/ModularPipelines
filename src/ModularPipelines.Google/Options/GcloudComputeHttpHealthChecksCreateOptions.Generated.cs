@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a legacy HTTP health     check
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "http-health-checks", "create")]
@@ -63,7 +64,7 @@ public record GcloudComputeHttpHealthChecksCreateOptions(
     /// If Compute Engine doesn't receive an HTTP 200 response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. The default value is 5s. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// The number of consecutive health check failures before a healthy instance is marked as unhealthy. The default is 2.

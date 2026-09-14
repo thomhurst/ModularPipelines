@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// connect to a service via VPC peering     for a project network
 /// </summary>
+/// <param name="Network">The network in the current project to be peered with the service</param>
+/// <param name="Ranges">The names of IP CIDR ranges for service to use.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "vpc-peerings", "connect")]
-public record GcloudServicesVpcPeeringsConnectOptions : GcloudOptions
+public record GcloudServicesVpcPeeringsConnectOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
+    [property: CliOption("--ranges", Format = OptionFormat.EqualsSeparated)] string Ranges
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The service to connect to
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

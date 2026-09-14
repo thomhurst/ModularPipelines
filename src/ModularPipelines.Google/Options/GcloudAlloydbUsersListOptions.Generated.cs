@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists AlloyDB users in a given cluster
 /// </summary>
+/// <param name="Cluster">AlloyDB cluster ID</param>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "list")]
-public record GcloudAlloydbUsersListOptions : GcloudOptions
+public record GcloudAlloydbUsersListOptions(
+    [property: CliOption("--cluster", Format = OptionFormat.EqualsSeparated)] string Cluster,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region
+) : GcloudOptions
 {
 }

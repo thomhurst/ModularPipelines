@@ -16,11 +16,62 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update an interface on a     Compute Engine router
 /// </summary>
+/// <param name="InterfaceName">The name of the interface being updated.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "update-interface")]
 public record GcloudPreviewComputeRoutersUpdateInterfaceOptions(
+    [property: CliOption("--interface-name", Format = OptionFormat.EqualsSeparated)] string InterfaceName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The link local (IPv4) or ULA (IPv6) address of the router for this interface.
+    /// </summary>
+    [CliOption("--ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? IpAddress { get; set; }
+
+    /// <summary>
+    /// IP version of the interface. Possible values are IPV4 and IPV6. Defaults to IPV4. IP_VERSION must be one of: IPV4 Interface with IPv4-based BGP. IPV6 Interface with IPv6-based BGP.
+    /// </summary>
+    [CliOption("--ip-version", Format = OptionFormat.EqualsSeparated)]
+    public string? IpVersion { get; set; }
+
+    /// <summary>
+    /// The subnet mask for the IP range of the interface. The interface IP address and BGP peer IP address must be selected from the subnet defined by this range.
+    /// </summary>
+    [CliOption("--mask-length", Format = OptionFormat.EqualsSeparated)]
+    public string? MaskLength { get; set; }
+
+    /// <summary>
+    /// Region of the router to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The interconnect attachment of the interface being updated.
+    /// </summary>
+    [CliOption("--interconnect-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? InterconnectAttachment { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the interconnectAttachment to operate on. If not specified it will be set to the region of the router. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--interconnect-attachment-region", Format = OptionFormat.EqualsSeparated)]
+    public string? InterconnectAttachmentRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The tunnel of the interface being updated.
+    /// </summary>
+    [CliOption("--vpn-tunnel", Format = OptionFormat.EqualsSeparated)]
+    public string? VpnTunnel { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the vpn tunnel to operate on. If not specified it will be set to the region of the router. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--vpn-tunnel-region", Format = OptionFormat.EqualsSeparated)]
+    public string? VpnTunnelRegion { get; set; }
+
 }

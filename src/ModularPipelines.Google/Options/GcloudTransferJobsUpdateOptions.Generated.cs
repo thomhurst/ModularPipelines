@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -17,12 +18,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Transfer Service transfer job
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "jobs", "update")]
 public record GcloudTransferJobsUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// JOB INFORMATION EVENT STREAM Configure an event-driven transfer to transfer data whenever it is added or changed at your source. Event-driven transfers are available from Google Cloud Storage, Amazon S3, and Azure Blob Storage sources. For more information, see https://docs.cloud.google.com/storage-transfer/docs/event-driven-transfers. SCHEDULE A job's schedule determines when and how often the job will run. For formatting information, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Specify this flag to change the status of the job. Options include 'enabled', 'disabled', 'deleted'. STATUS must be one of: deleted, disabled, enabled.
@@ -431,5 +433,14 @@ public record GcloudTransferJobsUpdateOptions(
     /// </summary>
     [CliFlag("--clear-s3-cloudfront-domain")]
     public bool? ClearS3CloudfrontDomain { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(ClearIncludePrefixes == true || ClearExcludePrefixes == true || ClearMatchGlob == true || ClearIncludeModifiedBeforeAbsolute == true || ClearIncludeModifiedAfterAbsolute == true || ClearIncludeModifiedBeforeRelative == true || ClearIncludeModifiedAfterRelative == true || IncludePrefixes?.Any() == true || ExcludePrefixes?.Any() == true || MatchGlob?.Any() == true || IncludeModifiedBeforeAbsolute?.Any() == true || IncludeModifiedAfterAbsolute?.Any() == true || IncludeModifiedBeforeRelative?.Any() == true || IncludeModifiedAfterRelative?.Any() == true || ClearDeleteFrom == true || ClearPreserveMetadata == true || ClearCustomStorageClass == true || OverwriteWhen is not null || DeleteFrom is not null || PreserveMetadata is not null || CustomStorageClass?.Any() == true || ClearNotificationConfig == true || ClearNotificationEventTypes == true || NotificationPubsubTopic?.Any() == true || NotificationEventTypes is not null || NotificationPayloadFormat is not null))
+        {
+            yield return new ValidationResult("At least one of ClearIncludePrefixes, ClearExcludePrefixes, ClearMatchGlob, ClearIncludeModifiedBeforeAbsolute, ClearIncludeModifiedAfterAbsolute, ClearIncludeModifiedBeforeRelative, ClearIncludeModifiedAfterRelative, IncludePrefixes, ExcludePrefixes, MatchGlob, IncludeModifiedBeforeAbsolute, IncludeModifiedAfterAbsolute, IncludeModifiedBeforeRelative, IncludeModifiedAfterRelative, ClearDeleteFrom, ClearPreserveMetadata, ClearCustomStorageClass, OverwriteWhen, DeleteFrom, PreserveMetadata, CustomStorageClass, ClearNotificationConfig, ClearNotificationEventTypes, NotificationPubsubTopic, NotificationEventTypes, or NotificationPayloadFormat must be specified.", [nameof(ClearIncludePrefixes), nameof(ClearExcludePrefixes), nameof(ClearMatchGlob), nameof(ClearIncludeModifiedBeforeAbsolute), nameof(ClearIncludeModifiedAfterAbsolute), nameof(ClearIncludeModifiedBeforeRelative), nameof(ClearIncludeModifiedAfterRelative), nameof(IncludePrefixes), nameof(ExcludePrefixes), nameof(MatchGlob), nameof(IncludeModifiedBeforeAbsolute), nameof(IncludeModifiedAfterAbsolute), nameof(IncludeModifiedBeforeRelative), nameof(IncludeModifiedAfterRelative), nameof(ClearDeleteFrom), nameof(ClearPreserveMetadata), nameof(ClearCustomStorageClass), nameof(OverwriteWhen), nameof(DeleteFrom), nameof(PreserveMetadata), nameof(CustomStorageClass), nameof(ClearNotificationConfig), nameof(ClearNotificationEventTypes), nameof(NotificationPubsubTopic), nameof(NotificationEventTypes), nameof(NotificationPayloadFormat)]);
+        }
+    }
 
 }

@@ -10,15 +10,61 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Vertex AI Tensorboard
 /// </summary>
+/// <param name="DisplayName">Display name of the tensorboard.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "tensorboards", "create")]
-public record GcloudAiTensorboardsCreateOptions : GcloudOptions
+public record GcloudAiTensorboardsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Description of the tensorboard.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a Tensorboard. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tensorboard. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tensorboard. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tensorboard. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tensorboard. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
 }

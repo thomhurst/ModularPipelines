@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// obtain details about the     latest execution of a job
 /// </summary>
+/// <param name="Job">Job resource - Job to describe the latest execution of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Job or fully qualified identifier for the Job. To set the jobs attribute: ▸ provide the argument --job on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "jobs", "executions", "describe-latest")]
-public record GcloudRunJobsExecutionsDescribeLatestOptions : GcloudOptions
+public record GcloudRunJobsExecutionsDescribeLatestOptions(
+    [property: CliOption("--job", Format = OptionFormat.EqualsSeparated)] string Job
+) : GcloudOptions
 {
+    /// <summary>
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

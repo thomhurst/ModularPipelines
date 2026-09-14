@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a TCP health check
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "health-checks", "update", "tcp")]
@@ -81,7 +82,7 @@ public record GcloudPreviewComputeHealthChecksUpdateTcpOptions(
     /// These flags configure the port that the health check monitors. If both --port and --port-name are specified, --port takes precedence. If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// These flags configure the port that the health check monitors. If both --port and --port-name are specified, --port takes precedence. The number of consecutive health check failures before a healthy instance is marked as unhealthy.

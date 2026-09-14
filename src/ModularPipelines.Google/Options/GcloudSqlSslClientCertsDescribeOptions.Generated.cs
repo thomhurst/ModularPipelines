@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// retrieve information about a client     cert for a Cloud SQL instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
+/// <param name="CommonName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl", "client-certs", "describe")]
 public record GcloudSqlSslClientCertsDescribeOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CommonName
 ) : GcloudOptions
 {

@@ -10,17 +10,106 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new certificate template
 /// </summary>
+/// <param name="Certificate"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "templates", "create")]
 public record GcloudPrivatecaTemplatesCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+    /// </summary>
+    [CliFlag("--copy-sans")]
+    public bool? CopySans { get; set; }
+
+    /// <summary>
+    /// Negates --copy-sans. If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+    /// </summary>
+    [CliFlag("--no-copy-sans")]
+    public bool? NoCopySans { get; set; }
+
+    /// <summary>
+    /// If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+    /// </summary>
+    [CliFlag("--copy-subject")]
+    public bool? CopySubject { get; set; }
+
+    /// <summary>
+    /// Negates --copy-subject. If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+    /// </summary>
+    [CliFlag("--no-copy-subject")]
+    public bool? NoCopySubject { get; set; }
+
+    /// <summary>
+    /// A text description for the Certificate Template.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// A CEL expression that will be evaluated against the identity in the certificate before it is issued, and returns a boolean signifying whether the request should be allowed.
+    /// </summary>
+    [CliOption("--identity-cel-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? IdentityCelExpression { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// If this is set, then issued certificate's lifetime will be truncated to the value provided. If the issuing CaPool's IssuancePolicy specifies a maximum lifetime the minimum of the two durations will be the maximum lifetime for the issued certificate. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it.
+    /// </summary>
+    [CliOption("--maximum-lifetime", Format = OptionFormat.EqualsSeparated)]
+    public string? MaximumLifetime { get; set; }
+
+    /// <summary>
+    /// A YAML file describing any predefined X.509 values set by this template. The provided extensions will be copied over to any certificate requests that use this template, taking precedent over any allowed extensions in the certificate request. The format of this file should be a YAML representation of the X509Parameters message, which is defined here: https://cloud.google.com/certificate-authority-service/docs/reference/rest/v1/X509Parameters. Some examples can be found here: https://cloud.google.com/certificate-authority-service/docs/creating-certificate-template
+    /// </summary>
+    [CliOption("--predefined-values-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PredefinedValuesFile { get; set; }
+
+    /// <summary>
+    /// Constraints on requested X.509 extensions. If unspecified, all extensions from certificate request will be ignored when signing the certificate. At most one of these can be specified: If this is set, all extensions specified in the certificate request will be copied into the signed certificate.
+    /// </summary>
+    [CliFlag("--copy-all-requested-extensions")]
+    public bool? CopyAllRequestedExtensions { get; set; }
+
+    /// <summary>
+    /// Constraints on requested X.509 extensions. If unspecified, all extensions from certificate request will be ignored when signing the certificate. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
+    /// </summary>
+    [CliOption("--copy-extensions-by-oid", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CopyExtensionsByOid { get; set; }
+
+    /// <summary>
+    /// Constraints on requested X.509 extensions. If unspecified, all extensions from certificate request will be ignored when signing the certificate. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. If this is set, then the given extensions will be copied from the certificate request into the signed certificate. KNOWN_EXTENSIONS must be one of: base-key-usage, extended-key-usage, ca-options, policy-ids, aia-ocsp-servers.
+    /// </summary>
+    [CliOption("--copy-known-extensions", Format = OptionFormat.EqualsSeparated)]
+    public GcloudCopyKnownExtensions? CopyKnownExtensions { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((CopySans == true ? 1 : 0) + (NoCopySans == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CopySans or NoCopySans must be specified.", [nameof(CopySans), nameof(NoCopySans)]);
+        }
+        if ((CopySubject == true ? 1 : 0) + (NoCopySubject == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CopySubject or NoCopySubject must be specified.", [nameof(CopySubject), nameof(NoCopySubject)]);
+        }
+    }
+
 }

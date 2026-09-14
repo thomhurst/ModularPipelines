@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a     DnsThreatDetector resource
 /// </summary>
+/// <param name="Provider">The provider used for DNS threat analysis. PROVIDER must be (only one value is supported): infoblox The Infoblox DNS threat detector provider.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "dns-threat-detectors", "create")]
-public record GcloudNetworkSecurityDnsThreatDetectorsCreateOptions : GcloudOptions
+public record GcloudNetworkSecurityDnsThreatDetectorsCreateOptions(
+    [property: CliOption("--provider", Format = OptionFormat.EqualsSeparated)] string Provider
+) : GcloudOptions
 {
+    /// <summary>
+    /// Network resource - A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --excluded-networks on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. IDs of the networks or fully qualified identifiers for the networks. To set the network attribute: ◆ provide the argument --excluded-networks on the command line.
+    /// </summary>
+    [CliOption("--excluded-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludedNetworks { get; set; }
+
+    /// <summary>
+    /// Network resource - A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --excluded-networks on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Any labels associated with the DnsThreatDetector, listed as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
 }

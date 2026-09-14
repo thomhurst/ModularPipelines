@@ -21,4 +21,76 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("data-catalog", "entries", "create")]
 public record GcloudDataCatalogEntriesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Type of the entry. TYPE must be one of: cluster, dashboard, database, database-schema, data-source-connection, data-stream, edge, entry-type-unspecified, explore, feature-group, feature-online-store, feature-view, fileset, graph, lake, look, model, node, routine, service, table, zone. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Patterns to identify a set of files in Google Cloud Storage. A star (*) may be used at the end of a pattern to match arbitrary files beginning with that pattern. Examples of valid file patterns: ▸ gs://bucket_name/* - Matches all files in 'bucket_name'. ▸ gs://bucket_name/file* - Matches files prefixed by 'file' in 'bucket_name'. ▸ gs://another_bucket/a.txt - Matches 'gs://another_bucket/a.txt'.
+    /// </summary>
+    [CliOption("--gcs-file-patterns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GcsFilePatterns { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. External system from which the entry is fed. If --type is not used, then --user-specified-system must be provided. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--user-specified-system", Format = OptionFormat.EqualsSeparated)]
+    public string? UserSpecifiedSystem { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Type of the entry coming from external system. If --type is not used, then --user-specified-type must be provided. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--user-specified-type", Format = OptionFormat.EqualsSeparated)]
+    public string? UserSpecifiedType { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Link to the resource in external system. If --type is not used, then --linked-resource may be provided.
+    /// </summary>
+    [CliOption("--linked-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? LinkedResource { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Creation timestamp of the resource in the external system. If --type is not used, then --source-system-create-time may be provided.
+    /// </summary>
+    [CliOption("--source-system-create-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSystemCreateTime { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Update timestamp of the resource in the external system. If --type is not used, then --source-system-update-time may be provided.
+    /// </summary>
+    [CliOption("--source-system-update-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSystemUpdateTime { get; set; }
+
+    /// <summary>
+    /// Textual description of the entry.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Human-readable name for the entry.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Fully qualified name of the resource.
+    /// </summary>
+    [CliOption("--fully-qualified-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FullyQualifiedName { get; set; }
+
+    /// <summary>
+    /// Column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Inline schema for the entry. When specifying a schema via this argument, only column names and types should be provided. Column modes will default to NULLABLE, and column descriptions and nested subcolumns are not supported.
+    /// </summary>
+    [CliOption("--schema", Format = OptionFormat.EqualsSeparated)]
+    public string? Schema { get; set; }
+
+    /// <summary>
+    /// Column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Path to a JSON or YAML file containing the schema for the entry. This can be used to specify schemas with column descriptions, column modes other than NULLABLE, and nested subcolumns. Use a full or relative path to a local file containing the value of schema.
+    /// </summary>
+    [CliOption("--schema-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SchemaFromFile { get; set; }
+
 }

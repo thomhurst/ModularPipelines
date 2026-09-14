@@ -10,15 +10,42 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new KeyHandle
 /// </summary>
+/// <param name="Location">Location resource - The KMS location resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+/// <param name="ResourceType">The resource type selector for KeyHandle resources of the form {SERVICE}.{UNIVERSE_DOMAIN}/{TYPE}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "key-handles", "create")]
-public record GcloudKmsKeyHandlesCreateOptions : GcloudOptions
+public record GcloudKmsKeyHandlesCreateOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)] string ResourceType
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Generate a KeyHandle id for the new KeyHandle resource.
+    /// </summary>
+    [CliFlag("--generate-key-handle-id")]
+    public bool? GenerateKeyHandleId { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The KeyHandle id for the new KeyHandle resource.
+    /// </summary>
+    [CliOption("--key-handle-id", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyHandleId { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((GenerateKeyHandleId == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(KeyHandleId) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of GenerateKeyHandleId or KeyHandleId must be specified.", [nameof(GenerateKeyHandleId), nameof(KeyHandleId)]);
+        }
+    }
+
 }

@@ -44,7 +44,7 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions? options = null,
+        GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetAsync(
-        GcloudVmwarePrivateCloudsNsxCredentialsResetOptions? options = null,
+        GcloudVmwarePrivateCloudsNsxCredentialsResetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsResetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -16,9 +16,50 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// encrypt a plaintext file using a key
 /// </summary>
+/// <param name="CiphertextFile">File path of the ciphertext file to output.</param>
+/// <param name="PlaintextFile">File path of the plaintext file to encrypt.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "encrypt")]
-public record GcloudKmsEncryptOptions : GcloudOptions
+public record GcloudKmsEncryptOptions(
+    [property: CliOption("--ciphertext-file", Format = OptionFormat.EqualsSeparated)] string CiphertextFile,
+    [property: CliOption("--plaintext-file", Format = OptionFormat.EqualsSeparated)] string PlaintextFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// File path to the optional file containing the additional authenticated data.
+    /// </summary>
+    [CliOption("--additional-authenticated-data-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AdditionalAuthenticatedDataFile { get; set; }
+
+    /// <summary>
+    /// The key to use for encryption.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
+    /// <summary>
+    /// Version to use for encryption.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
 }

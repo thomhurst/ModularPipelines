@@ -16,9 +16,74 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Spanner instance     partition
 /// </summary>
+/// <param name="Config">Instance configuration defines the geographic placement and replication used by the instance partition. Available configurations can be found by running "gcloud spanner instance-configs list"</param>
+/// <param name="Description">Description of the instance partition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instance-partitions", "create")]
-public record GcloudSpannerInstancePartitionsCreateOptions : GcloudOptions
+public record GcloudSpannerInstancePartitionsCreateOptions(
+    [property: CliOption("--config", Format = OptionFormat.EqualsSeparated)] string Config,
+    [property: CliOption("--description", Format = OptionFormat.EqualsSeparated)] string Description
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of nodes for the instance partition.
+    /// </summary>
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? Nodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of processing units for the instance partition.
+    /// </summary>
+    [CliOption("--processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? ProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specifies the target percentage of storage the autoscaled instance can utilize. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingStorageTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. At least one of these must be specified: Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-high-priority-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingHighPriorityCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling CPU targets. At least one of these must be specified: Specifies the target percentage of total CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-total-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingTotalCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of nodes for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of nodes for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-max-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-min-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinProcessingUnits { get; set; }
+
 }

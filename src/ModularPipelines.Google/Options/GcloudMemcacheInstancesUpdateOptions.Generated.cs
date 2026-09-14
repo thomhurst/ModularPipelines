@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,64 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("memcache", "instances", "update")]
 public record GcloudMemcacheInstancesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: User defined parameters to apply to the memcached process on each node. Possible attributes include: listen-backlog The backlog queue limit for the instance. disable-flush-all If enabled, flush_all command will be disabled. Applicable to 1.4.24 and higher. max-item-size Max bytes of the instance. Must at least be equal to slab_chunk_max (which defaults to 524288 bytes) and less than 134217728 bytes. Additionally it must be a multiple of slab_chunk_max. slab-min-size This is an integer in the range [1, 1024]. slab-growth-factor This is a float in the range [1.01, 100]. protocol This is an enum with acceptable values of ["ascii", "auto"]. disable-cas This is a boolean value. disable-evictions This is a boolean value. max-reqs-per-event This is an integer in the range [1, 1000]. track-sizes This is a boolean value. worker-logbuf-size This is an integer in the range [48, 524288]. watcher-logbuf-size This is an integer in the range [0, 2097151]. lru-crawler This is a boolean value. idle-timeout This is an integer in the range [1,86400]. lru-maintainer This is a boolean value. maxconns-fast This is a boolean value. hash-algorithm This is an enum with accepted values of ["jenkins", "murmur3"].
+    /// </summary>
+    [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Parameters { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An arbitrary and optional user provided name for the instance.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: List of label KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: The maintenance version to update to.
+    /// </summary>
+    [CliOption("--maintenance-version", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceVersion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Number of memcache nodes in this instance. Valid values range from 1 to 20.
+    /// </summary>
+    [CliOption("--node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NodeCount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Removes the user-specified maintenance window.
+    /// </summary>
+    [CliFlag("--maintenance-window-any")]
+    public bool? MaintenanceWindowAny { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: The day of week when the window starts, e.g. 'sunday'. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday.
+    /// </summary>
+    [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Duration in integer hours (3 to 8) of the maintenance window.
+    /// </summary>
+    [CliOption("--maintenance-window-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowDuration { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
+    /// </summary>
+    [CliOption("--maintenance-window-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStartTime { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

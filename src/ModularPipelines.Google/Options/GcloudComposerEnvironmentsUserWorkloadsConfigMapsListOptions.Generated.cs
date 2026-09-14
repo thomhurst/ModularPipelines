@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list user     workloads ConfigMaps
 /// </summary>
+/// <param name="Environment">Environment resource - The environment to list user workloads ConfigMaps. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "user-workloads-config-maps", "list")]
-public record GcloudComposerEnvironmentsUserWorkloadsConfigMapsListOptions : GcloudOptions
+public record GcloudComposerEnvironmentsUserWorkloadsConfigMapsListOptions(
+    [property: CliOption("--environment", Format = OptionFormat.EqualsSeparated)] string Environment
+) : GcloudOptions
 {
+    /// <summary>
+    /// Environment resource - The environment to list user workloads ConfigMaps. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument --environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// upload a Debian package to an artifact     repository
 /// </summary>
+/// <param name="Source">The path of a package to upload.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "apt", "upload")]
-public record GcloudArtifactsAptUploadOptions : GcloudOptions
+public record GcloudArtifactsAptUploadOptions(
+    [property: CliOption("--source", Format = OptionFormat.EqualsSeparated)] string Source
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

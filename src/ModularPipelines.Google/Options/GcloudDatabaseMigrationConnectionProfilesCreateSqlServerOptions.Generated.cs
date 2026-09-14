@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "create", "sqlserver")]
-public record GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions : GcloudOptions
+public record GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Waits for the operation in progress to complete before returning.
@@ -188,5 +189,18 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions : 
     /// </summary>
     [CliFlag("--prompt-for-password")]
     public bool? PromptForPassword { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(PscServiceAttachment)))
+        {
+            yield return new ValidationResult("At least one of PscServiceAttachment must be specified.", [nameof(PscServiceAttachment)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Password) ? 1 : 0) + (PromptForPassword == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Password or PromptForPassword must be specified.", [nameof(Password), nameof(PromptForPassword)]);
+        }
+    }
 
 }

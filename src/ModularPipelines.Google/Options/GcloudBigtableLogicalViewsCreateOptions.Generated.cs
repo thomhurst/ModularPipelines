@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new Bigtable logical view
 /// </summary>
+/// <param name="Query">The query of the view.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "logical-views", "create")]
-public record GcloudBigtableLogicalViewsCreateOptions : GcloudOptions
+public record GcloudBigtableLogicalViewsCreateOptions(
+    [property: CliOption("--query", Format = OptionFormat.EqualsSeparated)] string Query
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Whether the view is protected from deletion.
+    /// </summary>
+    [CliOption("--deletion-protection", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletionProtection { get; set; }
+
 }

@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// configure Exascale Storage for a Cloud Exadata Infrastructure
 /// </summary>
+/// <param name="TotalStorageSizeGb">The total storage to be allocated to Exascale in GBs.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "cloud-exadata-infrastructures", "configure-exascale")]
-public record GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions : GcloudOptions
+public record GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions(
+    [property: CliOption("--total-storage-size-gb", Format = OptionFormat.EqualsSeparated)] int TotalStorageSizeGb
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional ID to identify the request.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Storage size needed for VM storage on Exascale in GBs.
+    /// </summary>
+    [CliOption("--total-vm-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? TotalVmStorageSizeGb { get; set; }
+
 }

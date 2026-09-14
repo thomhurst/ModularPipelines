@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete     Package Rollouts Release
 /// </summary>
+/// <param name="ResourceBundle">Resource Bundle name.</param>
+/// <param name="Release"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "packages", "resource-bundles", "releases", "delete")]
 public record GcloudContainerFleetPackagesResourceBundlesReleasesDeleteOptions(
+    [property: CliOption("--resource-bundle", Format = OptionFormat.EqualsSeparated)] string ResourceBundle,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Release
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If true, force deletion of any child resources. Otherwise, attempting to delete a Release with children will fail.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

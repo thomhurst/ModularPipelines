@@ -10,15 +10,63 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new     VPC spoke
 /// </summary>
+/// <param name="Hub">Hub that the spoke will attach to. The hub must already exist.</param>
+/// <param name="VpcNetwork">VPC network that the spoke provides connectivity to. The resource must already exist.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "linked-vpc-network", "create")]
-public record GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions(
+    [property: CliOption("--hub", Format = OptionFormat.EqualsSeparated)] string Hub,
+    [property: CliOption("--vpc-network", Format = OptionFormat.EqualsSeparated)] string VpcNetwork
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the spoke to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Subnet IP address range(s) to hide from other VPC networks that are connected through Network Connectivity Center.
+    /// </summary>
+    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Indicates that the spoke is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// Group that the spoke will be part of. The group must already exist.
+    /// </summary>
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public string? Group { get; set; }
+
+    /// <summary>
+    /// Subnet IP address range(s) to export to other VPC networks that are connected through Network Connectivity Center.
+    /// </summary>
+    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeExportRanges { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

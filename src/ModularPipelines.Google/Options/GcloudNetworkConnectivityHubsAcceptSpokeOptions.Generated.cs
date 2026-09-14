@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// accept a spoke into a hub
 /// </summary>
+/// <param name="Spoke">URI of the spoke to accept</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "hubs", "accept-spoke")]
-public record GcloudNetworkConnectivityHubsAcceptSpokeOptions : GcloudOptions
+public record GcloudNetworkConnectivityHubsAcceptSpokeOptions(
+    [property: CliOption("--spoke", Format = OptionFormat.EqualsSeparated)] string Spoke
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

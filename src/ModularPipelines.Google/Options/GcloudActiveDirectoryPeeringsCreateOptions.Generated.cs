@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Managed Microsoft Active     Directory domain peering
 /// </summary>
+/// <param name="AuthorizedNetwork">Name of the Network that is authorized to communicate with Managed Microsoft AD domain. This is usually the full path name of the network in the peer project.</param>
+/// <param name="Domain">Name of the managed Managed Microsoft AD domain you want to peer to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "peerings", "create")]
-public record GcloudActiveDirectoryPeeringsCreateOptions : GcloudOptions
+public record GcloudActiveDirectoryPeeringsCreateOptions(
+    [property: CliOption("--authorized-network", Format = OptionFormat.EqualsSeparated)] string AuthorizedNetwork,
+    [property: CliOption("--domain", Format = OptionFormat.EqualsSeparated)] string Domain
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

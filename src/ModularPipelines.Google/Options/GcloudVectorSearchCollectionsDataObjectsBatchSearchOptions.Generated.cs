@@ -16,9 +16,46 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// batch search     data objects from a Vector Search collection
 /// </summary>
+/// <param name="Collection">The collection to batch search data objects from.</param>
+/// <param name="Location">Location of the collection.</param>
+/// <param name="SearchesFromFile">Path to a JSON file containing a list of searches. Each element in list should be a JSON object representing a Search message, e.g., {"semanticSearch": {"searchText": "...", "searchField": "..."}}. Keys must be camelCase as in API definition. Example file content: [ { "vectorSearch": { "vector": { "values": [ 1, 2, 3, 4 ] }, "searchField": "genre_embedding", "topK": 10, "outputFields": { "dataFields": [ "director", "genre", "title", "year" ] } } }, { "semanticSearch": { "searchText": "sci-fi movie", "searchField": "plot_embedding", "taskType": "SEMANTIC_SIMILARITY", "topK": 10 } }, { "textSearch": { "searchText": "movie 1", "dataFieldNames": ["title"], "topK": 10 } } ]</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "batch-search")]
-public record GcloudVectorSearchCollectionsDataObjectsBatchSearchOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsDataObjectsBatchSearchOptions(
+    [property: CliOption("--collection", Format = OptionFormat.EqualsSeparated)] string Collection,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--searches-from-file", Format = OptionFormat.EqualsSeparated)] string SearchesFromFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Combine Results Options Ranker This must be specified. RRF Ranker RRF weights for combining results.
+    /// </summary>
+    [CliOption("--rrf-weights", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RrfWeights { get; set; }
+
+    /// <summary>
+    /// List of data fields to include in combined output.
+    /// </summary>
+    [CliOption("--combine-output-data-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CombineOutputDataFields { get; set; }
+
+    /// <summary>
+    /// List of metadata fields to include in combined output.
+    /// </summary>
+    [CliOption("--combine-output-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CombineOutputMetadataFields { get; set; }
+
+    /// <summary>
+    /// List of vector fields to include in combined output.
+    /// </summary>
+    [CliOption("--combine-output-vector-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CombineOutputVectorFields { get; set; }
+
+    /// <summary>
+    /// Top K results to return when combining results.
+    /// </summary>
+    [CliOption("--combine-top-k", Format = OptionFormat.EqualsSeparated)]
+    public string? CombineTopK { get; set; }
+
 }

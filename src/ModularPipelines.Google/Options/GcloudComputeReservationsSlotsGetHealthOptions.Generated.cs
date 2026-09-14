@@ -16,11 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the health of a     reservation slot
 /// </summary>
+/// <param name="BlockName">Name of the reservation block.</param>
+/// <param name="SlotName">Name of the reservation slot.</param>
+/// <param name="SubBlockName">Name of the reservation sub block.</param>
+/// <param name="Reservation"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "slots", "get-health")]
 public record GcloudComputeReservationsSlotsGetHealthOptions(
+    [property: CliOption("--block-name", Format = OptionFormat.EqualsSeparated)] string BlockName,
+    [property: CliOption("--slot-name", Format = OptionFormat.EqualsSeparated)] string SlotName,
+    [property: CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)] string SubBlockName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Zone of the reservation to get-health. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

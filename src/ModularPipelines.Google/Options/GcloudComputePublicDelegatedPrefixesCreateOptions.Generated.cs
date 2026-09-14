@@ -10,17 +10,78 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// creates a Compute Engine     public delegated prefix
 /// </summary>
+/// <param name="Range">IP range from this public delegated prefix that should be delegated, in CIDR format. It must be smaller than parent public advertised prefix range.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "public-delegated-prefixes", "create")]
 public record GcloudComputePublicDelegatedPrefixesCreateOptions(
+    [property: CliOption("--range", Format = OptionFormat.EqualsSeparated)] string Range,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Public advertised prefix that this delegated prefix is created from.
+    /// </summary>
+    [CliOption("--public-advertised-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicAdvertisedPrefix { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Regional Public delegated prefix that this delegated prefix is created from.
+    /// </summary>
+    [CliOption("--public-delegated-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicDelegatedPrefix { get; set; }
+
+    /// <summary>
+    /// The allocatable prefix length supported by this PDP.
+    /// </summary>
+    [CliOption("--allocatable-prefix-length", Format = OptionFormat.EqualsSeparated)]
+    public string? AllocatablePrefixLength { get; set; }
+
+    /// <summary>
+    /// Description of this public delegated prefix.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specify if this public delegated prefix is meant to be live migrated.
+    /// </summary>
+    [CliFlag("--enable-live-migration")]
+    public bool? EnableLiveMigration { get; set; }
+
+    /// <summary>
+    /// Specifies the mode of this IPv6 PDP. MODE must be one of: delegation, external-ipv6-forwarding-rule-creation, external-ipv6-subnetwork-creation, internal-ipv6-subnetwork-creation.
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the public delegated prefix is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the public delegated prefix to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PublicAdvertisedPrefix) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PublicDelegatedPrefix) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PublicAdvertisedPrefix or PublicDelegatedPrefix must be specified.", [nameof(PublicAdvertisedPrefix), nameof(PublicDelegatedPrefix)]);
+        }
+    }
+
 }

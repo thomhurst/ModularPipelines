@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Logging recent queries
 /// </summary>
+/// <param name="Location">Location of the recent queries to list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "recent-queries", "list")]
-public record GcloudLoggingRecentQueriesListOptions : GcloudOptions
+public record GcloudLoggingRecentQueriesListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
     /// <summary>
     /// At most one of these can be specified: Billing account of the parent resource for recent queries to list.

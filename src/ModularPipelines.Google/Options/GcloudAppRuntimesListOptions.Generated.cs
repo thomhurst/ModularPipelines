@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the available runtimes
 /// </summary>
+/// <param name="Environment">Environment for the application. ENVIRONMENT must be (only one value is supported): standard.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "runtimes", "list")]
-public record GcloudAppRuntimesListOptions : GcloudOptions
+public record GcloudAppRuntimesListOptions(
+    [property: CliOption("--environment", Format = OptionFormat.EqualsSeparated)] string Environment
+) : GcloudOptions
 {
 }

@@ -10,17 +10,46 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// updates a Compute     Engine public delegated prefix
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "public-delegated-prefixes", "update")]
 public record GcloudPreviewComputePublicDelegatedPrefixesUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Specify if the prefix will be announced. Default is false.
+    /// </summary>
+    [CliFlag("--announce-prefix")]
+    public bool? AnnouncePrefix { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specify if the prefix will be withdrawn. Default is false.
+    /// </summary>
+    [CliFlag("--withdraw-prefix")]
+    public bool? WithdrawPrefix { get; set; }
+
+    /// <summary>
+    /// Region of the public delegated prefix to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AnnouncePrefix == true ? 1 : 0) + (WithdrawPrefix == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AnnouncePrefix or WithdrawPrefix must be specified.", [nameof(AnnouncePrefix), nameof(WithdrawPrefix)]);
+        }
+    }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,121 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "jobs", "submit", "spark-sql")]
-public record GcloudDataprocJobsSubmitSparkSqlOptions : GcloudOptions
+public record GcloudDataprocJobsSubmitSparkSqlOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The Dataproc cluster to submit the job to.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Labels of Dataproc cluster on which to place the job.
+    /// </summary>
+    [CliOption("--cluster-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ClusterLabels { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A Spark SQL query to execute as part of the job.
+    /// </summary>
+    [CliOption("--execute", Format = OptionFormat.EqualsSeparated)]
+    public string? Execute { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: HCFS URI of file containing Spark SQL script to execute as the job.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The Cloud Storage bucket to stage files in. Defaults to the cluster's configured bucket.
+    /// </summary>
+    [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? Bucket { get; set; }
+
+    /// <summary>
+    /// A list of package to log4j log level pairs to configure driver logging. For example: root=FATAL,com.example=INFO
+    /// </summary>
+    [CliOption("--driver-log-levels", Format = OptionFormat.EqualsSeparated)]
+    public string? DriverLogLevels { get; set; }
+
+    /// <summary>
+    /// The memory allocation requested by the job driver in megabytes (MB) for execution on the driver node group (it is used only by clusters with a driver node group).
+    /// </summary>
+    [CliOption("--driver-required-memory-mb", Format = OptionFormat.EqualsSeparated)]
+    public string? DriverRequiredMemoryMb { get; set; }
+
+    /// <summary>
+    /// The vCPU allocation requested by the job driver for execution on the driver node group (it is used only by clusters with a driver node group).
+    /// </summary>
+    [CliOption("--driver-required-vcores", Format = OptionFormat.EqualsSeparated)]
+    public string? DriverRequiredVcores { get; set; }
+
+    /// <summary>
+    /// Comma separated list of jar files to be provided to the executor and driver classpaths. May contain UDFs.
+    /// </summary>
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Jars { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum number of times a job can be restarted per hour in event of failure. Default is 0 (no retries after job failure).
+    /// </summary>
+    [CliOption("--max-failures-per-hour", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxFailuresPerHour { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum total number of times a job can be restarted after the job fails. Default is 0 (no retries after job failure).
+    /// </summary>
+    [CliOption("--max-failures-total", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxFailuresTotal { get; set; }
+
+    /// <summary>
+    /// A list of key value pairs to set variables in the Hive queries.
+    /// </summary>
+    [CliOption("--params", Format = OptionFormat.EqualsSeparated)]
+    public string? Params { get; set; }
+
+    /// <summary>
+    /// A list of key value pairs to configure Hive.
+    /// </summary>
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
+    public string? Properties { get; set; }
+
+    /// <summary>
+    /// Path to a local file or a file in a Cloud Storage bucket containing configuration properties for the job. The client machine running this command must have read permission to the file. Specify properties in the form of property=value in the text file. For example: # Properties to set for the job: key1=value1 key2=value2 # Comment out properties not used. # key3=value3 If a property is set in both --properties and --properties-file, the value defined in --properties takes precedence.
+    /// </summary>
+    [CliOption("--properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesFile { get; set; }
+
+    /// <summary>
+    /// Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Cluster) ? 1 : 0) + (ClusterLabels?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Cluster or ClusterLabels must be specified.", [nameof(Cluster), nameof(ClusterLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Execute) ? 1 : 0) + (!string.IsNullOrWhiteSpace(File) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Execute or File must be specified.", [nameof(Execute), nameof(File)]);
+        }
+    }
+
 }

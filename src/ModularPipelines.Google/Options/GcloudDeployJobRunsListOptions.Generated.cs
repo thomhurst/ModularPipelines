@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the job runs
 /// </summary>
+/// <param name="Rollout">Rollout resource - The rollouts for which you want to list the job runs. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the rollout attribute: ▸ provide the argument --rollout on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "job-runs", "list")]
-public record GcloudDeployJobRunsListOptions : GcloudOptions
+public record GcloudDeployJobRunsListOptions(
+    [property: CliOption("--rollout", Format = OptionFormat.EqualsSeparated)] string Rollout
+) : GcloudOptions
 {
+    /// <summary>
+    /// Rollout resource - The rollouts for which you want to list the job runs. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Deploy delivery pipeline. To set the delivery-pipeline attribute: ▸ provide the argument --rollout on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The rollouts for which you want to list the job runs. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the rollout. To set the region attribute: ▸ provide the argument --rollout on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The rollouts for which you want to list the job runs. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Deploy release. To set the release attribute: ▸ provide the argument --rollout on the command line with a fully specified name; ▸ provide the argument --release on the command line.
+    /// </summary>
+    [CliOption("--release", Format = OptionFormat.EqualsSeparated)]
+    public string? Release { get; set; }
+
 }

@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove project zonal     metadata
 /// </summary>
+/// <param name="Zone">The zone in which you want to remove project zonal metadata</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "project-zonal-metadata", "remove")]
-public record GcloudComputeProjectZonalMetadataRemoveOptions : GcloudOptions
+public record GcloudComputeProjectZonalMetadataRemoveOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: If provided, all project zonal metadata entries are removed from VM instances in the zone.
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The keys for which you want to remove project zonal metadata
+    /// </summary>
+    [CliOption("--keys", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Keys { get; set; }
+
 }

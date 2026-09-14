@@ -16,11 +16,58 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// imports data into a Cloud SQL instance from a CSV     file
 /// </summary>
+/// <param name="Database">The database (for example, guestbook) to which the import is made.</param>
+/// <param name="Table">The database table to import csv file into.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "import", "csv")]
 public record GcloudSqlImportCsvOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database,
+    [property: CliOption("--table", Format = OptionFormat.EqualsSeparated)] string Table,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The columns to import from csv file. These correspond to actual database columns to import. If not set, all columns from csv file are imported to corresponding database columns.
+    /// </summary>
+    [CliOption("--columns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Columns { get; set; }
+
+    /// <summary>
+    /// Specifies the character that should appear before a data character that needs to be escaped. The value of this argument has to be a character in Hex ASCII Code. For example, "22" represents double quotes. This flag is only available for MySQL and Postgres. If this flag is not provided, double quotes character will be used as the default value.
+    /// </summary>
+    [CliOption("--escape", Format = OptionFormat.EqualsSeparated)]
+    public string? Escape { get; set; }
+
+    /// <summary>
+    /// Specifies the character that splits column values. The value of this argument has to be a character in Hex ASCII Code. For example, "2C" represents a comma. This flag is only available for MySQL and Postgres. If this flag is not provided, a comma character will be used as the default value.
+    /// </summary>
+    [CliOption("--fields-terminated-by", Format = OptionFormat.EqualsSeparated)]
+    public string? FieldsTerminatedBy { get; set; }
+
+    /// <summary>
+    /// Specifies the character that split line records. The value of this argument has to be a character in Hex ASCII Code. For example, "0A" represents a new line. This flag is only available for MySQL. If this flag is not provided, a new line character will be used as the default value.
+    /// </summary>
+    [CliOption("--lines-terminated-by", Format = OptionFormat.EqualsSeparated)]
+    public string? LinesTerminatedBy { get; set; }
+
+    /// <summary>
+    /// Specifies the character that encloses values from columns that have string data type. The value of this argument has to be a character in Hex ASCII Code. For example, "22" represents double quotes. This flag is only available for MySQL and Postgres. If this flag is not provided, double quotes character will be used as the default value.
+    /// </summary>
+    [CliOption("--quote", Format = OptionFormat.EqualsSeparated)]
+    public string? Quote { get; set; }
+
+    /// <summary>
+    /// PostgreSQL user for this import operation.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
 }

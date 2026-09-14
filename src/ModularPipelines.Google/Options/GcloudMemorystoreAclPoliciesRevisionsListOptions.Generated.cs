@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list aclPolicyRevisions
 /// </summary>
+/// <param name="AclPolicy">AclPolicy resource - The resource name of the ACL policy to list revisions for. Format: "projects/{project}/locations/{location}/aclPolicies/{acl_policy}" The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --acl-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl-policy attribute: ▸ provide the argument --acl-policy on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "acl-policies", "revisions", "list")]
-public record GcloudMemorystoreAclPoliciesRevisionsListOptions : GcloudOptions
+public record GcloudMemorystoreAclPoliciesRevisionsListOptions(
+    [property: CliOption("--acl-policy", Format = OptionFormat.EqualsSeparated)] string AclPolicy
+) : GcloudOptions
 {
+    /// <summary>
+    /// AclPolicy resource - The resource name of the ACL policy to list revisions for. Format: "projects/{project}/locations/{location}/aclPolicies/{acl_policy}" The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --acl-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the aclPolicy resource. To set the location attribute: ▸ provide the argument --acl-policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

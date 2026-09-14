@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Data Lineage event
 /// </summary>
+/// <param name="StartTime">The start time of the lineage event.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datalineage", "lineage-events", "create")]
-public record GcloudDatalineageLineageEventsCreateOptions : GcloudOptions
+public record GcloudDatalineageLineageEventsCreateOptions(
+    [property: CliOption("--start-time", Format = OptionFormat.EqualsSeparated)] string StartTime
+) : GcloudOptions
 {
+    /// <summary>
+    /// The end time of the lineage event.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// A list of source-target links representing data lineage. source Required, The source entity. field The fields of the source entity. fullyQualifiedName Required, The fully qualified name of the source entity. target Required, The target entity. field The fields of the target entity. fullyQualifiedName Required, The fully qualified name of the target entity. Shorthand Example: --links=source={field=[string],fullyQualifiedName=string},target={field=[string],fullyQualifiedName=string} --links=source={field=[string],fullyQualifiedName=string},target={field=[string],fullyQualifiedName=string} JSON Example: --links='[{"source": {"field": ["string"], "fullyQualifiedName": "string"}, "target": {"field": ["string"], "fullyQualifiedName": "string"}}]' File Example: --links=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--links", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Links { get; set; }
+
 }

@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add a BGP peer to a     Distributed Cloud Edge Network router
 /// </summary>
+/// <param name="Interface">The name of the interface for this BGP peer.</param>
+/// <param name="PeerAsn">The BGP autonomous system number (ASN) for this BGP peer. Must be a 16-bit or 32-bit private ASN as defined in https://tools.ietf.org/html/rfc6996, for example --asn=64512.</param>
+/// <param name="PeerIpv4Range">The IPv4 link-local address range of the peer router.</param>
+/// <param name="PeerName">The name of the new BGP peer being added.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "routers", "add-bgp-peer")]
-public record GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions : GcloudOptions
+public record GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions(
+    [property: CliOption("--interface", Format = OptionFormat.EqualsSeparated)] string Interface,
+    [property: CliOption("--peer-asn", Format = OptionFormat.EqualsSeparated)] string PeerAsn,
+    [property: CliOption("--peer-ipv4-range", Format = OptionFormat.EqualsSeparated)] string PeerIpv4Range,
+    [property: CliOption("--peer-name", Format = OptionFormat.EqualsSeparated)] string PeerName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

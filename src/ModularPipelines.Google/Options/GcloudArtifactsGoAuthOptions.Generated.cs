@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// print authentication commands for the GOAUTH     environment variable
 /// </summary>
+/// <param name="Location">The location of the repository to print commands for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "go", "auth")]
-public record GcloudArtifactsGoAuthOptions : GcloudOptions
+public record GcloudArtifactsGoAuthOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
+    /// <summary>
+    /// The path to the JSON key file to use for authentication. If not specified, the authentication commands printed will use the token from the logged in user.
+    /// </summary>
+    [CliOption("--json-key", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonKey { get; set; }
+
 }

@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// execute an ONTAP CLI command
 /// </summary>
+/// <param name="OntapCommand"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "storage-pools", "execute")]

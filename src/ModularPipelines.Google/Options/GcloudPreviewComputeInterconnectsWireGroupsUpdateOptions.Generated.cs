@@ -16,11 +16,56 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Compute     Engine wire group
 /// </summary>
+/// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "wire-groups", "update")]
 public record GcloudPreviewComputeInterconnectsWireGroupsUpdateOptions(
+    [property: CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)] string CrossSiteNetwork,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Administrative status of the wire group. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--admin-enabled")]
+    public bool? AdminEnabled { get; set; }
+
+    /// <summary>
+    /// Negates --admin-enabled. Administrative status of the wire group. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-admin-enabled")]
+    public bool? NoAdminEnabled { get; set; }
+
+    /// <summary>
+    /// The bandwidth allocation for the wire group. BANDWIDTH_ALLOCATION must be one of: ALLOCATE_PER_WIRE Configures a separate unmetered bandwidth allocation (and associated charges) for each wire in the group. SHARED_WITH_WIRE_GROUP Configures one unmetered bandwidth allocation for the wire group. The unmetered bandwidth is divided equally across each wire in the group, but dynamic throttling reallocates unused unmetered bandwidth from unused or underused wires to other wires in the group.
+    /// </summary>
+    [CliOption("--bandwidth-allocation", Format = OptionFormat.EqualsSeparated)]
+    public string? BandwidthAllocation { get; set; }
+
+    /// <summary>
+    /// The amount of unmetered bandwidth to assign to the wire group.
+    /// </summary>
+    [CliOption("--bandwidth-unmetered", Format = OptionFormat.EqualsSeparated)]
+    public string? BandwidthUnmetered { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the wire group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The fault response for the wire group. FAULT_RESPONSE must be one of: DISABLE_PORT Disable port NONE None
+    /// </summary>
+    [CliOption("--fault-response", Format = OptionFormat.EqualsSeparated)]
+    public string? FaultResponse { get; set; }
+
+    /// <summary>
+    /// Validate the new configuration, but don't update it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
 }

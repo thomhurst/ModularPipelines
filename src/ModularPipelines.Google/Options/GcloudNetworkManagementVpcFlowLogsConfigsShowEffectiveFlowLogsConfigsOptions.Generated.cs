@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// configs     show-effective-flow-logs-configs - show all effective VPC Flow Logs     configurations for a resource
 /// </summary>
+/// <param name="Location">Location resource - The parent resource of the VpcFlowLogsConfig, specified in the following format: projects/{project_id}/locations/global This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+/// <param name="Resource">The resource to get the effective VPC Flow Logs configuration for. The resource must belong to the same project as the parent. The resource must be a network, subnetwork, interconnect attachment, VPN tunnel, or a project.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "vpc-flow-logs-configs", "show-effective-flow-logs-configs")]
-public record GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions : GcloudOptions
+public record GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--resource", Format = OptionFormat.EqualsSeparated)] string Resource
+) : GcloudOptions
 {
 }

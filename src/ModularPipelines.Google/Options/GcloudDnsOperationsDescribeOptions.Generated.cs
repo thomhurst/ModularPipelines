@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe an operation
 /// </summary>
+/// <param name="Zone">Name of zone to get operations from.</param>
+/// <param name="OperationId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "operations", "describe")]
 public record GcloudDnsOperationsDescribeOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationId
 ) : GcloudOptions
 {

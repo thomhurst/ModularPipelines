@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Google Compute Engine     wire groups
 /// </summary>
+/// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "wire-groups", "list")]
-public record GcloudComputeInterconnectsWireGroupsListOptions : GcloudOptions
+public record GcloudComputeInterconnectsWireGroupsListOptions(
+    [property: CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)] string CrossSiteNetwork
+) : GcloudOptions
 {
 }

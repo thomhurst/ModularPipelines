@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Artifact Registry package versions
 /// </summary>
+/// <param name="Package">List all versions in a specified artifact, such as a container image or a language package.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "versions", "list")]
-public record GcloudArtifactsVersionsListOptions : GcloudOptions
+public record GcloudArtifactsVersionsListOptions(
+    [property: CliOption("--package", Format = OptionFormat.EqualsSeparated)] string Package
+) : GcloudOptions
 {
     /// <summary>
     /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the repository. To set the location attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.

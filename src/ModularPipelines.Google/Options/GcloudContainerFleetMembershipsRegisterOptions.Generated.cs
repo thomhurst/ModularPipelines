@@ -21,4 +21,76 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "memberships", "register")]
 public record GcloudContainerFleetMembershipsRegisterOptions : GcloudOptions
 {
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The location/name of the GKE cluster. The location can be a zone or a region for e.g us-central1-a/my-cluster.
+    /// </summary>
+    [CliOption("--gke-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeCluster { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The URI of a GKE cluster that you want to register to Hub; for example, 'https://container.googleapis.com/v1/projects/my-project/locations/us-central1-a/clusters/my-cluster'. To obtain the URI, you can run 'gcloud container clusters list --uri'. Note that this should only be provided if the cluster being registered is a GKE cluster. The service will validate the provided URI to confirm that it maps to a valid GKE cluster."
+    /// </summary>
+    [CliOption("--gke-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeUri { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The cluster context as it appears in the kubeconfig file. You can get this value from the command line by running command: kubectl config current-context. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public string? Context { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The kubeconfig file containing an entry for the cluster. Defaults to $KUBECONFIG if it is set in the environment, otherwise defaults to $HOME/.kube/config.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// If set to True for a GKE cluster, Connect agent will be installed in the cluster. No-op for Non-GKE clusters, where Connect agent will always be installed.
+    /// </summary>
+    [CliFlag("--install-connect-agent")]
+    public bool? InstallConnectAgent { get; set; }
+
+    /// <summary>
+    /// Whether to use the internal IP address of the cluster endpoint.
+    /// </summary>
+    [CliFlag("--internal-ip")]
+    public bool? InternalIp { get; set; }
+
+    /// <summary>
+    /// The full path of the file into which the Connect agent installation manifest should be stored. If this option is provided, then the manifest will be written to this file and will not be deployed into the cluster by gcloud, and it will need to be deployed manually.
+    /// </summary>
+    [CliOption("--manifest-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ManifestOutputFile { get; set; }
+
+    /// <summary>
+    /// The proxy address in the format of http[s]://{hostname}. The proxy must support the HTTP CONNECT method in order for this connection to succeed.
+    /// </summary>
+    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? Proxy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The JSON file of a Google Cloud service account private key. This service account key is stored as a secret named creds-gcp in gke-connect namespace. To update the creds-gcp secret in gke-connect namespace with a new service account key file, run the following command: kubectl delete secret creds-gcp -n gke-connect kubectl create secret generic creds-gcp -n gke-connect --from-file=creds-gcp.json=/path/to/file
+    /// </summary>
+    [CliOption("--service-account-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountKeyFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Workload Identity Enable Workload Identity when registering the cluster with a fleet. Ensure that GKE Workload Identity is enabled on your GKE cluster, it is a requirement for using Workload Identity with memberships. Refer to the Enable GKE Workload Identity section in https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable --service_account_key_file flag should not be set if this is set. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--enable-workload-identity")]
+    public bool? EnableWorkloadIdentity { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Workload Identity At most one of these can be specified: Set to true for clusters where no publicly-routable OIDC discovery endpoint for the Kubernetes service account token issuer exists. When set to true, the gcloud command-line tool will read the private issuer URL and JSON Web Key Set (JWKS) (public keys) for validating service account tokens from the cluster's API server and upload both when creating the Membership. Google Cloud Platform will then use the JWKS, instead of a public OIDC endpoint, to validate service account tokens issued by this cluster. Note the JWKS establishes the uniqueness of issuers in this configuration, but issuer claims in tokens are still compared to the issuer URL associated with the Membership when validating tokens. Note the cluster's OIDC discovery endpoints (KUBE-API-ADDRESS (https://)/.well-known/openid-configuration and KUBE-API-ADDRESS (https://)/openid/v1/jwks) must still be network-accessible to the gcloud client running this command.
+    /// </summary>
+    [CliFlag("--has-private-issuer")]
+    public bool? HasPrivateIssuer { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Workload Identity At most one of these can be specified: Skip auto-discovery and register the cluster with this issuer URL. Use this option when the OpenID Provider Configuration and associated JSON Web Key Set for validating the cluster's service account JWTs are served at a public endpoint different from the cluster API server. Requires --enable-workload-identity.
+    /// </summary>
+    [CliOption("--public-issuer-url", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicIssuerUrl { get; set; }
+
 }

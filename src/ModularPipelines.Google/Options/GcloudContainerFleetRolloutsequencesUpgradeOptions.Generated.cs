@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "rolloutsequences", "upgrade")]
-public record GcloudContainerFleetRolloutsequencesUpgradeOptions : GcloudOptions
+public record GcloudContainerFleetRolloutsequencesUpgradeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The GKE cluster version to upgrade the control plane to.
+    /// </summary>
+    [CliOption("--control-plane-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneVersion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The GKE version to upgrade the nodes to.
+    /// </summary>
+    [CliOption("--node-version", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeVersion { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Force rollout creation even if an active rollout exists on the first stage of the sequence.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ControlPlaneVersion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeVersion) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ControlPlaneVersion or NodeVersion must be specified.", [nameof(ControlPlaneVersion), nameof(NodeVersion)]);
+        }
+    }
+
 }

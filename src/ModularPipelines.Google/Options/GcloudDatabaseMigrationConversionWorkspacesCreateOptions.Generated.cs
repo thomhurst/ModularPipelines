@@ -10,15 +10,118 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Database     Migration Service conversion workspace
 /// </summary>
+/// <param name="DestinationDatabaseEngine">Destination database engine type. DESTINATION_DATABASE_ENGINE must be (only one value is supported): POSTGRESQL.</param>
+/// <param name="SourceDatabaseEngine">Source database engine type. SOURCE_DATABASE_ENGINE must be one of: ORACLE, SQL_SERVER.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "conversion-workspaces", "create")]
-public record GcloudDatabaseMigrationConversionWorkspacesCreateOptions : GcloudOptions
+public record GcloudDatabaseMigrationConversionWorkspacesCreateOptions(
+    [property: CliOption("--destination-database-engine", Format = OptionFormat.EqualsSeparated)] string DestinationDatabaseEngine,
+    [property: CliOption("--source-database-engine", Format = OptionFormat.EqualsSeparated)] GcloudSourceDatabaseEngine SourceDatabaseEngine
+) : GcloudOptions
 {
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
+    /// </summary>
+    [CliFlag("--auto-conversion")]
+    public bool? AutoConversion { get; set; }
+
+    /// <summary>
+    /// Negates --auto-conversion. Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
+    /// </summary>
+    [CliFlag("--no-auto-conversion")]
+    public bool? NoAutoConversion { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
+    /// </summary>
+    [CliFlag("--conversion-assistance")]
+    public bool? ConversionAssistance { get; set; }
+
+    /// <summary>
+    /// Negates --conversion-assistance. Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
+    /// </summary>
+    [CliFlag("--no-conversion-assistance")]
+    public bool? NoConversionAssistance { get; set; }
+
+    /// <summary>
+    /// Destination database provider. DESTINATION_DATABASE_PROVIDER must be one of: ALLOYDB, CLOUDSQL.
+    /// </summary>
+    [CliOption("--destination-database-provider", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDestinationDatabaseProvider? DestinationDatabaseProvider { get; set; }
+
+    /// <summary>
+    /// Version number for the database engine. The version number must contain numbers and letters only. Example for PostgreSQL 17.0, version number will be 17.0.
+    /// </summary>
+    [CliOption("--destination-database-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationDatabaseVersion { get; set; }
+
+    /// <summary>
+    /// A user-friendly name for the conversion workspace. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter. The maximum length allowed is 60 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// A generic list of settings for the workspace. The settings are database pair dependant and can indicate default behavior for the mapping rules engine or turn on or off specific features. An object containing a list of "key": "value" pairs.
+    /// </summary>
+    [CliOption("--global-settings", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? GlobalSettings { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
+    /// </summary>
+    [CliFlag("--pattern-matching")]
+    public bool? PatternMatching { get; set; }
+
+    /// <summary>
+    /// Negates --pattern-matching. Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
+    /// </summary>
+    [CliFlag("--no-pattern-matching")]
+    public bool? NoPatternMatching { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
+    /// </summary>
+    [CliFlag("--quality-assessment")]
+    public bool? QualityAssessment { get; set; }
+
+    /// <summary>
+    /// Negates --quality-assessment. Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
+    /// </summary>
+    [CliFlag("--no-quality-assessment")]
+    public bool? NoQualityAssessment { get; set; }
+
+    /// <summary>
+    /// Source database provider. SOURCE_DATABASE_PROVIDER must be one of: AMAZON_RDS, AZURE_MANAGED_INSTANCE, AZURE_SQL_DATABASE, CLOUDSQL, UNSPECIFIED.
+    /// </summary>
+    [CliOption("--source-database-provider", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSourceDatabaseProvider? SourceDatabaseProvider { get; set; }
+
+    /// <summary>
+    /// Version number for the database engine. The version number must contain numbers and letters only. Example for Oracle 21c, version number will be 21c.
+    /// </summary>
+    [CliOption("--source-database-version", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDatabaseVersion { get; set; }
+
 }

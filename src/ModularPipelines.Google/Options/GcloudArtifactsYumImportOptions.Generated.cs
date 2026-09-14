@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import one or more RPM packages into an     artifact repository
 /// </summary>
+/// <param name="GcsSource">The Google Cloud Storage location of a package to import. To import multiple packages, use wildcards at the end of the path.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "yum", "import")]
-public record GcloudArtifactsYumImportOptions : GcloudOptions
+public record GcloudArtifactsYumImportOptions(
+    [property: CliOption("--gcs-source", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> GcsSource
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

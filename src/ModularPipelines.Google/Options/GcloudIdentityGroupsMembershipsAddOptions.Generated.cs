@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new membership in an     existing group
 /// </summary>
+/// <param name="GroupEmail">The email address of the group the new membership is being added to.</param>
+/// <param name="MemberEmail">The email address of the group or user being added to a group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "memberships", "add")]
-public record GcloudIdentityGroupsMembershipsAddOptions : GcloudOptions
+public record GcloudIdentityGroupsMembershipsAddOptions(
+    [property: CliOption("--group-email", Format = OptionFormat.EqualsSeparated)] string GroupEmail,
+    [property: CliOption("--member-email", Format = OptionFormat.EqualsSeparated)] string MemberEmail
+) : GcloudOptions
 {
+    /// <summary>
+    /// Optional time of expiration for the membership. This is given as a duration from now, for example '30d', '6m', '3y' for 30 days, 6 months, or 3 years respectively.
+    /// </summary>
+    [CliOption("--expiration", Format = OptionFormat.EqualsSeparated)]
+    public string? Expiration { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of roles for a member within the Group. If not specified, MEMBER will be used as a default value.
+    /// </summary>
+    [CliOption("--roles", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Roles { get; set; }
+
 }

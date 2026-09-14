@@ -6,19 +6,125 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud Scheduler job that     triggers an action via HTTP
 /// </summary>
+/// <param name="Schedule">Schedule on which the job will be executed. As a general rule, execution n + 1 of a job will not begin until execution n has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the n+1 execution is scheduled to run at 16:00 but the n execution takes until 16:15, the n+1 execution will not start until 16:15. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. Learn more about the cron job format (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). If --retry-count &gt; 0 and a job attempt fails, the job will be tried a total of --retry-count times, with exponential backoff, until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. For more information, see Retry jobs (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).</param>
+/// <param name="Uri">The full URI path that the request will be sent to. This string must begin with either "http://" or "https://". For example, http://acme.com or https://acme.com/sales:8080. Cloud Scheduler will encode some characters for safety and compatibility. The maximum allowed URL length is 2083 characters after encoding.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "jobs", "create", "http")]
-public record GcloudSchedulerJobsCreateHttpOptions : GcloudOptions
+public record GcloudSchedulerJobsCreateHttpOptions(
+    [property: CliOption("--schedule", Format = OptionFormat.EqualsSeparated)] string Schedule,
+    [property: CliOption("--uri", Format = OptionFormat.EqualsSeparated)] string Uri
+) : GcloudOptions
 {
+    /// <summary>
+    /// The deadline for job attempts. If the request handler doesn't respond by this dealine, the request is cancelled and the attempt is marked as failed. For example, 20s.
+    /// </summary>
+    [CliOption("--attempt-deadline", Format = OptionFormat.EqualsSeparated)]
+    public string? AttemptDeadline { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the job.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// KEY=VALUE pairs of HTTP headers to include in the request. Cannot be repeated. For example: --headers Accept-Language=en-us,Accept=text/plain
+    /// </summary>
+    [CliOption("--headers", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Headers { get; set; }
+
+    /// <summary>
+    /// HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put.
+    /// </summary>
+    [CliOption("--http-method", Format = OptionFormat.EqualsSeparated)]
+    public GcloudHttpMethod? HttpMethod { get; set; }
+
+    /// <summary>
+    /// Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour).
+    /// </summary>
+    [CliOption("--max-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxBackoff { get; set; }
+
+    /// <summary>
+    /// Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant.
+    /// </summary>
+    [CliOption("--max-doublings", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxDoublings { get; set; }
+
+    /// <summary>
+    /// Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
+    /// </summary>
+    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
+    /// </summary>
+    [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryDuration { get; set; }
+
+    /// <summary>
+    /// Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s.
+    /// </summary>
+    [CliOption("--min-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MinBackoff { get; set; }
+
+    /// <summary>
+    /// Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc".
+    /// </summary>
+    [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST).
+    /// </summary>
+    [CliOption("--message-body", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBody { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to file containing the data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST). Use a full or relative path to a local file containing the value of message_body.
+    /// </summary>
+    [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBodyFromFile { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The token must be OAuth if the target is a Google APIs service with URL *.googleapis.com. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oauth-service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? OauthServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the job. If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--oauth-token-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? OauthTokenScope { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OpenId Connect token to be included in the request sent to the target when executing the job. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. The OIDC token is generally used except for Google APIs hosted on *.googleapis.com: these APIs expect an OAuth token. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oidc-service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? OidcServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the job should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The audience to be used when generating an OpenId Connect token to be included in the request sent to the target when executing the job. If not specified, the URI specified in target will be used.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--oidc-token-audience", Format = OptionFormat.EqualsSeparated)]
+    public string? OidcTokenAudience { get; set; }
+
 }

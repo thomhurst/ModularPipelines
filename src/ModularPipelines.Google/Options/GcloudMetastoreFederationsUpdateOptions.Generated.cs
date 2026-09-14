@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,46 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "federations", "update")]
 public record GcloudMetastoreFederationsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Update the backend metastores by passing key-value pairs in through the flags. At least one of these must be specified: Comma-separated list of metastore backends specified as a list of RANK=BACKEND pairs. For example: 1=dpms:dpms1,2=dpms:projects/my-project/locations/us-central1/services/dpms2. RANK represents the rank of the backend metastore and is used to resolve database name collisions. BACKEND is specified as METASTORE_TYPE:METASTORE_NAME where METASTORE_TYPE is the type of backend metastore and METASTORE_NAME is the relative resource name of the metastore. If only the name of the metastore is specified (e.g. dpms1), project and location will be inferred from the project and location used to create the federation.
+    /// </summary>
+    [CliOption("--update-backends", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateBackends { get; set; }
+
+    /// <summary>
+    /// Update the backend metastores by passing key-value pairs in through the flags. At least one of these must be specified: At most one of these can be specified: Clear existing metastore backends. --clear-backends must be used with --update-backends.
+    /// </summary>
+    [CliFlag("--clear-backends")]
+    public bool? ClearBackends { get; set; }
+
+    /// <summary>
+    /// Update the backend metastores by passing key-value pairs in through the flags. At least one of these must be specified: At most one of these can be specified: Comma-separated list of metastore backend keys to remove with the form RANK1,RANK2. The Key represents the rank of the backend metastore and is used to resolve database name collisions. If a RANK does not exist then it is sliently ignored. If --update-backends is also specified, then --remove-backends is applied first.
+    /// </summary>
+    [CliOption("--remove-backends", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveBackends { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud metastore federations update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud metastore federations update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
 }

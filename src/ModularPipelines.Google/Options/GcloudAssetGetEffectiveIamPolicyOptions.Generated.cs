@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get effective IAM policies for a     specified list of resources within accessible scope, such as a project,     folder or organization
 /// </summary>
+/// <param name="Names">Names refer to a list of full resource names (https://cloud.google.com/asset-inventory/docs/resource-name-format) of searchable asset types (https://cloud.google.com/asset-inventory/docs/supported-asset-types). For each batch call, total number of names provided is between 1 and 20. The example value is: ◆ //cloudsql.googleapis.com/projects/{PROJECT_ID}/instances/{INSTANCE} (e.g. //cloudsql.googleapis.com/projects/probe-per-rt-project/instances/instance1)</param>
+/// <param name="Scope">Scope can be a project, a folder, or an organization. The search is limited to the IAM policies within this scope. The caller must be granted the cloudasset.assets.analyzeIamPolicy, cloudasset.assets.searchAllResources, cloudasset.assets.searchAllIamPolicies permissions on the desired scope. The allowed values are: ◆ projects/{PROJECT_ID} (e.g. projects/foo-bar) ◆ projects/{PROJECT_NUMBER} (e.g. projects/12345678) ◆ folders/{FOLDER_NUMBER} (e.g. folders/1234567) ◆ organizations/{ORGANIZATION_NUMBER} (e.g. organizations/123456)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "get-effective-iam-policy")]
-public record GcloudAssetGetEffectiveIamPolicyOptions : GcloudOptions
+public record GcloudAssetGetEffectiveIamPolicyOptions(
+    [property: CliOption("--names", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Names,
+    [property: CliOption("--scope", Format = OptionFormat.EqualsSeparated)] string Scope
+) : GcloudOptions
 {
 }

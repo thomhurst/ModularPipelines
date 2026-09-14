@@ -10,17 +10,65 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// mark an insight's state as     ACCEPTED
 /// </summary>
+/// <param name="Etag">Etag of a insight</param>
+/// <param name="InsightType">Insight Type of the insights</param>
+/// <param name="Location">Location</param>
+/// <param name="Insight"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "insights", "mark-accepted")]
 public record GcloudRecommenderInsightsMarkAcceptedOptions(
+    [property: CliOption("--etag", Format = OptionFormat.EqualsSeparated)] string Etag,
+    [property: CliOption("--insight-type", Format = OptionFormat.EqualsSeparated)] string InsightType,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Insight
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform billing account ID to use for this invocation.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform folder ID to use for this invocation.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform organization ID to use for this invocation.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// State metadata for recommendation, in format of --state-metadata=key1=value1,key2=value2
+    /// </summary>
+    [CliOption("--state-metadata", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? StateMetadata { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BillingAccount, Folder, Organization, or Project must be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

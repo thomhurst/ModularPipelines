@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// look up the     configured VPC Service Controls service perimeter for a resource
 /// </summary>
+/// <param name="Resource">The resource to look up effective service perimeters for. Format: projects/{project_number} or folders/{folder_number}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "lookup-configured-perimeter")]
-public record GcloudAccessContextManagerLookupConfiguredPerimeterOptions : GcloudOptions
+public record GcloudAccessContextManagerLookupConfiguredPerimeterOptions(
+    [property: CliOption("--resource", Format = OptionFormat.EqualsSeparated)] string Resource
+) : GcloudOptions
 {
 }

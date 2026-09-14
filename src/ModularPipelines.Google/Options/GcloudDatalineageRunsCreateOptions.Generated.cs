@@ -10,15 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a data lineage run
 /// </summary>
+/// <param name="StartTime">The start time of the run.</param>
+/// <param name="State">The state of the run. STATE must be one of: aborted, completed, failed, started, unknown.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datalineage", "runs", "create")]
-public record GcloudDatalineageRunsCreateOptions : GcloudOptions
+public record GcloudDatalineageRunsCreateOptions(
+    [property: CliOption("--start-time", Format = OptionFormat.EqualsSeparated)] string StartTime,
+    [property: CliOption("--state", Format = OptionFormat.EqualsSeparated)] GcloudState State
+) : GcloudOptions
 {
+    /// <summary>
+    /// Additional attributes for the run.
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// The display name of the run.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The end time of the run.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
 }

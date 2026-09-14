@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list fleet namespaces in a     project
 /// </summary>
+/// <param name="Scope">Scope resource - The group of arguments defining the Fleet Scope. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --scope on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ▸ provide the argument --scope on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "scopes", "namespaces", "list")]
-public record GcloudContainerHubScopesNamespacesListOptions : GcloudOptions
+public record GcloudContainerHubScopesNamespacesListOptions(
+    [property: CliOption("--scope", Format = OptionFormat.EqualsSeparated)] string Scope
+) : GcloudOptions
 {
 }

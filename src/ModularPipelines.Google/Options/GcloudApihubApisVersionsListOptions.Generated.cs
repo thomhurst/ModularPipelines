@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Versions
 /// </summary>
+/// <param name="Api">Api resource - The parent which owns this collection of API versions i.e., the API resource Format: projects/{project}/locations/{location}/apis/{api} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the api or fully qualified identifier for the api. To set the api attribute: ▸ provide the argument --api on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "apis", "versions", "list")]
-public record GcloudApihubApisVersionsListOptions : GcloudOptions
+public record GcloudApihubApisVersionsListOptions(
+    [property: CliOption("--api", Format = OptionFormat.EqualsSeparated)] string Api
+) : GcloudOptions
 {
+    /// <summary>
+    /// Api resource - The parent which owns this collection of API versions i.e., the API resource Format: projects/{project}/locations/{location}/apis/{api} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the api resource. To set the location attribute: ▸ provide the argument --api on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

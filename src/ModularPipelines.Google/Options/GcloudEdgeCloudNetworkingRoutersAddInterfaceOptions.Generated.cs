@@ -10,15 +10,64 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add an interface to a     Distributed Cloud Edge Network router
 /// </summary>
+/// <param name="InterfaceName">The name of the interface being added.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "routers", "add-interface")]
-public record GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions : GcloudOptions
+public record GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions(
+    [property: CliOption("--interface-name", Format = OptionFormat.EqualsSeparated)] string InterfaceName
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding loopback interfaces to edge router. The argument group for adding southbound interfaces to edge router. The argument group for adding northbound interfaces to edge router. The list of ip ranges for the loopback interface.
+    /// </summary>
+    [CliOption("--loopback-ip-addresses", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? LoopbackIpAddresses { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding loopback interfaces to edge router. The argument group for adding southbound interfaces to edge router. The argument group for adding northbound interfaces to edge router. Subnetwork of the interface being added.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding loopback interfaces to edge router. The argument group for adding southbound interfaces to edge router. The argument group for adding northbound interfaces to edge router. Interconnect attachment of the interface being added.
+    /// </summary>
+    [CliOption("--interconnect-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? InterconnectAttachment { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding loopback interfaces to edge router. The argument group for adding southbound interfaces to edge router. The argument group for adding northbound interfaces to edge router. Link-local address of the router for this interface.
+    /// </summary>
+    [CliOption("--ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? IpAddress { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding loopback interfaces to edge router. The argument group for adding southbound interfaces to edge router. The argument group for adding northbound interfaces to edge router. Subnet mask for the link-local IP range of the interface. The interface IP address and BGP peer IP address must be selected from the subnet defined by this link-local range.
+    /// </summary>
+    [CliOption("--ip-mask-length", Format = OptionFormat.EqualsSeparated)]
+    public string? IpMaskLength { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((LoopbackIpAddresses?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Subnetwork) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InterconnectAttachment) ? 1 : 0) + (!string.IsNullOrWhiteSpace(IpAddress) ? 1 : 0) + (!string.IsNullOrWhiteSpace(IpMaskLength) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of LoopbackIpAddresses, Subnetwork, InterconnectAttachment, IpAddress, or IpMaskLength must be specified.", [nameof(LoopbackIpAddresses), nameof(Subnetwork), nameof(InterconnectAttachment), nameof(IpAddress), nameof(IpMaskLength)]);
+        }
+    }
+
 }

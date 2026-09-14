@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// request deletion of a     Compute Engine network peering
 /// </summary>
+/// <param name="Network">The name of the network in the current project containing the peering.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "peerings", "request-delete")]
 public record GcloudComputeNetworksPeeringsRequestDeleteOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

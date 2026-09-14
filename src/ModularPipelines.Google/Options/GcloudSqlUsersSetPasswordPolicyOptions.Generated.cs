@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,11 +17,70 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// replaces a user's password policy in     a given instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
+/// <param name="Username"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "users", "set-password-policy")]
 public record GcloudSqlUsersSetPasswordPolicyOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Clear the existing password policy. This flag is only available for Postgres.
+    /// </summary>
+    [CliFlag("--clear-password-policy")]
+    public bool? ClearPasswordPolicy { get; set; }
+
+    /// <summary>
+    /// Cloud SQL user's hostname expressed as a specific IP address or address range. % denotes an unrestricted hostname. Applicable flag for MySQL instances; ignored for all other engines. Note, if you connect to your instance using IP addresses, you must add your client IP address as an authorized address, even if your hostname is unrestricted. For more information, see Configure IP (https://cloud.google.com/sql/docs/mysql/configure-ip).
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// Number of failed login attempts allowed before a user is locked out.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password-policy-allowed-failed-attempts", Format = OptionFormat.EqualsSeparated)]
+    public string? PasswordPolicyAllowedFailedAttempts { get; set; }
+
+    /// <summary>
+    /// Enables the failed login attempts check if set to true. Use --password-policy-enable-failed-attempts-check to enable and --no-password-policy-enable-failed-attempts-check to disable.
+    /// </summary>
+    [CliFlag("--password-policy-enable-failed-attempts-check")]
+    public bool? PasswordPolicyEnableFailedAttemptsCheck { get; set; }
+
+    /// <summary>
+    /// Negates --password-policy-enable-failed-attempts-check. Enables the failed login attempts check if set to true. Use --password-policy-enable-failed-attempts-check to enable and --no-password-policy-enable-failed-attempts-check to disable.
+    /// </summary>
+    [CliFlag("--no-password-policy-enable-failed-attempts-check")]
+    public bool? NoPasswordPolicyEnableFailedAttemptsCheck { get; set; }
+
+    /// <summary>
+    /// The current password must be specified when altering the password. Use --password-policy-enable-password-verification to enable and --no-password-policy-enable-password-verification to disable.
+    /// </summary>
+    [CliFlag("--password-policy-enable-password-verification")]
+    public bool? PasswordPolicyEnablePasswordVerification { get; set; }
+
+    /// <summary>
+    /// Negates --password-policy-enable-password-verification. The current password must be specified when altering the password. Use --password-policy-enable-password-verification to enable and --no-password-policy-enable-password-verification to disable.
+    /// </summary>
+    [CliFlag("--no-password-policy-enable-password-verification")]
+    public bool? NoPasswordPolicyEnablePasswordVerification { get; set; }
+
+    /// <summary>
+    /// Expiration duration after a password is updated, for example, 2d for 2 days. See gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password-policy-password-expiration-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? PasswordPolicyPasswordExpirationDuration { get; set; }
+
 }

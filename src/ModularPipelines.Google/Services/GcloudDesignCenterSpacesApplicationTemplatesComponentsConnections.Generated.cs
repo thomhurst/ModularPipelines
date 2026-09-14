@@ -44,7 +44,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsCreateOptions? options = null,
+        GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsListOptions? options = null,
+        GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

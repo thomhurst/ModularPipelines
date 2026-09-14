@@ -16,11 +16,52 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a linked dataset on an analytics log     bucket
 /// </summary>
+/// <param name="Bucket">ID of the bucket that will hold the linked dataset</param>
+/// <param name="Location">Location of the bucket that will hold the linked datasert.</param>
+/// <param name="LinkId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "links", "create")]
 public record GcloudLoggingLinksCreateOptions(
+    [property: CliOption("--bucket", Format = OptionFormat.EqualsSeparated)] string Bucket,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LinkId
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A textual description for the linked dataset.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Billing account of the linked dataset to create.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the linked dataset to create.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the linked dataset to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the linked dataset to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

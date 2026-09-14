@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-subscriptions", "seek")]
-public record GcloudPubsubLiteSubscriptionsSeekOptions : GcloudOptions
+public record GcloudPubsubLiteSubscriptionsSeekOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The event time to which you seek a subscription. The subscription seeks to the first message with event time greater than or equal to the specified event time. Messages missing an event time use publish time as a fallback. As event times are user supplied, subsequent messages may have event times less than the specified event time and must be filtered by the client, if necessary. Run $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--event-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EventTime { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The publish time to which you seek a subscription. Messages with publish time greater than or equal to the specified time are delivered after the seek operation. Run $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--publish-time", Format = OptionFormat.EqualsSeparated)]
+    public string? PublishTime { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The offset at which a newly created or seeked subscription starts receiving messages. A subscription can be initialized at the offset of the oldest retained message (beginning), or at the current HEAD offset (end). STARTING_OFFSET must be one of: beginning, end.
+    /// </summary>
+    [CliOption("--starting-offset", Format = OptionFormat.EqualsSeparated)]
+    public GcloudStartingOffset? StartingOffset { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(EventTime) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PublishTime) ? 1 : 0) + (StartingOffset is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of EventTime, PublishTime, or StartingOffset must be specified.", [nameof(EventTime), nameof(PublishTime), nameof(StartingOffset)]);
+        }
+    }
+
 }

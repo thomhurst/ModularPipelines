@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Host Project     Registration
 /// </summary>
+/// <param name="GcpProject">Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "host-project-registrations", "create")]
-public record GcloudApihubHostProjectRegistrationsCreateOptions : GcloudOptions
+public record GcloudApihubHostProjectRegistrationsCreateOptions(
+    [property: CliOption("--gcp-project", Format = OptionFormat.EqualsSeparated)] string GcpProject
+) : GcloudOptions
 {
 }

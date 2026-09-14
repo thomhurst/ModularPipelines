@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a peered DNS domain for     a private service connection
 /// </summary>
+/// <param name="Network">The network in the consumer project peered with the service.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "peered-dns-domains", "delete")]
 public record GcloudServicesPeeredDnsDomainsDeleteOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name of the service to delete a peered DNS domain for.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

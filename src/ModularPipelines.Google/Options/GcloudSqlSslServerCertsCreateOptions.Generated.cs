@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a server certificate for a     Cloud SQL instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl", "server-certs", "create")]
-public record GcloudSqlSslServerCertsCreateOptions : GcloudOptions
+public record GcloudSqlSslServerCertsCreateOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

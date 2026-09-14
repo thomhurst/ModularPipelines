@@ -16,9 +16,62 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import a version into an existing crypto     key
 /// </summary>
+/// <param name="Algorithm">The algorithm to assign to the new key version. For more information about supported algorithms, see https://cloud.google.com/kms/docs/algorithms. ALGORITHM must be one of: aes-128-cbc, aes-128-ctr, aes-128-gcm, aes-256-cbc, aes-256-ctr, aes-256-gcm, aes-256-kwp, ec-sign-ed25519, ec-sign-p256-sha256, ec-sign-p384-sha384, ec-sign-secp256k1-sha256, google-symmetric-encryption, hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha384, hmac-sha512, kem-xwing, ml-kem-1024, ml-kem-768, pq-sign-hash-slh-dsa-sha2-128s-sha256, pq-sign-ml-dsa-44, pq-sign-ml-dsa-44-external-mu, pq-sign-ml-dsa-65, pq-sign-ml-dsa-65-external-mu, pq-sign-ml-dsa-87, pq-sign-ml-dsa-87-external-mu, pq-sign-slh-dsa-sha2-128s, rsa-decrypt-oaep-2048-sha1, rsa-decrypt-oaep-2048-sha256, rsa-decrypt-oaep-3072-sha1, rsa-decrypt-oaep-3072-sha256, rsa-decrypt-oaep-4096-sha1, rsa-decrypt-oaep-4096-sha256, rsa-decrypt-oaep-4096-sha512, rsa-sign-pkcs1-2048-sha256, rsa-sign-pkcs1-3072-sha256, rsa-sign-pkcs1-4096-sha256, rsa-sign-pkcs1-4096-sha512, rsa-sign-pss-2048-sha256, rsa-sign-pss-3072-sha256, rsa-sign-pss-4096-sha256, rsa-sign-pss-4096-sha512, rsa-sign-raw-pkcs1-2048, rsa-sign-raw-pkcs1-3072, rsa-sign-raw-pkcs1-4096.</param>
+/// <param name="ImportJob">Name of the import job to import from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "import")]
-public record GcloudKmsKeysVersionsImportOptions : GcloudOptions
+public record GcloudKmsKeysVersionsImportOptions(
+    [property: CliOption("--algorithm", Format = OptionFormat.EqualsSeparated)] string Algorithm,
+    [property: CliOption("--import-job", Format = OptionFormat.EqualsSeparated)] string ImportJob
+) : GcloudOptions
 {
+    /// <summary>
+    /// Enable HSM trusted wrapping capabilities for the key.
+    /// </summary>
+    [CliFlag("--hsm-trusted-wrapping")]
+    public bool? HsmTrustedWrapping { get; set; }
+
+    /// <summary>
+    /// The containing key to import into.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Path to the public key of the ImportJob, used to wrap the key for import. If missing, the public key will be fetched on your behalf.
+    /// </summary>
+    [CliOption("--public-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicKeyFile { get; set; }
+
+    /// <summary>
+    /// Path to the unwrapped target key to import into a Cloud KMS key version. If specified, the key will be securely wrapped before transmission to Google.
+    /// </summary>
+    [CliOption("--target-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetKeyFile { get; set; }
+
+    /// <summary>
+    /// Version to re-import into. Omit this field for first-time import.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
+    /// <summary>
+    /// Path to the RSA/RSA+AES wrapped key file to import.
+    /// </summary>
+    [CliOption("--wrapped-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? WrappedKeyFile { get; set; }
+
 }

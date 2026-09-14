@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// undeploy a model from an existing     Vertex AI endpoint
 /// </summary>
+/// <param name="DeployedModelId">Id of the deployed model.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "endpoints", "undeploy-model")]
-public record GcloudAiEndpointsUndeployModelOptions : GcloudOptions
+public record GcloudAiEndpointsUndeployModelOptions(
+    [property: CliOption("--deployed-model-id", Format = OptionFormat.EqualsSeparated)] string DeployedModelId
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of pairs of deployed model id and value to set as traffic split.
+    /// </summary>
+    [CliOption("--traffic-split", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TrafficSplit { get; set; }
+
 }

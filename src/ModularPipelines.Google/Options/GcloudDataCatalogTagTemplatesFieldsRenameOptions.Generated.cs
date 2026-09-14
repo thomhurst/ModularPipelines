@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rename a Data Catalog tag     template field
 /// </summary>
+/// <param name="NewId">New ID of the tag template field.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tag-templates", "fields", "rename")]
-public record GcloudDataCatalogTagTemplatesFieldsRenameOptions : GcloudOptions
+public record GcloudDataCatalogTagTemplatesFieldsRenameOptions(
+    [property: CliOption("--new-id", Format = OptionFormat.EqualsSeparated)] string NewId
+) : GcloudOptions
 {
 }

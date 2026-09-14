@@ -10,15 +10,67 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Vertex AI index endpoint
 /// </summary>
+/// <param name="DisplayName">Display name of the index endpoint.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "index-endpoints", "create")]
-public record GcloudAiIndexEndpointsCreateOptions : GcloudOptions
+public record GcloudAiIndexEndpointsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Description of the index endpoint.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// If true, expose the index endpoint via private service connect.
+    /// </summary>
+    [CliFlag("--enable-private-service-connect")]
+    public bool? EnablePrivateServiceConnect { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+    /// </summary>
+    [CliOption("--encryption-kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionKmsKeyName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The Google Compute Engine network name to which the IndexEndpoint should be peered.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// List of projects from which the forwarding rule will target the service attachment.
+    /// </summary>
+    [CliOption("--project-allowlist", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ProjectAllowlist { get; set; }
+
+    /// <summary>
+    /// If true, the deployed index will be accessible through public endpoint.
+    /// </summary>
+    [CliFlag("--public-endpoint-enabled")]
+    public bool? PublicEndpointEnabled { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create index endpoint. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

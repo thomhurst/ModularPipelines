@@ -10,15 +10,90 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Memorystore Memcached instance
 /// </summary>
+/// <param name="NodeCount">Number of memcache nodes in this instance. Valid values range from 1 to 20.</param>
+/// <param name="NodeCpu">Number of cpus per node in this instance. Valid values are 1 or even number between 2-32. Value of 1 is not supported in all regions.</param>
+/// <param name="NodeMemory">Amount of memory allocated per node in this instance. The value must be a whole number followed by a size unit of 'MB' for megabyte, or 'GB' for gigabyte, ie '3072MB' or '9GB'. The value must be between 1024MB and 307200MB.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memcache", "instances", "create")]
-public record GcloudMemcacheInstancesCreateOptions : GcloudOptions
+public record GcloudMemcacheInstancesCreateOptions(
+    [property: CliOption("--node-count", Format = OptionFormat.EqualsSeparated)] int NodeCount,
+    [property: CliOption("--node-cpu", Format = OptionFormat.EqualsSeparated)] string NodeCpu,
+    [property: CliOption("--node-memory", Format = OptionFormat.EqualsSeparated)] string NodeMemory
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Full name of the Google Compute Engine network to which the instance is connected. If unspecified, the default network will be used.
+    /// </summary>
+    [CliOption("--authorized-network", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthorizedNetwork { get; set; }
+
+    /// <summary>
+    /// An arbitrary and optional user provided name for the instance.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The day of week when the window starts, e.g. sunday. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday.
+    /// </summary>
+    [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+
+    /// <summary>
+    /// Duration in integer hours (3 to 8) of the maintenance window.
+    /// </summary>
+    [CliOption("--maintenance-window-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowDuration { get; set; }
+
+    /// <summary>
+    /// Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
+    /// </summary>
+    [CliOption("--maintenance-window-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStartTime { get; set; }
+
+    /// <summary>
+    /// Optional major version of Memcached software to use with the instance. If not provided, default of "1.5" will be used. MEMCACHED_VERSION must be one of: 1.5 Memcached major version 1.5 1.6.15 Memcached version 1.6.15
+    /// </summary>
+    [CliOption("--memcached-version", Format = OptionFormat.EqualsSeparated)]
+    public string? MemcachedVersion { get; set; }
+
+    /// <summary>
+    /// User defined parameters to apply to the memcached process on each node. Possible attributes include: listen-backlog The backlog queue limit for the instance. disable-flush-all If enabled, flush_all command will be disabled. Applicable to 1.4.24 and higher. max-item-size Max bytes of the instance. Must at least be equal to slab_chunk_max (which defaults to 524288 bytes) and less than 134217728 bytes. Additionally it must be a multiple of slab_chunk_max. slab-min-size This is an integer in the range [1, 1024]. slab-growth-factor This is a float in the range [1.01, 100]. protocol This is an enum with acceptable values of ["ascii", "auto"]. disable-cas This is a boolean value. disable-evictions This is a boolean value. max-reqs-per-event This is an integer in the range [1, 1000]. track-sizes This is a boolean value. worker-logbuf-size This is an integer in the range [48, 524288]. watcher-logbuf-size This is an integer in the range [0, 2097151]. lru-crawler This is a boolean value. idle-timeout This is an integer in the range [1,86400]. lru-maintainer This is a boolean value. maxconns-fast This is a boolean value. hash-algorithm This is an enum with accepted values of ["jenkins", "murmur3"].
+    /// </summary>
+    [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Parameters { get; set; }
+
+    /// <summary>
+    /// Contains the name of allocated IP address ranges associated with the private service access connection for example, "test-default" associated with IP range 10.0.0.0/29.
+    /// </summary>
+    [CliOption("--reserved-ip-range-id", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ReservedIpRangeId { get; set; }
+
+    /// <summary>
+    /// List of zones for the memcache nodes. The nodes will be divided equally across the given zones up to --node-count value. If not provided, the service will by default create nodes in all zones in the region specified by --region flag.
+    /// </summary>
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Zones { get; set; }
+
 }

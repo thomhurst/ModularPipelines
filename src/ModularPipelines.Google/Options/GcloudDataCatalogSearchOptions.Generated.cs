@@ -10,17 +10,52 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// search Data Catalog for resources that match a     query
 /// </summary>
+/// <param name="Query"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "search")]
 public record GcloudDataCatalogSearchOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Scope. Control the scope of the search. At least one of these must be specified: If True, include Google Cloud Platform public datasets in the search results.
+    /// </summary>
+    [CliFlag("--include-gcp-public-datasets")]
+    public bool? IncludeGcpPublicDatasets { get; set; }
+
+    /// <summary>
+    /// Scope. Control the scope of the search. At least one of these must be specified: List of Cloud Organization IDs to include in the search.
+    /// </summary>
+    [CliOption("--include-organization-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeOrganizationIds { get; set; }
+
+    /// <summary>
+    /// Scope. Control the scope of the search. At least one of these must be specified: List of Cloud Project IDs to include in the search.
+    /// </summary>
+    [CliOption("--include-project-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeProjectIds { get; set; }
+
+    /// <summary>
+    /// Scope. Control the scope of the search. At least one of these must be specified: List of locations to search within.
+    /// </summary>
+    [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RestrictedLocations { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(IncludeGcpPublicDatasets == true || IncludeOrganizationIds?.Any() == true || IncludeProjectIds?.Any() == true || RestrictedLocations?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of IncludeGcpPublicDatasets, IncludeOrganizationIds, IncludeProjectIds, or RestrictedLocations must be specified.", [nameof(IncludeGcpPublicDatasets), nameof(IncludeOrganizationIds), nameof(IncludeProjectIds), nameof(RestrictedLocations)]);
+        }
+    }
+
 }

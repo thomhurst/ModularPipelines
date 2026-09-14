@@ -10,15 +10,49 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an     Intercept Deployment Group
 /// </summary>
+/// <param name="Network">Network resource - Intercept Deployment Group. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network-name attribute: ▸ provide the argument --network on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "intercept-deployment-groups", "create")]
-public record GcloudNetworkSecurityInterceptDeploymentGroupsCreateOptions : GcloudOptions
+public record GcloudNetworkSecurityInterceptDeploymentGroupsCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Description of the deployment group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
 }

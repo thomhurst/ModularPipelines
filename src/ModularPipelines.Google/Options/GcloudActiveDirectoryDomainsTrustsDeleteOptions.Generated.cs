@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete an Active Directory     Trust between a Managed Microsoft AD domain and a target domain
 /// </summary>
+/// <param name="TargetDomainName">Target domain name for the Managed Microsoft AD trust you want to delete.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "trusts", "delete")]
-public record GcloudActiveDirectoryDomainsTrustsDeleteOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsTrustsDeleteOptions(
+    [property: CliOption("--target-domain-name", Format = OptionFormat.EqualsSeparated)] string TargetDomainName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

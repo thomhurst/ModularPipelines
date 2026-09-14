@@ -6,19 +6,199 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a node pool in an Anthos     cluster on AWS
 /// </summary>
+/// <param name="ConfigEncryptionKmsKeyArn">Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.</param>
+/// <param name="IamInstanceProfile">Name or ARN of the IAM instance profile associated with the node pool.</param>
+/// <param name="MaxPodsPerNode">Maximum number of pods per node.</param>
+/// <param name="NodeVersion">Kubernetes version to use for the node pool.</param>
+/// <param name="SubnetId">Subnet ID of an existing VNET to use for the node pool.</param>
+/// <param name="MaxNodes">Node pool autoscaling This must be specified. Maximum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="MinNodes">Node pool autoscaling This must be specified. Minimum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "aws", "node-pools", "create")]
-public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerAwsNodePoolsCreateOptions(
+    [property: CliOption("--config-encryption-kms-key-arn", Format = OptionFormat.EqualsSeparated)] string ConfigEncryptionKmsKeyArn,
+    [property: CliOption("--iam-instance-profile", Format = OptionFormat.EqualsSeparated)] string IamInstanceProfile,
+    [property: CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)] string MaxPodsPerNode,
+    [property: CliOption("--node-version", Format = OptionFormat.EqualsSeparated)] string NodeVersion,
+    [property: CliOption("--subnet-id", Format = OptionFormat.EqualsSeparated)] string SubnetId,
+    [property: CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)] string MaxNodes,
+    [property: CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)] string MinNodes
+) : GcloudOptions
 {
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Annotations for the node pool.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container aws node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--enable-autorepair")]
+    public bool? EnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Negates --enable-autorepair. Node pool autoscaling metrics collection Proxy config Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container aws node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--no-enable-autorepair")]
+    public bool? NoEnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Enforce a Kubelet CPU CFS quota.
+    /// </summary>
+    [CliOption("--kubelet-config-cpu-cfs-quota", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeletConfigCpuCfsQuota { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Kubelet CPU CFS quota period, within the range "1ms" to "1s".
+    /// </summary>
+    [CliOption("--kubelet-config-cpu-cfs-quota-period", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeletConfigCpuCfsQuotaPeriod { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Kubelet CPU manager policy. KUBELET_CONFIG_CPU_MANAGER_POLICY must be one of: none, static.
+    /// </summary>
+    [CliOption("--kubelet-config-cpu-manager-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKubeletConfigCpuManagerPolicy? KubeletConfigCpuManagerPolicy { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Kubelet maximum number of PIDS in any pod, within the range 1024 to 4194304.
+    /// </summary>
+    [CliOption("--kubelet-config-pod-pids-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeletConfigPodPidsLimit { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Maximum number of extra (surge) nodes to be created beyond the current size of the node pool during its update process. Use --max-unavailable-update as well, if needed, to control the overall surge settings. To create an extra node each time the node pool is rolling updated, run: $ gcloud container aws node-pools create --max-surge-update=1 \ --max-unavailable-update=0
+    /// </summary>
+    [CliOption("--max-surge-update", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxSurgeUpdate { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Maximum number of nodes that can be simultaneously unavailable during this node pool's update process. Use --max-surge-update as well, if needed, to control the overall surge settings. To update 3 nodes in parallel (1 + 2), but keep at least 4 nodes (6 - 2) available each time the node pool is rolling updated, run: $ gcloud container aws node-pools create --min-nodes=6 \ --max-surge-update=1 --max-unavailable-update=2
+    /// </summary>
+    [CliOption("--max-unavailable-update", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxUnavailableUpdate { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Labels assigned to the node pool's nodes.
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Taints assigned to nodes of the node pool. Node taint is of format key=value:effect. Effect must be one of: NoExecute, NoSchedule, PreferNoSchedule.
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNodeTaints? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Number of I/O operations per second (IOPS) to provision for the root volume.
+    /// </summary>
+    [CliOption("--root-volume-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeIops { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
+    /// </summary>
+    [CliOption("--root-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeKmsKeyArn { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeSize { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Throughput to provision for the root volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
+    /// </summary>
+    [CliOption("--root-volume-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeThroughput { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Type of the root volume. ROOT_VOLUME_TYPE must be one of: gp2, gp3.
+    /// </summary>
+    [CliOption("--root-volume-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRootVolumeType? RootVolumeType { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config IDs of additional security groups to add to the node pool's nodes.
+    /// </summary>
+    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Name of the EC2 key pair authorized to login to the node pool's nodes.
+    /// </summary>
+    [CliOption("--ssh-ec2-key-pair", Format = OptionFormat.EqualsSeparated)]
+    public string? SshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Applies the given tags (comma separated) on the node pool. Example: $ gcloud container aws node-pools create EXAMPLE_NODE_POOL \ --tags=tag1=one,tag2=two
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Validate the node pool to create, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-metrics-granularity", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMetricsGranularity { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Autoscaling metrics to enable. For a list of valid metrics, refer to https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If granularity is specified but not any metrics, all metrics are enabled.
+    /// </summary>
+    [CliOption("--autoscaling-metrics", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutoscalingMetrics { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Node pool instance configuration At most one of these can be specified: AWS EC2 instance type for the node pool's nodes.
+    /// </summary>
+    [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceType { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Node pool instance configuration At most one of these can be specified: List of AWS EC2 instance types for creating a spot node pool's nodes. The specified instance types must have the same CPU architecture, the same number of CPUs and memory. You can use the Amazon EC2 Instance Selector tool (https://github.com/aws/amazon-ec2-instance-selector) to choose instance types with matching CPU and memory configurations.
+    /// </summary>
+    [CliOption("--spot-instance-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SpotInstanceTypes { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config ARN of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretArn { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Proxy config Version ID string of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-version-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretVersionId { get; set; }
+
 }

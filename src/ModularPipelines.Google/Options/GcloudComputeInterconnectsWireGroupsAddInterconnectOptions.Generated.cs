@@ -16,10 +16,21 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add     interconnect to a Compute Engine wire group
 /// </summary>
+/// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+/// <param name="EndpointLabel">The endpoint label for the wire group.</param>
+/// <param name="Interconnect">The interconnect for the wire group endpoint.</param>
+/// <param name="InterconnectLabel">The interconnect label for the wire group endpoint.</param>
+/// <param name="VlanTags">The vlan tags for the interconnect on the wire group endpoint.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "wire-groups", "add-interconnect")]
 public record GcloudComputeInterconnectsWireGroupsAddInterconnectOptions(
+    [property: CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)] string CrossSiteNetwork,
+    [property: CliOption("--endpoint-label", Format = OptionFormat.EqualsSeparated)] string EndpointLabel,
+    [property: CliOption("--interconnect", Format = OptionFormat.EqualsSeparated)] string Interconnect,
+    [property: CliOption("--interconnect-label", Format = OptionFormat.EqualsSeparated)] string InterconnectLabel,
+    [property: CliOption("--vlan-tags", Format = OptionFormat.EqualsSeparated)] string VlanTags,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

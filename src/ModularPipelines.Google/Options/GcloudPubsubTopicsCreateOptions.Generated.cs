@@ -18,10 +18,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates one or more Cloud Pub/Sub topics
 /// </summary>
+/// <param name="Schema">Following flags are for specifying the data source settings for an import topic Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. Schema resource - Name of the schema that messages published to this topic must conform to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument --schema on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "topics", "create")]
-public record GcloudPubsubTopicsCreateOptions : GcloudOptions
+public record GcloudPubsubTopicsCreateOptions(
+    [property: CliOption("--schema", Format = OptionFormat.EqualsSeparated)] string Schema
+) : GcloudOptions
 {
     /// <summary>
     /// Following flags are for specifying the data source settings for an import topic Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
@@ -220,12 +223,6 @@ public record GcloudPubsubTopicsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--last-revision-id", Format = OptionFormat.EqualsSeparated)]
     public string? LastRevisionId { get; set; }
-
-    /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. Schema resource - Name of the schema that messages published to this topic must conform to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument --schema on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
-    /// </summary>
-    [CliOption("--schema", Format = OptionFormat.EqualsSeparated)]
-    public string? Schema { get; set; }
 
     /// <summary>
     /// Following flags are for specifying the data source settings for an import topic Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. Schema resource - Name of the schema that messages published to this topic must conform to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project ID of the Google Cloud project for the schema. To set the project attribute: ▸ provide the argument --schema on the command line with a fully specified name; ▸ provide the argument --schema-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.

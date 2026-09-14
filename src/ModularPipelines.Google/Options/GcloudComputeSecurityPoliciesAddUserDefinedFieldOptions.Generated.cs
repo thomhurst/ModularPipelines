@@ -10,17 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add a user     defined field to a Compute Engine security policy
 /// </summary>
+/// <param name="Base">The base relative to which offset is measured. BASE must be one of: ipv4, ipv6, tcp, udp.</param>
+/// <param name="Offset">Offset of the first byte of the field (in network byte order) relative to base.</param>
+/// <param name="Size">Size of the field in bytes. Valid values: 1-4.</param>
+/// <param name="UserDefinedFieldName">The name for the user defined field.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "security-policies", "add-user-defined-field")]
 public record GcloudComputeSecurityPoliciesAddUserDefinedFieldOptions(
+    [property: CliOption("--base", Format = OptionFormat.EqualsSeparated)] GcloudBase Base,
+    [property: CliOption("--offset", Format = OptionFormat.EqualsSeparated)] string Offset,
+    [property: CliOption("--size", Format = OptionFormat.EqualsSeparated)] int Size,
+    [property: CliOption("--user-defined-field-name", Format = OptionFormat.EqualsSeparated)] string UserDefinedFieldName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If specified, apply this mask (bitwise AND) to the field to ignore bits before matching. Encoded as a hexadecimal number (starting with "0x").
+    /// </summary>
+    [CliOption("--mask", Format = OptionFormat.EqualsSeparated)]
+    public string? Mask { get; set; }
+
+    /// <summary>
+    /// Region of the security policy to update. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

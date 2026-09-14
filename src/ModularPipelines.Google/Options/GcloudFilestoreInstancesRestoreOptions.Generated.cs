@@ -16,9 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restore a Filestore instance from a     backup
 /// </summary>
+/// <param name="FileShare">File share to restore from the backup.</param>
+/// <param name="SourceBackup">Name of the Filestore backup to restore from.</param>
+/// <param name="SourceBackupRegion">Region of the Filestore backup to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "instances", "restore")]
-public record GcloudFilestoreInstancesRestoreOptions : GcloudOptions
+public record GcloudFilestoreInstancesRestoreOptions(
+    [property: CliOption("--file-share", Format = OptionFormat.EqualsSeparated)] string FileShare,
+    [property: CliOption("--source-backup", Format = OptionFormat.EqualsSeparated)] string SourceBackup,
+    [property: CliOption("--source-backup-region", Format = OptionFormat.EqualsSeparated)] string SourceBackupRegion
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

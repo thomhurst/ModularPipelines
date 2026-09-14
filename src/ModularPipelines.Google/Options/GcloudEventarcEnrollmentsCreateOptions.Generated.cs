@@ -10,15 +10,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Eventarc enrollment
 /// </summary>
+/// <param name="CelMatch">The cel match expression for the enrollment.</param>
+/// <param name="DestinationPipeline">ID of the destination pipeline or fully qualified identifier for the destination pipeline. To set the pipeline attribute: ◆ provide the argument --destination-pipeline on the command line.</param>
+/// <param name="MessageBus">Message bus resource - The message bus to which the enrollment attaches. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument --message-bus on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "enrollments", "create")]
-public record GcloudEventarcEnrollmentsCreateOptions : GcloudOptions
+public record GcloudEventarcEnrollmentsCreateOptions(
+    [property: CliOption("--cel-match", Format = OptionFormat.EqualsSeparated)] string CelMatch,
+    [property: CliOption("--destination-pipeline", Format = OptionFormat.EqualsSeparated)] string DestinationPipeline,
+    [property: CliOption("--message-bus", Format = OptionFormat.EqualsSeparated)] string MessageBus
+) : GcloudOptions
 {
+    /// <summary>
+    /// Message bus resource - The message bus to which the enrollment attaches. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. This must be specified. Project ID of the Google Cloud project for the message bus. To set the project attribute: ▸ provide the argument --message-bus on the command line with a fully specified name; ▸ provide the argument --message-bus-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--message-bus-project", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBusProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,46 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "mesh", "update")]
 public record GcloudContainerFleetMeshUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The path to a service-mesh.yaml configuration file. To enable the Service Mesh Feature with a fleet-level default membership configuration, run: $ gcloud container fleet mesh update \ --fleet-default-member-config=/path/to/service-mesh.yaml
+    /// </summary>
+    [CliOption("--fleet-default-member-config", Format = OptionFormat.EqualsSeparated)]
+    public string? FleetDefaultMemberConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At least one of these must be specified: Changing the origin of the membership. ORIGIN must be (only one value is supported): fleet.
+    /// </summary>
+    [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
+    public string? Origin { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At least one of these must be specified: At most one of these can be specified: The API to use for mesh configuration. CONFIG_API must be one of: istio, gateway.
+    /// </summary>
+    [CliOption("--config-api", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConfigApi? ConfigApi { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At least one of these must be specified: At most one of these can be specified: (DEPRECATED) Control plane management to update to. The --control-plane flag is now deprecated. Please use --management instead. See https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh. CONTROL_PLANE must be one of: automatic, manual, unspecified.
+    /// </summary>
+    [CliOption("--control-plane", Format = OptionFormat.EqualsSeparated)]
+    public GcloudControlPlane? ControlPlane { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At least one of these must be specified: At most one of these can be specified: The management mode to update to. MANAGEMENT must be one of: automatic, manual.
+    /// </summary>
+    [CliOption("--management", Format = OptionFormat.EqualsSeparated)]
+    public GcloudManagement? Management { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --memberships on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ▫ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--memberships", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Memberships { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --memberships on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. Location for the memberships. To set the location attribute: ▫ provide the argument --memberships on the command line with a fully specified name; ▫ provide the argument --location on the command line; ▫ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

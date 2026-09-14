@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// check a     potential member for transitive membership in a group
 /// </summary>
+/// <param name="GroupEmail">The email address of the group to check transitive membership for.</param>
+/// <param name="MemberEmail">The email address of the member to check transitive membership for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "memberships", "check-transitive-membership")]
-public record GcloudIdentityGroupsMembershipsCheckTransitiveMembershipOptions : GcloudOptions
+public record GcloudIdentityGroupsMembershipsCheckTransitiveMembershipOptions(
+    [property: CliOption("--group-email", Format = OptionFormat.EqualsSeparated)] string GroupEmail,
+    [property: CliOption("--member-email", Format = OptionFormat.EqualsSeparated)] string MemberEmail
+) : GcloudOptions
 {
 }

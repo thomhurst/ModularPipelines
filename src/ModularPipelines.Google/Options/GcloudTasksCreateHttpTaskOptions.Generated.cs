@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,76 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create and add a task that targets a HTTP     endpoint
 /// </summary>
+/// <param name="Queue">The queue the task belongs to.</param>
+/// <param name="Url">The full URL path that the request will be sent to. This string must begin with either "http://" or "https://".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "create-http-task")]
-public record GcloudTasksCreateHttpTaskOptions : GcloudOptions
+public record GcloudTasksCreateHttpTaskOptions(
+    [property: CliOption("--queue", Format = OptionFormat.EqualsSeparated)] string Queue,
+    [property: CliOption("--url", Format = OptionFormat.EqualsSeparated)] string Url
+) : GcloudOptions
 {
+    /// <summary>
+    /// An HTTP request header. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden.
+    /// </summary>
+    [CliOption("--header", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Header { get; set; }
+
+    /// <summary>
+    /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The HTTP method to use for the request. If not specified, "POST" will be used.
+    /// </summary>
+    [CliOption("--method", Format = OptionFormat.EqualsSeparated)]
+    public string? Method { get; set; }
+
+    /// <summary>
+    /// The time when the task is scheduled to be first attempted. Defaults to "now" if not specified.
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: HTTP Body data sent to the task worker processing the task.
+    /// </summary>
+    [CliOption("--body-content", Format = OptionFormat.EqualsSeparated)]
+    public string? BodyContent { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: File containing HTTP body data sent to the task worker processing the task.
+    /// </summary>
+    [CliOption("--body-file", Format = OptionFormat.EqualsSeparated)]
+    public string? BodyFile { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the task should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oauth-service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? OauthServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the task should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the task. If not specified, 'https://www.googleapis.com/auth/cloud-platform' will be used.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--oauth-token-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? OauthTokenScope { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the task should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oidc-service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? OidcServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// How the request sent to the target when executing the task should be authenticated. At most one of these can be specified: OAuth2 OpenId Connect The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--oidc-token-audience", Format = OptionFormat.EqualsSeparated)]
+    public string? OidcTokenAudience { get; set; }
+
 }

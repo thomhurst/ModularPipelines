@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create migration workflows
 /// </summary>
+/// <param name="ConfigFile">Path to the migration workflows config file.</param>
+/// <param name="Location">Location of the migration workflow.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bq", "migration-workflows", "create")]
-public record GcloudBqMigrationWorkflowsCreateOptions : GcloudOptions
+public record GcloudBqMigrationWorkflowsCreateOptions(
+    [property: CliOption("--config-file", Format = OptionFormat.EqualsSeparated)] string ConfigFile,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

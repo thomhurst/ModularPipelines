@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a     Network Monitoring Provider
 /// </summary>
+/// <param name="ProviderType">Type of the NetworkMonitoringProvider. PROVIDER_TYPE must be (only one value is supported): external External provider.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "create")]
-public record GcloudNetworkManagementNetworkMonitoringProvidersCreateOptions : GcloudOptions
+public record GcloudNetworkManagementNetworkMonitoringProvidersCreateOptions(
+    [property: CliOption("--provider-type", Format = OptionFormat.EqualsSeparated)] string ProviderType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -21,4 +21,46 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("eventarc", "message-buses", "publish")]
 public record GcloudEventarcMessageBusesPublishOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: An Avro message to publish to the message bus.
+    /// </summary>
+    [CliOption("--avro-message", Format = OptionFormat.EqualsSeparated)]
+    public string? AvroMessage { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A JSON message to publish to the message bus.
+    /// </summary>
+    [CliOption("--json-message", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonMessage { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event data. The event data of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-data", Format = OptionFormat.EqualsSeparated)]
+    public string? EventData { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event id. The id of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-id", Format = OptionFormat.EqualsSeparated)]
+    public string? EventId { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event source. The event source of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-source", Format = OptionFormat.EqualsSeparated)]
+    public string? EventSource { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event type. The event type of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EventType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Event attributes. The event attributes of a published event.This flag can be repeated to add more attributes.
+    /// </summary>
+    [CliOption("--event-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EventAttributes { get; set; }
+
 }

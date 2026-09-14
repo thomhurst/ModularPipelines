@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM policy     binding for a KMS import job
 /// </summary>
+/// <param name="Member">The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+/// <param name="Role">The role to remove the principal from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "import-jobs", "remove-iam-policy-binding")]
-public record GcloudKmsImportJobsRemoveIamPolicyBindingOptions : GcloudOptions
+public record GcloudKmsImportJobsRemoveIamPolicyBindingOptions(
+    [property: CliOption("--member", Format = OptionFormat.EqualsSeparated)] string Member,
+    [property: CliOption("--role", Format = OptionFormat.EqualsSeparated)] string Role
+) : GcloudOptions
 {
 }

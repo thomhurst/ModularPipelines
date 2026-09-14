@@ -148,7 +148,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// The function execution timeout, e.g. 30s for 30 seconds. Defaults to original value for existing function or 60 seconds for new functions. For GCF 1st gen functions, cannot be more than 540s. For GCF 2nd gen functions, cannot be more than 3600s. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// The location of the trigger, which must be a region or multi-region where the relevant events originate.

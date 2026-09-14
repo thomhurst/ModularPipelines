@@ -16,9 +16,16 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// points     download-server-connect-config - download the server connect     configuration
 /// </summary>
+/// <param name="Location">The location of the Network Monitoring Provider (example: global).</param>
+/// <param name="NetworkMonitoringProvider">The ID of the Network Monitoring Provider.</param>
+/// <param name="OutputFile">The path to save the downloaded server connect configuration.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "download-server-connect-config")]
-public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadServerConnectConfigOptions : GcloudOptions
+public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadServerConnectConfigOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)] string NetworkMonitoringProvider,
+    [property: CliOption("--output-file", Format = OptionFormat.EqualsSeparated)] string OutputFile
+) : GcloudOptions
 {
 }

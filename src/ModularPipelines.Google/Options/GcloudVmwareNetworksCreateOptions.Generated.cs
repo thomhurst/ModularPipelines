@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Google Cloud VMware Engine network
 /// </summary>
+/// <param name="Type">Type of the VMware Engine network. TYPE must be one of: LEGACY Network type used by private clouds created in projects without a network of type STANDARD. This network type is only used for new PCs in existing projects that continue to use LEGACY network. A VMware Engine network of type LEGACY is a regional resource. STANDARD Standard network type used for private cloud connectivity. A VMware Engine network of type STANDARD is a global resource.</param>
+/// <param name="Vm"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "networks", "create")]
 public record GcloudVmwareNetworksCreateOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Text describing the VMware Engine network.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

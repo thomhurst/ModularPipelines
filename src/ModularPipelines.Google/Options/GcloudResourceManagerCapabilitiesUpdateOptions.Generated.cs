@@ -10,17 +10,46 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update a folder capability
 /// </summary>
+/// <param name="CapabilityId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "capabilities", "update")]
 public record GcloudResourceManagerCapabilitiesUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CapabilityId
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Enable the Capability. Use --enable to enable and --no-enable to disable.
+    /// </summary>
+    [CliFlag("--enable")]
+    public bool? Enable { get; set; }
+
+    /// <summary>
+    /// Negates --enable. Enable the Capability. Use --enable to enable and --no-enable to disable.
+    /// </summary>
+    [CliFlag("--no-enable")]
+    public bool? NoEnable { get; set; }
+
+    /// <summary>
+    /// Update Mask. This is an optional field, and the only valid value this can be set to currently is "value".
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateMask { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Enable == true ? 1 : 0) + (NoEnable == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Enable or NoEnable must be specified.", [nameof(Enable), nameof(NoEnable)]);
+        }
+    }
+
 }

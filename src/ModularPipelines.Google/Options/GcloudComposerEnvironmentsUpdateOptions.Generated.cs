@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,436 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("composer", "environments", "update")]
 public record GcloudComposerEnvironmentsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: The number of days for the Airflow database retention period. If set to 0, the Airflow database retention mechanism will be disabled.
+    /// </summary>
+    [CliOption("--airflow-database-retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? AirflowDatabaseRetentionDays { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Cloud SQL machine type used by the Airflow database. The list of available machine types is available here: https://cloud.google.com/composer/pricing#db-machine-types.
+    /// </summary>
+    [CliOption("--cloud-sql-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudSqlMachineType { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Disable high resilience, supported for Composer 2 Environments.
+    /// </summary>
+    [CliFlag("--disable-high-resilience")]
+    public bool? DisableHighResilience { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Disable logs in cloud logging only, supported for Composer 2 Environments.
+    /// </summary>
+    [CliFlag("--disable-logs-in-cloud-logging-only")]
+    public bool? DisableLogsInCloudLoggingOnly { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Enable internet connection from any Composer component, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliFlag("--disable-private-environment")]
+    public bool? DisablePrivateEnvironment { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Enable high resilience, supported for Composer 2 Environments.
+    /// </summary>
+    [CliFlag("--enable-high-resilience")]
+    public bool? EnableHighResilience { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Enable logs in cloud logging only, supported for Composer 2 Environments.
+    /// </summary>
+    [CliFlag("--enable-logs-in-cloud-logging-only")]
+    public bool? EnableLogsInCloudLoggingOnly { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Disable internet connection from any Composer component, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliFlag("--enable-private-environment")]
+    public bool? EnablePrivateEnvironment { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Size of the environment. Unspecified means that the default option will be chosen. ENVIRONMENT_SIZE must be one of: extra-large, large, medium, small, unspecified.
+    /// </summary>
+    [CliOption("--environment-size", Format = OptionFormat.EqualsSeparated)]
+    public GcloudEnvironmentSize? EnvironmentSize { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: The new number of nodes running the environment. Must be &gt;= 3.
+    /// </summary>
+    [CliOption("--node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NodeCount { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Enable the support for web server plugins, supported in Composer 3 or greater.
+    /// </summary>
+    [CliFlag("--support-web-server-plugins")]
+    public bool? SupportWebServerPlugins { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: machine type used by the Airflow web server. The list of available machine types is available here: https://cloud.google.com/composer/pricing.
+    /// </summary>
+    [CliOption("--web-server-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WebServerMachineType { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for performing in-place environment upgrades. Upgrade the environment to a later Apache Airflow version in-place. Must be of the form X[.Y[.Z]], where [] denotes optional fragments. Examples: 2, 2.3, 2.3.4. The Apache Airflow version is a semantic version or an alias in the form of major or major.minor version numbers, resolved to the latest matching Apache Airflow version supported in the current Cloud Composer version. The resolved version is stored in the upgraded environment.
+    /// </summary>
+    [CliOption("--airflow-version", Format = OptionFormat.EqualsSeparated)]
+    public string? AirflowVersion { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for performing in-place environment upgrades. Upgrade the environment to a later version in-place. The image version encapsulates the versions of both Cloud Composer and Apache Airflow. Must be of the form composer-A[.B.C[-D.E]]-airflow-X[.Y[.Z]], where [] denotes optional fragments. Examples: composer-2-airflow-2, composer-2-airflow-2.2, composer-2.1.2-airflow-2.3.4. The Cloud Composer portion of the image version is a semantic version or an alias in the form of major version number or latest, resolved to the current Cloud Composer version. The Apache Airflow portion of the image version is a semantic version or an alias in the form of major or major.minor version numbers, resolved to the latest matching Apache Airflow version supported in the given Cloud Composer version. The resolved versions are stored in the upgraded environment.
+    /// </summary>
+    [CliOption("--image-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageVersion { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for setting the maintenance window value during update. Clears the maintenance window settings. Can be specified for Composer 3 or greater.
+    /// </summary>
+    [CliFlag("--clear-maintenance-window")]
+    public bool? ClearMaintenanceWindow { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for setting the maintenance window value during update. Or at least one of these can be specified: Group of arguments for setting the maintenance window value. End time of the mantenance window in the form of the full date. Only the time of the day is used as a reference for an ending time of the window with a provided recurrence. Specified date must take place after the one specified as a start date, the difference between will be used as a length of a single maintenance window. See $ gcloud topic datetimes for information on time formats. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--maintenance-window-end", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowEnd { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for setting the maintenance window value during update. Or at least one of these can be specified: Group of arguments for setting the maintenance window value. An RFC 5545 RRULE, specifying how the maintenance window will recur. The minimum requirement for the length of the maintenance window is 12 hours a week. Only FREQ=DAILY and FREQ=WEEKLY rules are supported. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--maintenance-window-recurrence", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowRecurrence { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for setting the maintenance window value during update. Or at least one of these can be specified: Group of arguments for setting the maintenance window value. Start time of the mantenance window in the form of the full date. Only the time of the day is used as a reference for a starting time of the window with a provided recurrence. See $ gcloud topic datetimes for information on time formats. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--maintenance-window-start", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStart { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting Cloud Data Lineage integration configuration in Composer 2. At most one of these can be specified: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    /// </summary>
+    [CliFlag("--disable-cloud-data-lineage-integration")]
+    public bool? DisableCloudDataLineageIntegration { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting Cloud Data Lineage integration configuration in Composer 2. At most one of these can be specified: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    /// </summary>
+    [CliFlag("--enable-cloud-data-lineage-integration")]
+    public bool? EnableCloudDataLineageIntegration { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting master authorized networks configuration. Disable Master Authorized Networks feature (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks) in the Composer Environment's GKE cluster.
+    /// </summary>
+    [CliFlag("--disable-master-authorized-networks")]
+    public bool? DisableMasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting master authorized networks configuration. Enable Master Authorized Networks feature (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks) in the Composer Environment's GKE cluster.
+    /// </summary>
+    [CliFlag("--enable-master-authorized-networks")]
+    public bool? EnableMasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting master authorized networks configuration. Comma separated Master Authorized Networks specified in CIDR notation. Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// </summary>
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Builds performed during operations that install Python packages have an access to the internet, supported in Composer 3 or greater.
+    /// </summary>
+    [CliFlag("--disable-private-builds-only")]
+    public bool? DisablePrivateBuildsOnly { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Builds performed during operations that install Python packages have only private connectivity to Google services, supported in Composer 3 or greater.
+    /// </summary>
+    [CliFlag("--enable-private-builds-only")]
+    public bool? EnablePrivateBuildsOnly { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments used during update of scheduled snapshots settings in Composer 2.0.32 or greater. Disables automated snapshots creation. Can be specified for Composer 2.0.32 or greater.
+    /// </summary>
+    [CliFlag("--disable-scheduled-snapshot-creation")]
+    public bool? DisableScheduledSnapshotCreation { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments used during update of scheduled snapshots settings in Composer 2.0.32 or greater. Or at least one of these can be specified: Group of arguments for setting scheduled snapshots settings in Composer 2.0.32 or greater. When specified, snapshots of the environment will be created according to a schedule. Can be specified for Composer 2.0.32 or greater. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--enable-scheduled-snapshot-creation")]
+    public bool? EnableScheduledSnapshotCreation { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments used during update of scheduled snapshots settings in Composer 2.0.32 or greater. Or at least one of these can be specified: Group of arguments for setting scheduled snapshots settings in Composer 2.0.32 or greater. Cron expression specifying when snapshots of the environment should be created. Can be specified for Composer 2.0.32 or greater. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--snapshot-creation-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotCreationSchedule { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments used during update of scheduled snapshots settings in Composer 2.0.32 or greater. Or at least one of these can be specified: Group of arguments for setting scheduled snapshots settings in Composer 2.0.32 or greater. The Cloud Storage location for storing automatically created snapshots. Can be specified for Composer 2.0.32 or greater. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--snapshot-location", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotLocation { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments used during update of scheduled snapshots settings in Composer 2.0.32 or greater. Or at least one of these can be specified: Group of arguments for setting scheduled snapshots settings in Composer 2.0.32 or greater. Timezone that sets the context to interpret snapshot_creation_schedule. Can be specified for Composer 2.0.32 or greater. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--snapshot-schedule-timezone", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotScheduleTimezone { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Disable connectivity with a user's VPC network, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliFlag("--disable-vpc-connectivity")]
+    public bool? DisableVpcConnectivity { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Cloud Composer Network Attachment, which provides connectivity with a user's VPC network, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliOption("--network-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkAttachment { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Virtual Private Cloud networking The Compute Engine Network to which the environment will be connected. If a 'Custom Subnet Network' is provided, --subnetwork must be specified as well. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Virtual Private Cloud networking The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Maximum number of workers in the Environment.
+    /// </summary>
+    [CliOption("--max-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWorkers { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Minimum number of workers in the Environment.
+    /// </summary>
+    [CliOption("--min-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? MinWorkers { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+    /// </summary>
+    [CliOption("--scheduler-count", Format = OptionFormat.EqualsSeparated)]
+    public int? SchedulerCount { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to Airflow scheduler.
+    /// </summary>
+    [CliOption("--scheduler-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? SchedulerCpu { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// </summary>
+    [CliOption("--scheduler-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? SchedulerMemory { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// </summary>
+    [CliOption("--scheduler-storage", Format = OptionFormat.EqualsSeparated)]
+    public string? SchedulerStorage { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to each Airflow web server
+    /// </summary>
+    [CliOption("--web-server-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? WebServerCpu { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// </summary>
+    [CliOption("--web-server-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? WebServerMemory { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// </summary>
+    [CliOption("--web-server-storage", Format = OptionFormat.EqualsSeparated)]
+    public string? WebServerStorage { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to each Airflow worker
+    /// </summary>
+    [CliOption("--worker-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerCpu { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// </summary>
+    [CliOption("--worker-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMemory { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// </summary>
+    [CliOption("--worker-storage", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerStorage { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Number of dag processors, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliOption("--dag-processor-count", Format = OptionFormat.EqualsSeparated)]
+    public int? DagProcessorCount { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. CPU allocated to Airflow dag processor, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliOption("--dag-processor-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? DagProcessorCpu { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliOption("--dag-processor-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? DagProcessorMemory { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
+    /// </summary>
+    [CliOption("--dag-processor-storage", Format = OptionFormat.EqualsSeparated)]
+    public string? DagProcessorStorage { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Group of arguments for setting triggerer settings in Composer 2.0.31 or greater. At most one of these can be specified: (DEPRECATED) Disable a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater. This flag is deprecated. Use --triggerer-count 0 instead.
+    /// </summary>
+    [CliFlag("--disable-triggerer")]
+    public bool? DisableTriggerer { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Group of arguments for setting triggerer settings in Composer 2.0.31 or greater. At most one of these can be specified: Or at least one of these can be specified: Group of arguments for setting triggerer settings during update in Composer 2.0.31 or greater. (DEPRECATED) Enable use of a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater. This flag is deprecated. Use --triggerer-count instead.
+    /// </summary>
+    [CliFlag("--enable-triggerer")]
+    public bool? EnableTriggerer { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Group of arguments for setting triggerer settings in Composer 2.0.31 or greater. At most one of these can be specified: Or at least one of these can be specified: Group of arguments for setting triggerer settings during update in Composer 2.0.31 or greater. Number of triggerers, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    /// </summary>
+    [CliOption("--triggerer-count", Format = OptionFormat.EqualsSeparated)]
+    public int? TriggererCount { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Group of arguments for setting triggerer settings in Composer 2.0.31 or greater. At most one of these can be specified: Or at least one of these can be specified: Group of arguments for setting triggerer settings during update in Composer 2.0.31 or greater. CPU allocated to Airflow triggerer. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    /// </summary>
+    [CliOption("--triggerer-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggererCpu { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Group of arguments for setting dag processor settings in Composer 3 or greater. Group of arguments for setting triggerer settings in Composer 2.0.31 or greater. At most one of these can be specified: Or at least one of these can be specified: Group of arguments for setting triggerer settings during update in Composer 2.0.31 or greater. Memory allocated to Airflow triggerer, ex. 512MB, 3GB, 2. If units are not provided, defaults to GB. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    /// </summary>
+    [CliOption("--triggerer-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggererMemory { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying the Airflow configuration. A list of Airflow config override KEY=VALUE pairs to set. If a config override exists, its value is updated; otherwise, a new config override is created. KEYs should specify the configuration section and property name, separated by a hyphen, for example core-print_stats_interval. The section may not contain a closing square brace or period. The property name must be non-empty and may not contain an equals sign, semicolon, or period. By convention, property names are spelled with snake_case. VALUEs may contain any character.
+    /// </summary>
+    [CliOption("--update-airflow-configs", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateAirflowConfigs { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying the Airflow configuration. Arguments available for item removal. At most one of these can be specified: Removes all Airflow config overrides from the environment.
+    /// </summary>
+    [CliFlag("--clear-airflow-configs")]
+    public bool? ClearAirflowConfigs { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying the Airflow configuration. Arguments available for item removal. At most one of these can be specified: A list of Airflow config override keys to remove.
+    /// </summary>
+    [CliOption("--remove-airflow-configs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAirflowConfigs { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying environment variables. A list of environment variable NAME=VALUE pairs to set and provide to the Airflow scheduler, worker, and webserver processes. If an environment variable exists, its value is updated; otherwise, a new environment variable is created. NAMEs are the environment variable names and may contain upper and lowercase letters, digits, and underscores; they must not begin with a digit. User-specified environment variables should not be used to set Airflow configuration properties. Instead use the --update-airflow-configs flag.
+    /// </summary>
+    [CliOption("--update-env-variables", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateEnvVariables { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying environment variables. Arguments available for item removal. At most one of these can be specified: Removes all environment variables from the environment. Environment variables that have system-provided defaults cannot be unset with the --remove-env-variables or --clear-env-variables flags; only the user-supplied overrides will be removed.
+    /// </summary>
+    [CliFlag("--clear-env-variables")]
+    public bool? ClearEnvVariables { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying environment variables. Arguments available for item removal. At most one of these can be specified: A list of environment variables to remove. Environment variables that have system-provided defaults cannot be unset with the --remove-env-variables or --clear-env-variables flags; only the user-supplied overrides will be removed.
+    /// </summary>
+    [CliOption("--remove-env-variables", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveEnvVariables { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying environment labels. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying environment labels. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud composer environments update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud composer environments update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at least one of these can be specified: Group of arguments for modifying environment labels. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for modifying the PyPI package configuration. The path to a file containing a list of PyPI packages to install in the environment. Each line in the file should contain a package specification in the format of the update-pypi-package argument defined above. The path can be a local file path or a Google Cloud Storage file path (Cloud Storage file path starts with 'gs://').
+    /// </summary>
+    [CliOption("--update-pypi-packages-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdatePypiPackagesFromFile { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for modifying the PyPI package configuration. Or at least one of these can be specified: A PyPI package to add to the environment. If a package exists, its value is updated; otherwise, a new package is installed. The value takes the form of: PACKAGE[EXTRAS_LIST]VERSION_SPECIFIER, as one would specify in a pip requirements file. PACKAGE is specified as a package name, such as numpy. EXTRAS_LIST is a comma-delimited list of PEP 508 distribution extras that may be empty, in which case the enclosing square brackets may be omitted. VERSION_SPECIFIER is an optional PEP 440 version specifier. If both EXTRAS_LIST and VERSION_SPECIFIER are omitted, the = and everything to the right may be left empty. This is a repeated argument that can be specified multiple times to update multiple packages. If PACKAGE appears more than once, the last value will be used.
+    /// </summary>
+    [CliOption("--update-pypi-package", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdatePypiPackage { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for modifying the PyPI package configuration. Or at least one of these can be specified: Arguments available for item removal. At most one of these can be specified: Removes all PyPI packages from the environment. PyPI packages that are required by the environment's core software cannot be uninstalled with the --remove-pypi-packages or --clear-pypi-packages flags.
+    /// </summary>
+    [CliFlag("--clear-pypi-packages")]
+    public bool? ClearPypiPackages { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Group of arguments for modifying the PyPI package configuration. Or at least one of these can be specified: Arguments available for item removal. At most one of these can be specified: A list of PyPI package names to remove. PyPI packages that are required by the environment's core software cannot be uninstalled with the --remove-pypi-packages or --clear-pypi-packages flags.
+    /// </summary>
+    [CliOption("--remove-pypi-packages", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemovePypiPackages { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the Airflow web server. By default, all IPs are allowed to access the web server. ip_range IPv4 or IPv6 range of addresses allowed to access the Airflow web server. description An optional description of the IP range.
+    /// </summary>
+    [CliOption("--update-web-server-allow-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateWebServerAllowIp { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Allows all IP addresses to access the Airflow web server.
+    /// </summary>
+    [CliFlag("--web-server-allow-all")]
+    public bool? WebServerAllowAll { get; set; }
+
+    /// <summary>
+    /// The update type. Exactly one of these must be specified: Or at most one of these can be specified: Denies all incoming traffic to the Airflow web server.
+    /// </summary>
+    [CliFlag("--web-server-deny-all")]
+    public bool? WebServerDenyAll { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

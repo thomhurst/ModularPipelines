@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a TagHold resource
 /// </summary>
+/// <param name="Holder">The name of the resource where the TagValue is being used. Must be less than 200 characters.</param>
+/// <param name="Parent"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "holds", "create")]
 public record GcloudResourceManagerTagsHoldsCreateOptions(
+    [property: CliOption("--holder", Format = OptionFormat.EqualsSeparated)] string Holder,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent
 ) : GcloudOptions
 {
+    /// <summary>
+    /// A URL where an end user can learn more about removing this hold.
+    /// </summary>
+    [CliOption("--help-link", Format = OptionFormat.EqualsSeparated)]
+    public string? HelpLink { get; set; }
+
+    /// <summary>
+    /// Region or zone where the TagHold will be stored. If not provided, the TagHold will be stored in a "global" region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// An optional string representing the origin of this request. This field should include human-understandable information to distinguish origins from each other. Must be less than 200 characters.
+    /// </summary>
+    [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
+    public string? Origin { get; set; }
+
 }

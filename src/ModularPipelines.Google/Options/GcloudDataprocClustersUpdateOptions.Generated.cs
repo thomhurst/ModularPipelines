@@ -32,7 +32,7 @@ public record GcloudDataprocClustersUpdateOptions : GcloudOptions
     /// The graceful decommission timeout for decommissioning Node Managers in the cluster, used when removing nodes. Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress. Timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs). Timeout defaults to 0 if not set (for forceful decommission), and the maximum allowed timeout is 1 day. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--graceful-decommission-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? GracefulDecommissionTimeout { get; set; }
+    public string? GracefulDecommissionTimeout { get; set; }
 
     /// <summary>
     /// Minimum fraction of new secondary worker nodes added in a scale up update operation, required to update the cluster. If it is not met, cluster updation will rollback the addition of secondary workers. Must be a decimal value between 0 and 1. Defaults to 0.0001.

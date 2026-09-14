@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// view the details of a change
 /// </summary>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+/// <param name="ChangeId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "changes", "describe")]
 public record GcloudDnsRecordSetsChangesDescribeOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ChangeId
 ) : GcloudOptions
 {

@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// replace the rules     of a Compute Engine organization security policy with rules from     another policy
 /// </summary>
+/// <param name="SourceSecurityPolicy">The URL of the source security policy to copy the rules from.</param>
+/// <param name="SecurityPolicy"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "copy-rules")]
 public record GcloudPreviewComputeOrgSecurityPoliciesCopyRulesOptions(
+    [property: CliOption("--source-security-policy", Format = OptionFormat.EqualsSeparated)] string SourceSecurityPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecurityPolicy
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Organization in which the organization security policy to copy the rules to. Must be set if security-policy is the short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

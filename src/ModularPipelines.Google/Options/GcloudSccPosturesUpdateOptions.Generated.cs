@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update the given Cloud Security Command Center     posture
 /// </summary>
+/// <param name="PostureFromFile">Path of the file containing the details of the field to be updated. Contents include the name of the posture to be updated and value of the fields to be updated. Use a full or relative path to a local file containing the value of posture.</param>
+/// <param name="RevisionId">Revision ID of the posture to be updated. The same revision ID will be updated in case the posture revision is not deployed on any workload. A new revision will be created for a deployed posture.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "postures", "update")]
-public record GcloudSccPosturesUpdateOptions : GcloudOptions
+public record GcloudSccPosturesUpdateOptions(
+    [property: CliOption("--posture-from-file", Format = OptionFormat.EqualsSeparated)] string PostureFromFile,
+    [property: CliOption("--revision-id", Format = OptionFormat.EqualsSeparated)] string RevisionId
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Comma separated string containing list of fields to be updated.
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateMask { get; set; }
+
 }

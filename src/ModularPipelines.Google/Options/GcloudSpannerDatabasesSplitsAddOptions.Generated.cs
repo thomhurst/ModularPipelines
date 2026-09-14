@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add split points to a Spanner     database
 /// </summary>
+/// <param name="SplitsFile">The path of a file containing split points to add to the database. Separate split points in the file with a new line. The file format is &lt;ObjectType&gt;[space]&lt;ObjectName&gt;[space]&lt;Split Value&gt;, where the ObjectType is one of TABLE or INDEX and the Split Value is the split point key. For index, the split point key is the index key with or without a full table key prefix.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "databases", "splits", "add")]
-public record GcloudSpannerDatabasesSplitsAddOptions : GcloudOptions
+public record GcloudSpannerDatabasesSplitsAddOptions(
+    [property: CliOption("--splits-file", Format = OptionFormat.EqualsSeparated)] string SplitsFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// The tag to identify the initiator of the split points.
+    /// </summary>
+    [CliOption("--initiator", Format = OptionFormat.EqualsSeparated)]
+    public string? Initiator { get; set; }
+
+    /// <summary>
+    /// The date when the split points become system managed and becomes eligible for merging. The default is 10 days from the date of creation. The maximum is 30 days from the date of creation.
+    /// </summary>
+    [CliOption("--split-expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? SplitExpirationDate { get; set; }
+
 }

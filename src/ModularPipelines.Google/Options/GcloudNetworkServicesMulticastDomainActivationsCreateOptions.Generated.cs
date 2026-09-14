@@ -10,15 +10,73 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a     multicast domain activation
 /// </summary>
+/// <param name="MulticastDomain">The multicast domain to be used.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "multicast-domain-activations", "create")]
-public record GcloudNetworkServicesMulticastDomainActivationsCreateOptions : GcloudOptions
+public record GcloudNetworkServicesMulticastDomainActivationsCreateOptions(
+    [property: CliOption("--multicast-domain", Format = OptionFormat.EqualsSeparated)] string MulticastDomain
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast domain activation.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// True to disable the use of the placement policy for this multicast domain activation.
+    /// </summary>
+    [CliFlag("--disable-placement-policy")]
+    public bool? DisablePlacementPolicy { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Aggregated egress Packet-Per-Second for all multicast groups in the domain in this zone.
+    /// </summary>
+    [CliOption("--aggr-egress-pps", Format = OptionFormat.EqualsSeparated)]
+    public string? AggrEgressPps { get; set; }
+
+    /// <summary>
+    /// Aggregated ingress Packet-Per-Second for all multicast groups in the domain in this zone.
+    /// </summary>
+    [CliOption("--aggr-ingress-pps", Format = OptionFormat.EqualsSeparated)]
+    public string? AggrIngressPps { get; set; }
+
+    /// <summary>
+    /// Average packet size (defaults to 512 bytes).
+    /// </summary>
+    [CliOption("--avg-packet-size", Format = OptionFormat.EqualsSeparated)]
+    public int? AvgPacketSize { get; set; }
+
+    /// <summary>
+    /// Maximum ingress Packet-Per-Second for a single multicast group in this zone.
+    /// </summary>
+    [CliOption("--max-per-group-ingress-pps", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPerGroupIngressPps { get; set; }
+
+    /// <summary>
+    /// Maximum number of subscribers for a single multicast group in this zone.
+    /// </summary>
+    [CliOption("--max-per-group-subscribers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPerGroupSubscribers { get; set; }
+
 }

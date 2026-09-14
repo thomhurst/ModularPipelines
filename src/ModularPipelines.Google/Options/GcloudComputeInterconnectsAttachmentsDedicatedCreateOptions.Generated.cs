@@ -10,17 +10,144 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a     Compute Engine dedicated interconnect attachment
 /// </summary>
+/// <param name="Interconnect">The interconnect for the interconnect attachment</param>
+/// <param name="Router">Google Cloud Router to use for dynamic routing.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "attachments", "dedicated", "create")]
 public record GcloudComputeInterconnectsAttachmentsDedicatedCreateOptions(
+    [property: CliOption("--interconnect", Format = OptionFormat.EqualsSeparated)] string Interconnect,
+    [property: CliOption("--router", Format = OptionFormat.EqualsSeparated)] string Router,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Provisioned capacity of the attachment. BANDWIDTH must be one of: 50m 50 Mbit/s 100m 100 Mbit/s 200m 200 Mbit/s 300m 300 Mbit/s 400m 400 Mbit/s 500m 500 Mbit/s 1g 1 Gbit/s 2g 2 Gbit/s 5g 5 Gbit/s 10g 10 Gbit/s 20g 20 Gbit/s 50g 50 Gbit/s 100g 100 Gbit/s 400g 400 Gbit/s
+    /// </summary>
+    [CliOption("--bandwidth", Format = OptionFormat.EqualsSeparated)]
+    public string? Bandwidth { get; set; }
+
+    /// <summary>
+    /// Single IPv4 address + prefix length to be configured on the cloud router interface for this interconnect attachment. Example: 203.0.113.1/29
+    /// </summary>
+    [CliOption("--candidate-cloud-router-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? CandidateCloudRouterIpAddress { get; set; }
+
+    /// <summary>
+    /// Single IPv6 address + prefix length to be configured on the cloud router interface for this interconnect attachment. Example: 2001:db8::1/125
+    /// </summary>
+    [CliOption("--candidate-cloud-router-ipv6-address", Format = OptionFormat.EqualsSeparated)]
+    public string? CandidateCloudRouterIpv6Address { get; set; }
+
+    /// <summary>
+    /// Single IPv4 address + prefix length to be configured on the customer router interface for this interconnect attachment. Example: 203.0.113.2/29
+    /// </summary>
+    [CliOption("--candidate-customer-router-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? CandidateCustomerRouterIpAddress { get; set; }
+
+    /// <summary>
+    /// Single IPv6 address + prefix length to be configured on the customer router interface for this interconnect attachment. Example: 2001:db8::2/125
+    /// </summary>
+    [CliOption("--candidate-customer-router-ipv6-address", Format = OptionFormat.EqualsSeparated)]
+    public string? CandidateCustomerRouterIpv6Address { get; set; }
+
+    /// <summary>
+    /// The candididate-ipv6-subnets field is not available.
+    /// </summary>
+    [CliOption("--candidate-ipv6-subnets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CandidateIpv6Subnets { get; set; }
+
+    /// <summary>
+    /// Up to 16 candidate prefixes that can be used to restrict the allocation of cloudRouterIpAddress and customerRouterIpAddress for this attachment. All prefixes must be within link-local address space. Google attempts to select an unused subnet of SUBNET_LENGTH from the supplied candidate subnet(s), or all of link-local space if no subnets supplied. Google does not re-use a subnet already in-use by your project, even if it's contained in one of the candidate subnets. The request fails if all candidate subnets are in use at Google's edge.
+    /// </summary>
+    [CliOption("--candidate-subnets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CandidateSubnets { get; set; }
+
+    /// <summary>
+    /// cloud-router-ipv6-interface-id field is not available.
+    /// </summary>
+    [CliOption("--cloud-router-ipv6-interface-id", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudRouterIpv6InterfaceId { get; set; }
+
+    /// <summary>
+    /// customer-router-ipv6-interface-id field is not available.
+    /// </summary>
+    [CliOption("--customer-router-ipv6-interface-id", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomerRouterIpv6InterfaceId { get; set; }
+
+    /// <summary>
+    /// Human-readable plain-text description of attachment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Administrative status of the interconnect attachment. If not provided on creation, defaults to enabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
+    /// </summary>
+    [CliFlag("--enable-admin")]
+    public bool? EnableAdmin { get; set; }
+
+    /// <summary>
+    /// Negates --enable-admin. Administrative status of the interconnect attachment. If not provided on creation, defaults to enabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
+    /// </summary>
+    [CliFlag("--no-enable-admin")]
+    public bool? NoEnableAdmin { get; set; }
+
+    /// <summary>
+    /// Indicates the user-supplied encryption option for this interconnect attachment (VLAN attachment). Possible values are: NONE - This is the default value, which means the interconnect attachment carries unencrypted traffic. VMs can send traffic to or receive traffic from such interconnect attachment. IPSEC - The interconnect attachment carries only traffic that is encrypted by an IPsec device; for example, an HA VPN gateway or third-party IPsec VPN. VMs cannot directly send traffic to or receive traffic from such an interconnect attachment. To use HA VPN over Cloud Interconnect, the interconnect attachment must be created with this option. ENCRYPTION must be one of: IPSEC, NONE.
+    /// </summary>
+    [CliOption("--encryption", Format = OptionFormat.EqualsSeparated)]
+    public GcloudEncryption? Encryption { get; set; }
+
+    /// <summary>
+    /// List of IP address range names that have been reserved for the interconnect attachment (VLAN attachment). Use this option only for an interconnect attachment that has its encryption option set as IPSEC. Currently only one internal IP address range can be specified for each attachment. When creating an HA VPN gateway for the interconnect attachment, if the attachment is configured to use a regional internal IP address, then the VPN gateway's IP address is allocated from the IP address range specified here. If this field is not specified when creating the interconnect attachment, then when creating any HA VPN gateways for this interconnect attachment, the HA VPN gateway's IP address is allocated from a regional external IP address pool.
+    /// </summary>
+    [CliOption("--ipsec-internal-addresses", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IpsecInternalAddresses { get; set; }
+
+    /// <summary>
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet passing through this interconnect attachment. Must be one of 1440, 1460, 1500, or 8896. If not specified, the value will default to 1440.
+    /// </summary>
+    [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
+    public string? Mtu { get; set; }
+
+    /// <summary>
+    /// Region of the interconnect attachment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the interconnect.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Stack type of the protocol(s) enabled on this interconnect attachment. STACK_TYPE must be one of: IPV4_IPV6 Both IPv4 and IPv6 protocols are enabled on this attachment. IPV4_ONLY Only IPv4 protocol is enabled on this attachment.
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public string? StackType { get; set; }
+
+    /// <summary>
+    /// Length of the IPv4 subnet mask for this attachment. 29 is the default value, except for attachments on Cross-Cloud Interconnects whose remote location's "constraints.subnetLengthRange" field specifies a minimum subnet length of 30. In that case, the default value is 30. The default value is recommended when there's no requirement on the subnet length. SUBNET_LENGTH must be one of: 29, 30.
+    /// </summary>
+    [CliOption("--subnet-length", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetLength { get; set; }
+
+    /// <summary>
+    /// Desired VLAN for this attachment, in the range 2-4093. If not supplied, Google will automatically select a VLAN.
+    /// </summary>
+    [CliOption("--vlan", Format = OptionFormat.EqualsSeparated)]
+    public string? Vlan { get; set; }
+
 }

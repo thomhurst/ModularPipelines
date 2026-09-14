@@ -10,16 +10,20 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add labels to Google Compute Engine     images
 /// </summary>
+/// <param name="Labels">A list of labels to add.</param>
+/// <param name="ImageName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "images", "add-labels")]
 public record GcloudComputeImagesAddLabelsOptions(
+    [property: CliOption("--labels", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> Labels,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
 ) : GcloudOptions
 {

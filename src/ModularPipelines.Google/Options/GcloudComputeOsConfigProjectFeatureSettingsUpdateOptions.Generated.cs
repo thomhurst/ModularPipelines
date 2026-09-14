@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update VM     Manager project feature settings
 /// </summary>
+/// <param name="PatchAndConfigFeatureSet">Specifies the feature set for VM Manager. PATCH_AND_CONFIG_FEATURE_SET must be one of: full Full set of VM Manager functionality (alias for osconfig-c). limited Limited feature set. Enables only the basic set of features (alias for osconfig-b). osconfig-b Limited feature set. Enables only the basic set of features. osconfig-c Full set of VM Manager functionality.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "project-feature-settings", "update")]
-public record GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions : GcloudOptions
+public record GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions(
+    [property: CliOption("--patch-and-config-feature-set", Format = OptionFormat.EqualsSeparated)] string PatchAndConfigFeatureSet
+) : GcloudOptions
 {
 }

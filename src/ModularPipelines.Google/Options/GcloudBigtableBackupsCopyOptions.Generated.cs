@@ -10,15 +10,84 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// copy a Cloud Bigtable backup to a new backup
 /// </summary>
+/// <param name="DestinationBackup">Backup resource - The destination backup to copy to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --destination-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="SourceBackup">Backup resource - The source backup to copy from. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --source-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "backups", "copy")]
-public record GcloudBigtableBackupsCopyOptions : GcloudOptions
+public record GcloudBigtableBackupsCopyOptions(
+    [property: CliOption("--destination-backup", Format = OptionFormat.EqualsSeparated)] string DestinationBackup,
+    [property: CliOption("--source-backup", Format = OptionFormat.EqualsSeparated)] string SourceBackup
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Backup resource - The destination backup to copy to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Bigtable cluster for the backup. To set the cluster attribute: ▸ provide the argument --destination-backup on the command line with a fully specified name; ▸ provide the argument --destination-cluster on the command line.
+    /// </summary>
+    [CliOption("--destination-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationCluster { get; set; }
+
+    /// <summary>
+    /// Backup resource - The destination backup to copy to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Bigtable instance for the backup. To set the instance attribute: ▸ provide the argument --destination-backup on the command line with a fully specified name; ▸ provide the argument --destination-instance on the command line; ▸ provide the argument --source-instance on the command line.
+    /// </summary>
+    [CliOption("--destination-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationInstance { get; set; }
+
+    /// <summary>
+    /// Backup resource - The destination backup to copy to. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project ID of the Google Cloud project for the backup. To set the project attribute: ▸ provide the argument --destination-backup on the command line with a fully specified name; ▸ provide the argument --destination-project on the command line; ▸ provide the argument --source-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--destination-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationProject { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Expiration time of the backup, must be at least 6 hours and at most 30 days from the time the source backup is created. See $ gcloud topic datetimes for information on date/time formats.
+    /// </summary>
+    [CliOption("--expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationDate { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Retention period of the backup relative from now, must be at least 6 hours and at most 30 days from the time the source backup is created. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Backup resource - The source backup to copy from. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Bigtable cluster for the backup. To set the cluster attribute: ▸ provide the argument --source-backup on the command line with a fully specified name; ▸ provide the argument --source-cluster on the command line.
+    /// </summary>
+    [CliOption("--source-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCluster { get; set; }
+
+    /// <summary>
+    /// Backup resource - The source backup to copy from. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Bigtable instance for the backup. To set the instance attribute: ▸ provide the argument --source-backup on the command line with a fully specified name; ▸ provide the argument --source-instance on the command line; ▸ provide the argument --destination-instance on the command line.
+    /// </summary>
+    [CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstance { get; set; }
+
+    /// <summary>
+    /// Backup resource - The source backup to copy from. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project ID of the Google Cloud project for the backup. To set the project attribute: ▸ provide the argument --source-backup on the command line with a fully specified name; ▸ provide the argument --source-project on the command line; ▸ provide the argument --destination-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--source-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ExpirationDate) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RetentionPeriod) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ExpirationDate or RetentionPeriod must be specified.", [nameof(ExpirationDate), nameof(RetentionPeriod)]);
+        }
+    }
+
 }

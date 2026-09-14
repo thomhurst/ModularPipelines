@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a cloud access     binding
 /// </summary>
+/// <param name="Binding">Cloud access binding resource - The cloud access binding you want to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the cloud-access-binding or fully qualified identifier for the cloud-access-binding. To set the binding attribute: ▸ provide the argument --binding on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "cloud-bindings", "delete")]
-public record GcloudAccessContextManagerCloudBindingsDeleteOptions : GcloudOptions
+public record GcloudAccessContextManagerCloudBindingsDeleteOptions(
+    [property: CliOption("--binding", Format = OptionFormat.EqualsSeparated)] string Binding
+) : GcloudOptions
 {
+    /// <summary>
+    /// Cloud access binding resource - The cloud access binding you want to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the organization. To set the organization attribute: ▸ provide the argument --binding on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ set the property access_context_manager/organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

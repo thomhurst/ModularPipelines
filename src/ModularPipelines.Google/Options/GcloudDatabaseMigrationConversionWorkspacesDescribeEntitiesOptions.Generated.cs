@@ -10,16 +10,20 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// describe database entities in a Database Migration conversion workspace
 /// </summary>
+/// <param name="TreeType">Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "conversion-workspaces", "describe-entities")]
-public record GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions : GcloudOptions
+public record GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions(
+    [property: CliOption("--tree-type", Format = OptionFormat.EqualsSeparated)] GcloudTreeType TreeType
+) : GcloudOptions
 {
     /// <summary>
     /// Request a specific commit id. If not specified, the entities from the latest commit are returned.

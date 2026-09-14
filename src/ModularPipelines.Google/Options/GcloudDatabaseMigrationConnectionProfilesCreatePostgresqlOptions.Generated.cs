@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,7 +23,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "create", "postgresql")]
-public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions : GcloudOptions
+public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Waits for the operation in progress to complete before returning.
@@ -182,5 +183,14 @@ public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions :
     [SecretValue]
     [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshPrivateKey { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(PscServiceAttachment)))
+        {
+            yield return new ValidationResult("At least one of PscServiceAttachment must be specified.", [nameof(PscServiceAttachment)]);
+        }
+    }
 
 }

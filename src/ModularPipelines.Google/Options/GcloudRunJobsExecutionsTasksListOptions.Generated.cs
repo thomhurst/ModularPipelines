@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list tasks
 /// </summary>
+/// <param name="Execution">Execution resource - Execution for which to list tasks. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --execution on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Execution or fully qualified identifier for the Execution. To set the executions attribute: ▸ provide the argument --execution on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "jobs", "executions", "tasks", "list")]
-public record GcloudRunJobsExecutionsTasksListOptions : GcloudOptions
+public record GcloudRunJobsExecutionsTasksListOptions(
+    [property: CliOption("--execution", Format = OptionFormat.EqualsSeparated)] string Execution
+) : GcloudOptions
 {
     /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].

@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// perform maintenance on nodes in a Compute Engine node group
 /// </summary>
+/// <param name="Nodes">The names of the nodes to perform maintenance on.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-groups", "perform-maintenance")]
 public record GcloudPreviewComputeSoleTenancyNodeGroupsPerformMaintenanceOptions(
+    [property: CliOption("--nodes", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Nodes,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The requested time for the maintenance window to start. The timestamp must be an RFC3339 valid string.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Zone of the node group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

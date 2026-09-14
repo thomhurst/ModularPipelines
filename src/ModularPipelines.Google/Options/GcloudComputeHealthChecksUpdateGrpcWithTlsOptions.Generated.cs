@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a gRPC with TLS     health check
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-checks", "update", "grpc-with-tls")]
@@ -63,7 +64,7 @@ public record GcloudComputeHealthChecksUpdateGrpcWithTlsOptions(
     /// These flags configure the port that the health check monitors. If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// These flags configure the port that the health check monitors. The number of consecutive health check failures before a healthy instance is marked as unhealthy.

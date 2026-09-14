@@ -72,7 +72,7 @@ public class GcloudNetworkManagement : IGcloudNetworkManagement
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkManagementOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

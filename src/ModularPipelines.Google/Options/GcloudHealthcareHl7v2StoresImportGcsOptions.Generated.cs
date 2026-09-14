@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import HL7v2 messages from     Google Cloud Storage into a Cloud Healthcare API HL7v2 store
 /// </summary>
+/// <param name="GcsUri">Cloud Storage source data locations. Each Cloud Storage object should be a text file that contains newline-delimited JSON objects. Each JSON object has a data field that contains a base64-encoded HL7v2 message.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "hl7v2-stores", "import", "gcs")]
-public record GcloudHealthcareHl7v2StoresImportGcsOptions : GcloudOptions
+public record GcloudHealthcareHl7v2StoresImportGcsOptions(
+    [property: CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)] string GcsUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

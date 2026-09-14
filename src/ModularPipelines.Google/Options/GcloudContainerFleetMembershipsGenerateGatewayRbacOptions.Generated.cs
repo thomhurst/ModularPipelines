@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "memberships", "generate-gateway-rbac")]
-public record GcloudContainerFleetMembershipsGenerateGatewayRbacOptions : GcloudOptions
+public record GcloudContainerFleetMembershipsGenerateGatewayRbacOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: If specified, this command will generate RBAC policy file for anthos support.
+    /// </summary>
+    [CliFlag("--anthos-support")]
+    public bool? AnthosSupport { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Group email address or third-party IAM group principal.
+    /// </summary>
+    [CliOption("--groups", Format = OptionFormat.EqualsSeparated)]
+    public string? Groups { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: User's email address, service account email address, or third-party IAM subject principal.
+    /// </summary>
+    [CliOption("--users", Format = OptionFormat.EqualsSeparated)]
+    public string? Users { get; set; }
+
+    /// <summary>
+    /// If specified, this command will generate RBAC policy and apply to the specified cluster.
+    /// </summary>
+    [CliFlag("--apply")]
+    public bool? Apply { get; set; }
+
+    /// <summary>
+    /// The cluster context as it appears in the kubeconfig file. You can get this value from the command line by running command: kubectl config current-context.
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public string? Context { get; set; }
+
+    /// <summary>
+    /// The kubeconfig file containing an entry for the cluster. Defaults to $KUBECONFIG if it is set in the environment, otherwise defaults to $HOME/.kube/config.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// Membership name to assign RBAC policy with.
+    /// </summary>
+    [CliOption("--membership", Format = OptionFormat.EqualsSeparated)]
+    public string? Membership { get; set; }
+
+    /// <summary>
+    /// If specified, this command will execute in dry run mode and write to the file specified with this flag: the generated RBAC policy will not be applied to Kubernetes clusters,instead it will be written to the designated local file.
+    /// </summary>
+    [CliOption("--rbac-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? RbacOutputFile { get; set; }
+
+    /// <summary>
+    /// If specified, this command will revoke the RBAC policy for the specified users.
+    /// </summary>
+    [CliFlag("--revoke")]
+    public bool? Revoke { get; set; }
+
+    /// <summary>
+    /// Namespace scoped role or cluster role.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string? Role { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AnthosSupport == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Groups) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Users) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AnthosSupport, Groups, or Users must be specified.", [nameof(AnthosSupport), nameof(Groups), nameof(Users)]);
+        }
+    }
+
 }

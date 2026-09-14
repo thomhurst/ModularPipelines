@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list tasks for a specified Batch job
 /// </summary>
+/// <param name="Job">Job resource - The Batch job resource. If not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument --job on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "tasks", "list")]
-public record GcloudBatchTasksListOptions : GcloudOptions
+public record GcloudBatchTasksListOptions(
+    [property: CliOption("--job", Format = OptionFormat.EqualsSeparated)] string Job
+) : GcloudOptions
 {
+    /// <summary>
+    /// Job resource - The Batch job resource. If not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the job. To set the location attribute: ▸ provide the argument --job on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property batch/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

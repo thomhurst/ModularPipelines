@@ -10,15 +10,45 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// validate a message against a     Pub/Sub schema
 /// </summary>
+/// <param name="Message">The message to validate against the schema.</param>
+/// <param name="MessageEncoding">The encoding of the message. MESSAGE_ENCODING must be one of: binary, json.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "schemas", "validate-message")]
-public record GcloudPubsubSchemasValidateMessageOptions : GcloudOptions
+public record GcloudPubsubSchemasValidateMessageOptions(
+    [property: CliOption("--message", Format = OptionFormat.EqualsSeparated)] string Message,
+    [property: CliOption("--message-encoding", Format = OptionFormat.EqualsSeparated)] GcloudMessageEncoding MessageEncoding
+) : GcloudOptions
 {
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Name or full path of an existing schema.
+    /// </summary>
+    [CliOption("--schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SchemaName { get; set; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Or at least one of these can be specified: Type of inline schema. TYPE must be one of: avro, protocol-buffer. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Or at least one of these can be specified: Schema specification. Exactly one of these must be specified: Inline schema definition.
+    /// </summary>
+    [CliOption("--definition", Format = OptionFormat.EqualsSeparated)]
+    public string? Definition { get; set; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Or at least one of these can be specified: Schema specification. Exactly one of these must be specified: File containing schema definition. Use a full or relative path to a local file containing the value of definition_file.
+    /// </summary>
+    [CliOption("--definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DefinitionFile { get; set; }
+
 }

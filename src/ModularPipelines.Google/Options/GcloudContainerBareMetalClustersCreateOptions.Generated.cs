@@ -10,15 +10,315 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Anthos cluster on     bare metal
 /// </summary>
+/// <param name="Version">Anthos cluster on bare metal version for the user cluster resource.</param>
+/// <param name="AdminClusterMembership">Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container bare-metal clusters create</param>
+/// <param name="ControlPlaneVip">VIPs used by the load balancer. This must be specified. VIP for the Kubernetes API of this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="IngressVip">VIPs used by the load balancer. This must be specified. VIP for ingress traffic into this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="LvpNodeMountsConfigPath">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Path for the LVP node mounts class. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="LvpNodeMountsConfigStorageClass">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Storage class for LVP node mounts. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "clusters", "create")]
-public record GcloudContainerBareMetalClustersCreateOptions : GcloudOptions
+public record GcloudContainerBareMetalClustersCreateOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version,
+    [property: CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)] string AdminClusterMembership,
+    [property: CliOption("--control-plane-vip", Format = OptionFormat.EqualsSeparated)] string ControlPlaneVip,
+    [property: CliOption("--ingress-vip", Format = OptionFormat.EqualsSeparated)] string IngressVip,
+    [property: CliOption("--lvp-node-mounts-config-path", Format = OptionFormat.EqualsSeparated)] string LvpNodeMountsConfigPath,
+    [property: CliOption("--lvp-node-mounts-config-storage-class", Format = OptionFormat.EqualsSeparated)] string LvpNodeMountsConfigStorageClass
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// or $ gcloud container bare-metal clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipProject { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container bare-metal clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster load balancer configuration. This must be specified. Control plane load balancer port configuration. This must be specified. Control plane load balancer port configuration.
+    /// </summary>
+    [CliOption("--control-plane-load-balancer-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneLoadBalancerPort { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. BGP load balancer configuration. ManualLB typed load balancers configuration.
+    /// </summary>
+    [CliFlag("--enable-manual-lb")]
+    public bool? EnableManualLb { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. BGP load balancer configuration. BGP load balancer address pools configurations. Examples: To specify configurations for two address pools pool1 and pool2, $ gcloud container bare-metal clusters create example_cluster --bgp-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --bgp-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bgp-address-pools", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpAddressPools { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. BGP load balancer configuration. BGP autonomous system number (ASN) of the cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bgp-asn", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpAsn { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a BGP node pool.
+    /// </summary>
+    [CliOption("--bgp-load-balancer-node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? BgpLoadBalancerNodeLabels { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Node taint applied to every Kubernetes node in a node pool.
+    /// </summary>
+    [CliOption("--bgp-load-balancer-node-taints", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? BgpLoadBalancerNodeTaints { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--bgp-load-balancer-registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpLoadBalancerRegistryBurst { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.
+    /// </summary>
+    [CliOption("--bgp-load-balancer-registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpLoadBalancerRegistryPullQps { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-bgp-load-balancer-serialize-image-pulls")]
+    public bool? DisableBgpLoadBalancerSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. MetalLB load balancer configuration. MetalLB address pools configuration. Exactly one of these must be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud container bare-metal clusters create example_cluster --metal-lb-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
+    /// </summary>
+    [CliOption("--metal-lb-address-pools", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbAddressPools { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal node pool configuration for MetalLB load balancer nodes. MetalLB Node Pool configuration. Populate MetalLB load balancer node config. At most one of these can be specified: MetalLB load balancer node configuration.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbLoadBalancerNodeConfigs { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a MetalLB node pool.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? MetalLbLoadBalancerNodeLabels { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Node taint applied to every node in a MetalLB node pool.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-node-taints", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? MetalLbLoadBalancerNodeTaints { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-metal-lb-load-balancer-serialize-image-pulls")]
+    public bool? DisableMetalLbLoadBalancerSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbLoadBalancerRegistryBurst { get; set; }
+
+    /// <summary>
+    /// --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbLoadBalancerRegistryPullQps { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: API Server argument configuration.
+    /// </summary>
+    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ApiServerArgs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Anthos on bare metal cluster control plane node pool configuration. This must be specified. Anthos on bare metal node pool configuration for control plane nodes. This must be specified. Anthos on bare metal node configuration for control plane nodes. This must be specified. Populate control plane node config. Exactly one of these must be specified: Control plane node configuration.
+    /// </summary>
+    [CliOption("--control-plane-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodeConfigs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a node pool.
+    /// </summary>
+    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. Node taint applied to every Kubernetes node in a node pool.
+    /// </summary>
+    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--control-plane-registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneRegistryBurst { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.
+    /// </summary>
+    [CliOption("--control-plane-registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneRegistryPullQps { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-control-plane-serialize-image-pulls")]
+    public bool? DisableControlPlaneSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: Number of subdirectories to create under path.
+    /// </summary>
+    [CliOption("--shared-path-pv-count", Format = OptionFormat.EqualsSeparated)]
+    public string? SharedPathPvCount { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Path for the LVP share class. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-path", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpSharePath { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Storage class for LVP share. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpShareStorageClass { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Annotations on the Anthos on bare metal resource.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Description for the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+    /// </summary>
+    [CliFlag("--enable-application-logs")]
+    public bool? EnableApplicationLogs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. User name used to access node machines.
+    /// </summary>
+    [CliOption("--login-user", Format = OptionFormat.EqualsSeparated)]
+    public string? LoginUser { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. IPv4 addresses to be placed into maintenance mode.
+    /// </summary>
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Container runtime which will be used in the bare metal user cluster.
+    /// </summary>
+    [CliOption("--container-runtime", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerRuntime { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Maximum number of pods a node can run.
+    /// </summary>
+    [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPodsPerNode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Enables the use of advanced Anthos networking features, such as Bundled Load Balancing with BGP or the egress NAT gateway.
+    /// </summary>
+    [CliFlag("--enable-advanced-networking")]
+    public bool? EnableAdvancedNetworking { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. If set, enable multiple network interfaces for your pods.
+    /// </summary>
+    [CliFlag("--enable-multi-nic-config")]
+    public bool? EnableMultiNicConfig { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. If set, install the SR-IOV operator.
+    /// </summary>
+    [CliFlag("--enable-sr-iov-config")]
+    public bool? EnableSrIovConfig { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--island-mode-pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IslandModePodAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. Address of the proxy server. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
+    public string? Uri { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster workload node configuration. Anthos on bare metal cluster network configurations. Multiple networking interfaces cluster configurations. SR-IOV networking operator configurations. Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy.
+    /// </summary>
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NoProxy { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((EnableManualLb == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(BgpAddressPools) ? 1 : 0) + (!string.IsNullOrWhiteSpace(BgpAsn) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of EnableManualLb, BgpAddressPools, or BgpAsn must be specified.", [nameof(EnableManualLb), nameof(BgpAddressPools), nameof(BgpAsn)]);
+        }
+    }
+
 }

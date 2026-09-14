@@ -6,19 +6,38 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Eventarc channel     connection
 /// </summary>
+/// <param name="ActivationToken">Activation token for the specified channel.</param>
+/// <param name="Channel">Subscriber channel for which to create the channel connection. This argument should be the full channel name, including project, location and the channel id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "channel-connections", "create")]
-public record GcloudEventarcChannelConnectionsCreateOptions : GcloudOptions
+public record GcloudEventarcChannelConnectionsCreateOptions(
+    [property: SecretValue, CliOption("--activation-token", Format = OptionFormat.EqualsSeparated)] string ActivationToken,
+    [property: CliOption("--channel", Format = OptionFormat.EqualsSeparated)] string Channel
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Labels to apply to the channel connection.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

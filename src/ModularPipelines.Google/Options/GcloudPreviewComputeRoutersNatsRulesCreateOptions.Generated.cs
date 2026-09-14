@@ -16,11 +16,42 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add a Rule to a Compute     Engine NAT
 /// </summary>
+/// <param name="Match">CEL Expression used to identify traffic to which this rule applies. ◆ Supported attributes (Public NAT): destination.ip ◆ Supported attributes (Private NAT): nexthop.hub ◆ Supported methods (Public Nat): inIpRange ◆ Supported operators (Public NAT): ||, == ◆ Supported operators (Private NAT): == Examples of allowed Match expressions (Public NAT): ◆ 'inIpRange(destination.ip, "203.0.113.0/24")'' ◆ 'destination.ip == "203.0.113.7"' ◆ 'destination.ip == "203.0.113.7" || inIpRange(destination.ip, "203.0.113.16/25")' Example of allowed Match expression (Private NAT): ◆ nexthop.hub == "//networkconnectivity.googleapis.com/projects/p1/locations/global/hubs/h1"</param>
+/// <param name="Nat">Name of the NAT that contains the Rule</param>
+/// <param name="Router">Router to use for NAT.</param>
+/// <param name="RuleNumber"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "nats", "rules", "create")]
 public record GcloudPreviewComputeRoutersNatsRulesCreateOptions(
+    [property: CliOption("--match", Format = OptionFormat.EqualsSeparated)] string Match,
+    [property: CliOption("--nat", Format = OptionFormat.EqualsSeparated)] string Nat,
+    [property: CliOption("--router", Format = OptionFormat.EqualsSeparated)] string Router,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RuleNumber
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Region of the NAT to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// External IP Addresses to use for connections matching this rule. This flag is supported only for Public NAT and is required when creating a Public NAT gateway. These must be valid reserved external IP addresses in the same region.
+    /// </summary>
+    [CliOption("--source-nat-active-ips", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceNatActiveIps { get; set; }
+
+    /// <summary>
+    /// Subnetworks from which addresses are used for connections matching this rule. This flag is supported only for Private NAT and is required when creating a Private NAT gateway. These must be subnetwork resources in the same region, with purpose set to PRIVATE_NAT.
+    /// </summary>
+    [CliOption("--source-nat-active-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceNatActiveRanges { get; set; }
+
 }

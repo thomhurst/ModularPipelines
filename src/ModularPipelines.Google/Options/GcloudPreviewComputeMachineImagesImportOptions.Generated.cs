@@ -10,17 +10,230 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Compute Engine     machine image from virtual appliance in OVA/OVF format
 /// </summary>
+/// <param name="SourceUri">Cloud Storage path to one of: OVF descriptor OVA file Directory with OVF package. For more information about Cloud Storage URIs, see https://cloud.google.com/storage/docs/request-endpoints#json-api.</param>
+/// <param name="Image"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "machine-images", "import")]
 public record GcloudPreviewComputeMachineImagesImportOptions(
+    [property: CliOption("--source-uri", Format = OptionFormat.EqualsSeparated)] string SourceUri,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The command you're using is deprecated and will be removed by December 31, 2025. We recommend using gcloud compute migration image-imports instead. See our official documentation for more information. https://cloud.google.com/migrate/virtual-machines/docs/5.0/migrate/image_import.
+    /// </summary>
+    [CliFlag("--cmd-deprecated")]
+    public bool? CmdDeprecated { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Temporary VMs are created in your project during machine image import. Set this flag so that these temporary VMs are not assigned external IP addresses. Note: The machine image import process requires package managers to be installed on the operating system for the virtual disk. These package managers might need to make requests to package repositories that are outside Google Cloud. To allow access for these updates, you need to configure Cloud NAT and Private Google Access. For more information, see https://cloud.google.com/nat/docs/gce-example#create-nat and https://cloud.google.com/vpc/docs/private-access-options#pga.
+    /// </summary>
+    [CliFlag("--no-address")]
+    public bool? NoAddress { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies that you want to import an image with an existing license. Importing an image with an existing license is known as bring your own license (BYOL). --byol can be specified in any of the following ways: + `--byol --os=rhel-8`: imports a RHEL 8 image with an existing license. + `--os=rhel-8-byol`: imports a RHEL 8 image with an existing license. + `--byol`: detects the OS contained on the disk, and imports the image with an existing license. For more information about BYOL, see: https://cloud.google.com/compute/docs/nodes/bringing-your-own-licenses
+    /// </summary>
+    [CliFlag("--byol")]
+    public bool? Byol { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. If provided, allows the VMs created from the imported machine image to send and receive packets with non-matching destination or source IP addresses.
+    /// </summary>
+    [CliFlag("--can-ip-forward")]
+    public bool? CanIpForward { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Image import and export tools use Cloud Build to import and export images to and from your project. Cloud Build uses a specific service account to execute builds on your behalf. The Cloud Build service account generates an access token for other service accounts and it is also used for authentication when building the artifacts for the image import tool. Use this flag to to specify a user-managed service account for image import and export. If you don't specify this flag, Cloud Build runs using your project's default Cloud Build service account. To set this option, specify the email address of the desired user-managed service account. Note: You must specify the --logs-location flag when you set a user-managed service account. At minimum, the specified user-managed service account needs to have the following roles assigned: ◆ roles/compute.admin ◆ roles/iam.serviceAccountTokenCreator ◆ roles/iam.serviceAccountUser
+    /// </summary>
+    [CliOption("--cloudbuild-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudbuildServiceAccount { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. A temporary virtual machine instance is created in your project during machine image import. Machine image import tooling on this temporary instance must be authenticated. A Compute Engine service account is an identity attached to an instance. Its access tokens can be accessed through the instance metadata server and can be used to authenticate machine image import tooling on the instance. To set this option, specify the email address corresponding to the required Compute Engine service account. If not provided, the machine image import on the temporary instance uses the project's default Compute Engine service account. At a minimum, you need to grant the following roles to the specified Cloud Build service account: ◆ roles/compute.storageAdmin ◆ roles/storage.objectViewer
+    /// </summary>
+    [CliOption("--compute-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ComputeServiceAccount { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies a text description of the machine image.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. The guest environment will be installed on the machine image. Enabled by default, use --no-guest-environment to disable.
+    /// </summary>
+    [CliFlag("--guest-environment")]
+    public bool? GuestEnvironment { get; set; }
+
+    /// <summary>
+    /// Negates --guest-environment. Custom machine type extensions. The guest environment will be installed on the machine image. Enabled by default, use --no-guest-environment to disable.
+    /// </summary>
+    [CliFlag("--no-guest-environment")]
+    public bool? NoGuestEnvironment { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Create an application-consistent machine image by informing the OS to prepare for the snapshot process.
+    /// </summary>
+    [CliFlag("--guest-flush")]
+    public bool? GuestFlush { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be (only one value is supported): UEFI_COMPATIBLE.
+    /// </summary>
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GuestOsFeatures { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Directory in Cloud Storage to hold build logs. If not set, gs://&lt;project num&gt;.cloudbuild-logs.googleusercontent.com/ is created and used.
+    /// </summary>
+    [CliOption("--log-location", Format = OptionFormat.EqualsSeparated)]
+    public string? LogLocation { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. If unspecified, the default type is n1-standard-1.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies the network for the VMs that are created from the imported machine image. If --subnet is also specified, then the subnet must be a subnetwork of network specified by --network. If neither is specified, the default network is used.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies the network tier that will be used to configure the machine image. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
+    /// </summary>
+    [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkTier? NetworkTier { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies the OS of the machine image being imported. OS must be one of: centos-7, centos-stream-8, centos-stream-9, debian-10, debian-11, debian-8, debian-9, opensuse-15, rhel-6, rhel-6-byol, rhel-7, rhel-7-byol, rhel-8, rhel-8-byol, rhel-9, rhel-9-byol, rocky-8, rocky-9, sles-12, sles-12-byol, sles-15, sles-15-byol, sles-sap-12, sles-sap-12-byol, sles-sap-15, sles-sap-15-byol, ubuntu-1404, ubuntu-1604, ubuntu-1804, ubuntu-2004, ubuntu-2204, windows-10-x64-byol, windows-10-x86-byol, windows-11-x64-byol, windows-2008r2, windows-2008r2-byol, windows-2012, windows-2012-byol, windows-2012r2, windows-2012r2-byol, windows-2016, windows-2016-byol, windows-2019, windows-2019-byol, windows-2022, windows-2022-byol, windows-7-x64-byol, windows-7-x86-byol, windows-8-x64-byol, windows-8-x86-byol.
+    /// </summary>
+    [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
+    public string? Os { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. The VMs created from the imported machine image are restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--restart-on-failure")]
+    public bool? RestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Negates --restart-on-failure. Custom machine type extensions. The VMs created from the imported machine image are restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--no-restart-on-failure")]
+    public bool? NoRestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Google Cloud Storage location, either regional or multi-regional, where machine image's content is to be stored. If absent, a nearby regional or multi-regional location is chosen automatically.
+    /// </summary>
+    [CliOption("--storage-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageLocation { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies the subnet for the VMs created from the imported machine image. If --network is also specified, the subnet must be a subnetwork of the network specified by --network.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies a list of tags to apply to the VMs created from the imported machine image. These tags allow network firewall rules and routes to be applied to specified VMs. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list VMs with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list VMs tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1'
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Maximum time an import can last before it fails as "TIMEOUT". For example, if you specify 2h, the process fails after 2 hours. See $ gcloud topic datetimes for information about duration formats. This timeout option has a maximum value of 24 hours.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Zone of the machine image to import. The zone in which to perform the import of the machine image. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. A whole number value specifying the number of cores that are needed in the custom machine type. For some machine types, shared-core values can also be used. For example, for E2 machine types, you can specify micro, small, or medium. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomCpu { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. A whole number value indicating how much memory is desired in the custom machine type. A size unit should be provided (eg. 3072MB or 9GB) - if no units are specified, GB is assumed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMemory { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Use the extended custom machine type.
+    /// </summary>
+    [CliFlag("--custom-extensions")]
+    public bool? CustomExtensions { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies a custom machine type. The default is n1. For more information about custom machine types, see: https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
+    /// </summary>
+    [CliOption("--custom-vm-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomVmType { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. At most one of these can be specified: If not provided, the machine image will be assigned the default scopes, described below. However, if neither --scopes nor --no-scopes are specified and the project has no default service account, then the machine image is imported with no scopes. Note that the level of access that a service account has is determined by a combination of access scopes and IAM roles so you must configure both access scopes and IAM roles for the service account to work properly. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Scopes { get; set; }
+
+    /// <summary>
+    /// Negates --scopes. Custom machine type extensions. At most one of these can be specified: If not provided, the machine image will be assigned the default scopes, described below. However, if neither --scopes nor --no-scopes are specified and the project has no default service account, then the machine image is imported with no scopes. Note that the level of access that a service account has is determined by a combination of access scopes and IAM roles so you must configure both access scopes and IAM roles for the service account to work properly. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// </summary>
+    [CliFlag("--no-scopes")]
+    public bool? NoScopes { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. At most one of these can be specified: A service account is an identity attached to the machine image. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the machine image will use the project's default service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. At most one of these can be specified: Import machine image without service account
+    /// </summary>
+    [CliFlag("--no-service-account")]
+    public bool? NoServiceAccount { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(CmdDeprecated == true))
+        {
+            yield return new ValidationResult("At least one of CmdDeprecated must be specified.", [nameof(CmdDeprecated)]);
+        }
+    }
+
 }

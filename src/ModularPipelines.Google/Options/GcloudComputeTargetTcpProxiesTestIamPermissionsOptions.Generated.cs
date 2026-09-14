@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM     permissions for a target TCP proxy
 /// </summary>
+/// <param name="Permissions">Set of permissions to check for the resource.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-tcp-proxies", "test-iam-permissions")]
 public record GcloudComputeTargetTcpProxiesTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

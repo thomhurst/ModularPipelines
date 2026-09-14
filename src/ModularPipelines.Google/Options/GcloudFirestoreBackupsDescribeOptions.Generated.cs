@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// retrieves information about a Cloud     Firestore backup
 /// </summary>
+/// <param name="Backup">The backup to operate on. For example, to operate on backup cf9f748a-7980-4703-b1a1-d1ffff591db0: $ gcloud firestore backups describe \ --backup='cf9f748a-7980-4703-b1a1-d1ffff591db0'</param>
+/// <param name="Location">The location to operate on. Available locations are listed at https://cloud.google.com/firestore/docs/locations. For example, to operate on location us-east1: $ gcloud firestore backups describe --location='us-east1'</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "backups", "describe")]
-public record GcloudFirestoreBackupsDescribeOptions : GcloudOptions
+public record GcloudFirestoreBackupsDescribeOptions(
+    [property: CliOption("--backup", Format = OptionFormat.EqualsSeparated)] string Backup,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
 }

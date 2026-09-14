@@ -10,17 +10,77 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update an existing Cloud Asset     Inventory saved query
 /// </summary>
+/// <param name="QueryId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "saved-queries", "update")]
 public record GcloudAssetSavedQueriesUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string QueryId
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder of the saved query.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the saved query.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project of the saved query. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// A string describing the query.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Path to JSON or YAML file that contains the query.
+    /// </summary>
+    [CliOption("--query-file-path", Format = OptionFormat.EqualsSeparated)]
+    public string? QueryFilePath { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud asset saved-queries update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud asset saved-queries update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

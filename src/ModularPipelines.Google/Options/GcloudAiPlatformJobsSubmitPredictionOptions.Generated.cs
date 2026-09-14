@@ -10,17 +10,85 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// start an AI Platform batch     prediction job
 /// </summary>
+/// <param name="DataFormat">Data format of the input files. DATA_FORMAT must be one of: text Text and JSON files; for text files, see https://www.tensorflow.org/guide/datasets#consuming_text_data, for JSON files, see https://cloud.google.com/ai-platform/prediction/docs/overview#batch_prediction_input_data tf-record TFRecord files; see https://www.tensorflow.org/guide/datasets#consuming_tfrecord_data tf-record-gzip GZIP-compressed TFRecord files.</param>
+/// <param name="InputPaths">Cloud Storage paths to the instances to run prediction on. Wildcards (*) accepted at the end of a path. More than one path can be specified if multiple file patterns are needed. For example, gs://my-bucket/instances*,gs://my-bucket/other-instances1 will match any objects whose names start with instances in my-bucket as well as the other-instances1 bucket, while gs://my-bucket/instance-dir/* will match any objects in the instance-dir "directory" (since directories aren't a first-class Cloud Storage concept) of my-bucket.</param>
+/// <param name="OutputPath">Cloud Storage path to which to save the output. Example: gs://my-bucket/output.</param>
+/// <param name="Region">The Compute Engine region to run the job in.</param>
+/// <param name="Job"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "jobs", "submit", "prediction")]
 public record GcloudAiPlatformJobsSubmitPredictionOptions(
+    [property: CliOption("--data-format", Format = OptionFormat.EqualsSeparated)] string DataFormat,
+    [property: CliOption("--input-paths", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> InputPaths,
+    [property: CliOption("--output-path", Format = OptionFormat.EqualsSeparated)] string OutputPath,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Job
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Name of the model to use for prediction.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string? Model { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Cloud Storage location where the model files are located.
+    /// </summary>
+    [CliOption("--model-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? ModelDir { get; set; }
+
+    /// <summary>
+    /// The number of records per batch. The service will buffer batch_size number of records in memory before invoking TensorFlow. Defaults to 64 if not specified.
+    /// </summary>
+    [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BatchSize { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The maximum number of workers to be used for parallel processing. Defaults to 10 if not specified.
+    /// </summary>
+    [CliOption("--max-worker-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MaxWorkerCount { get; set; }
+
+    /// <summary>
+    /// AI Platform runtime version for this job. Must be specified unless --master-image-uri is specified instead. It is defined in documentation along with the list of supported versions: https://cloud.google.com/ai-platform/prediction/docs/runtime-version-list
+    /// </summary>
+    [CliOption("--runtime-version", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeVersion { get; set; }
+
+    /// <summary>
+    /// Name of the signature defined in the SavedModel to use for this job. Defaults to DEFAULT_SERVING_SIGNATURE_DEF_KEY in https://www.tensorflow.org/api_docs/python/tf/compat/v1/saved_model/signature_constants, which is "serving_default". Only applies to TensorFlow models.
+    /// </summary>
+    [CliOption("--signature-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SignatureName { get; set; }
+
+    /// <summary>
+    /// Model version to be used. This flag may only be given if --model is specified. If unspecified, the default version of the model will be used. To list versions for a model, run $ gcloud ai-platform versions list
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Model) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ModelDir) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Model or ModelDir must be specified.", [nameof(Model), nameof(ModelDir)]);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "routers", "remove-interface")]
-public record GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions : GcloudOptions
+public record GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The name of the interface being removed.
+    /// </summary>
+    [CliOption("--interface-name", Format = OptionFormat.EqualsSeparated)]
+    public string? InterfaceName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The list of names for interfaces being removed.
+    /// </summary>
+    [CliOption("--interface-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? InterfaceNames { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InterfaceName) ? 1 : 0) + (InterfaceNames?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of InterfaceName or InterfaceNames must be specified.", [nameof(InterfaceName), nameof(InterfaceNames)]);
+        }
+    }
+
 }

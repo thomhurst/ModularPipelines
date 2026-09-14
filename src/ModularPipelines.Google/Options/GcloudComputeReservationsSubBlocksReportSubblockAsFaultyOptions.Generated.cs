@@ -16,11 +16,28 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// report a     sub-block within a reservation as faulty
 /// </summary>
+/// <param name="BlockName">The name of the reservation block.</param>
+/// <param name="DisruptionSchedule">The disruption schedule for the sub-block. DISRUPTION_SCHEDULE must be (only one value is supported): IMMEDIATE All VMs are immediately disrupted.</param>
+/// <param name="FailureComponent">The component that experienced the fault. FAILURE_COMPONENT must be one of: MULTIPLE_FAULTY_HOSTS Multiple hosts experienced the fault. NVLINK_SWITCH The NVLink switch experienced the fault.</param>
+/// <param name="FaultReasons">The reasons for reporting the sub-block as faulty. You can repeat this flag. Each flag must specify a "behavior" attribute and can optionally include a "description" attribute. The possible values for "behavior" are: PERFORMANCE, SWITCH_FAILURE, GPU_ERROR.</param>
+/// <param name="SubBlockName">The name of the reservation sub block.</param>
+/// <param name="Reservation"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "sub-blocks", "report-subblock-as-faulty")]
 public record GcloudComputeReservationsSubBlocksReportSubblockAsFaultyOptions(
+    [property: CliOption("--block-name", Format = OptionFormat.EqualsSeparated)] string BlockName,
+    [property: CliOption("--disruption-schedule", Format = OptionFormat.EqualsSeparated)] string DisruptionSchedule,
+    [property: CliOption("--failure-component", Format = OptionFormat.EqualsSeparated)] string FailureComponent,
+    [property: CliOption("--fault-reasons", Format = OptionFormat.EqualsSeparated)] string FaultReasons,
+    [property: CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)] string SubBlockName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Zone of the reservation to report-subblock-as-faulty. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

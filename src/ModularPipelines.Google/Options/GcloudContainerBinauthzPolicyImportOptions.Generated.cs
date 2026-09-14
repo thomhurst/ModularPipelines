@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import a Binary Authorization     policy to the current project
 /// </summary>
+/// <param name="PolicyFile"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "policy", "import")]

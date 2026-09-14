@@ -10,15 +10,55 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// redeploy the last release to a target
 /// </summary>
+/// <param name="DeliveryPipeline">The name of the Cloud Deploy delivery pipeline</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "targets", "redeploy")]
-public record GcloudDeployTargetsRedeployOptions : GcloudOptions
+public record GcloudDeployTargetsRedeployOptions(
+    [property: CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)] string DeliveryPipeline
+) : GcloudOptions
 {
+    /// <summary>
+    /// Annotations to apply to the rollout. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy targets redeploy \ --annotations="from_target=test,status=stable"
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Description of rollout created during a rollback.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Labels to apply to the rollout. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy targets redeploy --labels="commit=abc123,author=foo"
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Deploy policies to override
+    /// </summary>
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OverrideDeployPolicies { get; set; }
+
+    /// <summary>
+    /// ID to assign to the generated rollout for promotion.
+    /// </summary>
+    [CliOption("--rollout-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutId { get; set; }
+
+    /// <summary>
+    /// If set, starts the created rollout at the specified phase. Start rollout at stable phase: $ gcloud deploy targets redeploy --starting-phase-id=stable
+    /// </summary>
+    [CliOption("--starting-phase-id", Format = OptionFormat.EqualsSeparated)]
+    public string? StartingPhaseId { get; set; }
+
 }

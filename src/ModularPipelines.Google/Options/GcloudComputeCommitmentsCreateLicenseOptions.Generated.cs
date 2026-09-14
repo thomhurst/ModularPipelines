@@ -16,11 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create Compute Engine     license-based commitments
 /// </summary>
+/// <param name="Amount">Number of licenses purchased.</param>
+/// <param name="License">Applicable license URI. For example: https://www.googleapis.com/compute/v1/projects/suse-sap-cloud/global/licenses/sles-sap-12</param>
+/// <param name="Plan">Duration of the commitment. PLAN must be one of: 12-month, 36-month.</param>
+/// <param name="Commitment"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "commitments", "create-license")]
 public record GcloudComputeCommitmentsCreateLicenseOptions(
+    [property: CliOption("--amount", Format = OptionFormat.EqualsSeparated)] string Amount,
+    [property: CliOption("--license", Format = OptionFormat.EqualsSeparated)] string License,
+    [property: CliOption("--plan", Format = OptionFormat.EqualsSeparated)] string Plan,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Commitment
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Core range of the instance. Must be one of: 1-2, 3-4, 5+. Required for SAP licenses.
+    /// </summary>
+    [CliOption("--cores-per-license", Format = OptionFormat.EqualsSeparated)]
+    public string? CoresPerLicense { get; set; }
+
+    /// <summary>
+    /// Region of the commitment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

@@ -10,15 +10,62 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Certificate     Issuance Config
 /// </summary>
+/// <param name="CaPool">CA Pool used for issuing certificates. For example: $ gcloud certificate-manager issuance-configs create \ --ca-pool=projects/test-project/locations/us-west1/caPools/\ my-ca-pool</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("certificate-manager", "issuance-configs", "create")]
-public record GcloudCertificateManagerIssuanceConfigsCreateOptions : GcloudOptions
+public record GcloudCertificateManagerIssuanceConfigsCreateOptions(
+    [property: CliOption("--ca-pool", Format = OptionFormat.EqualsSeparated)] string CaPool
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Key algorithm to use when generating the private key. Defaults to rsa-2048. KEY_ALGORITHM must be one of: ecdsa-p256, rsa-2048.
+    /// </summary>
+    [CliOption("--key-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKeyAlgorithm? KeyAlgorithm { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Lifetime of issued certificates in ISO 8601 format. Use gcloud topic datetimes for details. Defaults to P30D.
+    /// </summary>
+    [CliOption("--lifetime", Format = OptionFormat.EqualsSeparated)]
+    public string? Lifetime { get; set; }
+
+    /// <summary>
+    /// How long along the lifetime of the ceritificate to renew, expressed as a percentage. Defaults to 66.
+    /// </summary>
+    [CliOption("--rotation-window-percentage", Format = OptionFormat.EqualsSeparated)]
+    public string? RotationWindowPercentage { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
 }

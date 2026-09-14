@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Redis ACL Policy
 /// </summary>
+/// <param name="Rules">Required, The ACL rules within the ACL policy. Specify this flag multiple times for multiple rules. Each rule consists of 'username' and 'rule'. rule The Redis ACL rule string. username The username for the ACL rule. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "acl-policies", "create")]
-public record GcloudRedisAclPoliciesCreateOptions : GcloudOptions
+public record GcloudRedisAclPoliciesCreateOptions(
+    [property: CliOption("--rules", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Rules
+) : GcloudOptions
 {
+    /// <summary>
+    /// Idempotent request UUID.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
 }

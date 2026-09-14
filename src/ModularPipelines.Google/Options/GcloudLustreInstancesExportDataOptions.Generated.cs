@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// exports data from Managed Lustre     instance to Cloud Storage
 /// </summary>
+/// <param name="GcsPathUri">The URI to a Cloud Storage bucket, or a path within a bucket, using the format gs://&lt;bucket_name&gt;/&lt;optional_path_inside_bucket&gt;/. If a path inside the bucket is specified, it must end with a forward slash (/).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lustre", "instances", "export-data")]
-public record GcloudLustreInstancesExportDataOptions : GcloudOptions
+public record GcloudLustreInstancesExportDataOptions(
+    [property: CliOption("--gcs-path-uri", Format = OptionFormat.EqualsSeparated)] string GcsPathUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The root directory path to the Managed Lustre file system. Must start with /. Default is /. If you're importing data into Managed Lustre, any path other than the default must already exist on the file system.
+    /// </summary>
+    [CliOption("--lustre-path", Format = OptionFormat.EqualsSeparated)]
+    public string? LustrePath { get; set; }
+
+    /// <summary>
+    /// UUID to identify requests.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// ServiceAccount resource - User-specified service account used to perform the transfer. If unspecified, the Managed Lustre service agent is used. Use one of the following formats: ◆ {EMAIL_ADDRESS_OR_UNIQUE_ID} ◆ projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID} ◆ projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --service-account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the serviceAccount or fully qualified identifier for the serviceAccount. To set the service-account attribute: ◆ provide the argument --service-account on the command line.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
 }

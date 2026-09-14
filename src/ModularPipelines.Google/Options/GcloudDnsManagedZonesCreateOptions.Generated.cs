@@ -10,17 +10,142 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// zone
 /// </summary>
+/// <param name="DnsName">The DNS name suffix that will be managed with the created zone.</param>
+/// <param name="ZoneName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "managed-zones", "create")]
 public record GcloudDnsManagedZonesCreateOptions(
+    [property: CliOption("--dns-name", Format = OptionFormat.EqualsSeparated)] string DnsName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ZoneName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Requires DNSSEC enabled. DENIAL_OF_EXISTENCE must be one of: nsec, nsec3.
+    /// </summary>
+    [CliOption("--denial-of-existence", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDenialOfExistence? DenialOfExistence { get; set; }
+
+    /// <summary>
+    /// Short description for the managed zone.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The DNSSEC state for this managed zone. DNSSEC_STATE must be one of: off Disable DNSSEC for the managed zone. on Enable DNSSEC for the managed zone. transfer Enable DNSSEC and allow transferring a signed zone in or out.
+    /// </summary>
+    [CliOption("--dnssec-state", Format = OptionFormat.EqualsSeparated)]
+    public string? DnssecState { get; set; }
+
+    /// <summary>
+    /// List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for public visibility. Non-RFC1918 addresses will forward to the target through the Internet. RFC1918 addresses will forward through the VPC.
+    /// </summary>
+    [CliOption("--forwarding-targets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ForwardingTargets { get; set; }
+
+    /// <summary>
+    /// List of GKE clusters that the zone should be visible in if the zone visibility is [private].
+    /// </summary>
+    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gkeclusters { get; set; }
+
+    /// <summary>
+    /// String mnemonic specifying the DNSSEC algorithm of the key-signing key. Requires DNSSEC enabled. KSK_ALGORITHM must be one of: ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, rsasha512.
+    /// </summary>
+    [CliOption("--ksk-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKskAlgorithm? KskAlgorithm { get; set; }
+
+    /// <summary>
+    /// Length of the key-signing key in bits. Requires DNSSEC enabled.
+    /// </summary>
+    [CliOption("--ksk-key-length", Format = OptionFormat.EqualsSeparated)]
+    public string? KskKeyLength { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Specifies whether to enable query logging. Defaults to False. Use --log-dns-queries to enable and --no-log-dns-queries to disable.
+    /// </summary>
+    [CliFlag("--log-dns-queries")]
+    public bool? LogDnsQueries { get; set; }
+
+    /// <summary>
+    /// Negates --log-dns-queries. Specifies whether to enable query logging. Defaults to False. Use --log-dns-queries to enable and --no-log-dns-queries to disable.
+    /// </summary>
+    [CliFlag("--no-log-dns-queries")]
+    public bool? NoLogDnsQueries { get; set; }
+
+    /// <summary>
+    /// Specifies whether this zone is a managed reverse lookup zone, required for Cloud DNS to correctly resolve Non-RFC1918 PTR records.
+    /// </summary>
+    [CliFlag("--managed-reverse-lookup")]
+    public bool? ManagedReverseLookup { get; set; }
+
+    /// <summary>
+    /// List of networks that the zone should be visible in if the zone visibility is [private].
+    /// </summary>
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Networks { get; set; }
+
+    /// <summary>
+    /// List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for public visibility. All addresses specified for this parameter will be reached through the VPC.
+    /// </summary>
+    [CliOption("--private-forwarding-targets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PrivateForwardingTargets { get; set; }
+
+    /// <summary>
+    /// The fully qualified URL of the service directory namespace that should be associated with the zone. Ignored for public visibility zones.
+    /// </summary>
+    [CliOption("--service-directory-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDirectoryNamespace { get; set; }
+
+    /// <summary>
+    /// Visibility of the zone. Public zones are visible to the public internet. Private zones are only visible in your internal networks denoted by the --networks flag. VISIBILITY must be one of: public, private.
+    /// </summary>
+    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated)]
+    public GcloudVisibility? Visibility { get; set; }
+
+    /// <summary>
+    /// String mnemonic specifying the DNSSEC algorithm of the key-signing key. Requires DNSSEC enabled. ZSK_ALGORITHM must be one of: ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, rsasha512.
+    /// </summary>
+    [CliOption("--zsk-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudZskAlgorithm? ZskAlgorithm { get; set; }
+
+    /// <summary>
+    /// Length of the zone-signing key in bits. Requires DNSSEC enabled.
+    /// </summary>
+    [CliOption("--zsk-key-length", Format = OptionFormat.EqualsSeparated)]
+    public string? ZskKeyLength { get; set; }
+
+    /// <summary>
+    /// Network ID of the Google Compute Engine private network to forward queries to.
+    /// </summary>
+    [CliOption("--target-network", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetNetwork { get; set; }
+
+    /// <summary>
+    /// Project ID of the Google Compute Engine private network to forward queries to.
+    /// </summary>
+    [CliOption("--target-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetProject { get; set; }
+
 }

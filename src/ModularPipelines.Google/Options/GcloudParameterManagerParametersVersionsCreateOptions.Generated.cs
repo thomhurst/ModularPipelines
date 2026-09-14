@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters", "versions", "create")]
-public record GcloudParameterManagerParametersVersionsCreateOptions : GcloudOptions
+public record GcloudParameterManagerParametersVersionsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Message for storing a ParameterVersion resource's payload data This must be specified. Exactly one of these must be specified: bytes data for storing payload.
+    /// </summary>
+    [CliOption("--payload-data", Format = OptionFormat.EqualsSeparated)]
+    public string? PayloadData { get; set; }
+
+    /// <summary>
+    /// Message for storing a ParameterVersion resource's payload data This must be specified. Exactly one of these must be specified: bytes data for storing payload. Use a full or relative path to a local file containing the value of payload_data.
+    /// </summary>
+    [CliOption("--payload-data-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PayloadDataFromFile { get; set; }
+
+    /// <summary>
+    /// Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PayloadData) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PayloadDataFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PayloadData or PayloadDataFromFile must be specified.", [nameof(PayloadData), nameof(PayloadDataFromFile)]);
+        }
+    }
+
 }

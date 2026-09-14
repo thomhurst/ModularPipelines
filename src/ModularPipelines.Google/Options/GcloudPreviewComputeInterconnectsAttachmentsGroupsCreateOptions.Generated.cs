@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a     Compute Engine interconnect attachment group
 /// </summary>
+/// <param name="IntendedAvailabilitySla">The availability SLA that the user intends this group to support.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "create")]
 public record GcloudPreviewComputeInterconnectsAttachmentsGroupsCreateOptions(
+    [property: CliOption("--intended-availability-sla", Format = OptionFormat.EqualsSeparated)] string IntendedAvailabilitySla,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Member interconnect attachments to add to the interconnect attachment group initially.
+    /// </summary>
+    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attachments { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the interconnect attachment group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

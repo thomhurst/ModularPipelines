@@ -16,11 +16,44 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Compute     Engine workload resource policy
 /// </summary>
+/// <param name="Type">Type of the workload policy defining the high-level intent of the cluster. TYPE must be one of: HIGH_AVAILABILITY For workloads that aim to be highly available. Common examples are web / ML serving, or distributed database clusters. Compute Engine spreads VMs at best-effort to improve reliability of the distributed infrastructure. HIGH_THROUGHPUT For high throughput distributed workloads eg. HPC or ML training. Compute Engine collocates VMs at best-effort to reduce network latency between VMs.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "resource-policies", "create", "workload-policy")]
 public record GcloudComputeResourcePoliciesCreateWorkloadPolicyOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Defines the accelerator connection strategy for accelerator machine types like TPUs. ACCELERATOR_TOPOLOGY_MODE must be one of: AUTO_CONNECT This creates a static, pre-formed accelerator topology. PROVISION_ONLY The interconnected chips are connected on demand. At the time of VM creation, the chips are not connected.
+    /// </summary>
+    [CliOption("--accelerator-topology-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorTopologyMode { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the backend.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Region of the resource policy to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies the topology of placement and interconnection performance required to create a slice of VMs with interconnected accelerators.
+    /// </summary>
+    [CliOption("--accelerator-topology", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorTopology { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies the topology of placement and interconnection network performance of the group of VMs (MIG / Multi-MIGs). MAX_TOPOLOGY_DISTANCE must be one of: BLOCK VMs are placed within the same block of capacity with improved latency compared to Cluster. CLUSTER VMs are placed within the same cluster of capacity with improved latency between them. SUBBLOCK Tightest collocation of VMs that provides minimized network latency. VMs are placed within the same rack of capacity with improved latency compared to Block.
+    /// </summary>
+    [CliOption("--max-topology-distance", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxTopologyDistance { get; set; }
+
 }

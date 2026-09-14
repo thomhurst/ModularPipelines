@@ -16,9 +16,60 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a VMware Engine private cloud
 /// </summary>
+/// <param name="Cluster">Cluster resource - cluster. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --cluster on the command line with a fully specified name; ◆ set the property compute/zone. To set the private-cloud attribute: ◆ provide the argument --cluster on the command line with a fully specified name. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument --cluster on the command line.</param>
+/// <param name="ManagementRange">IP address range in the private cloud to use for management appliances, in CIDR format. Use an IP address range that meets the VMware Engine networking requirements (https://cloud.google.com/vmware-engine/docs/quickstart-networking-requirements).</param>
+/// <param name="NodeTypeConfig">Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster. custom-core-count (optional): customized number of cores available to each node of the type. To get a list of valid values for your node type, run the gcloud vmware node-types describe command and reference the availableCustomCoreCounts field in the output.</param>
+/// <param name="VmwareEngineNetwork">Resource ID of the VMware Engine network attached to the private cloud.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "create")]
-public record GcloudVmwarePrivateCloudsCreateOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsCreateOptions(
+    [property: CliOption("--cluster", Format = OptionFormat.EqualsSeparated)] string Cluster,
+    [property: CliOption("--management-range", Format = OptionFormat.EqualsSeparated)] string ManagementRange,
+    [property: CliOption("--node-type-config", Format = OptionFormat.EqualsSeparated)] string NodeTypeConfig,
+    [property: CliOption("--vmware-engine-network", Format = OptionFormat.EqualsSeparated)] string VmwareEngineNetwork
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Text describing the private cloud.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The KMS key to use for encryption of the private cloud. Must be a valid KMS key resource name. Format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. Specifying this key enables CMEK.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Zone that will remain operational when connection between the two zones is lost. Specify the resource name of a zone that belongs to the region of the private cloud. For example: projects/{project}/locations/us-west2-a. Using the full resource name is recommended for VPC Service Controls compliance.
+    /// </summary>
+    [CliOption("--preferred-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? PreferredZone { get; set; }
+
+    /// <summary>
+    /// Additional zone for a higher level of availability and load balancing. Specify the resource name of a zone that belongs to the region of the private cloud. For example: projects/{project}/locations/us-west2-b. Using the full resource name is recommended for VPC Service Controls compliance.
+    /// </summary>
+    [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryZone { get; set; }
+
+    /// <summary>
+    /// Type of the private cloud. TYPE must be one of: STANDARD Standard private is a zonal resource, with 3 or more nodes. Default type. STRETCHED Stretched private cloud is a regional resource with redundancy, with a minimum of 6 nodes, nodes count has to be even. TIME_LIMITED Time limited private cloud is a zonal resource, can have only 1 node and has limited life span. Will be deleted after defined period of time, can be converted into standard private cloud by expanding it up to 3 or more nodes.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
 }

@@ -22,6 +22,24 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesSharedTemplatesListOptions : GcloudOptions
 {
     /// <summary>
+    /// Space resource - The parent space for which shared templates are listed in the following format: projects/$project/locations/$location/spaces/$space The following arguments in this group can be used to specify the attributes of this resource. Exactly one of these must be specified: If provided, lists all shared template from the Google Catalog. This sets the project to "gcpdesigncenter" and space to "googlespace".
+    /// </summary>
+    [CliFlag("--google-catalog")]
+    public bool? GoogleCatalog { get; set; }
+
+    /// <summary>
+    /// Space resource - The parent space for which shared templates are listed in the following format: projects/$project/locations/$location/spaces/$space The following arguments in this group can be used to specify the attributes of this resource. Exactly one of these must be specified: Or at least one of these can be specified: Specify --project and/or --space for custom shared templates. ID of the space or fully qualified identifier for the space. To set the space attribute: ▫ provide the argument --space on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// Space resource - The parent space for which shared templates are listed in the following format: projects/$project/locations/$location/spaces/$space The following arguments in this group can be used to specify the attributes of this resource. Exactly one of these must be specified: Or at least one of these can be specified: Specify --project and/or --space for custom shared templates. The project id of the space resource. To set the project attribute: ▫ provide the argument --space on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
     /// The location id of the space resource. To set the location attribute: ◆ provide the argument --space on the command line with a fully specified name; ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

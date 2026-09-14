@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Cloud Healthcare API consent     stores
 /// </summary>
+/// <param name="DataSet">Dataset resource - The dataset to list the consent stores for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataset or fully qualified identifier for the dataset. To set the dataset attribute: ▸ provide the argument --dataset on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "consent-stores", "list")]
-public record GcloudHealthcareConsentStoresListOptions : GcloudOptions
+public record GcloudHealthcareConsentStoresListOptions(
+    [property: CliOption("--dataset", Format = OptionFormat.EqualsSeparated)] string DataSet
+) : GcloudOptions
 {
+    /// <summary>
+    /// Dataset resource - The dataset to list the consent stores for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument --dataset on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

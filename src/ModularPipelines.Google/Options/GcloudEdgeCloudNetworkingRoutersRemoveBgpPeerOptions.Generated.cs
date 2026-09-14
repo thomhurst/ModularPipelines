@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "routers", "remove-bgp-peer")]
-public record GcloudEdgeCloudNetworkingRoutersRemoveBgpPeerOptions : GcloudOptions
+public record GcloudEdgeCloudNetworkingRoutersRemoveBgpPeerOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The name of the BGP peer being removed.
+    /// </summary>
+    [CliOption("--peer-name", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The list of names for peers being removed. Only single value allowed currently.
+    /// </summary>
+    [CliOption("--peer-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PeerNames { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PeerName) ? 1 : 0) + (PeerNames?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PeerName or PeerNames must be specified.", [nameof(PeerName), nameof(PeerNames)]);
+        }
+    }
+
 }

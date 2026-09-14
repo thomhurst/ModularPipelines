@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// revoke     authorization for a user on an auth provider
 /// </summary>
+/// <param name="UserId">The identity of the user to revoke authorization for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-identity", "auth-providers", "revoke-authorization")]
-public record GcloudAgentIdentityAuthProvidersRevokeAuthorizationOptions : GcloudOptions
+public record GcloudAgentIdentityAuthProvidersRevokeAuthorizationOptions(
+    [property: CliOption("--user-id", Format = OptionFormat.EqualsSeparated)] string UserId
+) : GcloudOptions
 {
 }

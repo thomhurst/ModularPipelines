@@ -10,17 +10,111 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update a bucket
 /// </summary>
+/// <param name="Location">Location of the bucket.</param>
+/// <param name="BucketId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "buckets", "update")]
 public record GcloudLoggingBucketsUpdateOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BucketId
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Add an index to be added to the log bucket. This flag can be repeated. The fieldPath and type attributes are required. For example: --index=fieldPath=jsonPayload.foo,type=INDEX_TYPE_STRING. The following keys are accepted: fieldPath The LogEntry field path to index. For example: jsonPayload.request.status. Paths are limited to 800 characters and can include only letters, digits, underscores, hyphens, and periods. type The type of data in this index. For example: INDEX_TYPE_STRING Supported types are strings and integers.
+    /// </summary>
+    [CliOption("--add-index", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? AddIndex { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Remove all logging indexes from the bucket.
+    /// </summary>
+    [CliFlag("--clear-indexes")]
+    public bool? ClearIndexes { get; set; }
+
+    /// <summary>
+    /// A valid kms_key_name will enable CMEK for the bucket.
+    /// </summary>
+    [CliOption("--cmek-kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekKmsKeyName { get; set; }
+
+    /// <summary>
+    /// A new description for the bucket.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether to opt the bucket into Log Analytics. Once opted in, the bucket cannot be opted out of Log Analytics.
+    /// </summary>
+    [CliFlag("--enable-analytics")]
+    public bool? EnableAnalytics { get; set; }
+
+    /// <summary>
+    /// Lock the bucket and prevent it from being modified or deleted (unless it is empty).
+    /// </summary>
+    [CliFlag("--locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Specify the field path of the logging index(es) to delete.
+    /// </summary>
+    [CliOption("--remove-indexes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveIndexes { get; set; }
+
+    /// <summary>
+    /// A new set of restricted fields for the bucket.
+    /// </summary>
+    [CliOption("--restricted-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RestrictedFields { get; set; }
+
+    /// <summary>
+    /// A new retention period for the bucket.
+    /// </summary>
+    [CliOption("--retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionDays { get; set; }
+
+    /// <summary>
+    /// Update an index to be added to the log bucket. This will update the type of the index, and also update its createTime to the new update time. This flag can be repeated. The fieldPath and type attributes are required. For example: --index=fieldPath=jsonPayload.foo,type=INDEX_TYPE_STRING. The following keys are accepted: fieldPath The LogEntry field path to index. For example: jsonPayload.request.status. Paths are limited to 800 characters and can include only letters, digits, underscores, hyphens, and periods. type The type of data in this index. For example: INDEX_TYPE_STRING Supported types are strings and integers.
+    /// </summary>
+    [CliOption("--update-index", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateIndex { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Billing account of the bucket to update.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the bucket to update.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the bucket to update.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the bucket to update. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

@@ -231,7 +231,7 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     /// Set the maximum request execution time (timeout). It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// True to avoid sending traffic to the revision being deployed. Setting this flag assigns any traffic assigned to the LATEST revision to the specific revision bound to LATEST before the deployment. The effect is that the revision being deployed will not receive traffic. After a deployment with this flag the LATEST revision will not receive traffic on future deployments. To restore sending traffic to the LATEST revision by default, run the gcloud run services update-traffic command with --to-latest.

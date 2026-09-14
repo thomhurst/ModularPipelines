@@ -16,11 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a     SAC attachment
 /// </summary>
+/// <param name="Gateway">NCC gateway whose traffic will be inspected by this attachment.</param>
+/// <param name="Realm">SAC realm to which this attachment belongs.</param>
+/// <param name="Sac"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "secure-access-connect", "attachments", "create")]
 public record GcloudNetworkSecuritySecureAccessConnectAttachmentsCreateOptions(
+    [property: CliOption("--gateway", Format = OptionFormat.EqualsSeparated)] string Gateway,
+    [property: CliOption("--realm", Format = OptionFormat.EqualsSeparated)] string Realm,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Sac
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

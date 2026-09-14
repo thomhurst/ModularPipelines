@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a Cloud Healthcare API     DICOM store to Google Cloud Storage
 /// </summary>
+/// <param name="GcsUriPrefix">URI for a Google Cloud Storage directory to which result files should be written (for example, gs://bucket-id/path/to/destination/dir). If there is no trailing slash, the service will append one when composing the object path. The user is responsible for creating the Google Cloud Storage bucket referenced in uri_prefix.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "dicom-stores", "export", "gcs")]
-public record GcloudHealthcareDicomStoresExportGcsOptions : GcloudOptions
+public record GcloudHealthcareDicomStoresExportGcsOptions(
+    [property: CliOption("--gcs-uri-prefix", Format = OptionFormat.EqualsSeparated)] string GcsUriPrefix
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// 'MIME types supported by DICOM spec. Each file will be written in the following format: .../{study_id}/{series_id}/{instance_id}[/{frame_number}].{extension} The frame_number component will exist only for multi-frame instances. Refer to the DICOM conformance statement for permissible MIME types: https://cloud.google.com/healthcare/docs/dicom#wado-rs The following extensions will be used for output files: ◆ application/dicom -&gt; .dcm ◆ image/jpeg -&gt; .jpg ◆ image/png -&gt; .png If unspecified, the instances will be exported in their original DICOM format.'
+    /// </summary>
+    [CliOption("--mime-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MimeType { get; set; }
+
 }

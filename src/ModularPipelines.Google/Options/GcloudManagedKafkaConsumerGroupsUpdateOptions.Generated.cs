@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Managed Service for     Apache Kafka consumer group
 /// </summary>
+/// <param name="TopicsFile">The path to the JSON or YAML file containing the configuration of the topics to be updated for the consumer group. This also supports inline JSON or YAML. Required, sets topics_file value. Input Example: --topics-file=string File Example: --topics-file=path_to_file.(yaml|json)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "consumer-groups", "update")]
-public record GcloudManagedKafkaConsumerGroupsUpdateOptions : GcloudOptions
+public record GcloudManagedKafkaConsumerGroupsUpdateOptions(
+    [property: CliOption("--topics-file", Format = OptionFormat.EqualsSeparated)] string TopicsFile
+) : GcloudOptions
 {
 }

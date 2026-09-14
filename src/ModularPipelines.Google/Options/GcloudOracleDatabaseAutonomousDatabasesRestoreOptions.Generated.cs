@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restore an     AutonomousDatabase
 /// </summary>
+/// <param name="RestoreTime">The time and date to restore the database to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "autonomous-databases", "restore")]
-public record GcloudOracleDatabaseAutonomousDatabasesRestoreOptions : GcloudOptions
+public record GcloudOracleDatabaseAutonomousDatabasesRestoreOptions(
+    [property: CliOption("--restore-time", Format = OptionFormat.EqualsSeparated)] string RestoreTime
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

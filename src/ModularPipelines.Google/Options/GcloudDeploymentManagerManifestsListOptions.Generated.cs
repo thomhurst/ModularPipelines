@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list manifests in a deployment
 /// </summary>
+/// <param name="Deployment">Deployment name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "manifests", "list")]
-public record GcloudDeploymentManagerManifestsListOptions : GcloudOptions
+public record GcloudDeploymentManagerManifestsListOptions(
+    [property: CliOption("--deployment", Format = OptionFormat.EqualsSeparated)] string Deployment
+) : GcloudOptions
 {
     /// <summary>
     /// Changes the --format flag to print the resource IDs. Otherwise either the --format value or the default format is used.

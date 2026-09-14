@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// upgrade a Memorystore for Redis instance     to a specified Redis version
 /// </summary>
+/// <param name="RedisVersion">Target version of Redis software. VERSION must be one of: redis_4_0 Redis 4.0 compatibility redis_5_0 Redis 5.0 compatibility redis_6_x Redis 6.x compatibility redis_7_0 Redis 7.0 compatibility redis_7_2 Redis 7.2 compatibility</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "instances", "upgrade")]
-public record GcloudRedisInstancesUpgradeOptions : GcloudOptions
+public record GcloudRedisInstancesUpgradeOptions(
+    [property: CliOption("--redis-version", Format = OptionFormat.EqualsSeparated)] string RedisVersion
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

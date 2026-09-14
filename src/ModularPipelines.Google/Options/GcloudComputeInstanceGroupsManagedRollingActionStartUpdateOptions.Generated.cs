@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// updates instances in a managed instance group
 /// </summary>
+/// <param name="Version">Original instance template resource to be used. Each version has the following format: template=TEMPLATE,[name=NAME]</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "rolling-action", "start-update")]
 public record GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

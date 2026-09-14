@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add IAM policy binding     for an instance
 /// </summary>
+/// <param name="Member">The principal to add the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+/// <param name="Role">Role name to assign to the principal. The role name is the complete path of a predefined role, such as roles/logging.viewer, or the role ID for a custom role, such as organizations/{ORGANIZATION_ID}/roles/logging.viewer.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notebooks", "instances", "add-iam-policy-binding")]
-public record GcloudNotebooksInstancesAddIamPolicyBindingOptions : GcloudOptions
+public record GcloudNotebooksInstancesAddIamPolicyBindingOptions(
+    [property: CliOption("--member", Format = OptionFormat.EqualsSeparated)] string Member,
+    [property: CliOption("--role", Format = OptionFormat.EqualsSeparated)] string Role
+) : GcloudOptions
 {
 }

@@ -10,15 +10,72 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a multicast     domain
 /// </summary>
+/// <param name="AdminNetwork">The URI of the admin network to be used.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "multicast-domains", "create")]
-public record GcloudNetworkServicesMulticastDomainsCreateOptions : GcloudOptions
+public record GcloudNetworkServicesMulticastDomainsCreateOptions(
+    [property: CliOption("--admin-network", Format = OptionFormat.EqualsSeparated)] string AdminNetwork
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: The connection type for authorizing multicast traffic. CONNECTION_TYPE must be one of: connection-type-unspecified, ncc, same-vpc.
+    /// </summary>
+    [CliOption("--connection-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConnectionType? ConnectionType { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The URI of the NCC hub to be used.
+    /// </summary>
+    [CliOption("--ncc-hub", Format = OptionFormat.EqualsSeparated)]
+    public string? NccHub { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast domain.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The URI of the multicast domain group to be used.
+    /// </summary>
+    [CliOption("--multicast-domain-group", Format = OptionFormat.EqualsSeparated)]
+    public string? MulticastDomainGroup { get; set; }
+
+    /// <summary>
+    /// The name of the ULL multicast feed to be used. This is for ULL multicast service only.
+    /// </summary>
+    [CliOption("--ull-multicast-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? UllMulticastDomain { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(ConnectionType is not null || !string.IsNullOrWhiteSpace(NccHub)))
+        {
+            yield return new ValidationResult("At least one of ConnectionType or NccHub must be specified.", [nameof(ConnectionType), nameof(NccHub)]);
+        }
+    }
+
 }

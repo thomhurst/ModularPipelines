@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the workforce pools for an     organization
 /// </summary>
+/// <param name="Location">The location of the workforce pools to list.</param>
+/// <param name="Organization">The parent organization of the workforce pools to list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "list")]
-public record GcloudIamWorkforcePoolsListOptions : GcloudOptions
+public record GcloudIamWorkforcePoolsListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization
+) : GcloudOptions
 {
     /// <summary>
     /// Show soft-deleted workforce pools by specifying this flag.

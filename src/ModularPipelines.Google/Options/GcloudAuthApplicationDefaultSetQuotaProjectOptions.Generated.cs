@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update or add a quota     project in application default credentials (ADC)
 /// </summary>
+/// <param name="QuotaProjectId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "application-default", "set-quota-project")]

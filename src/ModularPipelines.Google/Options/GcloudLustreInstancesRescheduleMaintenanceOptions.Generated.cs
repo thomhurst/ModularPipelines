@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reschedule instances
 /// </summary>
+/// <param name="RescheduleType">The type of rescheduling. RESCHEDULE_TYPE must be one of: by-time Reschedule to a specific time. immediate Apply update immediately next-available-window Reschedule to the next available window.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lustre", "instances", "reschedule-maintenance")]
-public record GcloudLustreInstancesRescheduleMaintenanceOptions : GcloudOptions
+public record GcloudLustreInstancesRescheduleMaintenanceOptions(
+    [property: CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)] string RescheduleType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A unique identifier for this request. A random UUID is recommended. This request is only idempotent if a request_id is provided.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Required if reschedule_type is BY_TIME. Timestamp when the maintenance shall be rescheduled to. This time must be within 28 days of the original scheduled maintenance start time.
+    /// </summary>
+    [CliOption("--reschedule-schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? RescheduleScheduleTime { get; set; }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM     permissions for a Compute Engine network attachment
 /// </summary>
+/// <param name="Permissions">Permissions to be tested.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-attachments", "test-iam-permissions")]
-public record GcloudPreviewComputeNetworkAttachmentsTestIamPermissionsOptions : GcloudOptions
+public record GcloudPreviewComputeNetworkAttachmentsTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions
+) : GcloudOptions
 {
 }

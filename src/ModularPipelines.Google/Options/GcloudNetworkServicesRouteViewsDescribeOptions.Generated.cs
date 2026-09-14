@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// route View for a Mesh or     Gateway
 /// </summary>
+/// <param name="RouteView">Mesh or gateway route view resource - RouteView to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --route-view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkservices.projects.locations.meshes.routeViews, networkservices.projects.locations.gateways.routeViews]. This must be specified. ID of the mesh_or_gateway_route_view or fully qualified identifier for the mesh_or_gateway_route_view. To set the route_view attribute: ▸ provide the argument --route-view on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "route-views", "describe")]
-public record GcloudNetworkServicesRouteViewsDescribeOptions : GcloudOptions
+public record GcloudNetworkServicesRouteViewsDescribeOptions(
+    [property: CliOption("--route-view", Format = OptionFormat.EqualsSeparated)] string RouteView
+) : GcloudOptions
 {
+    /// <summary>
+    /// Mesh or gateway route view resource - RouteView to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --route-view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkservices.projects.locations.meshes.routeViews, networkservices.projects.locations.gateways.routeViews]. This must be specified. Parent Gateway of the mesh_or_gateway_route_view To set the gateway attribute: ▸ provide the argument --route-view on the command line with a fully specified name; ▸ provide the argument --gateway on the command line. Must be specified for resource of type [networkservices.projects.locations.gateways.routeViews].
+    /// </summary>
+    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? Gateway { get; set; }
+
+    /// <summary>
+    /// Mesh or gateway route view resource - RouteView to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --route-view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkservices.projects.locations.meshes.routeViews, networkservices.projects.locations.gateways.routeViews]. This must be specified. Location of the mesh_or_gateway_route_view To set the location attribute: ▸ provide the argument --route-view on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Mesh or gateway route view resource - RouteView to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --route-view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkservices.projects.locations.meshes.routeViews, networkservices.projects.locations.gateways.routeViews]. This must be specified. Parent Mesh of the mesh_or_gateway_route_view To set the mesh attribute: ▸ provide the argument --route-view on the command line with a fully specified name; ▸ provide the argument --mesh on the command line. Must be specified for resource of type [networkservices.projects.locations.meshes.routeViews].
+    /// </summary>
+    [CliOption("--mesh", Format = OptionFormat.EqualsSeparated)]
+    public string? Mesh { get; set; }
+
 }

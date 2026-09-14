@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// upgrade memcache instance to a newer     memcached version
 /// </summary>
+/// <param name="MemcachedVersion">Memcached engine version to which instance should be upgraded to. MEMCACHED_VERSION must be (only one value is supported): 1.6.15 Memcached engine version 1.6.15</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memcache", "instances", "upgrade")]
-public record GcloudMemcacheInstancesUpgradeOptions : GcloudOptions
+public record GcloudMemcacheInstancesUpgradeOptions(
+    [property: CliOption("--memcached-version", Format = OptionFormat.EqualsSeparated)] string MemcachedVersion
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

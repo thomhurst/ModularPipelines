@@ -10,15 +10,80 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a transport
 /// </summary>
+/// <param name="Network">ID of the network or fully qualified identifier for the network. To set the network attribute: ◆ provide the argument --network on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "transports", "create")]
-public record GcloudNetworkConnectivityTransportsCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityTransportsCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Key from the remote provider to establish a connection over the Transport.
+    /// </summary>
+    [CliOption("--activation-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ActivationKey { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: These values must all be specified if Google is expected to generate the key. Bandwidth of the transport to create. Must be a supported bandwidth on the remote profile. BANDWIDTH must be one of: 100g, 100m, 10g, 1g, 200m, 20g, 2g, 300m, 400m, 500m, 50g, 50m, 5g. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bandwidth", Format = OptionFormat.EqualsSeparated)]
+    public string? Bandwidth { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: These values must all be specified if Google is expected to generate the key. Account ID in the remote provider to associate with the generated key. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--remote-account-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteAccountId { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: These values must all be specified if Google is expected to generate the key. RemoteTransportProfile resource - Remote transport profile representing the provider and their location. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --remote-profile on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the region attribute: ▫ provide the argument --remote-profile on the command line with a fully specified name; ▫ provide the argument --region on the command line. This must be specified. ID of the remoteTransportProfile or fully qualified identifier for the remoteTransportProfile. To set the remote_transport_profile attribute: ◇ provide the argument --remote-profile on the command line.
+    /// </summary>
+    [CliOption("--remote-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteProfile { get; set; }
+
+    /// <summary>
+    /// List of routes to advertise from the VPC network toward the provider.
+    /// </summary>
+    [CliOption("--advertised-routes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdvertisedRoutes { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the transport.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Google Cloud region for the transport. Applicable regions are those where Partner Interconnect is available. For a list of supported regions, see https://docs.cloud.google.com/network-connectivity/docs/interconnect/how-to/partner-cci-for-aws/paired-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// IP version of the routes to be exchanged. STACK_TYPE must be one of: ipv4-ipv6, ipv4-only.
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudStackType? StackType { get; set; }
+
 }

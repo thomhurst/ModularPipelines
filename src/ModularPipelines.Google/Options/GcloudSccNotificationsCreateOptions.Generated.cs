@@ -16,11 +16,50 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Security Command Center     notification config
 /// </summary>
+/// <param name="PubsubTopic">The Pub/Sub topic which will receive notifications. Its format is "projects/[project_id]/topics/[topic]".</param>
+/// <param name="NotificationConfigId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "notifications", "create")]
 public record GcloudSccNotificationsCreateOptions(
+    [property: CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)] string PubsubTopic,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NotificationConfigId
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The text that will be used to describe a notification configuration.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Filter to be used for notification config.
+    /// </summary>
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public string? Filter { get; set; }
+
+    /// <summary>
+    /// If data residency is enabled, specify the Security Command Center location in which to create the notification. The resulting notificationConfig resource is stored only in this location. Only findings that are issued in this location are sent to Pub/Sub. If data residency is not enabled, specifying the --location flag creates the notification by using Security Command Center API v2, and the only valid value for the flag is global.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder where the notification config resides. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization where the notification config resides. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project (ID or number) where the notification config resides. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

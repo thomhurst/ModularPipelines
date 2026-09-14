@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove IAM policy     binding for a model
 /// </summary>
+/// <param name="Member">The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+/// <param name="Role">The role to remove the principal from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "models", "remove-iam-policy-binding")]
-public record GcloudAiPlatformModelsRemoveIamPolicyBindingOptions : GcloudOptions
+public record GcloudAiPlatformModelsRemoveIamPolicyBindingOptions(
+    [property: CliOption("--member", Format = OptionFormat.EqualsSeparated)] string Member,
+    [property: CliOption("--role", Format = OptionFormat.EqualsSeparated)] string Role
+) : GcloudOptions
 {
+    /// <summary>
+    /// Google Cloud region of the regional endpoint to use for this command. For the global endpoint, the region needs to be specified as global. Learn more about regional endpoints and see a list of available regions: https://cloud.google.com/ai-platform/prediction/docs/regional-endpoints REGION must be one of: global, asia-east1, asia-northeast1, asia-southeast1, australia-southeast1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, us-central1, us-east1, us-east4, us-west1.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

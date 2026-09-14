@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// providers     generate-provider-access-token - generate a provider access token
 /// </summary>
+/// <param name="GcpAccessToken">Google Cloud access token.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "network-monitoring-providers", "generate-provider-access-token")]
-public record GcloudNetworkManagementNetworkMonitoringProvidersGenerateProviderAccessTokenOptions : GcloudOptions
+public record GcloudNetworkManagementNetworkMonitoringProvidersGenerateProviderAccessTokenOptions(
+    [property: SecretValue, CliOption("--gcp-access-token", Format = OptionFormat.EqualsSeparated)] string GcpAccessToken
+) : GcloudOptions
 {
 }

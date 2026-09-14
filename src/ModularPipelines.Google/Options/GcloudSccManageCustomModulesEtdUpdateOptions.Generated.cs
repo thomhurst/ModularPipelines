@@ -10,17 +10,70 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update an Event Threat     Detection custom module
 /// </summary>
+/// <param name="ModuleIdOrName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "etd", "update")]
 public record GcloudSccManageCustomModulesEtdUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ModuleIdOrName
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: Path to a JSON file that contains the custom config to set for the module. Use a full or relative path to a local file containing the value of custom_config_file.
+    /// </summary>
+    [CliOption("--custom-config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomConfigFile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Sets the enablement state of the Event Threat Detection custom module. Valid options are ENABLED, DISABLED, OR INHERITED.
+    /// </summary>
+    [CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)]
+    public string? EnablementState { get; set; }
+
+    /// <summary>
+    /// If present, the request is validated (including IAM checks) but no action is taken.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder associated with the custom module.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization associated with the custom module.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Parent associated with the custom module. Can be one of organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string? Parent { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project associated with the custom module.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(CustomConfigFile) || !string.IsNullOrWhiteSpace(EnablementState)))
+        {
+            yield return new ValidationResult("At least one of CustomConfigFile or EnablementState must be specified.", [nameof(CustomConfigFile), nameof(EnablementState)]);
+        }
+    }
+
 }

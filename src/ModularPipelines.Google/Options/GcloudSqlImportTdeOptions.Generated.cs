@@ -6,21 +6,58 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// import TDE certificate into a Cloud SQL for SQL     Server instance
 /// </summary>
+/// <param name="CertPath">Encryption info to support importing a TDE certificate file This must be specified. Path to the encryption certificate file in Google Cloud Storage. The URI is in the form gs://bucketName/fileName. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="Certificate">Encryption info to support importing a TDE certificate file This must be specified. Name of the encryption certificate. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="PvkPath">Encryption info to support importing a TDE certificate file This must be specified. Path to the encryption private key file in Google Cloud Storage. The URI is in the form gs://bucketName/fileName. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "import", "tde")]
 public record GcloudSqlImportTdeOptions(
+    [property: CliOption("--cert-path", Format = OptionFormat.EqualsSeparated)] string CertPath,
+    [property: CliOption("--certificate", Format = OptionFormat.EqualsSeparated)] string Certificate,
+    [property: CliOption("--pvk-path", Format = OptionFormat.EqualsSeparated)] string PvkPath,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Encryption info to support importing a TDE certificate file This must be specified. Exactly one of these must be specified: Prompt for the private key password associated with the certificate file with character echo disabled. The password is all typed characters up to but not including the RETURN or ENTER key.
+    /// </summary>
+    [CliFlag("--prompt-for-pvk-password")]
+    public bool? PromptForPvkPassword { get; set; }
+
+    /// <summary>
+    /// Encryption info to support importing a TDE certificate file This must be specified. Exactly one of these must be specified: The private key password associated with the certificate file.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--pvk-password", Format = OptionFormat.EqualsSeparated)]
+    public string? PvkPassword { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((PromptForPvkPassword == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(PvkPassword) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PromptForPvkPassword or PvkPassword must be specified.", [nameof(PromptForPvkPassword), nameof(PvkPassword)]);
+        }
+    }
+
 }

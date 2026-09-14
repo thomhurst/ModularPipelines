@@ -10,15 +10,75 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a node pool in an     Anthos cluster on bare metal
 /// </summary>
+/// <param name="NodeLabels">Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a node pool.</param>
+/// <param name="NodeTaints">Modifiable kubelet configurations for bare metal machines. Node taint applied to every Kubernetes node in a node pool.</param>
+/// <param name="RegistryBurst">Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.</param>
+/// <param name="RegistryPullQps">Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "node-pools", "create")]
-public record GcloudContainerBareMetalNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerBareMetalNodePoolsCreateOptions(
+    [property: CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> NodeLabels,
+    [property: CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> NodeTaints,
+    [property: CliOption("--registry-burst", Format = OptionFormat.EqualsSeparated)] string RegistryBurst,
+    [property: CliOption("--registry-pull-qps", Format = OptionFormat.EqualsSeparated)] string RegistryPullQps
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Modifiable kubelet configurations for bare metal machines. Anthos on bare metal node pool configuration. This must be specified. Populate Bare Metal Node Pool node config. Exactly one of these must be specified: Bare Metal Node Pool node configuration.
+    /// </summary>
+    [CliOption("--node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeConfigs { get; set; }
+
+    /// <summary>
+    /// Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-serialize-image-pulls")]
+    public bool? DisableSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// Annotations on the node pool.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Display name for the resource.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(DisableSerializeImagePulls == true))
+        {
+            yield return new ValidationResult("At least one of DisableSerializeImagePulls must be specified.", [nameof(DisableSerializeImagePulls)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(NodeConfigs) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NodeConfigs must be specified.", [nameof(NodeConfigs)]);
+        }
+    }
+
 }

@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add member interconnects     to a Compute Engine interconnect group
 /// </summary>
+/// <param name="Interconnects">Member interconnects to add to or remove from the interconnect group.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "groups", "add-members")]
 public record GcloudComputeInterconnectsGroupsAddMembersOptions(
+    [property: CliOption("--interconnects", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Interconnects,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

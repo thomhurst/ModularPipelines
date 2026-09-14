@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export your registration's Google Domains DNS zone's record-sets into a     file
 /// </summary>
+/// <param name="RecordsFile">File to which record-sets should be exported.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "google-domains-dns", "export-dns-record-sets")]
-public record GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions : GcloudOptions
+public record GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(
+    [property: CliOption("--records-file", Format = OptionFormat.EqualsSeparated)] string RecordsFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Indicates that records-file should be in the zone file format. When using this flag, expect the record-set to be exported to a BIND zone formatted file. If you omit this flag, the record-set is exported into a YAML formatted records file. Note, this format flag determines the format of the output recorded in the records-file; it is different from the global --format flag which affects console output alone.
+    /// </summary>
+    [CliFlag("--zone-file-format")]
+    public bool? ZoneFileFormat { get; set; }
+
 }

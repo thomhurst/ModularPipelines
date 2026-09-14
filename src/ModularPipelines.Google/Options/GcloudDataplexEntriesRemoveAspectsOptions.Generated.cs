@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove aspects from a Dataplex     Entry
 /// </summary>
+/// <param name="Keys">List of Aspect keys, identifying Aspects to remove from the entry. Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all aspect types. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself), point to a specific column defined in the schema (for example: Schema.some_column) or a wildcard * (target all paths). ASPECT_TYPE and PATH cannot be both specified as wildcards *.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entries", "remove-aspects")]
-public record GcloudDataplexEntriesRemoveAspectsOptions : GcloudOptions
+public record GcloudDataplexEntriesRemoveAspectsOptions(
+    [property: CliOption("--keys", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Keys
+) : GcloudOptions
 {
 }

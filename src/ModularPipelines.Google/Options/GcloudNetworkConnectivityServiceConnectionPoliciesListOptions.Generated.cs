@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list service     connection policies
 /// </summary>
+/// <param name="Region">Region resource - A Google Cloud region. Use this flag to filter the list of service connection policies to a specific region or to all regions. Use ``-`` to specify all regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "service-connection-policies", "list")]
-public record GcloudNetworkConnectivityServiceConnectionPoliciesListOptions : GcloudOptions
+public record GcloudNetworkConnectivityServiceConnectionPoliciesListOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region
+) : GcloudOptions
 {
 }

@@ -16,9 +16,42 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enroll an Anthos cluster on     VMware
 /// </summary>
+/// <param name="AdminClusterMembership">Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container vmware clusters enroll</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "enroll")]
-public record GcloudContainerVmwareClustersEnrollOptions : GcloudOptions
+public record GcloudContainerVmwareClustersEnrollOptions(
+    [property: CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)] string AdminClusterMembership
+) : GcloudOptions
 {
+    /// <summary>
+    /// or $ gcloud container vmware clusters enroll
+    /// </summary>
+    [CliOption("--admin-cluster-membership-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipProject { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container vmware clusters enroll
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting resource names when enrolling existing clusters to the API. When not provided, this field will resolve to the vmware_cluster_id. Otherwise, it must match the object name of the VMware OnPremUserCluster custom resource. It is not modifiable outside / beyond the enrollment operation.
+    /// </summary>
+    [CliOption("--local-name", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalName { get; set; }
+
+    /// <summary>
+    /// If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
 }

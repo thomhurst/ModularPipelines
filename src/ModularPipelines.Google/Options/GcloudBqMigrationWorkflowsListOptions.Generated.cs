@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list migration workflows
 /// </summary>
+/// <param name="Location">Location resource - The project and location of the migration workflows to list. Example: projects/123/locations/us This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bq", "migration-workflows", "list")]
-public record GcloudBqMigrationWorkflowsListOptions : GcloudOptions
+public record GcloudBqMigrationWorkflowsListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
     /// <summary>
     /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.

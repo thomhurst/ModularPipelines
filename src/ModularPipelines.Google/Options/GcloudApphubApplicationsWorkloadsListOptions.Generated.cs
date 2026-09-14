@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Apphub application     workloads
 /// </summary>
+/// <param name="Application">Application resource - The Application ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument --application on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apphub", "applications", "workloads", "list")]
-public record GcloudApphubApplicationsWorkloadsListOptions : GcloudOptions
+public record GcloudApphubApplicationsWorkloadsListOptions(
+    [property: CliOption("--application", Format = OptionFormat.EqualsSeparated)] string Application
+) : GcloudOptions
 {
+    /// <summary>
+    /// Application resource - The Application ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the application. To set the location attribute: ▸ provide the argument --application on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export Cloud Healthcare API     HL7v2 messages to Google Cloud Storage
 /// </summary>
+/// <param name="GcsUri">The Cloud Storage destination location. Specify a path to a Cloud Storage bucket or folder rather than a concrete object. The exported messages are ordered by the message send_time (MSH.7) in ascending order. The server will create one or more objects. Each object contains newline delimited JSON, and each line is an HL7v2 message.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "hl7v2-stores", "export", "gcs")]
-public record GcloudHealthcareHl7v2StoresExportGcsOptions : GcloudOptions
+public record GcloudHealthcareHl7v2StoresExportGcsOptions(
+    [property: CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)] string GcsUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The end of the range in message send_time (MSH.7) to process. If not specified, the time when the export is scheduled is used.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Specifies the parts of the Message resource to include in the export. The default is FULL. MESSAGE_VIEW must be one of: basic Exported resources include only the name field. full Exported resources include all the message fields. parsed-only Exported resources include all the message fields except data and schematizedData fields. raw-only Exported resources include all the message fields except parsedData and schematizedData fields. schematized-only Exported resources include all the message fields except data and parsedData fields.
+    /// </summary>
+    [CliOption("--message-view", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageView { get; set; }
+
+    /// <summary>
+    /// The start of the range in message send_time (MSH.7) to process. If not specified, the UNIX epoch (1970-01-01T00:00:00Z) is used.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
 }

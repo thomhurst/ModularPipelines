@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list existing Bigtable instance     tables
 /// </summary>
+/// <param name="Instances">ID of the instances.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "instances", "tables", "list")]
-public record GcloudBigtableInstancesTablesListOptions : GcloudOptions
+public record GcloudBigtableInstancesTablesListOptions(
+    [property: CliOption("--instances", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Instances
+) : GcloudOptions
 {
 }

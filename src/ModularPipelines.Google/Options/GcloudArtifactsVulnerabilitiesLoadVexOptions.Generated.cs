@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// load VEX data from a CSAF file     into Artifact Analysis
 /// </summary>
+/// <param name="Source">The path of the VEX file.</param>
+/// <param name="Uri">The path of the artifact in Artifact Registry. A 'gcr.io' image can also be used if redirection is enabled in Artifact Registry. Make sure 'artifactregistry.projectsettings.get' permission is granted to the current gcloud user to verify the redirection status.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "vulnerabilities", "load-vex")]
-public record GcloudArtifactsVulnerabilitiesLoadVexOptions : GcloudOptions
+public record GcloudArtifactsVulnerabilitiesLoadVexOptions(
+    [property: CliOption("--source", Format = OptionFormat.EqualsSeparated)] string Source,
+    [property: CliOption("--uri", Format = OptionFormat.EqualsSeparated)] string Uri
+) : GcloudOptions
 {
+    /// <summary>
+    /// If specified, all requests to Artifact Analysis for occurrences will go to location specified
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The parent project to load security advisory into.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

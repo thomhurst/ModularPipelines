@@ -10,15 +10,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Vertex AI index
 /// </summary>
+/// <param name="DisplayName">Display name of the index.</param>
+/// <param name="MetadataFile">Path to a local JSON file that contains the additional metadata information about the index.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "indexes", "create")]
-public record GcloudAiIndexesCreateOptions : GcloudOptions
+public record GcloudAiIndexesCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--metadata-file", Format = OptionFormat.EqualsSeparated)] string MetadataFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Description of the index.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+    /// </summary>
+    [CliOption("--encryption-kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionKmsKeyName { get; set; }
+
+    /// <summary>
+    /// The update method to use with this index. Choose stream-update or batch-update (case insensitive). If not set, batch update will be used by default. INDEX_UPDATE_METHOD must be one of: batch-update can update index with gcloud ai indexes update usingdatapoints files on Cloud Storage. stream-update can update datapoints with upsert-datapoints and`delete-datapoints and will be applied nearly real-time.
+    /// </summary>
+    [CliOption("--index-update-method", Format = OptionFormat.EqualsSeparated)]
+    public string? IndexUpdateMethod { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Points to a YAML file stored on Google Cloud Storage describing additional information about index.
+    /// </summary>
+    [CliOption("--metadata-schema-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? MetadataSchemaUri { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create index. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

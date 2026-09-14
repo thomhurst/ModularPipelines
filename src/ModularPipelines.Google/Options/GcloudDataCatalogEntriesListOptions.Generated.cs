@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all entries in a Data Catalog entry     group
 /// </summary>
+/// <param name="EntryGroup">Entry group resource - The entry group to list. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry-group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry group or fully qualified identifier for the entry group. To set the entry-group attribute: ▸ provide the argument --entry-group on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "list")]
-public record GcloudDataCatalogEntriesListOptions : GcloudOptions
+public record GcloudDataCatalogEntriesListOptions(
+    [property: CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)] string EntryGroup
+) : GcloudOptions
 {
+    /// <summary>
+    /// Entry group resource - The entry group to list. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry-group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the entry group. To set the location attribute: ▸ provide the argument --entry-group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

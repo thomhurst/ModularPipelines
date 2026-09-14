@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all OdbSubnets
 /// </summary>
+/// <param name="OdbNetwork">OdbNetwork resource - The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the odbNetwork or fully qualified identifier for the odbNetwork. To set the odb-network attribute: ▸ provide the argument --odb-network on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "odb-networks", "odb-subnets", "list")]
-public record GcloudOracleDatabaseOdbNetworksOdbSubnetsListOptions : GcloudOptions
+public record GcloudOracleDatabaseOdbNetworksOdbSubnetsListOptions(
+    [property: CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)] string OdbNetwork
+) : GcloudOptions
 {
+    /// <summary>
+    /// OdbNetwork resource - The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the odbNetwork resource. To set the location attribute: ▸ provide the argument --odb-network on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

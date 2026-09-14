@@ -16,10 +16,17 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the contents of a spec
 /// </summary>
+/// <param name="Api">The API ID.</param>
+/// <param name="Location">The location ID.</param>
+/// <param name="Version">The version ID.</param>
+/// <param name="Spec"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "apis", "versions", "specs", "get-contents")]
 public record GcloudApihubApisVersionsSpecsGetContentsOptions(
+    [property: CliOption("--api", Format = OptionFormat.EqualsSeparated)] string Api,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Spec
 ) : GcloudOptions
 {

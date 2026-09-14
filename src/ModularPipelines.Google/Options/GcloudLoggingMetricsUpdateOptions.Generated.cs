@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// based     metric
 /// </summary>
+/// <param name="MetricName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "metrics", "update")]
@@ -23,4 +24,28 @@ public record GcloudLoggingMetricsUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MetricName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: A path to a YAML file specifying the updates to be made to the logs-based metric. For an example of the file structure, see https://cloud.google.com/logging/docs/logs-based-metrics/distribution-metrics#example. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: Or at least one of these can be specified: Arguments to specify information about simple counter logs-based metrics. The Log Bucket name which owns the log-based metric.
+    /// </summary>
+    [CliOption("--bucket-name", Format = OptionFormat.EqualsSeparated)]
+    public string? BucketName { get; set; }
+
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: Or at least one of these can be specified: Arguments to specify information about simple counter logs-based metrics. A new description for the metric. If omitted, the description is not changed.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: Or at least one of these can be specified: Arguments to specify information about simple counter logs-based metrics. A new filter string for the metric. If omitted, the filter is not changed.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
 }

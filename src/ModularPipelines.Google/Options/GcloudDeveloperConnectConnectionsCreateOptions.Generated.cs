@@ -11,16 +11,28 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a connection resource
 /// </summary>
+/// <param name="CryptoKeyConfigReference">The git proxy configuration. The crypto key configuration. This field is used by the Customer-managed encryption keys (CMEK) feature. CryptoKey resource - The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects/*/locations/*/keyRings/*/cryptoKeys/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ▸ provide the argument --crypto-key-config-reference on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="BitbucketCloudConfigWebhookSecretVersion">The git proxy configuration. SecretVersion resource - SecretManager resource containing the webhook secret used to verify webhook events, formatted as projects/*/secrets/*/versions/* or projects/*/locations/*/secrets/*/versions/* (if regional secrets are supported in that location). This is used to validate and create webhooks. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the secret attribute: ▸ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. This resource can be one of the following types: [developerconnect.projects.locations.secrets.versions, developerconnect.projects.secrets.versions]. This must be specified. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret_version attribute: ▫ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line.</param>
+/// <param name="BitbucketDataCenterConfigWebhookSecretVersion">The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. SecretVersion resource - SecretManager resource containing the webhook secret used to verify webhook events, formatted as projects/*/secrets/*/versions/* or projects/*/locations/*/secrets/*/versions/* (if regional secrets are supported in that location). This is used to validate webhooks. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the secret attribute: ▸ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. This resource can be one of the following types: [developerconnect.projects.locations.secrets.versions, developerconnect.projects.secrets.versions]. This must be specified. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret_version attribute: ▫ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line.</param>
+/// <param name="BitbucketDataCenterConfigServiceDirectory">The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --bitbucket-data-center-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --bitbucket-data-center-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the namespace attribute: ▸ provide the argument --bitbucket-data-center-config-service-directory on the command line with a fully specified name; ▸ provide the argument --namespace on the command line. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▫ provide the argument --bitbucket-data-center-config-service-directory on the command line.</param>
+/// <param name="GithubConfigAuthorizerCredentialOauthTokenSecretVersion">The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. Represents an OAuth token of the account that authorized the Connection, and associated metadata. SecretVersion resource - A SecretManager resource containing the OAuth token that authorizes the connection. Format: projects/*/secrets/*/versions/* or projects/*/locations/*/secrets/*/versions/* (if regional secrets are supported in that location). This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the secret attribute: ▸ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. This resource can be one of the following types: [developerconnect.projects.locations.secrets.versions, developerconnect.projects.secrets.versions]. This must be specified. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret_version attribute: ▫ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "connections", "create")]
-public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
+public record GcloudDeveloperConnectConnectionsCreateOptions(
+    [property: CliOption("--crypto-key-config-reference", Format = OptionFormat.EqualsSeparated)] string CryptoKeyConfigReference,
+    [property: SecretValue, CliOption("--bitbucket-cloud-config-webhook-secret-version", Format = OptionFormat.EqualsSeparated)] string BitbucketCloudConfigWebhookSecretVersion,
+    [property: SecretValue, CliOption("--bitbucket-data-center-config-webhook-secret-version", Format = OptionFormat.EqualsSeparated)] string BitbucketDataCenterConfigWebhookSecretVersion,
+    [property: CliOption("--bitbucket-data-center-config-service-directory", Format = OptionFormat.EqualsSeparated)] string BitbucketDataCenterConfigServiceDirectory,
+    [property: SecretValue, CliOption("--github-config-authorizer-credential-oauth-token-secret-version", Format = OptionFormat.EqualsSeparated)] string GithubConfigAuthorizerCredentialOauthTokenSecretVersion
+) : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// The git proxy configuration. Allows clients to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
@@ -90,12 +102,6 @@ public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// The git proxy configuration. The crypto key configuration. This field is used by the Customer-managed encryption keys (CMEK) feature. CryptoKey resource - The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects/*/locations/*/keyRings/*/cryptoKeys/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ▸ provide the argument --crypto-key-config-reference on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
-    /// </summary>
-    [CliOption("--crypto-key-config-reference", Format = OptionFormat.EqualsSeparated)]
-    public string? CryptoKeyConfigReference { get; set; }
-
-    /// <summary>
     /// The git proxy configuration. The crypto key configuration. This field is used by the Customer-managed encryption keys (CMEK) feature. CryptoKey resource - The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects/*/locations/*/keyRings/*/cryptoKeys/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ▸ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ▸ provide the argument --key-ring on the command line.
     /// </summary>
     [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
@@ -118,13 +124,6 @@ public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--bitbucket-cloud-config-read-authorizer-credential-user-token-secret-version")]
     public bool? BitbucketCloudConfigReadAuthorizerCredentialUserTokenSecretVersion { get; set; }
-
-    /// <summary>
-    /// The git proxy configuration. SecretVersion resource - SecretManager resource containing the webhook secret used to verify webhook events, formatted as projects/*/secrets/*/versions/* or projects/*/locations/*/secrets/*/versions/* (if regional secrets are supported in that location). This is used to validate and create webhooks. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the secret attribute: ▸ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. This resource can be one of the following types: [developerconnect.projects.locations.secrets.versions, developerconnect.projects.secrets.versions]. This must be specified. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret_version attribute: ▫ provide the argument --bitbucket-cloud-config-webhook-secret-version on the command line.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--bitbucket-cloud-config-webhook-secret-version", Format = OptionFormat.EqualsSeparated)]
-    public string? BitbucketCloudConfigWebhookSecretVersion { get; set; }
 
     /// <summary>
     /// The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. The Bitbucket Cloud Workspace ID to be connected to Google Cloud Platform.
@@ -151,19 +150,6 @@ public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
     public bool? BitbucketDataCenterConfigReadAuthorizerCredentialUserTokenSecretVersion { get; set; }
 
     /// <summary>
-    /// The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. SecretVersion resource - SecretManager resource containing the webhook secret used to verify webhook events, formatted as projects/*/secrets/*/versions/* or projects/*/locations/*/secrets/*/versions/* (if regional secrets are supported in that location). This is used to validate webhooks. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the secret attribute: ▸ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. This resource can be one of the following types: [developerconnect.projects.locations.secrets.versions, developerconnect.projects.secrets.versions]. This must be specified. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret_version attribute: ▫ provide the argument --bitbucket-data-center-config-webhook-secret-version on the command line.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--bitbucket-data-center-config-webhook-secret-version", Format = OptionFormat.EqualsSeparated)]
-    public string? BitbucketDataCenterConfigWebhookSecretVersion { get; set; }
-
-    /// <summary>
-    /// The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --bitbucket-data-center-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --bitbucket-data-center-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the namespace attribute: ▸ provide the argument --bitbucket-data-center-config-service-directory on the command line with a fully specified name; ▸ provide the argument --namespace on the command line. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▫ provide the argument --bitbucket-data-center-config-service-directory on the command line.
-    /// </summary>
-    [CliOption("--bitbucket-data-center-config-service-directory", Format = OptionFormat.EqualsSeparated)]
-    public string? BitbucketDataCenterConfigServiceDirectory { get; set; }
-
-    /// <summary>
     /// The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. SSL certificate authority to trust when making requests to Bitbucket Data Center.
     /// </summary>
     [CliOption("--bitbucket-data-center-config-ssl-ca-certificate", Format = OptionFormat.EqualsSeparated)]
@@ -180,13 +166,6 @@ public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--github-config-app-installation-id", Format = OptionFormat.EqualsSeparated)]
     public string? GithubConfigAppInstallationId { get; set; }
-
-    /// <summary>
-    /// The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. Represents an OAuth token of the account that authorized the Connection, and associated metadata. SecretVersion resource - A SecretManager resource containing the OAuth token that authorizes the connection. Format: projects/*/secrets/*/versions/* or projects/*/locations/*/secrets/*/versions/* (if regional secrets are supported in that location). This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the secret attribute: ▸ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. This resource can be one of the following types: [developerconnect.projects.locations.secrets.versions, developerconnect.projects.secrets.versions]. This must be specified. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret_version attribute: ▫ provide the argument --github-config-authorizer-credential-oauth-token-secret-version on the command line.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--github-config-authorizer-credential-oauth-token-secret-version", Format = OptionFormat.EqualsSeparated)]
-    public string? GithubConfigAuthorizerCredentialOauthTokenSecretVersion { get; set; }
 
     /// <summary>
     /// The git proxy configuration. Configuration for connections to github.com. Configuration for connections to an instance of GitHub Enterprise. The URI of the GitHub Enterprise host this connection is for. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -332,5 +311,42 @@ public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
     [SecretValue]
     [CliOption("--http-config-basic-authentication-password-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? HttpConfigBasicAuthenticationPasswordSecretVersion { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(BitbucketCloudConfigAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketCloudConfigAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketCloudConfigAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+        if (!(BitbucketCloudConfigAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketCloudConfigAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketCloudConfigAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+        if (!(BitbucketCloudConfigReadAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketCloudConfigReadAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketCloudConfigReadAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+        if (!(BitbucketCloudConfigReadAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketCloudConfigReadAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketCloudConfigReadAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+        if (!(BitbucketDataCenterConfigAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketDataCenterConfigAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketDataCenterConfigAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+        if (!(BitbucketDataCenterConfigAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketDataCenterConfigAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketDataCenterConfigAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+        if (!(BitbucketDataCenterConfigReadAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketDataCenterConfigReadAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketDataCenterConfigReadAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+        if (!(BitbucketDataCenterConfigReadAuthorizerCredentialUserTokenSecretVersion == true))
+        {
+            yield return new ValidationResult("At least one of BitbucketDataCenterConfigReadAuthorizerCredentialUserTokenSecretVersion must be specified.", [nameof(BitbucketDataCenterConfigReadAuthorizerCredentialUserTokenSecretVersion)]);
+        }
+    }
 
 }

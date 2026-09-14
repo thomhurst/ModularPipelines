@@ -16,11 +16,28 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a peered DNS domain for     a private service connection
 /// </summary>
+/// <param name="DnsSuffix">The DNS domain name suffix of the peered DNS domain.</param>
+/// <param name="Network">The network in the consumer project peered with the service.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "peered-dns-domains", "create")]
 public record GcloudServicesPeeredDnsDomainsCreateOptions(
+    [property: CliOption("--dns-suffix", Format = OptionFormat.EqualsSeparated)] string DnsSuffix,
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name of the service to create a peered DNS domain for.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

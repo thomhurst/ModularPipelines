@@ -142,7 +142,7 @@ public record GcloudDataprocClustersCreateOptions : GcloudOptions
     /// The maximum duration of each initialization action. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--initialization-action-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? InitializationActionTimeout { get; set; }
+    public string? InitializationActionTimeout { get; set; }
 
     /// <summary>
     /// A list of Google Cloud Storage URIs of executables to run on each node in the cluster.

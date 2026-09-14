@@ -10,15 +10,59 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud Spanner backup     schedule
 /// </summary>
+/// <param name="BackupType">Type of backups created by this schedule. Supported backup types: full-backup A full backup stores the entire contents of the database at a given version time. incremental-backup An incremental backup contains only the data that has changed since a previous backup. BACKUP_TYPE must be one of: full-backup, incremental-backup.</param>
+/// <param name="Cron">Textual representation of the crontab. User can customize the backup frequency and the backup version time using the cron expression. The version time must be in UTC timzeone. The backup will contain an externally consistent copy of the database at the version time. Allowed frequencies are 12 hour, 1 day, 1 week and 1 month. Examples of valid cron specifications: * 0 2/12 * * * : every 12 hours at (2, 14) hours past midnight in UTC. * 0 2,14 * * * : every 12 hours at (2,14) hours past midnight in UTC. * 0 2 * * * : once a day at 2 past midnight in UTC. * 0 2 * * 0 : once a week every Sunday at 2 past midnight in UTC. * 0 2 8 * * : once a month on 8th day at 2 past midnight in UTC.</param>
+/// <param name="RetentionDuration">The retention duration of a backup that must be at least 6 hours and at most 366 days. The backup is eligible to be automatically deleted once the retention period has elapsed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "backup-schedules", "create")]
-public record GcloudSpannerBackupSchedulesCreateOptions : GcloudOptions
+public record GcloudSpannerBackupSchedulesCreateOptions(
+    [property: CliOption("--backup-type", Format = OptionFormat.EqualsSeparated)] GcloudBackupType BackupType,
+    [property: CliOption("--cron", Format = OptionFormat.EqualsSeparated)] string Cron,
+    [property: CliOption("--retention-duration", Format = OptionFormat.EqualsSeparated)] string RetentionDuration
+) : GcloudOptions
 {
+    /// <summary>
+    /// The encryption type of the backup. ENCRYPTION_TYPE must be one of: customer-managed-encryption Use the provided Cloud KMS key for encryption. If this option is selected, kms-key must be set. google-default-encryption Use Google default encryption. use-database-encryption Use the same encryption configuration as the database.
+    /// </summary>
+    [CliOption("--encryption-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key(s) to be used to create the Cloud Spanner backup. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the kms-project attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-location attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-keyring attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. IDs of the keys or fully qualified identifiers for the keys. To set the kms-key attribute: ▸ provide the argument --kms-keys on the command line.
+    /// </summary>
+    [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? KmsKeys { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to create the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▸ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to create the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. KMS keyring id of the key. To set the kms-keyring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to create the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. Cloud location for the key. To set the kms-location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to create the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. Cloud project id for the key. To set the kms-project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
 }

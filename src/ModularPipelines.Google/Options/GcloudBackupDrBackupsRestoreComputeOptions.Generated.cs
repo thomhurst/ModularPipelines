@@ -10,15 +10,293 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// restores a Compute Engine VM     Backup
 /// </summary>
+/// <param name="Name">Name of the restored Compute Instance.</param>
+/// <param name="TargetProject">Project where the restore should happen.</param>
+/// <param name="TargetZone">Zone where the target instance is restored.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backups", "restore", "compute")]
-public record GcloudBackupDrBackupsRestoreComputeOptions : GcloudOptions
+public record GcloudBackupDrBackupsRestoreComputeOptions(
+    [property: CliOption("--name", Format = OptionFormat.EqualsSeparated)] string Name,
+    [property: CliOption("--target-project", Format = OptionFormat.EqualsSeparated)] string TargetProject,
+    [property: CliOption("--target-zone", Format = OptionFormat.EqualsSeparated)] string TargetZone
+) : GcloudOptions
 {
+    /// <summary>
+    /// Specifies the reservation for the instance. Attaches accelerators (e.g. GPUs) to the instances. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to the instances. Use 'gcloud compute accelerator-types list' to learn about all available accelerator types. count Number of accelerators to attach to each instance. The default value is 1.
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Specifies the reservation for the instance. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. If provided, allows the restored instances to send and receive packets with non-matching destination or source IP addresses. Use --can-ip-forward to enable and --no-can-ip-forward to disable.
+    /// </summary>
+    [CliFlag("--can-ip-forward")]
+    public bool? CanIpForward { get; set; }
+
+    /// <summary>
+    /// Negates --can-ip-forward. Specifies the reservation for the instance. If provided, allows the restored instances to send and receive packets with non-matching destination or source IP addresses. Use --can-ip-forward to enable and --no-can-ip-forward to disable.
+    /// </summary>
+    [CliFlag("--no-can-ip-forward")]
+    public bool? NoCanIpForward { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Clears the CMEK encryption of the restored disks and defaults to GMEK unless the kms-key is specified in the --create-disk flag.
+    /// </summary>
+    [CliFlag("--clear-encryption-key")]
+    public bool? ClearEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The restored instance boots with Confidential Computing enabled. Confidential Computing is based on Secure Encrypted Virtualization (SEV), an AMD virtualization feature for running confidential instances.
+    /// </summary>
+    [CliFlag("--confidential-compute")]
+    public bool? ConfidentialCompute { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Creates and attaches persistent disks to the instances. name: Specifies the name of the disk. replica-zones: Required for each regional disk associated with the instance. Specify the URLs of the zones where the disk should be replicated to. You must provide exactly two replica zones, and one zone must be the same as the instance zone. device-name: Device name of the disk from the source instance. kms-key: The Cloud KMS key resource name to be used for encryption. If supplied, it will encrypt the disk with the given key, if not supplied, the restored disk will use the encryption of the disk from the source instance. The device-name field must be provided for kms-key to take effect. Format: 'projects/{project}/locations/{location}/keyRings/{ring}/cryptoKeys/{key}'
+    /// </summary>
+    [CliOption("--create-disk", Format = OptionFormat.EqualsSeparated)]
+    public string? CreateDisk { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Enables deletion protection for the restored instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Negates --deletion-protection. Specifies the reservation for the instance. Enables deletion protection for the restored instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--no-deletion-protection")]
+    public bool? NoDeletionProtection { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies a textual description of the restored instance.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Enable a display device on the restored VM instances. Disabled by default. Use --enable-display-device to enable and --no-enable-display-device to disable.
+    /// </summary>
+    [CliFlag("--enable-display-device")]
+    public bool? EnableDisplayDevice { get; set; }
+
+    /// <summary>
+    /// Negates --enable-display-device. Specifies the reservation for the instance. Enable a display device on the restored VM instances. Disabled by default. Use --enable-display-device to enable and --no-enable-display-device to disable.
+    /// </summary>
+    [CliFlag("--no-enable-display-device")]
+    public bool? NoEnableDisplayDevice { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
+    /// </summary>
+    [CliFlag("--enable-uefi-networking")]
+    public bool? EnableUefiNetworking { get; set; }
+
+    /// <summary>
+    /// Negates --enable-uefi-networking. Specifies the reservation for the instance. If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
+    /// </summary>
+    [CliFlag("--no-enable-uefi-networking")]
+    public bool? NoEnableUefiNetworking { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specify the hostname of the restore instance to be created. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE_NAME].c.[TARGET_PROJECT_ID].internal when using the global DNS, and [INSTANCE_NAME].[ZONE].c.[TARGET_PROJECT_ID].internal when using zonal DNS.
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? Hostname { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The Cloud KMS (Key Management Service) cryptokey that will be used to protect the restored instance. Provide the full resource name of the cryptokey in the format: projects/&lt;project&gt;/locations/&lt;location&gt;/keyRings/&lt;key-ring&gt;/cryptoKeys/&lt;key&gt;
+    /// </summary>
+    [CliOption("--instance-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceKmsKey { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
+    /// </summary>
+    [CliOption("--instance-termination-action", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceTerminationAction { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies the behavior of the instance when the KMS key of one of its attached disks is revoked. The default is none. POLICY must be one of: ◆ none No operation is performed. ◆ stop The instance is stopped when the KMS key of one of its attached disks is revoked.
+    /// </summary>
+    [CliOption("--key-revocation-action-type", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyRevocationActionType { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies the maximum amount of time a Local SSD VM should wait while recovery of the Local SSD state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour.
+    /// </summary>
+    [CliOption("--local-ssd-recovery-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? LocalSsdRecoveryTimeout { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies the machine type used for the restored instance. To get a list of available machine types, run 'gcloud compute machine-types list'. If unspecified, the default type will be based on the source instance. This can either be the fully qualified path or the name. For example: ◆ --machine-type=projects/my-project/zones/us-central1-a/machineTypes/n1-standard-1 ◆ --machine-type=n1-standard-1
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies the behavior of the VMs when their host machines undergo maintenance. The default is MIGRATE. For more information, see https://cloud.google.com/compute/docs/instances/host-maintenance-options. MAINTENANCE_POLICY must be one of: MIGRATE The instances should be migrated to a new host. This will temporarily impact the performance of instances during a migration event. TERMINATE The instances should be terminated.
+    /// </summary>
+    [CliOption("--maintenance-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenancePolicy { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript).
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. When specified, the VM will be scheduled on host with specified CPU architecture or a newer one. To list available CPU platforms in given zone, run: $ gcloud compute zones describe ZONE \ --format="value(availableCpuPlatforms)" Default setting is "AUTOMATIC". CPU platform selection is available only in selected zones. You can find more information on-line: https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
+    /// </summary>
+    [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpuPlatform { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
+    /// </summary>
+    [CliOption("--min-node-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodeCpu { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Adds a network interface to the instance. This flag can be repeated to specify multiple network interfaces. The following keys are allowed: network, subnet, private-network-ip, internal-ipv6-address, internal-ipv6-prefix-length, address, external-ipv6-address, external-ipv6-prefix-length, network-tier, aliases, stack-type, queue-count, nic-type, network-attachment
+    /// </summary>
+    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NetworkInterface { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Configures network performance settings for the restored instance. If this flag is not specified, the restored instance will be created with its source instance's network performance configuration. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [DEFAULT, TIER_1]
+    /// </summary>
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkPerformanceConfigs { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
+    /// </summary>
+    [CliFlag("--preemptible")]
+    public bool? Preemptible { get; set; }
+
+    /// <summary>
+    /// Negates --preemptible. Specifies the reservation for the instance. If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
+    /// </summary>
+    [CliFlag("--no-preemptible")]
+    public bool? NoPreemptible { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The private IPv6 Google access type for the restored VM. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: inherit-subnetwork, enable-bidirectional-access, enable-outbound-vm-access
+    /// </summary>
+    [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateIpv6GoogleAccessType { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies provisioning model, which determines price, obtainability, and runtime for the restored VM instance. PROVISIONING_MODEL must be one of: SPOT Spot VMs are spare capacity; Spot VMs are discounted to have much lower prices than standard VMs but have no guaranteed runtime. Spot VMs are the new version of preemptible VM instances, except Spot VMs do not have a 24-hour maximum runtime. STANDARD Default. Standard provisioning model for VM instances, which has user-controlled runtime but no Spot discounts.
+    /// </summary>
+    [CliOption("--provisioning-model", Format = OptionFormat.EqualsSeparated)]
+    public string? ProvisioningModel { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies a list of resource manager tags to apply to the instance.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. A list of resource policy names to be added to the instance. The policies must exist in the same region as the instance.
+    /// </summary>
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ResourcePolicies { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--restart-on-failure")]
+    public bool? RestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Negates --restart-on-failure. Specifies the reservation for the instance. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--no-restart-on-failure")]
+    public bool? NoRestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The number of visible threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. Valid values are: 1 or 2. For more information about configuring SMT, see: https://cloud.google.com/compute/docs/instances/configuring-simultaneous-multithreading.
+    /// </summary>
+    [CliOption("--threads-per-core", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreadsPerCore { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. If set, the BackupDR Project Service Agent (P4SA) credentials will be used for the restore operation instead of the Backup Vault Service Account. This is only supported for same-project restores.
+    /// </summary>
+    [CliFlag("--use-project-service-account")]
+    public bool? UseProjectServiceAccount { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The number of physical cores to expose to the instance's guest operating system. The number of virtual CPUs visible to the instance's guest operating system is this number of cores multiplied by the instance's count of visible threads per physical core.
+    /// </summary>
+    [CliOption("--visible-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? VisibleCoreCount { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=specific.
+    /// </summary>
+    [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
+    public string? Reservation { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. Specifies the reservation affinity of the instance. RESERVATION_AFFINITY must be one of: any Consume any available, matching reservation. none Do not consume from any reserved capacity. specific Must consume from a specific reservation.
+    /// </summary>
+    [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationAffinity { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. However, if neither --scopes nor --no-scopes are specified and the project has no default service account, then the instance will be created with no scopes. Note that the level of access that a service account has is determined by a combination of access scopes and IAM roles so you must configure both access scopes and IAM roles for the service account to work properly. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: https://cloud.google.com/sdk/gcloud/reference/compute/instances/create#--scopes
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Scopes { get; set; }
+
+    /// <summary>
+    /// Negates --scopes. Specifies the reservation for the instance. At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. However, if neither --scopes nor --no-scopes are specified and the project has no default service account, then the instance will be created with no scopes. Note that the level of access that a service account has is determined by a combination of access scopes and IAM roles so you must configure both access scopes and IAM roles for the service account to work properly. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: https://cloud.google.com/sdk/gcloud/reference/compute/instances/create#--scopes
+    /// </summary>
+    [CliFlag("--no-scopes")]
+    public bool? NoScopes { get; set; }
+
 }

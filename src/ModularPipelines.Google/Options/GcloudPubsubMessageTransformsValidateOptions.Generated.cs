@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// validates a message transform
 /// </summary>
+/// <param name="MessageTransformFile">Path to YAML or JSON file containing a message transform.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "message-transforms", "validate")]
-public record GcloudPubsubMessageTransformsValidateOptions : GcloudOptions
+public record GcloudPubsubMessageTransformsValidateOptions(
+    [property: CliOption("--message-transform-file", Format = OptionFormat.EqualsSeparated)] string MessageTransformFile
+) : GcloudOptions
 {
 }

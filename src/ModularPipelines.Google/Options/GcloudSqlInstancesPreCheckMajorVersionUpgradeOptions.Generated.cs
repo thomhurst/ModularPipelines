@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// checks     for a major version upgrade of a Cloud SQL instance
 /// </summary>
+/// <param name="TargetDatabaseVersion">Target database version for the upgrade.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "pre-check-major-version-upgrade")]
 public record GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions(
+    [property: CliOption("--target-database-version", Format = OptionFormat.EqualsSeparated)] string TargetDatabaseVersion,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

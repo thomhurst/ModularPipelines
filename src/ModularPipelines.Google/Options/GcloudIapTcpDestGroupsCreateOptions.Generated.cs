@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create the IAP TCP Destination Group     resource
 /// </summary>
+/// <param name="Region">Region of the Destination Group.</param>
+/// <param name="GroupName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "tcp", "dest-groups", "create")]
 public record GcloudIapTcpDestGroupsCreateOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string GroupName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// List of FQDNs in the Destination Group.
+    /// </summary>
+    [CliOption("--fqdn-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? FqdnList { get; set; }
+
+    /// <summary>
+    /// List of ip-ranges in the Destination Group.
+    /// </summary>
+    [CliOption("--ip-range-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IpRangeList { get; set; }
+
 }

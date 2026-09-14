@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// revert a Cloud NetApp Volume back to a     specified Snapshot
 /// </summary>
+/// <param name="Snapshot">Snapshot resource - The Snapshot to revert the Volume back to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --snapshot on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --snapshot on the command line with a fully specified name; ◆ set the property netapp/location. To set the volume attribute: ◆ provide the argument --snapshot on the command line with a fully specified name. This must be specified. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot attribute: ▸ provide the argument --snapshot on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "revert")]
-public record GcloudNetappVolumesRevertOptions : GcloudOptions
+public record GcloudNetappVolumesRevertOptions(
+    [property: CliOption("--snapshot", Format = OptionFormat.EqualsSeparated)] string Snapshot
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

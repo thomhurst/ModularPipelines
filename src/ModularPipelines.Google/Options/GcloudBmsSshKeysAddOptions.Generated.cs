@@ -10,17 +10,40 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add a public SSH key to the project in Bare Metal     Solution
 /// </summary>
+/// <param name="Ssh"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "ssh-keys", "add")]
 public record GcloudBmsSshKeysAddOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ssh
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The SSH public key to add
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The path to a file containing an SSH public key to add
+    /// </summary>
+    [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyFile { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Key) ? 1 : 0) + (!string.IsNullOrWhiteSpace(KeyFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Key or KeyFile must be specified.", [nameof(Key), nameof(KeyFile)]);
+        }
+    }
+
 }

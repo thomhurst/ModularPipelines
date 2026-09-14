@@ -10,15 +10,31 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an IAM     workforce identity pool provider SCIM tenant
 /// </summary>
+/// <param name="ClaimMapping">A comma-separated list of KEY=VALUE pairs defining attribute mappings.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "providers", "scim-tenants", "create")]
-public record GcloudIamWorkforcePoolsProvidersScimTenantsCreateOptions : GcloudOptions
+public record GcloudIamWorkforcePoolsProvidersScimTenantsCreateOptions(
+    [property: CliOption("--claim-mapping", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> ClaimMapping
+) : GcloudOptions
 {
+    /// <summary>
+    /// Optional, user-specified description for the SCIM tenant (max 256 characters).
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Optional, user-specified display name for the SCIM tenant (max 32 characters).
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all Cloud Dataflow snapshots in a     project in the specified region, optionally filtered by job ID
 /// </summary>
+/// <param name="Region">The region ID of the snapshot and job's regional endpoint.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "snapshots", "list")]
-public record GcloudDataflowSnapshotsListOptions : GcloudOptions
+public record GcloudDataflowSnapshotsListOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region
+) : GcloudOptions
 {
+    /// <summary>
+    /// The job ID to use to filter the snapshots list.
+    /// </summary>
+    [CliOption("--job-id", Format = OptionFormat.EqualsSeparated)]
+    public string? JobId { get; set; }
+
 }

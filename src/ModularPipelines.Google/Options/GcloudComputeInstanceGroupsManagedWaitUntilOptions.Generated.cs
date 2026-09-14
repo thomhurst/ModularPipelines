@@ -10,17 +10,58 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// wait until the managed     instance group reaches the desired state
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "wait-until")]
 public record GcloudComputeInstanceGroupsManagedWaitUntilOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Wait until the group is stable.
+    /// </summary>
+    [CliFlag("--stable")]
+    public bool? Stable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Wait until version target is reached.
+    /// </summary>
+    [CliFlag("--version-target-reached")]
+    public bool? VersionTargetReached { get; set; }
+
+    /// <summary>
+    /// Waiting time in seconds for the group to reach the desired state.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Stable == true ? 1 : 0) + (VersionTargetReached == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Stable or VersionTargetReached must be specified.", [nameof(Stable), nameof(VersionTargetReached)]);
+        }
+    }
+
 }

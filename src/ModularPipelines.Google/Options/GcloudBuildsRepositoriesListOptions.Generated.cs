@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all Cloud Build repositories in a     connection
 /// </summary>
+/// <param name="Connection">Connection resource - Cloud Build connection to list all contained repositories. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument --connection on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "repositories", "list")]
-public record GcloudBuildsRepositoriesListOptions : GcloudOptions
+public record GcloudBuildsRepositoriesListOptions(
+    [property: CliOption("--connection", Format = OptionFormat.EqualsSeparated)] string Connection
+) : GcloudOptions
 {
+    /// <summary>
+    /// Connection resource - Cloud Build connection to list all contained repositories. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Google Cloud region. To set the region attribute: ▸ provide the argument --connection on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property builds/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

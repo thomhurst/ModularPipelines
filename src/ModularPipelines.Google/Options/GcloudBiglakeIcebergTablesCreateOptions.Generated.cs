@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a BigLake Iceberg table
 /// </summary>
+/// <param name="CreateFromFile">Path to a JSON file containing the table creation request. The format must follow the Apache Iceberg REST Catalog Open API specification for CreateTableRequest. The fields name and schema must be specified.</param>
+/// <param name="Namespace">Namespace resource - The Iceberg Namespace to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --namespace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument --namespace on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "iceberg", "tables", "create")]
-public record GcloudBiglakeIcebergTablesCreateOptions : GcloudOptions
+public record GcloudBiglakeIcebergTablesCreateOptions(
+    [property: CliOption("--create-from-file", Format = OptionFormat.EqualsSeparated)] string CreateFromFile,
+    [property: CliOption("--namespace", Format = OptionFormat.EqualsSeparated)] string Namespace
+) : GcloudOptions
 {
+    /// <summary>
+    /// Namespace resource - The Iceberg Namespace to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --namespace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Iceberg Catalog for the resource. To set the catalog attribute: ▸ provide the argument --namespace on the command line with a fully specified name; ▸ provide the argument --catalog on the command line.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? Catalog { get; set; }
+
 }

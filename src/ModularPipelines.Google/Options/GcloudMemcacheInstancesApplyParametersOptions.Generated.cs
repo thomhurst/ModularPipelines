@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memcache", "instances", "apply-parameters")]
-public record GcloudMemcacheInstancesApplyParametersOptions : GcloudOptions
+public record GcloudMemcacheInstancesApplyParametersOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Apply the parameter update onto all nodes.
+    /// </summary>
+    [CliFlag("--apply-all")]
+    public bool? ApplyAll { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Nodes on which to apply the parameter update.
+    /// </summary>
+    [CliOption("--node-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NodeIds { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ApplyAll == true ? 1 : 0) + (NodeIds?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ApplyAll or NodeIds must be specified.", [nameof(ApplyAll), nameof(NodeIds)]);
+        }
+    }
+
 }

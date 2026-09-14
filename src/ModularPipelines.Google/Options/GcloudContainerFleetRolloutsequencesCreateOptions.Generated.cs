@@ -10,15 +10,37 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a rollout sequence     resource
 /// </summary>
+/// <param name="StageConfig">Path to the YAML file containing the stage configurations. The YAML file should contain a list of stages. Fleet projects and soak_duration are required. If label_selector is not specified, there is no filtering. A fleet project is the project where the fleet is hosted. Example: - stage: fleet-projects: # Expected format: projects/{project} - projects/my-dev-project soak-duration: 7d # Or 168h or 604800s - stage: fleet-projects: - projects/my-prod-project soak-duration: 3600s label-selector: resource.labels.canary=='true' - stage: fleet-projects: # Expected format: projects/{project} - projects/my-prod-project soak-duration: 30m Use a full or relative path to a local file containing the value of stage_config.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "rolloutsequences", "create")]
-public record GcloudContainerFleetRolloutsequencesCreateOptions : GcloudOptions
+public record GcloudContainerFleetRolloutsequencesCreateOptions(
+    [property: CliOption("--stage-config", Format = OptionFormat.EqualsSeparated)] string StageConfig
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Display name of the rollout sequence.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Labels for the rollout sequence.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

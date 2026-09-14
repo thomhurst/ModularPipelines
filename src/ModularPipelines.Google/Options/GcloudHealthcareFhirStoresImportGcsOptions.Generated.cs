@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import FHIR resources from     Google Cloud Storage into a Cloud Healthcare API FHIR store
 /// </summary>
+/// <param name="GcsUri">Cloud Storage source data locations. Each Cloud Storage object should be a text file that contains newline-delimited JSON structures conforming to the FHIR standard. You can use wildcards to import multiple files from one or more directories. ◆ Use * to match 0 or more non-separator characters. For example, gs://BUCKET/DIRECTORY/Example*.ndjson matches Example.ndjson and Example22.ndjson in DIRECTORY. ◆ Use ** to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a filename extension (such as .ndjson), which imports all files with the filename extension in the specified directory and its subdirectories. For example, gs://BUCKET/DIRECTORY/**.ndjson imports all files with the .ndjson filename extension in DIRECTORY and its subdirectories. ◆ Use ? to match 1 character. For example, gs://BUCKET/DIRECTORY/Example?.ndjson matches Example1.ndjson but does not match Example.ndjson or Example01.ndjson.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "fhir-stores", "import", "gcs")]
-public record GcloudHealthcareFhirStoresImportGcsOptions : GcloudOptions
+public record GcloudHealthcareFhirStoresImportGcsOptions(
+    [property: CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)] string GcsUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Content structure in the source location. The default is BUNDLE. CONTENT_STRUCTURE must be one of: bundle Each unit is a bundle, which contains one or more resources. bundle-pretty The entire file is one JSON bundle. The JSON can span multiple lines. resource Each unit is a single resource. resource-pretty The entire file is one JSON resource. The JSON can span multiple lines.
+    /// </summary>
+    [CliOption("--content-structure", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContentStructure { get; set; }
+
 }

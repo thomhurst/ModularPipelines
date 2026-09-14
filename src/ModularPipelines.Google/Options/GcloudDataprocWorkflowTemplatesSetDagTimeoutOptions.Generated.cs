@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set DAG timeout on a     workflow template
 /// </summary>
+/// <param name="DagTimeout">The duration for which a DAG of jobs can run before being auto-cancelled, such as "10m" or "16h". See $ gcloud topic datetimes for information on duration formats.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "set-dag-timeout")]
-public record GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions : GcloudOptions
+public record GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions(
+    [property: CliOption("--dag-timeout", Format = OptionFormat.EqualsSeparated)] string DagTimeout
+) : GcloudOptions
 {
 }

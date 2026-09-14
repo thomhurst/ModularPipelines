@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Data Catalog entry tags
 /// </summary>
+/// <param name="Entry">Entry resource - Data Catalog entry in which to list tags. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument --entry on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tags", "list")]
-public record GcloudDataCatalogTagsListOptions : GcloudOptions
+public record GcloudDataCatalogTagsListOptions(
+    [property: CliOption("--entry", Format = OptionFormat.EqualsSeparated)] string Entry
+) : GcloudOptions
 {
+    /// <summary>
+    /// Entry resource - Data Catalog entry in which to list tags. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group of the entry. To set the entry-group attribute: ▸ provide the argument --entry on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Data Catalog entry in which to list tags. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the entry. To set the location attribute: ▸ provide the argument --entry on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

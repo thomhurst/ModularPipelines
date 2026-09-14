@@ -699,7 +699,7 @@ internal partial class Gcloud : IGcloud
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudCheatSheetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudCheatSheetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -708,7 +708,7 @@ internal partial class Gcloud : IGcloud
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDockerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDockerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -717,7 +717,7 @@ internal partial class Gcloud : IGcloud
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFeedbackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFeedbackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -726,7 +726,7 @@ internal partial class Gcloud : IGcloud
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInfoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInfoOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -735,7 +735,7 @@ internal partial class Gcloud : IGcloud
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudInitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -744,7 +744,7 @@ internal partial class Gcloud : IGcloud
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSurveyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSurveyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

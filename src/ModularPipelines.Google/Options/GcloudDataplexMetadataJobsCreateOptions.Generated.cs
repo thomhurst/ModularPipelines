@@ -10,15 +10,139 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Dataplex Metadata Job
 /// </summary>
+/// <param name="Type">Type. TYPE must be one of: EXPORT A Metadata Export Job will export entries and aspects from the declared Dataplex scope to the specified Cloud Storage location. IMPORT A Metadata Import Job will ingest, update, or delete entries and aspects into the declared Dataplex entry group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "metadata-jobs", "create")]
-public record GcloudDataplexMetadataJobsCreateOptions : GcloudOptions
+public record GcloudDataplexMetadataJobsCreateOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type
+) : GcloudOptions
 {
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. The Cloud Storage location to export metadata to. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--export-output-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportOutputPath { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata export job can have. At least one of these must be specified: The list of aspect types to export metadata from.
+    /// </summary>
+    [CliOption("--export-aspect-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExportAspectTypes { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata export job can have. At least one of these must be specified: The list of entry types to export metadata from.
+    /// </summary>
+    [CliOption("--export-entry-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExportEntryTypes { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata export job can have. At least one of these must be specified: The scope of resources to export metadata from. Exactly one of these must be specified: The list of entry groups to export metadata from.
+    /// </summary>
+    [CliOption("--export-entry-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExportEntryGroups { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata export job can have. At least one of these must be specified: The scope of resources to export metadata from. Exactly one of these must be specified: Whether to export metadata at the organization level.
+    /// </summary>
+    [CliOption("--export-organization-level", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportOrganizationLevel { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata export job can have. At least one of these must be specified: The scope of resources to export metadata from. Exactly one of these must be specified: The list of projects to export metadata from.
+    /// </summary>
+    [CliOption("--export-projects", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExportProjects { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. Type. IMPORT_ASPECT_SYNC_MODE must be one of: FULL All resources in the job's scope are modified. If a resource exists in Dataplex but isn't included in the metadata import file, the resource is deleted when you run the metadata job. Use this mode to perform a full sync of the set of entries in the job scope. INCREMENTAL Only the entries and aspects that are explicitly included in the metadata import file are modified. Use this mode to modify a subset of resources while leaving unreferenced resources unchanged. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--import-aspect-sync-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ImportAspectSyncMode { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. Type. IMPORT_ENTRY_SYNC_MODE must be one of: FULL All resources in the job's scope are modified. If a resource exists in Dataplex but isn't included in the metadata import file, the resource is deleted when you run the metadata job. Use this mode to perform a full sync of the set of entries in the job scope. INCREMENTAL Only the entries and aspects that are explicitly included in the metadata import file are modified. Use this mode to modify a subset of resources while leaving unreferenced resources unchanged. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--import-entry-sync-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ImportEntrySyncMode { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. The Dataplex source storage URI to import metadata from. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--import-source-storage-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ImportSourceStorageUri { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. Type. IMPORT_LOG_LEVEL must be one of: DEBUG Debug-level logging. Captures detailed logs for each import item. Use debug-level logging to troubleshoot issues with specific import items. For example, use debug-level logging to identify resources that are missing from the job scope, entries or aspects that don't conform to the associated entry type or aspect type, or other misconfigurations with the metadata import file.. INFO Info-level logging. Captures logs at the overall job level. Includes aggregate logs about import items, but doesn't specify which import item has an error..
+    /// </summary>
+    [CliOption("--import-log-level", Format = OptionFormat.EqualsSeparated)]
+    public string? ImportLogLevel { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. Time at which the event took place. See $ gcloud topic datetimes for information on supported time formats.
+    /// </summary>
+    [CliOption("--import-source-create-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ImportSourceCreateTime { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata import job can have. At least one of these must be specified: The list of aspect types to import metadata jobs into.
+    /// </summary>
+    [CliOption("--import-aspect-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ImportAspectTypes { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata import job can have. At least one of these must be specified: The list of entry groups to import metadata jobs into.
+    /// </summary>
+    [CliOption("--import-entry-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ImportEntryGroups { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata import job can have. At least one of these must be specified: The list of entry link types to import metadata jobs into.
+    /// </summary>
+    [CliOption("--import-entry-link-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ImportEntryLinkTypes { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata import job can have. At least one of these must be specified: The list of entry types to import metadata jobs into.
+    /// </summary>
+    [CliOption("--import-entry-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ImportEntryTypes { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata import job can have. At least one of these must be specified: The list of glossaries to import metadata jobs into.
+    /// </summary>
+    [CliOption("--import-glossaries", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ImportGlossaries { get; set; }
+
+    /// <summary>
+    /// Settings for metadata job operation. Exactly one of these must be specified: Settings for metadata export job operation. Settings for metadata import job operation. A boundary on the scope of impact that the metadata import job can have. At least one of these must be specified: The list of referenced entry scopes to import metadata jobs into.
+    /// </summary>
+    [CliOption("--import-referenced-entry-scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ImportReferencedEntryScopes { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Validate the create action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
 }

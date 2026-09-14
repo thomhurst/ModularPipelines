@@ -10,17 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// upload a named set into a     Compute Engine router
 /// </summary>
+/// <param name="FileName">Local path to the file defining the named set</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "upload-named-set")]
 public record GcloudPreviewComputeRoutersUploadNamedSetOptions(
+    [property: CliOption("--file-name", Format = OptionFormat.EqualsSeparated)] string FileName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Format of the file passed to --file-name. FILE_FORMAT must be one of: json, yaml.
+    /// </summary>
+    [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFileFormat? FileFormat { get; set; }
+
+    /// <summary>
+    /// Region of the router to upload the named set to. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the named set to add/replace.
+    /// </summary>
+    [CliOption("--set-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SetName { get; set; }
+
 }

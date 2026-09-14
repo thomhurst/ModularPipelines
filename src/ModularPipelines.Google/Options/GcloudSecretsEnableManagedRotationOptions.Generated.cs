@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,23 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// enable managed rotation for a     secret
 /// </summary>
+/// <param name="Location">Location resource - The location of the secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+/// <param name="InstanceId">Cloud SQL single-user credential settings. This must be specified. The Cloud SQL instance ID. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="Username">Cloud SQL single-user credential settings. This must be specified. The database username. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "enable-managed-rotation")]
-public record GcloudSecretsEnableManagedRotationOptions : GcloudOptions
+public record GcloudSecretsEnableManagedRotationOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--instance-id", Format = OptionFormat.EqualsSeparated)] string InstanceId,
+    [property: CliOption("--username", Format = OptionFormat.EqualsSeparated)] string Username
+) : GcloudOptions
 {
+    /// <summary>
+    /// Cloud SQL single-user credential settings. This must be specified. The initial password to set for the database user. If not provided, a random password will be generated.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
 }

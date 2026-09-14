@@ -16,9 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new     association between a firewall policy and a network
 /// </summary>
+/// <param name="FirewallPolicy">Firewall policy ID with which to create association.</param>
+/// <param name="Network">Name of the network with which the association is created.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "associations", "create")]
-public record GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions : GcloudOptions
+public record GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions(
+    [property: CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)] string FirewallPolicy,
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Name of the association.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// By default, if you attempt to insert an association to a network that is already associated with a firewall policy the method will fail. If this is set, the existing association will be deleted at the same time that the new association is created.
+    /// </summary>
+    [CliFlag("--replace-association-on-target")]
+    public bool? ReplaceAssociationOnTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to create. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--firewall-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? FirewallPolicyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
 }

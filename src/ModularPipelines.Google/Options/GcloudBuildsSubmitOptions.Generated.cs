@@ -129,7 +129,7 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     /// Worker pool only flags. Maximum time a build is run before it is failed as TIMEOUT. It is specified as a duration; for example, "2h15m5s" is two hours, fifteen minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds. Overrides the default builds/timeout property value for this command invocation.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Worker pool only flags. Specify a worker pool for the build to run in. Format: projects/{project}/locations/{region}/workerPools/{workerPool}.

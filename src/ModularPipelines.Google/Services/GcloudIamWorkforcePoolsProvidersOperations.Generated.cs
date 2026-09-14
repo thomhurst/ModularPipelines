@@ -44,7 +44,7 @@ public class GcloudIamWorkforcePoolsProvidersOperations
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkforcePoolsProvidersOperationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkforcePoolsProvidersOperationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudIamWorkforcePoolsProvidersOperations
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkforcePoolsProvidersOperationsDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkforcePoolsProvidersOperationsDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

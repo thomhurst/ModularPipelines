@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a     Compute Engine organization security policy association
 /// </summary>
+/// <param name="SecurityPolicy">short name or ID of the security policy ID of the association.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "associations", "delete")]
 public record GcloudPreviewComputeOrgSecurityPoliciesAssociationsDeleteOptions(
+    [property: CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)] string SecurityPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// ID of the organization in which the security policy is to be detached. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the Cloud Spanner database roles     defined in the given database
 /// </summary>
+/// <param name="Database">Database resource - The Cloud Spanner database in which to list database roles. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument --database on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "databases", "roles", "list")]
-public record GcloudSpannerDatabasesRolesListOptions : GcloudOptions
+public record GcloudSpannerDatabasesRolesListOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database
+) : GcloudOptions
 {
+    /// <summary>
+    /// Database resource - The Cloud Spanner database in which to list database roles. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument --database on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
 }

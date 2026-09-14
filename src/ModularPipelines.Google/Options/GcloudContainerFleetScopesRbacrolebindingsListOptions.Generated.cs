@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list RBAC     RoleBindings in a fleet scope
 /// </summary>
+/// <param name="Scope">Name of the fleet scope to list RBAC RoleBindings from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "rbacrolebindings", "list")]
-public record GcloudContainerFleetScopesRbacrolebindingsListOptions : GcloudOptions
+public record GcloudContainerFleetScopesRbacrolebindingsListOptions(
+    [property: CliOption("--scope", Format = OptionFormat.EqualsSeparated)] string Scope
+) : GcloudOptions
 {
 }

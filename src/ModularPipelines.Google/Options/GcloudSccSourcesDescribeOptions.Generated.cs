@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "sources", "describe")]
-public record GcloudSccSourcesDescribeOptions : GcloudOptions
+public record GcloudSccSourcesDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Cloud SCC specific source. It's derived from the the source's relative resource name. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name. For Example: For the given source name: "organizations/123/sources/456", 456 represents source id.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Source's display name must be unique amongst its siblings, for example, two sources with the same parent can't share the same display name. Display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens, and underscores, and can be no longer than 32 characters. This is captured by the regular expression: [\p{L}\p{N}]({\p{L}\p{N}- ]{0,30}[\p{L}\p{N}])?. For example: 'Cloud Security Scanner' is the source display name.
+    /// </summary>
+    [CliOption("--source-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDisplayName { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Source) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceDisplayName) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Source or SourceDisplayName must be specified.", [nameof(Source), nameof(SourceDisplayName)]);
+        }
+    }
+
 }

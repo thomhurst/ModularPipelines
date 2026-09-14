@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list supported     serving stack versions that were used to generate the inference     profiles
 /// </summary>
+/// <param name="ServingStack">The serving stack to filter serving stack versions by.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "ai", "profiles", "serving-stack-versions", "list")]
-public record GcloudContainerAiProfilesServingStackVersionsListOptions : GcloudOptions
+public record GcloudContainerAiProfilesServingStackVersionsListOptions(
+    [property: CliOption("--serving-stack", Format = OptionFormat.EqualsSeparated)] string ServingStack
+) : GcloudOptions
 {
     /// <summary>
     /// The model to filter serving stack versions by.

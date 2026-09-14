@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// validate the state     of a Managed Microsoft AD trust
 /// </summary>
+/// <param name="TargetDomainName">Target domain name of the Managed Microsoft AD Active Directory trust you want to validate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "trusts", "validate-state")]
-public record GcloudActiveDirectoryDomainsTrustsValidateStateOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsTrustsValidateStateOptions(
+    [property: CliOption("--target-domain-name", Format = OptionFormat.EqualsSeparated)] string TargetDomainName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

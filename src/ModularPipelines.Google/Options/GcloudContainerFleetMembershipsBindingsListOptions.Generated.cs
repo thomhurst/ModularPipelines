@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Bindings in a     Membership
 /// </summary>
+/// <param name="Membership">Name of the Membership to list Bindings from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "memberships", "bindings", "list")]
-public record GcloudContainerFleetMembershipsBindingsListOptions : GcloudOptions
+public record GcloudContainerFleetMembershipsBindingsListOptions(
+    [property: CliOption("--membership", Format = OptionFormat.EqualsSeparated)] string Membership
+) : GcloudOptions
 {
     /// <summary>
     /// Name of the Membership location to list Bindings from.

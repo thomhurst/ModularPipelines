@@ -10,17 +10,83 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Compute     Engine node group
 /// </summary>
+/// <param name="NodeTemplate">The name of the node template resource to be set for this node group.</param>
+/// <param name="TargetSize">The target initial number of nodes in the node group.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-groups", "create")]
 public record GcloudPreviewComputeSoleTenancyNodeGroupsCreateOptions(
+    [property: CliOption("--node-template", Format = OptionFormat.EqualsSeparated)] string NodeTemplate,
+    [property: CliOption("--target-size", Format = OptionFormat.EqualsSeparated)] int TargetSize,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting An optional description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting Specifies the frequency of planned maintenance events. MAINTENANCE_INTERVAL must be one of: as-needed hosts are eligible to receive infrastructure and hypervisor updates as they become available. recurrent hosts receive planned infrastructure and hypervisor updates on a periodic basis, but not more frequently than every 28 days. This minimizes the number of planned maintenance operations on individual hosts and reduces the frequency of disruptions, both live migrations and terminations, on individual VMs.
+    /// </summary>
+    [CliOption("--maintenance-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceInterval { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting Determines the maintenance behavior during host maintenance events. For more information, see https://cloud.google.com/compute/docs/nodes#maintenance_policies. MAINTENANCE_POLICY must be one of: default VM instances on the host are live migrated to a new physical server. This is the default setting. migrate-within-node-group VM instances on the host are live migrated to another node within the same node group. restart-in-place VM instances on the host are terminated and then restarted on the same physical server after the maintenance event has completed.
+    /// </summary>
+    [CliOption("--maintenance-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenancePolicy { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting The time (in GMT) when planned maintenance operations window begins. The possible values are 00:00, 04:00, 08:00, 12:00, 16:00, 20:00.
+    /// </summary>
+    [CliOption("--maintenance-window-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStartTime { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting Zone of the node group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting Set the mode of an autoscaler for a node group. AUTOSCALER_MODE must be one of: off to turn off autoscaling. on to permit autoscaling to scale in and out. only-scale-out to permit autoscaling to scale only out and not in. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaler-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalerMode { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting The maximum size of the node group. Must be smaller or equal to 100 and larger than or equal to --min-nodes. Must be specified if --autoscaler-mode is not off.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting The minimum size of the node group. Default is 0 and must be an integer value smaller than or equal to --max-nodes.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodes { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting Specify if this node group is shared; and if so, the type of sharing: share with specific projects or folders. SHARE_SETTING must be one of: projects, organization, local. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
+    public GcloudShareSetting? ShareSetting { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting A list of specific projects this node group should be shared with.
+    /// </summary>
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ShareWith { get; set; }
+
 }

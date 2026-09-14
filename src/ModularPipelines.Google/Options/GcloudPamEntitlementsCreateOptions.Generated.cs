@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new Privileged Access Manager     entitlement
 /// </summary>
+/// <param name="EntitlementFile">YAML file containing the configuration of the entitlement. Use a full or relative path to a local file containing the value of entitlement_file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pam", "entitlements", "create")]
-public record GcloudPamEntitlementsCreateOptions : GcloudOptions
+public record GcloudPamEntitlementsCreateOptions(
+    [property: CliOption("--entitlement-file", Format = OptionFormat.EqualsSeparated)] string EntitlementFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

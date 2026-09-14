@@ -44,7 +44,7 @@ public class GcloudContainerFleetWorkloadIdentityScopeTenancyPool
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudContainerFleetWorkloadIdentityScopeTenancyPool
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolSetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class GcloudContainerFleetWorkloadIdentityScopeTenancyPool
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolUnsetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetWorkloadIdentityScopeTenancyPoolUnsetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

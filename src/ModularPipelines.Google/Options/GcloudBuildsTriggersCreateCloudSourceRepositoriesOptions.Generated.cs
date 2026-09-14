@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,112 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("builds", "triggers", "create", "cloud-source-repositories")]
 public record GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Path to Build Trigger config file (JSON or YAML format). For more details, see https://cloud.google.com/cloud-build/docs/api/reference/rest/v1/projects.triggers#BuildTrigger
+    /// </summary>
+    [CliOption("--trigger-config", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flag based trigger configuration Repo resource - Cloud Source Repository. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --repo on the command line with a fully specified name; ▫ set the property core/project. This must be specified. ID of the repo or fully qualified identifier for the repo. To set the repo attribute: ◇ provide the argument --repo on the command line.
+    /// </summary>
+    [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
+    public string? Repo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Build trigger description.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Glob filter. Changes only affecting ignored files won't trigger builds.
+    /// </summary>
+    [CliOption("--ignored-files", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IgnoredFiles { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Glob filter. Changes affecting at least one included file will trigger builds.
+    /// </summary>
+    [CliOption("--included-files", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludedFiles { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Build trigger name.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Require manual approval for triggered builds. Use --require-approval to enable and --no-require-approval to disable.
+    /// </summary>
+    [CliFlag("--require-approval")]
+    public bool? RequireApproval { get; set; }
+
+    /// <summary>
+    /// Negates --require-approval. Exactly one of these must be specified: Require manual approval for triggered builds. Use --require-approval to enable and --no-require-approval to disable.
+    /// </summary>
+    [CliFlag("--no-require-approval")]
+    public bool? NoRequireApproval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild. If no service account is set, then the standard Cloud Build service account ([PROJECT_NUM]@system.gserviceaccount.com) is used instead. Format: projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Parameters to be substituted in the build specification. For example: $ gcloud builds triggers create cloud-source-repositories ... \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Substitutions can be applied to user-defined variables (starting with an underscore) and to the following built-in variables: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
+    /// </summary>
+    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Substitutions { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: A regular expression specifying which git branches to match. This pattern is used as a regular expression search for any incoming pushes. For example, --branch-pattern=foo will match "foo", "foobar", and "barfoo". Events on a branch that does not match will be ignored. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax.
+    /// </summary>
+    [CliOption("--branch-pattern", Format = OptionFormat.EqualsSeparated)]
+    public string? BranchPattern { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: A regular expression specifying which git tags to match. This pattern is used as a regular expression search for any incoming pushes. For example, --tag-pattern=foo will match "foo", "foobar", and "barfoo". Events on a tag that does not match will be ignored. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax.
+    /// </summary>
+    [CliOption("--tag-pattern", Format = OptionFormat.EqualsSeparated)]
+    public string? TagPattern { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Path to a YAML or JSON file containing the build configuration in the repository. For more details, see: https://cloud.google.com/cloud-build/docs/build-config
+    /// </summary>
+    [CliOption("--build-config", Format = OptionFormat.EqualsSeparated)]
+    public string? BuildConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Local path to a YAML or JSON file containing a build configuration.
+    /// </summary>
+    [CliOption("--inline-config", Format = OptionFormat.EqualsSeparated)]
+    public string? InlineConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Or at least one of these can be specified: Dockerfile build configuration flags Path of Dockerfile to use for builds in the repository. If specified, a build config will be generated to run docker build using the specified file. The filename is relative to the Dockerfile directory. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--dockerfile", Format = OptionFormat.EqualsSeparated)]
+    public string? Dockerfile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Or at least one of these can be specified: Dockerfile build configuration flags Location of the directory containing the Dockerfile in the repository. The directory will also be used as the Docker build context.
+    /// </summary>
+    [CliOption("--dockerfile-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? DockerfileDir { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Or at least one of these can be specified: Dockerfile build configuration flags Docker image name to build. If not specified, gcr.io/PROJECT/github.com/REPO_OWNER/REPO_NAME:$COMMIT_SHA will be used. Use a build configuration (cloudbuild.yaml) file for building multiple images in a single trigger.
+    /// </summary>
+    [CliOption("--dockerfile-image", Format = OptionFormat.EqualsSeparated)]
+    public string? DockerfileImage { get; set; }
+
 }

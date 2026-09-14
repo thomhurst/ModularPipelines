@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -17,12 +18,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// diagnose Google Cloud Storage
 /// </summary>
+/// <param name="Url"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "diagnose")]
 public record GcloudStorageDiagnoseOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// --download-type=DOWNLOAD_TYPE; default=&lt;DownloadType.FILE: 'FILE'&gt; Download strategy to use for the DOWNLOAD_THROUGHPUT diagnostic test. STREAMING: Downloads the file in memory, does not use parallelism. --process-count and --thread-count flag values will be ignored if provided. SLICED: Performs a sliced download (https://cloud.google.com/storage/docs/sliced-object-downloads) of objects to a directory. Parallelism can be controlled via --process-count and --thread-count flags. FILE: Download objects as files. Parallelism can be controlled via --process-count and --thread-count flags. DOWNLOAD_TYPE must be one of: FILE, SLICED, STREAMING. --upload-type=UPLOAD_TYPE; default=&lt;UploadType.FILE: 'FILE'&gt; Upload strategy to use for the UPLOAD_THROUGHPUT diagnostic test. FILE: Uploads files to a bucket. Parallelism can be controlled via --process-count and --thread-count flags. PARALLEL_COMPOSITE: Uploads files using a parallel composite strategy (https://cloud.google.com/storage/docs/parallel-composite-uploads). Parallelism can be controlled via --process-count and --thread-count flags. STREAMING: Streams the data to the bucket, does not use parallelism. --process-count and --thread-count flag values will be ignored if provided. UPLOAD_TYPE must be one of: FILE, PARALLEL_COMPOSITE, STREAMING. Object properties: Export diagnostic bundle. Tests to run as part of this diagnosis. Following tests are supported: DIRECT_CONNECTIVITY: Run a test upload over the Direct Connectivity network path and run other diagnostics if the upload fails. DOWNLOAD_THROUGHPUT: Upload objects to the specified bucket and record the number of bytes transferred per second. UPLOAD_THROUGHPUT: Download objects from the specified bucket and record the number of bytes transferred per second. LATENCY: Write the objects, retrieve their metadata, read the objects, and record latency of each operation. TEST_TYPES must be one of: DIRECT_CONNECTIVITY, DOWNLOAD_THROUGHPUT, LATENCY, UPLOAD_THROUGHPUT.
@@ -77,5 +79,14 @@ public record GcloudStorageDiagnoseOptions(
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public GcloudDestination? Destination { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ObjectSize is not null ? 1 : 0) + (ObjectSizes is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ObjectSize or ObjectSizes must be specified.", [nameof(ObjectSize), nameof(ObjectSizes)]);
+        }
+    }
 
 }

@@ -10,15 +10,61 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// rollbacks a target to a prior rollout
 /// </summary>
+/// <param name="DeliveryPipeline">The name of the Cloud Deploy delivery pipeline</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "targets", "rollback")]
-public record GcloudDeployTargetsRollbackOptions : GcloudOptions
+public record GcloudDeployTargetsRollbackOptions(
+    [property: CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)] string DeliveryPipeline
+) : GcloudOptions
 {
+    /// <summary>
+    /// Annotations to apply to the rollback. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy targets rollback \ --annotations="from_target=test,status=stable"
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Description of rollout created during a rollback.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Labels to apply to the rollback. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy targets rollback --labels="commit=abc123,author=foo"
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Deploy policies to override
+    /// </summary>
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OverrideDeployPolicies { get; set; }
+
+    /// <summary>
+    /// Name of the release to rollback to.
+    /// </summary>
+    [CliOption("--release", Format = OptionFormat.EqualsSeparated)]
+    public string? Release { get; set; }
+
+    /// <summary>
+    /// ID to assign to the generated rollout for promotion.
+    /// </summary>
+    [CliOption("--rollout-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutId { get; set; }
+
+    /// <summary>
+    /// If set, starts the created rollout at the specified phase. Start rollout at stable phase: $ gcloud deploy targets rollback --starting-phase-id=stable
+    /// </summary>
+    [CliOption("--starting-phase-id", Format = OptionFormat.EqualsSeparated)]
+    public string? StartingPhaseId { get; set; }
+
 }

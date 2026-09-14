@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list VMware     Engine external access rules
 /// </summary>
+/// <param name="NetworkPolicy">VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine Network Policy or fully qualified identifier for the VMware Engine Network Policy. To set the network-policy attribute: ▸ provide the argument --network-policy on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "external-access-rules", "list")]
-public record GcloudVmwareNetworkPoliciesExternalAccessRulesListOptions : GcloudOptions
+public record GcloudVmwareNetworkPoliciesExternalAccessRulesListOptions(
+    [property: CliOption("--network-policy", Format = OptionFormat.EqualsSeparated)] string NetworkPolicy
+) : GcloudOptions
 {
+    /// <summary>
+    /// VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument --network-policy on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

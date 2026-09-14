@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list workload     identity pool provider keys
 /// </summary>
+/// <param name="Provider">Workload identity pool provider resource - The parent workload identity pool provider to list keys for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool provider or fully qualified identifier for the workload identity pool provider. To set the provider attribute: ▸ provide the argument --provider on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "providers", "keys", "list")]
-public record GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions : GcloudOptions
+public record GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions(
+    [property: CliOption("--provider", Format = OptionFormat.EqualsSeparated)] string Provider
+) : GcloudOptions
 {
+    /// <summary>
+    /// Workload identity pool provider resource - The parent workload identity pool provider to list keys for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument --provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider resource - The parent workload identity pool provider to list keys for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID to use for the pool, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workload-identity-pool attribute: ▸ provide the argument --provider on the command line with a fully specified name; ▸ provide the argument --workload-identity-pool on the command line.
+    /// </summary>
+    [CliOption("--workload-identity-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadIdentityPool { get; set; }
+
     /// <summary>
     /// Whether to return soft-deleted resources.
     /// </summary>

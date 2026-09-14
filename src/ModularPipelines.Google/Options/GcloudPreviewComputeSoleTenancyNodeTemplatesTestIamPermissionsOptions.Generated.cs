@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM permissions for a Compute Engine sole-tenancy node template
 /// </summary>
+/// <param name="Permissions">Permissions to be tested.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-templates", "test-iam-permissions")]
-public record GcloudPreviewComputeSoleTenancyNodeTemplatesTestIamPermissionsOptions : GcloudOptions
+public record GcloudPreviewComputeSoleTenancyNodeTemplatesTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions
+) : GcloudOptions
 {
 }

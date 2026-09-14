@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// display all data about an existing version
 /// </summary>
+/// <param name="Service">The service corresponding to the version to show.</param>
+/// <param name="Version"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "describe")]
 public record GcloudAppVersionsDescribeOptions(
+    [property: CliOption("--service", Format = OptionFormat.EqualsSeparated)] string Service,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {

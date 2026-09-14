@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe the Compute Engine     project-view resource
 /// </summary>
+/// <param name="Region">Region of the project view.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "project-views", "describe")]
-public record GcloudComputeProjectViewsDescribeOptions : GcloudOptions
+public record GcloudComputeProjectViewsDescribeOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region
+) : GcloudOptions
 {
+    /// <summary>
+    /// Project ID for this request.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

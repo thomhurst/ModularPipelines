@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// sets in a     managed-zone
 /// </summary>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "list")]
-public record GcloudDnsRecordSetsListOptions : GcloudOptions
+public record GcloudDnsRecordSetsListOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
     /// <summary>
     /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.

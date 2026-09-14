@@ -19,6 +19,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a backend service
 /// </summary>
+/// <param name="BackendServiceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "create")]
@@ -132,7 +133,7 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Connection draining timeout to be used during removal of VMs from instance groups. This guarantees that for the specified time all existing connections to a VM will remain untouched, but no new connections will be accepted. Set timeout to zero to disable connection draining. Enable feature by specifying a timeout of up to one hour. If the flag is omitted API default value (0s) will be used. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--connection-draining-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? ConnectionDrainingTimeout { get; set; }
+    public string? ConnectionDrainingTimeout { get; set; }
 
     /// <summary>
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies connection persistence when backends are unhealthy. The default value is DEFAULT_FOR_PROTOCOL. CONNECTION_PERSISTENCE_ON_UNHEALTHY_BACKENDS must be one of: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.

@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// replace the rules of a     Compute Engine organization firewall policy with rules from another     policy
 /// </summary>
+/// <param name="SourceFirewallPolicy">The URL of the source firewall policy to copy the rules from.</param>
+/// <param name="FirewallPolicy"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "clone-rules")]
 public record GcloudComputeFirewallPoliciesCloneRulesOptions(
+    [property: CliOption("--source-firewall-policy", Format = OptionFormat.EqualsSeparated)] string SourceFirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Organization in which the organization firewall policy to copy the rules to. Must be set if firewall-policy is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

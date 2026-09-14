@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all     WasmPluginVersion resources for a WasmPlugin
 /// </summary>
+/// <param name="WasmPlugin">WasmPlugin resource - The parent WasmPlugin. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --wasm-plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPlugin or fully qualified identifier for the WasmPlugin. To set the wasm-plugin attribute: ▸ provide the argument --wasm-plugin on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-extensions", "wasm-plugin-versions", "list")]
-public record GcloudServiceExtensionsWasmPluginVersionsListOptions : GcloudOptions
+public record GcloudServiceExtensionsWasmPluginVersionsListOptions(
+    [property: CliOption("--wasm-plugin", Format = OptionFormat.EqualsSeparated)] string WasmPlugin
+) : GcloudOptions
 {
+    /// <summary>
+    /// WasmPlugin resource - The parent WasmPlugin. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --wasm-plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the location attribute: ▸ provide the argument --wasm-plugin on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

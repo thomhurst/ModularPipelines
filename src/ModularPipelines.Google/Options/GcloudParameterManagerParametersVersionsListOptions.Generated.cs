@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Parameter Manager     parameter versions
 /// </summary>
+/// <param name="Parameter">Parameter resource - Parent value for ListParameterVersionsRequest in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameter or fully qualified identifier for the parameter. To set the parameter attribute: ▸ provide the argument --parameter on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters", "versions", "list")]
-public record GcloudParameterManagerParametersVersionsListOptions : GcloudOptions
+public record GcloudParameterManagerParametersVersionsListOptions(
+    [property: CliOption("--parameter", Format = OptionFormat.EqualsSeparated)] string Parameter
+) : GcloudOptions
 {
+    /// <summary>
+    /// Parameter resource - Parent value for ListParameterVersionsRequest in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the parameter resource. To set the location attribute: ▸ provide the argument --parameter on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

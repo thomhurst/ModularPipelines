@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// initiate schema extension     for a Managed Microsoft AD domain
 /// </summary>
+/// <param name="Description">Description of schema change.</param>
+/// <param name="LdifFile">Local LDIF file path that contains commands for schema extension. The file size can't be larger than 1 MB. Use a full or relative path to a local file containing the value of ldif_file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "extend-schema")]
-public record GcloudActiveDirectoryDomainsExtendSchemaOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsExtendSchemaOptions(
+    [property: CliOption("--description", Format = OptionFormat.EqualsSeparated)] string Description,
+    [property: CliOption("--ldif-file", Format = OptionFormat.EqualsSeparated)] string LdifFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

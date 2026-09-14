@@ -10,15 +10,91 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add a Hive job to the     workflow template
 /// </summary>
+/// <param name="StepId">The step ID of the job in the workflow template.</param>
+/// <param name="WorkflowTemplate">Template resource - The name of the workflow template to add job to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --workflow-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument --workflow-template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "add-job", "hive")]
-public record GcloudDataprocWorkflowTemplatesAddJobHiveOptions : GcloudOptions
+public record GcloudDataprocWorkflowTemplatesAddJobHiveOptions(
+    [property: CliOption("--step-id", Format = OptionFormat.EqualsSeparated)] string StepId,
+    [property: CliOption("--workflow-template", Format = OptionFormat.EqualsSeparated)] string WorkflowTemplate
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: A Hive query to execute as part of the job.
+    /// </summary>
+    [CliOption("--execute", Format = OptionFormat.EqualsSeparated)]
+    public string? Execute { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: HCFS URI of file containing Hive script to execute as the job.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to add job to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --workflow-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the template. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument --workflow-template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Whether to continue if a single query fails.
+    /// </summary>
+    [CliFlag("--continue-on-failure")]
+    public bool? ContinueOnFailure { get; set; }
+
+    /// <summary>
+    /// Comma separated list of jar files to be provided to the Hive and MR. May contain UDFs.
+    /// </summary>
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Jars { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// A list of key value pairs to set variables in the Hive queries.
+    /// </summary>
+    [CliOption("--params", Format = OptionFormat.EqualsSeparated)]
+    public string? Params { get; set; }
+
+    /// <summary>
+    /// A list of key value pairs to configure Hive.
+    /// </summary>
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
+    public string? Properties { get; set; }
+
+    /// <summary>
+    /// Path to a local file or a file in a Cloud Storage bucket containing configuration properties for the job. The client machine running this command must have read permission to the file. Specify properties in the form of property=value in the text file. For example: # Properties to set for the job: key1=value1 key2=value2 # Comment out properties not used. # key3=value3 If a property is set in both --properties and --properties-file, the value defined in --properties takes precedence.
+    /// </summary>
+    [CliOption("--properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesFile { get; set; }
+
+    /// <summary>
+    /// (Optional) List of step IDs to start this job after.
+    /// </summary>
+    [CliOption("--start-after", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StartAfter { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Execute) ? 1 : 0) + (!string.IsNullOrWhiteSpace(File) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Execute or File must be specified.", [nameof(Execute), nameof(File)]);
+        }
+    }
+
 }

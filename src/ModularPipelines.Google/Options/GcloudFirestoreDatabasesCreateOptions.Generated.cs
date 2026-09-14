@@ -10,15 +10,104 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Google Cloud Firestore     database via Firestore API
 /// </summary>
+/// <param name="Location">The location to operate on. Available locations are listed at https://cloud.google.com/firestore/docs/locations. For example, to operate on location us-east1: $ gcloud firestore databases create --location='us-east1'</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "databases", "create")]
-public record GcloudFirestoreDatabasesCreateOptions : GcloudOptions
+public record GcloudFirestoreDatabasesCreateOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
+    /// <summary>
+    /// The concurrency control mode to use for this database. When not specified, Firestore will pick a default concurrency mode based on the database edition. CONCURRENCY_MODE must be one of: optimistic, pessimistic.
+    /// </summary>
+    [CliOption("--concurrency-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConcurrencyMode? ConcurrencyMode { get; set; }
+
+    /// <summary>
+    /// The ID to use for the database, which will become the final component of the database's resource name. If database ID is not provided, (default) will be used as database ID. This value should be 4-63 characters. Valid characters are /[a-z][0-9]-/ with first character a letter and the last a letter or a number. Must not be UUID-like /[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/. Using "(default)" database ID is also allowed.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Whether to enable delete protection on the created database. If set to true, delete protection of the new database will be enabled and delete operations will fail unless delete protection is disabled. Default to false.
+    /// </summary>
+    [CliFlag("--delete-protection")]
+    public bool? DeleteProtection { get; set; }
+
+    /// <summary>
+    /// The edition of the database. EDITION must be one of: standard, enterprise.
+    /// </summary>
+    [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
+    public GcloudEdition? Edition { get; set; }
+
+    /// <summary>
+    /// Whether to enable Firestore API Data Access on the created database. If set to true, Firestore API Data Access on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-firestore-data-access.
+    /// </summary>
+    [CliFlag("--enable-firestore-data-access")]
+    public bool? EnableFirestoreDataAccess { get; set; }
+
+    /// <summary>
+    /// Negates --enable-firestore-data-access. Whether to enable Firestore API Data Access on the created database. If set to true, Firestore API Data Access on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-firestore-data-access.
+    /// </summary>
+    [CliFlag("--no-enable-firestore-data-access")]
+    public bool? NoEnableFirestoreDataAccess { get; set; }
+
+    /// <summary>
+    /// Whether to enable MongoDB Compatible API Data Access on the created database. If set to true, MongoDB Compatible API Data Access on the new database will be enabled. By default, this feature is enabled for Enterprise edition databases. To disable, use --no-enable-mongodb-compatible-data-access.
+    /// </summary>
+    [CliFlag("--enable-mongodb-compatible-data-access")]
+    public bool? EnableMongodbCompatibleDataAccess { get; set; }
+
+    /// <summary>
+    /// Negates --enable-mongodb-compatible-data-access. Whether to enable MongoDB Compatible API Data Access on the created database. If set to true, MongoDB Compatible API Data Access on the new database will be enabled. By default, this feature is enabled for Enterprise edition databases. To disable, use --no-enable-mongodb-compatible-data-access.
+    /// </summary>
+    [CliFlag("--no-enable-mongodb-compatible-data-access")]
+    public bool? NoEnableMongodbCompatibleDataAccess { get; set; }
+
+    /// <summary>
+    /// Whether to enable Point In Time Recovery (PITR) on the created database. If set to true, PITR on the new database will be enabled. By default, this feature is not enabled.
+    /// </summary>
+    [CliFlag("--enable-pitr")]
+    public bool? EnablePitr { get; set; }
+
+    /// <summary>
+    /// Whether to enable Realtime Updates feature on the created database. If set to true, Realtime Updates feature on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-realtime-updates.
+    /// </summary>
+    [CliFlag("--enable-realtime-updates")]
+    public bool? EnableRealtimeUpdates { get; set; }
+
+    /// <summary>
+    /// Negates --enable-realtime-updates. Whether to enable Realtime Updates feature on the created database. If set to true, Realtime Updates feature on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-realtime-updates.
+    /// </summary>
+    [CliFlag("--no-enable-realtime-updates")]
+    public bool? NoEnableRealtimeUpdates { get; set; }
+
+    /// <summary>
+    /// The resource ID of a Cloud KMS key. If set, the database created will be a Customer-Managed Encryption Key (CMEK) database encrypted with this key. This feature is allowlist only in initial launch. Only a key in the same location as this database is allowed to be used for encryption. For Firestore's nam5 multi-region, this corresponds to Cloud KMS location us. For Firestore's eur3 multi-region, this corresponds to Cloud KMS location europe. See https://cloud.google.com/kms/docs/locations. This value should be the KMS key resource ID in the format of projects/{project_id}/locations/{kms_location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. How to retrieve this resource ID is listed at https://cloud.google.com/kms/docs/getting-resource-ids#getting_the_id_for_a_key_and_version.
+    /// </summary>
+    [CliOption("--kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyName { get; set; }
+
+    /// <summary>
+    /// Tags to attach to the destination database. Example: --tags=key1=value1,key2=value2 For example, to attach tags to a database: $ --tags=key1=value1,key2=value2
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// The type of the database. TYPE must be one of: firestore-native, datastore-mode.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
 }

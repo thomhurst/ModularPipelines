@@ -16,11 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a log scope
 /// </summary>
+/// <param name="ResourceNames">Comma-separated list of resource names in this log scope. It could be one or more parent resources or one or more views. A log scope can include a maximum of 50 projects and a maximum of 100 resources in total. For example, projects/[PROJECT_ID], projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]</param>
+/// <param name="LogScopeId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "scopes", "create")]
 public record GcloudLoggingScopesCreateOptions(
+    [property: CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> ResourceNames,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LogScopeId
 ) : GcloudOptions
 {
+    /// <summary>
+    /// A textual description for the log scope.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the log scope to create.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the log scope to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the log scope to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

@@ -16,11 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// cancel a long running operation
 /// </summary>
+/// <param name="Location">Location of the operation.</param>
+/// <param name="OperationId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "operations", "cancel")]
 public record GcloudLoggingOperationsCancelOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationId
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Billing account of the operation to cancel.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the operation to cancel.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the operation to cancel.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the operation to cancel. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

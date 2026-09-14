@@ -10,15 +10,89 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// deploy     Kubernetes manifests with compute, load balancing, and autoscaling     capabilities
 /// </summary>
+/// <param name="AcceleratorType">The accelerator type.</param>
+/// <param name="Model">The model.</param>
+/// <param name="ModelServer">The model server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "ai", "profiles", "manifests", "create")]
-public record GcloudContainerAiProfilesManifestsCreateOptions : GcloudOptions
+public record GcloudContainerAiProfilesManifestsCreateOptions(
+    [property: CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)] string AcceleratorType,
+    [property: CliOption("--model", Format = OptionFormat.EqualsSeparated)] string Model,
+    [property: CliOption("--model-server", Format = OptionFormat.EqualsSeparated)] string ModelServer
+) : GcloudOptions
 {
+    /// <summary>
+    /// The Google Cloud Storage bucket URI to load the model from. This URI must point to the directory containing the model's config file (config.json) and model weights. If unspecified, defaults to loading the model from Hugging Face.
+    /// </summary>
+    [CliOption("--model-bucket-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ModelBucketUri { get; set; }
+
+    /// <summary>
+    /// The model server version. If omitted, the most recently benchmarked version is used.
+    /// </summary>
+    [CliOption("--model-server-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ModelServerVersion { get; set; }
+
+    /// <summary>
+    /// The namespace to deploy the manifests in. Default namespace is 'default'.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// The output to display. Default is all. OUTPUT must be one of: manifest, comments, all.
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public GcloudOutput? Output { get; set; }
+
+    /// <summary>
+    /// The path to save the output to. If not specified, output to the terminal.
+    /// </summary>
+    [CliOption("--output-path", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputPath { get; set; }
+
+    /// <summary>
+    /// The serving stack to filter manifests by. If not provided, will default to none.
+    /// </summary>
+    [CliOption("--serving-stack", Format = OptionFormat.EqualsSeparated)]
+    public string? ServingStack { get; set; }
+
+    /// <summary>
+    /// The serving stack version. If omitted, the most recently benchmarked version is used.
+    /// </summary>
+    [CliOption("--serving-stack-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ServingStackVersion { get; set; }
+
+    /// <summary>
+    /// The target inter-token latency (ITL) in milliseconds. If this is set, the manifest will include Horizontal Pod Autoscaler (HPA) resources which automatically adjust the model server replica count in response to changes in model server load to keep p50 ITL below the specified threshold. If the provided target-itl-milliseconds is too low to achieve, the HPA manifest will not be generated.
+    /// </summary>
+    [CliOption("--target-itl-milliseconds", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetItlMilliseconds { get; set; }
+
+    /// <summary>
+    /// The maximum normalized time per output token (NTPOT) in milliseconds. NTPOT is measured as the request_latency / output_tokens. If this is set, the manifests will include Horizontal Pod Autoscaler (HPA) resources which automatically adjust the model server replica count in response to changes in model server load to keep p50 NTPOT below the specified threshold. If the provided target-ntpot-milliseconds is too low to achieve, the HPA manifest will not be generated.
+    /// </summary>
+    [CliOption("--target-ntpot-milliseconds", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetNtpotMilliseconds { get; set; }
+
+    /// <summary>
+    /// If specified, results will only show accelerators that can meet the latency target and will show their throughput performances at the target ttft target to achieve, the HPA manifest will not be generated.
+    /// </summary>
+    [CliOption("--target-ttft-milliseconds", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetTtftMilliseconds { get; set; }
+
+    /// <summary>
+    /// The manifest will be optimized for this use case. Options are: Advanced Customer Support, Code Completion, Text Summarization, Chatbot (ShareGPT), Code Generation, Deep Research. If omitted, defaults to Chatbot (ShareGPT).
+    /// </summary>
+    [CliOption("--use-case", Format = OptionFormat.EqualsSeparated)]
+    public string? UseCase { get; set; }
+
 }

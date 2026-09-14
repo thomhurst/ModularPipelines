@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove vlan to ip mapping rule to an L2-forwarding attachment
 /// </summary>
+/// <param name="VlanKey">Desired VLAN key for L2 forwarding mapping for the attachment. If not supplied, all mappings will be displayed.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "attachments", "l2-forwarding", "remove-mapping")]
 public record GcloudComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions(
+    [property: CliOption("--vlan-key", Format = OptionFormat.EqualsSeparated)] string VlanKey,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Region of the interconnect attachment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

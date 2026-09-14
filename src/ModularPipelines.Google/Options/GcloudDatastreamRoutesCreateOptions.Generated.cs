@@ -10,15 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Datastream private connection     route
 /// </summary>
+/// <param name="DestinationAddress">Destination address for connection.</param>
+/// <param name="DisplayName">Friendly name for the route.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "routes", "create")]
-public record GcloudDatastreamRoutesCreateOptions : GcloudOptions
+public record GcloudDatastreamRoutesCreateOptions(
+    [property: CliOption("--destination-address", Format = OptionFormat.EqualsSeparated)] string DestinationAddress,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Destination port for connection.
+    /// </summary>
+    [CliOption("--destination-port", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationPort { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

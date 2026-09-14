@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// upgrade an Edge Container     cluster
 /// </summary>
+/// <param name="Schedule">Schedule to upgrade a cluster after the request is acknowledged by Google. Support values: IMMEDIATELY.</param>
+/// <param name="Version">Target cluster version to upgrade to. For example: "1.5.1".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "container", "clusters", "upgrade")]
-public record GcloudEdgeCloudContainerClustersUpgradeOptions : GcloudOptions
+public record GcloudEdgeCloudContainerClustersUpgradeOptions(
+    [property: CliOption("--schedule", Format = OptionFormat.EqualsSeparated)] string Schedule,
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
 }

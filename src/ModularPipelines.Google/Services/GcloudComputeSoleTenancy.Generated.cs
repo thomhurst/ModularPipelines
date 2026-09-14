@@ -66,7 +66,7 @@ public class GcloudComputeSoleTenancy
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSoleTenancyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSoleTenancyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

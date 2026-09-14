@@ -60,7 +60,7 @@ public class GcloudAgentIdentity : IGcloudAgentIdentity
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAgentIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAgentIdentityOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

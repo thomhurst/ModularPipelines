@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a Cloud Healthcare API     API DICOM store to BigQuery
 /// </summary>
+/// <param name="BqTable">The BigQuery table where the DICOM store should be written. If this table does not exist, a new table with the given name will be created.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "dicom-stores", "export", "bq")]
-public record GcloudHealthcareDicomStoresExportBqOptions : GcloudOptions
+public record GcloudHealthcareDicomStoresExportBqOptions(
+    [property: CliOption("--bq-table", Format = OptionFormat.EqualsSeparated)] string BqTable
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// If the destination table already exists and this flag is TRUE, the table will be overwritten by the contents of the DICOM store. If the flag is not set and the destination table already exists, the export call returns an error.
+    /// </summary>
+    [CliFlag("--overwrite-table")]
+    public bool? OverwriteTable { get; set; }
+
+    /// <summary>
+    /// Determines whether the existing table in the destination is to be overwritten or appended to. WRITE_DISPOSITION must be one of: write-append Append data to the existing table. write-empty Only export data if the destination table is empty. write-truncate Erase all existing data in a table before writing the instances.
+    /// </summary>
+    [CliOption("--write-disposition", Format = OptionFormat.EqualsSeparated)]
+    public string? WriteDisposition { get; set; }
+
 }

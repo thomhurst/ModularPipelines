@@ -10,15 +10,255 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Dataplex task resource
 /// </summary>
+/// <param name="ExecutionServiceAccount">Spec related to how a task is executed. This must be specified. Service account to use to execute a task. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="TriggerType">Spec related to Dataplex task scheduling and frequency settings. This must be specified. Trigger type of the user-specified Dataplex Task. TRIGGER_TYPE must be one of: on-demand The ON_DEMAND trigger type runs the Dataplex task one time shortly after task creation. recurring The RECURRING trigger type makes the task scheduled to run periodically. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "tasks", "create")]
-public record GcloudDataplexTasksCreateOptions : GcloudOptions
+public record GcloudDataplexTasksCreateOptions(
+    [property: CliOption("--execution-service-account", Format = OptionFormat.EqualsSeparated)] string ExecutionServiceAccount,
+    [property: CliOption("--trigger-type", Format = OptionFormat.EqualsSeparated)] string TriggerType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The arguments to pass to the task. The args can use placeholders of the format ${placeholder} as part of key/value string. These will be interpolated before passing the args to the driver. Currently supported placeholders: ▸ ${task_id} ▸ ${job_time} To pass positional args, set the key as TASK_ARGS. The value should be a comma-separated string of all the positional arguments. See https://cloud.google.com/sdk/gcloud/reference/topic/escaping for details on using a delimiter other than a comma. In case of other keys being present in the args, then TASK_ARGS will be passed as the last argument.
+    /// </summary>
+    [CliOption("--execution-args", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ExecutionArgs { get; set; }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The project in which jobs are run. By default, the project containing the Lake is used. If a project is provided, the --execution-service-account must belong to this same project.
+    /// </summary>
+    [CliOption("--execution-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutionProject { get; set; }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The Cloud KMS key to use for encryption, of the form: projects/{project_number}/locations/{location_id}/keyRings/{key-ring-name}/cryptoKeys/{key-name}
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The maximum duration before the job execution expires.
+    /// </summary>
+    [CliOption("--max-job-execution-lifetime", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxJobExecutionLifetime { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Path to input notebook. This can be the Google Cloud Storage URI of the notebook file or the path to a Notebook Content. The execution args are accessible as environment variables (TASK_key=value). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--notebook", Format = OptionFormat.EqualsSeparated)]
+    public string? Notebook { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Google Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+    /// </summary>
+    [CliOption("--notebook-archive-uris", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NotebookArchiveUris { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Google Cloud Storage URIs of files to be placed in the working directory of each executor.
+    /// </summary>
+    [CliOption("--notebook-file-uris", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NotebookFileUris { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Total number of job executors.
+    /// </summary>
+    [CliOption("--notebook-batch-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NotebookBatchExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Max configurable executors. If max_executors_count &gt; executors_count, then auto-scaling is enabled.
+    /// </summary>
+    [CliOption("--notebook-batch-max-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NotebookBatchMaxExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Optional custom container image for the job.
+    /// </summary>
+    [CliOption("--notebook-container-image", Format = OptionFormat.EqualsSeparated)]
+    public string? NotebookContainerImage { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. A list of Java JARS to add to the classpath. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar
+    /// </summary>
+    [CliOption("--notebook-container-image-java-jars", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NotebookContainerImageJavaJars { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The properties to set on daemon config files. Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. For more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties)
+    /// </summary>
+    [CliOption("--notebook-container-image-properties", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? NotebookContainerImageProperties { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. List of network tags to apply to the job.
+    /// </summary>
+    [CliOption("--notebook-vpc-network-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NotebookVpcNetworkTags { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC network in which the job is run. By default, the Cloud VPC network named Default within the project is used.
+    /// </summary>
+    [CliOption("--notebook-vpc-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? NotebookVpcNetworkName { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC sub-network in which the job is run.
+    /// </summary>
+    [CliOption("--notebook-vpc-sub-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? NotebookVpcSubNetworkName { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Google Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+    /// </summary>
+    [CliOption("--spark-archive-uris", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SparkArchiveUris { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Google Cloud Storage URIs of files to be placed in the working directory of each executor.
+    /// </summary>
+    [CliOption("--spark-file-uris", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SparkFileUris { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris. The execution args are passed in as a sequence of named process arguments (--key=value).
+    /// </summary>
+    [CliOption("--spark-main-class", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkMainClass { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The Google Cloud Storage URI of the jar file that contains the main class. The execution args are passed in as a sequence of named process arguments (--key=value).
+    /// </summary>
+    [CliOption("--spark-main-jar-file-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkMainJarFileUri { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The Google Cloud Storage URI of the main Python file to use as the driver. Must be a .py file.
+    /// </summary>
+    [CliOption("--spark-python-script-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkPythonScriptFile { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The SQL query text.
+    /// </summary>
+    [CliOption("--spark-sql-script", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkSqlScript { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: A reference to a query file. This can be the Google Cloud Storage URI of the query file or it can the path to a SqlScript Content.
+    /// </summary>
+    [CliOption("--spark-sql-script-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkSqlScriptFile { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Total number of job executors.
+    /// </summary>
+    [CliOption("--batch-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? BatchExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Max configurable executors. If max_executors_count &gt; executors_count, then auto-scaling is enabled.
+    /// </summary>
+    [CliOption("--batch-max-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? BatchMaxExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Optional custom container image for the job.
+    /// </summary>
+    [CliOption("--container-image", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerImage { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. A list of Java JARS to add to the classpath. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar
+    /// </summary>
+    [CliOption("--container-image-java-jars", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerImageJavaJars { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The properties to set on daemon config files. Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. For more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties)
+    /// </summary>
+    [CliOption("--container-image-properties", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ContainerImageProperties { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. A list of python packages to be installed. Valid formats include Cloud Storage URI to a PIP installable library. For example, gs://bucket-name/my/path/to/lib.tar.gz
+    /// </summary>
+    [CliOption("--container-image-python-packages", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerImagePythonPackages { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. List of network tags to apply to the job.
+    /// </summary>
+    [CliOption("--vpc-network-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VpcNetworkTags { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC network in which the job is run. By default, the Cloud VPC network named Default within the project is used.
+    /// </summary>
+    [CliOption("--vpc-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcNetworkName { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. Config related to running custom Spark tasks. Compute resources needed for a Task when using Dataproc Serverless. Container Image Runtime Configuration. Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC sub-network in which the job is run.
+    /// </summary>
+    [CliOption("--vpc-sub-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcSubNetworkName { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. Prevent the task from executing. This does not cancel already running tasks. It is intended to temporarily disable RECURRING tasks.
+    /// </summary>
+    [CliFlag("--trigger-disabled")]
+    public bool? TriggerDisabled { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. Number of retry attempts before aborting. Set to zero to never attempt to retry a failed task.
+    /// </summary>
+    [CliOption("--trigger-max-retires", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerMaxRetires { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running tasks periodically.
+    /// </summary>
+    [CliOption("--trigger-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerSchedule { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. The first run of the task begins after this time. If not specified, an ON_DEMAND task runs when it is submitted and a RECURRING task runs based on the trigger schedule.
+    /// </summary>
+    [CliOption("--trigger-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerStartTime { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the Dataplex task.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the Dataplex task.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

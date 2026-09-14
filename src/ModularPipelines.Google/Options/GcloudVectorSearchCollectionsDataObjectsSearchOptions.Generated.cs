@@ -10,15 +10,120 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// search data objects     from a Vector Search collection
 /// </summary>
+/// <param name="Collection">The collection to search data objects from.</param>
+/// <param name="Location">Location of the collection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "search")]
-public record GcloudVectorSearchCollectionsDataObjectsSearchOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsDataObjectsSearchOptions(
+    [property: CliOption("--collection", Format = OptionFormat.EqualsSeparated)] string Collection,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search The vector field to search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--semantic-search-field", Format = OptionFormat.EqualsSeparated)]
+    public string? SemanticSearchField { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search The query text for semantic search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--semantic-search-text", Format = OptionFormat.EqualsSeparated)]
+    public string? SemanticSearchText { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search The task type of the query embedding for semantic search. SEMANTIC_TASK_TYPE must be one of: classification Specifies that the given text will be classified. clustering Specifies that the embeddings will be used for clustering. code-retrieval-query Specifies that the embeddings will be used for code retrieval. fact-verification Specifies that the embeddings will be used for fact verification. question-answering Specifies that the embeddings will be used for question answering. retrieval-document Specifies the given text is a document from the corpus being searched. retrieval-query Specifies the given text is a query in a search/retrieval setting. semantic-similarity Specifies the given text will be used for STS. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--semantic-task-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SemanticTaskType { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search The data field names to search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--text-search-data-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TextSearchDataFields { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search The query text for text search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--text-search-text", Format = OptionFormat.EqualsSeparated)]
+    public string? TextSearchText { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search Path to a JSON file containing dense or sparse vector to search with. ▸ Example file content for dense vector: { "dense": { "values": [ 0.7, 0.6, 0.5, 0.4 ] } } ▸ Example file content for sparse vector: { "sparse": { "indices": [1, 5, 10], "values": [0.1, 0.5, 0.21] } } This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vector-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? VectorFromFile { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search The vector field to search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vector-search-field", Format = OptionFormat.EqualsSeparated)]
+    public string? VectorSearchField { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search Text Search Vector Search The distance metric to use for the KNN search. If not specified, dot-product will be used as the default. DISTANCE_METRIC must be one of: cosine-distance Cosine distance metric. dot-product Dot product distance metric.
+    /// </summary>
+    [CliOption("--distance-metric", Format = OptionFormat.EqualsSeparated)]
+    public string? DistanceMetric { get; set; }
+
+    /// <summary>
+    /// Output fields A filter expression in JSON format to apply to the search, e.g. '{"genre": {"$eq": "sci-fi"}}'.
+    /// </summary>
+    [CliOption("--json-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonFilter { get; set; }
+
+    /// <summary>
+    /// Output fields The number of nearest neighbors to return. Default is 10.
+    /// </summary>
+    [CliOption("--top-k", Format = OptionFormat.EqualsSeparated)]
+    public string? TopK { get; set; }
+
+    /// <summary>
+    /// Output fields List of data fields to include in the output. Use * to include all data fields.
+    /// </summary>
+    [CliOption("--output-data-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OutputDataFields { get; set; }
+
+    /// <summary>
+    /// Output fields List of metadata fields to include in the output. Use * to include all metadata fields.
+    /// </summary>
+    [CliOption("--output-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OutputMetadataFields { get; set; }
+
+    /// <summary>
+    /// Output fields List of vector fields to include in the output. Use * to include all vector fields.
+    /// </summary>
+    [CliOption("--output-vector-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OutputVectorFields { get; set; }
+
+    /// <summary>
+    /// Output fields Search Hint At most one of these can be specified: Use Index Options Full resource name or ID of the index to use for the search. This flag is compatible only with Semantic Search and Vector Search.
+    /// </summary>
+    [CliOption("--use-index", Format = OptionFormat.EqualsSeparated)]
+    public string? UseIndex { get; set; }
+
+    /// <summary>
+    /// Output fields If set to true, the search will use the system's default K-Nearest Neighbor (KNN) index engine. This flag is compatible only with Semantic Search and Vector Search.
+    /// </summary>
+    [CliFlag("--use-knn")]
+    public bool? UseKnn { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SemanticSearchText) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SemanticTaskType) ? 1 : 0) + (TextSearchDataFields?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(TextSearchText) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VectorFromFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VectorSearchField) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DistanceMetric) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SemanticSearchField, SemanticSearchText, SemanticTaskType, TextSearchDataFields, TextSearchText, VectorFromFile, VectorSearchField, or DistanceMetric must be specified.", [nameof(SemanticSearchField), nameof(SemanticSearchText), nameof(SemanticTaskType), nameof(TextSearchDataFields), nameof(TextSearchText), nameof(VectorFromFile), nameof(VectorSearchField), nameof(DistanceMetric)]);
+        }
+    }
+
 }

@@ -16,11 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// move an address to another project
 /// </summary>
+/// <param name="TargetProject">The target project to move address to. It can be either a project name or a project numerical ID. It must not be the same as the current project.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "addresses", "move")]
 public record GcloudComputeAddressesMoveOptions(
+    [property: CliOption("--target-project", Format = OptionFormat.EqualsSeparated)] string TargetProject,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Description of moved new address.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Name of moved new address. If not specified, current address's name is used.
+    /// </summary>
+    [CliOption("--new-name", Format = OptionFormat.EqualsSeparated)]
+    public string? NewName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the address is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the address to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

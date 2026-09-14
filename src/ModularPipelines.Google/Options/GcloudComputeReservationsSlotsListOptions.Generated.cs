@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Compute Engine reservation     slots
 /// </summary>
+/// <param name="BlockName">The name of the reservation block.</param>
+/// <param name="SubBlockName">The name of the reservation sub block.</param>
+/// <param name="Reservation"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "slots", "list")]
 public record GcloudComputeReservationsSlotsListOptions(
+    [property: CliOption("--block-name", Format = OptionFormat.EqualsSeparated)] string BlockName,
+    [property: CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)] string SubBlockName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {

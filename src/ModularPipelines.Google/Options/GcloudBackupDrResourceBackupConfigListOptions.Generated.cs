@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// show backup configuration     metadata associated with specified resources in a particular location     for the project
 /// </summary>
+/// <param name="Location">Location resource - Location for which the resource backup config should be listed. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "resource-backup-config", "list")]
-public record GcloudBackupDrResourceBackupConfigListOptions : GcloudOptions
+public record GcloudBackupDrResourceBackupConfigListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
 }

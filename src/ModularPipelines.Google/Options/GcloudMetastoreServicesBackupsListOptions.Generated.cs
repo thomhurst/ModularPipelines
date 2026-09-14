@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list backups under a Dataproc     Metastore service
 /// </summary>
+/// <param name="Service">Service resource - The service to list the backups for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument --service on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "backups", "list")]
-public record GcloudMetastoreServicesBackupsListOptions : GcloudOptions
+public record GcloudMetastoreServicesBackupsListOptions(
+    [property: CliOption("--service", Format = OptionFormat.EqualsSeparated)] string Service
+) : GcloudOptions
 {
+    /// <summary>
+    /// Service resource - The service to list the backups for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument --service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

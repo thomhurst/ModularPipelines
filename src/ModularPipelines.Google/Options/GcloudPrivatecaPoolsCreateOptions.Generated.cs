@@ -18,6 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new CA Pool
 /// </summary>
+/// <param name="Ca"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "create")]

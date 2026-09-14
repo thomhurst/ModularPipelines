@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud OAuth brand for the project
 /// </summary>
+/// <param name="ApplicationTitle">Application name displayed on the OAuth consent screen.</param>
+/// <param name="SupportEmail">Support email displayed on the OAuth consent screen.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "oauth-brands", "create")]
-public record GcloudIapOauthBrandsCreateOptions : GcloudOptions
+public record GcloudIapOauthBrandsCreateOptions(
+    [property: CliOption("--application_title", Format = OptionFormat.EqualsSeparated)] string ApplicationTitle,
+    [property: CliOption("--support_email", Format = OptionFormat.EqualsSeparated)] string SupportEmail
+) : GcloudOptions
 {
 }

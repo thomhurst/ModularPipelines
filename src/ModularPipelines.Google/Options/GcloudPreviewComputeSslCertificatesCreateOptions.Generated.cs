@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Compute Engine     SSL certificate
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "ssl-certificates", "create")]
@@ -23,4 +24,40 @@ public record GcloudPreviewComputeSslCertificatesCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Flags for managed or self-managed certificate. Exactly one of these must be specified: List of domains to create a managed certificate for.
+    /// </summary>
+    [CliOption("--domains", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Domains { get; set; }
+
+    /// <summary>
+    /// Flags for managed or self-managed certificate. Exactly one of these must be specified: Or at least one of these can be specified: Flags for self-managed certificate Path to a local certificate file to create a self-managed certificate. The certificate must be in PEM format. The certificate chain must be no greater than 5 certs long. The chain must include at least one intermediate cert. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? Certificate { get; set; }
+
+    /// <summary>
+    /// Flags for managed or self-managed certificate. Exactly one of these must be specified: Or at least one of these can be specified: Flags for self-managed certificate Path to a local private key file. The private key must be in PEM format and must use RSA or ECDSA encryption. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateKey { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the SSL certificate.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the SSL certificate is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the SSL certificate to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

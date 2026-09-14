@@ -72,7 +72,7 @@ public class GcloudBiglakeDeltaSharing
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBiglakeDeltaSharingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBiglakeDeltaSharingOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

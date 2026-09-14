@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list minor     versions
 /// </summary>
+/// <param name="GiVersion">Gi version resource - The GI version you want to list the minor versions for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gi-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gi-version or fully qualified identifier for the gi-version. To set the gi-version attribute: ▸ provide the argument --gi-version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "gi-versions", "minor-versions", "list")]
-public record GcloudOracleDatabaseGiVersionsMinorVersionsListOptions : GcloudOptions
+public record GcloudOracleDatabaseGiVersionsMinorVersionsListOptions(
+    [property: CliOption("--gi-version", Format = OptionFormat.EqualsSeparated)] string GiVersion
+) : GcloudOptions
 {
+    /// <summary>
+    /// Gi version resource - The GI version you want to list the minor versions for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gi-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the gi-version. To set the location attribute: ▸ provide the argument --gi-version on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

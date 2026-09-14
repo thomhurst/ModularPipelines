@@ -18,6 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// updates properties of an     existing Compute Engine subnetwork
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "subnets", "update")]
@@ -35,7 +36,7 @@ public record GcloudPreviewComputeNetworksSubnetsUpdateOptions(
     /// The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used.
     /// </summary>
     [CliOption("--drain-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? DrainTimeout { get; set; }
+    public string? DrainTimeout { get; set; }
 
     /// <summary>
     /// The /64 external IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --external-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --external-ipv6-prefix=2600:1901:0:0:0:0:0:0/64

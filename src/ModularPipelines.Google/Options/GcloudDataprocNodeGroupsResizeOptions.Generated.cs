@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// resize the number of nodes in the node     group
 /// </summary>
+/// <param name="Size">New size for a node group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "node-groups", "resize")]
-public record GcloudDataprocNodeGroupsResizeOptions : GcloudOptions
+public record GcloudDataprocNodeGroupsResizeOptions(
+    [property: CliOption("--size", Format = OptionFormat.EqualsSeparated)] int Size
+) : GcloudOptions
 {
+    /// <summary>
+    /// Graceful decommission timeout for a node group scale-down resize.
+    /// </summary>
+    [CliOption("--graceful-decommission-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? GracefulDecommissionTimeout { get; set; }
+
 }

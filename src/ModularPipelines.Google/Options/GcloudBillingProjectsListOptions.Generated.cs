@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all active projects associated with the     specified billing account
 /// </summary>
+/// <param name="BillingAccount">Specify a billing account ID. Billing account IDs are of the form 0X0X0X-0X0X0X-0X0X0X. To see available IDs, run $ gcloud billing accounts list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "projects", "list")]
-public record GcloudBillingProjectsListOptions : GcloudOptions
+public record GcloudBillingProjectsListOptions(
+    [property: CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)] string BillingAccount
+) : GcloudOptions
 {
 }

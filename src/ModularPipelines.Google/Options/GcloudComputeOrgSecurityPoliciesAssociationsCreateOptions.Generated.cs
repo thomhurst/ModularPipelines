@@ -16,9 +16,54 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new     association between a security policy and an organization or folder     resource
 /// </summary>
+/// <param name="SecurityPolicy">Security policy ID of the association.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "associations", "create")]
-public record GcloudComputeOrgSecurityPoliciesAssociationsCreateOptions : GcloudOptions
+public record GcloudComputeOrgSecurityPoliciesAssociationsCreateOptions(
+    [property: CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)] string SecurityPolicy
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of folders to exclude from the application of this security policy. Folders should be specified in the form "folders/123".
+    /// </summary>
+    [CliOption("--excluded-folders", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludedFolders { get; set; }
+
+    /// <summary>
+    /// List of projects to exclude from the application of this security policy. Projects should be specified in the form "projects/123".
+    /// </summary>
+    [CliOption("--excluded-projects", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludedProjects { get; set; }
+
+    /// <summary>
+    /// Name to identify this association. If unspecified, the name will be set to "organization-{ORGANIZATION_ID}" or "folder-{FOLDER_ID}".
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// ID of the organization to associate the security policy with. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// By default, if you attempt to insert an association to an organization or folder resource that is already associated with a security policy the method will fail. If this is set, the existing association will be deleted at the same time that the new association is created.
+    /// </summary>
+    [CliFlag("--replace-association-on-target")]
+    public bool? ReplaceAssociationOnTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ID of the folder to associate the security policy with.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project number to associate the security policy with.
+    /// </summary>
+    [CliOption("--project-number", Format = OptionFormat.EqualsSeparated)]
+    public int? ProjectNumber { get; set; }
+
 }

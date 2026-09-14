@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,31 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// generate     Install Manifest for an Attached cluster
 /// </summary>
+/// <param name="PlatformVersion">Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attached", "clusters", "generate-install-manifest")]
-public record GcloudContainerAttachedClustersGenerateInstallManifestOptions : GcloudOptions
+public record GcloudContainerAttachedClustersGenerateInstallManifestOptions(
+    [property: CliOption("--platform-version", Format = OptionFormat.EqualsSeparated)] string PlatformVersion
+) : GcloudOptions
 {
+    /// <summary>
+    /// Proxy config Path to the output file to store manifest.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Proxy config Name of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretName { get; set; }
+
+    /// <summary>
+    /// Proxy config Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretNamespace { get; set; }
+
 }

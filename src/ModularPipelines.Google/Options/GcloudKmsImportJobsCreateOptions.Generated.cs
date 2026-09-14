@@ -10,17 +10,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new import job
 /// </summary>
+/// <param name="ImportMethod">The wrapping method to be used for incoming key material. For more information about choosing an import method, see https://cloud.google.com/kms/docs/key-wrapping. IMPORT_METHOD must be one of: hpke-kem-ml-kem-1024-hkdf-sha256-aes-256-gcm, hpke-kem-ml-kem-768-hkdf-sha256-aes-256-gcm, hpke-kem-xwing-hkdf-sha256-aes-256-gcm, rsa-oaep-3072-sha1-aes-256, rsa-oaep-3072-sha256, rsa-oaep-3072-sha256-aes-256, rsa-oaep-4096-sha1-aes-256, rsa-oaep-4096-sha256, rsa-oaep-4096-sha256-aes-256.</param>
+/// <param name="ProtectionLevel">Protection level of the import job. PROTECTION_LEVEL must be one of: software, hsm, hsm-single-tenant.</param>
+/// <param name="ImportJob"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "import-jobs", "create")]
 public record GcloudKmsImportJobsCreateOptions(
+    [property: CliOption("--import-method", Format = OptionFormat.EqualsSeparated)] GcloudImportMethod ImportMethod,
+    [property: CliOption("--protection-level", Format = OptionFormat.EqualsSeparated)] GcloudProtectionLevel ProtectionLevel,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImportJob
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Key ring of the import job.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the import job.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The single tenant HSM instance to use for the import job.
+    /// </summary>
+    [CliOption("--single-tenant-hsm-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SingleTenantHsmInstance { get; set; }
+
 }

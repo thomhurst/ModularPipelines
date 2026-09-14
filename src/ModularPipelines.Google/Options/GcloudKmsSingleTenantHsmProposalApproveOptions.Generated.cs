@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "single-tenant-hsm", "proposal", "approve")]
-public record GcloudKmsSingleTenantHsmProposalApproveOptions : GcloudOptions
+public record GcloudKmsSingleTenantHsmProposalApproveOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Approval payload for the proposal. At least one of these must be specified: The challenge replies to approve the proposal. Challenge replies can be sent across multiple requests. Each tuple should be ("signed_challenge_file", "public_key_file").
+    /// </summary>
+    [CliOption("--quorum-challenge-replies", Format = OptionFormat.EqualsSeparated)]
+    public string? QuorumChallengeReplies { get; set; }
+
+    /// <summary>
+    /// Approval payload for the proposal. At least one of these must be specified: A list of tuples, each containing the file paths for a required challenge reply. Each tuple should be ("signed_challenge_file", "public_key_file").
+    /// </summary>
+    [CliOption("--required-challenge-replies", Format = OptionFormat.EqualsSeparated)]
+    public string? RequiredChallengeReplies { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(QuorumChallengeReplies) || !string.IsNullOrWhiteSpace(RequiredChallengeReplies)))
+        {
+            yield return new ValidationResult("At least one of QuorumChallengeReplies or RequiredChallengeReplies must be specified.", [nameof(QuorumChallengeReplies), nameof(RequiredChallengeReplies)]);
+        }
+    }
+
 }

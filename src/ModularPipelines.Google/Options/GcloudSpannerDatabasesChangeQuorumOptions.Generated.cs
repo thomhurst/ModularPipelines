@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "databases", "change-quorum")]
-public record GcloudSpannerDatabasesChangeQuorumOptions : GcloudOptions
+public record GcloudSpannerDatabasesChangeQuorumOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flag for dual-region quorum change: Command-line flags for single-region quorum change: Switch to dual-region quorum type.
+    /// </summary>
+    [CliFlag("--dual-region")]
+    public bool? DualRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flag for dual-region quorum change: Command-line flags for single-region quorum change: The cloud Spanner location. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--serving-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ServingLocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flag for dual-region quorum change: Command-line flags for single-region quorum change: Switch to single-region quorum type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--single-region")]
+    public bool? SingleRegion { get; set; }
+
+    /// <summary>
+    /// Used for optimistic concurrency control.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((DualRegion == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ServingLocation) ? 1 : 0) + (SingleRegion == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DualRegion, ServingLocation, or SingleRegion must be specified.", [nameof(DualRegion), nameof(ServingLocation), nameof(SingleRegion)]);
+        }
+    }
+
 }

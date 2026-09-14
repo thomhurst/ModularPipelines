@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an acl entry to a Managed     Service for Apache Kafka acl
 /// </summary>
+/// <param name="Operation">The operation type. Allowed values are: ALL, READ, WRITE, CREATE, DELETE, ALTER, DESCRIBE, CLUSTER_ACTION, DESCRIBE_CONFIGS, ALTER_CONFIGS, IDEMPOTENT_WRITE. See https://kafka.apache.org/documentation/#operations_resources_and_protocols for the mapping of operations to Kafka protocols.</param>
+/// <param name="Principal">The principal. Specified as Google Cloud account, with the Kafka StandardAuthorizer prefix "User:". For example: "User:admin@project.iam.gserviceaccount.com". Can be the wildcard "User:*" to refer to all users.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "acls", "add-acl-entry")]
-public record GcloudManagedKafkaAclsAddAclEntryOptions : GcloudOptions
+public record GcloudManagedKafkaAclsAddAclEntryOptions(
+    [property: CliOption("--operation", Format = OptionFormat.EqualsSeparated)] string Operation,
+    [property: CliOption("--principal", Format = OptionFormat.EqualsSeparated)] string Principal
+) : GcloudOptions
 {
+    /// <summary>
+    /// The host. Must be set to "*" for Managed Service for Apache Kafka.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// The permission type. Allowed values are: ALLOW, DENY.
+    /// </summary>
+    [CliOption("--permission-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PermissionType { get; set; }
+
 }

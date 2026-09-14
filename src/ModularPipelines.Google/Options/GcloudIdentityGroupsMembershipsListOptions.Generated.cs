@@ -17,10 +17,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list memberships in an existing     group
 /// </summary>
+/// <param name="GroupEmail">The email address of the group to show members for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "memberships", "list")]
-public record GcloudIdentityGroupsMembershipsListOptions : GcloudOptions
+public record GcloudIdentityGroupsMembershipsListOptions(
+    [property: CliOption("--group-email", Format = OptionFormat.EqualsSeparated)] string GroupEmail
+) : GcloudOptions
 {
     /// <summary>
     /// The next_page_token value returned from a previous list request, if any.

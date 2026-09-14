@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list backups of a Looker instance
 /// </summary>
+/// <param name="Instance">Instance resource - The instance of the backups to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument --instance on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("looker", "backups", "list")]
-public record GcloudLookerBackupsListOptions : GcloudOptions
+public record GcloudLookerBackupsListOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance
+) : GcloudOptions
 {
+    /// <summary>
+    /// Instance resource - The instance of the backups to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Looker region of the instance. Overrides the default looker/region property value for this command invocation. To set the region attribute: ▸ provide the argument --instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property looker/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

@@ -10,17 +10,27 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// reschedule a Cloud SQL instance's     maintenance
 /// </summary>
+/// <param name="RescheduleType">The type of reschedule operation to perform. RESCHEDULE_TYPE must be one of: IMMEDIATE, NEXT_AVAILABLE_WINDOW, SPECIFIC_TIME.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "reschedule-maintenance")]
 public record GcloudSqlRescheduleMaintenanceOptions(
+    [property: CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)] GcloudRescheduleType RescheduleType,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
+    /// <summary>
+    /// When specifying SPECIFIC_TIME, the date and time at which to schedule the maintenance in ISO 8601 format.
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
 }

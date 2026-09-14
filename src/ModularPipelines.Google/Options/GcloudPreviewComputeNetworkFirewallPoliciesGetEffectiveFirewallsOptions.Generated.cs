@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the effective firewalls for a network
 /// </summary>
+/// <param name="Network">The network to get the effective firewalls for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "get-effective-firewalls")]
-public record GcloudPreviewComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions : GcloudOptions
+public record GcloudPreviewComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
     /// <summary>
     /// The region to get the effective regional firewalls.

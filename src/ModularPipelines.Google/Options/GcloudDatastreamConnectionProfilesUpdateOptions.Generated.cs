@@ -6,19 +6,614 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update a Datastream     connection profile
 /// </summary>
+/// <param name="Type">Type can be MYSQL, ORACLE, POSTGRESQL, SQLSERVER, SALESFORCE, GOOGLE-CLOUD-STORAGE, BIGQUERY, DATAVERSE, SALESFORCE-MARKETING-CLOUD or SERVICENOW</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "connection-profiles", "update")]
-public record GcloudDatastreamConnectionProfilesUpdateOptions : GcloudOptions
+public record GcloudDatastreamConnectionProfilesUpdateOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type
+) : GcloudOptions
 {
+    /// <summary>
+    /// Friendly name for the connection profile.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Update the connection profile without validating it.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud datastream connection-profiles update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud datastream connection-profiles update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
+    /// </summary>
+    [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateConnection { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --private-connection on the command line. use static ip connectivity
+    /// </summary>
+    [CliFlag("--static-ip-connectivity")]
+    public bool? StaticIpConnectivity { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel.
+    /// </summary>
+    [CliOption("--forward-ssh-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshHostname { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Port for the SSH tunnel, default value is 22.
+    /// </summary>
+    [CliOption("--forward-ssh-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPort { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Username for the SSH tunnel.
+    /// </summary>
+    [CliOption("--forward-ssh-username", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshUsername { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: At most one of these can be specified: SSH password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPassword { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: At most one of these can be specified: SSH private key..
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPrivateKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The regional Spanner endpoint. Format: https://spanner.{region}.rep.googleapis.com.
+    /// </summary>
+    [CliOption("--spanner-host", Format = OptionFormat.EqualsSeparated)]
+    public string? SpannerHost { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The full project and resource path for Cloud Storage bucket including the name.
+    /// </summary>
+    [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? Bucket { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The root path inside the Cloud Storage bucket.
+    /// </summary>
+    [CliOption("--root-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RootPath { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Database service for the Oracle connection.
+    /// </summary>
+    [CliOption("--database-service", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseService { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: IP or hostname of the oracle source database.
+    /// </summary>
+    [CliOption("--oracle-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleHostname { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Network port of the oracle source database.
+    /// </summary>
+    [CliOption("--oracle-port", Format = OptionFormat.EqualsSeparated)]
+    public string? OraclePort { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Username Datastream will use to connect to the database.
+    /// </summary>
+    [CliOption("--oracle-username", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: PEM-encoded certificate of the CA that signed the source database server's certificate.
+    /// </summary>
+    [CliOption("--oracle-ca-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleCaCertificate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The distinguished name (DN) mentioned in the server certificate. This corresponds to the SSL_SERVER_CERT_DN sqlnet parameter. If this field is not provided, the DN matching is not enforced.
+    /// </summary>
+    [CliOption("--oracle-server-certificate-distinguished-name", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleServerCertificateDistinguishedName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Password for the user that Datastream will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Datastream.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--oracle-password", Format = OptionFormat.EqualsSeparated)]
+    public string? OraclePassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--oracle-prompt-for-password")]
+    public bool? OraclePromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the password for the user used to connect to the database.
+    /// </summary>
+    [CliOption("--oracle-secret-manager-stored-password", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleSecretManagerStoredPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Environment URL of the Microsoft Dataverse instance. Example: 'myenv.crm.dynamics.com'
+    /// </summary>
+    [CliOption("--dataverse-environment-url", Format = OptionFormat.EqualsSeparated)]
+    public string? DataverseEnvironmentUrl { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: OAuth 2.0 Client ID used to connect to Dataverse.
+    /// </summary>
+    [CliOption("--dataverse-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DataverseOauthClientId { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Tenant ID of the Microsoft Dataverse instance.
+    /// </summary>
+    [CliOption("--dataverse-tenant-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DataverseTenantId { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: OAuth 2.0 Client secret used to connect to Dataverse.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--dataverse-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? DataverseOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Prompt for the OAuth 2.0 Client secret used to connect to Dataverse.
+    /// </summary>
+    [CliFlag("--dataverse-prompt-for-oauth-client-secret")]
+    public bool? DataversePromptForOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the OAuth 2.0 Client secret used to connect to Dataverse.
+    /// </summary>
+    [CliOption("--dataverse-secret-manager-stored-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? DataverseSecretManagerStoredOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies additional options for the MongoDB connection.
+    /// </summary>
+    [CliOption("--mongodb-additional-options", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MongodbAdditionalOptions { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Connect to the mongodb hosts directly and do not try to resolve any of the replicas from the replica set.
+    /// </summary>
+    [CliFlag("--mongodb-direct-connection")]
+    public bool? MongodbDirectConnection { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: IP or hostname and port of the MongoDB source database.
+    /// </summary>
+    [CliOption("--mongodb-host-addresses", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MongodbHostAddresses { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Replica set of the MongoDB source database.
+    /// </summary>
+    [CliOption("--mongodb-replica-set", Format = OptionFormat.EqualsSeparated)]
+    public string? MongodbReplicaSet { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Username Datastream will use to connect to the database.
+    /// </summary>
+    [CliOption("--mongodb-username", Format = OptionFormat.EqualsSeparated)]
+    public string? MongodbUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: x509 PEM-encoded certificate of the CA that signed the source database server's certificate. The replica will use this certificate to verify it's connecting to the right host.
+    /// </summary>
+    [CliOption("--mongodb-ca-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? MongodbCaCertificate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Enable Transport Layer Security for the monogodb connection.
+    /// </summary>
+    [CliFlag("--mongodb-tls")]
+    public bool? MongodbTls { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Password for the user that Datastream will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Datastream.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--mongodb-password", Format = OptionFormat.EqualsSeparated)]
+    public string? MongodbPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--mongodb-prompt-for-password")]
+    public bool? MongodbPromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the password for the user used to connect to the database.
+    /// </summary>
+    [CliOption("--mongodb-secret-manager-stored-password", Format = OptionFormat.EqualsSeparated)]
+    public string? MongodbSecretManagerStoredPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: SRV Connection format for the MongoDB source database.
+    /// </summary>
+    [CliFlag("--mongodb-srv-connection-format")]
+    public bool? MongodbSrvConnectionFormat { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Standard connection format for the MongoDB source database.
+    /// </summary>
+    [CliFlag("--mongodb-standard-connection-format")]
+    public bool? MongodbStandardConnectionFormat { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: IP or hostname of the MySQL source database.
+    /// </summary>
+    [CliOption("--mysql-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlHostname { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Network port of the MySQL source database.
+    /// </summary>
+    [CliOption("--mysql-port", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlPort { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Username Datastream will use to connect to the database.
+    /// </summary>
+    [CliOption("--mysql-username", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: x509 PEM-encoded certificate of the CA that signed the source database server's certificate. The replica will use this certificate to verify it's connecting to the right host.
+    /// </summary>
+    [CliOption("--ca-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? CaCertificate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: x509 PEM-encoded certificate that will be used by the replica to authenticate against the source database server.
+    /// </summary>
+    [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? ClientCertificate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate.
+    /// </summary>
+    [CliOption("--client-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ClientKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Password for the user that Datastream will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Datastream.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--mysql-password", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--mysql-prompt-for-password")]
+    public bool? MysqlPromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the password for the user used to connect to the database.
+    /// </summary>
+    [CliOption("--mysql-secret-manager-stored-password", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlSecretManagerStoredPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Database service for the PostgreSQL connection.
+    /// </summary>
+    [CliOption("--postgresql-database", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlDatabase { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: IP or hostname of the PostgreSQL source database.
+    /// </summary>
+    [CliOption("--postgresql-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlHostname { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Network port of the PostgreSQL source database.
+    /// </summary>
+    [CliOption("--postgresql-port", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlPort { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Username Datastream will use to connect to the database.
+    /// </summary>
+    [CliOption("--postgresql-username", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: x509 PEM-encoded certificate of the CA that signed the source database server's certificate. The replica will use this certificate to verify it's connecting to the right host.
+    /// </summary>
+    [CliOption("--postgresql-ca-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlCaCertificate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The hostname mentioned in the Subject or SAN extension of the server certificate. If this field is not provided, the hostname in the server certificate is not validated.
+    /// </summary>
+    [CliOption("--postgresql-server-certificate-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlServerCertificateHostname { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: x509 PEM-encoded certificate that will be used by the replica to authenticate against the source database server.
+    /// </summary>
+    [CliOption("--postgresql-client-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlClientCertificate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate.
+    /// </summary>
+    [CliOption("--postgresql-client-key", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlClientKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Password for the user that Datastream will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Datastream.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--postgresql-password", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--postgresql-prompt-for-password")]
+    public bool? PostgresqlPromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the password for the user used to connect to the database.
+    /// </summary>
+    [CliOption("--postgresql-secret-manager-stored-password", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlSecretManagerStoredPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Domain of the Salesforce organization. For example, 'myorg.my.salesforce.com'
+    /// </summary>
+    [CliOption("--salesforce-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceDomain { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: OAuth 2.0 Client ID used to connect to Salesforce.
+    /// </summary>
+    [CliOption("--salesforce-oauth2-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceOauth2ClientId { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: OAuth 2.0 Client secret used to connect to Salesforce.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--salesforce-oauth2-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceOauth2ClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Prompt for the OAuth 2.0 Client secret used to connect to Salesforce.
+    /// </summary>
+    [CliFlag("--salesforce-prompt-for-oauth2-client-secret")]
+    public bool? SalesforcePromptForOauth2ClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the OAuth 2.0 Client secret used to connect to Salesforce.
+    /// </summary>
+    [CliOption("--salesforce-secret-manager-stored-oauth2-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceSecretManagerStoredOauth2ClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Username Datastream will use to connect to the database.
+    /// </summary>
+    [CliOption("--salesforce-username", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Password for the user that Datastream will be using to connect to Salesforce. This field is not returned on request, and the value is encrypted when stored in Datastream.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--salesforce-password", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforcePassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Prompt for the password used to connect to Salesforce.
+    /// </summary>
+    [CliFlag("--salesforce-prompt-for-password")]
+    public bool? SalesforcePromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the password for the user used to connect to Salesforce.
+    /// </summary>
+    [CliOption("--salesforce-secret-manager-stored-password", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceSecretManagerStoredPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Prompt for the security token used to connect to Salesforce.
+    /// </summary>
+    [CliFlag("--salesforce-prompt-for-security-token")]
+    public bool? SalesforcePromptForSecurityToken { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the security token used to connect to Salesforce.
+    /// </summary>
+    [CliOption("--salesforce-secret-manager-stored-security-token", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceSecretManagerStoredSecurityToken { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Security token for the user that Datastream will be using to connect to Salesforce.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--salesforce-security-token", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceSecurityToken { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: OAuth 2.0 Client ID used to connect to Salesforce Marketing Cloud.
+    /// </summary>
+    [CliOption("--salesforce-marketing-cloud-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceMarketingCloudOauthClientId { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Subdomain for the Salesforce Marketing Cloud connection.
+    /// </summary>
+    [CliOption("--salesforce-marketing-cloud-subdomain", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceMarketingCloudSubdomain { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: OAuth 2.0 Client secret used to connect to Salesforce Marketing Cloud.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--salesforce-marketing-cloud-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceMarketingCloudOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Prompt for the OAuth 2.0 Client secret used to connect to Salesforce Marketing Cloud.
+    /// </summary>
+    [CliFlag("--salesforce-marketing-cloud-prompt-for-oauth-client-secret")]
+    public bool? SalesforceMarketingCloudPromptForOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the OAuth 2.0 Client secret used to connect to Salesforce Marketing Cloud.
+    /// </summary>
+    [CliOption("--salesforce-marketing-cloud-secret-manager-stored-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceMarketingCloudSecretManagerStoredOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The instance of the ServiceNow account.
+    /// </summary>
+    [CliOption("--servicenow-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowInstance { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: OAuth 2.0 Client ID used to connect to ServiceNow.
+    /// </summary>
+    [CliOption("--servicenow-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowOauthClientId { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: OAuth 2.0 Client secret used to connect to ServiceNow.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--servicenow-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Prompt for the OAuth 2.0 Client secret used to connect to ServiceNow.
+    /// </summary>
+    [CliFlag("--servicenow-prompt-for-oauth-client-secret")]
+    public bool? ServicenowPromptForOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the OAuth 2.0 Client secret used to connect to ServiceNow.
+    /// </summary>
+    [CliOption("--servicenow-secret-manager-stored-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowSecretManagerStoredOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Username used to connect to ServiceNow.
+    /// </summary>
+    [CliOption("--servicenow-username", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Password used to connect to ServiceNow.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--servicenow-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Prompt for the password used to connect to ServiceNow.
+    /// </summary>
+    [CliFlag("--servicenow-prompt-for-password")]
+    public bool? ServicenowPromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the password used to connect to ServiceNow.
+    /// </summary>
+    [CliOption("--servicenow-secret-manager-stored-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowSecretManagerStoredPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Database service for the SQL Server connection.
+    /// </summary>
+    [CliOption("--sqlserver-database", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerDatabase { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: IP or hostname of the SQL Server source database.
+    /// </summary>
+    [CliOption("--sqlserver-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerHostname { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Network port of the SQL Server source database.
+    /// </summary>
+    [CliOption("--sqlserver-port", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerPort { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Username Datastream will use to connect to the database.
+    /// </summary>
+    [CliOption("--sqlserver-username", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Password for the user that Datastream will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Datastream.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--sqlserver-password", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--sqlserver-prompt-for-password")]
+    public bool? SqlServerPromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: At most one of these can be specified: Path to secret manager, storing the password for the user used to connect to the database.
+    /// </summary>
+    [CliOption("--sqlserver-secret-manager-stored-password", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerSecretManagerStoredPassword { get; set; }
+
 }

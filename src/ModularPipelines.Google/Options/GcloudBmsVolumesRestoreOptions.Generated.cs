@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restore a Bare Metal Solution boot volume from     an existing snapshot
 /// </summary>
+/// <param name="Snapshot">Name of the snapshot to restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "volumes", "restore")]
-public record GcloudBmsVolumesRestoreOptions : GcloudOptions
+public record GcloudBmsVolumesRestoreOptions(
+    [property: CliOption("--snapshot", Format = OptionFormat.EqualsSeparated)] string Snapshot
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

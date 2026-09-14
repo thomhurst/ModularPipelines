@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add service bindings     to a backend service
 /// </summary>
+/// <param name="ServiceBindings">List of service binding names to be added to the backend service.</param>
+/// <param name="BackendServiceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "add-service-bindings")]
 public record GcloudComputeBackendServicesAddServiceBindingsOptions(
+    [property: CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> ServiceBindings,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend service to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

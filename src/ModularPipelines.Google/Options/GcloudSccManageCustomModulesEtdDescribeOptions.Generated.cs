@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the details of a Event     Threat Detection custom module
 /// </summary>
+/// <param name="ModuleIdOrName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "etd", "describe")]

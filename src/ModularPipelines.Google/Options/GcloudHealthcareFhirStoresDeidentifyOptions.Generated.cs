@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// identify data from the source     store and write it to the destination store
 /// </summary>
+/// <param name="DestinationStore">The name of the FHIR store to which the redacted data should be written (e.g., projects/{projectId}/locations/{locationId}/datasets/{datasetId}/fhirStores/{fhirStoreId}). The destination FHIR store must already exist, or the request will fail.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "fhir-stores", "deidentify")]
-public record GcloudHealthcareFhirStoresDeidentifyOptions : GcloudOptions
+public record GcloudHealthcareFhirStoresDeidentifyOptions(
+    [property: CliOption("--destination-store", Format = OptionFormat.EqualsSeparated)] string DestinationStore
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

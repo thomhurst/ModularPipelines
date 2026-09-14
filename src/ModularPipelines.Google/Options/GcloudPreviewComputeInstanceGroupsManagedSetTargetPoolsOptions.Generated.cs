@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set     target pools of managed instance group
 /// </summary>
+/// <param name="TargetPools">Compute Engine Target Pools to add the instances to. Target Pools must be specified by name or by URL. Example: --target-pools=target-pool-1,target-pool-2. To clear the set of Target Pools pass in an empty list. Example: --target-pools=""</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "managed", "set-target-pools")]
 public record GcloudPreviewComputeInstanceGroupsManagedSetTargetPoolsOptions(
+    [property: CliOption("--target-pools", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> TargetPools,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

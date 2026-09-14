@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM permissions     for a Compute Engine backend service
 /// </summary>
+/// <param name="Permissions">The set of permissions to check for the resource.</param>
+/// <param name="BackendServiceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "test-iam-permissions")]
 public record GcloudComputeBackendServicesTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend service to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

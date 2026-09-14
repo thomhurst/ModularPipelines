@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch     Data Source References for a given resource type and location
 /// </summary>
+/// <param name="Location">Location for which data source references should be fetched.</param>
+/// <param name="ResourceType"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "data-source-references", "fetch-for-resource-type")]
 public record GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceType
 ) : GcloudOptions
 {

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list supported model     servers for a given model
 /// </summary>
+/// <param name="Model">The model.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "ai", "profiles", "model-servers", "list")]
-public record GcloudContainerAiProfilesModelServersListOptions : GcloudOptions
+public record GcloudContainerAiProfilesModelServersListOptions(
+    [property: CliOption("--model", Format = OptionFormat.EqualsSeparated)] string Model
+) : GcloudOptions
 {
 }

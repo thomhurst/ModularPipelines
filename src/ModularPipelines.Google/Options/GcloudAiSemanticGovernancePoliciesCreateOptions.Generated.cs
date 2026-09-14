@@ -16,9 +16,34 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new semantic     governance policy
 /// </summary>
+/// <param name="Agent">The name of the agent in Agent Registry that is affected by this policy.</param>
+/// <param name="DisplayName">The user-defined name of the semantic governance policy.</param>
+/// <param name="NaturalLanguageConstraint">The natural language constraint of the semantic governance policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "semantic-governance-policies", "create")]
-public record GcloudAiSemanticGovernancePoliciesCreateOptions : GcloudOptions
+public record GcloudAiSemanticGovernancePoliciesCreateOptions(
+    [property: CliOption("--agent", Format = OptionFormat.EqualsSeparated)] string Agent,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--natural-language-constraint", Format = OptionFormat.EqualsSeparated)] string NaturalLanguageConstraint
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description of the semantic governance policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The MCP tools that are affected by this policy. Syntax: --mcp-tools=mcp-server=S1,tools=T1;T2
+    /// </summary>
+    [CliOption("--mcp-tools", Format = OptionFormat.EqualsSeparated)]
+    public string? McpTools { get; set; }
+
 }

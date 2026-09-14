@@ -16,9 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new     OdbSubnet
 /// </summary>
+/// <param name="CidrRange">The CIDR range of the subnet.</param>
+/// <param name="Purpose">Purpose of the subnet. PURPOSE must be one of: backup-subnet Subnet to be used for backup. client-subnet Subnet to be used for client connections.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "odb-networks", "odb-subnets", "create")]
-public record GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions(
+    [property: CliOption("--cidr-range", Format = OptionFormat.EqualsSeparated)] string CidrRange,
+    [property: CliOption("--purpose", Format = OptionFormat.EqualsSeparated)] string Purpose
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Labels or tags associated with the resource. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
 }

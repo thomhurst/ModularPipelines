@@ -16,11 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// acquires a SQL Server Reporting     Services lease on a Cloud SQL instance
 /// </summary>
+/// <param name="ReportDatabase">Existing or new report database name in the Cloud SQL for SQL Server instance that is used for SSRS setup.</param>
+/// <param name="ServiceLogin">Existing login in the Cloud SQL for SQL Server instance that is used as the service login for SSRS setup.</param>
+/// <param name="SetupLogin">Existing login in the Cloud SQL for SQL Server instance that is used as the setup login for SSRS setup.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "acquire-ssrs-lease")]
 public record GcloudSqlInstancesAcquireSsrsLeaseOptions(
+    [property: CliOption("--report-database", Format = OptionFormat.EqualsSeparated)] string ReportDatabase,
+    [property: CliOption("--service-login", Format = OptionFormat.EqualsSeparated)] string ServiceLogin,
+    [property: CliOption("--setup-login", Format = OptionFormat.EqualsSeparated)] string SetupLogin,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Time duration, in hours, that the lease will be active to allow SSRS setup. Default lease duration is 5 hours if this flag is not specified.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
 }

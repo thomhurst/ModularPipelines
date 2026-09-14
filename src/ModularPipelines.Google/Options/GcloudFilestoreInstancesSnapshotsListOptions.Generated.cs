@@ -10,15 +10,40 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// list Filestore snapshots
 /// </summary>
+/// <param name="Instance">Name of the Filestore instance the snapshot belongs to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "instances", "snapshots", "list")]
-public record GcloudFilestoreInstancesSnapshotsListOptions : GcloudOptions
+public record GcloudFilestoreInstancesSnapshotsListOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Location of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-location", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceLocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-region", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceRegion { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InstanceLocation) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceRegion) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of InstanceLocation or InstanceRegion must be specified.", [nameof(InstanceLocation), nameof(InstanceRegion)]);
+        }
+    }
+
 }

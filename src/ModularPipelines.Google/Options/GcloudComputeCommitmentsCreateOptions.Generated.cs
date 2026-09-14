@@ -10,17 +10,163 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create Compute Engine commitments
 /// </summary>
+/// <param name="Plan">Duration of the commitment. PLAN must be one of: 12-month, 36-month.</param>
+/// <param name="Commitment"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "commitments", "create")]
 public record GcloudComputeCommitmentsCreateOptions(
+    [property: CliOption("--plan", Format = OptionFormat.EqualsSeparated)] string Plan,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Commitment
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Manage the commitment for particular resources. At least one of these must be specified: Resources to be included in the commitment. For details and examples of valid specifications, refer to the custom machine type guide (https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type#specifications). memory The size of the memory, should include units (e.g. 3072MB or 9GB). If no units are specified, GB is assumed. vcpu The number of the vCPU cores. local-ssd The size of local SSD.
+    /// </summary>
+    [CliOption("--resources", Format = OptionFormat.EqualsSeparated)]
+    public string? Resources { get; set; }
+
+    /// <summary>
+    /// Manage the commitment for particular resources. At least one of these must be specified: Manage the configuration of the type and number of accelerator cards to include in the commitment. count The number of accelerators to include. type The specific type (e.g. nvidia-tesla-k80 for NVIDIA Tesla K80) of the accelerator. Use gcloud compute accelerator-types list to learn about all available accelerator types.
+    /// </summary>
+    [CliOption("--resources-accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourcesAccelerator { get; set; }
+
+    /// <summary>
+    /// Enable auto renewal for the commitment.
+    /// </summary>
+    [CliFlag("--auto-renew")]
+    public bool? AutoRenew { get; set; }
+
+    /// <summary>
+    /// Specifies a custom future end date and extends the commitment's ongoing term.
+    /// </summary>
+    [CliOption("--custom-end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomEndTime { get; set; }
+
+    /// <summary>
+    /// Creates the new commitment by merging the specified source commitments and combining their resources.
+    /// </summary>
+    [CliOption("--merge-source-commitments", Format = OptionFormat.EqualsSeparated)]
+    public string? MergeSourceCommitments { get; set; }
+
+    /// <summary>
+    /// Region of the commitment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Resource manager tags to be bound to the commitment.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Creates the new commitment by splitting the specified source commitment and redistributing the specified resources.
+    /// </summary>
+    [CliOption("--split-source-commitment", Format = OptionFormat.EqualsSeparated)]
+    public string? SplitSourceCommitment { get; set; }
+
+    /// <summary>
+    /// Type of commitment. memory-optimized indicates that the commitment is for memory-optimized VMs. TYPE must be one of: accelerator-optimized, accelerator-optimized-a3, accelerator-optimized-a3-mega, accelerator-optimized-a3-ultra, accelerator-optimized-a4, compute-optimized, compute-optimized-c2d, compute-optimized-c3, compute-optimized-c3d, compute-optimized-h3, compute-optimized-h4d, general-purpose, general-purpose-c4, general-purpose-c4a, general-purpose-c4d, general-purpose-e2, general-purpose-n2, general-purpose-n2d, general-purpose-n4, general-purpose-n4a, general-purpose-n4d, general-purpose-t2d, graphics-optimized, graphics-optimized-g4, graphics-optimized-g4-vgpu, memory-optimized, memory-optimized-m3, memory-optimized-m4, memory-optimized-m4-6tb, memory-optimized-x4-1440-24t, memory-optimized-x4-16tb, memory-optimized-x4-1920-32t, memory-optimized-x4-24tb, memory-optimized-x4-32tb, memory-optimized-x4-480-6t, memory-optimized-x4-480-8t, memory-optimized-x4-960-12t, memory-optimized-x4-960-16t, network-optimized-c4n, network-optimized-u4c, network-optimized-u4p, network-optimized-u4s, storage-optimized-z3.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Details of the existing on-demand reservation or auto-created future reservation that you want to attach to your commitment. Specify a new instance of this flag for every existing reservation that you want to attach. The reservations must be in the same region as the commitment. name The name of the reservation. zone The zone of the reservation. For example, to attach an existing reservation named reservation-name in the zone reservation-zone, use the following text: --existing-reservation=name=reservation-name,zone=reservation-zone
+    /// </summary>
+    [CliOption("--existing-reservation", Format = OptionFormat.EqualsSeparated)]
+    public string? ExistingReservation { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Path to a YAML file of multiple reservations' configuration. Use a full or relative path to a local file containing the value of reservations.
+    /// </summary>
+    [CliOption("--reservations-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationsFromFile { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create Name of the reservation to operate on. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
+    public string? Reservation { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create Zone of the reservation to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--reservation-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationZone { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create Manage the configuration of the type and number of accelerator cards attached. count The number of accelerators to attach to each instance in the reservation. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to instances in the reservation. Use gcloud compute accelerator-types list to learn about all available accelerator types.
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create Manage the size and the interface of local SSD to use. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. interface The kind of disk interface exposed to the VM for this SSD. Valid values are scsi and nvme. SCSI is the default and is supported by more guest operating systems. NVME may provide higher performance. size The size of the local SSD in base-2 GB.
+    /// </summary>
+    [CliOption("--local-ssd", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalSsd { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create The type of machine (name only) that has a fixed number of vCPUs and a fixed amount of memory. You can also specify a custom machine type by using the pattern custom-number_of_CPUs-amount_of_memory-for example, custom-32-29440.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create Optional minimum CPU platform of the reservation to create.
+    /// </summary>
+    [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpuPlatform { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create Indicates whether the reservation can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target this reservation by name using --reservation-affinity=specific can consume from this reservation.
+    /// </summary>
+    [CliFlag("--require-specific-reservation")]
+    public bool? RequireSpecificReservation { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create The resource policies to include in this reservation. If you omit this flag, no resource policies are added. You can specify any string as the key, and specify the name of a resource policy as the value.
+    /// </summary>
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourcePolicies { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create The number of VM instances that are allocated to this reservation. The value of this field must be an int in the range [1, 1000].
+    /// </summary>
+    [CliOption("--vm-count", Format = OptionFormat.EqualsSeparated)]
+    public int? VmCount { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create The projects that can use the reservation. SHARE_SETTING must be one of: local Only your project can use the reservation. This is the default value. projects Your project and up to 100 other projects within your project's organization can use the reservation. If you specify this value, then you must also include the --share-with flag in the command.
+    /// </summary>
+    [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
+    public string? ShareSetting { get; set; }
+
+    /// <summary>
+    /// Manage the reservations to be created with the commitment. At most one of these can be specified: Or at least one of these can be specified: Manage the reservation to be created with the commitment. Manage the specific SKU reservation properties to create. Manage the properties of a shared reservation to create If this reservation is shared (--share-setting=projects), then specify a comma-separated list of projects to share the reservation with. List projects using project IDs or project numbers.
+    /// </summary>
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ShareWith { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Resources) || !string.IsNullOrWhiteSpace(ResourcesAccelerator)))
+        {
+            yield return new ValidationResult("At least one of Resources or ResourcesAccelerator must be specified.", [nameof(Resources), nameof(ResourcesAccelerator)]);
+        }
+    }
+
 }

@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a support event     subscription
 /// </summary>
+/// <param name="Organization">Organization ID for the support event subscription.</param>
+/// <param name="PubSubTopic">The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "support-event-subscriptions", "create")]
-public record GcloudSupportSupportEventSubscriptionsCreateOptions : GcloudOptions
+public record GcloudSupportSupportEventSubscriptionsCreateOptions(
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization,
+    [property: CliOption("--pub-sub-topic", Format = OptionFormat.EqualsSeparated)] string PubSubTopic
+) : GcloudOptions
 {
 }

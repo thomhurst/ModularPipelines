@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// detach one or more secondary     clusters from the primary cluster
 /// </summary>
+/// <param name="ClustersToDetach">Comma separated list of secondary clusters to detach from the primary cluster. Each element in the list should be in the format: projects/PROJECT_ID/locations/REGION/clusters/CLUSTER_ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "detach-secondaries")]
-public record GcloudRedisClustersDetachSecondariesOptions : GcloudOptions
+public record GcloudRedisClustersDetachSecondariesOptions(
+    [property: CliOption("--clusters-to-detach", Format = OptionFormat.EqualsSeparated)] string ClustersToDetach
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

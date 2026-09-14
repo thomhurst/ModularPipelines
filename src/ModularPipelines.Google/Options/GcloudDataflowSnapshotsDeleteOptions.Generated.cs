@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Cloud Dataflow snapshot
 /// </summary>
+/// <param name="Region">Region ID of the snapshot regional endpoint.</param>
+/// <param name="SnapshotId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "snapshots", "delete")]
 public record GcloudDataflowSnapshotsDeleteOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotId
 ) : GcloudOptions
 {

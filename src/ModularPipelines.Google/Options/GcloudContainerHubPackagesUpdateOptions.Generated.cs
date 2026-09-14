@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update Package Rollouts Fleet     Package
 /// </summary>
+/// <param name="Source">Source file containing Fleet Package configuration.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "update")]
-public record GcloudContainerHubPackagesUpdateOptions : GcloudOptions
+public record GcloudContainerHubPackagesUpdateOptions(
+    [property: CliOption("--source", Format = OptionFormat.EqualsSeparated)] string Source
+) : GcloudOptions
 {
 }

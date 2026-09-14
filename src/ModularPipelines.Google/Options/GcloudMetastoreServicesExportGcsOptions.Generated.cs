@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export metadata from a Dataproc     Metastore service to Google Cloud Storage
 /// </summary>
+/// <param name="DestinationFolder">A Cloud Storage URI of a folder that metadata is exported to, in the format gs://&lt;bucket_name&gt;/&lt;path_inside_bukcet&gt;. A sub-folder containing exported files will be created below it.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "export", "gcs")]
-public record GcloudMetastoreServicesExportGcsOptions : GcloudOptions
+public record GcloudMetastoreServicesExportGcsOptions(
+    [property: CliOption("--destination-folder", Format = OptionFormat.EqualsSeparated)] string DestinationFolder
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The type of the database dump. If unspecified, defaults to mysql. DUMP_TYPE must be one of: avro Database dump contains AVRO files. mysql Database dump is a MYSQL dump file.
+    /// </summary>
+    [CliOption("--dump-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DumpType { get; set; }
+
 }

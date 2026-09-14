@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-subscriptions", "update")]
-public record GcloudPubsubLiteSubscriptionsUpdateOptions : GcloudOptions
+public record GcloudPubsubLiteSubscriptionsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: When this subscription should send messages to subscribers relative to messages persistence in storage. See https://cloud.google.com/pubsub/lite/docs/subscriptions#creating_lite_subscriptions for more info. DELIVERY_REQUIREMENT must be one of: deliver-after-stored, deliver-immediately.
+    /// </summary>
+    [CliOption("--delivery-requirement", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDeliveryRequirement? DeliveryRequirement { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The name of the Pub/Sub Lite topic to write messages that cannot be exported. Must be in the same project and location as the subscription to be created. Note that this is a Lite topic.
+    /// </summary>
+    [CliOption("--export-dead-letter-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportDeadLetterTopic { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The desired state of the export. Process messages by setting the value to ACTIVE or pause message processing by setting the value to PAUSED. EXPORT_DESIRED_STATE must be one of: active, paused.
+    /// </summary>
+    [CliOption("--export-desired-state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudExportDesiredState? ExportDesiredState { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The name of the destination Pub/Sub topic to which messages are exported. Must be the topic's fully specified path if it is not in the same project as the subscription to be created.
+    /// </summary>
+    [CliOption("--export-pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportPubsubTopic { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(DeliveryRequirement is not null || !string.IsNullOrWhiteSpace(ExportDeadLetterTopic) || ExportDesiredState is not null || !string.IsNullOrWhiteSpace(ExportPubsubTopic)))
+        {
+            yield return new ValidationResult("At least one of DeliveryRequirement, ExportDeadLetterTopic, ExportDesiredState, or ExportPubsubTopic must be specified.", [nameof(DeliveryRequirement), nameof(ExportDeadLetterTopic), nameof(ExportDesiredState), nameof(ExportPubsubTopic)]);
+        }
+    }
+
 }

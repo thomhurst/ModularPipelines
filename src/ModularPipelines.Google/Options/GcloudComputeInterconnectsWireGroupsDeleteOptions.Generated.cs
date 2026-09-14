@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete Compute Engine     wire groups
 /// </summary>
+/// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "wire-groups", "delete")]
 public record GcloudComputeInterconnectsWireGroupsDeleteOptions(
+    [property: CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)] string CrossSiteNetwork,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
 ) : GcloudOptions
 {

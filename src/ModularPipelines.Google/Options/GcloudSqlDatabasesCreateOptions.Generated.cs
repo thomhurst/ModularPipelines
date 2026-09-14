@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a database for a Cloud SQL instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
+/// <param name="Database"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "databases", "create")]
 public record GcloudSqlDatabasesCreateOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Database
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Cloud SQL database charset setting, which specifies the set of symbols and encodings used to store the data in your database. Each database version may support a different set of charsets.
+    /// </summary>
+    [CliOption("--charset", Format = OptionFormat.EqualsSeparated)]
+    public string? Charset { get; set; }
+
+    /// <summary>
+    /// Cloud SQL database collation setting, which specifies the set of rules for comparing characters in a character set. Each database version may support a different set of collations. For PostgreSQL database versions, this may only be set to the collation of the template database.
+    /// </summary>
+    [CliOption("--collation", Format = OptionFormat.EqualsSeparated)]
+    public string? Collation { get; set; }
+
 }

@@ -10,15 +10,43 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Dataproc Metastore     federation
 /// </summary>
+/// <param name="Backends">Backends from which the federation service serves metadata at query time. The backends are specified as a comma-separated list of RANK=BACKEND pairs. For example: 1=dpms:dpms1,2=dpms:projects/my-project/locations/us-central1/services/dpms2. RANK represents the rank of the backend metastore and is used to resolve database name collisions. BACKEND is specified as METASTORE_TYPE:METASTORE_NAME where METASTORE_TYPE is the type of backend metastore and METASTORE_NAME is the relative resource name of the metastore. If only the name of the metastore is specified (e.g. dpms1), project and location will be inferred from the project and location used to create the federation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "federations", "create")]
-public record GcloudMetastoreFederationsCreateOptions : GcloudOptions
+public record GcloudMetastoreFederationsCreateOptions(
+    [property: CliOption("--backends", Format = OptionFormat.EqualsSeparated)] string Backends
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Hive metastore schema version of the Metastore federation. HIVE_METASTORE_VERSION must be one of: 2.3.6, 3.1.2.
+    /// </summary>
+    [CliOption("--hive-metastore-version", Format = OptionFormat.EqualsSeparated)]
+    public string? HiveMetastoreVersion { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of tag KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
 }

@@ -10,15 +10,220 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Queued Resource
 /// </summary>
+/// <param name="RuntimeVersion">Runtime version for the TPU, such as tpu-ubuntu2204-base.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "queued-resources", "create")]
-public record GcloudComputeTpusQueuedResourcesCreateOptions : GcloudOptions
+public record GcloudComputeTpusQueuedResourcesCreateOptions(
+    [property: CliOption("--runtime-version", Format = OptionFormat.EqualsSeparated)] string RuntimeVersion
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Specify a chip-based or core-based TPU node. Exactly one of these must be specified: Core-based TPU configuration Chip-based TPU configuration Accelerator type for the TPU.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// Specify a chip-based or core-based TPU node. Exactly one of these must be specified: Core-based TPU configuration Chip-based TPU configuration Chip topology for TPU. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--topology", Format = OptionFormat.EqualsSeparated)]
+    public string? Topology { get; set; }
+
+    /// <summary>
+    /// Specify a chip-based or core-based TPU node. Exactly one of these must be specified: Core-based TPU configuration Chip-based TPU configuration Type of TPU. TYPE must be one of: v2, v3, v4. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
+    /// <summary>
+    /// Specify TPU node(s) with either a single node id or a node count and an optional node prefix Exactly one of these must be specified: Single node creation Multinode creation Unqualified node identifier used to identify the node in the project once provisioned. To request a resource with multiple nodes, in place of --node-id, use --node-count to specify the number of nodes and optionally use --node-prefix to specify the prefix for each node.
+    /// </summary>
+    [CliOption("--node-id", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeId { get; set; }
+
+    /// <summary>
+    /// Specify TPU node(s) with either a single node id or a node count and an optional node prefix Exactly one of these must be specified: Single node creation Multinode creation The number of nodes in a multislice provision, also used to generate the qualified name for nodes in the provision. Value must be greater than 1. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NodeCount { get; set; }
+
+    /// <summary>
+    /// Specify TPU node(s) with either a single node id or a node count and an optional node prefix Exactly one of these must be specified: Single node creation Multinode creation Node prefix used to generate the qualified name of each node the multislice node provision. If not supplied, the queued resource id will be used as the prefix. Must also specify --node-count.
+    /// </summary>
+    [CliOption("--node-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? NodePrefix { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Specifies the boot disk configuration. $ gcloud compute tpus queued-resources create \ --boot-disk kms-key=&lt;full_kms_key_name_here&gt; The following keys are allowed: kms-key Specifies the fully qualified Cloud KMS cryptokey name which will be used to protect the disk. KMS cryptokey name format: projects/&lt;kms-project&gt;/locations/&lt;kms-location&gt;/keyRings/&lt;kms-keyring&gt;/cryptoKeys/&lt;key-name&gt;
+    /// </summary>
+    [CliOption("--boot-disk", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? BootDisk { get; set; }
+
+    /// <summary>
+    /// Additional data disks for the TPU VM. This flag must be repeated to provide multiple data disks. For example: $ gcloud compute tpus queued-resources create \ --data-disk \ source=projects/my-project/zones/us-central1-c/disks/my-disk,\ mode=read-only The following keys are allowed: source Specifies the full path to an existing disk. Required. The disk must be in the same zone. mode Specifies the mode in which to attach this disk. Valid options are 'read-write', 'read-only'. If not specified, the default is 'read-write'.
+    /// </summary>
+    [CliOption("--data-disk", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DataDisk { get; set; }
+
+    /// <summary>
+    /// Text description of the TPU.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// If provided, the Node requested here will only be scheduled at the 'guaranteed' tier.
+    /// </summary>
+    [CliFlag("--guaranteed")]
+    public bool? Guaranteed { get; set; }
+
+    /// <summary>
+    /// Indicates that the IP addresses for the node should be internal. The default is that external IP addresses will be associated with the TPU workers.
+    /// </summary>
+    [CliFlag("--internal-ips")]
+    public bool? InternalIps { get; set; }
+
+    /// <summary>
+    /// Resource labels to represent user-provided metadata. See https://cloud.google.com/compute/docs/labeling-resources for details.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of comma-separated metadata key-value pairs for the Cloud TPU VM node. Example: --metadata='key1=value1,key2=value2'
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
+
+    /// <summary>
+    /// Same as --metadata except the value for the entry will be read from a local file. Example: --metadata-from-file='key1=value1.txt'
+    /// </summary>
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? MetadataFromFile { get; set; }
+
+    /// <summary>
+    /// Network that this TPU will be a part of.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// CIDR range for the TPU. The IP range that the TPU will select an IP address from. Must be in CIDR notation and a /29 range, for example 192.168.0.0/29. Errors will occur if the CIDR range has already been used for a currently existing TPU, the CIDR range conflicts with any networks in the user's provided network, or the provided network is peered with another network that is using that CIDR range.
+    /// </summary>
+    [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
+    public string? Range { get; set; }
+
+    /// <summary>
+    /// Specifies the request should be scheduled on reserved capacity. If --reservation-host-project, --reservation-host-folder, or --reservation-host-organization are present then this flag has no effect.
+    /// </summary>
+    [CliFlag("--reserved")]
+    public bool? Reserved { get; set; }
+
+    /// <summary>
+    /// List of comma-separated scopes to be made available for the service account.
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Scopes { get; set; }
+
+    /// <summary>
+    /// Email address of the service account. If empty, default Google Compute Engine service account will be used.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Specifies that the TPU instances are created with secure boot enabled. This implicitly makes them Shielded VM instances.
+    /// </summary>
+    [CliFlag("--shielded-secure-boot")]
+    public bool? ShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// If provided, the Node requested here will be created as Spot VMs.
+    /// </summary>
+    [CliFlag("--spot")]
+    public bool? Spot { get; set; }
+
+    /// <summary>
+    /// Subnetwork that this TPU will be a part of.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. See https://cloud.google.com/vpc/docs/add-remove-network-tags for more details.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// A duration before which the TPU must not be provisioned, relative to the current time. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--valid-after-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? ValidAfterDuration { get; set; }
+
+    /// <summary>
+    /// An absolute time before which the TPU must not be provisioned. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--valid-after-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ValidAfterTime { get; set; }
+
+    /// <summary>
+    /// A duration after which the TPU must not be provisioned, relative to the current time. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--valid-until-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? ValidUntilDuration { get; set; }
+
+    /// <summary>
+    /// An absolute time after which resources must not be created. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--valid-until-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ValidUntilTime { get; set; }
+
+    /// <summary>
+    /// The folder hosting the reservation that the TPU should use. Only one reservation host entity may be specified.
+    /// </summary>
+    [CliOption("--reservation-host-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationHostFolder { get; set; }
+
+    /// <summary>
+    /// The organization hosting the reservation that the TPU should use. Only one reservation host entity may be specified.
+    /// </summary>
+    [CliOption("--reservation-host-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationHostOrganization { get; set; }
+
+    /// <summary>
+    /// The project hosting the reservation that the TPU should use. Only one reservation host entity may be specified.
+    /// </summary>
+    [CliOption("--reservation-host-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationHostProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AcceleratorType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Topology) ? 1 : 0) + (Type is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AcceleratorType, Topology, or Type must be specified.", [nameof(AcceleratorType), nameof(Topology), nameof(Type)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(NodeId) ? 1 : 0) + (NodeCount is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodePrefix) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NodeId, NodeCount, or NodePrefix must be specified.", [nameof(NodeId), nameof(NodeCount), nameof(NodePrefix)]);
+        }
+    }
+
 }

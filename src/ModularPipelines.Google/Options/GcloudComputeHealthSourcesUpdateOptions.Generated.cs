@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-sources", "update")]
-public record GcloudComputeHealthSourcesUpdateOptions : GcloudOptions
+public record GcloudComputeHealthSourcesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: A textual description of the health source.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URL to the health aggregation policy resource. Must be set. Must be regional and in the same region as the HealthSource. Can be mutated.
+    /// </summary>
+    [CliOption("--health-aggregation-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthAggregationPolicy { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URLs to the source resources. Must be size 1. Must be a BackendService if the sourceType is BACKEND_SERVICE. The BackendService must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the HealthSource (cross-region deployment for INTERNAL_MANAGED is not supported). The BackendService may use only IGs, MIGs, or NEGs of type GCE_VM_IP or GCE_VM_IP_PORT. The BackendService may not use haPolicy. Can be mutated.
+    /// </summary>
+    [CliOption("--sources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Sources { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(HealthAggregationPolicy) || Sources?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of Description, HealthAggregationPolicy, or Sources must be specified.", [nameof(Description), nameof(HealthAggregationPolicy), nameof(Sources)]);
+        }
+    }
+
 }

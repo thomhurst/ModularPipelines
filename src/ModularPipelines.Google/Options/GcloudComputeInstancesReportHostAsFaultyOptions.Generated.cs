@@ -10,17 +10,35 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// report a host as faulty to     start the repair process
 /// </summary>
+/// <param name="DisruptionSchedule">Specifies the timing for initiating the fault reporting process. The default value is IMMEDIATE which initiates the process right away. DISRUPTION_SCHEDULE must be one of: IMMEDIATE, FUTURE.</param>
+/// <param name="FaultReasons">Specified and can include one or more of the following types: ['BEHAVIOR_UNSPECIFIED', 'PERFORMANCE', 'SILENT_DATA_CORRUPTION', 'UNRECOVERABLE_GPU_ERROR', 'CHIP_ERROR']. This helps categorize the nature of the fault being reported.</param>
+/// <param name="InstanceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "report-host-as-faulty")]
 public record GcloudComputeInstancesReportHostAsFaultyOptions(
+    [property: CliOption("--disruption-schedule", Format = OptionFormat.EqualsSeparated)] GcloudDisruptionSchedule DisruptionSchedule,
+    [property: CliOption("--fault-reasons", Format = OptionFormat.EqualsSeparated)] string FaultReasons,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

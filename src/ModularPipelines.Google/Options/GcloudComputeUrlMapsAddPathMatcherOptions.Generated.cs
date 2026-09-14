@@ -10,17 +10,96 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add a path matcher to a URL map
 /// </summary>
+/// <param name="PathMatcherName">The name to assign to the path matcher.</param>
+/// <param name="UrlMap"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "add-path-matcher")]
 public record GcloudComputeUrlMapsAddPathMatcherOptions(
+    [property: CliOption("--path-matcher-name", Format = OptionFormat.EqualsSeparated)] string PathMatcherName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: A backend bucket that will be used for requests that the path matcher cannot match. Exactly one of --default-service or --default-backend-bucket is required.
+    /// </summary>
+    [CliOption("--default-backend-bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultBackendBucket { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A backend service that will be used for requests that the path matcher cannot match. Exactly one of --default-service or --default-backend-bucket is required.
+    /// </summary>
+    [CliOption("--default-service", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultService { get; set; }
+
+    /// <summary>
+    /// Rules for mapping request paths to backend buckets.
+    /// </summary>
+    [CliOption("--backend-bucket-path-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? BackendBucketPathRules { get; set; }
+
+    /// <summary>
+    /// Rules for mapping request paths to services.
+    /// </summary>
+    [CliOption("--backend-service-path-rules", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? BackendServicePathRules { get; set; }
+
+    /// <summary>
+    /// If provided and a path matcher is orphaned as a result of this command, the command removes the orphaned path matcher instead of failing.
+    /// </summary>
+    [CliFlag("--delete-orphaned-path-matcher")]
+    public bool? DeleteOrphanedPathMatcher { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the path matcher.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Rules for mapping request paths to services.
+    /// </summary>
+    [CliOption("--path-rules", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PathRules { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: An existing host rule to tie the new path matcher to. Although host rules can contain more than one host, only a single host is needed to uniquely identify the host rule.
+    /// </summary>
+    [CliOption("--existing-host", Format = OptionFormat.EqualsSeparated)]
+    public string? ExistingHost { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If specified, a new host rule with the given hosts is created and the path matcher is tied to the new host rule.
+    /// </summary>
+    [CliOption("--new-hosts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NewHosts { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DefaultBackendBucket) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DefaultService) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DefaultBackendBucket or DefaultService must be specified.", [nameof(DefaultBackendBucket), nameof(DefaultService)]);
+        }
+    }
+
 }

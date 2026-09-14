@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM     permissions for a Compute Engine VPN gateway
 /// </summary>
+/// <param name="Permissions">Permissions to be tested.</param>
+/// <param name="Vpn"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "vpn-gateways", "test-iam-permissions")]
 public record GcloudPreviewComputeVpnGatewaysTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vpn
 ) : GcloudOptions
 {

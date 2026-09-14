@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a     Google Cloud Observability agents policy for the Ops Agent
 /// </summary>
+/// <param name="Zone">Zone of the agents policy you want to delete.</param>
+/// <param name="PolicyId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "ops-agents", "policies", "delete")]
 public record GcloudPreviewComputeInstancesOpsAgentsPoliciesDeleteOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyId
 ) : GcloudOptions
 {

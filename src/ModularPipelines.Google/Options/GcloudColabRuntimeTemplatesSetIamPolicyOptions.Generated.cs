@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set IAM policy for a Colab     Enterprise runtime template as defined in a JSON or YAML file
 /// </summary>
+/// <param name="PolicyFile"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("colab", "runtime-templates", "set-iam-policy")]

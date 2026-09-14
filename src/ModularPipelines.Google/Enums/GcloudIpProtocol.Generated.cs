@@ -16,8 +16,8 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudIpProtocol
 {
-    [EnumValue("ICMP")]
-    Icmp,
+    [EnumValue("L3_DEFAULT")]
+    L3Default,
 
     [EnumValue("TCP")]
     Tcp,

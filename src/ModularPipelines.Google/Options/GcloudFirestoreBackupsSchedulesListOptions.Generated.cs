@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists backup schedules under a     Cloud Firestore database
 /// </summary>
+/// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore backups schedules list --database='foo'</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "backups", "schedules", "list")]
-public record GcloudFirestoreBackupsSchedulesListOptions : GcloudOptions
+public record GcloudFirestoreBackupsSchedulesListOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database
+) : GcloudOptions
 {
 }

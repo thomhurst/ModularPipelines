@@ -10,15 +10,53 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// revoke a certificate
 /// </summary>
+/// <param name="SerialNumber">▸ provide the argument --certificate on the command line. The serial number of the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "certificates", "revoke")]
-public record GcloudPrivatecaCertificatesRevokeOptions : GcloudOptions
+public record GcloudPrivatecaCertificatesRevokeOptions(
+    [property: CliOption("--serial-number", Format = OptionFormat.EqualsSeparated)] int SerialNumber
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// ▸ provide the argument --certificate on the command line. The certificate identifier. Exactly one of these must be specified: Certificate resource - The certificate to revoke. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the issuer-location attribute: ▸ provide the argument --certificate on the command line with a fully specified name; ▸ set the property privateca/location. To set the issuer-pool attribute: ▸ provide the argument --certificate on the command line with a fully specified name. ID of the certificate or fully qualified identifier for the certificate. To set the certificate attribute:
+    /// </summary>
+    [CliOption("--certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? Certificate { get; set; }
+
+    /// <summary>
+    /// Revocation reason to include in the CRL. REASON must be one of: affiliation-changed, attribute-authority-compromise, certificate-authority-compromise, certificate-hold, cessation-of-operation, key-compromise, privilege-withdrawn, unspecified, superseded.
+    /// </summary>
+    [CliOption("--reason", Format = OptionFormat.EqualsSeparated)]
+    public GcloudReason? Reason { get; set; }
+
+    /// <summary>
+    /// Issuing CA pool resource - The issuing CA pool of the certificate to revoke. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --issuer-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the Issuing CA pool or fully qualified identifier for the Issuing CA pool. To set the pool attribute: ◆ provide the argument --issuer-pool on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// Issuing CA pool resource - The issuing CA pool of the certificate to revoke. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --issuer-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The location of the Issuing CA pool. To set the issuer-location attribute: ◆ provide the argument --issuer-pool on the command line with a fully specified name; ◆ provide the argument --issuer-location on the command line; ◆ set the property privateca/location.
+    /// </summary>
+    [CliOption("--issuer-location", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerLocation { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Certificate) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Certificate must be specified.", [nameof(Certificate)]);
+        }
+    }
+
 }

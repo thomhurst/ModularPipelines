@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Build repository
 /// </summary>
+/// <param name="RemoteUri">The remote git clone URL of the repository.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "repositories", "create")]
-public record GcloudBuildsRepositoriesCreateOptions : GcloudOptions
+public record GcloudBuildsRepositoriesCreateOptions(
+    [property: CliOption("--remote-uri", Format = OptionFormat.EqualsSeparated)] string RemoteUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

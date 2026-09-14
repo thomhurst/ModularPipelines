@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list     deploymentEvents
 /// </summary>
+/// <param name="InsightsConfig">InsightsConfig resource - The parent insights config that owns this collection of deployment events. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --insights-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the insightsConfig or fully qualified identifier for the insightsConfig. To set the insights-config attribute: ▸ provide the argument --insights-config on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "insights-configs", "deployment-events", "list")]
-public record GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions : GcloudOptions
+public record GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions(
+    [property: CliOption("--insights-config", Format = OptionFormat.EqualsSeparated)] string InsightsConfig
+) : GcloudOptions
 {
+    /// <summary>
+    /// InsightsConfig resource - The parent insights config that owns this collection of deployment events. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --insights-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the insightsConfig resource. To set the location attribute: ▸ provide the argument --insights-config on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

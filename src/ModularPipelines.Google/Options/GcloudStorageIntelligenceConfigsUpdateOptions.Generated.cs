@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,69 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-configs", "update")]
-public record GcloudStorageIntelligenceConfigsUpdateOptions : GcloudOptions
+public record GcloudStorageIntelligenceConfigsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies organization id for the storage intelligence config.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies project for the storage intelligence config.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies sub-folder id for the storage intelligence config.
+    /// </summary>
+    [CliOption("--sub-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? SubFolder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies storage intelligence config to be inherited from parent.
+    /// </summary>
+    [CliFlag("--inherit-from-parent")]
+    public bool? InheritFromParent { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Enables Storage Intelligence for TRIAL edition.
+    /// </summary>
+    [CliFlag("--trial-edition")]
+    public bool? TrialEdition { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Sets filter for bucket id regexes to exclude. Accepts list of bucket id regexes in comma separated format. If the regex contains special characters that may have a specific meaning in the shell, escape them using backslashes(\). To clear bucket id regexes list, provide flag with an empty list. e.g --exclude-bucket-id-regexes="" or --exclude-bucket-id-regexes= .
+    /// </summary>
+    [CliOption("--exclude-bucket-id-regexes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeBucketIdRegexes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Sets filter for bucket id regexes to include. Accepts list of bucket id regexes in comma separated format. If the regex contains special characters that may have a specific meaning in the shell, escape them using backslashes(\). To clear bucket id regexes list, provide flag with empty list. e.g --include-bucket-id-regexes="" or --include-bucket-id-regexes= .
+    /// </summary>
+    [CliOption("--include-bucket-id-regexes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeBucketIdRegexes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Comma separated list of locations (https://cloud.google.com/storage/docs/locations#available-locations) to exclude in storage intelligence filter. To clear excluded locations, provide flag with empty list. e.g --exclude-locations="" or --exclude-locations= .
+    /// </summary>
+    [CliOption("--exclude-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ExcludeLocations { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Comma separated list of locations (https://cloud.google.com/storage/docs/locations#available-locations) to include in storage intelligence filter. To clear included locations, provide flag with empty list. e.g --include-locations="" or --include-locations= .
+    /// </summary>
+    [CliOption("--include-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IncludeLocations { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SubFolder) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization, Project, or SubFolder must be specified.", [nameof(Organization), nameof(Project), nameof(SubFolder)]);
+        }
+    }
+
 }
