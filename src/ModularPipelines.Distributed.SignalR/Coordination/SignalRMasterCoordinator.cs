@@ -130,7 +130,7 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
     {
         // Master receives results through the hub's PublishResult method.
         // This is called when the master itself produces a result (e.g., modules executed locally by the master's worker loop).
-        foreach (var worker in await _state.CompleteResultAsync(result))
+        foreach (var worker in await _state.CompleteResultAsync(result, cancellationToken).ConfigureAwait(false))
         {
             worker.TryCompleteAssignment(result.ModuleTypeName);
         }
@@ -141,8 +141,7 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
         var tcs = _state.ResultWaiters.GetOrAdd(moduleTypeName,
             _ => new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously));
 
-        await using var reg = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
-        return await tcs.Task;
+        return await tcs.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)

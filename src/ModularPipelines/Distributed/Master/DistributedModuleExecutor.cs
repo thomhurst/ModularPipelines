@@ -137,7 +137,7 @@ internal class DistributedModuleExecutor(
                 modules,
                 scheduler,
                 _resultRegistry);
-            await PublishPrecompletedResultsAsync(modules, _lifetime.ApplicationStopping)
+            await PublishPrecompletedResultsAsync(modules, executionCts.Token)
                 .ConfigureAwait(false);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(executionCts.Token);
@@ -487,7 +487,18 @@ internal class DistributedModuleExecutor(
         }
 
         await TryUploadCachedArtifactsAsync(moduleType, cancellationToken).ConfigureAwait(false);
+        CompleteCachedResult(moduleState, scheduler, context, cachedResult);
+        return true;
+    }
 
+    private void CompleteCachedResult(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        IExecutionBackendContext context,
+        IModuleResult cachedResult)
+    {
+        var module = moduleState.Module;
+        var moduleType = moduleState.ModuleType;
         var restoredResult = ModuleResultFactory.WithStatus(
             cachedResult,
             ModuleStatus.RestoredFromCache);
@@ -507,7 +518,6 @@ internal class DistributedModuleExecutor(
             success: acceptedResult.ExceptionOrDefault is null,
             exception: acceptedResult.ExceptionOrDefault,
             statusOverride: acceptedResult.Status);
-        return true;
     }
 
     private async Task TryUploadCachedArtifactsAsync(
@@ -827,6 +837,11 @@ internal class DistributedModuleExecutor(
             }
 
             await ExecuteAndPublishAsync(assignment, module, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException ex) when (WorkerCancellationClassifier.IsExpected(ex, cancellationToken))
+        {
+            _logger.LogDebug(ex, "Module {Module} execution cancelled on master", assignment.ModuleTypeName);
+            await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

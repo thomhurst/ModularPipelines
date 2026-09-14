@@ -958,6 +958,47 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    public async Task Caller_Cancellation_Interrupts_Precompleted_Result_Publication()
+    {
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler();
+        var registry = new ModuleResultRegistry();
+        registry.RegisterResult(module.GetType(), CreateSuccessResult(
+            new SimpleResult { Message = "history" }, module.GetType().Name, ModuleStatus.RestoredFromHistory));
+        using var cancellation = new CancellationTokenSource();
+        var publishing = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releasePublication = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(x => x.PublishResultAsync(It.IsAny<SerializedModuleResult>(), It.IsAny<CancellationToken>()))
+            .Returns<SerializedModuleResult, CancellationToken>((_, token) =>
+            {
+                publishing.TrySetResult();
+                return releasePublication.Task.WaitAsync(token);
+            });
+        var executor = CreateExecutor(scheduler, resultRegistry: registry, coordinator: coordinator.Object);
+        var execution = executor.ExecuteAsync([module], new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(registry), cancellation.Token);
+        try
+        {
+            await publishing.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            await cancellation.CancelAsync();
+            await Assert.That(async () => await execution.WaitAsync(TestHostSettings.DefaultTestTimeout))
+                .Throws<OperationCanceledException>();
+        }
+        finally
+        {
+            releasePublication.TrySetResult();
+            try
+            {
+                await execution.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+        }
+    }
+
+    [Test]
     public async Task History_Restored_Result_Is_Published_Before_Dependent_Assignment()
     {
         var dependency = new DistributedModule();

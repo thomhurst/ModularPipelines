@@ -72,6 +72,46 @@ public class SignalRMasterCoordinatorTests
     }
 
     [Test]
+    public async Task PublishResult_Cancellation_Stops_Waiting_For_Delivery_Fence_Without_Completing_Result()
+    {
+        var state = new SignalRMasterState();
+        var coordinator = CreateCoordinator(state);
+        var result = CreateResult("FencedModule");
+        using var cancellation = new CancellationTokenSource();
+        var waiter = coordinator.WaitForResultAsync(result.ModuleTypeName, CancellationToken.None);
+
+        using (await state.EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName))
+        {
+            var publication = coordinator.PublishResultAsync(result, cancellation.Token);
+            await cancellation.CancelAsync();
+            await Assert.That(async () => await publication.WaitAsync(TimeSpan.FromSeconds(10)))
+                .Throws<OperationCanceledException>();
+            await Assert.That(waiter.IsCompleted).IsFalse();
+        }
+
+        await coordinator.PublishResultAsync(result, CancellationToken.None);
+        await Assert.That(await waiter.WaitAsync(TimeSpan.FromSeconds(10))).IsSameReferenceAs(result);
+    }
+
+    [Test]
+    public async Task Cancelling_Result_Waiter_Preserves_Shared_Result_For_Other_Waiters()
+    {
+        var coordinator = CreateCoordinator();
+        using var cancellation = new CancellationTokenSource();
+        var cancelledWait = coordinator.WaitForResultAsync("SharedModule", cancellation.Token);
+        var survivingWait = coordinator.WaitForResultAsync("SharedModule", CancellationToken.None);
+        await cancellation.CancelAsync();
+        await Assert.That(async () => await cancelledWait).Throws<OperationCanceledException>();
+        var result = CreateResult("SharedModule");
+        await coordinator.PublishResultAsync(result, CancellationToken.None);
+
+        await Assert.That(await survivingWait.WaitAsync(TimeSpan.FromSeconds(10))).IsSameReferenceAs(result);
+        var lateResult = await coordinator.WaitForResultAsync("SharedModule", CancellationToken.None)
+            .WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(lateResult).IsSameReferenceAs(result);
+    }
+
+    [Test]
     public async Task PublishResult_Releases_Worker_Tracked_By_Pending_Reconnect()
     {
         var state = new SignalRMasterState();

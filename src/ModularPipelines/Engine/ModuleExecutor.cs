@@ -278,9 +278,7 @@ internal class ModuleExecutor(
                 parallelOptions,
                 async (moduleState, ct) =>
                 {
-                    using var executionCancellation = moduleState.Module.Configuration.AlwaysRun || !cancellationToken.CanBeCanceled
-                        ? null
-                        : CancellationTokenSource.CreateLinkedTokenSource(ct, cancellationToken);
+                    using var executionCancellation = CreateExecutionCancellationSource(moduleState, ct, cancellationToken);
                     var executionToken = executionCancellation?.Token ?? ct;
                     try
                     {
@@ -339,6 +337,19 @@ internal class ModuleExecutor(
         }
 
         return firstFailure;
+    }
+
+    private static CancellationTokenSource? CreateExecutionCancellationSource(
+        ModuleState moduleState,
+        CancellationToken workerCancellationToken,
+        CancellationToken cancellationToken)
+    {
+        if (moduleState.Module.Configuration.AlwaysRun || !cancellationToken.CanBeCanceled)
+        {
+            return null;
+        }
+
+        return CancellationTokenSource.CreateLinkedTokenSource(workerCancellationToken, cancellationToken);
     }
 
     private static Exception GetPipelineException(Exception exception)
