@@ -169,7 +169,7 @@ public partial class SnykCliScraper : CliScraperBase
         AddDocumentedOptions(commandParts, options);
         var positionalArguments = CliPositionalArgument.MergeDuplicates(
             GetPositionalArguments(commandParts)
-                .Concat(GetPositionalArguments(usage)));
+                .Concat(GetPositionalArguments(usage, options)));
         var enums = options
             .Where(x => x.EnumDefinition is not null)
             .Select(x => x.EnumDefinition!)

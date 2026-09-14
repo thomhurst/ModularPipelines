@@ -147,7 +147,7 @@ public partial class PipCliScraper : CliScraperBase
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
-        var positionalArguments = GetPositionalArguments(usage);
+        var positionalArguments = GetPositionalArguments(usage, options);
 
         var className = GenerateClassName(commandPath);
 

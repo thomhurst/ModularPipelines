@@ -116,7 +116,7 @@ public partial class VaultCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://developer.hashicorp.com/vault/docs/commands",
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(usage, options),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,

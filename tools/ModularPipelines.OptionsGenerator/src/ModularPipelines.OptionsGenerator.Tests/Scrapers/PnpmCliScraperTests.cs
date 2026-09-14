@@ -10,6 +10,34 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("--verbose", false)]
+    [Arguments("--verbose", true)]
+    [Arguments("-v", false)]
+    [Arguments("-v", true)]
+    public async Task Alternative_Synopses_Do_Not_Make_An_Option_Value_Required(string flag, bool flagFirst)
+    {
+        var fileForm = "pnpm example [OPTIONS] --file <VALUE>";
+        var flagForm = $"pnpm example [OPTIONS] {flag} <VALUE>";
+        var helpText = $"""
+            Usage: {(flagFirst ? flagForm : fileForm)}
+                   {(flagFirst ? fileForm : flagForm)}
+
+            Options:
+                  --file <VALUE>  Read a value from a file
+              -v, --verbose       Print detailed output
+            """;
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "example"], helpText);
+
+        await Assert.That(command).IsNotNull();
+        await Assert.That(command!.Options.Single(option => option.SwitchName == "--file").IsRequired).IsFalse();
+        var positional = command.PositionalArguments.Single();
+        await Assert.That(positional.PropertyName).IsEqualTo("Value");
+        await Assert.That(positional.IsRequired).IsFalse();
+        await Assert.That(command.UsageSynopsis).Contains($"{flag} <VALUE>");
+    }
+
+    [Test]
     [Arguments("create", false)]
     [Arguments("create", true)]
     [Arguments("dlx", false)]

@@ -147,7 +147,7 @@ public partial class CargoCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://doc.rust-lang.org/cargo/commands/",
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(usage, options),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
@@ -281,9 +281,29 @@ public partial class CargoCliScraper : CliScraperBase
                && heading.EndsWith(':');
     }
 
+    private static readonly string[] NonOptionSectionHeadings =
+    [
+        "Arguments",
+        "Commands",
+        "Subcommands",
+        "Usage",
+        "Examples",
+        "Environment",
+        "Note",
+        "Aliases",
+        "Compatibility",
+        "See also",
+    ];
+
+    /// <summary>
+    /// clap groups options under arbitrary headings (<c>Options:</c>, <c>Manifest Options:</c>,
+    /// <c>Package Selection:</c>, but also <c>Source:</c> and <c>Section:</c> on <c>cargo add</c>),
+    /// so every heading is an option section except the positional, command and prose ones.
+    /// </summary>
     private static bool IsOptionSectionHeading(string heading) =>
-        heading.Contains("option", StringComparison.OrdinalIgnoreCase)
-        || heading.EndsWith("selection:", StringComparison.OrdinalIgnoreCase);
+        !NonOptionSectionHeadings.Any(prefix => heading.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        && (!heading.Contains("command", StringComparison.OrdinalIgnoreCase)
+            || heading.EndsWith("Options:", StringComparison.OrdinalIgnoreCase));
 
     private static bool IsOptionRow(string line) => CargoOptionDeclarationPattern().IsMatch(line);
 

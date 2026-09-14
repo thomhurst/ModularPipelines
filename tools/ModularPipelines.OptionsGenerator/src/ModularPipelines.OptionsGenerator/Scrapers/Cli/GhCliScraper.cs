@@ -65,8 +65,38 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
     public override string OutputDirectory => "src/ModularPipelines.GitHub";
 
-    public override CliToolDefinition CreateToolDefinition() =>
-        base.CreateToolDefinition() with
+    /// <inheritdoc />
+    public override async Task<CliToolDefinition> CreateToolDefinitionAsync(CancellationToken cancellationToken = default)
+    {
+        var tool = CreateToolDefinition();
+        var result = await Executor.ExecuteAsync(ExecutablePath, "extension list", cancellationToken);
+        if (result.Unavailable || !result.Success || !string.IsNullOrWhiteSpace(result.StandardError))
+        {
+            throw new InvalidOperationException("Cannot verify gh extension availability: gh extension list did not complete reliably.");
+        }
+
+        // Redirected gh output has three tab-separated fields, without a header.
+        // NoResultsError is an empty successful response outside a terminal.
+        // Validate every row before using the inventory to permit subtree removal.
+        var stackInstalled = false;
+        foreach (var line in result.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var fields = line.TrimEnd('\r').Split('\t');
+            if (fields.Length != 3 || !fields[0].StartsWith("gh ", StringComparison.Ordinal)
+                || fields[0].Length == 3 || fields[0][3..].Any(char.IsWhiteSpace))
+            {
+                throw new InvalidOperationException("Cannot verify gh extension availability: unexpected gh extension list output.");
+            }
+
+            stackInstalled |= fields[0].Equals("gh stack", StringComparison.OrdinalIgnoreCase);
+        }
+
+        if (stackInstalled)
+        {
+            return tool;
+        }
+
+        return tool with
         {
             CommandCoverage = new CliCommandCoveragePolicy
             {
@@ -75,12 +105,13 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
                     new CliConditionallyAvailableCommand
                     {
                         Command = "gh stack",
-                        Reason = "Requires the optional github/gh-stack extension. GitHub CLI 2.100.0 registers only a hidden "
-                                 + "installation stub when the extension is absent; it is not listed in root help.",
+                        Reason = "gh extension list independently confirmed that the stack extension is not installed. "
+                                 + "GitHub CLI's hidden installation stub is not listed in root help.",
                     },
                 ],
             },
         };
+    }
 
     /// <summary>
     /// Skip utility commands and help topics.

@@ -351,7 +351,7 @@ public partial class YarnCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = GetPositionalArguments(commandParts, usage.PositionalArguments),
+            PositionalArguments = GetPositionalArguments(commandParts, GetPositionalArguments(usage, options)),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,

@@ -187,7 +187,7 @@ public class ScrapingOrchestrator
             commands.Add(command);
         }
 
-        var scrapedMetadata = scraper.CreateToolDefinition();
+        var scrapedMetadata = await scraper.CreateToolDefinitionAsync(cancellationToken);
         var toolDefinition = scrapedMetadata with
         {
             Commands = commands,

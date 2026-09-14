@@ -520,7 +520,7 @@ public partial class AwsCliScraper : CliScraperBase
         return null;
     }
 
-    private static IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
+    private IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
         string[] commandParts,
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
@@ -549,7 +549,7 @@ public partial class AwsCliScraper : CliScraperBase
             _ => GetSynopsisPositionalArguments(usage, options),
         };
 
-    private static IReadOnlyList<CliPositionalArgument> GetSynopsisPositionalArguments(
+    private IReadOnlyList<CliPositionalArgument> GetSynopsisPositionalArguments(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
         CliPositionalArgument.MergeDuplicates(

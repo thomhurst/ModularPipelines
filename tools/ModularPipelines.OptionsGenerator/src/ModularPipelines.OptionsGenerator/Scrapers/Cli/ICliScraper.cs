@@ -64,4 +64,10 @@ public interface ICliScraper
     /// Creates a tool definition with metadata (for generators that need tool-level info).
     /// </summary>
     CliToolDefinition CreateToolDefinition();
+
+    /// <summary>
+    /// Creates metadata for generation, including checks against the current CLI installation.
+    /// </summary>
+    Task<CliToolDefinition> CreateToolDefinitionAsync(CancellationToken cancellationToken = default) =>
+        Task.FromResult(CreateToolDefinition());
 }

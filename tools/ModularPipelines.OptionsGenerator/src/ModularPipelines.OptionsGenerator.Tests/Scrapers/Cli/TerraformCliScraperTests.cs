@@ -10,6 +10,42 @@ public class TerraformCliScraperTests
     private readonly TestTerraformCliScraper _scraper = new();
 
     [Test]
+    public async Task StateIdentities_Preserves_Addresses_After_Undocumented_Json_Flag()
+    {
+        // Terraform v1.16.2 lists -json in its synopsis but omits it from Options.
+        const string helpText = """
+            Usage: terraform [global options] state identities [options] -json [address...]
+
+              List the json format of the identities of resources in the Terraform state.
+
+            Options:
+
+              -state=statefile    Path to a Terraform state file to use to look
+                                  up Terraform-managed resources.
+
+              -id=ID              Filters the results to include only instances whose
+                                  resource types have an attribute named "id".
+            """;
+
+        var definition = await _scraper.Parse(["terraform", "state", "identities"], helpText);
+
+        await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(1);
+        var address = definition.PositionalArguments.Single();
+        var json = definition.Options.Single(option => option.SwitchName == "-json");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(address.PropertyName).IsEqualTo("Address");
+            await Assert.That(address.IsVariadic).IsTrue();
+            await Assert.That(address.IsRequired).IsFalse();
+            await Assert.That(address.AssociatedOptionSwitch).IsNull();
+            await Assert.That(json.IsFlag).IsTrue();
+            await Assert.That(json.IsRequired).IsTrue();
+            await Assert.That(json.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
     [Arguments("artifacts", "-deployment-step-id", "The ID of the deployment step. (required)")]
     [Arguments("artifacts", "-artifact-name", "The artifact type to retrieve. (required)")]
     [Arguments("show", "-deployment-step-id", "The ID of the deployment step to show. (required)")]

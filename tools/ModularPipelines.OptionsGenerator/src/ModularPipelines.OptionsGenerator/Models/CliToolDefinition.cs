@@ -159,6 +159,8 @@ public record CliCommandCoveragePolicy
 
     /// <summary>
     /// Commands whose help visibility depends on an edition, license, plugin, or environment.
+    /// When a command and all its descendants are absent, its subtree may be omitted.
+    /// Missing descendants of a still-visible command remain subject to coverage checks.
     /// </summary>
     public IReadOnlyList<CliConditionallyAvailableCommand> ConditionallyAvailableCommands { get; init; } = [];
 
