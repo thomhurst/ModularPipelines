@@ -38,7 +38,7 @@ internal partial class Shellcheck : IShellcheck
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new ShellcheckExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ShellcheckExecuteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

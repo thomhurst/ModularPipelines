@@ -16,11 +16,11 @@ namespace ModularPipelines.Shellcheck.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ShellcheckShell
 {
-    [EnumValue("sh")]
-    Sh,
-
     [EnumValue("bash")]
     Bash,
+
+    [EnumValue("busybox")]
+    Busybox,
 
     [EnumValue("dash")]
     Dash,
@@ -28,6 +28,6 @@ public enum ShellcheckShell
     [EnumValue("ksh")]
     Ksh,
 
-    [EnumValue("busybox")]
-    Busybox
+    [EnumValue("sh")]
+    Sh
 }
