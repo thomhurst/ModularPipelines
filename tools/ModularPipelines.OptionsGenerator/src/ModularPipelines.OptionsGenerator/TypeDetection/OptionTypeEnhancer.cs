@@ -67,7 +67,7 @@ public class OptionTypeEnhancer
                 command,
                 toolDefinition.ToolName,
                 manualOverridesOnly,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             // Option metadata is authoritative after enhancement; retain only unrelated
             // command enums so an old definition cannot shadow its replacement or fallback.
@@ -103,7 +103,7 @@ public class OptionTypeEnhancer
                 toolName,
                 commandCache,
                 manualOverridesOnly,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             enhancedOptions.Add(enhanced);
         }
@@ -145,8 +145,8 @@ public class OptionTypeEnhancer
         try
         {
             var result = manualOverridesOnly
-                ? await _pipeline.DetectManualOverrideAsync(context, cancellationToken)
-                : await _pipeline.DetectTypeAsync(context, cancellationToken);
+                ? await _pipeline.DetectManualOverrideAsync(context, cancellationToken).ConfigureAwait(false)
+                : await _pipeline.DetectTypeAsync(context, cancellationToken).ConfigureAwait(false);
             detectionResult = result;
 
             if (result.Type != CliOptionType.Unknown && result.Confidence >= MinimumConfidenceToEnhance)
