@@ -148,6 +148,11 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUE", "Use commas to delimit individual masks.", ",")]
     [Arguments("VALUE", "Use commas to separate values for --other.", null)]
     [Arguments("VALUE", "Path to a file. Use commas to separate fields in that file.", null)]
+    [Arguments("VALUE", "Apply a filter. Expects a comma-delimited string of project numbers.", ",")]
+    [Arguments("VALUE", "(ALPHA) A comma-separated string of names.", ",")]
+    [Arguments("VALUE", "Provide names as a comma-separated string.", ",")]
+    [Arguments("VALUE", "Path to a file whose fields contain a comma-separated string.", null)]
+    [Arguments("VALUE", "Use --other with a comma-delimited string of names.", null)]
     [Arguments("VALUE", "A string of labels. Mappings are separated by commas.", null)]
     [Arguments("VALUE", "Path to a file containing mappings. Mappings are separated by commas.", null)]
     [Arguments("[VALUE,...]", "Specify the --values flag multiple times.", null)]
@@ -249,6 +254,7 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("dataproc-clusters-create", "dataproc clusters create", "--secure-multi-tenancy-user-mapping", ",")]
     [Arguments("database-migration-migration-jobs-promote", "database-migration migration-jobs promote", "--databases-filter", ",")]
     [Arguments("compute-interconnects-groups-update", "compute interconnects groups update", "--update-mask", ",")]
+    [Arguments("iam-workload-identity-pools-list-attestation-rules", "iam workload-identity-pools list-attestation-rules", "--container-id-filter", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
         string fixture, string commandPath, string switchName, string? separator, string version = "550.0.0")
     {

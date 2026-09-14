@@ -762,9 +762,9 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern
         + @"(?:(?:(?:at (?:most|least)|exactly) one) of these (?:can|must) be specified:\s+)*"
         + @"(?:(?:this|the)\s+(?:flag|argument|option)\s+)?"
-        + @"(?:(?:accepts?|specif(?:y|ies)|takes?|contains?|(?:must|can|may)\s+be)\s+)?"
+        + @"(?:(?:accepts?|expects?|specif(?:y|ies)|takes?|contains?|(?:must|can|may)\s+be)\s+)?"
         + @"(?:(?:a|the)\s+)?(?:single\s+[\w-]+(?:\s+[\w-]+)*\s+or\s+(?:a\s+)?)?"
-        + @"comma[- ](?:sep[ae]rated|delimited)\s+list\b"
+        + @"comma[- ](?:sep[ae]rated|delimited)\s+(?:list|string)\b"
         // Unqualified subjects describe the option only in its opening sentence. Later
         // sentences may describe fields inside a configuration file instead.
         + @"|(?:^|[.!?]\s+(?:this|the)\s+(?:flag|argument|option)\s+)"
@@ -773,7 +773,7 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"|^" + StatusPrefixPattern + @"(?:a|the)\s+string\s+of\s+(?:[\w-]+\s+)*(?<subject>[\w-]+)\.\s+"
         + @"\k<subject>\s+are\s+sep[ae]rated\s+by\s+commas\b"
         + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"(?:provide|supply|pass|specify|use)\s+"
-        + @"(?:[a-z][\w-]*\s+)+as\s+(?:a\s+)?comma[- ](?:sep[ae]rated|delimited)\s+list\b"
+        + @"(?:[a-z][\w-]*\s+)+as\s+(?:a\s+)?comma[- ](?:sep[ae]rated|delimited)\s+(?:list|string)\b"
         + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"use\s+commas\s+to\s+(?:separate|delimit)\s+"
         + @"(?:(?:the|individual|multiple)\s+)?[a-z][\w-]*(?=\s*(?:[.!?]|$))", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
