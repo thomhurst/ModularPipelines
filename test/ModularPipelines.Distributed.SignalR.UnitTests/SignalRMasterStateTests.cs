@@ -6,6 +6,29 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 public class SignalRMasterStateTests
 {
     [Test]
+    public async Task Failed_Result_Delivery_Releases_Admission_For_Reconnect_Recovery()
+    {
+        var state = new SignalRMasterState();
+        var worker = CreateWorker();
+        var assignment = CreateAssignment();
+        state.RegisterWorker(worker);
+        worker.TryAssign(assignment);
+
+        // Fault injection at the fence acquisition boundary, after result admission.
+        using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName))
+        {
+        }
+        var fences = (System.Collections.Concurrent.ConcurrentDictionary<string, SemaphoreSlim>)
+            typeof(SignalRMasterState).GetField("_assignmentDeliveryFences",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(state)!;
+        fences[assignment.ModuleTypeName].Dispose();
+
+        await Assert.That(async () => await state.TryCompleteWorkerResultAsync(worker, CreateResult()))
+            .Throws<ObjectDisposedException>();
+        await Assert.That(state.TrackPendingReconnect(worker, assignment)).IsNotNull();
+    }
+
+    [Test]
     public async Task WorkerState_TryAssign_Returns_True_When_Idle()
     {
         var worker = new WorkerState

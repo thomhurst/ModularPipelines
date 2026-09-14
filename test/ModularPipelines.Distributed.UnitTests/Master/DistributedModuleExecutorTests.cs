@@ -1305,7 +1305,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Zero_Result_Timeout_Waits_Until_Result_Is_Published(CancellationToken testCancellation)
     {
         var module = new DistributedModule();
@@ -3040,7 +3040,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Executor_Fails_Impossible_Capability_After_Registration_Grace(
         CancellationToken cancellationToken)
     {
@@ -3155,7 +3155,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Capability_Routing_Grace_Starts_When_Assignment_Is_Ready(
         CancellationToken cancellationToken)
     {

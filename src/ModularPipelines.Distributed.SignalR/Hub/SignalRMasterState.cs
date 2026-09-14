@@ -10,7 +10,7 @@ internal class SignalRMasterState
 {
     private readonly Lock _pendingReconnectLock = new();
     private readonly Dictionary<string, PendingReconnect> _pendingReconnects = [];
-    private readonly HashSet<string> _admittedWorkerResults = [];
+    private readonly Dictionary<string, int> _admittedWorkerResults = [];
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
     private readonly ConcurrentDictionary<int, object> _workerStateLocks = new();
 
@@ -288,7 +288,7 @@ internal class SignalRMasterState
 
     // Called while holding _pendingReconnectLock so admission and redispatch cannot race.
     private bool HasAcceptedResult(string moduleTypeName) =>
-        _admittedWorkerResults.Contains(moduleTypeName)
+        _admittedWorkerResults.ContainsKey(moduleTypeName)
         || (ResultWaiters.TryGetValue(moduleTypeName, out var waiter) && waiter.Task.IsCompleted);
 
     public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(
@@ -352,13 +352,33 @@ internal class SignalRMasterState
             // Fence waits must not let reconnect recovery claim an already admitted result.
             lock (_pendingReconnectLock)
             {
-                _admittedWorkerResults.Add(result.ModuleTypeName);
+                _admittedWorkerResults.TryGetValue(result.ModuleTypeName, out var admissions);
+                _admittedWorkerResults[result.ModuleTypeName] = admissions + 1;
             }
         }
 
-        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
-            .ConfigureAwait(false);
-        return (true, CompleteResult(result));
+        try
+        {
+            using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
+                .ConfigureAwait(false);
+            return (true, CompleteResult(result));
+        }
+        finally
+        {
+            // A failed fence acquisition or result delivery must not leave a reservation
+            // that prevents a later publication or reconnect recovery from making progress.
+            lock (_pendingReconnectLock)
+            {
+                if (_admittedWorkerResults.TryGetValue(result.ModuleTypeName, out var admissions) && admissions > 1)
+                {
+                    _admittedWorkerResults[result.ModuleTypeName] = admissions - 1;
+                }
+                else
+                {
+                    _admittedWorkerResults.Remove(result.ModuleTypeName);
+                }
+            }
+        }
     }
 
     private IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)

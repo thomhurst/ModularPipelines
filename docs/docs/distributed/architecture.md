@@ -150,36 +150,33 @@ scan their lists and leave incompatible assignments in place. The queue-backed S
 master coordinator dequeues each candidate, re-enqueues an incompatible assignment, and
 continues scanning for work that the current worker can execute.
 
-## Coordinator Interface
+## Coordinator Interfaces
 
-The shipped `IDistributedCoordinator` interface defines seven methods across four concerns:
+`IDistributedWorkerCoordinator` defines the six operations available to workers.
+`IDistributedMasterCoordinator` inherits that contract and adds five master operations,
+so the master can also execute modules locally. Custom coordinator factories supply
+implementations of these role-specific contracts.
 
-### Work Queue
+### Worker Operations
 
-| Method | Direction | Description |
-|--------|-----------|-------------|
-| `EnqueueModuleAsync` | Master → Queue | Pushes a module assignment onto the work queue. |
-| `DequeueModuleAsync` | Queue → Worker | Waits for and claims an assignment compatible with the worker's capabilities, or returns `null` after completion. |
+| Method | Description |
+|--------|-------------|
+| `DequeueModuleAsync` | Claims an assignment compatible with the worker's capabilities, or returns `null` after completion. |
+| `PublishResultAsync` | Stores a serialized module result and notifies waiters. |
+| `WaitForResultAsync` | Waits for a stored module result; workers use it to load dependency results. |
+| `RegisterWorkerAsync` | Registers the worker's index, capabilities, registration time, and run identifier, including re-registration after reconnecting. |
+| `SendHeartbeatAsync` | Reports `WorkerStatus`, including liveness, current assignments, and command metrics; workers send final metrics through this method after execution. |
+| `WaitForCancellationAsync` | Waits for the master to broadcast cancellation. |
 
-### Results
+### Additional Master Operations
 
-| Method | Direction | Description |
-|--------|-----------|-------------|
-| `PublishResultAsync` | Worker → Coordinator | Stores the serialized result and notifies waiters. |
-| `WaitForResultAsync` | Master ← Coordinator | Blocks until a specific module's result is available. |
-
-### Worker Management
-
-| Method | Direction | Description |
-|--------|-----------|-------------|
-| `RegisterWorkerAsync` | Worker → Coordinator | Upserts a worker's index, capabilities, registration time, and run identifier; workers call it again after execution with final command metrics. |
-| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers for an optional startup barrier, capability-route validation, and post-execution worker metrics. |
-
-### Completion
-
-| Method | Direction | Description |
-|--------|-----------|-------------|
-| `SignalCompletionAsync` | Master → All | Tells waiting workers that the run has finished and no more assignments will arrive. |
+| Method | Description |
+|--------|-------------|
+| `EnqueueModuleAsync` | Adds a module assignment to the work queue. |
+| `GetRegisteredWorkersAsync` | Returns live registrations for startup barriers and capability routing. |
+| `GetWorkerStatusesAsync` | Returns the latest status for each worker, including command metrics. |
+| `SignalCompletionAsync` | Tells workers that no more assignments will arrive. |
+| `BroadcastCancellationAsync` | Requests cancellation of distributed execution. |
 
 ## Redis Implementation Details
 
@@ -191,9 +188,13 @@ The `RedisDistributedCoordinator` maps each method to Redis operations:
 | `DequeueModuleAsync` | `GET` completion flag (check first), `SUBSCRIBE` to work/completion channels, atomically scan `LRANGE` and claim a capability-compatible item with `LREM`, then `GET` completion again (close race window) |
 | `PublishResultAsync` | `HSET` on results hash + `EXPIRE` + `PUBLISH` on the module result channel |
 | `WaitForResultAsync` | `HGET` results hash (check first), then `SUBSCRIBE` result channel, then `HGET` again (close race window), await message |
-| `RegisterWorkerAsync` | `HSET` on workers hash + `EXPIRE` |
-| `GetRegisteredWorkersAsync` | `HGETALL` on workers hash |
+| `RegisterWorkerAsync` | `HSET` registration and heartbeat in the workers hash + `EXPIRE` |
+| `SendHeartbeatAsync` | `HSET` status and refresh its expiry; refresh the worker heartbeat using Redis server time |
+| `GetWorkerStatusesAsync` | `HGETALL` on the worker status hash |
+| `GetRegisteredWorkersAsync` | `HGETALL` on workers and status hashes; filters registrations by heartbeat age |
 | `SignalCompletionAsync` | `SET` completion key, separate `EXPIRE`, then `PUBLISH` completion channel |
+| `BroadcastCancellationAsync` | `SET` cancellation key, `EXPIRE`, then `PUBLISH` cancellation channel |
+| `WaitForCancellationAsync` | Check the cancellation key, subscribe, then check again before waiting |
 
 ### WaitForResultAsync Race Condition Handling
 

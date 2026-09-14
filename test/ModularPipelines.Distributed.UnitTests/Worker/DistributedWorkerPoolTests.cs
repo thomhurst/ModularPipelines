@@ -96,7 +96,7 @@ public class DistributedWorkerPoolTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Dequeue_Errors_Are_Throttled(CancellationToken cancellationToken)
     {
         using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);

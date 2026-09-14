@@ -101,7 +101,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
                     .ConfigureAwait(false);
                 break;
             }
-            catch (Exception ex) when (CanRetryPublication(ex, connectionGeneration, cancellationToken))
+            catch (Exception ex) when (CanRetryHubInvocation(ex, connectionGeneration, cancellationToken))
             {
                 if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken).ConfigureAwait(false))
                 {
@@ -136,7 +136,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         return connectionGeneration;
     }
 
-    private bool CanRetryPublication(
+    private bool CanRetryHubInvocation(
         Exception exception,
         long connectionGeneration,
         CancellationToken cancellationToken) =>
@@ -150,7 +150,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     {
         while (true)
         {
-            var connectionGeneration = Volatile.Read(ref _connectionGeneration);
+            var connectionGeneration = await WaitForRegistrationAsync(cancellationToken).ConfigureAwait(false);
             try
             {
                 return await _connection.InvokeAsync<SerializedModuleResult>(
@@ -159,8 +159,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
                         cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (Exception ex) when (!cancellationToken.IsCancellationRequested
-                                       && ex is not Microsoft.AspNetCore.SignalR.HubException)
+            catch (Exception ex) when (CanRetryHubInvocation(ex, connectionGeneration, cancellationToken))
             {
                 if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken)
                         .ConfigureAwait(false))
@@ -268,6 +267,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         lock (_reconnectLock)
         {
             _reconnecting = false;
+            _lastReconnectSucceeded = false;
             _connectionTransition.TrySetResult(false);
         }
 
