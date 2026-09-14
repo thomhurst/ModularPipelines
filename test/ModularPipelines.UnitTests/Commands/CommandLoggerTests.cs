@@ -1,6 +1,7 @@
 using ModularPipelines.Secrets;
 using ModularPipelines.Context;
 using System.Text.RegularExpressions;
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -372,20 +373,31 @@ public class CommandLoggerTests : TestBase
     public async Task Command_Header_Precedes_Streamed_Output_And_Completion()
     {
         var marker = $"ordered-output-{Guid.NewGuid():N}";
-        var file = await RunPowerShellCommandWithLoggingOptions(
-            $"Write-Output '{marker}'; Start-Sleep -Milliseconds 750",
-            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
+        var messages = new ConcurrentQueue<string>();
+        using var loggingProvider = new RecordingLoggerProvider(messages);
+        var result = await GetService<ICommandContext>(collection =>
+        {
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+        try
+        {
+            await result.T.ExecuteCommandLineToolAsync(
+                new PowerShellScriptOptions($"Write-Output '{marker}'; Start-Sleep -Milliseconds 750"),
+                new CommandExecutionOptions
+                {
+                    Logging = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed },
+                    ThrowOnNonZeroExitCode = true,
+                });
+        }
+        finally
+        {
+            await result.Pipeline.DisposeAsync();
+        }
 
-        var logFile = string.Empty;
-        var logCompleted = await WaitUntilAsync(
-            () =>
-            {
-                logFile = File.ReadAllText(file);
-                return logFile.Contains($"↳ {marker}", StringComparison.Ordinal)
-                       && logFile.Contains("✓ [", StringComparison.Ordinal);
-            },
-            TestHostSettings.DefaultTestTimeout);
-        await Assert.That(logCompleted).IsTrue();
+        // Observe the framework's logger calls directly; file-provider flushing is
+        // independent of the ordering this test verifies.
+        var logFile = string.Join(Environment.NewLine, messages);
 
         var headerIndex = logFile.IndexOf(
             $"{Environment.CurrentDirectory}> pwsh",
@@ -685,6 +697,15 @@ public class CommandLoggerTests : TestBase
         }
 
         return true;
+    }
+
+    private sealed class RecordingLoggerProvider(ConcurrentQueue<string> messages) : ILoggerProvider
+    {
+        public ILogger CreateLogger(string categoryName) => new ObserverLogger(messages.Enqueue);
+
+        public void Dispose()
+        {
+        }
     }
 
     private sealed class StreamingLogObserver(string outputMarker, string errorMarker) : ILoggerProvider

@@ -72,6 +72,21 @@ try {
         throw 'The summary trimmed a removal payload before comparing it.'
     }
 
+    foreach ($indentedEntry in @(' *REMOVED*Api.Kept', ' #nullable enable')) {
+        [IO.File]::WriteAllLines($currentUnshipped, @($indentedEntry))
+        & (Join-Path $PSScriptRoot 'Write-PublicApiChangeSummary.ps1') `
+            -OriginalShippedPath $originalShipped `
+            -OriginalUnshippedPath $originalUnshipped `
+            -CurrentShippedPath $currentShipped `
+            -CurrentUnshippedPath $currentUnshipped `
+            -PackageDirectory $packageDirectory `
+            -OutputPath $summaryPath
+        $summary = Get-Content -LiteralPath $summaryPath -Raw
+        if (-not $summary.Contains('- Added APIs: 1') -or -not $summary.Contains('- Removed or changed APIs: 0')) {
+            throw "The summary normalized the API line '$indentedEntry': $summary"
+        }
+    }
+
     Write-Output 'OK public API change summary reports cross-tool assembly impact and preserves exact markers.'
 }
 finally {

@@ -30,11 +30,6 @@ $missingBaselines = [System.Collections.Generic.List[string]]::new()
 $orphanedMarkers = [System.Collections.Generic.List[string]]::new()
 $duplicateEntries = [System.Collections.Generic.List[string]]::new()
 
-function Test-ApiEntry([string] $Line) {
-    # Whitespace-only lines are blank, matching Read-Baseline in the merge script.
-    return -not [string]::IsNullOrWhiteSpace($Line) -and -not $Line.StartsWith('#', [System.StringComparison]::Ordinal)
-}
-
 function Add-DuplicateEntries([string] $Path, [string[]] $Lines) {
     # PublicApiAnalyzers rejects a baseline that lists the same entry twice (RS0024).
     # Entries compare exactly, as the merge script and the analyzer do. Bulk-constructing
@@ -47,7 +42,7 @@ function Add-DuplicateEntries([string] $Path, [string[]] $Lines) {
 
     $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
     foreach ($line in $Lines) {
-        if ((Test-ApiEntry $line) -and -not $seen.Add($line)) {
+        if ((Test-PublicApiEntry $line) -and -not $seen.Add($line)) {
             $duplicateEntries.Add("$([System.IO.Path]::GetRelativePath($repositoryRootPath, $Path)): $line")
         }
     }
@@ -75,7 +70,7 @@ foreach ($project in $packageProjects) {
     # edit that the analyzer would read as a shipped symbol.
     $shippedRelativePath = [System.IO.Path]::GetRelativePath($repositoryRootPath, $shippedPath)
     foreach ($line in $shippedLines) {
-        if ((Test-ApiEntry $line) -and (Test-RemovedMarker $line)) {
+        if ((Test-PublicApiEntry $line) -and (Test-RemovedMarker $line)) {
             $orphanedMarkers.Add("${shippedRelativePath}: $line (marker in PublicAPI.Shipped.txt)")
         }
     }
@@ -89,7 +84,7 @@ foreach ($project in $packageProjects) {
     foreach ($line in $unshippedLines) {
         # Repeats within the file are already reported above; inspect each entry once so a
         # duplicated entry that is also shipped does not surface as several findings.
-        if (-not (Test-ApiEntry $line) -or -not $inspected.Add($line)) {
+        if (-not (Test-PublicApiEntry $line) -or -not $inspected.Add($line)) {
             continue
         }
 

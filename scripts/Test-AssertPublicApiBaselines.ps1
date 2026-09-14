@@ -27,6 +27,19 @@ function Get-AssertFailureMessage {
     }
 }
 
+function Invoke-AssertProcess {
+    # Preserve the caller's native-command status at each negative test, even when
+    # scripts are reordered or another native invocation is added later.
+    $previousExitCode = Get-Variable LASTEXITCODE -Scope Global -ValueOnly -ErrorAction SilentlyContinue
+    try {
+        $output = @(& pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1)
+        return [pscustomobject]@{ Output = $output; ExitCode = $LASTEXITCODE }
+    }
+    finally {
+        $global:LASTEXITCODE = $previousExitCode
+    }
+}
+
 try {
     Add-File 'src/ModularPipelines/ModularPipelines.csproj' '<Project />'
     Add-BaselinePair 'src/ModularPipelines'
@@ -53,8 +66,19 @@ try {
     }
 
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`n*REMOVED*Api.Orphaned"
-    $orphanOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
-    if ($LASTEXITCODE -eq 0) {
+    $callerExitCode = Get-Variable LASTEXITCODE -Scope Global -ValueOnly -ErrorAction SilentlyContinue
+    try {
+        $global:LASTEXITCODE = 23
+        $orphanResult = Invoke-AssertProcess
+        if ($global:LASTEXITCODE -ne 23) {
+            throw 'A negative baseline check leaked its exit code into the caller.'
+        }
+    }
+    finally {
+        $global:LASTEXITCODE = $callerExitCode
+    }
+    $orphanOutput = $orphanResult.Output
+    if ($orphanResult.ExitCode -eq 0) {
         throw 'Orphaned *REMOVED* marker unexpectedly passed.'
     }
 
@@ -63,8 +87,9 @@ try {
     }
 
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`nApi.Added`nApi.Added"
-    $duplicateOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
-    if ($LASTEXITCODE -eq 0) {
+    $duplicateResult = Invoke-AssertProcess
+    $duplicateOutput = $duplicateResult.Output
+    if ($duplicateResult.ExitCode -eq 0) {
         throw 'Duplicate baseline entry unexpectedly passed.'
     }
 
@@ -135,8 +160,9 @@ try {
 
     Add-BaselinePair 'src/ModularPipelines.Cmd'
     Remove-Item -LiteralPath (Join-Path $testRoot 'src/ModularPipelines.Example/PublicAPI.Unshipped.txt')
-    $failureOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
-    if ($LASTEXITCODE -eq 0) {
+    $failureResult = Invoke-AssertProcess
+    $failureOutput = $failureResult.Output
+    if ($failureResult.ExitCode -eq 0) {
         throw 'Missing baseline unexpectedly passed.'
     }
 
@@ -144,10 +170,6 @@ try {
         throw "Missing baseline path was not reported: $($failureOutput -join "`n")"
     }
 
-    # The negative cases leave the last child pwsh exit code at 1, which the Actions pwsh
-    # shell would report as the step failing. Reset it rather than exit, so scripts that run
-    # after this one in the same step still execute.
-    $global:LASTEXITCODE = 0
     Write-Output 'Assert-PublicApiBaselines tests passed.'
 }
 finally {

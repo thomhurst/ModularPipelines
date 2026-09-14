@@ -24,15 +24,13 @@ function Read-Baseline([string] $Path) {
 
 function Get-Headers([string[]] $Lines) {
     return @($Lines | Where-Object {
-        -not [string]::IsNullOrEmpty($_) -and
-        $_.StartsWith('#', [System.StringComparison]::Ordinal)
+        Test-PublicApiHeader $_
     })
 }
 
 function Get-ApiEntries([string[]] $Lines) {
     return @($Lines | Where-Object {
-        -not [string]::IsNullOrEmpty($_) -and
-        -not $_.StartsWith('#', [System.StringComparison]::Ordinal)
+        Test-PublicApiEntry $_
     })
 }
 

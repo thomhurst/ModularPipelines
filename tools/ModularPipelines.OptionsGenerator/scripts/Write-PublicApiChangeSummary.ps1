@@ -35,8 +35,7 @@ function Read-ActiveApi([string[]] $Paths) {
     $retired = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
     foreach ($path in $Paths) {
         foreach ($line in Get-Content -LiteralPath $path) {
-            $entry = $line.Trim()
-            if (($entry.Length -eq 0) -or $entry.StartsWith('#', [StringComparison]::Ordinal)) {
+            if (-not (Test-PublicApiEntry $line)) {
                 continue
             }
 

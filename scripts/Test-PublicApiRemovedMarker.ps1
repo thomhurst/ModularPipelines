@@ -35,4 +35,24 @@ if (-not $rejected) {
     throw 'Get-RemovedMarkerEntry must reject entries without the marker prefix.'
 }
 
-Write-Output 'PublicApiRemovedMarker tests passed.'
+foreach ($line in @('#nullable enable', '# header')) {
+    if (-not (Test-PublicApiHeader $line) -or (Test-PublicApiEntry $line)) {
+        throw "Header classification disagrees for '$line'."
+    }
+}
+
+foreach ($line in @('', ' ', "`t")) {
+    if ((Test-PublicApiHeader $line) -or (Test-PublicApiEntry $line)) {
+        throw 'Blank lines must not be headers or API entries.'
+    }
+}
+
+# ReadApiData in the pinned PublicApiAnalyzers preserves line text. An indented
+# marker/header is an API line, not a normalized removal or header.
+foreach ($line in @('Api.Kept', '*REMOVED*Api.Retired', ' *REMOVED*Api.Retired', ' #nullable enable')) {
+    if ((Test-PublicApiHeader $line) -or -not (Test-PublicApiEntry $line)) {
+        throw "API entry classification disagrees for '$line'."
+    }
+}
+
+Write-Output 'PublicApiRemovedMarker and line classification tests passed.'

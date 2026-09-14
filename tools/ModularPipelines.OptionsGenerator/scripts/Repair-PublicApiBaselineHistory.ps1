@@ -14,7 +14,7 @@ $retiredApis = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordi
 # The merge script restores missing shipped entries from these historical markers.
 foreach ($path in @($shippedPath, $unshippedPath)) {
     foreach ($line in [IO.File]::ReadAllLines($path)) {
-        if ([string]::IsNullOrWhiteSpace($line) -or $line.StartsWith('#', [StringComparison]::Ordinal)) {
+        if (-not (Test-PublicApiEntry $line)) {
             continue
         }
 
