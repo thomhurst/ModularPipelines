@@ -16,30 +16,30 @@ namespace ModularPipelines.Minikube.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeStartDriver
 {
-    [EnumValue("virtualbox")]
-    Virtualbox,
+    [EnumValue("docker")]
+    Docker,
 
     [EnumValue("kvm2")]
     Kvm2,
 
-    [EnumValue("qemu2")]
-    Qemu2,
-
-    [EnumValue("qemu")]
-    Qemu,
-
-    [EnumValue("vmware")]
-    Vmware,
-
     [EnumValue("none")]
     None,
-
-    [EnumValue("docker")]
-    Docker,
 
     [EnumValue("podman")]
     Podman,
 
+    [EnumValue("qemu")]
+    Qemu,
+
+    [EnumValue("qemu2")]
+    Qemu2,
+
     [EnumValue("ssh")]
-    Ssh
+    Ssh,
+
+    [EnumValue("virtualbox")]
+    Virtualbox,
+
+    [EnumValue("vmware")]
+    Vmware
 }

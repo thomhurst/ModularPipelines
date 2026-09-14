@@ -44,7 +44,7 @@ public class MinikubeCache : IMinikubeCache
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeCacheAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeCacheAddOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class MinikubeCache : IMinikubeCache
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeCacheListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeCacheListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
