@@ -3069,7 +3069,7 @@ ModularPipelines.Node.Options.PnpmCreateOptions.Color.get -> ModularPipelines.Mo
 ModularPipelines.Node.Options.PnpmCreateOptions.Color.set -> void
 ModularPipelines.Node.Options.PnpmCreateOptions.Command.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Node.Options.PnpmCreateOptions.Command.set -> void
-ModularPipelines.Node.Options.PnpmCreateOptions.Cpu.get -> string?
+ModularPipelines.Node.Options.PnpmCreateOptions.Cpu.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Node.Options.PnpmCreateOptions.Cpu.set -> void
 ModularPipelines.Node.Options.PnpmCreateOptions.Dir.get -> string?
 ModularPipelines.Node.Options.PnpmCreateOptions.Dir.set -> void
@@ -3510,7 +3510,7 @@ ModularPipelines.Node.Options.PnpmDlxOptions.Color.get -> ModularPipelines.Model
 ModularPipelines.Node.Options.PnpmDlxOptions.Color.set -> void
 ModularPipelines.Node.Options.PnpmDlxOptions.Command.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Node.Options.PnpmDlxOptions.Command.set -> void
-ModularPipelines.Node.Options.PnpmDlxOptions.Cpu.get -> string?
+ModularPipelines.Node.Options.PnpmDlxOptions.Cpu.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Node.Options.PnpmDlxOptions.Cpu.set -> void
 ModularPipelines.Node.Options.PnpmDlxOptions.Dir.get -> string?
 ModularPipelines.Node.Options.PnpmDlxOptions.Dir.set -> void
