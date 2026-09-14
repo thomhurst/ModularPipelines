@@ -79,6 +79,20 @@ public record CliOptionDefinition
         return resolution.IsResolved;
     }
 
+    internal static bool MayBeReferenceType(string cSharpType)
+    {
+        var resolution = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
+        return !resolution.IsResolved || resolution.IsReferenceType;
+    }
+
+    internal static string GetCollectionSnapshotExpression(string cSharpType, string valueExpression)
+    {
+        var shape = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
+        return shape.SnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
+            ?? throw new InvalidOperationException(
+                $"Required collection type '{cSharpType}' cannot safely retain a reusable snapshot. Use a supported collection contract.");
+    }
+
     internal static int FindIndexBySwitch(
         IReadOnlyList<CliOptionDefinition> options,
         string optionSwitch) =>
@@ -129,14 +143,68 @@ public record CliOptionDefinition
 
         if (propertyType.SpecialType == SpecialType.System_String)
         {
-            return new CollectionShapeResolution(IsResolved: true, IsCollection: false);
+            return new CollectionShapeResolution(IsResolved: true, IsCollection: false, IsReferenceType: true);
         }
 
         var isCollection = propertyType is IArrayTypeSymbol
                            || propertyType.SpecialType == SpecialType.System_Collections_IEnumerable
                            || propertyType.AllInterfaces.Any(
                                interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
-        return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection);
+        var enumerableType = propertyType.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T
+            ? (INamedTypeSymbol) propertyType
+            : propertyType.AllInterfaces.FirstOrDefault(
+                interfaceType => interfaceType.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T);
+        var elementType = enumerableType?.TypeArguments[0] ?? compilation.GetSpecialType(SpecialType.System_Object);
+        var isArrayAssignable = isCollection && compilation.ClassifyConversion(
+            compilation.CreateArrayTypeSymbol(elementType), propertyType).IsImplicit;
+        var snapshotExpression = isCollection
+            ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
+            : null;
+        return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
+            IsReferenceType: propertyType.IsReferenceType,
+            SnapshotExpression: snapshotExpression);
+    }
+
+    private static string? GetSnapshotExpression(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
+    {
+        var elementName = elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
+        if (isArrayAssignable)
+        {
+            return $"global::System.Linq.Enumerable.ToArray({values})";
+        }
+
+        foreach (var metadataName in new[]
+                 {
+                     "System.Collections.Generic.List`1",
+                     "System.Collections.Generic.HashSet`1",
+                     "System.Collections.Immutable.ImmutableArray`1",
+                 })
+        {
+            var snapshotType = compilation.GetTypeByMetadataName(metadataName)?.Construct(elementType);
+            if (snapshotType is null || !compilation.ClassifyConversion(snapshotType, propertyType).IsImplicit)
+            {
+                continue;
+            }
+
+            var snapshotName = snapshotType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            if (metadataName == "System.Collections.Generic.HashSet`1")
+            {
+                // A set may use identity or another non-default equality contract.
+                // Preserve that comparer instead of silently collapsing distinct CLI values.
+                return $"new {snapshotName}({values}, {{0}} is {snapshotName} sourceSet ? sourceSet.Comparer : throw new global::System.ArgumentException(\"Required set must be a HashSet so its comparer can be preserved.\"))";
+            }
+
+            return metadataName == "System.Collections.Immutable.ImmutableArray`1"
+                ? $"{{0}} is {snapshotName} {{ IsDefault: true }} ? throw new global::System.ArgumentException(\"Required collection must contain at least one value.\", nameof({{0}})) : global::System.Collections.Immutable.ImmutableArray.CreateRange({values})"
+                : $"new {snapshotName}({values})";
+        }
+
+        var arrayList = compilation.GetTypeByMetadataName("System.Collections.ArrayList");
+        return arrayList is not null && compilation.ClassifyConversion(arrayList, propertyType).IsImplicit
+            ? $"new global::System.Collections.ArrayList(global::System.Linq.Enumerable.ToArray({values}))"
+            : null;
     }
 
     private static PortableExecutableReference[] GetPlatformReferences()
@@ -165,7 +233,9 @@ public record CliOptionDefinition
             references: GetPlatformReferences(),
             options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
-    private readonly record struct CollectionShapeResolution(bool IsResolved, bool IsCollection);
+    private readonly record struct CollectionShapeResolution(
+        bool IsResolved, bool IsCollection, bool IsReferenceType,
+        string? SnapshotExpression = null);
 
     /// <summary>
     /// Description for XML documentation.
@@ -226,6 +296,12 @@ public record CliOptionDefinition
     /// Whether this is a key-value pair option.
     /// </summary>
     public bool IsKeyValue { get; init; }
+
+    /// <summary>
+    /// Whether the CLI declares this option as one structured value, even when
+    /// its nested fields contain collection-shaped values.
+    /// </summary>
+    internal bool IsStructuredValue { get; init; }
 
     /// <summary>
     /// Whether generated code needs the ModularPipelines.Models namespace for this option type.

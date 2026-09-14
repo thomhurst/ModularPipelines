@@ -1,4 +1,7 @@
 using System.Xml.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -15,7 +18,9 @@ public class ConstructorDocumentationTests
     [Arguments(true, "")]
     [Arguments(false, "  ")]
     [Arguments(true, "  ")]
-    public async Task Required_Parameters_Preserve_Escaped_Help_Descriptions(bool positional, string? commandDescription)
+    [Arguments(false, "Create an item.", true)]
+    [Arguments(true, null, true)]
+    public async Task Required_Parameters_Preserve_Escaped_Help_Descriptions(bool positional, string? commandDescription, bool primaryConstructor = false)
     {
         const string description = "Overrides 'TF_STACKS_ORGANIZATION_NAME'.\nUse <name> & account (required).";
         var command = new CliCommandDefinition
@@ -32,7 +37,7 @@ public class ConstructorDocumentationTests
                 {
                     SwitchName = "--name",
                     PropertyName = positional ? "OptionalName" : "Name",
-                    CSharpType = "string?",
+                    CSharpType = primaryConstructor ? "int?" : "string?",
                     Description = description,
                     IsRequired = !positional,
                 },
@@ -40,12 +45,12 @@ public class ConstructorDocumentationTests
                 {
                     SwitchName = "--id",
                     PropertyName = "Id",
-                    CSharpType = "string",
+                    CSharpType = primaryConstructor ? "int" : "string",
                     IsRequired = true,
                 },
             ],
             PositionalArguments = positional
-                ? [new CliPositionalArgument { PropertyName = "Name", CSharpType = "string", Description = description, IsRequired = true }]
+                ? [new CliPositionalArgument { PropertyName = "Name", CSharpType = primaryConstructor ? "int" : "string", Description = description, IsRequired = true }]
                 : [],
         };
         var tool = new CliToolDefinition
@@ -58,18 +63,28 @@ public class ConstructorDocumentationTests
         };
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
-        var documentation = XDocument.Parse("<doc>" + string.Join("\n", generated.Split('\n')
-            .Where(line => line.StartsWith("///", StringComparison.Ordinal))
-            .Select(line => line[3..])) + "</doc>");
+        var declaration = CSharpSyntaxTree.ParseText(generated).GetRoot()
+            .DescendantNodes().OfType<RecordDeclarationSyntax>().Single();
+        var documentation = ReadDocumentation(declaration);
         await Assert.That(documentation.Root!.Elements().First().Name.LocalName).IsEqualTo("summary");
         await Assert.That(documentation.Root.Element("summary")!.Value.Trim())
             .IsEqualTo(string.IsNullOrWhiteSpace(commandDescription) ? "Options for tool create." : commandDescription);
-        var parameters = documentation.Descendants("param").ToDictionary(parameter => parameter.Attribute("name")!.Value);
+        SyntaxNode parameterOwner = primaryConstructor
+            ? declaration
+            : declaration.Members.OfType<ConstructorDeclarationSyntax>().Single();
+        var parameters = ReadDocumentation(parameterOwner).Descendants("param")
+            .ToDictionary(parameter => parameter.Attribute("name")!.Value);
+        await Assert.That(documentation.Descendants("param")).Count().IsEqualTo(primaryConstructor ? 2 : 0);
 
         await Assert.That(parameters.Keys).IsEquivalentTo(["Name", "Id"]);
         await Assert.That(parameters["Name"].Value).IsEqualTo(description.Replace('\n', ' '));
         await Assert.That(parameters["Id"].Value).IsEmpty();
-        await Assert.That(generated.IndexOf("<param", StringComparison.Ordinal))
-            .IsLessThan(generated.IndexOf("[GeneratedCode", StringComparison.Ordinal));
+        await Assert.That(primaryConstructor ? declaration.ParameterList is not null : declaration.ParameterList is null).IsTrue();
     }
+
+    private static XDocument ReadDocumentation(SyntaxNode node) =>
+        XDocument.Parse("<doc>" + string.Join("\n", node.GetLeadingTrivia().ToFullString().Split('\n')
+            .Select(line => line.TrimStart())
+            .Where(line => line.StartsWith("///", StringComparison.Ordinal))
+            .Select(line => line[3..])) + "</doc>");
 }

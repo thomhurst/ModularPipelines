@@ -713,7 +713,7 @@ jobs:
             exit $LASTEXITCODE
           }
           $packageDirectory = "src/${{ steps.package.outputs.package }}"
-          $buildArguments = if ('${{ matrix.tool }}' -eq 'gcloud') {
+          $buildArguments = if ('${{ matrix.tool }}' -in @('gcloud', 'aws')) {
             @('/m:1', '--disable-build-servers', '-p:UseSharedCompilation=false')
           } else {
             @()

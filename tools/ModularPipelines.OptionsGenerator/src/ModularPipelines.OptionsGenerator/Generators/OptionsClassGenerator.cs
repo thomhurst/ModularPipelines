@@ -46,19 +46,57 @@ public class OptionsClassGenerator : ICodeGenerator
         var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
         var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(command, positionalArguments);
 
-        // XML documentation
-        GeneratorUtils.GenerateConstructorXmlDocumentation(sb, command, constructorParameters);
+        var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
+        var requiresValueValidation = constructorParameters.Any(parameter =>
+            IsCollectionParameter(parameter)
+            || (RequiresConstructorValue(parameter)
+                && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType)));
+        var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresValueValidation
+            || command.RequiredOptions.Any(static option => option.IsFlag);
 
+        // Parameter tags belong on the primary declaration or the explicit constructor.
+        GeneratorUtils.GenerateConstructorXmlDocumentation(
+            sb, command, constructorParameters, includeParameters: !usesExplicitRequiredConstructor);
         GenerateClassAttributes(sb, command);
 
         // Class declaration. The returned set contains the names emitted as
         // primary-constructor parameters, so a name scraped as both required and
         // optional can't produce two members (CS0102).
-        var existingPropertyNames = GenerateClassDeclaration(sb, command, constructorParameters);
+        var existingPropertyNames = GenerateClassDeclaration(
+            sb,
+            command,
+            positionalArguments,
+            usePrimaryConstructor: !usesExplicitRequiredConstructor);
 
         sb.AppendLine("{");
-        GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
-        GenerateRequiredAlternativeValidation(sb, command, positionalArguments);
+        if (usesExplicitRequiredConstructor)
+        {
+            GenerateRequiredConstructor(
+                sb,
+                command,
+                positionalArguments,
+                includePrivateParameterlessConstructor: supportsAlternateInputModes);
+            if (!supportsAlternateInputModes)
+            {
+                // Alternate-input factories leave operation values unset, so they cannot
+                // promise the non-null outputs of positional record deconstruction.
+                GenerateRequiredDeconstruct(sb, command, positionalArguments);
+            }
+        }
+
+        if (supportsAlternateInputModes)
+        {
+            GenerateAlternateInputFactories(sb, command);
+        }
+
+        GenerateProperties(
+            sb,
+            command,
+            positionalArguments,
+            existingPropertyNames,
+            usesExplicitRequiredConstructor,
+            requiredPropertiesAreNonNullable: usesExplicitRequiredConstructor && !supportsAlternateInputModes);
+        GenerateValidation(sb, command, positionalArguments);
         sb.AppendLine("}");
 
         return sb.ToString();
@@ -87,7 +125,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         if (command.Options.Any(o => o.ValidationConstraints is not null)
-            || command.RequiredAlternativeGroups.Count > 0)
+            || RequiresCommandValidation(command))
         {
             sb.AppendLine("using System.ComponentModel.DataAnnotations;");
         }
@@ -119,27 +157,32 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb,
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
-        HashSet<string> existingPropertyNames)
+        HashSet<string> existingPropertyNames,
+        bool includeRequiredProperties,
+        bool requiredPropertiesAreNonNullable)
     {
-        // Properties for non-required options
-        foreach (var option in command.Options.Where(o => !o.IsRequired))
+        // Required definitions own colliding names, including with explicit constructors.
+        foreach (var option in command.Options
+                     .Where(option => includeRequiredProperties || !option.IsRequired)
+                     .OrderByDescending(static option => option.IsRequired))
         {
             if (!existingPropertyNames.Add(option.PropertyName))
             {
                 continue; // Skip duplicates
             }
-            GenerateProperty(sb, option);
+            GenerateProperty(sb, option, requiredPropertiesAreNonNullable);
             sb.AppendLine();
         }
 
         // Positional arguments - skip duplicates
-        foreach (var positional in positionalArguments.Where(p => !p.IsRequired))
+        foreach (var positional in positionalArguments.Where(positional =>
+                     includeRequiredProperties || !positional.IsRequired))
         {
             if (existingPropertyNames.Contains(positional.PropertyName))
             {
                 continue; // Skip duplicates
             }
-            GeneratePositionalArgument(sb, positional);
+            GeneratePositionalArgument(sb, positional, requiredPropertiesAreNonNullable);
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
@@ -157,11 +200,13 @@ public class OptionsClassGenerator : ICodeGenerator
     private static HashSet<string> GenerateClassDeclaration(
         StringBuilder sb,
         CliCommandDefinition command,
-        IReadOnlyList<GeneratorUtils.RequiredConstructorParameter> constructorParameters)
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        bool usePrimaryConstructor)
     {
+        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(command, positionalArguments);
         var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        if (constructorParameters.Count > 0)
+        if (constructorParameters.Count > 0 && usePrimaryConstructor)
         {
             // Use primary constructor for required parameters
             var parameters = new List<string>();
@@ -176,7 +221,7 @@ public class OptionsClassGenerator : ICodeGenerator
                     : parameter.IsSecret ? "SecretValue, " : "";
                 parameters.Add(
                     $"    [property: {secretAttribute}{attribute}] " +
-                    $"{parameter.CSharpType.TrimEnd('?')} {parameter.PropertyName}");
+                    $"{GetConstructorParameterType(parameter)} {parameter.PropertyName}");
                 existingNames.Add(parameter.PropertyName);
             }
 
@@ -193,16 +238,195 @@ public class OptionsClassGenerator : ICodeGenerator
     }
 
     private static string GetBaseTypes(CliCommandDefinition command) =>
-        command.RequiredAlternativeGroups.Count > 0
+        RequiresCommandValidation(command)
             ? $"{command.ParentClassName}, IValidatableObject"
             : command.ParentClassName;
 
-    private static void GenerateRequiredAlternativeValidation(
+    private static bool RequiresCommandValidation(CliCommandDefinition command) =>
+        command.RequiredAlternativeGroups.Count > 0
+        || SupportsAlternateInputModes(command, CliPositionalArgument.MergeDuplicates(command.PositionalArguments));
+
+    private static bool SupportsAlternateInputModes(
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        command.RequiredOptions.Count > 0
+        && positionalArguments.All(static positional => !positional.IsRequired)
+        && (HasOption(command, "--cli-input-json")
+            || HasOption(command, "--generate-cli-skeleton"));
+
+    private static bool HasOption(CliCommandDefinition command, string switchName) =>
+        command.Options.Any(option =>
+            option.SwitchName.Equals(switchName, StringComparison.OrdinalIgnoreCase));
+
+    private static void GenerateRequiredConstructor(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        bool includePrivateParameterlessConstructor)
+    {
+        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(
+            command,
+            positionalArguments);
+        var parameterDeclarations = constructorParameters.Select(parameter =>
+            $"        {GetConstructorParameterType(parameter)} {parameter.PropertyName}");
+
+        if (includePrivateParameterlessConstructor)
+        {
+            // Record copies retain the factory invariant when public input selectors change.
+            sb.AppendLine("    private readonly bool _requiresAlternateInput;");
+            sb.AppendLine();
+        }
+
+        GeneratorUtils.GenerateConstructorXmlDocumentation(sb, command, constructorParameters, indent: "    ");
+        sb.AppendLine($"    public {command.ClassName}(");
+        sb.AppendLine(string.Join($",{Environment.NewLine}", parameterDeclarations));
+        sb.AppendLine("    )");
+        sb.AppendLine("    {");
+        foreach (var parameter in constructorParameters)
+        {
+            if (parameter.Option is { IsFlag: true, NegatedSwitchName: null })
+            {
+                sb.AppendLine($"        if (!{parameter.PropertyName})");
+                sb.AppendLine("        {");
+                sb.AppendLine("            throw new global::System.ArgumentException(");
+                sb.AppendLine("                \"Required flag must be enabled to emit its switch.\",");
+                sb.AppendLine($"                nameof({parameter.PropertyName}));");
+                sb.AppendLine("        }");
+            }
+            else if (IsCollectionParameter(parameter))
+            {
+                GenerateCollectionSnapshot(sb, parameter);
+            }
+            else if (RequiresConstructorValue(parameter)
+                     && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType))
+            {
+                sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
+            }
+
+            sb.AppendLine($"        this.{parameter.PropertyName} = {parameter.PropertyName};");
+        }
+
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        if (!includePrivateParameterlessConstructor)
+        {
+            return;
+        }
+
+        sb.AppendLine($"    private {command.ClassName}()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        _requiresAlternateInput = true;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
+
+    private static void GenerateCollectionSnapshot(
+        StringBuilder sb,
+        GeneratorUtils.RequiredConstructorParameter parameter)
+    {
+        var required = RequiresConstructorValue(parameter);
+        var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
+            parameter.CSharpType.TrimEnd('?'), parameter.PropertyName);
+        if (!required)
+        {
+            sb.AppendLine($"        if ({parameter.PropertyName} is not null)");
+        }
+
+        sb.AppendLine("        {");
+        if (required)
+        {
+            sb.AppendLine($"            global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
+        }
+
+        sb.AppendLine($"            var materialized = {snapshot};");
+        if (required)
+        {
+            sb.AppendLine("            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))");
+            sb.AppendLine("            {");
+            sb.AppendLine("                throw new global::System.ArgumentException(");
+            sb.AppendLine("                    \"Required collection must contain at least one value.\",");
+            sb.AppendLine($"                    nameof({parameter.PropertyName}));");
+            sb.AppendLine("            }");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine($"            {parameter.PropertyName} = materialized;");
+        sb.AppendLine("        }");
+    }
+
+    private static void GenerateRequiredDeconstruct(
         StringBuilder sb,
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        if (command.RequiredAlternativeGroups.Count == 0)
+        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(
+            command,
+            positionalArguments);
+        var parameters = constructorParameters.Select(parameter =>
+            $"out {GetConstructorParameterType(parameter)} {parameter.PropertyName}");
+        sb.AppendLine($"    public void Deconstruct({string.Join(", ", parameters)})");
+        sb.AppendLine("    {");
+        foreach (var parameter in constructorParameters)
+        {
+            var value = RequiresNullableFlagProperty(parameter.Option)
+                ? $"this.{parameter.PropertyName}.GetValueOrDefault()"
+                : $"this.{parameter.PropertyName}";
+            sb.AppendLine($"        {parameter.PropertyName} = {value};");
+        }
+
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
+
+    private static bool RequiresConstructorValue(GeneratorUtils.RequiredConstructorParameter parameter) =>
+        parameter.PositionalArgument?.IsValidationRequired != false;
+
+    private static string GetConstructorParameterType(GeneratorUtils.RequiredConstructorParameter parameter) =>
+        parameter.CSharpType.TrimEnd('?') + (RequiresConstructorValue(parameter) ? "" : "?");
+
+    private static bool IsCollectionParameter(
+        GeneratorUtils.RequiredConstructorParameter parameter) =>
+        CliOptionDefinition.TryGetCollectionShape(parameter.CSharpType.TrimEnd('?'), out var isCollection)
+            ? isCollection
+            : parameter.Option?.IsCollection == true;
+
+    private static bool RequiresNullableFlagProperty(CliOptionDefinition? option) =>
+        option is { IsFlag: true, NegatedSwitchName: not null };
+
+    private static void GenerateAlternateInputFactories(
+        StringBuilder sb,
+        CliCommandDefinition command)
+    {
+        if (HasOption(command, "--cli-input-json"))
+        {
+            sb.AppendLine($"    public static {command.ClassName} FromCliInputJson(string cliInputJson)");
+            sb.AppendLine("    {");
+            sb.AppendLine("        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);");
+            sb.AppendLine("        return new() { CliInputJson = cliInputJson };");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+        }
+
+        if (HasOption(command, "--generate-cli-skeleton"))
+        {
+            sb.AppendLine($"    public static {command.ClassName} ForCliSkeleton(string generateCliSkeleton = \"input\") =>");
+            sb.AppendLine("        generateCliSkeleton is \"input\" or \"yaml-input\"");
+            sb.AppendLine("            ? new() { GenerateCliSkeleton = generateCliSkeleton }");
+            sb.AppendLine("            : throw new global::System.ArgumentOutOfRangeException(");
+            sb.AppendLine("                nameof(generateCliSkeleton),");
+            sb.AppendLine("                generateCliSkeleton,");
+            sb.AppendLine("                \"Required operation values may only be omitted for input or yaml-input skeletons.\");");
+            sb.AppendLine();
+        }
+    }
+
+    private static void GenerateValidation(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
+        if (command.RequiredAlternativeGroups.Count == 0 && !supportsAlternateInputModes)
         {
             return;
         }
@@ -210,6 +434,33 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <inheritdoc />");
         sb.AppendLine("    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
         sb.AppendLine("    {");
+        if (supportsAlternateInputModes)
+        {
+            List<string> alternateInputs = [];
+            if (HasOption(command, "--cli-input-json"))
+            {
+                alternateInputs.Add("!string.IsNullOrWhiteSpace(CliInputJson)");
+            }
+
+            if (HasOption(command, "--generate-cli-skeleton"))
+            {
+                alternateInputs.Add("GenerateCliSkeleton is \"input\" or \"yaml-input\"");
+            }
+
+            var alternateInputSelected = string.Join(" || ", alternateInputs);
+            sb.AppendLine($"        if (_requiresAlternateInput && !({alternateInputSelected}))");
+            sb.AppendLine("        {");
+            sb.AppendLine("            yield return new ValidationResult(\"An alternate input must remain selected for an instance created without required operation values.\");");
+            sb.AppendLine("            yield break;");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+            sb.AppendLine($"        if ({alternateInputSelected})");
+            sb.AppendLine("        {");
+            sb.AppendLine("            yield break;");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+        }
+
         foreach (var group in command.RequiredAlternativeGroups)
         {
             var propertyNames = group.PropertyNames.Distinct(StringComparer.Ordinal).ToArray();
@@ -233,6 +484,7 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
             sb.AppendLine("        }");
         }
+
         sb.AppendLine("    }");
         sb.AppendLine();
     }
@@ -273,7 +525,10 @@ public class OptionsClassGenerator : ICodeGenerator
             _ => $"{string.Join(", ", propertyNames.Take(propertyNames.Length - 1))}, or {propertyNames[^1]}",
         };
 
-    private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)
+    private static void GenerateProperty(
+        StringBuilder sb,
+        CliOptionDefinition option,
+        bool requiredPropertiesAreNonNullable)
     {
         // XML documentation
         GeneratorUtils.GenerateXmlDocumentation(sb, option.Description);
@@ -298,10 +553,17 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; set; }}");
+        var accessor = GetPropertyAccessor(option.IsRequired);
+        var propertyType = option.IsRequired && requiredPropertiesAreNonNullable && !RequiresNullableFlagProperty(option)
+            ? option.PropertyType.TrimEnd('?')
+            : option.PropertyType;
+        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{propertyType} {option.PropertyName} {{ get; {accessor}; }}");
     }
 
-    private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
+    private static void GeneratePositionalArgument(
+        StringBuilder sb,
+        CliPositionalArgument positional,
+        bool requiredPropertiesAreNonNullable)
     {
         GeneratorUtils.GenerateXmlDocumentation(sb, positional.Description);
 
@@ -312,8 +574,22 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
+        var accessor = GetPropertyAccessor(positional.IsRequired);
+        var propertyType = positional.CSharpType;
+        if (positional.IsValidationRequired == false)
+        {
+            propertyType = propertyType.TrimEnd('?') + "?";
+        }
+        else if (positional.IsRequired && requiredPropertiesAreNonNullable)
+        {
+            propertyType = propertyType.TrimEnd('?');
+        }
+
+        sb.AppendLine($"    public {propertyType} {positional.PropertyName} {{ get; {accessor}; }}");
     }
+
+    private static string GetPropertyAccessor(bool isRequired) =>
+        isRequired ? "private init" : "set";
 
     private static string GetNewModifier(string propertyName) =>
         InheritedPropertyCollisionResolver.IsInheritedPropertyName(propertyName) ? "new " : "";

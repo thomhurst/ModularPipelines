@@ -86,7 +86,8 @@ public class GcloudResourceArgumentTests
         var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
         await Assert.That(generated).Contains($"string {operandName}");
         await Assert.That(generated).Contains("public string? Location");
-        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]");
+        await Assert.That(generated).Contains("[CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]");
+        await Assert.That(generated).Contains($"public string {operandName} {{ get; private init; }}");
         var services = await new SubDomainClassGenerator().GenerateAsync(tool);
         var service = string.Join(Environment.NewLine, services.Select(file => file.Content));
         await Assert.That(service).Contains($"{command.ClassName} options,");
