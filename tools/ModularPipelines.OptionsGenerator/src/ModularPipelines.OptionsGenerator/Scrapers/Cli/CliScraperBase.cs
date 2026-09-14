@@ -1557,7 +1557,7 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
         }
-        else
+        else if (!IsRepeatedClapDefault(trailer, prose))
         {
             prose.Add(pendingTrailer);
         }
@@ -1566,20 +1566,126 @@ public abstract partial class CliScraperBase : ICliScraper
         return true;
     }
 
+    private static bool IsRepeatedClapDefault(Match trailer, IReadOnlyList<string> prose)
+    {
+        if (!trailer.Success || !trailer.Groups["name"].Value.Equals("default", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        var value = trailer.Groups["value"].Value.Trim();
+        var description = string.Join(' ', prose);
+        foreach (Match annotation in ClapDefaultAnnotationStartPattern().Matches(description))
+        {
+            var remaining = description.AsSpan(annotation.Index + annotation.Length);
+            if (!remaining.StartsWith(value, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            // Match the entire literal value, including any nested brackets or parentheses.
+            var closing = annotation.Groups["open"].Value[0] == '(' ? ')' : ']';
+            var suffix = remaining[value.Length..].TrimStart();
+            if (!suffix.IsEmpty && suffix[0] == closing)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [GeneratedRegex(@"(?<open>[\[(])default\s*:\s*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ClapDefaultAnnotationStartPattern();
+
     /// <summary>
     /// Splits a trailing <c>[possible values: a, b]</c> from an inline description, where
-    /// clap's aligned layout appends it to the description text.
+    /// clap's aligned layout appends it to the description text, and removes repeated default trailers.
     /// </summary>
     protected static ClapOptionBlock SplitPossibleValuesTrailer(string description)
     {
         var match = InlinePossibleValuesPattern().Match(description);
         if (!match.Success)
         {
-            return new ClapOptionBlock(description, []);
+            return new ClapOptionBlock(RemoveRepeatedInlineClapDefaults(description), []);
         }
 
         var prose = string.Concat(description[..match.Index], description[(match.Index + match.Length)..]).Trim();
-        return new ClapOptionBlock(prose, [.. ParsePossibleValuesList(match.Groups["value"].Value)]);
+        return new ClapOptionBlock(RemoveRepeatedInlineClapDefaults(prose), [.. ParsePossibleValuesList(match.Groups["value"].Value)]);
+    }
+
+    private static string RemoveRepeatedInlineClapDefaults(string description)
+    {
+        var annotations = ClapDefaultAnnotationStartPattern().Matches(description);
+        for (var i = annotations.Count - 1; i >= 0; i--)
+        {
+            var annotation = annotations[i];
+            if (annotation.Groups["open"].Value != "[")
+            {
+                continue;
+            }
+
+            var trailerEnd = FindClapTrailerEnd(description.AsSpan(annotation.Index));
+            if (trailerEnd < 0)
+            {
+                continue;
+            }
+
+            var suffix = description[(annotation.Index + trailerEnd + 1)..].TrimStart();
+            if (!IsClapMetadataSuffix(suffix))
+            {
+                continue;
+            }
+
+            var trailer = ClapTrailerPattern().Match(description.Substring(annotation.Index, trailerEnd + 1));
+            var prose = description[..annotation.Index].TrimEnd();
+            if (IsRepeatedClapDefault(trailer, [prose]))
+            {
+                description = suffix.Length == 0 ? prose : $"{prose} {suffix}";
+            }
+        }
+
+        return description;
+    }
+
+    private static bool IsClapMetadataSuffix(ReadOnlySpan<char> suffix)
+    {
+        suffix = suffix.TrimStart();
+        while (!suffix.IsEmpty)
+        {
+            if (!ClapMetadataTrailerStartPattern().IsMatch(suffix))
+            {
+                return false;
+            }
+
+            var end = FindClapTrailerEnd(suffix);
+            if (end < 0)
+            {
+                return false;
+            }
+
+            suffix = suffix[(end + 1)..].TrimStart();
+        }
+
+        return true;
+    }
+
+    private static int FindClapTrailerEnd(ReadOnlySpan<char> text)
+    {
+        var depth = 0;
+        for (var i = 0; i < text.Length; i++)
+        {
+            if (text[i] == '[')
+            {
+                depth++;
+            }
+            else if (text[i] == ']' && --depth == 0)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     /// <summary>

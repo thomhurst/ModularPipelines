@@ -25,7 +25,7 @@ public record PnpmSbomOptions(
 ) : PnpmOptions
 {
     /// <summary>
-    /// The component type for the root package (default: library) [default: library]
+    /// The component type for the root package (default: library)
     /// </summary>
     [CliOption("--sbom-type")]
     public PnpmSbomSbomType? SbomType { get; set; }
