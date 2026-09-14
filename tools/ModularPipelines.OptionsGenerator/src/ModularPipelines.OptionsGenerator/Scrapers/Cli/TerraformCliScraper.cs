@@ -36,6 +36,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<TerraformCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
+    // Stacks help refreshes a shared plugin manifest using a non-atomic write.
+    // Serialize across scraper instances so another process cannot read a truncated manifest.
+    private static readonly SemaphoreSlim StacksHelpSemaphore = new(1, 1);
+
     public override string ToolName => "terraform";
 
     public override string NamespacePrefix => "Terraform";
@@ -57,6 +61,24 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     /// Terraform uses -help instead of --help for subcommands.
     /// </summary>
     protected override async Task<string?> GetHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
+    {
+        if (commandPath is not [_, "stacks", ..])
+        {
+            return await ReadHelpTextAsync(commandPath, cancellationToken);
+        }
+
+        await StacksHelpSemaphore.WaitAsync(cancellationToken);
+        try
+        {
+            return await ReadHelpTextAsync(commandPath, cancellationToken);
+        }
+        finally
+        {
+            StacksHelpSemaphore.Release();
+        }
+    }
+
+    private async Task<string?> ReadHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
     {
         var cacheKey = string.Join(" ", commandPath);
 
