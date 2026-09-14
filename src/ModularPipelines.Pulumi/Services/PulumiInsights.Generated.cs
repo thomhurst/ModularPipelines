@@ -60,7 +60,7 @@ public class PulumiInsights : IPulumiInsights
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
