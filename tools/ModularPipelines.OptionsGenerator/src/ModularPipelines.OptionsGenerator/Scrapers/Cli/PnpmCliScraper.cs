@@ -321,7 +321,7 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         var acceptsMultipleValues = match.Groups["multi"].Success
                                     || IsRepeatableValueOption(block.Description, isFlag, isBoolean: false);
         var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
-        var enumDefinition = TryCreateOptionEnum(className, propertyName, longForm, block.PossibleValues);
+        var enumDefinition = isFlag ? null : TryCreateOptionEnum(className, propertyName, longForm, block.PossibleValues);
 
         return new CliOptionDefinition
         {
