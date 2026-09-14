@@ -1443,10 +1443,14 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Model_Rejects_Operand_After_SameNamed_Boolean_Option()
+    [Arguments("--output", "--output")]
+    [Arguments("[--output]", null)]
+    public async Task Model_Rejects_Operand_After_SameNamed_Boolean_Option(
+        string optionUsage,
+        string? associatedOptionSwitch)
     {
         var usage = UsageSynopsisParser.Parse(
-            "Usage: tool run [--output] OUTPUT",
+            $"Usage: tool run {optionUsage} OUTPUT",
             ["tool", "run"]);
         var command = new CliCommandDefinition
         {
@@ -1475,7 +1479,7 @@ public class UsageSynopsisParserTests
         using (Assert.Multiple())
         {
             await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
-                .IsEqualTo("--output");
+                .IsEqualTo(associatedOptionSwitch);
             await Assert.That(Validate)
                 .Throws<InvalidOperationException>()
                 .And.HasMessageContaining("no CliPositionalArgument");

@@ -9,6 +9,27 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    [Arguments("--package <SPEC>")]
+    [Arguments("--package [<SPEC>]")]
+    [Arguments("--package=<SPEC>")]
+    public async Task Unparsed_Value_Options_Do_Not_Become_Positionals(string usage)
+    {
+        var helpText = $"""
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] {usage}
+
+            Options:
+              -p, --package [<SPEC>]  Select a package
+              -h, --help            Print help
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
     public async Task Same_Named_Option_Value_Does_Not_Make_An_Alternative_Positional_Required()
     {
         const string helpText = """
@@ -80,8 +101,9 @@ public class CargoCliScraperTests
 
     [Test]
     [Arguments("<A> [--verbose] <B>", "<X> <Y>")]
-    [Arguments("<A> [-v] <B>", "<X> <Y>")]
+    [Arguments("<A> --verbose <B>", "<X> <Y>")]
     [Arguments("<A> [--missing] <B>", "<X> <Y>")]
+    [Arguments("<A> [-v] <B>", "<X> <Y>")]
     [Arguments("<A> <B>", "<X> [--verbose] <Y>")]
     [Arguments("[--verbose] <A> --file <FILE> <B>", "<X> <Y>")]
     public async Task Presence_Only_Flags_Do_Not_Relax_Renamed_Required_Operands(

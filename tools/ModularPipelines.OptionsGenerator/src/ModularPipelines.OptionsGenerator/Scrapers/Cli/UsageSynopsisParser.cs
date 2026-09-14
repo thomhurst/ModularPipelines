@@ -99,10 +99,6 @@ public static class UsageSynopsisParser
             ? [.. sameCommandCandidates
                 .Where(candidate => suppliedSynopsisSet.Contains(candidate.Synopsis ?? ""))]
             : sameCommandCandidates;
-        var requirednessCandidateMemberKeys = requirednessCandidates
-            .Select(GetRequiredAlternativeMemberKeys)
-            .ToArray();
-
         return selected with
         {
             HasExtractedSynopses = true,
@@ -114,16 +110,7 @@ public static class UsageSynopsisParser
                 selected.PositionalArguments,
                 requirednessCandidates),
             RequirednessCandidates = requirednessCandidates,
-            RequiredAlternativeGroups =
-            [
-                .. selected.RequiredAlternativeGroups.Where(group =>
-                    requirednessCandidateMemberKeys.All(candidateMemberKeys =>
-                        group.Members.Any(member => candidateMemberKeys.Contains(
-                            GetAlternativeMemberKey(member))))),
-                .. GetCrossSynopsisRequiredAlternativeGroups(
-                    requirednessCandidates,
-                    selected.PositionalArguments),
-            ],
+            RequiredAlternativeGroups = GetRequiredAlternativeGroups(selected, requirednessCandidates),
         };
     }
 
@@ -271,6 +258,20 @@ public static class UsageSynopsisParser
                 candidateGroup.Members))
             .Select(GetAlternativeMemberKey)
             .ToHashSet(StringComparer.Ordinal);
+
+    private static IReadOnlyList<UsageRequiredAlternativeGroup> GetRequiredAlternativeGroups(
+        UsageSynopsisParseResult selected,
+        IReadOnlyList<UsageSynopsisParseResult> candidates)
+    {
+        var candidateMemberKeys = candidates.Select(GetRequiredAlternativeMemberKeys).ToArray();
+        return
+        [
+            .. selected.RequiredAlternativeGroups.Where(group =>
+                candidateMemberKeys.All(keys =>
+                    group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))),
+            .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
+        ];
+    }
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
         IReadOnlyList<UsageSynopsisParseResult> candidates,
@@ -578,7 +579,9 @@ public static class UsageSynopsisParser
             return false;
         }
 
+        // A closed optional switch group does not consume a value outside its brackets.
         associatedOptionSwitch = HasInlineOptionValue(operandToken)
+                                 || (operandToken.StartsWith('[') && IsWrapped(operandToken))
             ? null
             : SelectPreferredOptionSwitch(optionSwitches);
         if (IsRequiredUsageToken(operandToken))
@@ -669,35 +672,68 @@ public static class UsageSynopsisParser
         && left.PositionalArguments.Count == right.PositionalArguments.Count
         && left.UnparsedOperandTokens.Count == right.UnparsedOperandTokens.Count;
 
-    internal static IReadOnlyList<CliPositionalArgument> ResolveOptionRequiredness(
+    internal static UsageSynopsisParseResult ResolveOptionUsage(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options)
     {
-        var selected = usage.RequirednessCandidates.FirstOrDefault(candidate => candidate.Synopsis == usage.Synopsis);
-        if (selected is null || usage.RequirednessCandidates.Count <= 1)
+        var original = usage.RequirednessCandidates.FirstOrDefault(candidate => candidate.Synopsis == usage.Synopsis);
+        if (original is null || usage.RequirednessCandidates.Count <= 1 || !usage.HasOperandTokens)
         {
-            return usage.PositionalArguments;
+            return usage;
         }
 
-        // Revisit the original requiredness only after option shapes are available. Keep the
-        // caller's operand list so removed command-group placeholders cannot be restored.
+        // Preserve operands deliberately removed by traversal or adapter normalization when
+        // reconsidering alternate forms. In particular, never restore command-group placeholders.
+        var omittedProperties = original.PositionalArguments
+            .Where(argument => !usage.PositionalArguments.Any(candidate =>
+                candidate.PropertyName == argument.PropertyName))
+            .Select(argument => argument.PropertyName)
+            .ToHashSet(StringComparer.Ordinal);
+        var candidates = usage.RequirednessCandidates.Select(candidate => candidate with
+        {
+            PositionalArguments = [.. candidate.PositionalArguments.Where(argument =>
+                !omittedProperties.Contains(argument.PropertyName))],
+            RequiredAlternativeGroups = [.. candidate.RequiredAlternativeGroups.Where(group =>
+                group.Members.All(member => member.PositionalPropertyName is not { } name
+                    || !omittedProperties.Contains(name)))],
+        }).ToArray();
+        var selected = candidates
+            .OrderByDescending(candidate => candidate.PositionalArguments.Count(argument => IsPositionalSlot(argument, options)))
+            .ThenByDescending(candidate => candidate.PositionalArguments.Count)
+            .ThenBy(candidate => candidate.UnparsedOperandTokens.Count)
+            .First();
+        var sameSynopsis = selected.Synopsis == usage.Synopsis;
+        var arguments = sameSynopsis ? usage.PositionalArguments : selected.PositionalArguments;
         var resolved = RelaxArgumentsMissingFromAlternatives(
             selected.PositionalArguments,
-            usage.RequirednessCandidates,
+            candidates,
             options);
-        return usage.PositionalArguments.Select(argument =>
+        var positionalArguments = arguments.Select(argument =>
         {
-            var original = resolved.FirstOrDefault(candidate =>
+            var resolvedArgument = resolved.FirstOrDefault(candidate =>
                 candidate.PropertyName == argument.PropertyName
                 && candidate.Phase == argument.Phase
                 && candidate.PositionIndex == argument.PositionIndex
                 && candidate.AssociatedOptionSwitch == argument.AssociatedOptionSwitch);
-            return original is null ? argument : argument with
+            return resolvedArgument is null ? argument : argument with
             {
-                IsRequired = original.IsRequired,
-                CSharpType = original.IsRequired ? argument.CSharpType.TrimEnd('?') : $"{argument.CSharpType.TrimEnd('?')}?",
+                IsRequired = resolvedArgument.IsRequired,
+                CSharpType = resolvedArgument.IsRequired ? argument.CSharpType.TrimEnd('?') : $"{argument.CSharpType.TrimEnd('?')}?",
             };
         }).ToArray();
+        return usage with
+        {
+            Synopsis = selected.Synopsis,
+            HasOperandTokens = sameSynopsis
+                ? usage.HasOperandTokens
+                : positionalArguments.Length > 0 || selected.UnparsedOperandTokens.Count > 0,
+            PositionalArguments = positionalArguments,
+            UnparsedOperandTokens = sameSynopsis ? usage.UnparsedOperandTokens : selected.UnparsedOperandTokens,
+            RequiredOptionSwitches = sameSynopsis ? usage.RequiredOptionSwitches : selected.RequiredOptionSwitches,
+            RequiredAlternativeGroups = sameSynopsis
+                ? usage.RequiredAlternativeGroups
+                : GetRequiredAlternativeGroups(selected, candidates),
+        };
     }
 
     private static IReadOnlyList<CliPositionalArgument> RelaxArgumentsMissingFromAlternatives(
@@ -764,8 +800,8 @@ public static class UsageSynopsisParser
         }
 
         return options is not null
-               && !options.Any(option =>
-                   !option.IsFlag
+               && options.Any(option =>
+                   option.IsFlag
                    && (option.SwitchName.Equals(argument.AssociatedOptionSwitch, StringComparison.OrdinalIgnoreCase)
                        || option.ShortForm?.Equals(argument.AssociatedOptionSwitch, StringComparison.OrdinalIgnoreCase) == true));
     }

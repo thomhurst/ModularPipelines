@@ -1248,6 +1248,47 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("<TARGET>")]
+    [Arguments("[--verbose] <TARGET>")]
+    public async Task Cargo_Retains_Positionals_From_An_Alternative_To_An_Option_Only_Form(string positionalForm)
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: cargo [OPTIONS] <COMMAND>
+
+                Commands:
+                  run  Execute a package
+
+                Options:
+                  -h, --help  Print help
+                """,
+            ["run --help"] = $"""
+                Execute a package
+
+                Usage: cargo run [OPTIONS] --file <FILE>
+                       cargo run [OPTIONS] {positionalForm}
+
+                Options:
+                      --file <FILE>  Read a file
+                  -v, --verbose      Print detailed output
+                """,
+        });
+
+        var command = (await ScrapeAsync(new TestCargoCliScraper(executor))).Single();
+
+        using (Assert.Multiple())
+        {
+            var positional = command.PositionalArguments.Single();
+            await Assert.That(positional.PropertyName).IsEqualTo("Target");
+            await Assert.That(positional.IsRequired).IsFalse();
+            await Assert.That(positional.CSharpType).IsEqualTo("string?");
+            await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+                .IsEquivalentTo(["File", "Target"]);
+        }
+    }
+
+    [Test]
     public async Task Cargo_Add_Models_Required_Dependency_Source_Alternatives()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)

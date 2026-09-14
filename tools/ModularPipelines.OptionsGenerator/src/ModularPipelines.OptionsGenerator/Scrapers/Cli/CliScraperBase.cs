@@ -558,8 +558,10 @@ public abstract partial class CliScraperBase : ICliScraper
             ValidateOptionShapes(command, helpText);
             ValidateArgumentGroups(command);
             usage = NormalizeUsageSynopsis(command, usage);
+            usage = UsageSynopsisParser.ResolveOptionUsage(usage, command.Options);
             command = command with
             {
+                UsageSynopsis = usage.Synopsis,
                 HasOperandTakingUsage = usage.HasOperandTokens,
                 UsagePositionalArguments = usage.PositionalArguments,
                 RequiredAlternativeGroups = ResolveRequiredAlternativeGroups(command, usage),
@@ -967,7 +969,7 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
-        [.. UsageSynopsisParser.ResolveOptionRequiredness(usage, options)
+        [.. UsageSynopsisParser.ResolveOptionUsage(usage, options).PositionalArguments
             .Where(argument => UsageSynopsisParser.IsPositionalSlot(argument, options))
             .Select(argument => argument with { AssociatedOptionSwitch = null })];
 
