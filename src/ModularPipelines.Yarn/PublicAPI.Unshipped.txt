@@ -124,7 +124,6 @@ ModularPipelines.Yarn.Options.YarnDedupeOptions.Strategy.get -> string?
 ModularPipelines.Yarn.Options.YarnDedupeOptions.Strategy.set -> void
 ModularPipelines.Yarn.Options.YarnDlxOptions
 ModularPipelines.Yarn.Options.YarnDlxOptions.Command.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Yarn.Options.YarnDlxOptions.Command.init -> void
 ModularPipelines.Yarn.Options.YarnDlxOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Command) -> void
 ModularPipelines.Yarn.Options.YarnDlxOptions.Package.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Yarn.Options.YarnDlxOptions.Package.set -> void
@@ -133,7 +132,6 @@ ModularPipelines.Yarn.Options.YarnDlxOptions.Quiet.set -> void
 ModularPipelines.Yarn.Options.YarnDlxOptions.YarnDlxOptions(ModularPipelines.Yarn.Options.YarnDlxOptions! original) -> void
 ModularPipelines.Yarn.Options.YarnDlxOptions.YarnDlxOptions(System.Collections.Generic.IEnumerable<string!>! Command) -> void
 ModularPipelines.Yarn.Options.YarnExecOptions.CommandName.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Yarn.Options.YarnExecOptions.CommandName.init -> void
 ModularPipelines.Yarn.Options.YarnExecOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! CommandName) -> void
 ModularPipelines.Yarn.Options.YarnExecOptions.YarnExecOptions(System.Collections.Generic.IEnumerable<string!>! CommandName) -> void
 ModularPipelines.Yarn.Options.YarnExplainOptions.Code.get -> string?
@@ -366,10 +364,8 @@ ModularPipelines.Yarn.Options.YarnWhyOptions.Recursive.set -> void
 ModularPipelines.Yarn.Options.YarnWhyOptions.YarnWhyOptions(string! Package) -> void
 ModularPipelines.Yarn.Options.YarnWorkspaceOptions
 ModularPipelines.Yarn.Options.YarnWorkspaceOptions.CommandName.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Yarn.Options.YarnWorkspaceOptions.CommandName.init -> void
 ModularPipelines.Yarn.Options.YarnWorkspaceOptions.Deconstruct(out string! WorkspaceName, out System.Collections.Generic.IEnumerable<string!>! CommandName) -> void
 ModularPipelines.Yarn.Options.YarnWorkspaceOptions.WorkspaceName.get -> string!
-ModularPipelines.Yarn.Options.YarnWorkspaceOptions.WorkspaceName.init -> void
 ModularPipelines.Yarn.Options.YarnWorkspaceOptions.YarnWorkspaceOptions(ModularPipelines.Yarn.Options.YarnWorkspaceOptions! original) -> void
 ModularPipelines.Yarn.Options.YarnWorkspaceOptions.YarnWorkspaceOptions(string! WorkspaceName, System.Collections.Generic.IEnumerable<string!>! CommandName) -> void
 ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.All.get -> bool?
