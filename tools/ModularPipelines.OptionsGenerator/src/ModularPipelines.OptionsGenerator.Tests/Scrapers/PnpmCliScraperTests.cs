@@ -10,6 +10,48 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Short_Only_Clap_Options_Preserve_Values_And_Descriptions(bool blockLayout)
+    {
+        var options = blockLayout
+            ? "  -r\n          Process recursively.\n  -C <DIR>\n          Starting directory.\n  -h\n      --offline\n          Use cached packages.\n"
+            : "  -r            Process recursively.\n  -C <DIR>      Starting directory.\n  -h            Print help.\n      --offline  Use cached packages.\n";
+        var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n" + options;
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
+
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["-r", "-C", "--offline"]);
+        var recursive = command.Options.Single(option => option.SwitchName == "-r");
+        var directory = command.Options.Single(option => option.SwitchName == "-C");
+        await Assert.That(recursive.IsFlag).IsTrue();
+        await Assert.That(recursive.Description).IsEqualTo("Process recursively.");
+        await Assert.That(directory.IsFlag).IsFalse();
+        await Assert.That(directory.PropertyType).IsEqualTo("string?");
+        await Assert.That(directory.Description).IsEqualTo("Starting directory.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
+            .IsEqualTo("Use cached packages.");
+    }
+
+    [Test]
+    [Arguments("[=<WHEN>]")]
+    [Arguments(" [<WHEN>]")]
+    public async Task Optional_Clap_Values_Preserve_Choices_Without_Unused_Enums(string valueHint)
+    {
+        var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --color" + valueHint
+            + "\n          Set color behavior.\n          [possible values: always, auto, never]\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
+        var option = command.Options.Single();
+
+        await Assert.That(option.PropertyType).IsEqualTo("CliOptionValue?");
+        await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(option.EnumDefinition).IsNull();
+        await Assert.That(option.Description).Contains("always");
+        await Assert.That(option.Description).Contains("auto");
+        await Assert.That(option.Description).Contains("never");
+        await Assert.That(command.Enums).IsEmpty();
+    }
+    [Test]
     [Arguments("[EXPERIMENTAL]", "[EXPERIMENTAL]")]
     [Arguments("[EXPERIMENTAL]\n          Additional details.", "[EXPERIMENTAL] Additional details.")]
     [Arguments("[Preview\n          feature]", "[Preview feature]")]

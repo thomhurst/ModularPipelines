@@ -285,24 +285,28 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
                 continue;
             }
 
-            var longForm = match.Groups["long"].Value.Trim();
+            var longSwitch = match.Groups["long"];
+            var primarySwitch = longSwitch.Success ? longSwitch : match.Groups["short"];
+            var switchName = primarySwitch.Value.Trim();
+            // Clap reserves the "-x, " prefix even when a declaration has only a short switch.
+            var switchColumn = GetColumn(line, primarySwitch.Index) + (longSwitch.Success ? 0 : 4);
 
             // Consume the row's block before deciding whether to keep the row, so the prose of
             // a skipped or duplicate option is never re-read as declarations.
             var block = string.IsNullOrWhiteSpace(match.Groups["desc"].Value)
-                ? ReadClapOptionBlock(lines, ref i, GetColumn(line, match.Groups["long"].Index))
+                ? ReadClapOptionBlock(lines, ref i, switchColumn)
                 : SplitPossibleValuesTrailer(
                     AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow));
 
-            var propertyName = NormalizePropertyName(longForm);
-            if (longForm.Equals("--help", StringComparison.OrdinalIgnoreCase)
+            var propertyName = NormalizePropertyName(switchName);
+            if (switchName is "--help" or "-h"
                 || propertyName is null
-                || !seenOptions.Add(longForm))
+                || !seenOptions.Add(switchName))
             {
                 continue;
             }
 
-            options.Add(CreateOption(match, className, propertyName, longForm, block));
+            options.Add(CreateOption(match, className, propertyName, switchName, block));
         }
 
         return options;
@@ -312,7 +316,7 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         Match match,
         string className,
         string propertyName,
-        string longForm,
+        string switchName,
         ClapOptionBlock block)
     {
         var shortForm = match.Groups["short"].Value.Trim();
@@ -321,19 +325,22 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         var acceptsMultipleValues = match.Groups["multi"].Success
                                     || IsRepeatableValueOption(block.Description, isFlag, isBoolean: false);
         var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
-        var enumDefinition = isFlag ? null : TryCreateOptionEnum(className, propertyName, longForm, block.PossibleValues);
+        var optionalValue = valueHint.StartsWith('[');
+        var enumDefinition = isFlag || optionalValue
+            ? null
+            : TryCreateOptionEnum(className, propertyName, switchName, block.PossibleValues);
 
         return new CliOptionDefinition
         {
-            SwitchName = longForm,
-            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            SwitchName = switchName,
+            ShortForm = match.Groups["long"].Success && !string.IsNullOrEmpty(shortForm) ? shortForm : null,
             PropertyName = propertyName,
             CSharpType = isFlag
                 ? "bool?"
                 : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
-            Description = block.Description,
+            Description = GetOptionDescription(block, optionalValue),
             IsFlag = isFlag,
-            ValueArity = valueHint.StartsWith('[') ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
+            ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultipleValues,
             IsKeyValue = false,
@@ -342,6 +349,18 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
             EnumDefinition = enumDefinition,
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
         };
+    }
+
+    private static string GetOptionDescription(ClapOptionBlock block, bool optionalValue)
+    {
+        if (!optionalValue || block.PossibleValues.Count == 0)
+        {
+            return block.Description;
+        }
+
+        var choices = string.Join(", ", block.PossibleValues.Select(value =>
+            string.IsNullOrWhiteSpace(value.Description) ? value.Value : $"{value.Value}: {value.Description}"));
+        return $"{block.Description} [possible values: {choices}]".Trim();
     }
 
     private static bool IsOptionRow(string line) => PnpmOptionPattern().IsMatch(line);
@@ -386,7 +405,7 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     /// <c>&lt;CPU&gt;...</c> or <c>[=&lt;COLOR&gt;]</c>, and an inline description when the
     /// layout carries one after two or more spaces.
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s*(?<value><[^>]+>|\[[^\]]+\]))?(?<multi>\.\.\.)?(?:\s{2,}(?<desc>.*))?\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w)(?:,\s*(?<long>--[\w-]+))?|(?<long>--[\w-]+))(?:\s*(?<value><[^>]+>|\[[^\]]+\]))?(?<multi>\.\.\.)?(?:\s{2,}(?<desc>.*))?\s*$", RegexOptions.Multiline)]
     private static partial Regex PnpmOptionPattern();
 
     #endregion
