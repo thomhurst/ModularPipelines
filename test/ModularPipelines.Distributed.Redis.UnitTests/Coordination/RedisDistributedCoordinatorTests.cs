@@ -247,6 +247,68 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task PublishResultAsync_PreCanceled_DoesNotIssueCommands()
+    {
+        using var cancellation = new CancellationTokenSource();
+        cancellation.Cancel();
+
+        await Assert.That(() => _coordinator.PublishResultAsync(CreateResult("Test.Module"), cancellation.Token))
+            .Throws<OperationCanceledException>();
+
+        _dbMock.VerifyNoOtherCalls();
+        _subscriberMock.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task PublishResultAsync_Cancellation_StopsWaitingAndLaterCommands(int blockedStage)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var blocked = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var blockedPublish = new TaskCompletionSource<long>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var stages = new List<int>();
+        _dbMock.Setup(db => db.HashSetAsync(_keys.Results, It.IsAny<RedisValue>(), It.IsAny<RedisValue>(),
+                It.IsAny<When>(), It.IsAny<CommandFlags>()))
+            .Callback(() => stages.Add(0))
+            .Returns(() => blockedStage == 0 ? blocked.Task : Task.FromResult(true));
+        _dbMock.Setup(db => db.KeyExpireAsync(_keys.Results, _options.KeyExpiration,
+                It.IsAny<ExpireWhen>(), It.IsAny<CommandFlags>()))
+            .Callback(() => stages.Add(1))
+            .Returns(() => blockedStage == 1 ? blocked.Task : Task.FromResult(true));
+        _subscriberMock.Setup(subscriber => subscriber.PublishAsync(It.IsAny<RedisChannel>(),
+                It.IsAny<RedisValue>(), It.IsAny<CommandFlags>()))
+            .Callback(() => stages.Add(2))
+            .Returns(() => blockedPublish.Task);
+
+        var publication = _coordinator.PublishResultAsync(CreateResult("Test.Module"), cancellation.Token);
+        await Assert.That(stages.Count).IsEqualTo(blockedStage + 1);
+        cancellation.Cancel();
+
+        try
+        {
+            await Assert.That(() => publication.WaitAsync(TimeSpan.FromSeconds(5)))
+                .Throws<OperationCanceledException>();
+        }
+        finally
+        {
+            // Redis commands already sent may still complete after the caller stops waiting.
+            blocked.TrySetResult(true);
+            blockedPublish.TrySetResult(1);
+            try
+            {
+                await publication.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (OperationCanceledException)
+            {
+            }
+        }
+
+        await Assert.That(stages.Count).IsEqualTo(blockedStage + 1);
+    }
+
+    [Test]
     public async Task WaitForResultAsync_ReturnsImmediately_WhenResultExists()
     {
         var serializedResult = CreateResult("Test.Module");
