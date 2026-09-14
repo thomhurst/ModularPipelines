@@ -21,6 +21,29 @@ public class ContinuationLineTests
         await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
         await Assert.That(description).IsEmpty();
         await Assert.That(index).IsEqualTo(0);
+
+        index = 1;
+        var childDescription = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        await Assert.That(childDescription).IsEqualTo("May be specified multiple times");
+        await Assert.That(index).IsEqualTo(2);
+    }
+
+    [Test]
+    [Arguments("-child=VALUE   May be specified multiple times")]
+    [Arguments("-child=VALUE\n                   May be specified multiple times")]
+    public async Task Caller_Recognized_Single_Dash_Options_End_Their_Parent_Description(string child)
+    {
+        var lines = $"  -parent=VALUE   Configure\n                   {child}".Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        await Assert.That(description).IsEmpty();
+        await Assert.That(index).IsEqualTo(0);
     }
 
     [Test]

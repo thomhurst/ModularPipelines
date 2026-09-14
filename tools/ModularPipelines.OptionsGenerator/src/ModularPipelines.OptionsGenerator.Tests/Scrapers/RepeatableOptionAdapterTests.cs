@@ -14,6 +14,27 @@ public class RepeatableOptionAdapterTests
         new HelpTextCache(NullLogger<HelpTextCache>.Instance);
 
     [Test]
+    [Arguments("packer", false)]
+    [Arguments("packer", true)]
+    [Arguments("terraform", false)]
+    [Arguments("terraform", true)]
+    public async Task Nested_Single_Dash_Option_Keeps_Its_Own_Repeatability(string tool, bool detached)
+    {
+        var childDescription = detached
+            ? "\n                   May be specified multiple times"
+            : "May be specified multiple times";
+        var helpText = $"Usage: {tool} build [options]\n\nOptions:\n  -parent=VALUE   Configure\n                   -child=VALUE   {childDescription}";
+        var command = tool == "packer"
+            ? await new TestPackerCliScraper().Parse([tool, "build"], helpText)
+            : await new TestTerraformCliScraper().Parse([tool, "build"], helpText);
+        var prefix = tool == "packer" ? "--" : "-";
+        var parent = command!.Options.Single(option => option.SwitchName == prefix + "parent");
+
+        await Assert.That(parent.AcceptsMultipleValues).IsFalse();
+        await AssertRepeatable(command, prefix + "child");
+    }
+
+    [Test]
     public async Task Terraform_Recognizes_Multiple_Times_Prose()
     {
         const string helpText = """
