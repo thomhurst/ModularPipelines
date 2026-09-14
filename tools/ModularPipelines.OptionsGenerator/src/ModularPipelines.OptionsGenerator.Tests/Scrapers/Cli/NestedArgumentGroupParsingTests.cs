@@ -582,8 +582,8 @@ public partial class NestedArgumentGroupParsingTests
         await Assert.That(command.RequiredOptions).IsEmpty();
         await Assert.That(command.RequiredAlternativeGroups.All(group => !group.IsRequired && !group.IsChoice)).IsTrue();
         await Assert.That(command.RequiredAlternativeGroups.SelectMany(group => group.Members)
-                .Where(member => member.IsRequired).Select(member => member.OptionSwitch!))
-            .IsEquivalentTo(["--gke-cluster", "--history-server-cluster", "--metastore-service"]);
+                .Where(member => member.IsRequired).Select(member => member.OptionSwitch ?? member.PropertyName))
+            .IsEquivalentTo(["Cluster", "--gke-cluster", "--history-server-cluster", "--metastore-service"]);
     }
 
     [Test]
