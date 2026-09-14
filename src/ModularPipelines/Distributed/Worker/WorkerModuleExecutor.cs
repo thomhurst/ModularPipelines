@@ -388,16 +388,20 @@ internal class WorkerModuleExecutor(
     {
         try
         {
-            var failureResult = ModuleResultFactory.CreateException(
-                resultType,
-                exception,
-                new ModuleExecutionContext(module, module.GetType())
-                {
-                    Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
-                    Exception = exception,
-                });
+            var resultTask = module.AsInternal().ResultTask;
+            // A transport failure cannot replace an outcome already accepted by the module.
+            var terminalResult = resultTask.IsCompletedSuccessfully
+                ? resultTask.Result
+                : ModuleResultFactory.CreateException(
+                    resultType,
+                    exception,
+                    new ModuleExecutionContext(module, module.GetType())
+                    {
+                        Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
+                        Exception = exception,
+                    });
             var serialized = _serializer.Serialize(
-                failureResult,
+                terminalResult,
                 assignment.ModuleTypeName,
                 assignment.ResultTypeName,
                 instanceIndex);

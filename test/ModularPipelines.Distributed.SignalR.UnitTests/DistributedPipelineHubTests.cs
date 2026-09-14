@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed.SignalR.Hub;
 using Moq;
@@ -7,6 +8,64 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 
 public class DistributedPipelineHubTests
 {
+    private sealed class DisconnectLogger(Action onDisconnect) : ILogger<DistributedPipelineHub>
+    {
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (logLevel == LogLevel.Warning)
+            {
+                onDisconnect();
+            }
+        }
+    }
+
+    [Test]
+    [Timeout(10_000)]
+    public async Task Reconnection_During_Disconnect_Retains_Assignment(CancellationToken cancellationToken)
+    {
+        var state = new SignalRMasterState();
+        var registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow);
+        var assignment = CreateAssignment("InFlightModule");
+        var oldWorker = new WorkerState { ConnectionId = "old", Registration = registration };
+        oldWorker.TryAssign(assignment);
+        state.RegisterWorker(oldWorker);
+        state.ResultWaiters[assignment.ModuleTypeName] = new TaskCompletionSource<SerializedModuleResult>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        using var disconnectReported = new ManualResetEventSlim();
+        using var releaseDisconnect = new ManualResetEventSlim();
+        var context = new Mock<HubCallerContext>();
+        context.SetupGet(instance => instance.ConnectionId).Returns("old");
+        var oldHub = new DistributedPipelineHub(state, new DisconnectLogger(() =>
+        {
+            disconnectReported.Set();
+            releaseDisconnect.Wait(cancellationToken);
+        }))
+        { Context = context.Object };
+        var disconnect = Task.Factory.StartNew(() => oldHub.OnDisconnectedAsync(null),
+                CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default)
+            .Unwrap();
+        try
+        {
+            disconnectReported.Wait(cancellationToken);
+            await CreateHub(state, "new").RegisterWorker(registration, assignment.ModuleTypeName);
+        }
+        finally
+        {
+            releaseDisconnect.Set();
+            await disconnect.WaitAsync(cancellationToken);
+        }
+
+        await Assert.That(state.Workers["new"].CurrentAssignment).IsSameReferenceAs(assignment);
+        await CreateHub(state, "new").PublishResult(CreateResult(assignment.ModuleTypeName));
+        await Assert.That(state.GetPendingReconnect(1)).IsNull();
+        await Assert.That(state.PendingAssignments).IsEmpty();
+    }
+
     [Test]
     public async Task Heartbeat_From_Connected_Worker_Cannot_Update_Another_Worker()
     {

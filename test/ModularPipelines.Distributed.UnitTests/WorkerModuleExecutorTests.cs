@@ -101,6 +101,35 @@ public class WorkerModuleExecutorTests
 
     private sealed class DefaultRetryModule : RetryingModule;
 
+    private sealed class RejectFirstPublicationCoordinator(IDistributedWorkerCoordinator inner) : IDistributedWorkerCoordinator
+    {
+        private int _publications;
+
+        public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken) =>
+            Interlocked.Increment(ref _publications) == 1
+                ? Task.FromException(new InvalidOperationException("Publication was rejected."))
+                : inner.PublishResultAsync(result, cancellationToken);
+
+        public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> capabilities, CancellationToken cancellationToken) =>
+            inner.DequeueModuleAsync(capabilities, cancellationToken);
+
+        public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken) =>
+            inner.WaitForResultAsync(moduleTypeName, cancellationToken);
+
+        public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken) =>
+            inner.RegisterWorkerAsync(registration, cancellationToken);
+
+        public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
+            inner.SendHeartbeatAsync(status, cancellationToken);
+
+        public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
+            inner.WaitForCancellationAsync(cancellationToken);
+    }
+
+    [Test]
+    public Task Publication_Rejection_Does_Not_Replace_Accepted_Success(CancellationToken cancellationToken) =>
+        AssertWorkerRetriesAsync<DeclarativeRetryModule>(null, cancellationToken, rejectFirstPublication: true);
+
     [Test]
     public Task Worker_Uses_Module_Retry_Configuration(CancellationToken cancellationToken) =>
         AssertWorkerRetriesAsync<DeclarativeRetryModule>(null, cancellationToken);
@@ -266,7 +295,8 @@ public class WorkerModuleExecutorTests
 
     private static async Task AssertWorkerRetriesAsync<TModule>(
         Action<PipelineBuilder>? configureBuilder,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool rejectFirstPublication = false)
         where TModule : RetryingModule
     {
         var builder = TestPipelineBuilder.Create();
@@ -289,7 +319,7 @@ public class WorkerModuleExecutorTests
         await coordinator.EnqueueModuleAsync(assignment, cancellationToken);
         var executor = new WorkerModuleExecutor(
             pipeline.Services.GetRequiredService<IHostApplicationLifetime>(),
-            coordinator,
+            rejectFirstPublication ? new RejectFirstPublicationCoordinator(coordinator) : coordinator,
             [module],
             typeRegistry,
             serializer,

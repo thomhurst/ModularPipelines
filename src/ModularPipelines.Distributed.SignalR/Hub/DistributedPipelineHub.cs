@@ -31,26 +31,27 @@ internal class DistributedPipelineHub(
             Registration = registration,
         };
 
-        var supersededWorker = state.RegisterWorker(workerState);
         PendingReconnect? supersededReconnect = null;
-        var supersededAssignment = supersededWorker?.ClearAssignment();
-        if (supersededAssignment is not null
-            && state.ResultWaiters.TryGetValue(supersededAssignment.ModuleTypeName, out var waiter)
-            && !waiter.Task.IsCompleted)
+        ModuleAssignment? recoveredAssignment;
+        bool restored;
+        lock (state.GetWorkerStateLock(registration.WorkerIndex))
         {
-            supersededReconnect = state.TrackPendingReconnect(
-                supersededWorker!,
-                supersededAssignment);
+            var supersededWorker = state.RegisterWorker(workerState);
+            var supersededAssignment = supersededWorker?.ClearAssignment();
+            if (supersededAssignment is not null
+                && state.ResultWaiters.TryGetValue(supersededAssignment.ModuleTypeName, out var waiter)
+                && !waiter.Task.IsCompleted)
+            {
+                supersededReconnect = state.TrackPendingReconnect(
+                    supersededWorker!,
+                    supersededAssignment);
+            }
+
+            // The index alone cannot establish ownership of a previous process's execution.
+            restored = state.TryRestoreReconnect(workerState, resumingModuleTypeName, out recoveredAssignment);
         }
 
-        // A reconnect may restore work only when the worker claims the same in-flight
-        // module. The stable index alone is insufficient because a replacement process
-        // can reuse it without owning the original execution.
-        if (state.TryRestoreReconnect(
-                workerState,
-                resumingModuleTypeName,
-                out var recoveredAssignment)
-            && _logger.IsEnabled(LogLevel.Information))
+        if (restored && _logger.IsEnabled(LogLevel.Information))
         {
             _logger.LogInformation(
                 "Worker {Index} reclaimed in-flight {Module}",
@@ -175,33 +176,38 @@ internal class DistributedPipelineHub(
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        _masterState.PendingWorkerStatuses.TryRemove(Context.ConnectionId, out _);
-        if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
+        var connectionId = Context.ConnectionId;
+        _masterState.PendingWorkerStatuses.TryRemove(connectionId, out _);
+        if (_masterState.Workers.TryGetValue(connectionId, out var workerState))
         {
             var workerIndex = workerState.Registration.WorkerIndex;
-            _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})",
-                workerIndex, Context.ConnectionId);
-
-            // Retain the final registration and heartbeat for run-report collection.
-            // GetRegisteredWorkersAsync uses heartbeat age to exclude stale workers
-            // from liveness checks without erasing their last published metrics here.
-
-            // Don't re-enqueue in-flight work immediately: the worker may just be blipping
-            // and auto-reconnecting, and re-running a module (with side effects) is unsafe.
-            // Instead schedule a re-enqueue after a grace period; if the worker reconnects
-            // within that window and claims the assignment, RegisterWorker cancels it.
-            // If the result already came back, the assignment is null (cleared in
-            // PublishResult) or its waiter is complete.
-            var inflight = workerState.ClearAssignment();
-            if (inflight is not null
-                && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
-                && !waiter.Task.IsCompleted)
+            PendingReconnect? pending = null;
+            bool removed;
+            lock (_masterState.GetWorkerStateLock(workerIndex))
             {
-                var pending = _masterState.TrackPendingReconnect(workerState, inflight);
-                if (pending is not null)
+                removed = _masterState.Workers.TryRemove(new KeyValuePair<string, WorkerState>(connectionId, workerState));
+                if (removed)
                 {
-                    _ = ReEnqueueAfterGraceAsync(_masterState, _logger, pending);
+                    // Publish reconnect ownership before another connection can register.
+                    // Preserve registration and final metrics for run-report collection.
+                    var inflight = workerState.ClearAssignment();
+                    if (inflight is not null
+                        && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
+                        && !waiter.Task.IsCompleted)
+                    {
+                        pending = _masterState.TrackPendingReconnect(workerState, inflight);
+                    }
                 }
+            }
+
+            if (removed)
+            {
+                _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})", workerIndex, connectionId);
+            }
+
+            if (pending is not null)
+            {
+                _ = ReEnqueueAfterGraceAsync(_masterState, _logger, pending);
             }
         }
 
@@ -226,6 +232,10 @@ internal class DistributedPipelineHub(
         catch (OperationCanceledException)
         {
             return; // Worker reconnected within the grace window — keep awaiting its result.
+        }
+        catch (ObjectDisposedException)
+        {
+            return; // Result completion disposed the pending delay before this task started.
         }
 
         // Make the retry available without claiming it. A simultaneous reconnect may

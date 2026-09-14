@@ -20,6 +20,7 @@ public interface IDistributedMasterCoordinator : IDistributedWorkerCoordinator
     /// <summary>
     /// Gets the latest status reported by each registered worker.
     /// </summary>
+    /// <returns>At most one latest status for each worker index.</returns>
     Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(
         CancellationToken cancellationToken);
 

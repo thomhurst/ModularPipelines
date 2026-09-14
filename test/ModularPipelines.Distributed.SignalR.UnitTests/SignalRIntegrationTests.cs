@@ -17,10 +17,33 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 /// </summary>
 public class SignalRIntegrationTests
 {
+    private static readonly TimeSpan[] ReconnectDelays =
+    [
+        TimeSpan.Zero,
+        TimeSpan.FromMilliseconds(100),
+        TimeSpan.FromMilliseconds(250),
+        TimeSpan.FromMilliseconds(500),
+        TimeSpan.FromSeconds(1),
+        TimeSpan.FromSeconds(2),
+    ];
+
+    private sealed class GatedRetryPolicy(ManualResetEventSlim reconnectAllowed, CancellationToken cancellationToken) : IRetryPolicy
+    {
+        public TimeSpan? NextRetryDelay(RetryContext retryContext)
+        {
+            // Do not reconnect to the old server while its WebSockets are draining.
+            reconnectAllowed.Wait(cancellationToken);
+            return retryContext.PreviousRetryCount < ReconnectDelays.Length
+                ? ReconnectDelays[retryContext.PreviousRetryCount]
+                : null;
+        }
+    }
+
     private static HubConnection BuildClient(
         string serverUrl,
         string hubPath,
-        bool enableImmediateReconnect = false)
+        bool enableImmediateReconnect = false,
+        IRetryPolicy? retryPolicy = null)
     {
         var builder = new HubConnectionBuilder()
             .WithUrl($"{serverUrl}{hubPath}")
@@ -30,17 +53,13 @@ public class SignalRIntegrationTests
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
             });
 
-        if (enableImmediateReconnect)
+        if (retryPolicy is not null)
         {
-            builder.WithAutomaticReconnect(
-            [
-                TimeSpan.Zero,
-                TimeSpan.FromMilliseconds(100),
-                TimeSpan.FromMilliseconds(250),
-                TimeSpan.FromMilliseconds(500),
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(2),
-            ]);
+            builder.WithAutomaticReconnect(retryPolicy);
+        }
+        else if (enableImmediateReconnect)
+        {
+            builder.WithAutomaticReconnect(ReconnectDelays);
         }
 
         return builder.Build();
@@ -457,6 +476,66 @@ public class SignalRIntegrationTests
         await Assert.That(deliveries).IsEqualTo(1);
         await Assert.That(state.PendingAssignments).IsEmpty();
         await Assert.That(state.GetPendingReconnect(1)).IsNull();
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Worker_Result_Publication_Survives_Disconnect_And_Reconnect(CancellationToken cancellationToken)
+    {
+        var options = new SignalRDistributedOptions { MasterUrl = "http://127.0.0.1:0" };
+        var state = new SignalRMasterState();
+        MasterServerHost? serverHost = new();
+        using var reconnectAllowed = new ManualResetEventSlim();
+        try
+        {
+            await serverHost.StartAsync(options, state, NullLoggerFactory.Instance, cancellationToken);
+            var serverUrl = serverHost.AdvertisedUrl;
+            await using var connection = BuildClient(serverUrl, options.HubPath, retryPolicy: new GatedRetryPolicy(reconnectAllowed, cancellationToken));
+            var coordinator = new SignalRWorkerCoordinator(connection, NullLogger<SignalRWorkerCoordinator>.Instance);
+            var reconnecting = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            connection.Reconnecting += _ =>
+            {
+                reconnecting.TrySetResult();
+                return Task.CompletedTask;
+            };
+            var deliveries = 0;
+            using var subscription = connection.On<ModuleAssignment>(HubMethodNames.ReceiveAssignment,
+                _ => Interlocked.Increment(ref deliveries));
+            var assignment = new ModuleAssignment("CompletedModule", "System.String", [],
+                DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false));
+            var waiter = new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+            state.ResultWaiters[assignment.ModuleTypeName] = waiter;
+            state.PendingAssignments.Enqueue(assignment);
+            await connection.StartAsync(cancellationToken);
+            await coordinator.RegisterWorkerAsync(new WorkerRegistration(1, [], DateTimeOffset.UtcNow), cancellationToken);
+            await coordinator.DequeueModuleAsync(new HashSet<Capability>(), cancellationToken);
+
+            await serverHost.DisposeAsync();
+            serverHost = null;
+            reconnectAllowed.Set();
+            await reconnecting.Task.WaitAsync(cancellationToken);
+            var expected = new SerializedModuleResult(assignment.ModuleTypeName, assignment.ResultTypeName,
+                1, "{\"Output\":\"completed-successfully\"}", DateTimeOffset.UtcNow);
+            var publication = coordinator.PublishResultAsync(expected, cancellationToken);
+
+            options.MasterUrl = serverUrl;
+            serverHost = new MasterServerHost();
+            await serverHost.StartAsync(options, state, NullLoggerFactory.Instance, cancellationToken);
+            await publication.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+
+            await Assert.That(await waiter.Task.WaitAsync(cancellationToken)).IsEqualTo(expected);
+            await Assert.That(deliveries).IsEqualTo(1);
+            await Assert.That(state.PendingAssignments).IsEmpty();
+            await Assert.That(state.GetPendingReconnect(1)).IsNull();
+        }
+        finally
+        {
+            reconnectAllowed.Set();
+            if (serverHost is not null)
+            {
+                await serverHost.DisposeAsync();
+            }
+        }
     }
 
     [Test]
