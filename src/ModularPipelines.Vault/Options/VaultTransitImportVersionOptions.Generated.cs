@@ -19,9 +19,46 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transit", "import-version")]
-public record VaultTransitImportVersionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Key
-) : VaultOptions
+public record VaultTransitImportVersionOptions : VaultOptions
 {
+    public VaultTransitImportVersionOptions(
+        string Path,
+        IEnumerable<string> Key
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Key);
+            var materialized = global::System.Linq.Enumerable.ToArray(Key);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Key));
+            }
+
+            Key = materialized;
+        }
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Path, out IEnumerable<string> Key)
+    {
+        Path = this.Path;
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Key { get; private init; }
+
 }
