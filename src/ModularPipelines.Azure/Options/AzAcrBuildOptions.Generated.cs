@@ -34,7 +34,7 @@ public record AzAcrBuildOptions(
     /// Build argument in '--build-arg name[=value]' format. Multiples are supported by passing '--build-arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
     [CliOption("--build-arg")]
-    public string? BuildArg { get; set; }
+    public IEnumerable<string>? BuildArg { get; set; }
 
     /// <summary>
     /// The relative path of the the docker file to the source code root folder. Default to 'Dockerfile'.
@@ -89,7 +89,7 @@ public record AzAcrBuildOptions(
     /// </summary>
     [SecretValue]
     [CliOption("--secret-build-arg")]
-    public string? SecretBuildArg { get; set; }
+    public IEnumerable<string>? SecretBuildArg { get; set; }
 
     /// <summary>
     /// Assign the identity used for source registry login. Use '[caller]' for caller identity.  Allowed values: [caller], none.

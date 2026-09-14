@@ -30,7 +30,7 @@ public record AzAcrTaskCreateOptions(
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
     [CliOption("--arg")]
-    public string? Arg { get; set; }
+    public IEnumerable<string>? Arg { get; set; }
 
     /// <summary>
     /// Assign managed identities to the task. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/task-create-managed-identity for more information.
@@ -103,7 +103,7 @@ public record AzAcrTaskCreateOptions(
     /// </summary>
     [SecretValue]
     [CliOption("--secret-arg")]
-    public string? SecretArg { get; set; }
+    public IEnumerable<string>? SecretArg { get; set; }
 
     /// <summary>
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.

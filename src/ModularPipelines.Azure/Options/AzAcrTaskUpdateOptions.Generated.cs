@@ -30,7 +30,7 @@ public record AzAcrTaskUpdateOptions(
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
     [CliOption("--arg")]
-    public string? Arg { get; set; }
+    public IEnumerable<string>? Arg { get; set; }
 
     /// <summary>
     /// Auth mode of the source registry.  Allowed values: Default, None.
@@ -97,7 +97,7 @@ public record AzAcrTaskUpdateOptions(
     /// </summary>
     [SecretValue]
     [CliOption("--secret-arg")]
-    public string? SecretArg { get; set; }
+    public IEnumerable<string>? SecretArg { get; set; }
 
     /// <summary>
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.

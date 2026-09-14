@@ -117,7 +117,7 @@ public record AzMariadbServerCreateOptions : AzOptions
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: excitedgranola5.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: drearyhamster7.
     /// </summary>
     [CliFlag("--admin-user", ShortForm = "-u")]
     public bool? AdminUser { get; set; }
