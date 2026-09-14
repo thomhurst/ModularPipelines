@@ -16,6 +16,8 @@ Run unattended. At each iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`
 3. Recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
 4. Claim an available issue, implement its full scope, and open a PR.
 
+Apply repository-specific PR maintenance rules before choosing repair work; some PR categories require closure and a linked issue instead.
+
 After pushing or deferring, survey again. Pending CI/review means work another item; do not watch, sleep, poll one item, or schedule monitors while work is queueable. When only CI/review remains, periodically survey the whole queue and stay responsive.
 
 Stop on the user's stop/pause, or when a fresh survey finds no queueable issue, recovery candidate, or actionable PR and remaining work requires an external decision/dependency. Pending CI alone is not completion. Defer unsafe/blocked items, record the blocker once when authorized, release ownership, and continue without blocking questions. Revisit only when evidence changes.
@@ -75,7 +77,7 @@ A `COMMENTED` review body can block with zero unresolved threads. Address outsta
 | Pending | Take another item. After a fix push, allow a subsequent bot review/CI cycle before considering merge in a later iteration. |
 | Merge candidate | Confirm every condition below, then invoke the wrapper. |
 
-Resolve a bot-opened thread under the PR lock only after replying with a fix commit or concrete disposition, confirming any promised fix is in the current head, and a subsequent bot review/CI cycle completes without rebuttal. A current-head `REVIEW_VERDICT: CLEAR` is strongest evidence. Do not resolve newer rebuttals, unaddressed findings, or human threads awaiting response. Use GraphQL `resolveReviewThread`, then re-fetch reviews, threads, checks, and head SHA.
+After pushing review fixes, confirm the fix commits are in the remote PR head, reply to each addressed finding, and resolve its thread under the PR lock, whether opened by a human or a bot. Do not wait for another review/CI cycle to resolve an addressed thread; that cycle still gates merging. Reply to addressed review-body findings and request re-review when an outstanding changes-requested review needs updating; do not dismiss reviews to bypass approval requirements. Leave newer rebuttals and unaddressed findings open. Use GraphQL `resolveReviewThread`, then re-fetch reviews, threads, checks, and head SHA.
 
 ### Merge gate
 
