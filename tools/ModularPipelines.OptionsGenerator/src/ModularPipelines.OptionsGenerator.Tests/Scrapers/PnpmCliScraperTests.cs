@@ -171,6 +171,12 @@ public class PnpmCliScraperTests
     [Arguments("Component type (default: [a, b])\n          [default: [a, b]]", "Component type (default: [a, b])")]
     [Arguments("Component type (default: library)\n          [default: library]\n          [default: library]", "Component type (default: library)")]
     [Arguments("Component type (default: library)\n          [default: library]\n          [possible values: library, application]", "Component type (default: library)")]
+    [Arguments("Component type (default: library)\n          [default: library]\n          [env: PNPM_TYPE=]", "Component type (default: library) [env: PNPM_TYPE=]")]
+    [Arguments("Component type (default: library)\n          [default: library]\n          [alias: type]\n          [env: PNPM_TYPE=]", "Component type (default: library) [alias: type] [env: PNPM_TYPE=]")]
+    [Arguments("Component type (default: [a, b])\n          [default: [a, b]]\n          [env: PNPM_TYPE=]", "Component type (default: [a, b]) [env: PNPM_TYPE=]")]
+    [Arguments("Component type (default: library)\n          [default: library]\n          [default: library]\n          [env: PNPM_TYPE=]", "Component type (default: library) [env: PNPM_TYPE=]")]
+    [Arguments("Component type (default: library) also mentions [default: library] in examples.", "Component type (default: library) also mentions [default: library] in examples.")]
+    [Arguments("Component type (default: library) [default: [default: library]]", "Component type (default: library) [default: [default: library]]")]
     public async Task Clap_Help_Preserves_Bracketed_Prose(string description, string expected)
     {
         foreach (var aligned in new[] { false, true })

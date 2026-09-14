@@ -1610,15 +1610,67 @@ public abstract partial class CliScraperBase : ICliScraper
                 continue;
             }
 
-            var trailer = ClapTrailerPattern().Match(description[annotation.Index..]);
+            var trailerEnd = FindClapTrailerEnd(description.AsSpan(annotation.Index));
+            if (trailerEnd < 0)
+            {
+                continue;
+            }
+
+            var suffix = description[(annotation.Index + trailerEnd + 1)..].TrimStart();
+            if (!IsClapMetadataSuffix(suffix))
+            {
+                continue;
+            }
+
+            var trailer = ClapTrailerPattern().Match(description.Substring(annotation.Index, trailerEnd + 1));
             var prose = description[..annotation.Index].TrimEnd();
             if (IsRepeatedClapDefault(trailer, [prose]))
             {
-                description = prose;
+                description = suffix.Length == 0 ? prose : $"{prose} {suffix}";
             }
         }
 
         return description;
+    }
+
+    private static bool IsClapMetadataSuffix(ReadOnlySpan<char> suffix)
+    {
+        suffix = suffix.TrimStart();
+        while (!suffix.IsEmpty)
+        {
+            if (!ClapMetadataTrailerStartPattern().IsMatch(suffix))
+            {
+                return false;
+            }
+
+            var end = FindClapTrailerEnd(suffix);
+            if (end < 0)
+            {
+                return false;
+            }
+
+            suffix = suffix[(end + 1)..].TrimStart();
+        }
+
+        return true;
+    }
+
+    private static int FindClapTrailerEnd(ReadOnlySpan<char> text)
+    {
+        var depth = 0;
+        for (var i = 0; i < text.Length; i++)
+        {
+            if (text[i] == '[')
+            {
+                depth++;
+            }
+            else if (text[i] == ']' && --depth == 0)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     /// <summary>
