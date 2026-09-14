@@ -49,7 +49,7 @@ internal partial class Grype : IGrype
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GrypeExplainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GrypeExplainOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
