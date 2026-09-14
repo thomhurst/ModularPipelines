@@ -1,4 +1,6 @@
 #nullable enable
+*REMOVED*override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.MaxParallelism.get -> int
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GhCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
 ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.HasProcessExitCode.get -> bool
 ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.HasProcessExitCode.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand!>!

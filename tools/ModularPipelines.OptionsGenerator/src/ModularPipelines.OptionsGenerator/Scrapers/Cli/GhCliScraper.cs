@@ -65,6 +65,23 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
     public override string OutputDirectory => "src/ModularPipelines.GitHub";
 
+    public override CliToolDefinition CreateToolDefinition() =>
+        base.CreateToolDefinition() with
+        {
+            CommandCoverage = new CliCommandCoveragePolicy
+            {
+                ConditionallyAvailableCommands =
+                [
+                    new CliConditionallyAvailableCommand
+                    {
+                        Command = "gh stack",
+                        Reason = "Requires the optional github/gh-stack extension. GitHub CLI 2.100.0 registers only a hidden "
+                                 + "installation stub when the extension is absent; it is not listed in root help.",
+                    },
+                ],
+            },
+        };
+
     /// <summary>
     /// Skip utility commands and help topics.
     /// </summary>

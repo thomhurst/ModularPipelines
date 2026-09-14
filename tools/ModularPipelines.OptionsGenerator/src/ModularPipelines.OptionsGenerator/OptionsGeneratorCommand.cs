@@ -199,7 +199,8 @@ internal static class OptionsGeneratorCommand
             builder.Services.AddSingleton(serviceProvider =>
             {
                 var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-                return OptionTypeEnhancer.CreateDefault(loggerFactory);
+                var executor = serviceProvider.GetRequiredService<ICliCommandExecutor>();
+                return OptionTypeEnhancer.CreateDefault(executor, loggerFactory);
             });
         }
 

@@ -715,20 +715,23 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
-    public async Task ConditionallyAvailableCommands_AllowEnvironmentSpecificOmission()
+    [Arguments(null)]
+    [Arguments("1.0")]
+    public async Task ConditionallyAvailableCommands_AllowEnvironmentSpecificOmission(string? toolVersion)
     {
         var outputDirectory = CreateOutputDirectory();
 
         try
         {
             var baseline = CommandCoverageGuard.Evaluate(
-                Tool(Command("fake community"), Command("fake enterprise")),
+                Tool(Command("fake community"), Command("fake enterprise")) with { ToolVersion = toolVersion },
                 outputDirectory,
                 approveShrinkage: false);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
 
             var currentTool = Tool(Command("fake community")) with
             {
+                ToolVersion = toolVersion,
                 CommandCoverage = new CliCommandCoveragePolicy
                 {
                     ConditionallyAvailableCommands =
