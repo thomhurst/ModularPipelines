@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
@@ -44,8 +43,10 @@ internal static class DependencyResultApplicator
         ModuleResultSerializer serializer,
         IModuleResultRegistry resultRegistry,
         ILogger logger,
-        DistributedModuleExecutionTimer? executionTimer = null)
+        DistributedModuleExecutionTimer? executionTimer = null,
+        TimeProvider? timeProvider = null)
     {
+        var clock = timeProvider ?? TimeProvider.System;
         foreach (var reference in dependencyResultReferences)
         {
             if (!reference.IsAvailable)
@@ -59,7 +60,7 @@ internal static class DependencyResultApplicator
                 continue;
             }
 
-            var transferStartedAt = Stopwatch.GetTimestamp();
+            var transferStartedAt = clock.GetTimestamp();
             SerializedModuleResult serializedResult;
             try
             {
@@ -68,10 +69,10 @@ internal static class DependencyResultApplicator
             }
             finally
             {
-                executionTimer?.DependencyResultTransferDuration += Stopwatch.GetElapsedTime(transferStartedAt);
+                executionTimer?.DependencyResultTransferDuration += clock.GetElapsedTime(transferStartedAt);
             }
 
-            var processingStartedAt = Stopwatch.GetTimestamp();
+            var processingStartedAt = clock.GetTimestamp();
             try
             {
                 var result = serializer.Deserialize(serializedResult);
@@ -91,7 +92,7 @@ internal static class DependencyResultApplicator
             }
             finally
             {
-                executionTimer?.DependencyResultProcessingDuration += Stopwatch.GetElapsedTime(processingStartedAt);
+                executionTimer?.DependencyResultProcessingDuration += clock.GetElapsedTime(processingStartedAt);
             }
         }
     }

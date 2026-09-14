@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
@@ -55,6 +56,7 @@ public class DependencyResultPropagationTests
     [Test]
     public async Task Worker_Fetches_And_Applies_Dependency_Result_Reference_Once_Per_Run()
     {
+        var clock = new FakeTimeProvider();
         // Arrange
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DependencyModule));
@@ -72,7 +74,11 @@ public class DependencyResultPropagationTests
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator
             .Setup(x => x.WaitForResultAsync(typeof(DependencyModule).FullName!, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(serializedDep);
+            .ReturnsAsync(() =>
+            {
+                clock.Advance(TimeSpan.FromSeconds(2));
+                return serializedDep;
+            });
 
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(ConsumerModule).FullName!,
@@ -103,6 +109,13 @@ public class DependencyResultPropagationTests
 
         var resultCache = new DependencyResultCache(coordinator.Object, CancellationToken.None);
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
+        var timedRegistry = new Mock<IModuleResultRegistry>();
+        timedRegistry.Setup(registry => registry.RegisterResult(It.IsAny<Type>(), It.IsAny<IModuleResult>()))
+            .Callback<Type, IModuleResult>((type, result) =>
+            {
+                clock.Advance(TimeSpan.FromSeconds(3));
+                resultRegistry.RegisterResult(type, result);
+            });
 
         var timer = new DistributedModuleExecutionTimer(DateTimeOffset.UtcNow);
         await DependencyResultApplicator.FetchAndApplyAsync(
@@ -110,20 +123,20 @@ public class DependencyResultPropagationTests
             resultCache,
             moduleLookup,
             serializer,
-            resultRegistry,
-            NullLogger.Instance, timer);
+            timedRegistry.Object,
+            NullLogger.Instance, timer, clock);
         await DependencyResultApplicator.FetchAndApplyAsync(
             assignment.DependencyResultReferences!,
             resultCache,
             moduleLookup,
             serializer,
-            resultRegistry,
-            NullLogger.Instance, timer);
+            timedRegistry.Object,
+            NullLogger.Instance, timer, clock);
 
         // Assert — GetModule<DependencyModule> should now resolve (ResultTask completes)
         var telemetry = timer.CreateTelemetry();
-        await Assert.That(telemetry.DependencyResultTransferDuration).IsGreaterThan(TimeSpan.Zero);
-        await Assert.That(telemetry.DependencyResultProcessingDuration).IsGreaterThan(TimeSpan.Zero);
+        await Assert.That(telemetry.DependencyResultTransferDuration).IsEqualTo(TimeSpan.FromSeconds(2));
+        await Assert.That(telemetry.DependencyResultProcessingDuration).IsEqualTo(TimeSpan.FromSeconds(6));
 
         var moduleResult = await ((IInternalModule) depModule).ResultTask;
         await Assert.That(moduleResult).IsNotNull();

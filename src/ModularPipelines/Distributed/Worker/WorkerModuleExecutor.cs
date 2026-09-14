@@ -106,12 +106,13 @@ internal class WorkerModuleExecutor(
                 maxConcurrency);
             await DistributedWorkerPool.RunAsync(
                 token => _coordinator.DequeueModuleAsync(capabilities, token),
-                async (assignment, token) =>
+                async (assignment, claimedAt, token) =>
                 {
                     _logger.LogInformation("Worker {Index} executing module {Module}",
                         options.InstanceIndex, assignment.ModuleTypeName);
                     await ExecuteAssignmentAsync(
                         assignment,
+                        claimedAt,
                         moduleLookup,
                         dependencyResultCache,
                         executedModules,
@@ -248,13 +249,14 @@ internal class WorkerModuleExecutor(
 
     private async Task ExecuteAssignmentAsync(
         ModuleAssignment assignment,
+        DateTimeOffset claimedAt,
         Dictionary<string, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
         ConcurrentQueue<IModule> executedModules,
         int instanceIndex,
         CancellationToken cancellationToken)
     {
-        var executionTimer = new DistributedModuleExecutionTimer(DateTimeOffset.UtcNow);
+        var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
         var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
         if (resolved is null)
         {

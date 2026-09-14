@@ -10,7 +10,7 @@ internal sealed class DistributedTelemetryTracker
 
     public void RecordAssignment(ModuleAssignment assignment, TimeSpan publishDuration) =>
         _assignments[assignment.ModuleTypeName] = new AssignmentTiming(
-            assignment.EnqueuedAt == default ? assignment.AssignedAt : assignment.EnqueuedAt,
+            assignment.EnqueuedAt,
             publishDuration);
 
     public void RecordResult(SerializedModuleResult result, DateTimeOffset receivedAt) =>

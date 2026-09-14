@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using Microsoft.Extensions.Time.Testing;
 using Moq;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Helpers;
@@ -7,6 +8,47 @@ namespace ModularPipelines.Distributed.UnitTests.Worker;
 
 public class DistributedWorkerPoolTests
 {
+    [Test]
+    [Timeout(5_000)]
+    public async Task Prefetched_Assignment_Retains_Claim_Time_While_Waiting_For_A_Slot(
+        CancellationToken cancellationToken)
+    {
+        var clock = new FakeTimeProvider();
+        var expectedClaimTime = clock.GetUtcNow();
+        var assignments = new Queue<ModuleAssignment>(
+            [CreateAssignment("first"), CreateAssignment("second")]);
+        var claimedTimes = new ConcurrentDictionary<string, DateTimeOffset>();
+        var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var dequeueCount = 0;
+
+        var runTask = DistributedWorkerPool.RunAsync(
+            _ =>
+            {
+                dequeueCount++;
+                return Task.FromResult(assignments.TryDequeue(out var assignment) ? assignment : null);
+            },
+            (assignment, claimedAt, token) =>
+            {
+                claimedTimes[assignment.ModuleTypeName] = claimedAt;
+                return assignment.ModuleTypeName == "first"
+                    ? releaseFirst.Task.WaitAsync(token)
+                    : Task.CompletedTask;
+            },
+            maxConcurrency: 1,
+            exception => throw new InvalidOperationException("Unexpected worker error", exception),
+            cancellationToken,
+            clock);
+
+        // Synchronous dequeues reach the occupied concurrency gate before RunAsync returns.
+        await Assert.That(dequeueCount).IsEqualTo(2);
+        clock.Advance(TimeSpan.FromHours(1));
+        releaseFirst.SetResult();
+        await runTask.WaitAsync(cancellationToken);
+
+        await Assert.That(claimedTimes["first"]).IsEqualTo(expectedClaimTime);
+        await Assert.That(claimedTimes["second"]).IsEqualTo(expectedClaimTime);
+    }
+
     [Test]
     [Timeout(5_000)]
     public async Task Executes_In_Parallel_And_Prefetches_One_Assignment(
@@ -39,7 +81,7 @@ public class DistributedWorkerPoolTests
                 : null);
         }
 
-        async Task Execute(ModuleAssignment _, CancellationToken token)
+        async Task Execute(ModuleAssignment _, DateTimeOffset _claimedAt, CancellationToken token)
         {
             var currentActive = Interlocked.Increment(ref active);
             UpdateMaximum(ref peakActive, currentActive);
@@ -105,7 +147,7 @@ public class DistributedWorkerPoolTests
 
         await DistributedWorkerPool.RunAsync(
             _ => throw new InvalidOperationException("Coordinator unavailable"),
-            (_, _) => Task.CompletedTask,
+            (_, _, _) => Task.CompletedTask,
             maxConcurrency: 1,
             _ => Interlocked.Increment(ref errorCount),
             stop.Token);
@@ -143,7 +185,7 @@ public class DistributedWorkerPoolTests
                     throw;
                 }
             },
-            async (_, _) =>
+            async (_, _, _) =>
             {
                 await secondDequeueStarted.Task;
                 await stop.CancelAsync();
@@ -187,7 +229,7 @@ public class DistributedWorkerPoolTests
                     ? assignment
                     : null);
             },
-            async (_, _) =>
+            async (_, _, _) =>
             {
                 if (Interlocked.Increment(ref executionCount) == 1)
                 {
@@ -221,7 +263,7 @@ public class DistributedWorkerPoolTests
             _ => Task.FromResult(assignments.TryDequeue(out var assignment)
                 ? assignment
                 : null),
-            (_, _) => Task.FromException(
+            (_, _, _) => Task.FromException(
                 new OperationCanceledException(executionCancellation.Token)),
             maxConcurrency: 1,
             _ => Interlocked.Increment(ref errorCount),

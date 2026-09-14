@@ -727,8 +727,8 @@ internal class DistributedModuleExecutor(
             maxConcurrency);
         await DistributedWorkerPool.RunAsync(
             DequeueForMasterAsync,
-            (assignment, _) => ExecuteMasterAssignmentAsync(
-                assignment, modules, moduleLookup, dependencyResultCache,
+            (assignment, claimedAt, _) => ExecuteMasterAssignmentAsync(
+                assignment, claimedAt, modules, moduleLookup, dependencyResultCache,
                 pipelineCancellationToken, workerCancellationToken),
             maxConcurrency,
             exception => _logger.LogError(exception, "Master worker loop encountered an error"),
@@ -771,6 +771,7 @@ internal class DistributedModuleExecutor(
 
     private async Task ExecuteMasterAssignmentAsync(
         ModuleAssignment assignment,
+        DateTimeOffset claimedAt,
         IReadOnlyList<IModule> modules,
         Dictionary<string, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
@@ -782,7 +783,7 @@ internal class DistributedModuleExecutor(
             _logger.LogInformation(
                 "Master skipping cancelled module {Module}",
                 assignment.ModuleTypeName);
-            await ExecuteAssignmentAsync(assignment, modules, moduleLookup, dependencyResultCache,
+            await ExecuteAssignmentAsync(assignment, claimedAt, modules, moduleLookup, dependencyResultCache,
                 pipelineCancellationToken).ConfigureAwait(false);
             return;
         }
@@ -795,6 +796,7 @@ internal class DistributedModuleExecutor(
             : pipelineCancellationToken;
         await ExecuteAssignmentAsync(
             assignment,
+            claimedAt,
             modules,
             moduleLookup,
             dependencyResultCache,
@@ -803,12 +805,13 @@ internal class DistributedModuleExecutor(
 
     private async Task ExecuteAssignmentAsync(
         ModuleAssignment assignment,
+        DateTimeOffset claimedAt,
         IReadOnlyList<IModule> modules,
         Dictionary<string, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
         CancellationToken cancellationToken)
     {
-        var executionTimer = new DistributedModuleExecutionTimer(DateTimeOffset.UtcNow);
+        var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
         var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
         if (resolved is null)
         {
