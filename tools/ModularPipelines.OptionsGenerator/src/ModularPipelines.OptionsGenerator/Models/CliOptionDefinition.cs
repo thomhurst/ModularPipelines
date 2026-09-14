@@ -142,10 +142,10 @@ public record CliOptionDefinition
                            || propertyType.SpecialType == SpecialType.System_Collections_IEnumerable
                            || propertyType.AllInterfaces.Any(
                                interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
-        var enumerableType = propertyType.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T
+        var enumerableType = propertyType.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T
             ? (INamedTypeSymbol) propertyType
             : propertyType.AllInterfaces.FirstOrDefault(
-                interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T);
+                interfaceType => interfaceType.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T);
         var isArrayAssignable = enumerableType is not null
                                 && compilation.ClassifyConversion(
                                     compilation.CreateArrayTypeSymbol(enumerableType.TypeArguments[0]),

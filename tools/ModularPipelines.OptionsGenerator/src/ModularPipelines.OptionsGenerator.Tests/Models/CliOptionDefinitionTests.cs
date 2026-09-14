@@ -5,6 +5,22 @@ namespace ModularPipelines.OptionsGenerator.Tests.Models;
 
 public class CliOptionDefinitionTests
 {
+    [Test]
+    [Arguments("IEnumerable<string>", true)]
+    [Arguments("IReadOnlyList<string>", true)]
+    [Arguments("IReadOnlyCollection<int>", true)]
+    [Arguments("IList<string>", true)]
+    [Arguments("ICollection<int>", true)]
+    [Arguments("string[]", true)]
+    [Arguments("List<string>", false)]
+    [Arguments("HashSet<string>", false)]
+    [Arguments("ISet<string>", false)]
+    [Arguments("ImmutableArray<string>", false)]
+    [Arguments("System.Collections.IEnumerable", false)]
+    public async Task Materialized_Arrays_Must_Be_Assignable_To_Declared_Collection(string typeName, bool expected)
+    {
+        await Assert.That(CliOptionDefinition.CanAssignMaterializedArray(typeName)).IsEqualTo(expected);
+    }
     #region Default Values Tests
 
     [Test]
