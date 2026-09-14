@@ -5,6 +5,35 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Gcloud_Enum_Default_Headers_Do_Not_Contaminate_Sibling_Options()
+    {
+        // Unmodified Windows help from Google Cloud SDK 550.0.0. SDK 584.0.0
+        // generation also exposes these enum defaults with embedded spaces.
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "storage-diagnose.txt"));
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "storage", "diagnose"], help))!;
+
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .Contains("--download-type").And.Contains("--upload-type");
+        var downloadType = command.Options.Single(option => option.SwitchName == "--download-type");
+        var uploadType = command.Options.Single(option => option.SwitchName == "--upload-type");
+        await Assert.That(downloadType.CSharpType).IsEqualTo("GcloudDownloadType?");
+        await Assert.That(uploadType.CSharpType).IsEqualTo("GcloudUploadType?");
+        var logsPath = command.Options.Single(option => option.SwitchName == "--logs-path");
+        await Assert.That(logsPath.CSharpType).IsEqualTo("string?");
+        await Assert.That(logsPath.Description)
+            .IsEqualTo("If the diagnostic supports writing logs, write the logs to this file location.");
+        var processCount = command.Options.Single(option => option.SwitchName == "--process-count");
+        await Assert.That(processCount.CSharpType).IsEqualTo("int?");
+        await Assert.That(processCount.Description)
+            .IsEqualTo("Number of processes at max to use for each diagnostic test.");
+        var threadCount = command.Options.Single(option => option.SwitchName == "--thread-count");
+        await Assert.That(threadCount.CSharpType).IsEqualTo("int?");
+        await Assert.That(threadCount.Description)
+            .IsEqualTo("Number of threads at max to use for each diagnostic test.");
+    }
+
+    [Test]
     public async Task Gcloud_Scopes_Same_Indentation_Groups_From_Authoritative_Help()
     {
         // Unmodified Linux help from Google Cloud SDK 584.0.0. Plain group headings
