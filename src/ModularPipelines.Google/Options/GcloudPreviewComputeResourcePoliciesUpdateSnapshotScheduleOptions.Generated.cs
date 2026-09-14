@@ -56,31 +56,31 @@ public record GcloudPreviewComputeResourcePoliciesUpdateSnapshotScheduleOptions(
     public IReadOnlyList<KeyValue>? SnapshotLabels { get; set; }
 
     /// <summary>
-    /// Cycle Frequency Group. At most one of these can be specified: Using a file: A JSON/YAML file which specifies a weekly schedule. The file should contain the following fields: day: Day of the week with the same choices as --weekly-schedule. startTime: Start time of the snapshot schedule with the same format as --start-time. For more information about using a file, see https://cloud.google.com/compute/docs/disks/scheduled-snapshots#create_snapshot_schedule. Use a full or relative path to a local file containing the value of weekly_schedule.
+    /// Cycle Frequency Group. At most one of these can be specified: Using a file: Using command flags: A JSON/YAML file which specifies a weekly schedule. The file should contain the following fields: day: Day of the week with the same choices as --weekly-schedule. startTime: Start time of the snapshot schedule with the same format as --start-time. For more information about using a file, see https://cloud.google.com/compute/docs/disks/scheduled-snapshots#create_snapshot_schedule. Use a full or relative path to a local file containing the value of weekly_schedule.
     /// </summary>
     [CliOption("--weekly-schedule-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? WeeklyScheduleFromFile { get; set; }
 
     /// <summary>
-    /// Using command flags: Start time for the disk snapshot schedule in UTC. For example, --start-time="15:00". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Cycle Frequency Group. At most one of these can be specified: Using a file: Using command flags: Start time for the disk snapshot schedule in UTC. For example, --start-time="15:00". This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// Using command flags: Exactly one of these must be specified: Snapshot schedule starts daily at START_TIME.
+    /// Cycle Frequency Group. At most one of these can be specified: Using a file: Using command flags: Exactly one of these must be specified: Snapshot schedule starts daily at START_TIME.
     /// </summary>
     [CliFlag("--daily-schedule")]
     public bool? DailySchedule { get; set; }
 
     /// <summary>
-    /// Using command flags: Exactly one of these must be specified: Snapshot schedule occurs every n hours starting at START_TIME.
+    /// Cycle Frequency Group. At most one of these can be specified: Using a file: Using command flags: Exactly one of these must be specified: Snapshot schedule occurs every n hours starting at START_TIME.
     /// </summary>
     [CliOption("--hourly-schedule", Format = OptionFormat.EqualsSeparated)]
     public string? HourlySchedule { get; set; }
 
     /// <summary>
-    /// Using command flags: Exactly one of these must be specified: Snapshot schedule occurs weekly on WEEKLY_SCHEDULE at START_TIME. WEEKLY_CYCLE must be one of: monday, tuesday, wednesday, thursday, friday, saturday, sunday.
+    /// Cycle Frequency Group. At most one of these can be specified: Using a file: Using command flags: Exactly one of these must be specified: Snapshot schedule occurs weekly on WEEKLY_SCHEDULE at START_TIME. WEEKLY_CYCLE must be one of: monday, tuesday, wednesday, thursday, friday, saturday, sunday.
     /// </summary>
     [CliOption("--weekly-schedule", Format = OptionFormat.EqualsSeparated)]
     public GcloudWeeklySchedule? WeeklySchedule { get; set; }

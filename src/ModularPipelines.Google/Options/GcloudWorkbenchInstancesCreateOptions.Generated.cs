@@ -138,91 +138,91 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public GcloudBootDiskType? BootDiskType { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--boot-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskKmsKey { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-project on the command line; ◆ set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRepository { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The tag of the container image. If not specified, this defaults to the latest tag.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The tag of the container image. If not specified, this defaults to the latest tag.
     /// </summary>
     [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerTag { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
     /// </summary>
     [CliOption("--vm-image-project", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
     /// </summary>
     [CliOption("--vm-image-family", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageFamily { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Exactly one of these must be specified: Use this VM image name to find the image.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: Exactly one of these must be specified: Use this VM image name to find the image.
     /// </summary>
     [CliOption("--vm-image-name", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageName { get; set; }
 
     /// <summary>
-    /// GPU driver configurations. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
     /// </summary>
     [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
     public string? CustomGpuDriverPath { get; set; }
 
     /// <summary>
-    /// GPU driver configurations. Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
     /// </summary>
     [CliFlag("--install-gpu-driver")]
     public bool? InstallGpuDriver { get; set; }
 
     /// <summary>
-    /// Data disk configurations. Disk encryption method used on the data disk, defaults to GMEK. DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Disk encryption method used on the data disk, defaults to GMEK. DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.
     /// </summary>
     [CliOption("--data-disk-encryption", Format = OptionFormat.EqualsSeparated)]
     public GcloudDataDiskEncryption? DataDiskEncryption { get; set; }
 
     /// <summary>
-    /// Data disk configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}.
     /// </summary>
     [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
 
     /// <summary>
-    /// Data disk configurations. Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
     /// </summary>
     [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? DataDiskSize { get; set; }
 
     /// <summary>
-    /// Data disk configurations. Type of data disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML, HYPERDISK_EXTREME, HYPERDISK_THROUGHPUT.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Type of data disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML, HYPERDISK_EXTREME, HYPERDISK_THROUGHPUT.
     /// </summary>
     [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudDataDiskType? DataDiskType { get; set; }
@@ -264,49 +264,49 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public GcloudNicType? NicType { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
     /// </summary>
     [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetRegion { get; set; }
 
     /// <summary>
-    /// Reservation configs. The label key of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. The label key of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
     /// </summary>
     [CliOption("--reservation-key", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationKey { get; set; }
 
     /// <summary>
-    /// Reservation configs. Type of the reservation. RESERVATION_TYPE must be one of: none, any, specific.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Type of the reservation. RESERVATION_TYPE must be one of: none, any, specific.
     /// </summary>
     [CliOption("--reservation-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudReservationType? ReservationType { get; set; }
 
     /// <summary>
-    /// Reservation configs. The label value of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. The label value of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
     /// </summary>
     [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ReservationValues { get; set; }
 
     /// <summary>
-    /// Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-integrity-monitoring", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Shielded VM configurations. Boolean. Boot instance with secure boot enabled. Supported values: true, false.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Boot instance with secure boot enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-secure-boot", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedSecureBoot { get; set; }
 
     /// <summary>
-    /// Shielded VM configurations. Boolean. Boot instance with TPM (Trusted Platform Module) enabled. Supported values: true, false.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Boot instance with TPM (Trusted Platform Module) enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-vtpm", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedVtpm { get; set; }

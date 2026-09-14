@@ -46,31 +46,31 @@ public record GcloudApihubApisVersionsOperationsCreateOptions : GcloudOptions
     public string? DocumentationExternalUri { get; set; }
 
     /// <summary>
-    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. Operation method Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided. HTTP_OPERATION_METHOD must be one of: delete Delete Operation type. get Get Operation type. head Head Operation type. options Options Operation type. patch Patch Operation type. post Post Operation type. put Put Operation type. trace Trace Operation type.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Operation method Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided. HTTP_OPERATION_METHOD must be one of: delete Delete Operation type. get Get Operation type. head Head Operation type. options Options Operation type. patch Patch Operation type. post Post Operation type. put Put Operation type. trace Trace Operation type.
     /// </summary>
     [CliOption("--http-operation-method", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationMethod { get; set; }
 
     /// <summary>
-    /// Documentation details. The path details derived from the spec. Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
     /// </summary>
     [CliOption("--http-operation-path", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationPath { get; set; }
 
     /// <summary>
-    /// Documentation details. The path details derived from the spec. A short description for the path applicable to all operations.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. A short description for the path applicable to all operations.
     /// </summary>
     [CliOption("--http-operation-path-description", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationPathDescription { get; set; }
 
     /// <summary>
-    /// Documentation details. Details describing an MCP Tool. The name of the tool, unique within its parent scope (version). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. The name of the tool, unique within its parent scope (version). This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--mcp-tool-name", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolName { get; set; }
 
     /// <summary>
-    /// Documentation details. Details describing an MCP Tool. Description of what the tool does.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Description of what the tool does.
     /// </summary>
     [CliOption("--mcp-tool-description", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolDescription { get; set; }
@@ -82,19 +82,19 @@ public record GcloudApihubApisVersionsOperationsCreateOptions : GcloudOptions
     public string? McpToolInputSchemaJson { get; set; }
 
     /// <summary>
-    /// Documentation details. The operation schema needed for an operation. Arguments for the value. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
+    /// Documentation details. The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
     /// </summary>
     [CliOption("--mcp-tool-output-schema-json", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolOutputSchemaJson { get; set; }
 
     /// <summary>
-    /// Documentation details. The operation schema needed for an operation. Arguments for the value. Optional title for the tool.
+    /// Documentation details. The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. Optional title for the tool.
     /// </summary>
     [CliOption("--mcp-tool-title", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolTitle { get; set; }
 
     /// <summary>
-    /// Documentation details. Annotations for a Tool. Additional hints which may help tools and not covered in defaults. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --mcp-tool-annotations-additional-hints=string=string JSON Example: --mcp-tool-annotations-additional-hints='{"string": "string"}' File Example: --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
+    /// Documentation details. The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. Additional hints which may help tools and not covered in defaults. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --mcp-tool-annotations-additional-hints=string=string JSON Example: --mcp-tool-annotations-additional-hints='{"string": "string"}' File Example: --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--mcp-tool-annotations-additional-hints", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? McpToolAnnotationsAdditionalHints { get; set; }

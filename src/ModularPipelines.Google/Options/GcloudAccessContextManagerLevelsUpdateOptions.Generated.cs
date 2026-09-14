@@ -35,19 +35,19 @@ public record GcloudAccessContextManagerLevelsUpdateOptions : GcloudOptions
     public string? Title { get; set; }
 
     /// <summary>
-    /// Level specification. At most one of these can be specified: Custom level specification. Path to a file representing an expression for an access level. The expression is in the Common Expression Langague (CEL) format.For example: expression: "origin.region_code in ['US', 'CA']"
+    /// Level specification. At most one of these can be specified: Custom level specification. Basic level specification. Path to a file representing an expression for an access level. The expression is in the Common Expression Langague (CEL) format.For example: expression: "origin.region_code in ['US', 'CA']"
     /// </summary>
     [CliOption("--custom-level-spec", Format = OptionFormat.EqualsSeparated)]
     public string? CustomLevelSpec { get; set; }
 
     /// <summary>
-    /// Basic level specification. Path to a file containing a list of basic access level conditions. An access level condition file is a YAML-formatted list of conditions,which are YAML objects representing a Condition as described in the API reference. For example: - ipSubnetworks: - 162.222.181.197/24 - 2001:db8::/48 - members: - user:user@example.com
+    /// Level specification. At most one of these can be specified: Custom level specification. Basic level specification. Path to a file containing a list of basic access level conditions. An access level condition file is a YAML-formatted list of conditions,which are YAML objects representing a Condition as described in the API reference. For example: - ipSubnetworks: - 162.222.181.197/24 - 2001:db8::/48 - members: - user:user@example.com
     /// </summary>
     [CliOption("--basic-level-spec", Format = OptionFormat.EqualsSeparated)]
     public string? BasicLevelSpec { get; set; }
 
     /// <summary>
-    /// Basic level specification. For a basic level, determines how conditions are combined. COMBINE_FUNCTION must be one of: and, or.
+    /// Level specification. At most one of these can be specified: Custom level specification. Basic level specification. For a basic level, determines how conditions are combined. COMBINE_FUNCTION must be one of: and, or.
     /// </summary>
     [CliOption("--combine-function", Format = OptionFormat.EqualsSeparated)]
     public GcloudCombineFunction? CombineFunction { get; set; }

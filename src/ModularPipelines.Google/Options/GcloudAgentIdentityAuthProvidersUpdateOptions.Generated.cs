@@ -89,71 +89,71 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearAuthProviderTypeParams { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. The API key for this auth_provider.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The API key for this auth_provider.
     /// </summary>
     [SecretValue]
     [CliOption("--api-key", Format = OptionFormat.EqualsSeparated)]
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
     /// </summary>
     [CliOption("--three-legged-oauth-authorization-url", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthAuthorizationUrl { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--three-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthClientId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The client secret of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--three-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthClientSecret { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
     /// </summary>
     [CliOption("--three-legged-oauth-default-continue-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthDefaultContinueUri { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--three-legged-oauth-enable-pkce")]
     public bool? ThreeLeggedOauthEnablePkce { get; set; }
 
     /// <summary>
-    /// Negates --three-legged-oauth-enable-pkce. AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// Negates --three-legged-oauth-enable-pkce. AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--no-three-legged-oauth-enable-pkce")]
     public bool? NoThreeLeggedOauthEnablePkce { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
     /// </summary>
     [SecretValue]
     [CliOption("--three-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthTokenUrl { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--two-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? TwoLeggedOauthClientId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--two-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? TwoLeggedOauthClientSecret { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--two-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]

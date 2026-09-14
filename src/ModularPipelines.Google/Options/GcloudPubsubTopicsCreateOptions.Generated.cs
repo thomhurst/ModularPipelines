@@ -54,151 +54,151 @@ public record GcloudPubsubTopicsCreateOptions : GcloudOptions
     public string? IngestionLogSeverity { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) AWS role ARN to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams AWS role ARN to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-aws-role-arn", Format = OptionFormat.EqualsSeparated)]
     public string? AwsMskIngestionAwsRoleArn { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) ARN that uniquely identifies the MSK cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams ARN that uniquely identifies the MSK cluster. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-cluster-arn", Format = OptionFormat.EqualsSeparated)]
     public string? AwsMskIngestionClusterArn { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Google Cloud service account to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Google Cloud service account to be used for Federated Identity authentication with MSK. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? AwsMskIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Name of the MSK topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Name of the MSK topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--aws-msk-ingestion-topic", Format = OptionFormat.EqualsSeparated)]
     public string? AwsMskIngestionTopic { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Azure Event Hubs Azure Event Hubs client ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Azure Event Hubs client ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionClientId { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Azure Event Hubs Azure event hub from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Azure event hub from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-event-hub", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionEventHub { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Azure Event Hubs Azure Event Hubs namespace from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Azure Event Hubs namespace from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-namespace", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionNamespace { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Azure Event Hubs Azure Event Hubs resource group from within an Azure subscription. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Azure Event Hubs resource group from within an Azure subscription. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-resource-group", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionResourceGroup { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Azure Event Hubs Google Cloud service account to be used for Federated Identity authentication with Azure Event Hubs. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Google Cloud service account to be used for Federated Identity authentication with Azure Event Hubs. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Azure Event Hubs Azure Event Hubs subscription ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Azure Event Hubs subscription ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-subscription-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionSubscriptionId { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Azure Event Hubs Azure Event Hubs tenant ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Azure Event Hubs tenant ID to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--azure-event-hubs-ingestion-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureEventHubsIngestionTenantId { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Cloud Storage Cloud Storage bucket from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Cloud Storage bucket from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionBucket { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Cloud Storage Format of the data in the Cloud Storage bucket. INPUT_FORMAT must be one of: text, avro, pubsub_avro. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Format of the data in the Cloud Storage bucket. INPUT_FORMAT must be one of: text, avro, pubsub_avro. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-input-format", Format = OptionFormat.EqualsSeparated)]
     public GcloudCloudStorageIngestionInputFormat? CloudStorageIngestionInputFormat { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Cloud Storage Delimiter to use with text format when partitioning the object.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Delimiter to use with text format when partitioning the object.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-text-delimiter", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionTextDelimiter { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Cloud Storage Only Cloud Storage objects with a larger or equal creation timestamp will be ingested.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Only Cloud Storage objects with a larger or equal creation timestamp will be ingested.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-minimum-object-create-time", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionMinimumObjectCreateTime { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Cloud Storage Glob pattern used to match Cloud Storage objects that will be ingested. If unset, all objects will be ingested.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Glob pattern used to match Cloud Storage objects that will be ingested. If unset, all objects will be ingested.
     /// </summary>
     [CliOption("--cloud-storage-ingestion-match-glob", Format = OptionFormat.EqualsSeparated)]
     public string? CloudStorageIngestionMatchGlob { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Confluent Cloud Confluent Cloud bootstrap server. The format is url:port. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Confluent Cloud bootstrap server. The format is url:port. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-bootstrap-server", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionBootstrapServer { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Confluent Cloud Confluent Cloud cluster ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Confluent Cloud cluster ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-cluster-id", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionClusterId { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Confluent Cloud Identity pool ID to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Identity pool ID to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-identity-pool-id", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionIdentityPoolId { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Confluent Cloud Google Cloud service account to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Google Cloud service account to be used for Federated Identity authentication with Confluent Cloud. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Confluent Cloud Name of the Confluent Cloud topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Name of the Confluent Cloud topic that Pub/Sub will import from. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--confluent-cloud-ingestion-topic", Format = OptionFormat.EqualsSeparated)]
     public string? ConfluentCloudIngestionTopic { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Kinesis data streams consumer Amazon Resource Name (ARN) to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Kinesis data streams consumer Amazon Resource Name (ARN) to use for ingestion. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-consumer-arn", Format = OptionFormat.EqualsSeparated)]
     public string? KinesisIngestionConsumerArn { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams AWS role ARN to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams AWS role ARN to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-role-arn", Format = OptionFormat.EqualsSeparated)]
     public string? KinesisIngestionRoleArn { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Google Cloud service account to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Google Cloud service account to be used for Federated Identity authentication with Kinesis. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? KinesisIngestionServiceAccount { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Kinesis data stream ARN from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic At most one of these can be specified: Flags that specify settings for an import topic from Amazon Web Services (AWS) Managed Streaming for Apache Kafka (MSK) Flags that specify settings for an import topic from Azure Event Hubs Flags that specify settings for an import topic from Cloud Storage Flags that specify settings for an import topic from Confluent Cloud Flags that specify settings for an import topic from Amazon Web Services (AWS) Kinesis Data Streams Kinesis data stream ARN from which to ingest data. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kinesis-ingestion-stream-arn", Format = OptionFormat.EqualsSeparated)]
     public string? KinesisIngestionStreamArn { get; set; }

@@ -276,61 +276,61 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public string? ServicesSecondaryRangeName { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Number of dag processors, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Number of dag processors, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-count", Format = OptionFormat.EqualsSeparated)]
     public int? DagProcessorCount { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. CPU allocated to Airflow dag processor, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration CPU allocated to Airflow dag processor, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? DagProcessorCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-memory", Format = OptionFormat.EqualsSeparated)]
     public string? DagProcessorMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-storage", Format = OptionFormat.EqualsSeparated)]
     public string? DagProcessorStorage { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
     /// </summary>
     [CliFlag("--disable-cloud-data-lineage-integration")]
     public bool? DisableCloudDataLineageIntegration { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
     /// </summary>
     [CliFlag("--enable-cloud-data-lineage-integration")]
     public bool? EnableCloudDataLineageIntegration { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Builds performed during operations that install Python packages have an access to the internet, supported in Composer 3 or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Builds performed during operations that install Python packages have an access to the internet, supported in Composer 3 or greater.
     /// </summary>
     [CliFlag("--disable-private-builds-only")]
     public bool? DisablePrivateBuildsOnly { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Builds performed during operations that install Python packages have only private connectivity to Google services, supported in Composer 3 or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Builds performed during operations that install Python packages have only private connectivity to Google services, supported in Composer 3 or greater.
     /// </summary>
     [CliFlag("--enable-private-builds-only")]
     public bool? EnablePrivateBuildsOnly { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks configuration Enable Master Authorized Networks feature (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks) in the Composer Environment's GKE cluster.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Enable Master Authorized Networks feature (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks) in the Composer Environment's GKE cluster.
     /// </summary>
     [CliFlag("--enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks configuration Comma separated Master Authorized Networks specified in CIDR notation. Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Comma separated Master Authorized Networks specified in CIDR notation. Cannot be specified unless --enable-master-authorized-networks is also specified.
     /// </summary>
     [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
@@ -426,103 +426,103 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public string? MaintenanceWindowStart { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Maximum number of workers in the Environment.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Maximum number of workers in the Environment.
     /// </summary>
     [CliOption("--max-workers", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWorkers { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Minimum number of workers in the Environment.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Minimum number of workers in the Environment.
     /// </summary>
     [CliOption("--min-workers", Format = OptionFormat.EqualsSeparated)]
     public string? MinWorkers { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
     /// </summary>
     [CliOption("--scheduler-count", Format = OptionFormat.EqualsSeparated)]
     public int? SchedulerCount { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to Airflow scheduler.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking CPU allocated to Airflow scheduler.
     /// </summary>
     [CliOption("--scheduler-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulerCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--scheduler-memory", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulerMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--scheduler-storage", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulerStorage { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to each Airflow web server
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking CPU allocated to each Airflow web server
     /// </summary>
     [CliOption("--web-server-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? WebServerCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--web-server-memory", Format = OptionFormat.EqualsSeparated)]
     public string? WebServerMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--web-server-storage", Format = OptionFormat.EqualsSeparated)]
     public string? WebServerStorage { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to each Airflow worker
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking CPU allocated to each Airflow worker
     /// </summary>
     [CliOption("--worker-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--worker-memory", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--worker-storage", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerStorage { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking The Compute Engine Network to which the environment will be connected. If a 'Custom Subnet Network' is provided, --subnetwork must be specified as well. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking The Compute Engine Network to which the environment will be connected. If a 'Custom Subnet Network' is provided, --subnetwork must be specified as well. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
     /// </summary>
     [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
     public string? Subnetwork { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking At most one of these can be specified: Allows all IP addresses to access the Airflow web server.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking At most one of these can be specified: Allows all IP addresses to access the Airflow web server.
     /// </summary>
     [CliFlag("--web-server-allow-all")]
     public bool? WebServerAllowAll { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking At most one of these can be specified: Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the Airflow web server. By default, all IPs are allowed to access the web server. This is a repeated argument that can be specified multiple times to specify multiple IP ranges. (e.g. --web-server-allow-ip=ip_range=130.211.160.0/28,description="office network" --web-server-allow-ip=ip_range=130.211.114.0/28,description="legacy network") ip_range IPv4 or IPv6 range of addresses allowed to access the Airflow web server. description An optional description of the IP range.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking At most one of these can be specified: Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the Airflow web server. By default, all IPs are allowed to access the web server. This is a repeated argument that can be specified multiple times to specify multiple IP ranges. (e.g. --web-server-allow-ip=ip_range=130.211.160.0/28,description="office network" --web-server-allow-ip=ip_range=130.211.114.0/28,description="legacy network") ip_range IPv4 or IPv6 range of addresses allowed to access the Airflow web server. description An optional description of the IP range.
     /// </summary>
     [CliOption("--web-server-allow-ip", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? WebServerAllowIp { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking At most one of these can be specified: Denies all incoming traffic to the Airflow web server.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking At most one of these can be specified: Denies all incoming traffic to the Airflow web server.
     /// </summary>
     [CliFlag("--web-server-deny-all")]
     public bool? WebServerDenyAll { get; set; }

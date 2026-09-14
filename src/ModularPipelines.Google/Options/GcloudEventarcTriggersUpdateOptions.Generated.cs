@@ -113,37 +113,37 @@ public record GcloudEventarcTriggersUpdateOptions : GcloudOptions
     public string? DestinationGkePath { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. Region in which the destination Cloud Run service can be found. If not specified, it is assumed that the service is in the same region as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. Region in which the destination Cloud Run service can be found. If not specified, it is assumed that the service is in the same region as the trigger.
     /// </summary>
     [CliOption("--destination-run-region", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationRunRegion { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. Name of the Cloud Run fully-managed service that receives the events for the trigger. The service must be in the same project as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. Name of the Cloud Run fully-managed service that receives the events for the trigger. The service must be in the same project as the trigger.
     /// </summary>
     [CliOption("--destination-run-service", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationRunService { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. At most one of these can be specified: Clear the relative path on the destination Cloud Run service to which the events for the trigger should be sent.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. At most one of these can be specified: Clear the relative path on the destination Cloud Run service to which the events for the trigger should be sent.
     /// </summary>
     [CliFlag("--clear-destination-run-path")]
     public bool? ClearDestinationRunPath { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. At most one of these can be specified: Relative path on the destination Cloud Run service to which the events for the trigger should be sent. Examples: /route, route, route/subroute.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. At most one of these can be specified: Relative path on the destination Cloud Run service to which the events for the trigger should be sent. Examples: /route, route, route/subroute.
     /// </summary>
     [CliOption("--destination-run-path", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationRunPath { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Workflows destination. ID of the workflow that receives the events for the trigger. The workflow must be in the same project as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. ID of the workflow that receives the events for the trigger. The workflow must be in the same project as the trigger.
     /// </summary>
     [CliOption("--destination-workflow", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationWorkflow { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Workflows destination. Location that the destination workflow is running in. If not specified, it is assumed that the workflow is in the same location as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. Location that the destination workflow is running in. If not specified, it is assumed that the workflow is in the same location as the trigger.
     /// </summary>
     [CliOption("--destination-workflow-location", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationWorkflowLocation { get; set; }

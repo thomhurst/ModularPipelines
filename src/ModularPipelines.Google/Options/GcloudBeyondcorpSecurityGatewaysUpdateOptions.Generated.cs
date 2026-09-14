@@ -166,13 +166,13 @@ public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions
     public string? ServiceDiscovery { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: Settings related to the Service Discovery. Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery back to default value.
+    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: Settings related to the Service Discovery. If Service Discovery is done through API, defines its settings. API operation descriptor. Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery back to default value.
     /// </summary>
     [CliFlag("--clear-service-discovery")]
     public bool? ClearServiceDiscovery { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
+    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: Settings related to the Service Discovery. If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
     /// </summary>
     [CliOption("--resource-override-path", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceOverridePath { get; set; }

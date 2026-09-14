@@ -76,25 +76,25 @@ public record GcloudApihubApisVersionsOperationsUpdateOptions : GcloudOptions
     public string? DocumentationExternalUri { get; set; }
 
     /// <summary>
-    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. Operation method Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided. HTTP_OPERATION_METHOD must be one of: delete Delete Operation type. get Get Operation type. head Head Operation type. options Options Operation type. patch Patch Operation type. post Post Operation type. put Put Operation type. trace Trace Operation type.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Operation method Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided. HTTP_OPERATION_METHOD must be one of: delete Delete Operation type. get Get Operation type. head Head Operation type. options Options Operation type. patch Patch Operation type. post Post Operation type. put Put Operation type. trace Trace Operation type.
     /// </summary>
     [CliOption("--http-operation-method", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationMethod { get; set; }
 
     /// <summary>
-    /// Documentation details. The path details derived from the spec. Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
     /// </summary>
     [CliOption("--http-operation-path", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationPath { get; set; }
 
     /// <summary>
-    /// Documentation details. The path details derived from the spec. A short description for the path applicable to all operations.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. A short description for the path applicable to all operations.
     /// </summary>
     [CliOption("--http-operation-path-description", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationPathDescription { get; set; }
 
     /// <summary>
-    /// Documentation details. Details describing an MCP Tool. Description of what the tool does.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The HTTP Operation. The path details derived from the spec. Details describing an MCP Tool. Description of what the tool does.
     /// </summary>
     [CliOption("--mcp-tool-description", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolDescription { get; set; }

@@ -246,25 +246,25 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? NoPublicIp { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
     /// </summary>
     [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetRegion { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=SPECIFIC_RESERVATION.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=SPECIFIC_RESERVATION.
     /// </summary>
     [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
     public string? Reservation { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
     public GcloudReservationAffinity? ReservationAffinity { get; set; }

@@ -163,49 +163,49 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public bool? StreamLogs { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
     /// </summary>
     [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKeyring { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
     /// </summary>
     [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
     public string? KmsLocation { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }
 
     /// <summary>
-    /// Configure parameter server machine type settings. Number of parameter servers to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Number of parameter servers to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--parameter-server-count", Format = OptionFormat.EqualsSeparated)]
     public int? ParameterServerCount { get; set; }
 
     /// <summary>
-    /// Configure parameter server machine type settings. Type of virtual machine to use for training job's parameter servers. This flag must be specified if any of the other arguments in this group are specified machine to use for training job's parameter servers. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Type of virtual machine to use for training job's parameter servers. This flag must be specified if any of the other arguments in this group are specified machine to use for training job's parameter servers. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--parameter-server-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? ParameterServerMachineType { get; set; }
 
     /// <summary>
-    /// Configure worker node machine type settings. Number of worker nodes to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Number of worker nodes to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--worker-count", Format = OptionFormat.EqualsSeparated)]
     public int? WorkerCount { get; set; }
 
     /// <summary>
-    /// Configure worker node machine type settings. Type of virtual machine to use for training job's worker nodes. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Type of virtual machine to use for training job's worker nodes. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMachineType { get; set; }

@@ -108,19 +108,19 @@ public record GcloudBillingBudgetsUpdateOptions : GcloudOptions
     public bool? LastPeriodAmount { get; set; }
 
     /// <summary>
-    /// Specify either the calendar-period or custom-period, not both. At most one of these can be specified: Calendar Period Specified to track usage over recurring calendar period. If you're creating a budget with a custom time period, omit this flag. CALENDAR_PERIOD must be one of: calendar-period-unspecified, month, quarter, year.
+    /// Specify either the calendar-period or custom-period, not both. At most one of these can be specified: Calendar Period Custom Period Specified to track usage over recurring calendar period. If you're creating a budget with a custom time period, omit this flag. CALENDAR_PERIOD must be one of: calendar-period-unspecified, month, quarter, year.
     /// </summary>
     [CliOption("--calendar-period", Format = OptionFormat.EqualsSeparated)]
     public GcloudCalendarPeriod? CalendarPeriod { get; set; }
 
     /// <summary>
-    /// Custom Period Specified to track usage after any start date. This time period is static, it does not recur. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specify either the calendar-period or custom-period, not both. At most one of these can be specified: Calendar Period Custom Period Specified to track usage after any start date. This time period is static, it does not recur. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--start-date", Format = OptionFormat.EqualsSeparated)]
     public string? StartDate { get; set; }
 
     /// <summary>
-    /// Custom Period Specified to track usage before any end date. This time period is static, it does not recur. If specified, --start-date must also be specified.
+    /// Specify either the calendar-period or custom-period, not both. At most one of these can be specified: Calendar Period Custom Period Specified to track usage before any end date. This time period is static, it does not recur. If specified, --start-date must also be specified.
     /// </summary>
     [CliOption("--end-date", Format = OptionFormat.EqualsSeparated)]
     public string? EndDate { get; set; }

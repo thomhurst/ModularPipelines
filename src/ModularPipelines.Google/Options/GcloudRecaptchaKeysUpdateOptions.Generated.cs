@@ -36,109 +36,109 @@ public record GcloudRecaptchaKeysUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Options for an Express site key. Configures the Key for Express assessments.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Configures the Key for Express assessments.
     /// </summary>
     [CliFlag("--express")]
     public bool? Express { get; set; }
 
     /// <summary>
-    /// Options for a Universal site key. Configures the Key as Universal.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Configures the Key as Universal.
     /// </summary>
     [CliFlag("--universal")]
     public bool? Universal { get; set; }
 
     /// <summary>
-    /// Options for an Android site key. Configures the Key for Android devices. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Configures the Key for Android devices. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--android")]
     public bool? Android { get; set; }
 
     /// <summary>
-    /// Options for an Android site key. Exactly one of these must be specified: If set, package name enforcement will NOT be enabled on this key.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: If set, package name enforcement will NOT be enabled on this key.
     /// </summary>
     [CliFlag("--allow-all-package-names")]
     public bool? AllowAllPackageNames { get; set; }
 
     /// <summary>
-    /// Options for an Android site key. Exactly one of these must be specified: Android package names of apps allowed to use the key. Example of a valid package name: 'com.companyname.appname'
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: Android package names of apps allowed to use the key. Example of a valid package name: 'com.companyname.appname'
     /// </summary>
     [CliOption("--package-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PackageNames { get; set; }
 
     /// <summary>
-    /// Options for an iOS site key. Configures the Key for iOS devices. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Configures the Key for iOS devices. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--ios")]
     public bool? Ios { get; set; }
 
     /// <summary>
-    /// Options for an iOS site key. At most one of these can be specified: If set, bundle id enforcement will NOT be enabled on this key.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: If set, bundle id enforcement will NOT be enabled on this key.
     /// </summary>
     [CliFlag("--allow-all-bundle-ids")]
     public bool? AllowAllBundleIds { get; set; }
 
     /// <summary>
-    /// Options for an iOS site key. At most one of these can be specified: iOS bundle ids of apps allowed to use the key. Example of a valid bundle id: 'com.companyname.productname.appname'
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: iOS bundle ids of apps allowed to use the key. Example of a valid bundle id: 'com.companyname.productname.appname'
     /// </summary>
     [CliOption("--bundle-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BundleIds { get; set; }
 
     /// <summary>
-    /// Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). The Apple developer key ID (10-character string). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. The Apple developer key ID (10-character string). This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--key-id", Format = OptionFormat.EqualsSeparated)]
     public string? KeyId { get; set; }
 
     /// <summary>
-    /// Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). File path to a private key (downloaded as a text file with a .p8 file extension) generated for your Apple Developer account. Ensure that DeviceCheck is enabled for the private key. Use a full or relative path to a local file containing the value of private_key_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. File path to a private key (downloaded as a text file with a .p8 file extension) generated for your Apple Developer account. Ensure that DeviceCheck is enabled for the private key. Use a full or relative path to a local file containing the value of private_key_file. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKeyFile { get; set; }
 
     /// <summary>
-    /// Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). The Apple team ID (10-character string) owning the provisioning profile used to build your application. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. The Apple team ID (10-character string) owning the provisioning profile used to build your application. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--team-id", Format = OptionFormat.EqualsSeparated)]
     public string? TeamId { get; set; }
 
     /// <summary>
-    /// Options for a web site key. Configures the Key for websites. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Configures the Key for websites. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--web")]
     public bool? Web { get; set; }
 
     /// <summary>
-    /// Options for a web site key. Whether this key can be used on AMP (Accelerated Mobile Pages) websites.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Whether this key can be used on AMP (Accelerated Mobile Pages) websites.
     /// </summary>
     [CliFlag("--allow-amp-traffic")]
     public bool? AllowAmpTraffic { get; set; }
 
     /// <summary>
-    /// Options for a web site key. Represents the possible challenge frequency and difficulty configurations for a web key. usability: show fewer and easier challenges. balance: show balanced (in amount and difficulty) challenges. security: show more and harder challenges. SECURITY_PREFERENCE must be one of: balance, challenge-security-preference-unspecified, security, usability.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Represents the possible challenge frequency and difficulty configurations for a web key. usability: show fewer and easier challenges. balance: show balanced (in amount and difficulty) challenges. security: show more and harder challenges. SECURITY_PREFERENCE must be one of: balance, challenge-security-preference-unspecified, security, usability.
     /// </summary>
     [CliOption("--security-preference", Format = OptionFormat.EqualsSeparated)]
     public GcloudSecurityPreference? SecurityPreference { get; set; }
 
     /// <summary>
-    /// Configure if you want to use the POLICY_BASED_CHALLENGE option. The action to score threshold used for POLICY_BASED_CHALLENGE. For example: --action-score-thresholds=login='{"scoreThreshold": "0.3"}',signup='{"scoreThreshold": "0.1"}' or --action-score-thresholds=file_path.(json|yaml). KEY Sets KEY value. VALUE Sets VALUE value. scoreThreshold Sets scoreThreshold value. Shorthand Example: --action-score-thresholds=string={scoreThreshold=float} JSON Example: --action-score-thresholds='{"string": {"scoreThreshold": float}}' File Example: --action-score-thresholds=path_to_file.(yaml|json)
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. The action to score threshold used for POLICY_BASED_CHALLENGE. For example: --action-score-thresholds=login='{"scoreThreshold": "0.3"}',signup='{"scoreThreshold": "0.1"}' or --action-score-thresholds=file_path.(json|yaml). KEY Sets KEY value. VALUE Sets VALUE value. scoreThreshold Sets scoreThreshold value. Shorthand Example: --action-score-thresholds=string={scoreThreshold=float} JSON Example: --action-score-thresholds='{"string": {"scoreThreshold": float}}' File Example: --action-score-thresholds=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--action-score-thresholds", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ActionScoreThresholds { get; set; }
 
     /// <summary>
-    /// Configure if you want to use the POLICY_BASED_CHALLENGE option. The global threshold to be used for POLICY_BASED_CHALLENGE if no action specific one exists.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. The global threshold to be used for POLICY_BASED_CHALLENGE if no action specific one exists.
     /// </summary>
     [CliOption("--default-score-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultScoreThreshold { get; set; }
 
     /// <summary>
-    /// Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: If set, domain name enforcement will NOT be enabled on this key.
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: If set, domain name enforcement will NOT be enabled on this key.
     /// </summary>
     [CliFlag("--allow-all-domains")]
     public bool? AllowAllDomains { get; set; }
 
     /// <summary>
-    /// Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: Domains or subdomains of websites allowed to use the key. All subdomains of an allowed domain are automatically allowed. A valid domain requires a host and must not include any path, port, query or fragment. Examples of valid domains: 'example.com' 'subdomain.example.com'
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: Domains or subdomains of websites allowed to use the key. All subdomains of an allowed domain are automatically allowed. A valid domain requires a host and must not include any path, port, query or fragment. Examples of valid domains: 'example.com' 'subdomain.example.com'
     /// </summary>
     [CliOption("--domains", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Domains { get; set; }

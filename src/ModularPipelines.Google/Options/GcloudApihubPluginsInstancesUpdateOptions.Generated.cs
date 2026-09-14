@@ -95,47 +95,47 @@ public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
     public bool? ClearAuthConfig { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. The location of the API key. The default value is QUERY. API_KEY_CONFIG_HTTP_ELEMENT_LOCATION must be one of: body Element is in the HTTP request body. cookie Element is in the HTTP request cookie. header Element is in the HTTP request header. path Element is in the HTTP request path. query Element is in the HTTP request query.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The location of the API key. The default value is QUERY. API_KEY_CONFIG_HTTP_ELEMENT_LOCATION must be one of: body Element is in the HTTP request body. cookie Element is in the HTTP request cookie. header Element is in the HTTP request header. path Element is in the HTTP request path. query Element is in the HTTP request query.
     /// </summary>
     [SecretValue]
     [CliOption("--api-key-config-http-element-location", Format = OptionFormat.EqualsSeparated)]
     public string? ApiKeyConfigHttpElementLocation { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. The parameter name of the API key. E.g. If the API request is "https://example.com/act?api_key=&lt;API KEY&gt;", "api_key" would be the parameter name.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The parameter name of the API key. E.g. If the API request is "https://example.com/act?api_key=&lt;API KEY&gt;", "api_key" would be the parameter name.
     /// </summary>
     [CliOption("--api-key-config-name", Format = OptionFormat.EqualsSeparated)]
     public string? ApiKeyConfigName { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
     /// </summary>
     [SecretValue]
     [CliOption("--api-key-config-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? ApiKeyConfigSecretVersion { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. The client identifier.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The client identifier.
     /// </summary>
     [CliOption("--oauth2-client-credentials-config-id", Format = OptionFormat.EqualsSeparated)]
     public string? Oauth2ClientCredentialsConfigId { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
     /// </summary>
     [SecretValue]
     [CliOption("--oauth2-client-credentials-config-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? Oauth2ClientCredentialsConfigSecretVersion { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
     /// </summary>
     [SecretValue]
     [CliOption("--user-password-config-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? UserPasswordConfigSecretVersion { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. Username.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. Username.
     /// </summary>
     [CliOption("--user-password-config-username", Format = OptionFormat.EqualsSeparated)]
     public string? UserPasswordConfigUsername { get; set; }

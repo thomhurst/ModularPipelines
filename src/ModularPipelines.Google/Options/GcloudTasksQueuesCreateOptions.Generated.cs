@@ -103,26 +103,26 @@ public record GcloudTasksQueuesCreateOptions(
     public IEnumerable<string>? RoutingOverride { get; set; }
 
     /// <summary>
-    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--http-oauth-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOauthServiceAccountEmailOverride { get; set; }
 
     /// <summary>
-    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the task. If not specified, 'https://www.googleapis.com/auth/cloud-platform' will be used.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the task. If not specified, 'https://www.googleapis.com/auth/cloud-platform' will be used.
     /// </summary>
     [SecretValue]
     [CliOption("--http-oauth-token-scope-override", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOauthTokenScopeOverride { get; set; }
 
     /// <summary>
-    /// OpenId Connect The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--http-oidc-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOidcServiceAccountEmailOverride { get; set; }
 
     /// <summary>
-    /// OpenId Connect The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
     /// </summary>
     [SecretValue]
     [CliOption("--http-oidc-token-audience-override", Format = OptionFormat.EqualsSeparated)]

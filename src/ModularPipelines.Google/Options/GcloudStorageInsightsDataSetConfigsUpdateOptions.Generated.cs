@@ -77,25 +77,25 @@ public record GcloudStorageInsightsDataSetConfigsUpdateOptions : GcloudOptions
     public IEnumerable<string>? SourceProjectsFile { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. List of bucket names to be excluded.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names to be excluded.
     /// </summary>
     [CliOption("--exclude-bucket-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeBucketNames { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. List of bucket prefix regexes to be excluded. Allowed regex patterns are similar to those for the --include-bucket-prefix-regexes flag.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be excluded. Allowed regex patterns are similar to those for the --include-bucket-prefix-regexes flag.
     /// </summary>
     [CliOption("--exclude-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeBucketPrefixRegexes { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included. List of bucket names be included.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names be included.
     /// </summary>
     [CliOption("--include-bucket-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeBucketNames { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included. List of bucket prefix regexes to be included. The dataset config will include all the buckets that match with the prefix regex. Examples of allowed prefix regex patterns can be testbucket*, testbucket.*foo, testb.+foo* . It should follow syntax specified in google/re2 on GitHub.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be included. The dataset config will include all the buckets that match with the prefix regex. Examples of allowed prefix regex patterns can be testbucket*, testbucket.*foo, testb.+foo* . It should follow syntax specified in google/re2 on GitHub.
     /// </summary>
     [CliOption("--include-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeBucketPrefixRegexes { get; set; }

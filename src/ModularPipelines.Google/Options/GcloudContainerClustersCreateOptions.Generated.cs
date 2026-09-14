@@ -1077,127 +1077,127 @@ public record GcloudContainerClustersCreateOptions(
     public string? AutoprovisioningConfigFile { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Node Autoprovisioning will create new nodes with the specified image type
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Node Autoprovisioning will create new nodes with the specified image type
     /// </summary>
     [CliOption("--autoprovisioning-image-type", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningImageType { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Set of zones where new node pools can be created by autoprovisioning. All zones must be in the same region as the cluster's master(s). Multiple locations can be specified, separated by commas.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Set of zones where new node pools can be created by autoprovisioning. All zones must be in the same region as the cluster's master(s). Multiple locations can be specified, separated by commas.
     /// </summary>
     [CliOption("--autoprovisioning-locations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AutoprovisioningLocations { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes (DEPRECATED) If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. The --autoprovisioning-min-cpu-platform flag is deprecated and will be removed in an upcoming release. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#March_08_2022
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: (DEPRECATED) If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. The --autoprovisioning-min-cpu-platform flag is deprecated and will be removed in an upcoming release. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#March_08_2022
     /// </summary>
     [CliOption("--autoprovisioning-min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningMinCpuPlatform { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Maximum number of cores in the cluster. Maximum number of cores to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Maximum number of cores in the cluster. Maximum number of cores to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
     /// </summary>
     [CliOption("--max-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? MaxCpu { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Maximum memory in the cluster. Maximum number of gigabytes of memory to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Maximum memory in the cluster. Maximum number of gigabytes of memory to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
     /// </summary>
     [CliOption("--max-memory", Format = OptionFormat.EqualsSeparated)]
     public string? MaxMemory { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Minimum number of cores in the cluster. Minimum number of cores to which the cluster can scale.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Minimum number of cores in the cluster. Minimum number of cores to which the cluster can scale.
     /// </summary>
     [CliOption("--min-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? MinCpu { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Minimum memory in the cluster. Minimum number of gigabytes of memory to which the cluster can scale.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Minimum memory in the cluster. Minimum number of gigabytes of memory to which the cluster can scale.
     /// </summary>
     [CliOption("--min-memory", Format = OptionFormat.EqualsSeparated)]
     public string? MinMemory { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool.
     /// </summary>
     [CliOption("--autoprovisioning-max-surge-upgrade", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningMaxSurgeUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool.
     /// </summary>
     [CliOption("--autoprovisioning-max-unavailable-upgrade", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningMaxUnavailableUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Time in seconds to be spent waiting during blue-green upgrade before deleting the blue pool and completing the update. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Time in seconds to be spent waiting during blue-green upgrade before deleting the blue pool and completing the update. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect.
     /// </summary>
     [CliOption("--autoprovisioning-node-pool-soak-duration", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningNodePoolSoakDuration { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Standard rollout policy options for blue-green upgrade. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect. Batch sizes are specified by one of, batch-node-count or batch-percent. The duration between batches is specified by batch-soak-duration. Example: --standard-rollout-policy=batch-node-count=3,batch-soak-duration=60s --standard-rollout-policy=batch-percent=0.05,batch-soak-duration=180s
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Standard rollout policy options for blue-green upgrade. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect. Batch sizes are specified by one of, batch-node-count or batch-percent. The duration between batches is specified by batch-soak-duration. Example: --standard-rollout-policy=batch-node-count=3,batch-soak-duration=60s --standard-rollout-policy=batch-percent=0.05,batch-soak-duration=180s
     /// </summary>
     [CliOption("--autoprovisioning-standard-rollout-policy", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningStandardRolloutPolicy { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use blue-green upgrade for the autoprovisioned node pool.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use blue-green upgrade for the autoprovisioned node pool.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-blue-green-upgrade")]
     public bool? EnableAutoprovisioningBlueGreenUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use surge upgrade for the autoprovisioned node pool.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use surge upgrade for the autoprovisioned node pool.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-surge-upgrade")]
     public bool? EnableAutoprovisioningSurgeUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify identity for autoprovisioned nodes: The scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: The scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes
     /// </summary>
     [CliOption("--autoprovisioning-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AutoprovisioningScopes { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify identity for autoprovisioned nodes: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project default service account is used.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project default service account is used.
     /// </summary>
     [CliOption("--autoprovisioning-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningServiceAccount { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-autorepair")]
     public bool? EnableAutoprovisioningAutorepair { get; set; }
 
     /// <summary>
-    /// Negates --enable-autoprovisioning-autorepair. Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Negates --enable-autoprovisioning-autorepair. Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--no-enable-autoprovisioning-autorepair")]
     public bool? NoEnableAutoprovisioningAutorepair { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-autoupgrade")]
     public bool? EnableAutoprovisioningAutoupgrade { get; set; }
 
     /// <summary>
-    /// Negates --enable-autoprovisioning-autoupgrade. Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Negates --enable-autoprovisioning-autoupgrade. Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--no-enable-autoprovisioning-autoupgrade")]
     public bool? NoEnableAutoprovisioningAutoupgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Arguments to set limits on accelerators: Sets maximum limit for a single type of accelerators (e.g. GPUs) in cluster. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The maximum number of accelerators to which the cluster can be scaled. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Sets maximum limit for a single type of accelerators (e.g. GPUs) in cluster. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The maximum number of accelerators to which the cluster can be scaled. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--max-accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? MaxAccelerator { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Arguments to set limits on accelerators: Sets minimum limit for a single type of accelerators (e.g. GPUs) in cluster. Defaults to 0 for all accelerator types if it isn't set. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The minimum number of accelerators to which the cluster can be scaled.
+    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Sets minimum limit for a single type of accelerators (e.g. GPUs) in cluster. Defaults to 0 for all accelerator types if it isn't set. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The minimum number of accelerators to which the cluster can be scaled.
     /// </summary>
     [CliOption("--min-accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? MinAccelerator { get; set; }

@@ -705,115 +705,115 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnablePrivateServiceConnect { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKey { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-project on the command line; ◆ set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Set the Entraid application ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Set the Entraid application ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-application-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdApplicationId { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Set the Entraid tenant ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Set the Entraid tenant ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdTenantId { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
     /// </summary>
     [CliFlag("--auto-scale-disable-scale-in")]
     public bool? AutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
-    /// Negates --auto-scale-disable-scale-in. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// Negates --auto-scale-disable-scale-in. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
     /// </summary>
     [CliFlag("--no-auto-scale-disable-scale-in")]
     public bool? NoAutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--auto-scale-enabled")]
     public bool? AutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// Negates --auto-scale-enabled. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Negates --auto-scale-enabled. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--no-auto-scale-enabled")]
     public bool? NoAutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
     /// </summary>
     [CliOption("--auto-scale-in-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleInCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Maximum number of read pool nodes to be maintained.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Maximum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-max-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMaxNodeCount { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Minimum number of read pool nodes to be maintained.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Minimum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-min-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMinNodeCount { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
     /// </summary>
     [CliOption("--auto-scale-out-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleOutCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8
     /// </summary>
     [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated)]
     public string? AutoScaleTargetMetrics { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
     /// </summary>
     [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
     public string? GceZone { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryZone { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
