@@ -42,7 +42,6 @@ ModularPipelines.Chocolatey.Options.ChocoFindOptions.Filter.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ChocoInstallOptions(string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Deconstruct(out string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Pkg.get -> string!
-ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Pkg.init -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Pkg2PkgN.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Pkg2PkgN.set -> void
 ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Info.get -> string?
@@ -52,7 +51,6 @@ ModularPipelines.Chocolatey.Options.ChocoListOptions.Filter.set -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.ChocoNewOptions(string! NameArgument) -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.Deconstruct(out string! NameArgument) -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.NameArgument.get -> string!
-ModularPipelines.Chocolatey.Options.ChocoNewOptions.NameArgument.init -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.PropertyValuePropertyNValueN.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.PropertyValuePropertyNValueN.set -> void
 ModularPipelines.Chocolatey.Options.ChocoPackOptions.PathToNuspec.get -> string?
@@ -76,13 +74,11 @@ ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.List.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ChocoUninstallOptions(string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Deconstruct(out string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Pkg.get -> string!
-ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Pkg.init -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Pkg2PkgN.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Pkg2PkgN.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ChocoUpgradeOptions(string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Deconstruct(out string! Pkg) -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Pkg.get -> string!
-ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Pkg.init -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Pkg2PkgN.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Pkg2PkgN.set -> void
 ModularPipelines.Chocolatey.Services.IChoco.ApikeyAsync(ModularPipelines.Chocolatey.Options.ChocoApikeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!

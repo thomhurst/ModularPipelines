@@ -19,10 +19,21 @@ namespace ModularPipelines.Chocolatey.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new")]
-public record ChocoNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NameArgument
-) : ChocoOptions
+public record ChocoNewOptions : ChocoOptions
 {
+    public ChocoNewOptions(
+        string NameArgument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NameArgument);
+        this.NameArgument = NameArgument;
+    }
+
+    public void Deconstruct(out string NameArgument)
+    {
+        NameArgument = this.NameArgument;
+    }
+
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
     /// </summary>
@@ -131,6 +142,12 @@ public record ChocoNewOptions(
     /// </summary>
     [CliOption("--maintainer", Format = OptionFormat.EqualsSeparated)]
     public string? Maintainer { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NameArgument { get; private init; }
 
     /// <summary>
     /// The &lt;property=value&gt; &lt;propertyN=valueN&gt; operand.
