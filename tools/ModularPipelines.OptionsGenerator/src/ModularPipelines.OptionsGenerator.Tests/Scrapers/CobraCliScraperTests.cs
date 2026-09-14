@@ -9,6 +9,30 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CobraCliScraperTests
 {
     [Test]
+    [Arguments("[https://storage.example/image.iso,https://mirror.example/image.iso]")]
+    [Arguments("[http://[::1]:8080/image.iso,https://mirror.example/image.iso]")]
+    [Arguments("[]")]
+    public async Task Bracketed_Default_Lists_Stay_Out_Of_Descriptions(string defaultValue)
+    {
+        var helpText = $"""
+            Usage: fake start [OPTIONS]
+
+            Options:
+                  --iso-url={defaultValue}: Locations to fetch the ISO from.
+                  --nodes=1: Number of nodes.
+            """;
+        var command = await new TestCobraCliScraper().Parse(["fake", "start"], helpText);
+
+        var urls = command!.Options.Single(option => option.SwitchName == "--iso-url");
+        await Assert.That(urls.Description)
+            .IsEqualTo("Locations to fetch the ISO from.");
+        await Assert.That(urls.AcceptsMultipleValues).IsTrue();
+        await Assert.That(urls.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--nodes").Description)
+            .IsEqualTo("Number of nodes.");
+    }
+
+    [Test]
     public async Task Repeatable_Noun_Phrases_Produce_Collection_Options()
     {
         const string helpText = """
