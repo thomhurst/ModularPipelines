@@ -162,6 +162,8 @@ public class OptionsClassGenerator : ICodeGenerator
         bool requiredPropertiesAreNonNullable)
     {
         // Required definitions own colliding names, including with explicit constructors.
+        var alternativeProperties = command.RequiredAlternativeGroups
+            .SelectMany(static group => group.PropertyNames).ToHashSet(StringComparer.Ordinal);
         foreach (var option in command.Options
                      .Where(option => includeRequiredProperties || !option.IsRequired)
                      .OrderByDescending(static option => option.IsRequired))
@@ -170,7 +172,8 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 continue; // Skip duplicates
             }
-            GenerateProperty(sb, option, requiredPropertiesAreNonNullable);
+            GenerateProperty(sb, option, requiredPropertiesAreNonNullable,
+                alternativeProperties.Contains(option.PropertyName));
             sb.AppendLine();
         }
 
@@ -182,7 +185,8 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 continue; // Skip duplicates
             }
-            GeneratePositionalArgument(sb, positional, requiredPropertiesAreNonNullable);
+            GeneratePositionalArgument(sb, positional, requiredPropertiesAreNonNullable,
+                alternativeProperties.Contains(positional.PropertyName));
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
@@ -512,7 +516,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         return CliOptionDefinition.TryGetCollectionShape(csharpType, out var isCollection) && isCollection
-            ? $"{propertyName}?.Any() == true"
+            ? $"{propertyName}?.Cast<object>().Any() == true"
             : $"{propertyName} is not null";
     }
 
@@ -528,7 +532,8 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateProperty(
         StringBuilder sb,
         CliOptionDefinition option,
-        bool requiredPropertiesAreNonNullable)
+        bool requiredPropertiesAreNonNullable,
+        bool participatesInAlternative)
     {
         // XML documentation
         GeneratorUtils.GenerateXmlDocumentation(sb, option.Description);
@@ -553,17 +558,17 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        var accessor = GetPropertyAccessor(option.IsRequired);
         var propertyType = option.IsRequired && requiredPropertiesAreNonNullable && !RequiresNullableFlagProperty(option)
             ? option.PropertyType.TrimEnd('?')
             : option.PropertyType;
-        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{propertyType} {option.PropertyName} {{ get; {accessor}; }}");
+        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative);
     }
 
     private static void GeneratePositionalArgument(
         StringBuilder sb,
         CliPositionalArgument positional,
-        bool requiredPropertiesAreNonNullable)
+        bool requiredPropertiesAreNonNullable,
+        bool participatesInAlternative)
     {
         GeneratorUtils.GenerateXmlDocumentation(sb, positional.Description);
 
@@ -574,7 +579,6 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        var accessor = GetPropertyAccessor(positional.IsRequired);
         var propertyType = positional.CSharpType;
         if (positional.IsValidationRequired == false)
         {
@@ -585,7 +589,28 @@ public class OptionsClassGenerator : ICodeGenerator
             propertyType = propertyType.TrimEnd('?');
         }
 
-        sb.AppendLine($"    public {propertyType} {positional.PropertyName} {{ get; {accessor}; }}");
+        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative);
+    }
+
+    private static void GeneratePropertyDeclaration(
+        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative)
+    {
+        var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
+        // Required collections are already materialized by their constructor. Optional
+        // alternative inputs must retain the same values for validation and rendering.
+        if (!isRequired && participatesInAlternative
+            && CliOptionDefinition.TryGetCollectionShape(propertyType, out var isCollection) && isCollection)
+        {
+            var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(propertyType, "values");
+            sb.AppendLine(declaration);
+            sb.AppendLine("    {");
+            sb.AppendLine("        get;");
+            sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
+            sb.AppendLine("    }");
+            return;
+        }
+
+        sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
     }
 
     private static string GetPropertyAccessor(bool isRequired) =>

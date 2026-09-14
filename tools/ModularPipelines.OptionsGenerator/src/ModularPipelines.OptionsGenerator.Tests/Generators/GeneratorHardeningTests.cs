@@ -553,7 +553,7 @@ public class GeneratorHardeningTests
             await Assert.That(options).Contains("public record ToolAddOptions : ToolOptions, IValidatableObject");
             await Assert.That(options).Contains(
                 "IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
-            await Assert.That(options).Contains("DepId?.Any() == true");
+            await Assert.That(options).Contains("DepId?.Cast<object>().Any() == true");
             await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Path)");
             await Assert.That(options).Contains("!string.IsNullOrWhiteSpace(Git)");
             await Assert.That(options).Contains("At least one of DepId, Path, or Git must be specified.");
@@ -598,7 +598,7 @@ public class GeneratorHardeningTests
 
         var options = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(options).Contains("Entries?.Any() == true");
+        await Assert.That(options).Contains("Entries?.Cast<object>().Any() == true");
     }
 
     [Test]
@@ -1071,7 +1071,7 @@ public class GeneratorHardeningTests
         using (Assert.Multiple())
         {
             await Assert.That(generated).Contains("!string.IsNullOrWhiteSpace(Filename)");
-            await Assert.That(generated).Contains("FilenameArgument?.Any() == true");
+            await Assert.That(generated).Contains("FilenameArgument?.Cast<object>().Any() == true");
             await Assert.That(generated).Contains("nameof(Filename), nameof(FilenameArgument)");
         }
     }

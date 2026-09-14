@@ -388,7 +388,7 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(options.GetProperty("Path")!.GetValue(instance)).IsEqualTo(supportsAlternateInput ? null : "path");
     }
 
-    private static async Task<string> Generate(List<CliOptionDefinition> options, IReadOnlyList<CliPositionalArgument>? positionalArguments = null)
+    private static async Task<string> Generate(List<CliOptionDefinition> options, IReadOnlyList<CliPositionalArgument>? positionalArguments = null, IReadOnlyList<CliRequiredAlternativeGroup>? alternativeGroups = null)
     {
         var tool = new CliToolDefinition
         {
@@ -396,7 +396,7 @@ public partial class RequiredConstructorValidationTests
             NamespacePrefix = "Tool",
             TargetNamespace = "ModularPipelines.Tool",
             OutputDirectory = "src/ModularPipelines.Tool",
-            Commands = [new() { FullCommand = "tool run", CommandParts = ["run"], ClassName = "ToolRunOptions", ParentClassName = "ToolOptions", ToolNamespacePrefix = "Tool", Options = options, PositionalArguments = positionalArguments ?? [] }],
+            Commands = [new() { FullCommand = "tool run", CommandParts = ["run"], ClassName = "ToolRunOptions", ParentClassName = "ToolOptions", ToolNamespacePrefix = "Tool", Options = options, PositionalArguments = positionalArguments ?? [], RequiredAlternativeGroups = alternativeGroups ?? [] }],
         };
         return (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
     }
@@ -405,6 +405,7 @@ public partial class RequiredConstructorValidationTests
     {
         const string support = """
             global using System.Collections.Generic;
+            global using System.Linq;
             namespace ModularPipelines.Attributes
             {
                 public sealed class CliOptionAttribute(string name) : System.Attribute;
@@ -435,8 +436,8 @@ public partial class RequiredConstructorValidationTests
             }
             """;
         var compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N"),
-            [CSharpSyntaxTree.ParseText(support), .. generated.Select(static source => CSharpSyntaxTree.ParseText(source,
-                CSharpParseOptions.Default.WithDocumentationMode(DocumentationMode.Diagnose)))], CompilationReferences,
+            [CSharpSyntaxTree.ParseText(support, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview)), .. generated.Select(static source => CSharpSyntaxTree.ParseText(source,
+                CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview).WithDocumentationMode(DocumentationMode.Diagnose)))], CompilationReferences,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         using var stream = new MemoryStream();
         var result = compilation.Emit(stream);
