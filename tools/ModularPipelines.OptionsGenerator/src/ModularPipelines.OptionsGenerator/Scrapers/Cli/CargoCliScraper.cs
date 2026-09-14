@@ -289,7 +289,9 @@ public partial class CargoCliScraper : CliScraperBase
         "Usage",
         "Examples",
         "Environment",
-        "Notes",
+        "Note",
+        "Aliases",
+        "Compatibility",
         "See also",
     ];
 
@@ -300,7 +302,8 @@ public partial class CargoCliScraper : CliScraperBase
     /// </summary>
     private static bool IsOptionSectionHeading(string heading) =>
         !NonOptionSectionHeadings.Any(prefix => heading.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-        && !heading.Contains("command", StringComparison.OrdinalIgnoreCase);
+        && (!heading.Contains("command", StringComparison.OrdinalIgnoreCase)
+            || heading.EndsWith("Options:", StringComparison.OrdinalIgnoreCase));
 
     private static bool IsOptionRow(string line) => CargoOptionDeclarationPattern().IsMatch(line);
 

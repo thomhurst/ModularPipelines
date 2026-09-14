@@ -147,6 +147,7 @@ public static class UsageSynopsisParser
         {
             HasOperandTokens = positionalArguments.Count > 0 || result.UnparsedOperandTokens.Count > 0,
             PositionalArguments = positionalArguments,
+            RequirednessCandidates = [.. result.RequirednessCandidates.Select(RemoveCommandGroupPlaceholders)],
             RequiredAlternativeGroups =
             [
                 .. result.RequiredAlternativeGroups.Where(group => group.Members.All(member =>
@@ -573,6 +574,7 @@ public static class UsageSynopsisParser
         List<string> requiredOptionSwitches,
         ref string? associatedOptionSwitch)
     {
+        operandToken = operandToken.TrimEnd('.', '…');
         var optionSwitches = GetOptionSwitches(operandToken);
         if (optionSwitches.Count == 0)
         {
@@ -684,18 +686,19 @@ public static class UsageSynopsisParser
 
         // Preserve operands deliberately removed by traversal or adapter normalization when
         // reconsidering alternate forms. In particular, never restore command-group placeholders.
-        var omittedProperties = original.PositionalArguments
+        var omittedArguments = original.PositionalArguments
             .Where(argument => !usage.PositionalArguments.Any(candidate =>
-                candidate.PropertyName == argument.PropertyName))
-            .Select(argument => argument.PropertyName)
-            .ToHashSet(StringComparer.Ordinal);
+                candidate.PropertyName == argument.PropertyName
+                && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options)))
+            .Select(argument => (argument.PropertyName, IsPositionalSlot(argument, options)))
+            .ToHashSet();
         var candidates = usage.RequirednessCandidates.Select(candidate => candidate with
         {
             PositionalArguments = [.. candidate.PositionalArguments.Where(argument =>
-                !omittedProperties.Contains(argument.PropertyName))],
+                !omittedArguments.Contains((argument.PropertyName, IsPositionalSlot(argument, options))))],
             RequiredAlternativeGroups = [.. candidate.RequiredAlternativeGroups.Where(group =>
                 group.Members.All(member => member.PositionalPropertyName is not { } name
-                    || !omittedProperties.Contains(name)))],
+                    || !omittedArguments.Contains((name, true))))],
         }).ToArray();
         var selected = candidates
             .OrderByDescending(candidate => candidate.PositionalArguments.Count(argument => IsPositionalSlot(argument, options)))
@@ -721,26 +724,27 @@ public static class UsageSynopsisParser
             options);
         return usage with
         {
-            PositionalArguments = ProjectRequiredness(usage.PositionalArguments, resolved),
+            PositionalArguments = ProjectRequiredness(usage.PositionalArguments, resolved, options),
         };
     }
 
     private static IReadOnlyList<CliPositionalArgument> ProjectRequiredness(
         IReadOnlyList<CliPositionalArgument> arguments,
-        IReadOnlyList<CliPositionalArgument> resolved) =>
-        arguments.Select(argument =>
+        IReadOnlyList<CliPositionalArgument> resolved,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        [.. arguments.Select(argument =>
         {
             var resolvedArgument = resolved.FirstOrDefault(candidate =>
                 candidate.PropertyName == argument.PropertyName
                 && candidate.Phase == argument.Phase
                 && candidate.PositionIndex == argument.PositionIndex
-                && candidate.AssociatedOptionSwitch == argument.AssociatedOptionSwitch);
+                && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options));
             return resolvedArgument is null ? argument : argument with
             {
                 IsRequired = resolvedArgument.IsRequired,
                 CSharpType = resolvedArgument.IsRequired ? argument.CSharpType.TrimEnd('?') : $"{argument.CSharpType.TrimEnd('?')}?",
             };
-        }).ToArray();
+        })];
 
     private static IReadOnlyList<CliPositionalArgument> RelaxArgumentsMissingFromAlternatives(
         IReadOnlyList<CliPositionalArgument> selectedArguments,
@@ -782,7 +786,7 @@ public static class UsageSynopsisParser
                 && IsPositionalSlot(candidate, options) == IsPositionalSlot(selectedArgument, options)
                 && candidate.PropertyName.Equals(
                     selectedArgument.PropertyName,
-                    StringComparison.OrdinalIgnoreCase)))
+                    StringComparison.Ordinal)))
         {
             return true;
         }
@@ -805,11 +809,13 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        return options is not null
-               && options.Any(option =>
-                   option.IsFlag
-                   && (option.SwitchName.Equals(argument.AssociatedOptionSwitch, StringComparison.OrdinalIgnoreCase)
-                       || option.ShortForm?.Equals(argument.AssociatedOptionSwitch, StringComparison.OrdinalIgnoreCase) == true));
+        if (options is null)
+        {
+            return false;
+        }
+
+        var optionIndex = CliOptionDefinition.FindIndexBySwitch(options, argument.AssociatedOptionSwitch);
+        return optionIndex >= 0 && options[optionIndex].IsFlag;
     }
 
     private static IReadOnlyList<string> ExtractSynopses(

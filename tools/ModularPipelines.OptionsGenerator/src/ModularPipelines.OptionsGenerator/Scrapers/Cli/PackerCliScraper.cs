@@ -117,7 +117,7 @@ public partial class PackerCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://developer.hashicorp.com/packer/docs/commands",
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(usage, options),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,

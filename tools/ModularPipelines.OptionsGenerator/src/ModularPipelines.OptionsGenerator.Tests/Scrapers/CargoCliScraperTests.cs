@@ -9,6 +9,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    [Arguments("Aliases:")]
+    [Arguments("Note:")]
+    [Arguments("Compatibility:")]
+    [Arguments("Examples Options:")]
+    public async Task Prose_Sections_Do_Not_Create_Options(string heading)
+    {
+        var helpText = $"Usage: cargo run [OPTIONS]\n\nOptions:\n  --quiet  Suppress output\n\n{heading}\n  --example  This is prose, not an option.";
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName)).IsEquivalentTo(["--quiet"]);
+    }
+
+    [Test]
+    public async Task Command_Options_Heading_Preserves_Real_Options()
+    {
+        const string helpText = "Usage: cargo run [OPTIONS]\n\nCommand Options:\n  --quiet  Suppress output";
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().SwitchName).IsEqualTo("--quiet");
+    }
+
+    [Test]
     [Arguments("--package <SPEC>")]
     [Arguments("--package [<SPEC>]")]
     [Arguments("--package=<SPEC>")]

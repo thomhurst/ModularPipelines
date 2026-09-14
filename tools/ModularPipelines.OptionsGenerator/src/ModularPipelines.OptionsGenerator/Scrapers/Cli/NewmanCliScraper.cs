@@ -125,7 +125,7 @@ public partial class NewmanCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://www.npmjs.com/package/newman",
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(usage, options),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,

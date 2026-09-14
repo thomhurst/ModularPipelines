@@ -191,7 +191,7 @@ public partial class TerraformCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(usage, options),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,

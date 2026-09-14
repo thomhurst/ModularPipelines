@@ -10,6 +10,85 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Resolving_Alternatives_Does_Not_Restore_Renamed_Command_Group_Placeholders()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: tool group <COMMAND> <ARG>\n       tool group <SUBCOMMAND> <ARG>",
+            ["tool", "group"]);
+        var normalized = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, []);
+
+        await Assert.That(resolved.PositionalArguments.Single().PropertyName).IsEqualTo("Arg");
+        await Assert.That(resolved.RequirednessCandidates.SelectMany(candidate => candidate.PositionalArguments)
+            .Any(UsageSynopsisParser.IsCommandGroupPlaceholder)).IsFalse();
+    }
+
+    [Test]
+    public async Task Case_Distinct_Value_Switch_Does_Not_Borrow_A_Flag_Shape()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run -F <VALUE>", ["tool", "run"]);
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "-f", PropertyName = "Force", CSharpType = "bool?", IsFlag = true },
+            new() { SwitchName = "-F", PropertyName = "File", CSharpType = "string?" },
+        ];
+
+        await Assert.That(UsageSynopsisParser.IsPositionalSlot(usage.PositionalArguments.Single(), options)).IsFalse();
+    }
+
+    [Test]
+    public async Task Reranking_Does_Not_Restore_Removed_Option_Values_With_A_Positional_Name()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [OPTIONS] --file <PATH> --config <CONFIG> <PATH>\n       tool run [OPTIONS] --file <PATH> <X> <Y>", ["tool", "run"]);
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "--file", PropertyName = "File", CSharpType = "string?" },
+            new() { SwitchName = "--config", PropertyName = "Config", CSharpType = "string?" },
+        ];
+        var normalized = usage with
+        {
+            PositionalArguments = [.. usage.PositionalArguments.Where(argument => argument.AssociatedOptionSwitch is null)],
+        };
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, options);
+
+        await Assert.That(resolved.PositionalArguments.Select(argument => argument.PropertyName)).IsEquivalentTo(["X", "Y"]);
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.AssociatedOptionSwitch is null)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("[--inherited]...")]
+    [Arguments("[--inherited]…")]
+    public async Task Repeated_Closed_Flag_Groups_Do_Not_Own_Following_Operands(string flag)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool run {flag} <TARGET>", ["tool", "run"]);
+        var target = usage.PositionalArguments.Single();
+
+        await Assert.That(target.AssociatedOptionSwitch).IsNull();
+        await Assert.That(UsageSynopsisParser.IsPositionalSlot(target, [])).IsTrue();
+        await Assert.That(target.IsRequired).IsTrue();
+    }
+
+    [Test]
+    public async Task Resolving_Normalized_Flag_Operands_Preserves_Requiredness_And_Is_Idempotent()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [OPTIONS] --verbose <A> <B>\n       tool run [OPTIONS] <X> <Y>", ["tool", "run"]);
+        CliOptionDefinition[] options = [new() { SwitchName = "--verbose", PropertyName = "Verbose", CSharpType = "bool?", IsFlag = true }];
+        var normalized = usage with
+        {
+            PositionalArguments = [.. usage.PositionalArguments.Select(argument => argument with { AssociatedOptionSwitch = null })],
+        };
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, options);
+        var repeated = UsageSynopsisParser.ResolveOptionUsage(resolved, options);
+
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.CSharpType == "string")).IsTrue();
+        await Assert.That(repeated.PositionalArguments).IsEquivalentTo(resolved.PositionalArguments);
+    }
+
+    [Test]
     public async Task Ignores_Azure_Usage_Examples()
     {
         const string helpText = """
@@ -1547,7 +1626,7 @@ public class UsageSynopsisParserTests
         {
         }
 
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
     }
 
     private sealed class CountingUsageScraper : CliScraperBase

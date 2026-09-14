@@ -567,7 +567,7 @@ public abstract partial class CliScraperBase : ICliScraper
             ValidateOptionShapes(command, helpText);
             ValidateArgumentGroups(command);
             usage = NormalizeUsageSynopsis(command, usage);
-            usage = UsageSynopsisParser.ResolveOptionUsage(usage, command.Options);
+            usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(command.Options));
             command = command with
             {
                 UsageSynopsis = usage.Synopsis,
@@ -1011,21 +1011,23 @@ public abstract partial class CliScraperBase : ICliScraper
             : $"operand:{member.PositionalArgumentPhase}:{member.PositionalArgumentPositionIndex}";
 
     /// <summary>
-    /// Returns true positional operands, excluding values syntactically owned by an option switch.
-    /// </summary>
-    protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
-        UsageSynopsisParseResult usage) =>
-        [.. usage.PositionalArguments.Where(argument => argument.AssociatedOptionSwitch is null)];
-
-    /// <summary>
     /// Returns true positional operands, retaining operands that follow presence-only flags.
     /// </summary>
-    protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
+    protected IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage,
-        IReadOnlyList<CliOptionDefinition> options) =>
-        [.. UsageSynopsisParser.ResolveOptionUsage(usage, options).PositionalArguments
-            .Where(argument => UsageSynopsisParser.IsPositionalSlot(argument, options))
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var usageOptions = GetUsageOptions(options);
+        return [.. UsageSynopsisParser.ResolveOptionUsage(usage, usageOptions).PositionalArguments
+            .Where(argument => UsageSynopsisParser.IsPositionalSlot(argument, usageOptions))
             .Select(argument => argument with { AssociatedOptionSwitch = null })];
+    }
+
+    private IReadOnlyList<CliOptionDefinition> GetUsageOptions(IReadOnlyList<CliOptionDefinition> options)
+    {
+        var globalOptions = EffectiveGlobalOptions;
+        return globalOptions.Count == 0 ? options : [.. options, .. globalOptions];
+    }
 
     /// <summary>
     /// Marks the options a usage synopsis lists outside every optional group with a required
