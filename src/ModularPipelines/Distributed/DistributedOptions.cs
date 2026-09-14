@@ -15,6 +15,13 @@ public class DistributedOptions
     public int TotalInstances { get; set; } = 1;
 
     /// <summary>
+    /// Gets or sets an optional per-node limit for concurrently executing distributed modules.
+    /// When unset, the pipeline's global concurrency limit is used. A configured value can
+    /// lower, but cannot raise, that global limit.
+    /// </summary>
+    public int? MaxParallelism { get; set; }
+
+    /// <summary>
     /// Gets or sets the identifier shared by every process in this pipeline run.
     /// The options pipeline resolves an empty value from <c>MODULARPIPELINES_RUN_ID</c>, or generates
     /// an identifier for a single-instance run when <see cref="RequireExplicitRunId"/> is false.

@@ -65,8 +65,15 @@ internal static class DependencyResultApplicator
                 var result = serializer.Deserialize(serializedResult);
                 if (result is not null)
                 {
-                    resultRegistry.RegisterResult(depModule.GetType(), result);
-                    ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                    lock (depModule)
+                    {
+                        var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                        var internalModule = depModule.AsInternal();
+                        var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
+                            ? internalModule.ResultTask.Result
+                            : result;
+                        resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
+                    }
                 }
             }
             catch (Exception ex)
@@ -83,8 +90,7 @@ internal static class DependencyResultApplicator
         ModuleAssignment assignment,
         int workerIndex,
         IDistributedWorkerCoordinator coordinator,
-        ILogger logger,
-        CancellationToken cancellationToken)
+        ILogger logger)
     {
         try
         {
@@ -94,7 +100,7 @@ internal static class DependencyResultApplicator
                 WorkerIndex: workerIndex,
                 SerializedJson: "null",
                 CompletedAt: DateTimeOffset.UtcNow);
-            await coordinator.PublishResultAsync(failureResult, cancellationToken);
+            await DistributedFailurePublisher.PublishAsync(coordinator, failureResult).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

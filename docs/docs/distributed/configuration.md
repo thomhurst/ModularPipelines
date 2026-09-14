@@ -16,6 +16,7 @@ builder.AddDistributedMode(o =>
 {
     o.InstanceIndex = 0;
     o.TotalInstances = 4;
+    o.MaxParallelism = 4;
     o.Role = DistributedRole.Master;
     o.Capabilities = [Capability.Docker, Capability.Gpu];
     o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
@@ -31,6 +32,7 @@ builder.AddDistributedMode(o =>
 | `Role` | `DistributedRole` | `Auto` | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`. |
 | `InstanceIndex` | `int` | `0` | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker. |
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
+| `MaxParallelism` | `int?` | `null` | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit. |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
 | `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
@@ -66,6 +68,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 |----------------------|--------|
 | `MODULARPIPELINES_INSTANCE_INDEX` | `InstanceIndex` |
 | `MODULARPIPELINES_TOTAL_INSTANCES` | `TotalInstances` |
+| `MODULARPIPELINES_MAX_PARALLELISM` | `MaxParallelism` |
 | `MODULARPIPELINES_RUN_ID` | `RunId` |
 | `MODULARPIPELINES_ROLE` | `Role` (`Auto`, `Master`, or `Worker`) |
 

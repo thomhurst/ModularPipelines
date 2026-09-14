@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -24,9 +25,18 @@ internal class OptionsValidator : IOptionsValidator
             return Task.FromResult(ValidationResult.Success());
         }
 
-        return Task.FromResult(ValidateOptions(
+        var result = ValidateOptions(
             optionsSnapshot.Value,
-            GetRegisteredCategories(services)));
+            GetRegisteredCategories(services));
+        var distributedOptions = services.GetService<IOptions<DistributedOptions>>()?.Value;
+        if (distributedOptions?.MaxParallelism is < 1)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Distributed.MaxParallelism must be at least 1. Current value: {distributedOptions.MaxParallelism}"));
+        }
+
+        return Task.FromResult(result);
     }
 
     /// <inheritdoc />

@@ -8,6 +8,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed.UnitTests.Worker;
@@ -58,6 +59,8 @@ public class WorkerModuleExecutorTests
                 AutoDetectOsCapability = false,
                 WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(1),
             }),
+            Mock.Of<IParallelLimitProvider>(
+                provider => provider.GetMaxDegreeOfParallelism() == 2),
             Mock.Of<IServiceScopeFactory>(),
             artifactLifecycleManager: null,
             NullLogger<WorkerModuleExecutor>.Instance);

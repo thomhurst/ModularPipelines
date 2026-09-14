@@ -131,6 +131,77 @@ public class DependencyResultPropagationTests
     }
 
     [Test]
+    [Timeout(5_000)]
+    public async Task Concurrent_Dependency_Results_Keep_Module_And_Registry_Aligned(
+        CancellationToken cancellationToken)
+    {
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DependencyModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var module = new DependencyModule();
+        var moduleLookup = DependencyResultApplicator.BuildModuleLookup([module]);
+        var firstRegisterStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        IModuleResult? registeredResult = null;
+        var registerCount = 0;
+        var resultRegistry = new Mock<IModuleResultRegistry>();
+        resultRegistry
+            .Setup(registry => registry.RegisterResult(
+                typeof(DependencyModule),
+                It.IsAny<IModuleResult>()))
+            .Callback<Type, IModuleResult>((_, result) =>
+            {
+                if (Interlocked.Increment(ref registerCount) == 1)
+                {
+                    firstRegisterStarted.TrySetResult();
+                    module.AsInternal().ResultTask.GetAwaiter().GetResult();
+                }
+
+                registeredResult = result;
+            });
+
+        SerializedModuleResult Serialize(string value) => serializer.Serialize(
+            CreateSuccessResult(new DepResult { Value = value }, nameof(DependencyModule)),
+            typeof(DependencyModule).FullName!,
+            typeof(DepResult).FullName!,
+            workerIndex: -1);
+
+        DependencyResultCache CreateCache(string value)
+        {
+            var coordinator = new Mock<IDistributedWorkerCoordinator>();
+            coordinator.Setup(x => x.WaitForResultAsync(
+                    typeof(DependencyModule).FullName!, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Serialize(value));
+            return new DependencyResultCache(coordinator.Object, cancellationToken);
+        }
+
+        var firstApply = Task.Run(
+            () => DependencyResultApplicator.FetchAndApplyAsync(
+                [new DependencyResultReference(typeof(DependencyModule).FullName!, true)],
+                CreateCache("first"),
+                moduleLookup,
+                serializer,
+                resultRegistry.Object,
+                NullLogger.Instance),
+            cancellationToken);
+        await firstRegisterStarted.Task.WaitAsync(cancellationToken);
+        var secondApply = Task.Run(
+            () => DependencyResultApplicator.FetchAndApplyAsync(
+                [new DependencyResultReference(typeof(DependencyModule).FullName!, true)],
+                CreateCache("second"),
+                moduleLookup,
+                serializer,
+                resultRegistry.Object,
+                NullLogger.Instance),
+            cancellationToken);
+
+        await Task.WhenAll(firstApply, secondApply).WaitAsync(cancellationToken);
+
+        await Assert.That(registeredResult)
+            .IsSameReferenceAs(await module.AsInternal().ResultTask);
+    }
+
+    [Test]
     public async Task Null_Dependency_Result_References_Does_Not_Crash()
     {
         // Arrange — assignment with null DependencyResults (backwards compat)

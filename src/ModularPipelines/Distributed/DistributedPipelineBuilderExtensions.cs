@@ -13,6 +13,7 @@ public static class DistributedPipelineBuilderExtensions
 {
     private const string InstanceIndexEnvironmentVariable = "MODULARPIPELINES_INSTANCE_INDEX";
     private const string TotalInstancesEnvironmentVariable = "MODULARPIPELINES_TOTAL_INSTANCES";
+    private const string MaxParallelismEnvironmentVariable = "MODULARPIPELINES_MAX_PARALLELISM";
     private const string RoleEnvironmentVariable = "MODULARPIPELINES_ROLE";
 
     /// <summary>
@@ -35,6 +36,10 @@ public static class DistributedPipelineBuilderExtensions
             options.TotalInstances = GetEnvironmentInt32(
                 TotalInstancesEnvironmentVariable,
                 options.TotalInstances,
+                minimum: 1);
+            options.MaxParallelism = GetOptionalEnvironmentInt32(
+                MaxParallelismEnvironmentVariable,
+                options.MaxParallelism,
                 minimum: 1);
             options.RunId = Environment.GetEnvironmentVariable(RunIdResolver.EnvironmentVariable)
                             ?? options.RunId;
@@ -77,6 +82,23 @@ public static class DistributedPipelineBuilderExtensions
     }
 
     private static int GetEnvironmentInt32(string name, int defaultValue, int minimum)
+    {
+        var value = Environment.GetEnvironmentVariable(name);
+        if (value is null)
+        {
+            return defaultValue;
+        }
+
+        if (!int.TryParse(value, out var parsed) || parsed < minimum)
+        {
+            throw new InvalidOperationException(
+                $"Environment variable {name} must be an integer greater than or equal to {minimum}.");
+        }
+
+        return parsed;
+    }
+
+    private static int? GetOptionalEnvironmentInt32(string name, int? defaultValue, int minimum)
     {
         var value = Environment.GetEnvironmentVariable(name);
         if (value is null)

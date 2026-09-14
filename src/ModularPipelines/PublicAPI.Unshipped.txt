@@ -1498,6 +1498,8 @@ ModularPipelines.Distributed.DependencyResultReference.ModuleTypeName.init -> vo
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.set -> void
+ModularPipelines.Distributed.DistributedOptions.MaxParallelism.get -> int?
+ModularPipelines.Distributed.DistributedOptions.MaxParallelism.set -> void
 ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.get -> int
 ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.set -> void
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.get -> System.TimeSpan
