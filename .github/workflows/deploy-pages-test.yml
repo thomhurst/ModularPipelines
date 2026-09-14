@@ -29,13 +29,19 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Detect generated integration pull request
+        id: generated_integration
+        uses: ./.github/actions/detect-generated-integration
       - uses: actions/setup-node@v7.0.0
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         with:
           node-version: 24
           cache: yarn
           cache-dependency-path: 'docs/yarn.lock'
 
       - name: Install dependencies
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: yarn install --frozen-lockfile
       - name: Test build website
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: yarn build

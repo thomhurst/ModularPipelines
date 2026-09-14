@@ -133,6 +133,9 @@ try {
         -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/ModularPipelines.Fake.slnx') `
         -Value '<Solution />'
     Set-Content `
+        -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/ModularPipelines.Fake.csproj') `
+        -Value '<Project />'
+    Set-Content `
         -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/PublicAPI.Shipped.txt') `
         -Value '#nullable enable'
 

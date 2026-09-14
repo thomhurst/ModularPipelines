@@ -1,0 +1,58 @@
+name: Detect generated integration
+description: Classify automation-owned changes confined to one generated integration.
+outputs:
+  is_generated_integration:
+    description: Whether this pull request qualifies for focused compilation.
+    value: ${{ steps.detect.outputs.is_generated_integration }}
+  tool:
+    description: Generated CLI tool.
+    value: ${{ steps.detect.outputs.tool }}
+  namespace_prefix:
+    description: Generated namespace prefix.
+    value: ${{ steps.detect.outputs.namespace_prefix }}
+  package:
+    description: Integration package name.
+    value: ${{ steps.detect.outputs.package }}
+  project:
+    description: Integration library project to compile.
+    value: ${{ steps.detect.outputs.project }}
+runs:
+  using: composite
+  steps:
+    - id: detect
+      shell: pwsh
+      working-directory: ${{ github.workspace }}
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        BASE_REF: ${{ github.base_ref }}
+        PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        HEAD_REF: ${{ github.head_ref }}
+        HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        REPOSITORY: ${{ github.repository }}
+      run: |
+        $changedPaths = @()
+        $headRef = 'not-a-generated-pull-request'
+
+        if ($env:EVENT_NAME -eq 'pull_request') {
+          $headRef = $env:HEAD_REF
+          $baseSha = git merge-base "origin/$($env:BASE_REF)" $env:PR_HEAD_SHA
+          if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($baseSha)) {
+            throw 'Unable to determine the pull request merge base.'
+          }
+
+          # Disable rename detection so both sides of a rename must pass the allowlist.
+          $changedPaths = @(git diff --name-only --no-renames $baseSha $env:PR_HEAD_SHA)
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+        }
+
+        ./scripts/Resolve-GeneratedIntegrationValidation.ps1 `
+          -HeadRef $headRef `
+          -HeadRepository $env:HEAD_REPOSITORY `
+          -PullRequestAuthor $env:PR_AUTHOR `
+          -Repository $env:REPOSITORY `
+          -ChangedPath $changedPaths `
+          -RepositoryRoot $env:GITHUB_WORKSPACE `
+          -GitHubOutput $env:GITHUB_OUTPUT
