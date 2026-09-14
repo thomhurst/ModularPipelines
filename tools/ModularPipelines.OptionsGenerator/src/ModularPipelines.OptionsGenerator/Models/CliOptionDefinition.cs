@@ -269,7 +269,6 @@ public record CliOptionDefinition
             snapshot = $"default({immutableArrayName}).Equals((object){{0}}) ? global::System.Array.Empty<{elementName}>() : {snapshot}";
         }
 
-
         return snapshot;
     }
 
