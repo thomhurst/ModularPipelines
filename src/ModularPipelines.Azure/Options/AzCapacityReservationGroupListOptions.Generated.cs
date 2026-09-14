@@ -24,38 +24,36 @@ public record AzCapacityReservationGroupListOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The query option to fetch capacity reservation group resource Ids. 'CreatedInSubscription' enables fetching resource Ids for all capacity reservation group resources created in the subscription. 'SharedWithSubscription' enables fetching resource Ids for all capacity reservation group resources shared with the subscription. 'All' enables fetching resource Ids for all capacity reservation group resources shared with the subscription and created in the subscription.  Allowed values: All, CreatedInSubscription, SharedWithSubscription.
     /// </summary>
     [CliOption("--resource-ids-only")]
-    public string? ResourceIdsOnlyValue { get; set; }
+    public string? ResourceIdsOnly { get; set; }
 
     /// <summary>
     /// Retrieve the Virtual Machine Instance which are associated to capacity reservation group in the response.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--vm-instance")]
+    [CliOption("--vm-instance")]
     public bool? VmInstance { get; set; }
 
     /// <summary>
     /// Retrieve the ScaleSet VM Instance which are associated to capacity reservation group in the response.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--vmss-instance")]
+    [CliOption("--vmss-instance")]
     public bool? VmssInstance { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
 
-    [Obsolete("Use ResourceIdsOnlyValue instead.")]
-    public bool? ResourceIdsOnly
-    {
-        get => bool.TryParse(ResourceIdsOnlyValue, out var value) ? value : null;
-        set => ResourceIdsOnlyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
 }

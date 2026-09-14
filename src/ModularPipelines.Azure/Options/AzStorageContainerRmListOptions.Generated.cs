@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all containers under the specified storage account.
 /// </summary>
+/// <param name="StorageAccount">The name or ID of the storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container-rm", "list")]
-public record AzStorageContainerRmListOptions : AzOptions
+public record AzStorageContainerRmListOptions(
+    [property: CliOption("--storage-account")] string StorageAccount
+) : AzOptions
 {
     /// <summary>
     /// Include soft deleted containers when specified.
@@ -30,13 +33,6 @@ public record AzStorageContainerRmListOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

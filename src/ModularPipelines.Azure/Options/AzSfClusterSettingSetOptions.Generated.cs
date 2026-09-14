@@ -15,16 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the settings of a cluster.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "setting", "set")]
-public record AzSfClusterSettingSetOptions : AzOptions
+public record AzSfClusterSettingSetOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Parameter name.
     /// </summary>
     [CliOption("--parameter")]
-    public string? ParameterValue { get; set; }
+    public string? Parameter { get; set; }
 
     /// <summary>
     /// Section name.
@@ -33,16 +38,15 @@ public record AzSfClusterSettingSetOptions : AzOptions
     public bool? Section { get; set; }
 
     /// <summary>
+    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example: [{"section": "NamingService","parameter": "MaxOperationTimeout","value": 1000},{"section": "MaxFileOperationTimeout","parameter": "Max2","value": 1000}].
+    /// </summary>
+    [CliFlag("--settings-section", ShortForm = "--settings-section-description")]
+    public bool? SettingsSection { get; set; }
+
+    /// <summary>
     /// Specify the value.
     /// </summary>
     [CliFlag("--value")]
     public bool? Value { get; set; }
-
-    [Obsolete("Use ParameterValue instead.")]
-    public bool? Parameter
-    {
-        get => bool.TryParse(ParameterValue, out var value) ? value : null;
-        set => ParameterValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

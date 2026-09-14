@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Connect to a repo and branch following a disconnect command.
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="Branch">The target branch in the repository.</param>
+/// <param name="Source">URL for the repository of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "reconnect")]
-public record AzStaticwebappReconnectOptions : AzOptions
+public record AzStaticwebappReconnectOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--branch", ShortForm = "-b")] string Branch,
+    [property: CliOption("--source", ShortForm = "-s")] string Source
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -30,13 +37,18 @@ public record AzStaticwebappReconnectOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Interactively log in with Github to retrieve the Personal Access Token.
+    /// </summary>
+    [CliFlag("--login-with-github")]
+    public bool? LoginWithGithub { get; set; }
+
+    /// <summary>
+    /// A user's GitHub or Azure Dev Ops repository token. This is used to create the Github Action or Dev Ops pipeline.
+    /// </summary>
+    [CliFlag("--token", ShortForm = "-t")]
+    public bool? Token { get; set; }
 
 }

@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a Network rule from a Network Profile.
 /// </summary>
+/// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "network-rule", "add")]
-public record AzBatchAccountNetworkProfileNetworkRuleAddOptions : AzOptions
+public record AzBatchAccountNetworkProfileNetworkRuleAddOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// IPv4 address or CIDR range.
@@ -30,19 +33,12 @@ public record AzBatchAccountNetworkProfileNetworkRuleAddOptions : AzOptions
     /// Name of the batch account to show. If not specified will display currently set account.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
-    /// Network profile to set.  Allowed values: BatchAccount,
+    /// Network profile to set.  Allowed values: BatchAccount, NodeManagement.
     /// </summary>
-    [CliFlag("--profile")]
-    public bool? Profile { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
 
 }

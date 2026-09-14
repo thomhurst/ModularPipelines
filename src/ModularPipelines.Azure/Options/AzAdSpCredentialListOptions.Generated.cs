@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List a service principal's password or certificate credential
 /// </summary>
+/// <param name="Id">Service principal name, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "credential", "list")]
-public record AzAdSpCredentialListOptions : AzOptions
+public record AzAdSpCredentialListOptions(
+    [property: CliOption("--id")] string Id
+) : AzOptions
 {
     /// <summary>
     /// Operate on certificate credentials.

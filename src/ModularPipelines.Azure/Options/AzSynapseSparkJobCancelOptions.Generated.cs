@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancel a Spark job.
 /// </summary>
+/// <param name="SparkPoolName">The name of the Spark pool.</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
+/// <param name="LivyId">The id of the Spark job.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "job", "cancel")]
-public record AzSynapseSparkJobCancelOptions : AzOptions
+public record AzSynapseSparkJobCancelOptions(
+    [property: CliOption("--spark-pool-name")] string SparkPoolName,
+    [property: CliOption("--workspace-name")] string WorkspaceName,
+    [property: CliOption("--livy-id")] string LivyId
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

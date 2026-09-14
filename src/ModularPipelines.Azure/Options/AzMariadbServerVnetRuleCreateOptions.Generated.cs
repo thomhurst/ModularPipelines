@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network rule to allows access to a MariaDB
 /// </summary>
+/// <param name="Name">The name of the vnet rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+/// <param name="Subnet">Name or ID of the subnet that allows access to an Azure Postgres Server. If subnet name is provided, --vnet-name must be provided.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server", "vnet-rule", "create")]
-public record AzMariadbServerVnetRuleCreateOptions : AzOptions
+public record AzMariadbServerVnetRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
     /// <summary>
     /// Create vnet rule before virtual network has vnet service endpoint enabled.  Allowed values: false, true.
@@ -30,13 +39,6 @@ public record AzMariadbServerVnetRuleCreateOptions : AzOptions
     /// The virtual network name.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
-
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
-    {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VnetName { get; set; }
 
 }

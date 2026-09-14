@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a storage from an environment.
 /// </summary>
+/// <param name="Name">Name of the Container Apps environment.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StorageName">Name of the storage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "storage", "remove")]
-public record AzContainerappEnvStorageRemoveOptions : AzOptions
+public record AzContainerappEnvStorageRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-name")] string StorageName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

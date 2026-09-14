@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed service.
 /// </summary>
+/// <param name="Application">Specify the name of the service.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="MetricName">Specify the name of the metric.</param>
+/// <param name="Name">Specify the name of the service.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "load-metrics", "update")]
-public record AzSfManagedServiceLoadMetricsUpdateOptions : AzOptions
+public record AzSfManagedServiceLoadMetricsUpdateOptions(
+    [property: CliOption("--application", ShortForm = "--application-name")] string Application,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--metric-name")] string MetricName,
+    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Specify the default amount of load, as a number, that this service creates for this metric. Used only for Stateless services.

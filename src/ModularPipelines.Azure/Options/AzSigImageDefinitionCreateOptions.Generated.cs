@@ -15,25 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery image definition.
 /// </summary>
+/// <param name="GalleryImageDefinition">Gallery image definition.</param>
+/// <param name="GalleryName">Gallery name.</param>
+/// <param name="Offer">Image offer.</param>
+/// <param name="OsType">The type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Allowed values: Linux, Windows.</param>
+/// <param name="Publisher">Image publisher.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">Image sku.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-definition", "create")]
-public record AzSigImageDefinitionCreateOptions : AzOptions
+public record AzSigImageDefinitionCreateOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--offer", ShortForm = "-f")] string Offer,
+    [property: CliOption("--os-type")] string OsType,
+    [property: CliOption("--publisher", ShortForm = "-p")] string Publisher,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku", ShortForm = "-s")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// CPU architecture.  Allowed values: Arm64, x64.
     /// </summary>
-    [CliFlag("--architecture")]
-    public bool? Architecture { get; set; }
+    [CliOption("--architecture")]
+    public string? Architecture { get; set; }
 
     /// <summary>
     /// The description of the gallery image definition.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
-    /// Disk types which would not work with the image, e.g.,
+    /// Disk types which would not work with the image, e.g., Standard_LRS.
     /// </summary>
     [CliFlag("--disallowed-disk-types")]
     public bool? DisallowedDiskTypes { get; set; }
@@ -51,28 +66,28 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     public bool? Eula { get; set; }
 
     /// <summary>
-    /// A list of gallery image features. E.g. "IsSecureBootSupported=true
+    /// A list of gallery image features. E.g. "IsSecureBootSupported=true IsMeasuredBootSupported=false".
     /// </summary>
-    [CliFlag("--features")]
-    public bool? Features { get; set; }
+    [CliOption("--features", GroupValues = true)]
+    public IEnumerable<string>? Features { get; set; }
 
     /// <summary>
-    /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2.
+    /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2. Default: V2.
     /// </summary>
-    [CliFlag("--hyper-v-generation")]
-    public bool? HyperVGeneration { get; set; }
+    [CliOption("--hyper-v-generation")]
+    public string? HyperVGeneration { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.  Allowed values: Generalized, Specialized.  Default: Generalized.
     /// </summary>
-    [CliFlag("--os-state")]
-    public bool? OsState { get; set; }
+    [CliOption("--os-state")]
+    public string? OsState { get; set; }
 
     /// <summary>
     /// The privacy statement uri.
@@ -89,14 +104,49 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Plan name.
+    /// </summary>
+    [CliFlag("--plan-name")]
+    public bool? PlanName { get; set; }
+
+    /// <summary>
+    /// Plan product.
+    /// </summary>
+    [CliFlag("--plan-product")]
+    public bool? PlanProduct { get; set; }
+
+    /// <summary>
+    /// Plan publisher.
+    /// </summary>
+    [CliFlag("--plan-publisher")]
+    public bool? PlanPublisher { get; set; }
+
+    /// <summary>
+    /// Maximum cpu cores.
+    /// </summary>
+    [CliFlag("--maximum-cpu-core")]
+    public bool? MaximumCpuCore { get; set; }
+
+    /// <summary>
+    /// Maximum memory in MB.
+    /// </summary>
+    [CliFlag("--maximum-memory")]
+    public bool? MaximumMemory { get; set; }
+
+    /// <summary>
+    /// Minimum cpu cores.
+    /// </summary>
+    [CliFlag("--minimum-cpu-core")]
+    public bool? MinimumCpuCore { get; set; }
+
+    /// <summary>
+    /// Minimum memory in MB.
+    /// </summary>
+    [CliFlag("--minimum-memory")]
+    public bool? MinimumMemory { get; set; }
 
 }

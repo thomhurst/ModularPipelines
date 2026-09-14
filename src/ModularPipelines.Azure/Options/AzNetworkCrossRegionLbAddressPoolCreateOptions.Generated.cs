@@ -15,15 +15,52 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create load balancer backend address pool.
 /// </summary>
+/// <param name="AddressPoolName">The name of the backend address pool.</param>
+/// <param name="LbName">The name of the load balancer.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "address-pool", "create")]
-public record AzNetworkCrossRegionLbAddressPoolCreateOptions : AzOptions
+public record AzNetworkCrossRegionLbAddressPoolCreateOptions(
+    [property: CliOption("--address-pool-name", ShortForm = "-n")] string AddressPoolName,
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Default administrative state to backend addresses in `--backend-addresses`.  Allowed values: Down, None, Up.
+    /// </summary>
+    [CliOption("--admin-state")]
+    public string? AdminState { get; set; }
+
+    /// <summary>
+    /// An array of backend addresses.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--backend-address`.
+    /// </summary>
+    [CliOption("--backend-address", ShortForm = "--backend-addresses")]
+    public IEnumerable<string>? BackendAddress { get; set; }
+
+    /// <summary>
+    /// Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    /// </summary>
+    [CliFlag("--drain-period", ShortForm = "--drain-period-in-seconds")]
+    public bool? DrainPeriod { get; set; }
+
+    /// <summary>
+    /// The location of the backend address pool.
+    /// </summary>
+    [CliOption("--location")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// A reference to a virtual network.
+    /// </summary>
+    [CliFlag("--vnet-id")]
+    public bool? VnetId { get; set; }
 
 }

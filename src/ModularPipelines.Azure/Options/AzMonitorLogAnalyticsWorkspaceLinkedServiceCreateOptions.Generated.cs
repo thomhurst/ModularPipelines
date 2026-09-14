@@ -15,28 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a linked service.
 /// </summary>
+/// <param name="LinkedServiceName">Name of the linkedServices resource. Supported values: cluster, automation.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "linked-service", "create")]
-public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(
+    [property: CliOption("--linked-service-name", ShortForm = "-n")] string LinkedServiceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
+    public string? Tags { get; set; }
 
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
-    {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require read access.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; set; }
+
+    /// <summary>
+    /// The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require write access.
+    /// </summary>
+    [CliOption("--write-access-resource-id")]
+    public string? WriteAccessResourceId { get; set; }
 
 }

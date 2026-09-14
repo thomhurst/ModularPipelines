@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update link between resources.
 /// </summary>
+/// <param name="Link">Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "link", "update")]
-public record AzResourceLinkUpdateOptions : AzOptions
+public record AzResourceLinkUpdateOptions(
+    [property: CliOption("--link")] string Link
+) : AzOptions
 {
     /// <summary>
     /// Notes for the link.
@@ -30,13 +33,6 @@ public record AzResourceLinkUpdateOptions : AzOptions
     /// Fully-qualified resource ID of the resource link target.
     /// </summary>
     [CliOption("--target")]
-    public string? TargetValue { get; set; }
-
-    [Obsolete("Use TargetValue instead.")]
-    public bool? Target
-    {
-        get => bool.TryParse(TargetValue, out var value) ? value : null;
-        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Target { get; set; }
 
 }

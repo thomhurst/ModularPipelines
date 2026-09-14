@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Starts a trigger.
 /// </summary>
+/// <param name="Name">The trigger name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger", "start")]
-public record AzSynapseTriggerStartOptions : AzOptions
+public record AzSynapseTriggerStartOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

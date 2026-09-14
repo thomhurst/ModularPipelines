@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,28 +16,33 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create one or more Container Apps in a new or existing
 /// </summary>
+/// <param name="Environment">Name or resource ID of the container app's environment.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "compose", "create")]
-public record AzContainerappComposeCreateOptions : AzOptions
+public record AzContainerappComposeCreateOptions(
+    [property: CliOption("--environment")] string Environment,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Path to a Docker Compose file with the configuration to import to Azure Container Apps.  Default: ./docker-compose.yml.
     /// </summary>
     [CliOption("--compose-file-path", ShortForm = "-f")]
-    public string? ComposeFilePathValue { get; set; }
+    public string? ComposeFilePath { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Transport options per Container App instance (servicename=transportsetting).
@@ -44,11 +50,23 @@ public record AzContainerappComposeCreateOptions : AzOptions
     [CliFlag("--transport-mapping")]
     public bool? TransportMapping { get; set; }
 
-    [Obsolete("Use ComposeFilePathValue instead.")]
-    public bool? ComposeFilePath
-    {
-        get => bool.TryParse(ComposeFilePathValue, out var value) ? value : null;
-        set => ComposeFilePathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server hostname, e.g. myregistry.azurecr.io.
+    /// </summary>
+    [CliFlag("--registry-server")]
+    public bool? RegistryServer { get; set; }
+
+    /// <summary>
+    /// The username to log in to container registry.
+    /// </summary>
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
 
 }

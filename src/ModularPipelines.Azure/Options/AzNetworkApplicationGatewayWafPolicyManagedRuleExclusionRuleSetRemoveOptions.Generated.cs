@@ -15,10 +15,25 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove
 /// </summary>
+/// <param name="MatchOperator">When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.  Allowed values: Contains, EndsWith, Equals, EqualsAny, StartsWith.</param>
+/// <param name="MatchVariable">The variable to be excluded.  Allowed values: RequestArgKeys, RequestArgNames, RequestArgValues, RequestCookieKeys, RequestCookieNames, RequestCookieValues, RequestHeaderKeys, RequestHeaderNames, RequestHeaderValues.</param>
+/// <param name="PolicyName">The name of the web application firewall policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Selector">When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to.</param>
+/// <param name="Type">The type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.</param>
+/// <param name="Version">The version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion", "rule-set", "remove")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetRemoveOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetRemoveOptions(
+    [property: CliOption("--match-operator", ShortForm = "--selector-match-operator")] string MatchOperator,
+    [property: CliOption("--match-variable")] string MatchVariable,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--selector")] string Selector,
+    [property: CliOption("--type")] string Type,
+    [property: CliOption("--version")] string Version
+) : AzOptions
 {
     /// <summary>
     /// The managed rule group for exclusion.

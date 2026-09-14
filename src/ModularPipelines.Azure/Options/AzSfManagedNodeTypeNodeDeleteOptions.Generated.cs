@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete nodes of a node type.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="Name">Node type name.</param>
+/// <param name="NodeName">List of target nodes to perform the operation.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "node", "delete")]
-public record AzSfManagedNodeTypeNodeDeleteOptions : AzOptions
+public record AzSfManagedNodeTypeNodeDeleteOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--node-name", GroupValues = true)] IEnumerable<string> NodeName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Using this flag will force the operation even if service fabric is unable to disable the nodes. Use with caution as this might cause data loss if stateful workloads are running on the node.  Allowed values: false, true.

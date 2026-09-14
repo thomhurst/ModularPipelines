@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an App Service Plan for an Azure Function.
 /// </summary>
+/// <param name="Name">The name of the app service plan.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">The SKU of the app service plan. e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), I1 (Isolated Small), I2 (Isolated Medium), I3 (Isolated Large), K1 (Kubernetes).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "plan", "create")]
-public record AzFunctionappPlanCreateOptions : AzOptions
+public record AzFunctionappPlanCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Host function app on Linux worker.  Allowed values: false, true.
@@ -27,10 +34,10 @@ public record AzFunctionappPlanCreateOptions : AzOptions
     public bool? IsLinux { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The maximum number of elastic workers for the plan.
@@ -39,10 +46,16 @@ public record AzFunctionappPlanCreateOptions : AzOptions
     public bool? MaxBurst { get; set; }
 
     /// <summary>
+    /// The number of workers for the app service plan.
+    /// </summary>
+    [CliFlag("--min-instances", ShortForm = "--number-of-workers")]
+    public bool? MinInstances { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enable zone redundancy for high availability. Cannot be changed after plan creation. Minimum instance count is 3.

@@ -36,13 +36,18 @@ public record AzMariadbServerShowConnectionStringOptions : AzOptions
     /// The name of a database.  Default: {database}.
     /// </summary>
     [CliOption("--database-name", ShortForm = "-d")]
-    public string? DatabaseNameValue { get; set; }
+    public string? DatabaseName { get; set; }
 
-    [Obsolete("Use DatabaseNameValue instead.")]
-    public bool? DatabaseName
-    {
-        get => bool.TryParse(DatabaseNameValue, out var value) ? value : null;
-        set => DatabaseNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the server.  Default: {server}.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

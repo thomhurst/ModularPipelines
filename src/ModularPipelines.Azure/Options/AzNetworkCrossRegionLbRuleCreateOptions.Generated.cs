@@ -15,15 +15,58 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a load balancing rule.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the load balancing rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="BackendPort">The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".</param>
+/// <param name="FrontendPort">The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".</param>
+/// <param name="Protocol">The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "rule", "create")]
-public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
+public record AzNetworkCrossRegionLbRuleCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--backend-port")] int BackendPort,
+    [property: CliOption("--frontend-port")] int FrontendPort,
+    [property: CliOption("--protocol")] string Protocol
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// ID or name of the backend address pools. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--backend-pool-name")]
+    public string? BackendPoolName { get; set; }
+
+    /// <summary>
+    /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    public bool? EnableFloatingIp { get; set; }
+
+    /// <summary>
+    /// The name of ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// The load distribution policy for this rule.  Allowed values: Default, SourceIP, SourceIPProtocol.  Default: Default.
+    /// </summary>
+    [CliOption("--load-distribution")]
+    public string? LoadDistribution { get; set; }
+
+    /// <summary>
+    /// The ID or Name of an existing probe to associate with this rule.
+    /// </summary>
+    [CliOption("--probe", ShortForm = "--probe-name")]
+    public string? Probe { get; set; }
 
 }

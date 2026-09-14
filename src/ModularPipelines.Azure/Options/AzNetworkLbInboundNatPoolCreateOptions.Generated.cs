@@ -15,15 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an inbound NAT address pool.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name can be used to access the resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="BackendPort">The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.</param>
+/// <param name="FrontendPortRangeEnd">The last port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65535.</param>
+/// <param name="FrontendPortRangeStart">The first port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65534.</param>
+/// <param name="Protocol">The reference to the transport protocol used by the inbound NAT pool.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "inbound-nat-pool", "create")]
-public record AzNetworkLbInboundNatPoolCreateOptions : AzOptions
+public record AzNetworkLbInboundNatPoolCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--backend-port")] int BackendPort,
+    [property: CliOption("--frontend-port-range-end")] string FrontendPortRangeEnd,
+    [property: CliOption("--frontend-port-range-start")] string FrontendPortRangeStart,
+    [property: CliOption("--protocol")] string Protocol
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    public bool? EnableFloatingIp { get; set; }
+
+    /// <summary>
+    /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-tcp-reset")]
+    public bool? EnableTcpReset { get; set; }
+
+    /// <summary>
+    /// The name or ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
+    /// </summary>
+    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public int? IdleTimeout { get; set; }
 
 }

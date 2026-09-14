@@ -26,6 +26,7 @@ public class AzNetworkVirtualAppliance
     private AzNetworkVirtualApplianceInboundSecurityRule? _inboundSecurityRule;
     private AzNetworkVirtualApplianceMigration? _migration;
     private AzNetworkVirtualApplianceSite? _site;
+    private AzNetworkVirtualApplianceSku? _sku;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVirtualAppliance"/> class.
@@ -62,6 +63,11 @@ public class AzNetworkVirtualAppliance
     /// </summary>
     public AzNetworkVirtualApplianceSite Site => _site ??= new AzNetworkVirtualApplianceSite(_command);
 
+    /// <summary>
+    /// az sku sub-commands.
+    /// </summary>
+    public AzNetworkVirtualApplianceSku Sku => _sku ??= new AzNetworkVirtualApplianceSku(_command);
+
     #endregion
 
     #region Commands
@@ -74,11 +80,11 @@ public class AzNetworkVirtualAppliance
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzNetworkVirtualApplianceCreateOptions? options = null,
+        AzNetworkVirtualApplianceCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -93,7 +99,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -108,7 +114,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceGetBootDiagnosticLogOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceGetBootDiagnosticLogOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -123,7 +129,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -138,7 +144,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceReimageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceReimageOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -153,7 +159,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceRestartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceRestartOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -168,7 +174,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -183,7 +189,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -198,7 +204,7 @@ public class AzNetworkVirtualAppliance
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceWaitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceWaitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

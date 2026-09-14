@@ -16,16 +16,25 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable to decrypt and encrypt security domain file as
 /// </summary>
+/// <param name="SdExchangeKey">The exchange key for security domain.</param>
+/// <param name="SdFile">This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.</param>
+/// <param name="SdFileRestoreBlob">Local file path to store the security domain encrypted with the exchange key.</param>
+/// <param name="SdWrappingKeys">Space-separated file paths to PEM files containing private keys.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "restore-blob")]
-public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
+public record AzKeyvaultSecurityDomainRestoreBlobOptions(
+    [property: CliOption("--sd-exchange-key")] string SdExchangeKey,
+    [property: CliOption("--sd-file")] string SdFile,
+    [property: CliOption("--sd-file-restore-blob")] string SdFileRestoreBlob,
+    [property: CliOption("--sd-wrapping-keys", GroupValues = true)] IEnumerable<string> SdWrappingKeys
+) : AzOptions
 {
     /// <summary>
     /// Space-separated password list for --sd-wrapping-keys. CLI will match them in order. Can be omitted if your keys are without password protection.
     /// </summary>
     [SecretValue]
-    [CliFlag("--passwords")]
-    public bool? Passwords { get; set; }
+    [CliOption("--passwords", GroupValues = true)]
+    public IEnumerable<string>? Passwords { get; set; }
 
 }

@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Gremlin graph under an Azure Cosmos DB Gremlin
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Graph name.</param>
+/// <param name="PartitionKeyPath">Partition Key Path, e.g., '/address/zipcode'.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "graph", "create")]
-public record AzCosmosdbGremlinGraphCreateOptions : AzOptions
+public record AzCosmosdbGremlinGraphCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partition-key-path", ShortForm = "-p")] string PartitionKeyPath,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
@@ -27,13 +38,13 @@ public record AzCosmosdbGremlinGraphCreateOptions : AzOptions
     public bool? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
-    /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy- file.json or --conflict-resolution-policy "{\"mode\":
+    /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy- file.json or --conflict-resolution-policy "{\"mode\": \"lastWriterWins\", \"conflictResolutionPath\": \"/path\"}".
     /// </summary>
     [CliFlag("--conflict-resolution-policy", ShortForm = "-c")]
     public bool? ConflictResolutionPolicy { get; set; }
 
     /// <summary>
-    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\":
+    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}]}".  Default: { "indexingMode": "consistent", "automatic": true, "includedPaths": [ { "path": "/*" } ], "excludedPaths": [ { "path": "/\"_etag\"/?" } ]
     /// </summary>
     [CliFlag("--idx")]
     public bool? Idx { get; set; }

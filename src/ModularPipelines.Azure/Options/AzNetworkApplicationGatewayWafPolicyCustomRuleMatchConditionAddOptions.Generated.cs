@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a match
 /// </summary>
+/// <param name="MatchVariables">Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+/// <param name="Name">Name of the WAF policy rule.</param>
+/// <param name="Operator">Operator for matching.  Allowed values: Any, BeginsWith, Contains, EndsWith, Equal, GeoMatch, GreaterThan, GreaterThanOrEqual, IPMatch, LessThan, LessThanOrEqual, Regex.</param>
+/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "match-condition", "add")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions(
+    [property: CliOption("--match-variables", GroupValues = true)] IEnumerable<string> MatchVariables,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--operator")] string Operator,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Index of match condition. If no index is provided, the default behavior is `append`.
@@ -29,19 +40,19 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     /// <summary>
     /// Match the negative of the condition.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--negate")]
+    [CliOption("--negate")]
     public bool? Negate { get; set; }
 
     /// <summary>
     /// Space-separated list of transforms to apply when matching. Allowed values: HtmlEntityDecode, Uppercase, Lowercase, RemoveNulls, Trim, UrlDecode, UrlEncode.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--transforms")]
-    public bool? Transforms { get; set; }
+    [CliOption("--transforms", GroupValues = true)]
+    public IEnumerable<string>? Transforms { get; set; }
 
     /// <summary>
     /// Space-separated list of values to match.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--values")]
-    public bool? Values { get; set; }
+    [CliOption("--values", GroupValues = true)]
+    public IEnumerable<string>? Values { get; set; }
 
 }

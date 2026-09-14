@@ -15,22 +15,25 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Service Connector local connection to servicebus.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "servicebus")]
-public record AzConnectionCreateServicebusOptions : AzOptions
+public record AzConnectionCreateServicebusOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -41,14 +44,14 @@ public record AzConnectionCreateServicebusOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name of the servicebus namespace. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--namespace")]
-    public string? NamespaceValue { get; set; }
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -57,30 +60,33 @@ public record AzConnectionCreateServicebusOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--namespace'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--namespace'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
-    public string? TargetIdValue { get; set; }
+    public string? TargetId { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
-    {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The resource group which contains the servicebus. Required if ' --target-id' is not specified.
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
 
-    [Obsolete("Use NamespaceValue instead.")]
-    public bool? Namespace
-    {
-        get => bool.TryParse(NamespaceValue, out var value) ? value : null;
-        set => NamespaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The secret auth info. Usage: --secret.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
-    [Obsolete("Use TargetIdValue instead.")]
-    public bool? TargetId
-    {
-        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
-        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
+    /// </summary>
+    [CliFlag("--service-principal")]
+    public bool? ServicePrincipal { get; set; }
+
+    /// <summary>
+    /// The user account auth info. Usage: --user-account object-id=XX
+    /// </summary>
+    [CliFlag("--user-account")]
+    public bool? UserAccount { get; set; }
 
 }

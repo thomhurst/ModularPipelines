@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a SQL role definition under an Azure Cosmos DB
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="Id">Unique ID for the Role Definition.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "role", "definition", "delete")]
-public record AzCosmosdbSqlRoleDefinitionDeleteOptions : AzOptions
+public record AzCosmosdbSqlRoleDefinitionDeleteOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--id", ShortForm = "-i")] string Id,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

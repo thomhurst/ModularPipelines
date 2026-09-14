@@ -15,21 +15,68 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SQL virtual machine group.
 /// </summary>
+/// <param name="Name">Name of the SQL virtual machine group.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ImageOffer">SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016.</param>
+/// <param name="ImageSku">SQL image sku.  Allowed values: Developer, Enterprise.</param>
+/// <param name="DomainFqdn">Fully qualified name of the domain.</param>
+/// <param name="OperatorAcc">Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.</param>
+/// <param name="ServiceAcc">Account name under which SQL service will run on all participating SQL virtual machines in the cluster.</param>
+/// <param name="StorageAccount">Storage account url of the witness storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "create")]
-public record AzSqlVmGroupCreateOptions : AzOptions
+public record AzSqlVmGroupCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--image-offer", ShortForm = "-i")] string ImageOffer,
+    [property: CliOption("--image-sku", ShortForm = "-s")] string ImageSku,
+    [property: CliOption("--domain-fqdn", ShortForm = "-f")] string DomainFqdn,
+    [property: CliOption("--operator-acc", ShortForm = "-p")] string OperatorAcc,
+    [property: CliOption("--service-acc", ShortForm = "-e")] string ServiceAcc,
+    [property: CliOption("--storage-account", ShortForm = "-u")] string StorageAccount
+) : AzOptions
 {
     /// <summary>
     /// Location. If not provided, group will be created in the same reosurce group location.You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Account name used for creating cluster (at minimum needs permissions to 'Create Computer Objects' in domain).
+    /// </summary>
+    [CliFlag("--bootstrap-acc")]
+    public bool? BootstrapAcc { get; set; }
+
+    /// <summary>
+    /// Cluster subnet type.  Allowed values: MultiSubnet, SingleSubnet.  Default: SingleSubnet.
+    /// </summary>
+    [CliOption("--cluster-subnet-type")]
+    public string? ClusterSubnetType { get; set; }
+
+    /// <summary>
+    /// Optional path for fileshare witness.
+    /// </summary>
+    [CliOption("--fsw-path")]
+    public string? FswPath { get; set; }
+
+    /// <summary>
+    /// Organizational Unit path in which the nodes and cluster will be present. Example: OU=WSCluster,DC=testdomain,DC=com.
+    /// </summary>
+    [CliFlag("--ou-path")]
+    public bool? OuPath { get; set; }
+
+    /// <summary>
+    /// Primary key of the witness storage account.
+    /// </summary>
+    [CliFlag("--sa-key", ShortForm = "-k")]
+    public bool? SaKey { get; set; }
 
 }

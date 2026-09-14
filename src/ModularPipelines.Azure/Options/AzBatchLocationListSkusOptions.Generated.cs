@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List virtual machine SKUs available in a location.
 /// </summary>
+/// <param name="Location">The region for which to display the available Batch VM SKUs.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "location", "list-skus")]
-public record AzBatchLocationListSkusOptions : AzOptions
+public record AzBatchLocationListSkusOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// OData filter expression. Valid properties for filtering are "familyName". Default value is None.

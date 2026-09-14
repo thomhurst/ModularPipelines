@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation source.
 /// </summary>
+/// <param name="EventSource">A valid event source type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-source", "create")]
-public record AzSecurityAutomationSourceCreateOptions : AzOptions
+public record AzSecurityAutomationSourceCreateOptions(
+    [property: CliOption("--event-source")] string EventSource
+) : AzOptions
 {
     /// <summary>
     /// A set of rules which evaluate upon event interception. A logical disjunction is applied between defined rule sets (logical "or").

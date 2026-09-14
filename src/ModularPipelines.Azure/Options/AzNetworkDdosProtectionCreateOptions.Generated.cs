@@ -15,27 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a DDoS protection plan.
 /// </summary>
+/// <param name="Name">Name of the DDoS protection plan.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "ddos-protection", "create")]
-public record AzNetworkDdosProtectionCreateOptions : AzOptions
+public record AzNetworkDdosProtectionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Space-separated list of VNets (name or IDs) to associate with the plan.
+    /// Space-separated list of VNets (name or IDs) to associate with the plan. This parameter can only be used if all the VNets are within the same subscription as the DDoS protection plan. If this is not the case, set the protection plan on the VNet directly using the `az network vnet update` command.
     /// </summary>
-    [CliFlag("--vnets")]
-    public bool? Vnets { get; set; }
+    [CliOption("--vnets", GroupValues = true)]
+    public IEnumerable<string>? Vnets { get; set; }
 
 }

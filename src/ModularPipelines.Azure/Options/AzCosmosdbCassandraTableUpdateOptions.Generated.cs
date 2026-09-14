@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Cassandra table under an Azure Cosmos DB
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="KeyspaceName">Keyspace name.</param>
+/// <param name="Name">Table name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "table", "update")]
-public record AzCosmosdbCassandraTableUpdateOptions : AzOptions
+public record AzCosmosdbCassandraTableUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--keyspace-name", ShortForm = "-k")] string KeyspaceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
@@ -27,7 +36,7 @@ public record AzCosmosdbCassandraTableUpdateOptions : AzOptions
     public bool? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
-    /// Schema, you can enter it as a string or as a file, e.g.,
+    /// Schema, you can enter it as a string or as a file, e.g., --schema @schema-file.json or --schema "{\"columns\": [{\"name\": \"columnA\",\"type\": \"uuid\"}, {\"name\": \"columnB\",\"type\": \"Ascii\"}],\"partitionKeys\": [{\"name\": \"columnA\"}]}".
     /// </summary>
     [CliFlag("--schema")]
     public bool? Schema { get; set; }

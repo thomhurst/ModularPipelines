@@ -16,6 +16,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a storage mount to a managed
 /// </summary>
+/// <param name="DestinationPath">Destination path in the managed instance.</param>
+/// <param name="MountName">Name of the storage mount.</param>
+/// <param name="Type">Type of the storage mount.  Allowed values: AzureFiles, FileShare, LocalStorage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "storage-mount", "add")]
@@ -25,11 +28,6 @@ public record AzAppservicePlanManagedInstanceStorageMountAddOptions(
     [property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    public AzAppservicePlanManagedInstanceStorageMountAddOptions()
-        : this(default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Key Vault secret URI for credentials.
     /// </summary>
@@ -44,7 +42,7 @@ public record AzAppservicePlanManagedInstanceStorageMountAddOptions(
     public string? Source { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

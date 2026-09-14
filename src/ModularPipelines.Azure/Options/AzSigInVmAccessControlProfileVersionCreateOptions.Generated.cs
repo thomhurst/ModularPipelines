@@ -15,15 +15,28 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery in VM access control
 /// </summary>
+/// <param name="GalleryName">The name of the Shared Image Gallery in which the in VM access control profile resides.</param>
+/// <param name="ProfileName">The name of the gallery in VM access control profile in which the in VM access control profile version is to be created.</param>
+/// <param name="ProfileVersion">The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: MajorVersion.MinorVersion.Patch.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="DefaultAccess">This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'. Allowed values: Allow, Deny.</param>
+/// <param name="Mode">This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'.  Allowed values: Audit, Disabled, Enforce.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "in-vm-access-control-profile-version", "create")]
-public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
+public record AzSigInVmAccessControlProfileVersionCreateOptions(
+    [property: CliOption("--gallery-name")] string GalleryName,
+    [property: CliOption("--profile-name")] string ProfileName,
+    [property: CliOption("--profile-version", ShortForm = "--version-name")] string ProfileVersion,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--default-access")] string DefaultAccess,
+    [property: CliOption("--mode")] string Mode
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -31,5 +44,23 @@ public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--target-regions")]
     public bool? TargetRegions { get; set; }
+
+    /// <summary>
+    /// Resource location  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// If set to true, Virtual Machines deployed from the latest version of the Resource Profile won't use this Profile version.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--exclude-from-latest")]
+    public bool? ExcludeFromLatest { get; set; }
+
+    /// <summary>
+    /// This is the Access Control Rules specification for an in VM access control profile version.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--rules")]
+    public bool? Rules { get; set; }
 
 }

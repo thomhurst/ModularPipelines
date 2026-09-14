@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Capture or validate a snapshot of the resources predicted to be deployed by
 /// </summary>
+/// <param name="File">The path to the .bicepparam file to capture a snapshot for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "snapshot")]
-public record AzBicepSnapshotOptions : AzOptions
+public record AzBicepSnapshotOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// Deployment name forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
@@ -29,8 +32,8 @@ public record AzBicepSnapshotOptions : AzOptions
     /// <summary>
     /// Location forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Management group ID forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
@@ -39,16 +42,16 @@ public record AzBicepSnapshotOptions : AzOptions
     public bool? ManagementGroupId { get; set; }
 
     /// <summary>
-    /// The snapshot mode. 'Overwrite' (default) writes the snapshot file. 'Validate' compares the existing snapshot against the current template and fails if differences are detected.  Allowed values: Overwrite,
+    /// The snapshot mode. 'Overwrite' (default) writes the snapshot file. 'Validate' compares the existing snapshot against the current template and fails if differences are detected.  Allowed values: Overwrite, Validate.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// Resource group name forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Subscription ID forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot. This does not affect Azure CLI authentication; use the global `--subscription` argument to switch the active subscription.
@@ -61,12 +64,5 @@ public record AzBicepSnapshotOptions : AzOptions
     /// </summary>
     [CliFlag("--tenant-id")]
     public bool? TenantId { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

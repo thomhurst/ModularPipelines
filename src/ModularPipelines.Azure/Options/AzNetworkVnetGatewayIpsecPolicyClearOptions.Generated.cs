@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete all IPsec policies on a virtual network
 /// </summary>
+/// <param name="GatewayName">Virtual network gateway name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "ipsec-policy", "clear")]
-public record AzNetworkVnetGatewayIpsecPolicyClearOptions : AzOptions
+public record AzNetworkVnetGatewayIpsecPolicyClearOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

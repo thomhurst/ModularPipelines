@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a deployment for Azure Cognitive Services
 /// </summary>
+/// <param name="Name">Cognitive service account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "deployment", "show")]
-public record AzCognitiveservicesAccountDeploymentShowOptions : AzOptions
+public record AzCognitiveservicesAccountDeploymentShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Cognitive Services account deployment name.

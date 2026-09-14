@@ -1,0 +1,1268 @@
+
+Command
+    az vm create : Create an Azure Virtual Machine.
+        For an end-to-end tutorial, see https://learn.microsoft.com/azure/virtual-
+        machines/linux/quick-create-cli.
+
+Arguments
+    --name -n                                                       [Required] : Name of the virtual
+                                                                                 machine.
+    --resource-group -g                                             [Required] : Name of resource
+                                                                                 group. You can
+                                                                                 configure the
+                                                                                 default group using
+                                                                                 `az configure
+                                                                                 --defaults
+                                                                                 group=<name>`.
+    --accept-term                                                              : Accept the license
+                                                                                 agreement and
+                                                                                 privacy statement.
+    --add-proxy-agent-ext --add-proxy-agent-extension                          : Specify whether to
+                                                                                 implicitly install
+                                                                                 the ProxyAgent
+                                                                                 Extension. This
+                                                                                 option is currently
+                                                                                 applicable only for
+                                                                                 Linux OS. Use with
+                                                                                 --enable-proxy-
+                                                                                 agent.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --additional-events --additional-scheduled-events                          : The configuration
+                                                                                 parameter used
+                                                                                 while creating
+                                                                                 event grid and
+                                                                                 resource graph
+                                                                                 scheduled event
+                                                                                 setting.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --align-regional-disks --align-regional-disks-to-vm-zone                   : Specify whether the
+                                                                                 regional disks
+                                                                                 should be
+                                                                                 aligned/moved to
+                                                                                 the VM zone. This
+                                                                                 is applicable only
+                                                                                 for VMs with
+                                                                                 placement property
+                                                                                 set. Please note
+                                                                                 that this change is
+                                                                                 irreversible.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --availability-set                                                         : Name or ID of an
+                                                                                 existing
+                                                                                 availability set to
+                                                                                 add the VM to. None
+                                                                                 by default.
+    --boot-diagnostics-storage                                                 : Pre-existing
+                                                                                 storage account
+                                                                                 name or its blob
+                                                                                 uri to capture boot
+                                                                                 diagnostics. Its
+                                                                                 sku should be one
+                                                                                 of Standard_GRS,
+                                                                                 Standard_LRS and
+                                                                                 Standard_RAGRS.
+    --capacity-reservation-group --crg                                         : The ID or name of
+                                                                                 the capacity
+                                                                                 reservation group
+                                                                                 that is used to
+                                                                                 allocate. Pass in
+                                                                                 "None" to
+                                                                                 disassociate the
+                                                                                 capacity
+                                                                                 reservation group.
+                                                                                 Please note that if
+                                                                                 you want to delete
+                                                                                 a VM/VMSS that has
+                                                                                 been associated
+                                                                                 with capacity
+                                                                                 reservation group,
+                                                                                 you need to
+                                                                                 disassociate the
+                                                                                 capacity
+                                                                                 reservation group
+                                                                                 first.
+    --computer-name                                                            : The host OS name of
+                                                                                 the virtual
+                                                                                 machine. Defaults
+                                                                                 to the name of the
+                                                                                 VM.
+    --count                                                          [Preview] : Number of virtual
+                                                                                 machines to create.
+                                                                                 Value range is [2,
+                                                                                 250], inclusive.
+                                                                                 Don't specify this
+                                                                                 parameter if you
+                                                                                 want to create a
+                                                                                 normal single VM.
+                                                                                 The VMs are created
+                                                                                 in parallel. The
+                                                                                 output of this
+                                                                                 command is an array
+                                                                                 of VMs instead of
+                                                                                 one single VM. Each
+                                                                                 VM has its own
+                                                                                 public IP, NIC.
+                                                                                 VNET and NSG are
+                                                                                 shared. It is
+                                                                                 recommended that no
+                                                                                 existing public IP,
+                                                                                 NIC, VNET and NSG
+                                                                                 are in resource
+                                                                                 group. When --count
+                                                                                 is specified,
+                                                                                 --attach-data-
+                                                                                 disks, --attach-os-
+                                                                                 disk, --boot-
+                                                                                 diagnostics-
+                                                                                 storage,
+                                                                                 --computer-name,
+                                                                                 --host, --host-
+                                                                                 group, --nics,
+                                                                                 --os-disk-name,
+                                                                                 --private-ip-
+                                                                                 address, --public-
+                                                                                 ip-address,
+                                                                                 --public-ip-
+                                                                                 address-dns-name,
+                                                                                 --storage-account,
+                                                                                 --storage-
+                                                                                 container-name,
+                                                                                 --subnet, --use-
+                                                                                 unmanaged-disk,
+                                                                                 --vnet-name are not
+                                                                                 allowed.
+        WARNING: Argument '--count' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+    --custom-data                                                              : Custom init script
+                                                                                 file or text
+                                                                                 (cloud-init, cloud-
+                                                                                 config, etc..).
+    --data-disk-iops                                                           : Specify the Read-
+                                                                                 Write IOPS for the
+                                                                                 managed disk when
+                                                                                 storage account
+                                                                                 type is
+                                                                                 UltraSSD_LRS.
+    --data-disk-mbps                                                           : Specify the
+                                                                                 bandwidth in MB per
+                                                                                 second for the
+                                                                                 managed disk when
+                                                                                 storage account
+                                                                                 type is
+                                                                                 UltraSSD_LRS.
+    --disable-integrity-monitoring-autoupgrade                                 : Disable auto
+                                                                                 upgrade of guest
+                                                                                 attestation
+                                                                                 extension for
+                                                                                 Trusted Launch
+                                                                                 enabled VMs and
+                                                                                 VMSS.
+    --edge-zone                                                                : The name of edge
+                                                                                 zone.
+    --enable-agent                                                             : Indicates whether
+                                                                                 virtual machine
+                                                                                 agent should be
+                                                                                 provisioned on the
+                                                                                 virtual machine.
+                                                                                 When this property
+                                                                                 is not specified,
+                                                                                 default behavior is
+                                                                                 to set it to true.
+                                                                                 This will ensure
+                                                                                 that VM Agent is
+                                                                                 installed on the VM
+                                                                                 so that extensions
+                                                                                 can be added to the
+                                                                                 VM later.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-auto-update                                                       : Indicate whether
+                                                                                 Automatic Updates
+                                                                                 is enabled for the
+                                                                                 Windows virtual
+                                                                                 machine.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-hibernation                                                       : The flag that
+                                                                                 enable or disable
+                                                                                 hibernation
+                                                                                 capability on the
+                                                                                 VM.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-hotpatching                                                       : Patch VMs without
+                                                                                 requiring a reboot.
+                                                                                 --enable-agent must
+                                                                                 be set and --patch-
+                                                                                 mode must be set to
+                                                                                 AutomaticByPlatform
+                                                                                 .  Allowed values:
+                                                                                 false, true.
+    --enable-integrity-monitoring                                              : Enable installing
+                                                                                 Microsoft
+                                                                                 propietary and not
+                                                                                 security supported
+                                                                                 guest attestation
+                                                                                 extension and
+                                                                                 enabling System
+                                                                                 Assigned Identity
+                                                                                 for Trusted Launch
+                                                                                 enabled VMs and
+                                                                                 VMSS.
+    --enable-proxy-agent                                                       : Specify whether
+                                                                                 metadata security
+                                                                                 protoco (proxy
+                                                                                 agent) feature
+                                                                                 should be enabled
+                                                                                 on the virtual
+                                                                                 machine or virtual
+                                                                                 machine scale set.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-reboot --enable-user-reboot-scheduled-events                      : The configuration
+                                                                                 parameter used
+                                                                                 while publishing
+                                                                                 scheduled events
+                                                                                 additional
+                                                                                 publishing targets.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-redeploy --enable-user-redeploy-scheduled-events                  : The configuration
+                                                                                 parameter used
+                                                                                 while creating user
+                                                                                 initiated redeploy
+                                                                                 scheduled event
+                                                                                 setting creation.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-secure-boot                                                       : Enable secure boot.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-vtpm                                                              : Enable vTPM.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --encryption-identity                                                      : Resource Id of the
+                                                                                 user managed
+                                                                                 identity which can
+                                                                                 be used for Azure
+                                                                                 disk encryption.
+    --eviction-policy                                                          : The eviction policy
+                                                                                 for the Spot
+                                                                                 priority virtual
+                                                                                 machine. Default
+                                                                                 eviction policy is
+                                                                                 Deallocate for a
+                                                                                 Spot priority
+                                                                                 virtual machine.
+                                                                                 Allowed values:
+                                                                                 Deallocate, Delete.
+    --exclude-zones                                                            : If "--zone-
+                                                                                 placement-policy"
+                                                                                 is set to "Any",
+                                                                                 availability zone
+                                                                                 selected by the
+                                                                                 system must not be
+                                                                                 present in the list
+                                                                                 of availability
+                                                                                 zones passed with
+                                                                                 "excludeZones". If
+                                                                                 "--exclude-zones"
+                                                                                 is not provided,
+                                                                                 all availability
+                                                                                 zones in region
+                                                                                 will be considered
+                                                                                 for selection.
+    --image                                                                    : The name of the
+                                                                                 operating system
+                                                                                 image as a URN
+                                                                                 alias, URN, custom
+                                                                                 image name or ID,
+                                                                                 custom image
+                                                                                 version ID, or VHD
+                                                                                 blob URI. In
+                                                                                 addition, it also
+                                                                                 supports shared
+                                                                                 gallery image.
+                                                                                 Please use the
+                                                                                 image alias
+                                                                                 including the
+                                                                                 version of the
+                                                                                 distribution you
+                                                                                 want to use. For
+                                                                                 example: please use
+                                                                                 Debian11 instead of
+                                                                                 Debian.' This
+                                                                                 parameter is
+                                                                                 required unless
+                                                                                 using `--attach-os-
+                                                                                 disk.` Valid URN
+                                                                                 format: "Publisher:
+                                                                                 Offer:Sku:Version".
+                                                                                 For more
+                                                                                 information, see ht
+                                                                                 tps://learn.microso
+                                                                                 ft.com/azure/virtua
+                                                                                 l-
+                                                                                 machines/linux/cli-
+                                                                                 ps-findimage.
+                                                                                 Values from: az vm
+                                                                                 image list, az vm
+                                                                                 image show, az sig
+                                                                                 image-version show-
+                                                                                 shared.
+    --imds-access-control-profile-reference-id --imds-profile-id               : Specify the access
+                                                                                 control profile
+                                                                                 version resource id
+                                                                                 resource id of
+                                                                                 imds.
+    --imds-mode                                                                : Specify the mode
+                                                                                 that proxy agent
+                                                                                 will execute on if
+                                                                                 the feature is
+                                                                                 enabled.  Allowed
+                                                                                 values: Audit,
+                                                                                 Enforce.
+    --include-zones                                                            : If "--zone-
+                                                                                 placement-policy"
+                                                                                 is set to "Any",
+                                                                                 availability zone
+                                                                                 selected by the
+                                                                                 system must be
+                                                                                 present in the list
+                                                                                 of availability
+                                                                                 zones passed with "
+                                                                                 --include-zones".
+                                                                                 If "--include-
+                                                                                 zones" is not
+                                                                                 provided, all
+                                                                                 availability zones
+                                                                                 in region will be
+                                                                                 considered for
+                                                                                 selection.
+    --key-incarnation-id                                                       : Increase the value
+                                                                                 of this property
+                                                                                 allows user to
+                                                                                 reset the key used
+                                                                                 for securing
+                                                                                 communication
+                                                                                 channel between
+                                                                                 guest and host.
+    --license-type                                                             : Specifies that the
+                                                                                 Windows image or
+                                                                                 disk was licensed
+                                                                                 on-premises. To
+                                                                                 enable Azure Hybrid
+                                                                                 Benefit for Windows
+                                                                                 Server, use
+                                                                                 'Windows_Server'.
+                                                                                 To enable Multi-
+                                                                                 tenant Hosting
+                                                                                 Rights for Windows
+                                                                                 10, use
+                                                                                 'Windows_Client'.
+                                                                                 For more
+                                                                                 information see the
+                                                                                 Azure Windows VM
+                                                                                 online docs.
+                                                                                 Allowed values:
+                                                                                 None, RHEL_BASE,
+                                                                                 RHEL_BASESAPAPPS,
+                                                                                 RHEL_BASESAPHA,
+                                                                                 RHEL_BYOS,
+                                                                                 RHEL_ELS_6,
+                                                                                 RHEL_EUS,
+                                                                                 RHEL_SAPAPPS,
+                                                                                 RHEL_SAPHA, SLES,
+                                                                                 SLES_BYOS,
+                                                                                 SLES_HPC, SLES_SAP,
+                                                                                 SLES_STANDARD,
+                                                                                 UBUNTU, UBUNTU_PRO,
+                                                                                 Windows_Client,
+                                                                                 Windows_Server.
+    --location -l                                                              : Location in which
+                                                                                 to create VM and
+                                                                                 related resources.
+                                                                                 If default location
+                                                                                 is not configured,
+                                                                                 will default to the
+                                                                                 resource group's
+                                                                                 location.
+    --max-price                                                      [Preview] : The maximum price
+                                                                                 (in US Dollars) you
+                                                                                 are willing to pay
+                                                                                 for a Spot VM/VMSS.
+                                                                                 -1 indicates that
+                                                                                 the Spot VM/VMSS
+                                                                                 should not be
+                                                                                 evicted for price
+                                                                                 reasons.
+        WARNING: Argument '--max-price' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+    --no-wait                                                                  : Do not wait for the
+                                                                                 long-running
+                                                                                 operation to
+                                                                                 finish.
+    --os-disk-secure-vm-disk-encryption-set                                    : Specify the
+                                                                                 customer managed
+                                                                                 disk encryption set
+                                                                                 resource ID or name
+                                                                                 for the managed
+                                                                                 disk that is used
+                                                                                 for customer
+                                                                                 managed key
+                                                                                 encrypted
+                                                                                 Confidential VM OS
+                                                                                 disk and VM guest
+                                                                                 blob.
+    --os-disk-security-encryption-type                                         : Specify the
+                                                                                 encryption type of
+                                                                                 the OS managed
+                                                                                 disk.  Allowed
+                                                                                 values: DiskWithVMG
+                                                                                 uestState,
+                                                                                 NonPersistedTPM,
+                                                                                 VMGuestStateOnly.
+    --patch-mode                                                               : Mode of in-guest
+                                                                                 patching to IaaS
+                                                                                 virtual machine.
+                                                                                 Allowed values for
+                                                                                 Windows VM:
+                                                                                 AutomaticByOS, Auto
+                                                                                 maticByPlatform,
+                                                                                 Manual. Allowed
+                                                                                 values for Linux
+                                                                                 VM: AutomaticByPlat
+                                                                                 form, ImageDefault.
+                                                                                 Manual - You
+                                                                                 control the
+                                                                                 application of
+                                                                                 patches to a
+                                                                                 virtual machine.
+                                                                                 You do this by
+                                                                                 applying patches
+                                                                                 manually inside the
+                                                                                 VM. In this mode,
+                                                                                 automatic updates
+                                                                                 are disabled; the
+                                                                                 paramater --enable-
+                                                                                 auto-update must be
+                                                                                 false.
+                                                                                 AutomaticByOS - The
+                                                                                 virtual machine
+                                                                                 will automatically
+                                                                                 be updated by the
+                                                                                 OS. The parameter
+                                                                                 --enable-auto-
+                                                                                 update must be
+                                                                                 true.
+                                                                                 AutomaticByPlatform
+                                                                                 - the virtual
+                                                                                 machine will
+                                                                                 automatically
+                                                                                 updated by the OS.
+                                                                                 ImageDefault - The
+                                                                                 virtual machine's
+                                                                                 default patching
+                                                                                 configuration is
+                                                                                 used. The parameter
+                                                                                 --enable-agent and
+                                                                                 --enable-auto-
+                                                                                 update must be
+                                                                                 true.  Allowed
+                                                                                 values:
+                                                                                 AutomaticByOS, Auto
+                                                                                 maticByPlatform,
+                                                                                 ImageDefault,
+                                                                                 Manual.
+    --platform-fault-domain                                                    : Specify the scale
+                                                                                 set logical fault
+                                                                                 domain into which
+                                                                                 the virtual machine
+                                                                                 will be created. By
+                                                                                 default, the
+                                                                                 virtual machine
+                                                                                 will be
+                                                                                 automatically
+                                                                                 assigned to a fault
+                                                                                 domain that best
+                                                                                 maintains balance
+                                                                                 across available
+                                                                                 fault domains. This
+                                                                                 is applicable only
+                                                                                 if the virtualMachi
+                                                                                 neScaleSet property
+                                                                                 of this virtual
+                                                                                 machine is set. The
+                                                                                 virtual machine
+                                                                                 scale set that is
+                                                                                 referenced, must
+                                                                                 have platform fault
+                                                                                 domain count. This
+                                                                                 property cannot be
+                                                                                 updated once the
+                                                                                 virtual machine is
+                                                                                 created. Fault
+                                                                                 domain assignment
+                                                                                 can be viewed in
+                                                                                 the virtual machine
+                                                                                 instance view.
+    --ppg                                                                      : The name or ID of
+                                                                                 the proximity
+                                                                                 placement group the
+                                                                                 VM should be
+                                                                                 associated with.
+    --priority                                                                 : Priority. Use
+                                                                                 'Spot' to run
+                                                                                 short-lived
+                                                                                 workloads in a
+                                                                                 cost-effective way.
+                                                                                 'Low' enum will be
+                                                                                 deprecated in the
+                                                                                 future. Please use
+                                                                                 'Spot' to deploy
+                                                                                 Azure spot VM
+                                                                                 and/or VMSS.
+                                                                                 Default to Regular.
+                                                                                 Allowed values:
+                                                                                 Low, Regular, Spot.
+    --proxy-agent-mode                                            [Deprecated] : Specify the mode
+                                                                                 that proxy agent
+                                                                                 will execute on if
+                                                                                 the feature is
+                                                                                 enabled.  Allowed
+                                                                                 values: Audit,
+                                                                                 Enforce.
+        WARNING: Option '--proxy-agent-mode' has been deprecated and will be removed in a future
+        release. Use '--wire-server-mode' instead.
+    --secrets                                                                  : One or many Key
+                                                                                 Vault secrets as
+                                                                                 JSON strings or
+                                                                                 files via `@{path}`
+                                                                                 containing `[{
+                                                                                 "sourceVault": {
+                                                                                 "id": "value" }, "v
+                                                                                 aultCertificates":
+                                                                                 [{
+                                                                                 "certificateUrl":
+                                                                                 "value",
+                                                                                 "certificateStore":
+                                                                                 "cert store name
+                                                                                 (only on
+                                                                                 windows)"}] }]`.
+    --security-type                                                            : Specify the
+                                                                                 security type of
+                                                                                 the virtual
+                                                                                 machine. The value
+                                                                                 Standard can be
+                                                                                 used if
+                                                                                 subscription has
+                                                                                 feature flag UseSta
+                                                                                 ndardSecurityType
+                                                                                 registered under
+                                                                                 Microsoft.Compute
+                                                                                 namespace. Refer to
+                                                                                 https://learn.micro
+                                                                                 soft.com/en-
+                                                                                 us/azure/azure-
+                                                                                 resource-manager/ma
+                                                                                 nagement/preview-
+                                                                                 features for steps
+                                                                                 to enable required
+                                                                                 feature.  Allowed
+                                                                                 values:
+                                                                                 ConfidentialVM,
+                                                                                 Standard,
+                                                                                 TrustedLaunch.
+    --size                                                  [Breaking Change] : The VM size to be
+                                                                                 created. See https:
+                                                                                 //azure.microsoft.c
+                                                                                 om/pricing/details/
+                                                                                 virtual-machines/
+                                                                                 for size info.
+                                                                                 Default:
+                                                                                 Standard_DS1_v2.
+                                                                                 Values from: az vm
+                                                                                 list-sizes.
+        WARNING: The default value of '--size' will be changed to 'Standard_D2s_v5' from
+        'Standard_DS1_v2' in a future release.
+    --ssh-key-name                                                             : Use it as public
+                                                                                 key in virtual
+                                                                                 machine. It should
+                                                                                 be an existing SSH
+                                                                                 key resource in
+                                                                                 Azure.
+    --tags                                                                     : Space-separated
+                                                                                 tags: key[=value]
+                                                                                 [key[=value] ...].
+                                                                                 Use "" to clear
+                                                                                 existing tags.
+    --user-data                                                                : UserData for the
+                                                                                 VM. It can be
+                                                                                 passed in as file
+                                                                                 or string.
+    --v-cpus-available                                                         : Specify the number
+                                                                                 of vCPUs available.
+    --v-cpus-per-core                                                          : Specify the ratio
+                                                                                 of vCPU to physical
+                                                                                 core. Setting this
+                                                                                 property to 1 also
+                                                                                 means that hyper-
+                                                                                 threading is
+                                                                                 disabled.
+    --validate                                                                 : Generate and
+                                                                                 validate the ARM
+                                                                                 template without
+                                                                                 creating any
+                                                                                 resources.
+    --vmss                                                                     : Name or ID of an
+                                                                                 existing virtual
+                                                                                 machine scale set
+                                                                                 that the virtual
+                                                                                 machine should be
+                                                                                 assigned to. None
+                                                                                 by default.
+    --wire-server-access-control-profile-reference-id --wire-server-profile-id : Specify the access
+                                                                                 control profile
+                                                                                 version resource id
+                                                                                 of wire server.
+    --wire-server-mode                                                         : Specify the mode
+                                                                                 that proxy agent
+                                                                                 will execute on if
+                                                                                 the feature is
+                                                                                 enabled.  Allowed
+                                                                                 values: Audit,
+                                                                                 Enforce.
+    --zone -z                                                                  : Availability zone
+                                                                                 into which to
+                                                                                 provision the
+                                                                                 resource.
+    --zone-placement-policy                                                    : Specify the policy
+                                                                                 for virtual
+                                                                                 machine's placement
+                                                                                 in availability
+                                                                                 zone.  Allowed
+                                                                                 values: Any.
+
+Authentication Arguments
+    --admin-password                                                           : Password for the VM
+                                                                                 if authentication
+                                                                                 type is 'Password'.
+    --admin-username                                                           : Username for the
+                                                                                 VM. Default value
+                                                                                 is current username
+                                                                                 of OS. If the
+                                                                                 default value is
+                                                                                 system reserved,
+                                                                                 then default value
+                                                                                 will be set to
+                                                                                 azureuser. Please
+                                                                                 refer to https://le
+                                                                                 arn.microsoft.com/r
+                                                                                 est/api/compute/vir
+                                                                                 tualmachines/create
+                                                                                 orupdate#osprofile
+                                                                                 to get a full list
+                                                                                 of reserved values.
+    --authentication-type                                                      : Type of
+                                                                                 authentication to
+                                                                                 use with the VM.
+                                                                                 Defaults to
+                                                                                 password for
+                                                                                 Windows and SSH
+                                                                                 public key for
+                                                                                 Linux. "all"
+                                                                                 enables both ssh
+                                                                                 and password
+                                                                                 authentication.
+                                                                                 Allowed values:
+                                                                                 all, password, ssh.
+    --generate-ssh-keys                                                        : Generate SSH public
+                                                                                 and private key
+                                                                                 files if missing.
+                                                                                 The keys will be
+                                                                                 stored in the
+                                                                                 ~/.ssh directory.
+    --ssh-dest-key-path                                                        : Destination file
+                                                                                 path on the VM for
+                                                                                 the SSH key. If the
+                                                                                 file already
+                                                                                 exists, the
+                                                                                 specified key(s)
+                                                                                 are appended to the
+                                                                                 file. Destination
+                                                                                 path for SSH public
+                                                                                 keys is currently
+                                                                                 limited to its
+                                                                                 default value "/hom
+                                                                                 e/username/.ssh/aut
+                                                                                 horized_keys" due
+                                                                                 to a known issue in
+                                                                                 Linux provisioning
+                                                                                 agent.
+    --ssh-key-type                                                             : Specify the type of
+                                                                                 SSH public and
+                                                                                 private key files
+                                                                                 to be generated if
+                                                                                 missing.  Allowed
+                                                                                 values: Ed25519,
+                                                                                 RSA.  Default: RSA.
+    --ssh-key-values                                                           : Space-separated
+                                                                                 list of SSH public
+                                                                                 keys or public key
+                                                                                 file paths.
+
+Dedicated Host Arguments
+    --host                                                           [Preview] : Resource ID of the
+                                                                                 dedicated host that
+                                                                                 the VM will reside
+                                                                                 in. --host and
+                                                                                 --host-group can't
+                                                                                 be used together.
+        WARNING: Argument '--host' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+    --host-group                                                     [Preview] : Name or resource ID
+                                                                                 of the dedicated
+                                                                                 host group that the
+                                                                                 VM will reside in.
+                                                                                 --host and --host-
+                                                                                 group can't be used
+                                                                                 together.
+        WARNING: Argument '--host-group' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+
+Managed Service Identity Arguments
+    --assign-identity                                                          : Accept system or
+                                                                                 user assigned
+                                                                                 identities
+                                                                                 separated by
+                                                                                 spaces. Use
+                                                                                 '[system]' to refer
+                                                                                 system assigned
+                                                                                 identity, or a
+                                                                                 resource id to
+                                                                                 refer user assigned
+                                                                                 identity. Check out
+                                                                                 help for more
+                                                                                 examples.
+    --role                                                                     : Role name or id the
+                                                                                 system assigned
+                                                                                 identity will have.
+    --scope                                                                    : Scope that the
+                                                                                 system assigned
+                                                                                 identity can
+                                                                                 access.
+
+Marketplace Image Plan Arguments
+    --plan-name                                                                : Plan name.
+    --plan-product                                                             : Plan product.
+    --plan-promotion-code                                                      : Plan promotion
+                                                                                 code.
+    --plan-publisher                                                           : Plan publisher.
+
+Monitor Arguments
+    --workspace                                                      [Preview] : Name or ID of Log
+                                                                                 Analytics
+                                                                                 Workspace. If you
+                                                                                 specify the
+                                                                                 workspace through
+                                                                                 its name, the
+                                                                                 workspace should be
+                                                                                 in the same
+                                                                                 resource group with
+                                                                                 the vm, otherwise a
+                                                                                 new workspace will
+                                                                                 be created.
+        WARNING: Argument '--workspace' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+
+Network Arguments
+    --accelerated-networking                                                   : Enable accelerated
+                                                                                 networking. Unless
+                                                                                 specified, CLI will
+                                                                                 enable it based on
+                                                                                 machine image and
+                                                                                 size.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --asgs                                                                     : Space-separated
+                                                                                 list of existing
+                                                                                 application
+                                                                                 security groups to
+                                                                                 associate with the
+                                                                                 VM.
+    --nic-delete-option                                                        : Specify what
+                                                                                 happens to the
+                                                                                 network interface
+                                                                                 when the VM is
+                                                                                 deleted. Use a
+                                                                                 singular value to
+                                                                                 apply on all
+                                                                                 resources, or use
+                                                                                 `<Name>=<Value>` to
+                                                                                 configure the
+                                                                                 delete behavior for
+                                                                                 individual
+                                                                                 resources. Possible
+                                                                                 options are Delete
+                                                                                 and Detach.
+    --nics                                                                     : Names or IDs of
+                                                                                 existing NICs to
+                                                                                 attach to the VM.
+                                                                                 The first NIC will
+                                                                                 be designated as
+                                                                                 primary. If
+                                                                                 omitted, a new NIC
+                                                                                 will be created. If
+                                                                                 an existing NIC is
+                                                                                 specified, do not
+                                                                                 specify subnet,
+                                                                                 VNet, public IP or
+                                                                                 NSG.
+    --nsg                                                                      : The name to use
+                                                                                 when creating a new
+                                                                                 Network Security
+                                                                                 Group (default) or
+                                                                                 referencing an
+                                                                                 existing one. Can
+                                                                                 also reference an
+                                                                                 existing NSG by ID
+                                                                                 or specify "" for
+                                                                                 none ('""' in Azure
+                                                                                 CLI using
+                                                                                 PowerShell or --%
+                                                                                 operator).
+    --nsg-rule                                                                 : NSG rule to create
+                                                                                 when creating a new
+                                                                                 NSG. Defaults to
+                                                                                 open ports for
+                                                                                 allowing RDP on
+                                                                                 Windows and
+                                                                                 allowing SSH on
+                                                                                 Linux. NONE
+                                                                                 represents no NSG
+                                                                                 rule.  Allowed
+                                                                                 values: NONE, RDP,
+                                                                                 SSH.
+    --private-ip-address                                                       : Static private IP
+                                                                                 address (e.g.
+                                                                                 10.0.0.5).
+    --public-ip-address                                                        : Name of the public
+                                                                                 IP address when
+                                                                                 creating one
+                                                                                 (default) or
+                                                                                 referencing an
+                                                                                 existing one. Can
+                                                                                 also reference an
+                                                                                 existing public IP
+                                                                                 by ID or specify ""
+                                                                                 or '' for None
+                                                                                 ('""' in Azure CLI
+                                                                                 using PowerShell).
+    --public-ip-address-allocation                                             : Allowed values:
+                                                                                 dynamic, static.
+    --public-ip-address-dns-name                                               : Globally unique DNS
+                                                                                 name for a newly
+                                                                                 created public IP.
+    --public-ip-sku                                                            : Public IP SKU. The
+                                                                                 public IP is
+                                                                                 supported to be
+                                                                                 created on edge
+                                                                                 zone only when it
+                                                                                 is 'Standard'.
+                                                                                 Allowed values:
+                                                                                 Basic, Standard.
+                                                                                 Default: Standard.
+    --subnet                                                                   : The name of the
+                                                                                 subnet when
+                                                                                 creating a new VNet
+                                                                                 or referencing an
+                                                                                 existing one. Can
+                                                                                 also reference an
+                                                                                 existing subnet by
+                                                                                 ID. If both vnet-
+                                                                                 name and subnet are
+                                                                                 omitted, an
+                                                                                 appropriate VNet
+                                                                                 and subnet will be
+                                                                                 selected
+                                                                                 automatically, or a
+                                                                                 new one will be
+                                                                                 created.
+    --subnet-address-prefix                                                    : The subnet IP
+                                                                                 address prefix to
+                                                                                 use when creating a
+                                                                                 new VNet in CIDR
+                                                                                 format.  Default:
+                                                                                 10.0.0.0/24.
+    --vnet-address-prefix                                                      : The IP address
+                                                                                 prefix to use when
+                                                                                 creating a new VNet
+                                                                                 in CIDR format.
+                                                                                 Default:
+                                                                                 10.0.0.0/16.
+    --vnet-name                                                                : Name of the virtual
+                                                                                 network when
+                                                                                 creating a new one
+                                                                                 or referencing an
+                                                                                 existing one.
+
+Storage Arguments
+    --attach-data-disks                                                        : Attach existing
+                                                                                 data disks to the
+                                                                                 VM. Can use the
+                                                                                 name or ID of a
+                                                                                 managed disk or the
+                                                                                 URI to an unmanaged
+                                                                                 disk VHD.
+    --attach-os-disk                                                           : Attach an existing
+                                                                                 OS disk to the VM.
+                                                                                 Can use the name or
+                                                                                 ID of a managed
+                                                                                 disk or the URI to
+                                                                                 an unmanaged disk
+                                                                                 VHD.
+    --data-disk-caching                                                        : Storage caching
+                                                                                 type for data
+                                                                                 disk(s), including
+                                                                                 'None', 'ReadOnly',
+                                                                                 'ReadWrite', etc.
+                                                                                 Use a singular
+                                                                                 value to apply on
+                                                                                 all disks, or use
+                                                                                 `<lun>=<vaule1>
+                                                                                 <lun>=<value2>` to
+                                                                                 configure
+                                                                                 individual disk.
+    --data-disk-delete-option                                                  : Specify whether
+                                                                                 data disk should be
+                                                                                 deleted or detached
+                                                                                 upon VM deletion.
+                                                                                 If a single data
+                                                                                 disk is attached,
+                                                                                 the allowed values
+                                                                                 are Delete and
+                                                                                 Detach. For
+                                                                                 multiple data disks
+                                                                                 are attached,
+                                                                                 please use
+                                                                                 `<data_disk>=Delete
+                                                                                 <data_disk2>=Detach
+                                                                                 ` to configure each
+                                                                                 disk.
+    --data-disk-encryption-sets                                                : Names or IDs (space
+                                                                                 delimited) of disk
+                                                                                 encryption sets for
+                                                                                 data disks.
+    --data-disk-sizes-gb                                                       : Space-separated
+                                                                                 empty managed data
+                                                                                 disk sizes in GB to
+                                                                                 create.
+    --disk-controller-type                                           [Preview] : Specify the disk
+                                                                                 controller type
+                                                                                 configured for the
+                                                                                 VM or VMSS.
+                                                                                 Allowed values:
+                                                                                 NVMe, SCSI.
+        WARNING: Argument '--disk-controller-type' is in preview and under development. Reference
+        and support levels: https://aka.ms/CLI_refstatus
+    --encryption-at-host                                                       : Enable Host
+                                                                                 Encryption for the
+                                                                                 VM or VMSS. This
+                                                                                 will enable the
+                                                                                 encryption for all
+                                                                                 the disks including
+                                                                                 Resource/Temp disk
+                                                                                 at host itself.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --ephemeral-os-disk                                                        : Allows you to
+                                                                                 create an OS disk
+                                                                                 directly on the
+                                                                                 host node,
+                                                                                 providing local
+                                                                                 disk performance
+                                                                                 and faster VM/VMSS
+                                                                                 reimage time.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --ephemeral-os-disk-placement --ephemeral-placement                        : Only applicable
+                                                                                 when used with
+                                                                                 `--ephemeral-os-
+                                                                                 disk`. Allows you
+                                                                                 to choose the
+                                                                                 Ephemeral OS disk
+                                                                                 provisioning
+                                                                                 location.  Allowed
+                                                                                 values: CacheDisk,
+                                                                                 NvmeDisk,
+                                                                                 ResourceDisk.
+    --os-disk-caching                                                          : Storage caching
+                                                                                 type for the VM OS
+                                                                                 disk. Default:
+                                                                                 ReadWrite.  Allowed
+                                                                                 values: None,
+                                                                                 ReadOnly,
+                                                                                 ReadWrite.
+    --os-disk-delete-option                                                    : Specify the
+                                                                                 behavior of the
+                                                                                 managed disk when
+                                                                                 the VM gets deleted
+                                                                                 i.e whether the
+                                                                                 managed disk is
+                                                                                 deleted or
+                                                                                 detached.  Allowed
+                                                                                 values: Delete,
+                                                                                 Detach.
+    --os-disk-encryption-set                                                   : Name or ID of disk
+                                                                                 encryption set for
+                                                                                 OS disk.
+    --os-disk-name                                                             : The name of the new
+                                                                                 VM OS disk.
+    --os-disk-size-gb                                                          : OS disk size in GB
+                                                                                 to create.
+    --os-type                                                                  : Type of OS
+                                                                                 installed on a
+                                                                                 custom VHD. Do not
+                                                                                 use when specifying
+                                                                                 an URN or URN
+                                                                                 alias.  Allowed
+                                                                                 values: linux,
+                                                                                 windows.
+    --source-disk-restore-point --source-disk-rp                               : Create a data disk
+                                                                                 from a disk restore
+                                                                                 point. Can use the
+                                                                                 ID of a disk
+                                                                                 restore point.
+    --source-disk-restore-point-size-gb --source-rp-size                       : The size of the
+                                                                                 source disk restore
+                                                                                 point in GB.
+    --source-resource --source-snapshots-or-disks                              : Create a data disk
+                                                                                 from a snapshot or
+                                                                                 another disk. Can
+                                                                                 use the ID of a
+                                                                                 disk or snapshot.
+    --source-resource-size --source-snapshots-or-disks-size-gb                 : The size of the
+                                                                                 source disk in GB.
+    --specialized                                                              : Indicate whether
+                                                                                 the source image is
+                                                                                 specialized.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --storage-account                                                          : Only applicable
+                                                                                 when used with
+                                                                                 `--use-unmanaged-
+                                                                                 disk`. The name to
+                                                                                 use when creating a
+                                                                                 new storage account
+                                                                                 or referencing an
+                                                                                 existing one. If
+                                                                                 omitted, an
+                                                                                 appropriate storage
+                                                                                 account in the same
+                                                                                 resource group and
+                                                                                 location will be
+                                                                                 used, or a new one
+                                                                                 will be created.
+    --storage-container-name                                                   : Only applicable
+                                                                                 when used with
+                                                                                 `--use-unmanaged-
+                                                                                 disk`. Name of the
+                                                                                 storage container
+                                                                                 for the VM OS disk.
+                                                                                 Default: vhds.
+    --storage-sku                                                              : The SKU of the
+                                                                                 storage account
+                                                                                 with which to
+                                                                                 persist VM. Use a
+                                                                                 singular sku that
+                                                                                 would be applied
+                                                                                 across all disks,
+                                                                                 or specify
+                                                                                 individual disks.
+                                                                                 Usage: [--storage-
+                                                                                 sku SKU |
+                                                                                 --storage-sku
+                                                                                 ID=SKU ID=SKU
+                                                                                 ID=SKU...], where
+                                                                                 each ID is "os" or
+                                                                                 a 0-indexed lun.
+                                                                                 Allowed values:
+                                                                                 Standard_LRS,
+                                                                                 Premium_LRS,
+                                                                                 StandardSSD_LRS,
+                                                                                 UltraSSD_LRS,
+                                                                                 Premium_ZRS,
+                                                                                 StandardSSD_ZRS,
+                                                                                 PremiumV2_LRS.
+    --ultra-ssd-enabled                                                        : Enables or disables
+                                                                                 the capability to
+                                                                                 have 1 or more
+                                                                                 managed data disks
+                                                                                 with UltraSSD_LRS
+                                                                                 storage account.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --use-unmanaged-disk                                                       : Do not use managed
+                                                                                 disk to persist VM.
+
+Global Arguments
+    --debug                                                                    : Increase logging
+                                                                                 verbosity to show
+                                                                                 all debug logs.
+    --help -h                                                                  : Show this help
+                                                                                 message and exit.
+    --only-show-errors                                                         : Only show errors,
+                                                                                 suppressing
+                                                                                 warnings.
+    --output -o                                                                : Output format.
+                                                                                 Allowed values:
+                                                                                 json, jsonc, none,
+                                                                                 table, tsv, yaml,
+                                                                                 yamlc.  Default:
+                                                                                 json.
+    --query                                                                    : JMESPath query
+                                                                                 string. See http://
+                                                                                 jmespath.org/ for
+                                                                                 more information
+                                                                                 and examples.
+    --subscription                                                             : Name or ID of
+                                                                                 subscription. You
+                                                                                 can configure the
+                                                                                 default
+                                                                                 subscription using
+                                                                                 `az account set -s
+                                                                                 NAME_OR_ID`.
+    --verbose                                                                  : Increase logging
+                                                                                 verbosity. Use
+                                                                                 --debug for full
+                                                                                 debug logs.
+
+Examples
+    Create a default Ubuntu2204 VM with automatic SSH authentication.
+        az vm create -n MyVm -g MyResourceGroup --image Ubuntu2204
+
+
+    Create a default RedHat VM with automatic SSH authentication using an image URN.
+        az vm create -n MyVm -g MyResourceGroup --image RedHat:RHEL:7-RAW:7.4.2018010506
+
+
+    Create a default Windows Server VM with a private IP address.
+        az vm create -n MyVm -g MyResourceGroup --public-ip-address "" --image Win2012R2Datacenter
+
+
+    Create a VM from a custom managed image.
+        az vm create -g MyResourceGroup -n MyVm --image MyImage
+
+
+    Create a VM from a generalized gallery image version.
+        az vm create -g MyResourceGroup -n MyVm --image /subscriptions/00000000-0000-0000-0000-
+        000000000000/resourceGroups/myRG/providers/Microsoft.Compute/galleries/myGallery/images/myIm
+        age/versions/1.0.0
+
+
+    Create a VM from a specialized gallery image version.
+        az vm create -g MyResourceGroup -n MyVm --image /subscriptions/00000000-0000-0000-0000-
+        000000000000/resourceGroups/myRG/providers/Microsoft.Compute/galleries/myGallery/images/myIm
+        age/versions/1.0.0 --specialized
+
+
+    Create a VM from the latest version of a gallery image
+        az vm create -g MyResourceGroup -n MyVm --image /subscriptions/00000000-0000-0000-0000-
+        000000000000/resourceGroups/myRG/providers/Microsoft.Compute/galleries/myGallery/images/myIm
+        age
+
+
+    Create a VM by attaching to a managed operating system disk.
+        az vm create -g MyResourceGroup -n MyVm --attach-os-disk MyOsDisk --os-type linux
+
+
+    Create a VM by attaching to an unmanaged operating system disk from a VHD blob uri.
+        az vm create -g MyResourceGroup -n MyVm --attach-os-disk
+        https://vhd1234.blob.core.windows.net/vhds/osdisk1234.vhd --os-type linux --use-unmanaged-
+        disk
+
+
+    Create an Debian11 VM using a cloud-init script for configuration. See:
+    https://learn.microsoft.com/azure/virtual-machines/linux/using-cloud-init.
+        az vm create -g MyResourceGroup -n MyVm --image Debian11 --custom-data MyCloudInitScript.yml
+
+
+    Create a Debian11 VM with SSH key authentication and a public DNS entry, located on an existing
+    virtual network and availability set.
+        az vm create -n MyVm -g MyResourceGroup --image Debian11 --vnet-name MyVnet --subnet subnet1
+        \
+            --availability-set MyAvailabilitySet --public-ip-address-dns-name MyUniqueDnsName \
+            --ssh-key-values @key-file
+
+
+    Create a simple Ubuntu Linux VM with a public IP address, DNS entry, two data disks (10GB and
+    20GB), and then generate RSA ssh key pairs.
+        az vm create -n MyVm -g MyResourceGroup --public-ip-address-dns-name MyUniqueDnsName \
+            --image Ubuntu2204 --data-disk-sizes-gb 10 20 --size Standard_DS2_v2 \
+            --generate-ssh-keys
+
+
+    Create a Debian11 VM using Key Vault secrets.
+        az keyvault certificate create --vault-name vaultname -n cert1 \
+          -p "$(az keyvault certificate get-default-policy)"
+
+        secrets=$(az keyvault secret list-versions --vault-name vaultname \
+          -n cert1 --query "[?attributes.enabled].id" -o tsv)
+
+        vm_secrets=$(az vm secret format -s "$secrets")
+
+        az vm create -g group-name -n vm-name --admin-username deploy  \
+          --image debian11 --secrets "$vm_secrets"
+
+
+    Create a CentOS VM with a system assigned identity. The VM will have a 'Contributor' role with
+    access to a storage account.
+        az vm create -n MyVm -g rg1 --image CentOS85Gen2 --assign-identity [system] --scope
+        /subscriptions/99999999-1bf0-4dda-
+        aec3-cb9272f09590/MyResourceGroup/myRG/providers/Microsoft.Storage/storageAccounts/storage1
+        --role Contributor
+
+
+    Create a Debian11 VM with a user assigned identity.
+        az vm create -n MyVm -g rg1 --image Debian11 --assign-identity
+        /subscriptions/99999999-1bf0-4dda-aec3-
+        cb9272f09590/resourcegroups/myRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/
+        myID
+
+
+    Create a Debian11 VM with both system and user assigned identity.
+        az vm create -n MyVm -g rg1 --image Debian11 --assign-identity [system]
+        /subscriptions/99999999-1bf0-4dda-aec3-
+        cb9272f09590/resourcegroups/myRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/
+        myID
+
+
+    Create a vm with user assigned identity and add encryption identity for Azure disk encryption
+        az vm create -n MyVm -g rg1 --image Debian11 --assign-identity myID --encryption-identity /s
+        ubscriptions/00000000-0000-0000-0000-
+        000000000000/resourcegroups/myRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/
+        myID
+
+
+    Create a VM in an availability zone in the current resource group's region.
+        az vm create -n MyVm -g MyResourceGroup --image CentOS85Gen2 --zone 1
+
+
+    Create multiple VMs. In this example, 3 VMs are created. They are MyVm0, MyVm1, MyVm2.
+        az vm create -n MyVm -g MyResourceGroup --image CentOS85Gen2 --count 3
+
+
+    Create a VM from shared gallery image
+        az vm create -n MyVm -g MyResourceGroup --image
+        /SharedGalleries/{gallery_unique_name}/Images/{image}/Versions/{version}
+
+
+    Create a VM from community gallery image
+        az vm create -n MyVm -g MyResourceGroup --image
+        /CommunityGalleries/{gallery_unique_name}/Images/{image}/Versions/{version}
+
+
+To search AI knowledge base for examples, use: az find "az vm create"

@@ -15,13 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a deleted sql container within the same account.
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Container name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "container", "restore")]
-public record AzCosmosdbSqlContainerRestoreOptions : AzOptions
+public record AzCosmosdbSqlContainerRestoreOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Flag to restore with TTL disabled.
+    /// Flag to restore with TTL disabled. Usage:          --disable-ttl True Default: false.
     /// </summary>
     [CliFlag("--disable-ttl")]
     public bool? DisableTtl { get; set; }
@@ -29,7 +38,7 @@ public record AzCosmosdbSqlContainerRestoreOptions : AzOptions
     /// <summary>
     /// The timestamp to which the container needs to be restored to.
     /// </summary>
-    [CliFlag("--restore-timestamp", ShortForm = "-t")]
-    public bool? RestoreTimestamp { get; set; }
+    [CliOption("--restore-timestamp", ShortForm = "-t")]
+    public string? RestoreTimestamp { get; set; }
 
 }

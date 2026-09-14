@@ -15,35 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the invoices for a subscription.
 /// </summary>
+/// <param name="PeriodEndDate">The end date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
+/// <param name="PeriodStartDate">The start date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "invoice", "list")]
-public record AzBillingInvoiceListOptions : AzOptions
+public record AzBillingInvoiceListOptions(
+    [property: CliOption("--period-end-date")] string PeriodEndDate,
+    [property: CliOption("--period-start-date")] string PeriodStartDate
+) : AzOptions
 {
     /// <summary>
     /// The ID that uniquely identifies a billing account.
     /// </summary>
     [CliOption("--account-name")]
-    public string? AccountNameValue { get; set; }
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// The ID that uniquely identifies a billing profile.
     /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileNameValue { get; set; }
-
-    [Obsolete("Use AccountNameValue instead.")]
-    public bool? AccountName
-    {
-        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
-        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ProfileNameValue instead.")]
-    public bool? ProfileName
-    {
-        get => bool.TryParse(ProfileNameValue, out var value) ? value : null;
-        set => ProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ProfileName { get; set; }
 
 }

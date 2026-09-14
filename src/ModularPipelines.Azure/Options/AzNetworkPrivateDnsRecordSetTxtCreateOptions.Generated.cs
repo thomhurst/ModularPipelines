@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an empty TXT record set.
 /// </summary>
+/// <param name="Name">Name of the record set, relative to the name of the zone.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">Name of the Private DNS zone (without a terminating dot).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "txt", "create")]
-public record AzNetworkPrivateDnsRecordSetTxtCreateOptions : AzOptions
+public record AzNetworkPrivateDnsRecordSetTxtCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Metadata attached to the record set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

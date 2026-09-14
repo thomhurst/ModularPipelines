@@ -15,22 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List VM Image Versions in a gallery shared directly to your
 /// </summary>
+/// <param name="GalleryImageDefinition">The name of the Shared Gallery Image Definition from which the Image Versions are to be listed.</param>
+/// <param name="GalleryUniqueName">The unique name of the Shared Gallery.</param>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "list-shared")]
-public record AzSigImageVersionListSharedOptions : AzOptions
+public record AzSigImageVersionListSharedOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-unique-name")] string GalleryUniqueName,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id.  Allowed values: tenant.
     /// </summary>
     [CliOption("--shared-to")]
-    public string? SharedToValue { get; set; }
+    public string? SharedTo { get; set; }
 
-    [Obsolete("Use SharedToValue instead.")]
-    public bool? SharedTo
-    {
-        get => bool.TryParse(SharedToValue, out var value) ? value : null;
-        set => SharedToValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
+
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
 }

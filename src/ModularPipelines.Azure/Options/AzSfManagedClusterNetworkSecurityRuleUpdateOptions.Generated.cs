@@ -15,16 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a network security rule to a managed
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="Name">Network security rule name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "network-security-rule", "update")]
-public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
+public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Allows or denies network traffic.  Allowed values: allow, deny.
     /// </summary>
-    [CliFlag("--access")]
-    public bool? Access { get; set; }
+    [CliOption("--access")]
+    public string? Access { get; set; }
 
     /// <summary>
     /// Network security rule description.
@@ -47,8 +54,8 @@ public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
     /// <summary>
     /// Network security rule direction.  Allowed values: inbound, outbound.
     /// </summary>
-    [CliFlag("--direction")]
-    public bool? Direction { get; set; }
+    [CliOption("--direction")]
+    public string? Direction { get; set; }
 
     /// <summary>
     /// Integer that shows priority for rule.
@@ -59,8 +66,8 @@ public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
     /// <summary>
     /// Network protocol.  Allowed values: ah, any, esp, http, https, icmp, tcp, udp.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// The CIDR or source IP ranges. A single or space separated list of source address prefixes.

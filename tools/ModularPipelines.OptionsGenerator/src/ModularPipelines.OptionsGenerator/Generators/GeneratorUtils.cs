@@ -92,8 +92,8 @@ public static partial class GeneratorUtils
     /// </summary>
     public static readonly string GeneratedCodeAttribute = $"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]";
 
-    private static readonly IReadOnlyDictionary<string, string> CompoundWordCasing =
-        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, string> CompoundWordCasing =
+        new(StringComparer.OrdinalIgnoreCase)
         {
             ["accesscontextmanager"] = "AccessContextManager",
             ["agenttask"] = "AgentTask",
@@ -555,7 +555,7 @@ public static partial class GeneratorUtils
     }
 
     private static void AppendCollectionRendering(
-        ICollection<string> optionParts,
+        List<string> optionParts,
         CliOptionDefinition option)
     {
         if (option.GroupValues)
@@ -616,6 +616,26 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <summary>");
             sb.AppendLine($"{indent}/// {EscapeXmlComment(description)}");
             sb.AppendLine($"{indent}/// </summary>");
+        }
+    }
+
+    internal static void GenerateConstructorXmlDocumentation(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<RequiredConstructorParameter> parameters)
+    {
+        var description = command.Description;
+        if (parameters.Count > 0 && string.IsNullOrWhiteSpace(description))
+        {
+            description = $"Options for {command.FullCommand}.";
+        }
+
+        GenerateXmlDocumentation(sb, description, "");
+        foreach (var parameter in parameters)
+        {
+            var parameterDescription = parameter.Option?.Description ?? parameter.PositionalArgument?.Description;
+            var name = parameter.PropertyName.TrimStart('@');
+            sb.AppendLine($"/// <param name=\"{name}\">{EscapeXmlComment(parameterDescription)}</param>");
         }
     }
 
@@ -951,6 +971,7 @@ public static partial class GeneratorUtils
         var hasSecretKeyword = SecretKeywords.Any(keyword =>
                                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                || ContainsIdentifierSegment(propertyName, "Otp")
+                               || ContainsIdentifierSegment(propertyName, "Pwd")
                                || propertyName.EndsWith("Creds", StringComparison.OrdinalIgnoreCase);
         if (hasSecretKeyword)
         {
@@ -1202,7 +1223,7 @@ public static partial class GeneratorUtils
 
     private static string AllocateExecuteClassName(
         CliCommandDefinition command,
-        ISet<string> occupiedClassNames)
+        HashSet<string> occupiedClassNames)
     {
         var baseName = command.ParentClassName.EndsWith("Options", StringComparison.Ordinal)
             ? command.ParentClassName[..^"Options".Length]

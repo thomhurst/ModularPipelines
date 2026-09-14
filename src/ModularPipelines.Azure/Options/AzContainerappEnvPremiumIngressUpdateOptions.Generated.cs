@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the premium ingress settings for the
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "premium-ingress", "update")]
-public record AzContainerappEnvPremiumIngressUpdateOptions : AzOptions
+public record AzContainerappEnvPremiumIngressUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Limit of http headers per request. Default 100, minimum 1.
@@ -29,8 +32,8 @@ public record AzContainerappEnvPremiumIngressUpdateOptions : AzOptions
     /// <summary>
     /// Timeout in minutes for idle requests. Default 4, minimum 4, maximum 30.
     /// </summary>
-    [CliFlag("--request-idle-timeout")]
-    public bool? RequestIdleTimeout { get; set; }
+    [CliOption("--request-idle-timeout")]
+    public int? RequestIdleTimeout { get; set; }
 
     /// <summary>
     /// Time in seconds to drain requests during ingress shutdown. Default 500, minimum 0, maximum 3600.
@@ -43,5 +46,17 @@ public record AzContainerappEnvPremiumIngressUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--workload-profile-name", ShortForm = "-w")]
     public bool? WorkloadProfileName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the managed environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

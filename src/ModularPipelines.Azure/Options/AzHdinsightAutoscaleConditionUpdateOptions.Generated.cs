@@ -15,16 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a schedule condition.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="Index">The schedule condition index which starts with 0.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "update")]
-public record AzHdinsightAutoscaleConditionUpdateOptions : AzOptions
+public record AzHdinsightAutoscaleConditionUpdateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--index")] string Index,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
     /// </summary>
-    [CliFlag("--days")]
-    public bool? Days { get; set; }
+    [CliOption("--days", GroupValues = true)]
+    public IEnumerable<string>? Days { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

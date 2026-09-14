@@ -15,15 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign a managed service identity to an
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Identity">Name or ID of the ManagedIdentity Resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "identity", "assign")]
-public record AzNetworkApplicationGatewayIdentityAssignOptions : AzOptions
+public record AzNetworkApplicationGatewayIdentityAssignOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--identity")] string Identity,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

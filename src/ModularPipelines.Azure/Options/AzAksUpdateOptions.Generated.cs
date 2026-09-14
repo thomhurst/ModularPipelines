@@ -15,55 +15,60 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed Kubernetes cluster. When called with no optional arguments this
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "update")]
-public record AzAksUpdateOptions : AzOptions
+public record AzAksUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Comma-separated list of aad group object IDs that will be set as cluster admin.
     /// </summary>
-    [CliFlag("--aad-admin-group-object-ids")]
-    public bool? AadAdminGroupObjectIds { get; set; }
+    [CliOption("--aad-admin-group-object-ids", GroupValues = true)]
+    public IEnumerable<string>? AadAdminGroupObjectIds { get; set; }
 
     /// <summary>
     /// The ID of an Azure Active Directory tenant.
     /// </summary>
     [CliOption("--aad-tenant-id")]
-    public string? AadTenantIdValue { get; set; }
+    public string? AadTenantId { get; set; }
 
     /// <summary>
-    /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7,
+    /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7, None.
     /// </summary>
-    [CliFlag("--acns-advanced-networkpolicies")]
-    public bool? AcnsAdvancedNetworkpolicies { get; set; }
+    [CliOption("--acns-advanced-networkpolicies")]
+    public string? AcnsAdvancedNetworkpolicies { get; set; }
 
     /// <summary>
-    /// Set the datapath acceleration mode for Azure Container Networking Solution (ACNS) Performance. Valid values are 'BpfVeth' and 'None'.  Allowed values:
+    /// Set the datapath acceleration mode for Azure Container Networking Solution (ACNS) Performance. Valid values are 'BpfVeth' and 'None'.  Allowed values: BpfVeth, None.
     /// </summary>
-    [CliFlag("--acns-datapath-acceleration-mode")]
-    public bool? AcnsDatapathAccelerationMode { get; set; }
+    [CliOption("--acns-datapath-acceleration-mode")]
+    public string? AcnsDatapathAccelerationMode { get; set; }
 
     /// <summary>
-    /// Set transit encryption type for ACNS security.  Allowed values: None,
+    /// Set transit encryption type for ACNS security.  Allowed values: None, WireGuard. Configures pod-to-pod encryption for Cilium-based clusters. Once enabled, all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. Valid values are "WireGuard" and "None". When creating a cluster, this option must be used together with "--enable-acns"; when updating a cluster, it can be used on its own to modify the transit encryption type for an existing ACNS-enabled cluster.
     /// </summary>
-    [CliFlag("--acns-transit-encryption-type")]
-    public bool? AcnsTransitEncryptionType { get; set; }
+    [CliOption("--acns-transit-encryption-type")]
+    public string? AcnsTransitEncryptionType { get; set; }
 
     /// <summary>
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
     [CliOption("--aks-custom-headers")]
-    public string? AksCustomHeadersValue { get; set; }
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Comma-separated list of authorized apiserver IP ranges. Set to "" to allow all traffic on a previously restricted cluster. Set to 0.0.0.0/32 to restrict apiserver traffic to node pools.
     /// </summary>
-    [CliFlag("--api-server-authorized-ip-ranges")]
-    public bool? ApiServerAuthorizedIpRanges { get; set; }
+    [CliOption("--api-server-authorized-ip-ranges", GroupValues = true)]
+    public IEnumerable<string>? ApiServerAuthorizedIpRanges { get; set; }
 
     /// <summary>
-    /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable- apiserver-vnet-integration).
+    /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable-apiserver-vnet-integration).
     /// </summary>
     [CliOption("--apiserver-subnet-id")]
     public string? ApiServerSubnetId { get; set; }
@@ -81,7 +86,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? AssignKubeletIdentity { get; set; }
 
     /// <summary>
-    /// Use this parameter in conjunction with
+    /// Use this parameter in conjunction with --attach-acr to explicitly set the principal type in the ACR role assignment. This helps avoid RBAC-related errors by ensuring the correct principal type is applied. Valid values are 'User', 'Group' or 'ServicePrincipal'.
     /// </summary>
     [CliFlag("--assignee-principal-type", ShortForm = "-t")]
     public bool? AssigneePrincipalType { get; set; }
@@ -90,73 +95,85 @@ public record AzAksUpdateOptions : AzOptions
     /// Grant the 'acrpull' role assignment to the ACR specified by name or resource ID.
     /// </summary>
     [CliOption("--attach-acr")]
-    public string? AttachAcrValue { get; set; }
+    public string? AttachAcr { get; set; }
 
     /// <summary>
     /// Specify the upgrade channel for autoupgrade.  Allowed values: node-image, none, patch, rapid, stable.
     /// </summary>
-    [CliFlag("--auto-upgrade-channel")]
-    public bool? AutoUpgradeChannel { get; set; }
+    [CliOption("--auto-upgrade-channel")]
+    public string? AutoUpgradeChannel { get; set; }
 
     /// <summary>
     /// Define the comma separated nodepool list to install azure container storage.
     /// </summary>
-    [CliFlag("--azure-container-storage-nodepools")]
-    public bool? AzureContainerStorageNodepools { get; set; }
+    [CliOption("--azure-container-storage-nodepools")]
+    public string? AzureContainerStorageNodepools { get; set; }
 
     /// <summary>
     /// Identifier of Azure Key Vault key.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-id")]
-    public string? AzureKeyvaultKmsKeyIdValue { get; set; }
+    public string? AzureKeyvaultKmsKeyId { get; set; }
 
     /// <summary>
-    /// Network Access of Azure Key Vault. Allowed values: Private, Public.
+    /// Network Access of Azure Key Vault. Allowed values: Private, Public. Allowed values are "Public", "Private". If not set, defaults to type "Public". Requires --azure-keyvault-kms-key-id to be used.
     /// </summary>
-    [CliFlag("--azure-keyvault-kms-key-vault-network-access")]
-    public bool? AzureKeyvaultKmsKeyVaultNetworkAccess { get; set; }
+    [CliOption("--azure-keyvault-kms-key-vault-network-access")]
+    public string? AzureKeyvaultKmsKeyVaultNetworkAccess { get; set; }
 
     /// <summary>
     /// Resource ID of Azure Key Vault.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-vault-resource-id")]
-    public string? AzureKeyvaultKmsKeyVaultResourceIdValue { get; set; }
+    public string? AzureKeyvaultKmsKeyVaultResourceId { get; set; }
 
     /// <summary>
-    /// Resource ID of the Azure Monitor
+    /// Resource ID of the Azure Monitor Workspace.
     /// </summary>
     [CliOption("--azure-monitor-workspace-resource-id")]
-    public string? AzureMonitorWorkspaceResourceIdValue { get; set; }
+    public string? AzureMonitorWorkspaceResourceId { get; set; }
 
     /// <summary>
-    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.
+    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct. The artifacts include the addon image. Use "Direct" to download artifacts from MCR, "Cache" to downalod artifacts from Azure Container Registry.
     /// </summary>
-    [CliFlag("--bootstrap-artifact-source")]
-    public bool? BootstrapArtifactSource { get; set; }
+    [CliOption("--bootstrap-artifact-source")]
+    public string? BootstrapArtifactSource { get; set; }
 
     /// <summary>
     /// Configure container registry resource ID. Must use "Cache" as bootstrap artifact source.
     /// </summary>
     [CliOption("--bootstrap-container-registry-resource-id")]
-    public string? BootstrapContainerRegistryResourceIdValue { get; set; }
+    public string? BootstrapContainerRegistryResourceId { get; set; }
+
+    /// <summary>
+    /// Path to a file containing up to 10 blank line separated certificates. Only valid for Linux nodes. These certificates are used by Custom CA Trust feature and will be added to trust stores of nodes.
+    /// </summary>
+    [CliOption("--ca-certs", ShortForm = "--custom-ca-trust-certificates")]
+    public string? CaCerts { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of key=value pairs for configuring cluster autoscaler. Pass an empty string to clear the profile.
+    /// </summary>
+    [CliOption("--ca-profile", ShortForm = "--cluster-autoscaler-profile", GroupValues = true)]
+    public IEnumerable<string>? CaProfile { get; set; }
 
     /// <summary>
     /// Set azure container storage version, the latest version will be installed by default.  Allowed values: 1, 2.
     /// </summary>
-    [CliFlag("--container-storage-version")]
-    public bool? ContainerStorageVersion { get; set; }
+    [CliOption("--container-storage-version")]
+    public string? ContainerStorageVersion { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing Microsoft
+    /// Path to JSON file containing Microsoft Defender profile configurations.
     /// </summary>
     [CliOption("--defender-config")]
-    public string? DefenderConfigValue { get; set; }
+    public string? DefenderConfig { get; set; }
 
     /// <summary>
     /// Disable the 'acrpull' role assignment to the ACR specified by name or resource ID.
     /// </summary>
     [CliOption("--detach-acr")]
-    public string? DetachAcrValue { get; set; }
+    public string? DetachAcr { get; set; }
 
     /// <summary>
     /// Disable all advanced networking functionalities on a cluster.
@@ -189,19 +206,25 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableAiToolchainOperator { get; set; }
 
     /// <summary>
+    /// Disable Gateway API based ingress on App Routing via Istio.
+    /// </summary>
+    [CliFlag("--disable-app-routing-istio", ShortForm = "--disable-ari")]
+    public bool? DisableAppRoutingIstio { get; set; }
+
+    /// <summary>
     /// Disable azure container storage or any one of the storage pool types. Can be used as a flag (defaults to True) or with a storagepool type value: azureDisk, ephemeralDisk, elasticSan, all (to disable all storage pools).
     /// </summary>
     [CliFlag("--disable-azure-container-storage")]
     public bool? DisableAzureContainerStorage { get; set; }
 
     /// <summary>
-    /// Disable Azure KeyVault Key Management
+    /// Disable Azure KeyVault Key Management Service.
     /// </summary>
     [CliFlag("--disable-azure-keyvault-kms")]
     public bool? DisableAzureKeyvaultKms { get; set; }
 
     /// <summary>
-    /// Disable Azure Monitor Application Monitoring auto-instrumentation for a
+    /// Disable Azure Monitor Application Monitoring auto-instrumentation for a Kubernetes cluster.
     /// </summary>
     [CliFlag("--disable-azure-monitor-app-monitoring")]
     public bool? DisableAzureMonitorAppMonitoring { get; set; }
@@ -225,7 +248,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableBlobDriver { get; set; }
 
     /// <summary>
-    /// Disable cluster autoscaler.
+    /// Disable cluster autoscaler. For VirtualMachines pools, converts all autoscale profiles back to manual scale profiles.
     /// </summary>
     [CliFlag("--disable-cluster-autoscaler", ShortForm = "-d")]
     public bool? DisableClusterAutoscaler { get; set; }
@@ -235,6 +258,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--disable-container-network-logs")]
     public bool? DisableContainerNetworkLogs { get; set; }
+
+    /// <summary>
+    /// Disable collection of Azure Monitor managed Prometheus control plane metrics. Leaves Azure Monitor metrics enabled.
+    /// </summary>
+    [CliFlag("--disable-control-plane-metrics", ShortForm = "--disable-cp-metrics")]
+    public bool? DisableControlPlaneMetrics { get; set; }
 
     /// <summary>
     /// Disable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal.
@@ -267,7 +296,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableForceUpgrade { get; set; }
 
     /// <summary>
-    /// Disable managed installation of Gateway
+    /// Disable managed installation of Gateway API CRDs.
     /// </summary>
     [CliFlag("--disable-gateway-api")]
     public bool? DisableGatewayApi { get; set; }
@@ -333,6 +362,12 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableStaticEgressGateway { get; set; }
 
     /// <summary>
+    /// Disable user-defined scheduler configuration for kube-scheduler upstream on the cluster.
+    /// </summary>
+    [CliFlag("--disable-upstream-kubescheduler-user-configuration")]
+    public bool? DisableUpstreamKubeschedulerUserConfiguration { get; set; }
+
+    /// <summary>
     /// Disable vertical pod autoscaler for cluster.
     /// </summary>
     [CliFlag("--disable-vpa")]
@@ -381,25 +416,31 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableApiServerVnetIntegration { get; set; }
 
     /// <summary>
+    /// Enable Gateway API based ingress on App Routing via Istio without service mesh functionality. This enables an ingress-only version of Istio that reconciles Gateway API resources for App Routing. It does not provide service mesh functionality (e.g. mTLS, traffic management between services). Cannot be used simultaneously with the Istio service mesh add-on (--enable-azure-service-mesh).
+    /// </summary>
+    [CliFlag("--enable-app-routing-istio", ShortForm = "--enable-ari")]
+    public bool? EnableAppRoutingIstio { get; set; }
+
+    /// <summary>
     /// Enable azure container storage. Can be used as a flag (defaults to True) or with a storage pool type value: (azureDisk, ephemeralDisk, elasticSan).
     /// </summary>
     [CliFlag("--enable-azure-container-storage")]
     public bool? EnableAzureContainerStorage { get; set; }
 
     /// <summary>
-    /// Enable Azure KeyVault Key Management
+    /// Enable Azure KeyVault Key Management Service.
     /// </summary>
     [CliFlag("--enable-azure-keyvault-kms")]
     public bool? EnableAzureKeyvaultKms { get; set; }
 
     /// <summary>
-    /// Enable Azure Monitor Application Monitoring auto-instrumentation for a
+    /// Enable Azure Monitor Application Monitoring auto-instrumentation for a Kubernetes cluster.
     /// </summary>
     [CliFlag("--enable-azure-monitor-app-monitoring")]
     public bool? EnableAzureMonitorAppMonitoring { get; set; }
 
     /// <summary>
-    /// Enable a kubernetes cluster with the Azure Monitor managed service for
+    /// Enable a kubernetes cluster with the Azure Monitor managed service for Prometheus integration.
     /// </summary>
     [CliFlag("--enable-azure-monitor-metrics")]
     public bool? EnableAzureMonitorMetrics { get; set; }
@@ -417,16 +458,22 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableBlobDriver { get; set; }
 
     /// <summary>
-    /// Enable cluster autoscaler.
+    /// Enable cluster autoscaler. For VirtualMachines pools, converts all manual scale profiles to autoscale profiles using the same min/max counts.
     /// </summary>
     [CliFlag("--enable-cluster-autoscaler", ShortForm = "-e")]
     public bool? EnableClusterAutoscaler { get; set; }
 
     /// <summary>
-    /// Enable container network log collection functionalities on a cluster.
+    /// Enable container network log collection functionalities on a cluster. Automatically enables --enable-high-log-scale-mode.
     /// </summary>
     [CliFlag("--enable-container-network-logs")]
     public bool? EnableContainerNetworkLogs { get; set; }
+
+    /// <summary>
+    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane-apiserver and controlplane- etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via --enable-azure-monitor-metrics).
+    /// </summary>
+    [CliFlag("--enable-control-plane-metrics", ShortForm = "--enable-cp-metrics")]
+    public bool? EnableControlPlaneMetrics { get; set; }
 
     /// <summary>
     /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost- analysis.
@@ -465,7 +512,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableGatewayApi { get; set; }
 
     /// <summary>
-    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable- container-network-logs is specified. Allowed values: false, true.
+    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified. Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
@@ -543,6 +590,12 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableStaticEgressGateway { get; set; }
 
     /// <summary>
+    /// Enable user-defined scheduler configuration for kube-scheduler upstream on the cluster.
+    /// </summary>
+    [CliFlag("--enable-upstream-kubescheduler-user-configuration")]
+    public bool? EnableUpstreamKubeschedulerUserConfiguration { get; set; }
+
+    /// <summary>
     /// Enable vertical pod autoscaler for cluster.
     /// </summary>
     [CliFlag("--enable-vpa")]
@@ -567,34 +620,34 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableWorkloadIdentity { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values:
+    /// Set ephemeral disk volume type for azure container storage.  Allowed values: Basic, Premium, Standard.
     /// </summary>
-    [CliFlag("--ephemeral-disk-nvme-perf-tier")]
-    public bool? EphemeralDiskNvmePerfTier { get; set; }
+    [CliOption("--ephemeral-disk-nvme-perf-tier")]
+    public string? EphemeralDiskNvmePerfTier { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values:
+    /// Set ephemeral disk volume type for azure container storage.  Allowed values: EphemeralVolumeOnly, PersistentVolumeWithAnnotation.
     /// </summary>
-    [CliFlag("--ephemeral-disk-volume-type")]
-    public bool? EphemeralDiskVolumeType { get; set; }
+    [CliOption("--ephemeral-disk-volume-type")]
+    public string? EphemeralDiskVolumeType { get; set; }
 
     /// <summary>
-    /// Specify DNS server for Windows gmsa on cluster.
+    /// Specify DNS server for Windows gmsa on cluster. You do not need to set this if you have set DNS server in the VNET used by the cluster. You must set or not set --gmsa-dns-server and --gmsa-root-domain-name at the same time when setting --enable-windows-gmsa.
     /// </summary>
     [CliFlag("--gmsa-dns-server")]
     public bool? GmsaDnsServer { get; set; }
 
     /// <summary>
-    /// Specify root domain name for Windows gmsa on cluster.
+    /// Specify root domain name for Windows gmsa on cluster. You do not need to set this if you have set DNS server in the VNET used by the cluster. You must set or not set --gmsa-dns-server and --gmsa-root-domain-name at the same time when setting --enable-windows-gmsa.
     /// </summary>
     [CliFlag("--gmsa-root-domain-name")]
     public bool? GmsaRootDomainName { get; set; }
 
     /// <summary>
-    /// Resource ID of the Azure Managed Grafana
+    /// Resource ID of the Azure Managed Grafana Workspace.
     /// </summary>
     [CliOption("--grafana-resource-id")]
-    public string? GrafanaResourceIdValue { get; set; }
+    public string? GrafanaResourceId { get; set; }
 
     /// <summary>
     /// HTTP Proxy configuration for this cluster.
@@ -606,7 +659,7 @@ public record AzAksUpdateOptions : AzOptions
     /// The value provided will be compared to the ETag of the managed cluster, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new cluster.
     /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatchValue { get; set; }
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster. Other values will be ignored.
@@ -621,76 +674,76 @@ public record AzAksUpdateOptions : AzOptions
     public bool? ImageCleanerIntervalHours { get; set; }
 
     /// <summary>
-    /// A comma-separated list of IP versions to use for cluster networking.
+    /// A comma-separated list of IP versions to use for cluster networking. Each IP version should be in the format IPvN. For example, IPv4.
     /// </summary>
-    [CliFlag("--ip-families")]
-    public bool? IpFamilies { get; set; }
+    [CliOption("--ip-families", GroupValues = true)]
+    public IEnumerable<string>? IpFamilies { get; set; }
 
     /// <summary>
-    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values:
+    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values: AKSLongTermSupport, KubernetesOfficial.
     /// </summary>
-    [CliFlag("--k8s-support-plan")]
-    public bool? K8sSupportPlan { get; set; }
+    [CliOption("--k8s-support-plan")]
+    public string? K8sSupportPlan { get; set; }
 
     /// <summary>
     /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e. g.'=namespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
-    [CliFlag("--ksm-metric-annotations-allow-list")]
-    public bool? KsmMetricAnnotationsAllowList { get; set; }
+    [CliOption("--ksm-metric-annotations-allow-list", GroupValues = true)]
+    public IEnumerable<string>? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
     /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=namespaces=[k8s-label-1,k8s- label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
-    [CliFlag("--ksm-metric-labels-allow-list")]
-    public bool? KsmMetricLabelsAllowList { get; set; }
+    [CliOption("--ksm-metric-labels-allow-list", GroupValues = true)]
+    public IEnumerable<string>? KsmMetricLabelsAllowList { get; set; }
 
     /// <summary>
-    /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration.
+    /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration. Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means the VMs will be attached to the LoadBalancer by adding its private IP address to the backend pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by referencing the backend pool ID in the VM's NIC.
     /// </summary>
-    [CliFlag("--load-balancer-backend-pool-type")]
-    public bool? LoadBalancerBackendPoolType { get; set; }
+    [CliOption("--load-balancer-backend-pool-type")]
+    public string? LoadBalancerBackendPoolType { get; set; }
 
     /// <summary>
-    /// Load balancer idle timeout in minutes.
+    /// Load balancer idle timeout in minutes. Desired idle timeout for load balancer outbound flows, default is 30 minutes. Please specify a value in the range of [4, 100].
     /// </summary>
     [CliFlag("--load-balancer-idle-timeout")]
     public bool? LoadBalancerIdleTimeout { get; set; }
 
     /// <summary>
-    /// Load balancer managed outbound IP count.
+    /// Load balancer managed outbound IP count. Desired number of managed outbound IPs for load balancer outbound connection. Valid for Standard SKU load balancer cluster only. If the new value is greater than the original value, new additional outbound IPs will be created. If the value is less than the original value, existing outbound IPs will be deleted and outbound connections may fail due to configuration update.
     /// </summary>
     [CliFlag("--load-balancer-managed-outbound-ip-count")]
     public bool? LoadBalancerManagedOutboundIpCount { get; set; }
 
     /// <summary>
-    /// Load balancer managed outbound IPv6 IP count.
+    /// Load balancer managed outbound IPv6 IP count. Desired number of managed outbound IPv6 IPs for load balancer outbound connection. Valid for dual-stack (--ip-families IPv4,IPv6) only.
     /// </summary>
     [CliFlag("--load-balancer-managed-outbound-ipv6-count")]
     public bool? LoadBalancerManagedOutboundIpv6Count { get; set; }
 
     /// <summary>
-    /// Load balancer outbound IP prefix resource
+    /// Load balancer outbound IP prefix resource IDs. Comma-separated public IP prefix resource IDs for load balancer outbound connection. Valid for Standard SKU load balancer cluster only.
     /// </summary>
     [CliFlag("--load-balancer-outbound-ip-prefixes")]
     public bool? LoadBalancerOutboundIpPrefixes { get; set; }
 
     /// <summary>
-    /// Load balancer outbound IP resource IDs.
+    /// Load balancer outbound IP resource IDs. Comma-separated public IP resource IDs for load balancer outbound connection. Valid for Standard SKU load balancer cluster only.
     /// </summary>
     [CliFlag("--load-balancer-outbound-ips")]
     public bool? LoadBalancerOutboundIps { get; set; }
 
     /// <summary>
-    /// Load balancer outbound allocated ports.
+    /// Load balancer outbound allocated ports. Desired static number of outbound ports per VM in the load balancer backend pool. By default, set to 0 which uses the default allocation based on the number of VMs.
     /// </summary>
     [CliFlag("--load-balancer-outbound-ports")]
     public bool? LoadBalancerOutboundPorts { get; set; }
 
     /// <summary>
-    /// Azure Load Balancer SKU selection for your cluster. only standard is accepted.
+    /// Azure Load Balancer SKU selection for your cluster. only standard is accepted. Allowed values: standard. Upgrade to Standard Azure Load Balancer SKU for your AKS cluster.
     /// </summary>
-    [CliFlag("--load-balancer-sku")]
-    public bool? LoadBalancerSku { get; set; }
+    [CliOption("--load-balancer-sku")]
+    public string? LoadBalancerSku { get; set; }
 
     /// <summary>
     /// Maximum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [1, 1000].
@@ -699,7 +752,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? MaxCount { get; set; }
 
     /// <summary>
-    /// Migrate cluster with VMAS node pool to
+    /// Migrate cluster with VMAS node pool to VMS node pool.
     /// </summary>
     [CliFlag("--migrate-vmas-to-vms")]
     public bool? MigrateVmasToVms { get; set; }
@@ -711,28 +764,28 @@ public record AzAksUpdateOptions : AzOptions
     public bool? MinCount { get; set; }
 
     /// <summary>
-    /// NAT gateway idle timeout in minutes.
+    /// NAT gateway idle timeout in minutes. Desired idle timeout for NAT gateway outbound flows, default is 4 minutes. Please specify a value in the range of [4, 120]. Valid for Standard SKU load balancer cluster with managedNATGateway outbound type only.
     /// </summary>
     [CliFlag("--nat-gateway-idle-timeout")]
     public bool? NatGatewayIdleTimeout { get; set; }
 
     /// <summary>
-    /// NAT gateway managed outbound IP count.
+    /// NAT gateway managed outbound IP count. Desired number of managed outbound IPs for NAT gateway outbound connection. Please specify a value in the range of [1, 16]. Valid for Standard SKU load balancer cluster with managedNATGateway outbound type only.
     /// </summary>
     [CliFlag("--nat-gateway-managed-outbound-ip-count")]
     public bool? NatGatewayManagedOutboundIpCount { get; set; }
 
     /// <summary>
-    /// The network dataplane to use.  Allowed values: azure, cilium.
+    /// The network dataplane to use.  Allowed values: azure, cilium. Network dataplane used in the Kubernetes cluster. Specify "azure" to use the Azure dataplane (default) or "cilium" to enable Cilium dataplane.
     /// </summary>
-    [CliFlag("--network-dataplane")]
-    public bool? NetworkDataplane { get; set; }
+    [CliOption("--network-dataplane")]
+    public string? NetworkDataplane { get; set; }
 
     /// <summary>
-    /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none.
+    /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none. Specify "azure" along with --network-plugin-mode=overlay to update a cluster to use Azure CNI Overlay. For more information see https://aka.ms/aks/azure-cni-overlay.
     /// </summary>
-    [CliFlag("--network-plugin")]
-    public bool? NetworkPlugin { get; set; }
+    [CliOption("--network-plugin")]
+    public string? NetworkPlugin { get; set; }
 
     /// <summary>
     /// Update the mode of a network plugin to migrate to a different pod networking setup.
@@ -741,10 +794,10 @@ public record AzAksUpdateOptions : AzOptions
     public bool? NetworkPluginMode { get; set; }
 
     /// <summary>
-    /// Update Network Policy Engine.  Allowed values: azure, calico, cilium, none.
+    /// Update Network Policy Engine.  Allowed values: azure, calico, cilium, none. Azure provides three Network Policy Engines for enforcing network policies. The following values can be specified: - "azure" for Azure Network Policy Manager, - "cilium" for Azure CNI Powered by Cilium, - "calico" for open-source network and network security solution founded by Tigera, - "none" to uninstall Network Policy Engine (Azure Network Policy Manager or Calico). Defaults to "none" (network policy disabled).
     /// </summary>
-    [CliFlag("--network-policy")]
-    public bool? NetworkPolicy { get; set; }
+    [CliOption("--network-policy")]
+    public string? NetworkPolicy { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -753,7 +806,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Manner in which the OS on your nodes is updated. It could be NodeImage, None,
+    /// Manner in which the OS on your nodes is updated. It could be NodeImage, None, SecurityPatch or Unmanaged.
     /// </summary>
     [CliFlag("--node-os-upgrade-channel")]
     public bool? NodeOsUpgradeChannel { get; set; }
@@ -771,25 +824,25 @@ public record AzAksUpdateOptions : AzOptions
     public bool? NodepoolTaints { get; set; }
 
     /// <summary>
-    /// Restriction level on the managed node resource group.  Allowed values:
+    /// Restriction level on the managed node resource group.  Allowed values: ReadOnly, Unrestricted. The restriction level of permissions allowed on the cluster's managed node resource group, supported values are Unrestricted, and ReadOnly (recommended ReadOnly).
     /// </summary>
-    [CliFlag("--nrg-lockdown-restriction-level")]
-    public bool? NrgLockdownRestrictionLevel { get; set; }
+    [CliOption("--nrg-lockdown-restriction-level")]
+    public string? NrgLockdownRestrictionLevel { get; set; }
 
     /// <summary>
-    /// How outbound traffic will be configured for a cluster.  Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting.
+    /// How outbound traffic will be configured for a cluster.  Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting. This option will change the way how the outbound connections are managed in the AKS cluster. Available options are loadbalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting and none. For custom vnet, loadbalancer, userAssignedNATGateway and userDefinedRouting are supported. For aks managed vnet, loadbalancer, managedNATGateway and userDefinedRouting are supported.
     /// </summary>
-    [CliFlag("--outbound-type")]
-    public bool? OutboundType { get; set; }
+    [CliOption("--outbound-type")]
+    public string? OutboundType { get; set; }
 
     /// <summary>
-    /// Update the pod CIDR for a cluster. Used when updating a cluster from Azure CNI to
+    /// Update the pod CIDR for a cluster. Used when updating a cluster from Azure CNI to Azure CNI Overlay.
     /// </summary>
     [CliFlag("--pod-cidr")]
     public bool? PodCidr { get; set; }
 
     /// <summary>
-    /// The private dns zone mode for private cluster.
+    /// The private dns zone mode for private cluster. Only allow changing private dns zone from byo/system mode to none for private cluster. Others are denied.
     /// </summary>
     [CliFlag("--private-dns-zone")]
     public bool? PrivateDnsZone { get; set; }
@@ -803,8 +856,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Specify SKU name for managed clusters. Use '--sku base' enables a base managed cluster. Use '--sku automatic' enables an automatic managed cluster.  Allowed values: automatic, base.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Set storage pool name for azure container storage.
@@ -815,8 +868,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Set ephemeral disk storage pool option for azure container storage.  Allowed values: NVMe, Temp, all.
     /// </summary>
-    [CliFlag("--storage-pool-option")]
-    public bool? StoragePoolOption { get; set; }
+    [CliOption("--storage-pool-option")]
+    public string? StoragePoolOption { get; set; }
 
     /// <summary>
     /// Set storage pool size for azure container storage.
@@ -825,10 +878,10 @@ public record AzAksUpdateOptions : AzOptions
     public bool? StoragePoolSize { get; set; }
 
     /// <summary>
-    /// Set azure disk type storage pool sku for azure container storage.  Allowed values:
+    /// Set azure disk type storage pool sku for azure container storage.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
-    [CliFlag("--storage-pool-sku")]
-    public bool? StoragePoolSku { get; set; }
+    [CliOption("--storage-pool-sku")]
+    public string? StoragePoolSku { get; set; }
 
     /// <summary>
     /// The tags of the managed cluster. The managed cluster instance and all resources managed by the cloud provider will be tagged.
@@ -837,25 +890,25 @@ public record AzAksUpdateOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Specify SKU tier for managed clusters. '
+    /// Specify SKU tier for managed clusters. ' --tier standard' enables a standard managed cluster service with a financially backed SLA. '--tier free' changes a standard managed cluster to a free one.  Allowed values: free, premium, standard.
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
-    /// Update min-count or max-count for cluster autoscaler.
+    /// Update min-count or max-count for cluster autoscaler. Not supported for VirtualMachines pools; use 'az aks nodepool auto-scale update' instead.
     /// </summary>
     [CliFlag("--update-cluster-autoscaler", ShortForm = "-u")]
     public bool? UpdateClusterAutoscaler { get; set; }
 
     /// <summary>
-    /// Until when the cluster upgradeSettings overrides are effective. It needs to be in a valid date-time format that's within the next 30 days. For example, 2023-04-01T13:00:00Z. Note that if
+    /// Until when the cluster upgradeSettings overrides are effective. It needs to be in a valid date-time format that's within the next 30 days. For example, 2023-04-01T13:00:00Z. Note that if --force-upgrade is set to true and --upgrade-override-until is not set, by default it will be set to 3 days from now.
     /// </summary>
     [CliFlag("--upgrade-override-until")]
     public bool? UpgradeOverrideUntil { get; set; }
 
     /// <summary>
-    /// User account password to use on windows node VMs.
+    /// User account password to use on windows node VMs. Rules for windows-admin-password: - Minimum-length: 14 characters - Max-length: 123 characters - Complexity requirements: 3 out of 4 conditions below need to be fulfilled * Has lower characters * Has upper characters * Has a digit * Has a special character (Regex match [\W_]) - Disallowed values:  "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" Reference: https://learn.microsoft.com/dotnet/api/microsoft.azure.management.compute.models. virtualmachinescalesetosprofile.adminpassword?view=azure-dotnet.
     /// </summary>
     [CliFlag("--windows-admin-password")]
     public bool? WindowsAdminPassword { get; set; }
@@ -865,96 +918,5 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use AadTenantIdValue instead.")]
-    public bool? AadTenantId
-    {
-        get => bool.TryParse(AadTenantIdValue, out var value) ? value : null;
-        set => AadTenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use AksCustomHeadersValue instead.")]
-    public bool? AksCustomHeaders
-    {
-        get => bool.TryParse(AksCustomHeadersValue, out var value) ? value : null;
-        set => AksCustomHeadersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use AttachAcrValue instead.")]
-    public bool? AttachAcr
-    {
-        get => bool.TryParse(AttachAcrValue, out var value) ? value : null;
-        set => AttachAcrValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use AzureKeyvaultKmsKeyIdValue instead.")]
-    public bool? AzureKeyvaultKmsKeyId
-    {
-        get => bool.TryParse(AzureKeyvaultKmsKeyIdValue, out var value) ? value : null;
-        set => AzureKeyvaultKmsKeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use AzureKeyvaultKmsKeyVaultResourceIdValue instead.")]
-    public bool? AzureKeyvaultKmsKeyVaultResourceId
-    {
-        get => bool.TryParse(AzureKeyvaultKmsKeyVaultResourceIdValue, out var value) ? value : null;
-        set => AzureKeyvaultKmsKeyVaultResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use AzureMonitorWorkspaceResourceIdValue instead.")]
-    public bool? AzureMonitorWorkspaceResourceId
-    {
-        get => bool.TryParse(AzureMonitorWorkspaceResourceIdValue, out var value) ? value : null;
-        set => AzureMonitorWorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use BootstrapContainerRegistryResourceIdValue instead.")]
-    public bool? BootstrapContainerRegistryResourceId
-    {
-        get => bool.TryParse(BootstrapContainerRegistryResourceIdValue, out var value) ? value : null;
-        set => BootstrapContainerRegistryResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DefenderConfigValue instead.")]
-    public bool? DefenderConfig
-    {
-        get => bool.TryParse(DefenderConfigValue, out var value) ? value : null;
-        set => DefenderConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DetachAcrValue instead.")]
-    public bool? DetachAcr
-    {
-        get => bool.TryParse(DetachAcrValue, out var value) ? value : null;
-        set => DetachAcrValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use GrafanaResourceIdValue instead.")]
-    public bool? GrafanaResourceId
-    {
-        get => bool.TryParse(GrafanaResourceIdValue, out var value) ? value : null;
-        set => GrafanaResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use IfMatchValue instead.")]
-    public bool? IfMatch
-    {
-        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
-        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ApiServerSubnetId instead.")]
-    public bool? ApiserverSubnetId
-    {
-        get => bool.TryParse(ApiServerSubnetId, out var value) ? value : null;
-        set => ApiServerSubnetId = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EnableApiServerVnetIntegration instead.")]
-    public bool? EnableApiserverVnetIntegration
-    {
-        get => EnableApiServerVnetIntegration;
-        set => EnableApiServerVnetIntegration = value;
-    }
 
 }

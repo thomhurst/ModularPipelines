@@ -15,16 +15,35 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a VPN connection.
 /// </summary>
+/// <param name="Name">Connection name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VnetGateway1">Name or ID of the source virtual network gateway.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "create")]
-public record AzNetworkVpnConnectionCreateOptions : AzOptions
+public record AzNetworkVpnConnectionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vnet-gateway1")] string VnetGateway1
+) : AzOptions
 {
+    /// <summary>
+    /// Authentication type for the VPN connection.  Allowed values: Certificate, PSK.
+    /// </summary>
+    [CliOption("--auth-type", ShortForm = "--authentication-type")]
+    public string? AuthType { get; set; }
+
     /// <summary>
     /// The authorization key for the VPN connection.
     /// </summary>
     [CliFlag("--authorization-key")]
     public bool? AuthorizationKey { get; set; }
+
+    /// <summary>
+    /// Certificate-based authentication configuration. Provide as JSON string or file path with @ prefix, Expected keys (outboundAuthCertificate, inboundAuthCertificateChain, inboundAuthCertificateSubjectName).
+    /// </summary>
+    [CliFlag("--cert-auth", ShortForm = "--certificate-authentication")]
+    public bool? CertAuth { get; set; }
 
     /// <summary>
     /// Enable BGP for this VPN connection.
@@ -41,8 +60,8 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Connection routing weight.  Default: 10.
@@ -59,8 +78,8 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enable policy-based traffic selectors.  Allowed values: false, true.
@@ -73,5 +92,23 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
+
+    /// <summary>
+    /// Name or ID of the destination ExpressRoute to connect to using an 'ExpressRoute' connection.
+    /// </summary>
+    [CliOption("--express-route-circuit2")]
+    public string? ExpressRouteCircuit2 { get; set; }
+
+    /// <summary>
+    /// Name or ID of the destination local network gateway to connect to using an 'IPSec' connection.
+    /// </summary>
+    [CliOption("--local-gateway2")]
+    public string? LocalGateway2 { get; set; }
+
+    /// <summary>
+    /// Name or ID of the destination virtual network gateway to connect to using a 'Vnet2Vnet' connection.
+    /// </summary>
+    [CliOption("--vnet-gateway2")]
+    public string? VnetGateway2 { get; set; }
 
 }

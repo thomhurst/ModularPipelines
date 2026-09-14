@@ -15,19 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign managed identity to the static web app.
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "identity", "assign")]
-public record AzStaticwebappIdentityAssignOptions : AzOptions
+public record AzStaticwebappIdentityAssignOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Space-separated identities to assign. Use '[system]' to refer to the system assigned identity. Default: '[system]'.
     /// </summary>
-    [CliFlag("--identities")]
-    public bool? Identities { get; set; }
+    [CliOption("--identities", GroupValues = true)]
+    public IEnumerable<string>? Identities { get; set; }
 
     /// <summary>
-    /// Role name or id the managed identity will be assigned.
+    /// Role name or id the managed identity will be assigned. Default: Contributor.
     /// </summary>
     [CliFlag("--role")]
     public bool? Role { get; set; }
@@ -35,7 +40,7 @@ public record AzStaticwebappIdentityAssignOptions : AzOptions
     /// <summary>
     /// The scope the managed identity has access to.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

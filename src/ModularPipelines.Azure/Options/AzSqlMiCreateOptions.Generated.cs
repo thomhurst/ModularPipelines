@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a managed instance.
 /// </summary>
+/// <param name="Name">The managed instance name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Subnet">Name or ID of the subnet that allows access to an Azure Sql Managed Instance. If subnet name is provided, --vnet-name must be provided.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "create")]
-public record AzSqlMiCreateOptions : AzOptions
+public record AzSqlMiCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
     /// <summary>
     /// The administrator login password (required formanaged instance creation).
@@ -29,8 +36,14 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Administrator username for the managed instance. Canonly be specified when the managed instance is beingcreated (and is required for creation).
     /// </summary>
-    [CliFlag("--admin-user", ShortForm = "-u")]
-    public bool? AdminUser { get; set; }
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string? AdminUser { get; set; }
+
+    /// <summary>
+    /// Preferred metadata to use for authentication of synced on-prem users. Default is AzureAD.  Allowed values: AzureAD, Paired, Windows.
+    /// </summary>
+    [CliOption("--am", ShortForm = "--authentication-metadata")]
+    public string? Am { get; set; }
 
     /// <summary>
     /// Generate and assign an Azure Active Directory Identity for this managed instance for use with key management services like Azure KeyVault.
@@ -39,22 +52,28 @@ public record AzSqlMiCreateOptions : AzOptions
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
+    /// </summary>
+    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    public string? BackupStorageRedundancy { get; set; }
+
+    /// <summary>
     /// The collation of the managed instance.
     /// </summary>
     [CliFlag("--collation")]
     public bool? Collation { get; set; }
 
     /// <summary>
-    /// Managed Instance database format specific to the SQL. Allowed values include: AlwaysUpToDate, SQLServer2022.  Allowed values: AlwaysUpToDate,
+    /// Managed Instance database format specific to the SQL. Allowed values include: AlwaysUpToDate, SQLServer2022.  Allowed values: AlwaysUpToDate, SQLServer2022, SQLServer2025.
     /// </summary>
-    [CliFlag("--database-format")]
-    public bool? DatabaseFormat { get; set; }
+    [CliOption("--database-format")]
+    public string? DatabaseFormat { get; set; }
 
     /// <summary>
     /// The resource id of the partner Managed Instance to inherit DnsZone property from for Managed Instance creation.
     /// </summary>
     [CliOption("--dns-zone-partner")]
-    public string? DnsZonePartnerValue { get; set; }
+    public string? DnsZonePartner { get; set; }
 
     /// <summary>
     /// Enable Azure Active Directory Only Authentication for this server.
@@ -87,16 +106,16 @@ public record AzSqlMiCreateOptions : AzOptions
     public bool? Gpv2 { get; set; }
 
     /// <summary>
-    /// Type of Identity to be used. Possible values are
+    /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssignedUserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
-    [CliFlag("--identity-type", ShortForm = "-t")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type", ShortForm = "-t")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// Name of the Instance Pool where managed instance will be placed.
     /// </summary>
     [CliOption("--instance-pool-name")]
-    public string? InstancePoolNameValue { get; set; }
+    public string? InstancePoolName { get; set; }
 
     /// <summary>
     /// The storage iops of the managed instance. Storage iops can be specified in increments of 1.
@@ -108,19 +127,19 @@ public record AzSqlMiCreateOptions : AzOptions
     /// The key vault URI for encryption.
     /// </summary>
     [CliOption("--key-id", ShortForm = "-k")]
-    public string? KeyIdValue { get; set; }
+    public string? KeyId { get; set; }
 
     /// <summary>
     /// The license type to apply for this managed instance. Allowed values: BasePrice, LicenseIncluded.
     /// </summary>
-    [CliFlag("--license-type")]
-    public bool? LicenseType { get; set; }
+    [CliOption("--license-type")]
+    public string? LicenseType { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Assign maintenance configuration to this managed instance.
@@ -141,16 +160,22 @@ public record AzSqlMiCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Managed Instance pricing model. Allowed values include: Regular, Freemium.  Allowed values:
+    /// The ID of the primary user managed identity.
     /// </summary>
-    [CliFlag("--pricing-model")]
-    public bool? PricingModel { get; set; }
+    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    public string? Pid { get; set; }
+
+    /// <summary>
+    /// Managed Instance pricing model. Allowed values include: Regular, Freemium.  Allowed values: Freemium, Regular.
+    /// </summary>
+    [CliOption("--pricing-model")]
+    public string? PricingModel { get; set; }
 
     /// <summary>
     /// The connection type used for connecting to the instance.  Allowed values: Default, Proxy, Redirect.
     /// </summary>
-    [CliFlag("--proxy-override")]
-    public bool? ProxyOverride { get; set; }
+    [CliOption("--proxy-override")]
+    public string? ProxyOverride { get; set; }
 
     /// <summary>
     /// Whether or not the public data endpoint is enabled for the instance.  Allowed values: false, true.
@@ -161,8 +186,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Service Principal type to be used for this Managed Instance. Possible values are SystemAssigned and None.  Allowed values: None, SystemAssigned.
     /// </summary>
-    [CliFlag("--service-principal-type")]
-    public bool? ServicePrincipalType { get; set; }
+    [CliOption("--service-principal-type")]
+    public string? ServicePrincipalType { get; set; }
 
     /// <summary>
     /// The storage size of the managed instance. Storage size must be specified in increments of 32 GB.
@@ -173,8 +198,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The time zone id for the instance to set. A list of time zone ids is exposed through the sys.time_zone_info (Transact-SQL) view.
@@ -192,7 +217,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// The virtual network name.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -205,33 +230,5 @@ public record AzSqlMiCreateOptions : AzOptions
     /// </summary>
     [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
-
-    [Obsolete("Use DnsZonePartnerValue instead.")]
-    public bool? DnsZonePartner
-    {
-        get => bool.TryParse(DnsZonePartnerValue, out var value) ? value : null;
-        set => DnsZonePartnerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use InstancePoolNameValue instead.")]
-    public bool? InstancePoolName
-    {
-        get => bool.TryParse(InstancePoolNameValue, out var value) ? value : null;
-        set => InstancePoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use KeyIdValue instead.")]
-    public bool? KeyId
-    {
-        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
-        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
-    {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

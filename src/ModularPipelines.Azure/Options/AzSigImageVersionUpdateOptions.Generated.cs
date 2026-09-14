@@ -15,15 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a share image version.
 /// </summary>
+/// <param name="GalleryImageDefinition">Gallery image definition.</param>
+/// <param name="GalleryImageVersion">Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersio n&gt;.&lt;MinorVers ion&gt;.&lt;Patch&gt;` .</param>
+/// <param name="GalleryName">Gallery name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults gr oup=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "update")]
-public record AzSigImageVersionUpdateOptions : AzOptions
+public record AzSigImageVersionUpdateOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-image-version", ShortForm = "-e")] string GalleryImageVersion,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Indicate whether or not removing this gallery image version from replicated regions is allowed.
+    /// Indicate whether or not removing this gallery image version from replicated regions is allowed. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-replicated-location-deletion")]
+    [CliOption("--allow-replicated-location-deletion")]
     public bool? AllowReplicatedLocationDeletion { get; set; }
 
     /// <summary>
@@ -33,21 +42,45 @@ public record AzSigImageVersionUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The default number of replicas to be created per region.
+    /// The default number of replicas to be created per region. To set regional replication counts, use --target-regions.
     /// </summary>
     [CliFlag("--replica-count")]
     public bool? ReplicaCount { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used.
+    /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
     /// </summary>
     [CliFlag("--target-edge-zones")]
     public bool? TargetEdgeZones { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used.
+    /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
     /// </summary>
     [CliFlag("--target-regions")]
     public bool? TargetRegions { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add proper ty.listProper ty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemov e&gt;` OR `--remove pro pertyToRemove `.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set. Example: `--set proper ty1.property2 =&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

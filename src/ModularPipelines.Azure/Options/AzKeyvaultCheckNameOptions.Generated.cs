@@ -15,15 +15,18 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check that the given name is valid and is not already in use.
 /// </summary>
+/// <param name="Name">The name of the HSM within the specified resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "check-name")]
-public record AzKeyvaultCheckNameOptions : AzOptions
+public record AzKeyvaultCheckNameOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Type of resource.  Allowed values: hsm.  Default: hsm.
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

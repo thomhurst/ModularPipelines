@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,15 +16,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update deployment credentials.
 /// </summary>
+/// <param name="UserName">User name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "user", "set")]
-public record AzFunctionappDeploymentUserSetOptions : AzOptions
+public record AzFunctionappDeploymentUserSetOptions(
+    [property: CliOption("--user-name")] string UserName
+) : AzOptions
 {
     /// <summary>
     /// Password, will prompt if not specified.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
 }

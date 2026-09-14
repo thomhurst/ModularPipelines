@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a certificate in an Azure IoT Hub Device Provisioning
 /// </summary>
+/// <param name="CertificateName">A friendly name for the certificate.</param>
+/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+/// <param name="Etag">Entity Tag (etag) of the object.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "certificate", "delete")]
-public record AzIotDpsCertificateDeleteOptions : AzOptions
+public record AzIotDpsCertificateDeleteOptions(
+    [property: CliOption("--certificate-name", ShortForm = "-n")] string CertificateName,
+    [property: CliOption("--dps-name")] string DpsName,
+    [property: CliOption("--etag", ShortForm = "-e")] string Etag
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

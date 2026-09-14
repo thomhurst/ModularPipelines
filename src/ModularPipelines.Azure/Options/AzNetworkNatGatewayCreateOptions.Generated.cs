@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a NAT gateway.
 /// </summary>
+/// <param name="Name">Name of the NAT gateway.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nat", "gateway", "create")]
-public record AzNetworkNatGatewayCreateOptions : AzOptions
+public record AzNetworkNatGatewayCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Idle timeout in minutes.
@@ -29,44 +34,44 @@ public record AzNetworkNatGatewayCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated list of public IPv6 addresses (Names or IDs). Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--pip-addresses-v6")]
-    public bool? PipAddressesV6 { get; set; }
+    [CliOption("--pip-addresses-v6", GroupValues = true)]
+    public IEnumerable<string>? PipAddressesV6 { get; set; }
 
     /// <summary>
     /// Space-separated list of public IPv6 prefixes (Names or IDs). Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--pip-prefixes-v6")]
-    public bool? PipPrefixesV6 { get; set; }
+    [CliOption("--pip-prefixes-v6", GroupValues = true)]
+    public IEnumerable<string>? PipPrefixesV6 { get; set; }
 
     /// <summary>
     /// Space-separated list of public IP addresses (Names or IDs). Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--public-ip-addresses")]
-    public bool? PublicIpAddresses { get; set; }
+    [CliOption("--public-ip-addresses", GroupValues = true)]
+    public IEnumerable<string>? PublicIpAddresses { get; set; }
 
     /// <summary>
     /// Space-separated list of public IP prefixes (Names or IDs). Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--public-ip-prefixes")]
-    public bool? PublicIpPrefixes { get; set; }
+    [CliOption("--public-ip-prefixes", GroupValues = true)]
+    public IEnumerable<string>? PublicIpPrefixes { get; set; }
 
     /// <summary>
-    /// Name of Nat Gateway SKU.  Allowed values: Standard, StandardV2.
+    /// Name of Nat Gateway SKU.  Allowed values: Standard, StandardV2. Default: Standard.
     /// </summary>
     [CliOption("--sku")]
-    public string? SkuValue { get; set; }
+    public string? Sku { get; set; }
 
     /// <summary>
     /// A reference to the source virtual network using this nat gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -77,20 +82,19 @@ public record AzNetworkNatGatewayCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Availability zone into which to provision the resource. Allowed values: 1, 2, 3.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
-    [Obsolete("Use SkuValue instead.")]
-    public bool? Sku
-    {
-        get => bool.TryParse(SkuValue, out var value) ? value : null;
-        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Whether Nat64 is enabled for the NAT gateway resource.  Allowed values: Disabled, Enabled, None.
+    /// </summary>
+    [CliOption("--nat64")]
+    public string? Nat64 { get; set; }
 
 }

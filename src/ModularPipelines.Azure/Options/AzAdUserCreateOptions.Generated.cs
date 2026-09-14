@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,10 +16,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a user.
 /// </summary>
+/// <param name="DisplayName">Object's display name or its prefix.</param>
+/// <param name="Password">The password that should be assigned to the user for authentication.</param>
+/// <param name="UserPrincipalName">The user principal name (someuser@contoso.com). It must contain one of the verified domains for the tenant.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "user", "create")]
-public record AzAdUserCreateOptions : AzOptions
+public record AzAdUserCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: SecretValue, CliOption("--password")] string Password,
+    [property: CliOption("--user-principal-name")] string UserPrincipalName
+) : AzOptions
 {
     /// <summary>
     /// Marks this user as needing to update their password the next time they authenticate. If omitted, false will be used.  Allowed values: false, true.

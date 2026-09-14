@@ -15,46 +15,46 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new migration workflow for a flexible
 /// </summary>
+/// <param name="Properties">Request properties. Use double or no quotes to pass in json filepath as argument.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">Migration target server name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migration", "create")]
-public record AzPostgresFlexibleServerMigrationCreateOptions : AzOptions
+public record AzPostgresFlexibleServerMigrationCreateOptions(
+    [property: CliOption("--properties", ShortForm = "-b")] string Properties,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Either offline or online(with CDC) migration.  Allowed values: offline, online.  Default: offline.
     /// </summary>
-    [CliFlag("--migration-mode")]
-    public bool? MigrationMode { get; set; }
+    [CliOption("--migration-mode")]
+    public string? MigrationMode { get; set; }
 
     /// <summary>
-    /// Supported Migration Option. Default is ValidateAndMigrate. Allowed values: Migrate, Validate, ValidateAndMigrate.
+    /// Supported Migration Option. Default is ValidateAndMigrate. Allowed values: Migrate, Validate, ValidateAndMigrate. Default: ValidateAndMigrate.
     /// </summary>
-    [CliFlag("--migration-option")]
-    public bool? MigrationOption { get; set; }
+    [CliOption("--migration-option")]
+    public string? MigrationOption { get; set; }
 
     /// <summary>
     /// Name of the migration.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Stop an instance of the Azure Database Migration Service (classic). While stopped,
 /// </summary>
+/// <param name="Name">The name of the Service.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "stop")]
-public record AzDmsStopOptions : AzOptions
+public record AzDmsStopOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

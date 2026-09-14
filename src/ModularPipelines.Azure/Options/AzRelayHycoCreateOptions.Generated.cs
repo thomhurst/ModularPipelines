@@ -15,15 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the Relay Service Hybrid Connection.
 /// </summary>
+/// <param name="Name">Name of Hybrid Connection.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "hyco", "create")]
-public record AzRelayHycoCreateOptions : AzOptions
+public record AzRelayHycoCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Indicates whether client authorization is required. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--requires-client-authorization", ShortForm = "-c")]
+    [CliOption("--requires-client-authorization", ShortForm = "-c")]
     public bool? RequiresClientAuthorization { get; set; }
 
     /// <summary>

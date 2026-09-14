@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable Autoscale for a running cluster.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Type">The autoscale type.  Allowed values: Load, Schedule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "create")]
-public record AzHdinsightAutoscaleCreateOptions : AzOptions
+public record AzHdinsightAutoscaleCreateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type")] string Type
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

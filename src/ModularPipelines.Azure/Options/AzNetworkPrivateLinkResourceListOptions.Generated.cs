@@ -24,45 +24,24 @@ public record AzNetworkPrivateLinkResourceListOptions : AzOptions
     /// ID of the resource.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the resource. If provided, --type and --resource-group must be provided too.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. If provided, --name and --type must be provided too.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Type of the resource. If provided, --name and --resource-group must be provided too.  Allowed values: Microsoft.AgFoodPlatform/farmBeats, Microsoft.ApiManagement/service, Microsoft.App/managedEnvironments,
+    /// Type of the resource. If provided, --name and --resource-group must be provided too.  Allowed values: Microsoft.AgFoodPlatform/farmBeats, Microsoft.ApiManagement/service, Microsoft.App/managedEnvironments, Microsoft.AppConfiguration/configurationStores, Microsoft.Authorization/resourceManagementPrivateLinks, Microsoft.Automation/automationAccounts, Microsoft.Batch/batchAccounts, Microsoft.BotService/botServices, Microsoft.Cache/Redis, Microsoft.CognitiveServices/accounts, Microsoft.Compute/diskAccesses, Microsoft.ContainerRegistry/registries, Microsoft.DBforMariaDB/servers, Microsoft.DBforMySQL/flexibleServers, Microsoft.DBforMySQL/servers, Microsoft.DBforPostgreSQL/flexibleServers, Microsoft.DBforPostgreSQL/serverGroupsv2, Microsoft.DBforPostgreSQL/servers, Microsoft.Dashboard/grafana, Microsoft.DataFactory/factories, Microsoft.Databricks/workspaces, Microsoft.DesktopVirtualization/hostpools, Microsoft.DesktopVirtualization/workspaces, Microsoft.DeviceUpdate/accounts, Microsoft.Devices/IotHubs, Microsoft.DigitalTwins/digitalTwinsInstances, Microsoft.DocumentDB/databaseAccounts, Microsoft.DocumentDB/mongoClusters, Microsoft.DurableTask/schedulers, Microsoft.ElasticSan/elasticSans, Microsoft.EventGrid/domains, Microsoft.EventGrid/namespaces, Microsoft.EventGrid/partnerNamespaces, Microsoft.EventGrid/topics, Microsoft.EventHub/namespaces, Microsoft.FluidRelay/fluidRelayServers, Microsoft.HDInsight/clusters, Microsoft.HardwareSecurityModules/cloudHsmClusters, Microsoft.HardwareSecurityModules/paymentHsmClusters, Microsoft.HealthDataAiservices/deidservices, Microsoft.HealthcareApis/services, Microsoft.HorizonDB/clusters, Microsoft.HybridCompute/privateLinkScopes, Microsoft.KeyVault/managedHSMs, Microsoft.Keyvault/vaults, Microsoft.KubernetesConfiguration/privateLinkScopes, Microsoft.Kusto/clusters, Microsoft.MachineLearningServices/registries, Microsoft.MachineLearningServices/workspaces, Microsoft.Maps/accounts, Microsoft.Media/mediaservices, Microsoft.Monitor/accounts, Microsoft.Network/applicationGateways, Microsoft.Network/privateLinkServices, Microsoft.OpenEnergyPlatform/energyServices, Microsoft.PowerBI/privateLinkServicesForPowerBI, Microsoft.Purview/accounts, Microsoft.RecoveryServices/vaults, Microsoft.Search/searchServices, Microsoft.Security/privateLinks, Microsoft.ServiceBus/namespaces, Microsoft.SignalRService/WebPubSub, Microsoft.SignalRService/signalr, Microsoft.Sql/servers, Microsoft.Storage/storageAccounts, Microsoft.StorageSync/storageSyncServices, Microsoft.Synapse/workspaces, Microsoft.VideoIndexer/accounts, Microsoft.Web/hostingEnvironments, Microsoft.Web/sites, microsoft.insights/privateLinkScopes.
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
-
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
-    {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
 }

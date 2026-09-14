@@ -15,15 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new cluster firewall rule or updates an
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="FirewallRuleName">The name of the cluster firewall rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="EndIpAddress">The end IP address of the cluster firewall rule. Must be IPv4 format.</param>
+/// <param name="StartIpAddress">The start IP address of the cluster firewall rule. Must be IPv4 format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "firewall-rule", "create")]
-public record AzCosmosdbPostgresFirewallRuleCreateOptions : AzOptions
+public record AzCosmosdbPostgresFirewallRuleCreateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--firewall-rule-name", ShortForm = "-n")] string FirewallRuleName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--end-ip-address")] string EndIpAddress,
+    [property: CliOption("--start-ip-address")] string StartIpAddress
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate an ACR is accessible from an AKS cluster.
 /// </summary>
+/// <param name="Acr">The FQDN of the ACR.</param>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "check-acr")]
-public record AzAksCheckAcrOptions : AzOptions
+public record AzAksCheckAcrOptions(
+    [property: CliOption("--acr")] string Acr,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of a specific node to perform acr pull test checks. If not specified, it will be checked on a random node.
     /// </summary>
     [CliOption("--node-name")]
-    public string? NodeNameValue { get; set; }
-
-    [Obsolete("Use NodeNameValue instead.")]
-    public bool? NodeName
-    {
-        get => bool.TryParse(NodeNameValue, out var value) ? value : null;
-        set => NodeNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? NodeName { get; set; }
 
 }

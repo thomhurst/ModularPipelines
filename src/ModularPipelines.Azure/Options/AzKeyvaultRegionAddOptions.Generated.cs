@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add regions for the managed HSM Pool.
 /// </summary>
+/// <param name="HsmName">Name of the HSM.</param>
+/// <param name="Region">The region name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "region", "add")]
-public record AzKeyvaultRegionAddOptions : AzOptions
+public record AzKeyvaultRegionAddOptions(
+    [property: CliOption("--hsm-name")] string HsmName,
+    [property: CliOption("--region", ShortForm = "-r")] string Region
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -30,13 +35,6 @@ public record AzKeyvaultRegionAddOptions : AzOptions
     /// Name of resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

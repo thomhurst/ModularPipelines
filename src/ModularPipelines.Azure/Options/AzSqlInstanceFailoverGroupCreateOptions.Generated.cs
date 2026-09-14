@@ -15,16 +15,27 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates an instance failover group between two connected
 /// </summary>
+/// <param name="Mi">Name of the Azure SQL Managed Instance.</param>
+/// <param name="Name">The name of the Instance Failover Group.</param>
+/// <param name="PartnerMi">The name of the partner managed instance of a Instance Failover Group.</param>
+/// <param name="PartnerResourceGroup">The name of the resource group of the partner managed instance.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instance-failover-group", "create")]
-public record AzSqlInstanceFailoverGroupCreateOptions : AzOptions
+public record AzSqlInstanceFailoverGroupCreateOptions(
+    [property: CliOption("--mi", ShortForm = "--source-mi")] string Mi,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-mi")] string PartnerMi,
+    [property: CliOption("--partner-resource-group")] string PartnerResourceGroup,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The failover policy of the Instance Failover Group. Allowed values: Automatic, Manual.  Default: Automatic.
     /// </summary>
-    [CliFlag("--failover-policy")]
-    public bool? FailoverPolicy { get; set; }
+    [CliOption("--failover-policy")]
+    public string? FailoverPolicy { get; set; }
 
     /// <summary>
     /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.  Default: 1.
@@ -33,7 +44,7 @@ public record AzSqlInstanceFailoverGroupCreateOptions : AzOptions
     public bool? GracePeriod { get; set; }
 
     /// <summary>
-    /// Intended usage of the secondary instance in the Failover Group. Standby indicates that the secondary instance will be used as a passive replica for disaster recovery only.
+    /// Intended usage of the secondary instance in the Failover Group. Standby indicates that the secondary instance will be used as a passive replica for disaster recovery only. Default: Geo.
     /// </summary>
     [CliFlag("--secondary-type")]
     public bool? SecondaryType { get; set; }

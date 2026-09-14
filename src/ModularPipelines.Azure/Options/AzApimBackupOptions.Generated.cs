@@ -15,10 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a backup of the API Management service to the given Azure Storage
 /// </summary>
+/// <param name="BackupName">The name of the backup file to create.</param>
+/// <param name="ContainerName">The name of the storage account container used to place the backup.</param>
+/// <param name="Name">The name of the api management service instance.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StorageAccountKey">The access key of the storage account used to place the backup.</param>
+/// <param name="StorageAccountName">The name of the storage account used to place the backup.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "backup")]
-public record AzApimBackupOptions : AzOptions
+public record AzApimBackupOptions(
+    [property: CliOption("--backup-name")] string BackupName,
+    [property: CliOption("--container-name", ShortForm = "--storage-account-container")] string ContainerName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-account-key")] string StorageAccountKey,
+    [property: CliOption("--storage-account-name")] string StorageAccountName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

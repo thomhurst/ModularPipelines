@@ -29,8 +29,8 @@ public record AzVmAutoShutdownOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Turn off auto-shutdown for VM. Configuration will be cleared.
@@ -39,7 +39,7 @@ public record AzVmAutoShutdownOptions : AzOptions
     public bool? Off { get; set; }
 
     /// <summary>
-    /// The UTC time of day the schedule will occur every day. Format: hhmm.
+    /// The UTC time of day the schedule will occur every day. Format: hhmm. Example: 1730.
     /// </summary>
     [CliFlag("--time")]
     public bool? Time { get; set; }
@@ -49,5 +49,23 @@ public record AzVmAutoShutdownOptions : AzOptions
     /// </summary>
     [CliFlag("--webhook")]
     public bool? Webhook { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an ExpressRoute gateway connection.
 /// </summary>
+/// <param name="GatewayName">ExpressRoute gateway name.</param>
+/// <param name="Name">ExpressRoute connection name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "gateway", "connection", "create")]
-public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
+public record AzNetworkExpressRouteGatewayConnectionCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Authorization key to establish the connection.
@@ -35,7 +42,7 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -43,5 +50,29 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--routing-weight")]
     public bool? RoutingWeight { get; set; }
+
+    /// <summary>
+    /// ExpressRoute circuit name.
+    /// </summary>
+    [CliFlag("--circuit-name")]
+    public bool? CircuitName { get; set; }
+
+    /// <summary>
+    /// Name or ID of an ExpressRoute peering.
+    /// </summary>
+    [CliOption("--peering")]
+    public string? Peering { get; set; }
+
+    /// <summary>
+    /// The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--inbound-route-map")]
+    public string? InboundRouteMap { get; set; }
+
+    /// <summary>
+    /// The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--outbound-route-map")]
+    public string? OutboundRouteMap { get; set; }
 
 }

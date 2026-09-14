@@ -30,19 +30,19 @@ public record AzVmImageListOptions : AzOptions
     /// The name of architecture.  Allowed values: Arm64, x64.
     /// </summary>
     [CliOption("--architecture")]
-    public string? ArchitectureValue { get; set; }
+    public string? Architecture { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Image offer name, partial name is accepted.
@@ -61,19 +61,5 @@ public record AzVmImageListOptions : AzOptions
     /// </summary>
     [CliFlag("--sku", ShortForm = "-s")]
     public bool? Sku { get; set; }
-
-    [Obsolete("Use ArchitectureValue instead.")]
-    public bool? Architecture
-    {
-        get => bool.TryParse(ArchitectureValue, out var value) ? value : null;
-        set => ArchitectureValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

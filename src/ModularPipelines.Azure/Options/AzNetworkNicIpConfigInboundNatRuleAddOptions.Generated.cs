@@ -15,28 +15,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an inbound NAT rule to an IP configuration.
 /// </summary>
+/// <param name="InboundNatRule">Name or ID of an existing inbound NAT rule. If name is used, `--lb-name` must be specified.</param>
+/// <param name="IpConfigName">Name of the IP configuration.</param>
+/// <param name="NicName">Name of the network interface (NIC).</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "inbound-nat-rule", "add")]
-public record AzNetworkNicIpConfigInboundNatRuleAddOptions : AzOptions
+public record AzNetworkNicIpConfigInboundNatRuleAddOptions(
+    [property: CliOption("--inbound-nat-rule")] string InboundNatRule,
+    [property: CliOption("--ip-config-name", ShortForm = "-n")] string IpConfigName,
+    [property: CliOption("--nic-name")] string NicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the load balancer.
     /// </summary>
     [CliOption("--lb-name")]
-    public string? LbNameValue { get; set; }
+    public string? LbName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
-
-    [Obsolete("Use LbNameValue instead.")]
-    public bool? LbName
-    {
-        get => bool.TryParse(LbNameValue, out var value) ? value : null;
-        set => LbNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -15,22 +15,27 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a snapshot.
 /// </summary>
+/// <param name="Name">The name of the snapshot.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snapshot", "create")]
-public record AzSnapshotCreateOptions : AzOptions
+public record AzSnapshotCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// CPU architecture.
+    /// CPU architecture. Allowed values: Arm64, x64.
     /// </summary>
-    [CliFlag("--architecture")]
-    public bool? Architecture { get; set; }
+    [CliOption("--architecture")]
+    public string? Architecture { get; set; }
 
     /// <summary>
-    /// If this field is set on a snapshot and createOption is
+    /// If this field is set on a snapshot and createOption is CopyStart, the snapshot will be copied at a quicker speed.  Allowed values: Enhanced, None.
     /// </summary>
-    [CliFlag("--bandwidth-copy-speed")]
-    public bool? BandwidthCopySpeed { get; set; }
+    [CliOption("--bandwidth-copy-speed")]
+    public string? BandwidthCopySpeed { get; set; }
 
     /// <summary>
     /// Create snapshot by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.  Allowed values: false, true.
@@ -42,55 +47,67 @@ public record AzSnapshotCreateOptions : AzOptions
     /// Name or ID of the disk access resource for using private endpoints on disks.
     /// </summary>
     [CliOption("--disk-access")]
-    public string? DiskAccessValue { get; set; }
+    public string? DiskAccess { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set that is used to encrypt the disk.
     /// </summary>
     [CliOption("--disk-encryption-set")]
-    public string? DiskEncryptionSetValue { get; set; }
+    public string? DiskEncryptionSet { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
-    /// Encryption type.
+    /// This is the ARM id of the source elastic san volume snapshot.
     /// </summary>
-    [CliFlag("--encryption-type")]
-    public bool? EncryptionType { get; set; }
+    [CliFlag("--elastic-san-id", ShortForm = "--elastic-san-resource-id")]
+    public bool? ElasticSanId { get; set; }
 
     /// <summary>
-    /// Create the snapshot for uploading blobs later on through storage commands.
+    /// Encryption type. EncryptionAtRestWith PlatformKey: Disk is encrypted with XStore managed key at rest. It is the default encryption type. EncryptionAtRe stWithCustomerKey: Disk is encrypted with Customer managed key at rest. Allowed values: Encr yptionAtRestWithCust omerKey, EncryptionA tRestWithPlatformAnd CustomerKeys, Encryp tionAtRestWithPlatfo rmKey.
     /// </summary>
-    [CliFlag("--for-upload")]
+    [CliOption("--encryption-type")]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// Create the snapshot for uploading blobs later on through storage commands. Run "az snapshot grant-access --access-level Write" to retrieve the snapshot's SAS token.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--for-upload")]
     public bool? ForUpload { get; set; }
 
     /// <summary>
-    /// The hypervisor generation of the
+    /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2.
     /// </summary>
-    [CliFlag("--hyper-v-generation")]
-    public bool? HyperVGeneration { get; set; }
+    [CliOption("--hyper-v-generation")]
+    public string? HyperVGeneration { get; set; }
 
     /// <summary>
-    /// Whether a snapshot is incremental.
+    /// For snapshots created from Premium SSD v2 or Ultra disk, this property determines the time in minutes the snapshot is retained for instant access to enable faster restore. The disk sku should be UltraSSD_LRS or PremiumV2_LRS.
     /// </summary>
-    [CliFlag("--incremental")]
+    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
+    public bool? IaDuration { get; set; }
+
+    /// <summary>
+    /// Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--incremental")]
     public bool? Incremental { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location= &lt;location&gt;`. If location is not specified and no default location specified, location will be automatically set as same as the resource group.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
-    /// Policy for accessing the disk via network.  Allowed values: AllowAll,
+    /// Policy for accessing the disk via network.  Allowed values: AllowAll, AllowPrivate, DenyAll.
     /// </summary>
-    [CliFlag("--network-access-policy")]
-    public bool? NetworkAccessPolicy { get; set; }
+    [CliOption("--network-access-policy")]
+    public string? NetworkAccessPolicy { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -105,16 +122,16 @@ public record AzSnapshotCreateOptions : AzOptions
     public bool? SizeGb { get; set; }
 
     /// <summary>
-    /// Allowed values:
+    /// Allowed values: Premium_LRS, Standard_LRS, Standard_ZRS. Default: Standard_LRS.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Source to create the disk/snapshot from, including unmanaged blob uri, managed disk id or name, or snapshot id or name.
     /// </summary>
     [CliOption("--source")]
-    public string? SourceValue { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>
     /// Used when source blob is in a different subscription.
@@ -125,35 +142,7 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use DiskAccessValue instead.")]
-    public bool? DiskAccess
-    {
-        get => bool.TryParse(DiskAccessValue, out var value) ? value : null;
-        set => DiskAccessValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DiskEncryptionSetValue instead.")]
-    public bool? DiskEncryptionSet
-    {
-        get => bool.TryParse(DiskEncryptionSetValue, out var value) ? value : null;
-        set => DiskEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceValue instead.")]
-    public bool? Source
-    {
-        get => bool.TryParse(SourceValue, out var value) ? value : null;
-        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

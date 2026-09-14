@@ -15,15 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a certificate issuer record.
 /// </summary>
+/// <param name="IssuerName">Certificate issuer name.</param>
+/// <param name="ProviderName">The certificate provider name. Must be registered with your tenant ID and in your region.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "create")]
-public record AzKeyvaultCertificateIssuerCreateOptions : AzOptions
+public record AzKeyvaultCertificateIssuerCreateOptions(
+    [property: CliOption("--issuer-name")] string IssuerName,
+    [property: CliOption("--provider-name")] string ProviderName,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
     /// <summary>
     /// Set issuer to disabled state.  Allowed values: false, true.
     /// </summary>
     [CliOption("--disabled")]
     public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// The issuer account id/username/etc.
+    /// </summary>
+    [CliFlag("--account-id")]
+    public bool? AccountId { get; set; }
+
+    /// <summary>
+    /// The issuer account password/secret/etc.
+    /// </summary>
+    [CliFlag("--password")]
+    public bool? Password { get; set; }
+
+    /// <summary>
+    /// The organization id.
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; set; }
 
 }

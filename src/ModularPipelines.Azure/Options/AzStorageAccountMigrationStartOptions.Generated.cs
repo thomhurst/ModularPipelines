@@ -15,15 +15,18 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Account Migration request can be triggered for a storage
 /// </summary>
+/// <param name="Sku">Target sku name for the account.  Allowed values: PremiumV2_LRS, PremiumV2_ZRS, Premium_LRS, Premium_ZRS, StandardV2_GRS, StandardV2_GZRS, StandardV2_LRS, StandardV2_ZRS, Standard_GRS, Standard_GZRS, Standard_LRS, Standard_RAGRS, Standard_RAGZRS, Standard_ZRS.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "migration", "start")]
-public record AzStorageAccountMigrationStartOptions : AzOptions
+public record AzStorageAccountMigrationStartOptions(
+    [property: CliOption("--sku", ShortForm = "--target-sku-name")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -31,5 +34,35 @@ public record AzStorageAccountMigrationStartOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Current value is 'default' for customer initiated migration.
+    /// </summary>
+    [CliFlag("--name")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// SrpAccountMigrationType in ARM contract which is 'accountMigrations'.
+    /// </summary>
+    [CliFlag("--type")]
+    public bool? Type { get; set; }
+
+    /// <summary>
+    /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

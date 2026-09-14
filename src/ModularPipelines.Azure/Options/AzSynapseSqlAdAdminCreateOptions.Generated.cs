@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the SQL Azure Active Directory administrator.
 /// </summary>
+/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "ad-admin", "create")]
-public record AzSynapseSqlAdAdminCreateOptions : AzOptions
+public record AzSynapseSqlAdAdminCreateOptions(
+    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
+    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

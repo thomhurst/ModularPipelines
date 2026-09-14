@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List API Management API schema's.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the API Management service instance.</param>
+/// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "schema", "list")]
-public record AzApimApiSchemaListOptions : AzOptions
+public record AzApimApiSchemaListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
     /// <summary>
     /// Number of records to skip.
@@ -31,5 +38,11 @@ public record AzApimApiSchemaListOptions : AzOptions
     /// </summary>
     [CliFlag("--top")]
     public bool? Top { get; set; }
+
+    /// <summary>
+    /// Filter of APIs by displayName.
+    /// </summary>
+    [CliFlag("--filter-display-name")]
+    public bool? FilterDisplayName { get; set; }
 
 }

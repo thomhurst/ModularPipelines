@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an event subscription of a topic.
 /// </summary>
+/// <param name="Name">Name of the event subscription.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="TopicName">Name of the topic.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "topic", "event-subscription", "delete")]
-public record AzEventgridTopicEventSubscriptionDeleteOptions : AzOptions
+public record AzEventgridTopicEventSubscriptionDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--topic-name")] string TopicName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

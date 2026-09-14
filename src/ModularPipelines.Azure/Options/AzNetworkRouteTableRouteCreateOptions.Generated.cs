@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a route in a route table.
 /// </summary>
+/// <param name="Name">Route name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="RouteTableName">Route table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "route-table", "route", "create")]
-public record AzNetworkRouteTableRouteCreateOptions : AzOptions
+public record AzNetworkRouteTableRouteCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--route-table-name")] string RouteTableName
+) : AzOptions
 {
     /// <summary>
     /// The destination CIDR to which the route applies.
@@ -27,21 +34,21 @@ public record AzNetworkRouteTableRouteCreateOptions : AzOptions
     public bool? AddressPrefix { get; set; }
 
     /// <summary>
-    /// The IP address packets should be forwarded to when using the
+    /// The IP address packets should be forwarded to when using the VirtualAppliance hop type.
     /// </summary>
     [CliFlag("--next-hop-ip-address")]
     public bool? NextHopIpAddress { get; set; }
 
     /// <summary>
-    /// The type of Azure hop the packet should be sent to.  Allowed values: Internet, None, VirtualAppliance,
+    /// The type of Azure hop the packet should be sent to.  Allowed values: Internet, None, VirtualAppliance, VirtualNetworkGateway, VnetLocal.
     /// </summary>
-    [CliFlag("--next-hop-type")]
-    public bool? NextHopType { get; set; }
+    [CliOption("--next-hop-type")]
+    public string? NextHopType { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

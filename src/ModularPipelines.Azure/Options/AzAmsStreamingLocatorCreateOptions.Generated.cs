@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a streaming locator.
 /// </summary>
+/// <param name="AccountName">The name of the Azure Media Services account.</param>
+/// <param name="AssetName">The name of the asset used by the streaming locator.</param>
+/// <param name="Name">The name of the streaming locator.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StreamingPolicyName">The name of the streaming policy used by the streaming locator. You can either create one with `az ams streaming policy create` or use any of the predefined policies: Predefined_DownloadOnly, Predefined_ClearStreamingOnly, Predefined_DownloadAndClearStreaming, Predefined_ClearKey, Predefined_MultiDrmCencStreaming, Predefined_MultiDrmStreaming.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-locator", "create")]
-public record AzAmsStreamingLocatorCreateOptions : AzOptions
+public record AzAmsStreamingLocatorCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--asset-name")] string AssetName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--streaming-policy-name")] string StreamingPolicyName
+) : AzOptions
 {
     /// <summary>
     /// An alternative media identifier associated with the streaming locator.
@@ -47,8 +58,8 @@ public record AzAmsStreamingLocatorCreateOptions : AzOptions
     /// <summary>
     /// A space-separated list of asset filter names and/or account filter names.
     /// </summary>
-    [CliFlag("--filters")]
-    public bool? Filters { get; set; }
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// The ISO 8601 DateTime start time (Y-m-d'T'H:M:S'Z') of the streaming locator.
@@ -60,13 +71,6 @@ public record AzAmsStreamingLocatorCreateOptions : AzOptions
     /// The identifier of the streaming locator.
     /// </summary>
     [CliOption("--streaming-locator-id")]
-    public string? StreamingLocatorIdValue { get; set; }
-
-    [Obsolete("Use StreamingLocatorIdValue instead.")]
-    public bool? StreamingLocatorId
-    {
-        get => bool.TryParse(StreamingLocatorIdValue, out var value) ? value : null;
-        set => StreamingLocatorIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? StreamingLocatorId { get; set; }
 
 }

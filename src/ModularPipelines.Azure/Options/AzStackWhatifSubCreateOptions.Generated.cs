@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment stack what-if result at subscription scope.
 /// </summary>
+/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
+/// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
+/// <param name="Location">The location to store the deployment stack what-if result.</param>
+/// <param name="Name">The name of the deployment stack what-if result.</param>
+/// <param name="RetentionInterval">The retention interval for What-If results. The value must be in ISO 8601 format and between 1 day and 30 days.</param>
+/// <param name="StackId">The fully-qualified ID of the deployment stack to perform a what-if operation on.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "sub", "create")]
@@ -27,11 +33,6 @@ public record AzStackWhatifSubCreateOptions(
     [property: CliOption("--stack-id")] string StackId
 ) : AzOptions
 {
-    public AzStackWhatifSubCreateOptions()
-        : this(default(string)!, default(string)!, default(string)!, default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>
@@ -42,19 +43,19 @@ public record AzStackWhatifSubCreateOptions(
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
     /// </summary>
     [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea", GroupValues = true)]
-    public IEnumerable<string>? DenySettingsExcludedActionsValues { get; set; }
+    public IEnumerable<string>? DenySettingsExcludedActions { get; set; }
 
     /// <summary>
     /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
     /// </summary>
     [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep", GroupValues = true)]
-    public IEnumerable<string>? DenySettingsExcludedPrincipalsValues { get; set; }
+    public IEnumerable<string>? DenySettingsExcludedPrincipals { get; set; }
 
     /// <summary>
     /// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack.
     /// </summary>
     [CliOption("--deployment-resource-group", ShortForm = "--dr")]
-    public string? DeploymentResourceGroupValue { get; set; }
+    public string? DeploymentResourceGroup { get; set; }
 
     /// <summary>
     /// The description of deployment stack.
@@ -84,7 +85,7 @@ public record AzStackWhatifSubCreateOptions(
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
     [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
-    public IEnumerable<string>? ParametersValues { get; set; }
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
@@ -96,10 +97,10 @@ public record AzStackWhatifSubCreateOptions(
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
     /// </summary>
     [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
-    public string? ResourcesWithoutDeleteSupportValue { get; set; }
+    public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -123,51 +124,9 @@ public record AzStackWhatifSubCreateOptions(
     public string? TemplateUri { get; set; }
 
     /// <summary>
-    /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
+    /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider, ProviderNoRbac, Template.
     /// </summary>
     [CliOption("--validation-level", ShortForm = "--vl")]
-    public string? ValidationLevelValue { get; set; }
-
-    [Obsolete("Use DenySettingsExcludedActionsValues instead.")]
-    public bool? DenySettingsExcludedActions
-    {
-        get => bool.TryParse(DenySettingsExcludedActionsValues?.FirstOrDefault(), out var value) ? value : null;
-        set => DenySettingsExcludedActionsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
-    [Obsolete("Use DenySettingsExcludedPrincipalsValues instead.")]
-    public bool? DenySettingsExcludedPrincipals
-    {
-        get => bool.TryParse(DenySettingsExcludedPrincipalsValues?.FirstOrDefault(), out var value) ? value : null;
-        set => DenySettingsExcludedPrincipalsValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
-    [Obsolete("Use DeploymentResourceGroupValue instead.")]
-    public bool? DeploymentResourceGroup
-    {
-        get => bool.TryParse(DeploymentResourceGroupValue, out var value) ? value : null;
-        set => DeploymentResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourcesWithoutDeleteSupportValue instead.")]
-    public bool? ResourcesWithoutDeleteSupport
-    {
-        get => bool.TryParse(ResourcesWithoutDeleteSupportValue, out var value) ? value : null;
-        set => ResourcesWithoutDeleteSupportValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ValidationLevelValue instead.")]
-    public bool? ValidationLevel
-    {
-        get => bool.TryParse(ValidationLevelValue, out var value) ? value : null;
-        set => ValidationLevelValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ParametersValues instead.")]
-    public string? Parameters
-    {
-        get => ParametersValues?.FirstOrDefault();
-        set => ParametersValues = value is null ? null : [value];
-    }
+    public string? ValidationLevel { get; set; }
 
 }

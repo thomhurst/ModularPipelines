@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an API Management API Schema.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the API Management service instance.</param>
+/// <param name="ApiId">Unique name of the api for which schema needs to be created. API revision identifier. Must be unique in the current API Management service instance. Non- current revision has ;rev=n as a suffix where n is the revision number.</param>
+/// <param name="SchemaId">Unique name of the api schema to be created. Schema identifier. Must be unique in the current API Management service instance.</param>
+/// <param name="SchemaType">Schema type  (e.g. application/json, application/vnd.ms-azure- apim.graphql.schema). Must be a valid media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "schema", "create")]
-public record AzApimApiSchemaCreateOptions : AzOptions
+public record AzApimApiSchemaCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId,
+    [property: CliOption("--schema-id")] string SchemaId,
+    [property: CliOption("--schema-type")] string SchemaType
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -27,7 +38,7 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Json escaped string defining the document representing the
+    /// Json escaped string defining the document representing the Schema. Specify either --schema-path or --schema-content not both.
     /// </summary>
     [CliFlag("--schema-content")]
     public bool? SchemaContent { get; set; }
@@ -36,19 +47,18 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     /// The name of the schema resource.
     /// </summary>
     [CliOption("--schema-name")]
-    public string? SchemaNameValue { get; set; }
+    public string? SchemaName { get; set; }
 
     /// <summary>
-    /// File path specified to import schema of the API.
+    /// File path specified to import schema of the API. Specify either --schema-path or --schema-content not both.
     /// </summary>
-    [CliFlag("--schema-path")]
-    public bool? SchemaPath { get; set; }
+    [CliOption("--schema-path")]
+    public string? SchemaPath { get; set; }
 
-    [Obsolete("Use SchemaNameValue instead.")]
-    public bool? SchemaName
-    {
-        get => bool.TryParse(SchemaNameValue, out var value) ? value : null;
-        set => SchemaNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
 }

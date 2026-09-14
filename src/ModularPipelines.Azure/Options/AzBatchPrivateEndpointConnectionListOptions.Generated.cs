@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all of the private endpoint connections in the
 /// </summary>
+/// <param name="AccountName">The name of the Batch account. Required.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "private-endpoint-connection", "list")]
-public record AzBatchPrivateEndpointConnectionListOptions : AzOptions
+public record AzBatchPrivateEndpointConnectionListOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The maximum number of items to return in the response. Default value is None.

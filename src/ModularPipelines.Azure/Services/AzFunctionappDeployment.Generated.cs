@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappDeployment
 {
     private readonly ICommandContext _command;
+    private AzFunctionappDeploymentConfig? _config;
     private AzFunctionappDeploymentContainer? _container;
     private AzFunctionappDeploymentGithubActions? _githubActions;
     private AzFunctionappDeploymentSlot? _slot;
@@ -36,6 +37,11 @@ public class AzFunctionappDeployment
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az config sub-commands.
+    /// </summary>
+    public AzFunctionappDeploymentConfig Config => _config ??= new AzFunctionappDeploymentConfig(_command);
 
     /// <summary>
     /// az container sub-commands.
@@ -78,7 +84,7 @@ public class AzFunctionappDeployment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappDeploymentListPublishingCredentialsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappDeploymentListPublishingCredentialsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -93,7 +99,7 @@ public class AzFunctionappDeployment
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappDeploymentListPublishingProfilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappDeploymentListPublishingProfilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

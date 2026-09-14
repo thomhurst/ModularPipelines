@@ -15,16 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an managed integration runtime.
 /// </summary>
+/// <param name="Name">The integration runtime name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime", "managed", "create")]
-public record AzSynapseIntegrationRuntimeManagedCreateOptions : AzOptions
+public record AzSynapseIntegrationRuntimeManagedCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Compute type of the data flow cluster which will execute data flow job.  Allowed values: ComputeOptimized, General, MemoryOptimized.  Default: General.
     /// </summary>
-    [CliFlag("--compute-type")]
-    public bool? ComputeType { get; set; }
+    [CliOption("--compute-type")]
+    public string? ComputeType { get; set; }
 
     /// <summary>
     /// Core count of the data flow cluster which will execute data flow job.  Default: 8.

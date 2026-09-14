@@ -15,53 +15,48 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a redirect configuration.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the redirect configuration.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Type">HTTP redirection type.  Allowed values: Found, Permanent, SeeOther, Temporary.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "redirect-config", "create")]
-public record AzNetworkApplicationGatewayRedirectConfigCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayRedirectConfigCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type", ShortForm = "-t")] string Type
+) : AzOptions
 {
     /// <summary>
     /// Whether to include path in the redirected url.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-path")]
+    [CliOption("--include-path")]
     public bool? IncludePath { get; set; }
 
     /// <summary>
     /// Whether to include query string in the redirected url.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-query-string")]
+    [CliOption("--include-query-string")]
     public bool? IncludeQueryString { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the HTTP listener to redirect the request to.
     /// </summary>
     [CliOption("--target-listener")]
-    public string? TargetListenerValue { get; set; }
+    public string? TargetListener { get; set; }
 
     /// <summary>
     /// URL to redirect the request to.
     /// </summary>
     [CliOption("--target-url")]
-    public string? TargetUrlValue { get; set; }
-
-    [Obsolete("Use TargetListenerValue instead.")]
-    public bool? TargetListener
-    {
-        get => bool.TryParse(TargetListenerValue, out var value) ? value : null;
-        set => TargetListenerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TargetUrlValue instead.")]
-    public bool? TargetUrl
-    {
-        get => bool.TryParse(TargetUrlValue, out var value) ? value : null;
-        set => TargetUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? TargetUrl { get; set; }
 
 }

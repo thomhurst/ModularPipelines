@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List local users for a storage account.
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "local-user", "list")]
-public record AzStorageAccountLocalUserListOptions : AzOptions
+public record AzStorageAccountLocalUserListOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// When specified, only local user names starting with the filter will be listed. Default value is None.
@@ -27,10 +32,10 @@ public record AzStorageAccountLocalUserListOptions : AzOptions
     public bool? Filter { get; set; }
 
     /// <summary>
-    /// When specified, will list local users enabled for the specific protocol. Lists all users by default. Default value is None.
+    /// When specified, will list local users enabled for the specific protocol. Lists all users by default. Default value is None. Allowed values: nfsv3.
     /// </summary>
-    [CliFlag("--include")]
-    public bool? Include { get; set; }
+    [CliOption("--include")]
+    public string? Include { get; set; }
 
     /// <summary>
     /// Optional, specifies the maximum number of local users that will be included in the list response. Default value is None.

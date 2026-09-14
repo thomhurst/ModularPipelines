@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the throughput of the MongoDB
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Collection name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "mongodb", "collection", "throughput", "update")]
-public record AzCosmosdbMongodbCollectionThroughputUpdateOptions : AzOptions
+public record AzCosmosdbMongodbCollectionThroughputUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The maximum throughput resource can scale to (RU/s). Provided when the resource is autoscale enabled. The minimum value can be 4000 (RU/s).

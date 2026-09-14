@@ -15,22 +15,27 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure a new backup schedule for a web app.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WebappName">The name of the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "update")]
-public record AzWebappConfigBackupUpdateOptions : AzOptions
+public record AzWebappConfigBackupUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
+) : AzOptions
 {
     /// <summary>
     /// Name of the backup. If unspecified, the backup will be named with the web app name and a timestamp.
     /// </summary>
     [CliOption("--backup-name")]
-    public string? BackupNameValue { get; set; }
+    public string? BackupName { get; set; }
 
     /// <summary>
     /// URL with SAS token to the blob storage container.
     /// </summary>
     [CliOption("--container-url")]
-    public string? ContainerUrlValue { get; set; }
+    public string? ContainerUrl { get; set; }
 
     /// <summary>
     /// How often to backup. Use a number followed by d or h, e.g. 5d = 5 days, 2h = 2 hours.
@@ -54,27 +59,24 @@ public record AzWebappConfigBackupUpdateOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use BackupNameValue instead.")]
-    public bool? BackupName
-    {
-        get => bool.TryParse(BackupNameValue, out var value) ? value : null;
-        set => BackupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Connection string for the database in the backup.
+    /// </summary>
+    [CliFlag("--db-connection-string")]
+    public bool? DbConnectionString { get; set; }
 
-    [Obsolete("Use ContainerUrlValue instead.")]
-    public bool? ContainerUrl
-    {
-        get => bool.TryParse(ContainerUrlValue, out var value) ? value : null;
-        set => ContainerUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the database in the backup.
+    /// </summary>
+    [CliOption("--db-name")]
+    public string? DbName { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Type of database in the backup.  Allowed values: LocalMySql, MySql, PostgreSql, SqlAzure.
+    /// </summary>
+    [CliOption("--db-type")]
+    public string? DbType { get; set; }
 
 }

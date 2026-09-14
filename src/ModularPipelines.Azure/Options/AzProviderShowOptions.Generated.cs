@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the specified resource provider.
 /// </summary>
+/// <param name="Namespace">The resource namespace, aka 'provider'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("provider", "show")]
-public record AzProviderShowOptions : AzOptions
+public record AzProviderShowOptions(
+    [property: CliOption("--namespace", ShortForm = "-n")] string Namespace
+) : AzOptions
 {
     /// <summary>
     /// The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases. Default value is None.

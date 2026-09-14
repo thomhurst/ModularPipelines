@@ -15,16 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Data Box Edge/Data Box Gateway resource.
 /// </summary>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "create")]
-public record AzDataboxedgeDeviceCreateOptions : AzOptions
+public record AzDataboxedgeDeviceCreateOptions(
+    [property: CliOption("--device-name", ShortForm = "-n")] string DeviceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The Description of the Data Box Edge/Gateway device.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The etag for the devices.
@@ -41,51 +46,37 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     /// <summary>
     /// The location of the device. This is a supported and registered Azure geographical region (for example, West US, East US, or Southeast Asia). The geographical region of a device cannot be changed once it is created, but if an identical geographical region is specified on update, the request will succeed.  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The description of the Data Box Edge/Gateway device model.
     /// </summary>
     [CliOption("--model-description")]
-    public string? ModelDescriptionValue { get; set; }
+    public string? ModelDescription { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// SKU name.  Allowed values: EP2_128_1T4_Mx1_W, EP2_256_2T4_W, EP2_64_1VPU_W, Edge, EdgeMR_Mini, EdgePR_Base, EdgePR_Base_UPS, EdgeP_Base, EdgeP_High, GPU, Gateway, Management, RCA_Large, RCA_Small, RDC, TCA_Large, TCA_Small, TDC, TEA_1Node, TEA_1Node_Heater, TEA_1Node_UPS,
+    /// SKU name.  Allowed values: EP2_128_1T4_Mx1_W, EP2_256_2T4_W, EP2_64_1VPU_W, Edge, EdgeMR_Mini, EdgePR_Base, EdgePR_Base_UPS, EdgeP_Base, EdgeP_High, GPU, Gateway, Management, RCA_Large, RCA_Small, RDC, TCA_Large, TCA_Small, TDC, TEA_1Node, TEA_1Node_Heater, TEA_1Node_UPS, TEA_1Node_UPS_Heater, TEA_4Node_Heater, TEA_4Node_UPS_Heater, TMA.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
-    /// The status of the Data Box Edge/Gateway device.  Allowed values: Disconnected, Maintenance, NeedsAttention, Offline,
+    /// The status of the Data Box Edge/Gateway device.  Allowed values: Disconnected, Maintenance, NeedsAttention, Offline, Online, PartiallyDisconnected, ReadyToSetup.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
     /// <summary>
     /// The list of tags that describe the device. These tags can be used to view and group this device (across resource groups).  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ModelDescriptionValue instead.")]
-    public bool? ModelDescription
-    {
-        get => bool.TryParse(ModelDescriptionValue, out var value) ? value : null;
-        set => ModelDescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

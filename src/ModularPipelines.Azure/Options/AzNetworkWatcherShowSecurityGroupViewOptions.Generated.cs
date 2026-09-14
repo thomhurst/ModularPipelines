@@ -15,28 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get detailed security information on a VM for the
 /// </summary>
+/// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "show-security-group-view")]
-public record AzNetworkWatcherShowSecurityGroupViewOptions : AzOptions
+public record AzNetworkWatcherShowSecurityGroupViewOptions(
+    [property: CliOption("--vm")] string Vm
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name of the resource group the target VM is in.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

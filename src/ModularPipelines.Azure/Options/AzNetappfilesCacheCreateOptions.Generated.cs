@@ -15,15 +15,138 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the specified Cache within the Capacity Pool.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="CacheName">The name of the cache resource.</param>
+/// <param name="PoolName">The name of the capacity pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="PeerAddresses">ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="PeerClusterName">ONTAP cluster name of external cluster hosting the origin volume. Must match the exact cluster name.</param>
+/// <param name="PeerVolumeName">External origin volume name associated to this cache.</param>
+/// <param name="PeerVserverName">External Vserver (SVM) name name of the SVM hosting the origin volume.</param>
+/// <param name="CacheSubnetId">The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs.</param>
+/// <param name="EncryptionKeySource">Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.</param>
+/// <param name="FilePath">The file path of the Cache.</param>
+/// <param name="PeeringSubnetId">The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses.</param>
+/// <param name="Size">Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "cache", "create")]
-public record AzNetappfilesCacheCreateOptions : AzOptions
+public record AzNetappfilesCacheCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--cache-name", ShortForm = "-n")] string CacheName,
+    [property: CliOption("--pool-name", ShortForm = "-p")] string PoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--peer-addresses")] string PeerAddresses,
+    [property: CliOption("--peer-cluster-name")] string PeerClusterName,
+    [property: CliOption("--peer-volume-name")] string PeerVolumeName,
+    [property: CliOption("--peer-vserver-name")] string PeerVserverName,
+    [property: CliOption("--cache-subnet-id", ShortForm = "--cache-subnet-resource-id")] string CacheSubnetId,
+    [property: CliOption("--encryption-key-source")] string EncryptionKeySource,
+    [property: CliOption("--file-path")] string FilePath,
+    [property: CliOption("--peering-subnet-id", ShortForm = "--peering-subnet-resource-id")] string PeeringSubnetId,
+    [property: CliOption("--size")] string Size
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The availability zones. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--zones")]
+    public bool? Zones { get; set; }
+
+    /// <summary>
+    /// Export policy rule  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--export-policy-rules", ShortForm = "--rules")]
+    public bool? ExportPolicyRules { get; set; }
+
+    /// <summary>
+    /// Flag indicating whether a CIFS change notification is enabled for the cache. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--cifs-change-notifications", ShortForm = "--cifs-change-notify")]
+    public string? CifsChangeNotifications { get; set; }
+
+    /// <summary>
+    /// Flag indicating whether the global file lock is enabled for the cache.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--global-file-locking")]
+    public string? GlobalFileLocking { get; set; }
+
+    /// <summary>
+    /// Describe if a cache is Kerberos enabled.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--kerberos")]
+    public string? Kerberos { get; set; }
+
+    /// <summary>
+    /// The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'.
+    /// </summary>
+    [CliOption("--key-vault-private-endpoint-resource-id", ShortForm = "--kv-private-endpoint-id")]
+    public string? KeyVaultPrivateEndpointResourceId { get; set; }
+
+    /// <summary>
+    /// Specifies whether LDAP is enabled or not for flexcache volume.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--ldap")]
+    public string? Ldap { get; set; }
+
+    /// <summary>
+    /// Specifies the type of LDAP server for flexcache volume. Allowed values: ActiveDirectory, OpenLDAP.
+    /// </summary>
+    [CliOption("--ldap-server-type")]
+    public string? LdapServerType { get; set; }
+
+    /// <summary>
+    /// Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--protocol-types")]
+    public bool? ProtocolTypes { get; set; }
+
+    /// <summary>
+    /// Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache.
+    /// </summary>
+    [CliFlag("--throughput-mibps")]
+    public bool? ThroughputMibps { get; set; }
+
+    /// <summary>
+    /// Flag indicating whether writeback is enabled for the cache.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--write-back")]
+    public string? WriteBack { get; set; }
+
+    /// <summary>
+    /// Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
+    public string? SmbAccessBasedEnumeration { get; set; }
+
+    /// <summary>
+    /// Enables encryption for in- flight smb3 data. Only applicable for SMB/DualProtocol cache. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--smb-encryption")]
+    public string? SmbEncryption { get; set; }
+
+    /// <summary>
+    /// Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--smb-non-browsable")]
+    public string? SmbNonBrowsable { get; set; }
 
 }

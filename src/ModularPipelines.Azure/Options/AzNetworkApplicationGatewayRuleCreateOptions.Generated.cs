@@ -15,19 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a rule.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the request routing rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "rule", "create")]
-public record AzNetworkApplicationGatewayRuleCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayRuleCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Priority of the request routing rule. Supported SKU tiers are
+    /// Priority of the request routing rule. Supported SKU tiers are Standard_v2, WAF_v2.
     /// </summary>
     [CliFlag("--priority")]
     public bool? Priority { get; set; }
@@ -35,7 +42,43 @@ public record AzNetworkApplicationGatewayRuleCreateOptions : AzOptions
     /// <summary>
     /// Type of the request routing rule.  Allowed values: Basic, PathBasedRouting.  Default: Basic.
     /// </summary>
-    [CliFlag("--rule-type")]
-    public bool? RuleType { get; set; }
+    [CliOption("--rule-type")]
+    public string? RuleType { get; set; }
+
+    /// <summary>
+    /// Name or ID of the backend address pool. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--address-pool")]
+    public string? AddressPool { get; set; }
+
+    /// <summary>
+    /// Name or ID of the HTTP listener. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--http-listener")]
+    public string? HttpListener { get; set; }
+
+    /// <summary>
+    /// Name or ID of the HTTP settings. If only one exists, omit to use as default.
+    /// </summary>
+    [CliOption("--http-settings")]
+    public string? HttpSettings { get; set; }
+
+    /// <summary>
+    /// Name or ID of the redirect configuration to use with the created rule.
+    /// </summary>
+    [CliOption("--redirect-config")]
+    public string? RedirectConfig { get; set; }
+
+    /// <summary>
+    /// Name or ID of the rewrite rule set.
+    /// </summary>
+    [CliOption("--rewrite-rule-set")]
+    public string? RewriteRuleSet { get; set; }
+
+    /// <summary>
+    /// Name or ID of the url path map.
+    /// </summary>
+    [CliOption("--url-path-map")]
+    public string? UrlPathMap { get; set; }
 
 }

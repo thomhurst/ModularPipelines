@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore external modules for a bicep file.
 /// </summary>
+/// <param name="File">The path to the Bicep file to restore external modules for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "restore")]
-public record AzBicepRestoreOptions : AzOptions
+public record AzBicepRestoreOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// Allows overwriting the cached external modules.

@@ -23,6 +23,7 @@ public class AzDeployment : IAzDeployment
     private readonly ICommandContext _command;
     private AzDeploymentGroup? _group;
     private AzDeploymentMg? _mg;
+    private AzDeploymentOperation? _operation;
     private AzDeploymentSub? _sub;
     private AzDeploymentTenant? _tenant;
 
@@ -45,6 +46,11 @@ public class AzDeployment : IAzDeployment
     /// az mg sub-commands.
     /// </summary>
     public AzDeploymentMg Mg => _mg ??= new AzDeploymentMg(_command);
+
+    /// <summary>
+    /// az operation sub-commands.
+    /// </summary>
+    public AzDeploymentOperation Operation => _operation ??= new AzDeploymentOperation(_command);
 
     /// <summary>
     /// az sub sub-commands.

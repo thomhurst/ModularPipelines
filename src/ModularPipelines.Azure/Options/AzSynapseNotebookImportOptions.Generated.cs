@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import a notebook.
 /// </summary>
+/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+/// <param name="Name">The notebook name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "notebook", "import")]
-public record AzSynapseNotebookImportOptions : AzOptions
+public record AzSynapseNotebookImportOptions(
+    [property: CliOption("--file")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Number of executors to be allocated in the specified Spark pool for the job.  Default: 2.
@@ -29,8 +36,8 @@ public record AzSynapseNotebookImportOptions : AzOptions
     /// <summary>
     /// Number of core and memory to be used for executors allocated in the specified Spark pool for the job.  Allowed values: Large, Medium, Small.  Default: Small.
     /// </summary>
-    [CliFlag("--executor-size")]
-    public bool? ExecutorSize { get; set; }
+    [CliOption("--executor-size")]
+    public int? ExecutorSize { get; set; }
 
     /// <summary>
     /// The folder that this notebook is in. If not specified, this notebook will appear at the root level. Eg: folder/subfolder1.
@@ -48,13 +55,6 @@ public record AzSynapseNotebookImportOptions : AzOptions
     /// The name of the Spark pool.
     /// </summary>
     [CliOption("--spark-pool-name")]
-    public string? SparkPoolNameValue { get; set; }
-
-    [Obsolete("Use SparkPoolNameValue instead.")]
-    public bool? SparkPoolName
-    {
-        get => bool.TryParse(SparkPoolNameValue, out var value) ? value : null;
-        set => SparkPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? SparkPoolName { get; set; }
 
 }

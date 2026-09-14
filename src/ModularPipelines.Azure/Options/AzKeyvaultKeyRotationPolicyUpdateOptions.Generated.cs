@@ -15,22 +15,36 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the rotation policy of a Key Vault key.
 /// </summary>
+/// <param name="Value">The rotation policy file definition as JSON, or a path to a file containing JSON policy definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "rotation-policy", "update")]
-public record AzKeyvaultKeyRotationPolicyUpdateOptions : AzOptions
+public record AzKeyvaultKeyRotationPolicyUpdateOptions(
+    [property: CliOption("--value")] string Value
+) : AzOptions
 {
     /// <summary>
     /// Name of the key. Required if --id is not specified.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Id of the key. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
 
 }

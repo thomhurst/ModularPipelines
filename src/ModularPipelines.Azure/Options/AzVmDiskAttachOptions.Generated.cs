@@ -15,28 +15,31 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Attach a managed persistent disk to a VM.
 /// </summary>
+/// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "disk", "attach")]
-public record AzVmDiskAttachOptions : AzOptions
+public record AzVmDiskAttachOptions(
+    [property: CliOption("--vm-name")] string VmName
+) : AzOptions
 {
     /// <summary>
     /// Disk caching policy.  Allowed values: None, ReadOnly, ReadWrite.
     /// </summary>
-    [CliFlag("--caching")]
-    public bool? Caching { get; set; }
+    [CliOption("--caching")]
+    public string? Caching { get; set; }
 
     /// <summary>
     /// The disk IDs of the managed disk (space-delimited).
     /// </summary>
-    [CliFlag("--disk-ids")]
-    public bool? DiskIds { get; set; }
+    [CliOption("--disk-ids", GroupValues = true)]
+    public IEnumerable<string>? DiskIds { get; set; }
 
     /// <summary>
     /// One or more names or IDs of the managed disk (space-delimited).
     /// </summary>
-    [CliFlag("--disks")]
-    public bool? Disks { get; set; }
+    [CliOption("--disks", GroupValues = true)]
+    public IEnumerable<string>? Disks { get; set; }
 
     /// <summary>
     /// Enable write accelerator.
@@ -45,7 +48,7 @@ public record AzVmDiskAttachOptions : AzOptions
     public bool? EnableWriteAccelerator { get; set; }
 
     /// <summary>
-    /// 0-based logical unit number (LUN). Max value depends on the Virtual
+    /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine size.
     /// </summary>
     [CliFlag("--lun")]
     public bool? Lun { get; set; }
@@ -57,15 +60,51 @@ public record AzVmDiskAttachOptions : AzOptions
     public bool? New { get; set; }
 
     /// <summary>
+    /// The name of create new data disk from a disk restore point.
+    /// </summary>
+    [CliOption("--new-names-of-rp", ShortForm = "--new-names-of-source-disk-restore-point")]
+    public string? NewNamesOfRp { get; set; }
+
+    /// <summary>
+    /// The name of create new data disk from a snapshot or another disk.
+    /// </summary>
+    [CliOption("--new-names-of-source-snapshots-or-disks", ShortForm = "--new-names-of-sr")]
+    public string? NewNamesOfSourceSnapshotsOrDisks { get; set; }
+
+    /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
     /// </summary>
     [CliFlag("--size-gb", ShortForm = "-z")]
     public bool? SizeGb { get; set; }
 
     /// <summary>
-    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS,
+    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
+
+    /// <summary>
+    /// Create a data disk from a disk restore point. Can use the ID of a disk restore point.
+    /// </summary>
+    [CliFlag("--source-disk-restore-point", ShortForm = "--source-disk-rp")]
+    public bool? SourceDiskRestorePoint { get; set; }
+
+    /// <summary>
+    /// Create a data disk from a snapshot or another disk. Can use the ID of a disk or snapshot.
+    /// </summary>
+    [CliFlag("--source-resource", ShortForm = "--source-snapshots-or-disks")]
+    public bool? SourceResource { get; set; }
+
+    /// <summary>
+    /// The name or ID of the managed disk.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

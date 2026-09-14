@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a group.
 /// </summary>
+/// <param name="DisplayName">Object's display name or its prefix.</param>
+/// <param name="MailNickname">Mail nickname.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "create")]
-public record AzAdGroupCreateOptions : AzOptions
+public record AzAdGroupCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--mail-nickname")] string MailNickname
+) : AzOptions
 {
     /// <summary>
     /// Group description.

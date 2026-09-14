@@ -15,15 +15,50 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an outbound-rule.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the outbound rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="AddressPool">The name or ID of the backend address pool.</param>
+/// <param name="Protocol">The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "outbound-rule", "create")]
-public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
+public record AzNetworkLbOutboundRuleCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--address-pool", ShortForm = "--backend-address-pool")] string AddressPool,
+    [property: CliOption("--protocol")] string Protocol
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The number of outbound ports to be used for NAT.
+    /// </summary>
+    [CliFlag("--allocated-outbound-ports", ShortForm = "--outbound-ports")]
+    public bool? AllocatedOutboundPorts { get; set; }
+
+    /// <summary>
+    /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-tcp-reset")]
+    public bool? EnableTcpReset { get; set; }
+
+    /// <summary>
+    /// The List of frontend IP configuration IDs or names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--frontend-ip-configs", GroupValues = true)]
+    public IEnumerable<string>? FrontendIpConfigs { get; set; }
+
+    /// <summary>
+    /// The timeout for the TCP idle connection.
+    /// </summary>
+    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public int? IdleTimeout { get; set; }
 
 }

@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create App Service Environment.
 /// </summary>
+/// <param name="Name">Name of the app service environment.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Subnet">Name or ID of existing subnet. To create vnet and/or subnet use `az network vnet [subnet] create`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "ase", "create")]
-public record AzAppserviceAseCreateOptions : AzOptions
+public record AzAppserviceAseCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--subnet")] string Subnet
+) : AzOptions
 {
     /// <summary>
     /// Do not check if subnet is sized according to recommendations. Allowed values: false, true.
@@ -29,14 +36,14 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// <summary>
     /// Specify App Service Environment version.  Allowed values: ASEv3.  Default: ASEv3.
     /// </summary>
-    [CliFlag("--kind", ShortForm = "-k")]
-    public bool? Kind { get; set; }
+    [CliOption("--kind", ShortForm = "-k")]
+    public string? Kind { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -45,28 +52,21 @@ public record AzAppserviceAseCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Specify if app service environment should be accessible from internet.  Allowed values: External, Internal.  Default:
+    /// Specify if app service environment should be accessible from internet.  Allowed values: External, Internal.  Default: Internal.
     /// </summary>
-    [CliFlag("--virtual-ip-type")]
-    public bool? VirtualIpType { get; set; }
+    [CliOption("--virtual-ip-type")]
+    public string? VirtualIpType { get; set; }
 
     /// <summary>
     /// Name of the vNet. Mandatory if only subnet name is specified.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
     /// <summary>
     /// Configure App Service Environment as Zone Redundant.  Allowed values: false, true.
     /// </summary>
     [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
-
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
-    {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

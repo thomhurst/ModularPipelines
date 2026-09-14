@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Rotate the disk encryption key of the specified
 /// </summary>
+/// <param name="Name">The name of the cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="EncryptionKeyName">Key name that is used for enabling disk encryption.</param>
+/// <param name="EncryptionKeyVersion">Key version that is used for enabling disk encryption.</param>
+/// <param name="EncryptionVaultUri">Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "rotate-disk-encryption-key")]
-public record AzHdinsightRotateDiskEncryptionKeyOptions : AzOptions
+public record AzHdinsightRotateDiskEncryptionKeyOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--encryption-key-name")] string EncryptionKeyName,
+    [property: CliOption("--encryption-key-version")] string EncryptionKeyVersion,
+    [property: CliOption("--encryption-vault-uri")] string EncryptionVaultUri
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

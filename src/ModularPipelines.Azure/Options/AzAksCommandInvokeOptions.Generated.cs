@@ -15,22 +15,27 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Run a shell command (with kubectl, helm) on your aks cluster, support
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "command", "invoke")]
-public record AzAksCommandInvokeOptions : AzOptions
+public record AzAksCommandInvokeOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Command or shell script you want to run.
     /// </summary>
-    [CliFlag("--command", ShortForm = "-c")]
-    public bool? Command { get; set; }
+    [CliOption("--command", ShortForm = "-c")]
+    public string? Command { get; set; }
 
     /// <summary>
     /// Files to be used by the command, use '.' to attach the current folder.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public IEnumerable<string>? File { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the properties of specified rule in Object
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
+/// <param name="RuleId">Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "show")]
-public record AzStorageAccountOrPolicyRuleShowOptions : AzOptions
+public record AzStorageAccountOrPolicyRuleShowOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--policy-id")] string PolicyId,
+    [property: CliOption("--rule-id", ShortForm = "-r")] string RuleId
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

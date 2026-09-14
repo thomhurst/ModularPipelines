@@ -21,8 +21,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzAppservicePlanManagedInstance
 {
     private readonly ICommandContext _command;
+    private AzAppservicePlanManagedInstanceInstallScript? _installScript;
     private AzAppservicePlanManagedInstanceInstance? _instance;
     private AzAppservicePlanManagedInstanceNetwork? _network;
+    private AzAppservicePlanManagedInstanceRegistryAdapter? _registryAdapter;
     private AzAppservicePlanManagedInstanceStorageMount? _storageMount;
 
     /// <summary>
@@ -36,6 +38,11 @@ public class AzAppservicePlanManagedInstance
     #region Sub-command Groups
 
     /// <summary>
+    /// az install-script sub-commands.
+    /// </summary>
+    public AzAppservicePlanManagedInstanceInstallScript InstallScript => _installScript ??= new AzAppservicePlanManagedInstanceInstallScript(_command);
+
+    /// <summary>
     /// az instance sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstanceInstance Instance => _instance ??= new AzAppservicePlanManagedInstanceInstance(_command);
@@ -44,6 +51,11 @@ public class AzAppservicePlanManagedInstance
     /// az network sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstanceNetwork Network => _network ??= new AzAppservicePlanManagedInstanceNetwork(_command);
+
+    /// <summary>
+    /// az registry-adapter sub-commands.
+    /// </summary>
+    public AzAppservicePlanManagedInstanceRegistryAdapter RegistryAdapter => _registryAdapter ??= new AzAppservicePlanManagedInstanceRegistryAdapter(_command);
 
     /// <summary>
     /// az storage-mount sub-commands.

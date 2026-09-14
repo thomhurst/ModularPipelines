@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload workspace package files from a local
 /// </summary>
+/// <param name="Source">The directory where the files to be uploaded are located.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace-package", "upload-batch")]
-public record AzSynapseWorkspacePackageUploadBatchOptions : AzOptions
+public record AzSynapseWorkspacePackageUploadBatchOptions(
+    [property: CliOption("--source", ShortForm = "-s")] string Source,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Include this flag to disable progress reporting for the command.

@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists all of the application packages in the specified
 /// </summary>
+/// <param name="ApplicationName">The name of the application. This must be unique within the account. Required.</param>
+/// <param name="Name">Name of the Batch account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "package", "list")]
-public record AzBatchApplicationPackageListOptions : AzOptions
+public record AzBatchApplicationPackageListOptions(
+    [property: CliOption("--application-name")] string ApplicationName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The maximum number of items to return in the response. Default value is None.

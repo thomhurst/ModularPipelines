@@ -15,22 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Verify a certificate in an Azure IoT Hub Device Provisioning
 /// </summary>
+/// <param name="CertificateName">A friendly name for the certificate.</param>
+/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+/// <param name="Etag">Entity Tag (etag) of the object.</param>
+/// <param name="Path">The path to the file containing the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "certificate", "verify")]
-public record AzIotDpsCertificateVerifyOptions : AzOptions
+public record AzIotDpsCertificateVerifyOptions(
+    [property: CliOption("--certificate-name", ShortForm = "-n")] string CertificateName,
+    [property: CliOption("--dps-name")] string DpsName,
+    [property: CliOption("--etag", ShortForm = "-e")] string Etag,
+    [property: CliOption("--path", ShortForm = "-p")] string Path
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a security sub assessment.
 /// </summary>
+/// <param name="AssessmentName">Name of the assessment resource.</param>
+/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "sub-assessment", "show")]
-public record AzSecuritySubAssessmentShowOptions : AzOptions
+public record AzSecuritySubAssessmentShowOptions(
+    [property: CliOption("--assessment-name")] string AssessmentName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The target resource for this assessment.

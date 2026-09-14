@@ -15,16 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an application gateway WAF
 /// </summary>
+/// <param name="Name">Name of the WAF policy rule.</param>
+/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "update")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Action to take.  Allowed values: Allow, Block, JSChallenge,
+    /// Action to take.  Allowed values: Allow, Block, JSChallenge, Log.
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Rule priority. Lower values are evaluated prior to higher values.
@@ -33,15 +40,63 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions : AzOp
     public bool? Priority { get; set; }
 
     /// <summary>
-    /// Type of rule.  Allowed values: Invalid, MatchRule,
+    /// Type of rule.  Allowed values: Invalid, MatchRule, RateLimitRule.
     /// </summary>
-    [CliFlag("--rule-type")]
-    public bool? RuleType { get; set; }
+    [CliOption("--rule-type")]
+    public string? RuleType { get; set; }
 
     /// <summary>
     /// Describe if the custom rule is in enabled or disabled state. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
+    [CliOption("--state")]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// List of user session identifier group by clauses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--group-by-user-session", GroupValues = true)]
+    public IEnumerable<string>? GroupByUserSession { get; set; }
+
+    /// <summary>
+    /// List of match conditions.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--match-conditions", GroupValues = true)]
+    public IEnumerable<string>? MatchConditions { get; set; }
+
+    /// <summary>
+    /// Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule.  Allowed values: FiveMins, OneMin.
+    /// </summary>
+    [CliOption("--rate-limit-duration")]
+    public string? RateLimitDuration { get; set; }
+
+    /// <summary>
+    /// Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1.
+    /// </summary>
+    [CliFlag("--rate-limit-threshold")]
+    public bool? RateLimitThreshold { get; set; }
 
 }

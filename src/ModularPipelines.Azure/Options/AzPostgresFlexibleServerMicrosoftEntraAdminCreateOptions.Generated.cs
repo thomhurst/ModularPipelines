@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Microsoft Entra
 /// </summary>
+/// <param name="DisplayName">Display name of the Microsoft Entra administrator user or group.</param>
+/// <param name="ObjectId">The unique identifier of the Microsoft Entra administrator.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">Name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "microsoft-entra-admin", "create")]
-public record AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions : AzOptions
+public record AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions(
+    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
+    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -29,7 +38,7 @@ public record AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions : AzOptio
     /// <summary>
     /// Type of the Microsoft Entra administrator.  Allowed values: Group, ServicePrincipal, Unknown, User.  Default: User.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

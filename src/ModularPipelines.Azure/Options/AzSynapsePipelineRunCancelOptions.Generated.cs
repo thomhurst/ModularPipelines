@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancel a pipeline run by its run ID.
 /// </summary>
+/// <param name="RunId">The pipeline run identifier.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline-run", "cancel")]
-public record AzSynapsePipelineRunCancelOptions : AzOptions
+public record AzSynapsePipelineRunCancelOptions(
+    [property: CliOption("--run-id")] string RunId,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// If true, cancel all the Child pipelines that are triggered by the current pipeline.  Allowed values: false, true.

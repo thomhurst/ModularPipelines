@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an SQL container under an Azure Cosmos DB SQL
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Container name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "container", "update")]
-public record AzCosmosdbSqlContainerUpdateOptions : AzOptions
+public record AzCosmosdbSqlContainerUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
@@ -27,13 +36,13 @@ public record AzCosmosdbSqlContainerUpdateOptions : AzOptions
     public bool? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
-    /// Full Text Policy, you can enter it as a string or as a file, e.g., --full-text-policy @policy-file.json or --full-text- policy "{\"fullTextPaths\": [{\"path\": \"/ftPath1\", \"language\": \"en-US\" }]}".
+    /// Full Text Policy, you can enter it as a string or as a file, e.g., --full-text-policy @policy-file.json or --full-text-policy "{\"fullTextPaths\": [{\"path\": \"/ftPath1\", \"language\": \"en-US\" }]}".
     /// </summary>
     [CliFlag("--full-text-policy")]
     public bool? FullTextPolicy { get; set; }
 
     /// <summary>
-    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\":
+    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}],\"vectorIndexes\": [{\"path\": \"/vector1\",\"type\": \"flat\"}]}".
     /// </summary>
     [CliFlag("--idx")]
     public bool? Idx { get; set; }
@@ -45,7 +54,7 @@ public record AzCosmosdbSqlContainerUpdateOptions : AzOptions
     public bool? Ttl { get; set; }
 
     /// <summary>
-    /// Vector Embedding Policy, you can enter it as a string or as a file, e.g., --vector-embeddings @policy-file.json or --vector- embeddings "{\"vectorEmbeddings\": [{\"path\": \"/vector1\", \"dataType\": \"float32\", \"dimensions\": 2, \"distanceFunction\": \"dotproduct\" }]}".
+    /// Vector Embedding Policy, you can enter it as a string or as a file, e.g., --vector-embeddings @policy-file.json or --vector-embeddings "{\"vectorEmbeddings\": [{\"path\": \"/vector1\", \"dataType\": \"float32\", \"dimensions\": 2, \"distanceFunction\": \"dotproduct\" }]}".
     /// </summary>
     [CliFlag("--vector-embeddings")]
     public bool? VectorEmbeddings { get; set; }

@@ -15,15 +15,20 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List traffic manager endpoints.
 /// </summary>
+/// <param name="ProfileName">Name of parent profile.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "endpoint", "list")]
-public record AzNetworkTrafficManagerEndpointListOptions : AzOptions
+public record AzNetworkTrafficManagerEndpointListOptions(
+    [property: CliOption("--profile-name")] string ProfileName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

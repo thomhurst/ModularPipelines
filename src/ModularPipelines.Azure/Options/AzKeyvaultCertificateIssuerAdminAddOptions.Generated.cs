@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add admin details for a specified certificate issuer.
 /// </summary>
+/// <param name="Email">Admin e-mail address. Must be unique within the vault.</param>
+/// <param name="IssuerName">Certificate issuer name.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "admin", "add")]
-public record AzKeyvaultCertificateIssuerAdminAddOptions : AzOptions
+public record AzKeyvaultCertificateIssuerAdminAddOptions(
+    [property: CliOption("--email")] string Email,
+    [property: CliOption("--issuer-name")] string IssuerName,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
     /// <summary>
     /// Admin first name.

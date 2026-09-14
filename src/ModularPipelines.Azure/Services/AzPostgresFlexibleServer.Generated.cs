@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzPostgresFlexibleServer
 {
     private readonly ICommandContext _command;
+    private AzPostgresFlexibleServerAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzPostgresFlexibleServerAutonomousTuning? _autonomousTuning;
     private AzPostgresFlexibleServerBackup? _backup;
     private AzPostgresFlexibleServerDb? _db;
@@ -33,6 +34,7 @@ public class AzPostgresFlexibleServer
     private AzPostgresFlexibleServerMigration? _migration;
     private AzPostgresFlexibleServerParameter? _parameter;
     private AzPostgresFlexibleServerPrivateEndpointConnection? _privateEndpointConnection;
+    private AzPostgresFlexibleServerPrivateLinkResource? _privateLinkResource;
     private AzPostgresFlexibleServerReplica? _replica;
     private AzPostgresFlexibleServerServerLogs? _serverLogs;
     private AzPostgresFlexibleServerVirtualEndpoint? _virtualEndpoint;
@@ -46,6 +48,11 @@ public class AzPostgresFlexibleServer
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az advanced-threat-protection-setting sub-commands.
+    /// </summary>
+    public AzPostgresFlexibleServerAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzPostgresFlexibleServerAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
     /// az autonomous-tuning sub-commands.
@@ -108,6 +115,11 @@ public class AzPostgresFlexibleServer
     public AzPostgresFlexibleServerPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzPostgresFlexibleServerPrivateEndpointConnection(_command);
 
     /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzPostgresFlexibleServerPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzPostgresFlexibleServerPrivateLinkResource(_command);
+
+    /// <summary>
     /// az replica sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerReplica Replica => _replica ??= new AzPostgresFlexibleServerReplica(_command);
@@ -138,7 +150,7 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerCreateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -153,7 +165,7 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -164,11 +176,11 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GeoRestoreAsync(
-        AzPostgresFlexibleServerGeoRestoreOptions? options = null,
+        AzPostgresFlexibleServerGeoRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerGeoRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -183,7 +195,22 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists available sku's in the given region.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSkusAsync(
+        AzPostgresFlexibleServerListSkusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -198,7 +225,7 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerMigrateNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerMigrateNetworkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -213,7 +240,7 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerRestartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerRestartOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -224,11 +251,11 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAsync(
-        AzPostgresFlexibleServerRestoreOptions? options = null,
+        AzPostgresFlexibleServerRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,11 +266,11 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReviveDroppedAsync(
-        AzPostgresFlexibleServerReviveDroppedOptions? options = null,
+        AzPostgresFlexibleServerReviveDroppedOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerReviveDroppedOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -258,7 +285,22 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerShowConnectionStringOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerShowConnectionStringOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get the details of a flexible server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzPostgresFlexibleServerShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -273,7 +315,7 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerStartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerStartOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -288,7 +330,7 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerStopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerStopOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -303,7 +345,22 @@ public class AzPostgresFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Wait for the flexible server to satisfy certain conditions.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzPostgresFlexibleServerWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerWaitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

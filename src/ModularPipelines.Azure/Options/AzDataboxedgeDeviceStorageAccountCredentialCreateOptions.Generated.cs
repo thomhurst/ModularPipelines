@@ -15,15 +15,58 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the storage account credential.
 /// </summary>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The storage account credential name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="AccountType">Type of storage accessed on the storage account.  Allowed values: BlobStorage, GeneralPurposeStorage.</param>
+/// <param name="Alias">Alias for the storage account.</param>
+/// <param name="SslStatus">Signifies whether SSL needs to be enabled or not.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account-credential", "create")]
-public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions : AzOptions
+public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions(
+    [property: CliOption("--device-name")] string DeviceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--account-type")] string AccountType,
+    [property: CliOption("--alias")] string Alias,
+    [property: CliOption("--ssl-status")] string SslStatus
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Encrypted storage key.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Blob end point for private clouds.
+    /// </summary>
+    [CliFlag("--blob-domain-name")]
+    public bool? BlobDomainName { get; set; }
+
+    /// <summary>
+    /// Connection string for the storage account. Use this string if username and account key are not specified.
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Id of the storage account.
+    /// </summary>
+    [CliOption("--storage-account-id")]
+    public string? StorageAccountId { get; set; }
+
+    /// <summary>
+    /// Username for the storage account.
+    /// </summary>
+    [CliOption("--user-name")]
+    public string? UserName { get; set; }
 
 }

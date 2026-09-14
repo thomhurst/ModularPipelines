@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new client certificate to the managed
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "client-certificate", "add")]
-public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
+public record AzSfManagedClusterClientCertificateAddOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Client certificate common name.
@@ -35,8 +40,8 @@ public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Space-separated list of issuer thumbprints.
     /// </summary>
-    [CliFlag("--issuer-thumbprint")]
-    public bool? IssuerThumbprint { get; set; }
+    [CliOption("--issuer-thumbprint", GroupValues = true)]
+    public IEnumerable<string>? IssuerThumbprint { get; set; }
 
     /// <summary>
     /// Client certificate thumbprint.

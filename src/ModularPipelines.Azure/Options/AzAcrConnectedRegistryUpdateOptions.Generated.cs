@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a connected registry for an Azure Container Registry.
 /// </summary>
+/// <param name="Name">Name for the connected registry. Name must be between 5 to 40 character long, start with a letter and contain only alphanumeric characters (including ‘_’ or ‘-’). Name must be unique under the Cloud ACR hierarchy.</param>
+/// <param name="Registry">The login server of the Cloud ACR registry. Must be the FQDN to support also Azure Stack.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "update")]
-public record AzAcrConnectedRegistryUpdateOptions : AzOptions
+public record AzAcrConnectedRegistryUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
     /// <summary>
     /// Client tokens to be added. Use the format "--add-client-tokens [TOKEN_NAME1 TOKEN_NAME2 ...]" per token id.
@@ -29,8 +34,8 @@ public record AzAcrConnectedRegistryUpdateOptions : AzOptions
     /// <summary>
     /// List of artifact pattern to be added to notifications list. Use the format "--add-notifications [PATTERN1 PATTERN2 ...]".
     /// </summary>
-    [CliFlag("--add-notifications")]
-    public bool? AddNotifications { get; set; }
+    [CliOption("--add-notifications", GroupValues = true)]
+    public IEnumerable<string>? AddNotifications { get; set; }
 
     /// <summary>
     /// Indicate whether garbage collection is enabled. It is enabled by default.  Allowed values: false, true.
@@ -59,14 +64,14 @@ public record AzAcrConnectedRegistryUpdateOptions : AzOptions
     /// <summary>
     /// List of artifact pattern to be removed from notifications list. Use the format "--remove-notifications [PATTERN1 PATTERN2 ...]".
     /// </summary>
-    [CliFlag("--remove-notifications")]
-    public bool? RemoveNotifications { get; set; }
+    [CliOption("--remove-notifications", GroupValues = true)]
+    public IEnumerable<string>? RemoveNotifications { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Determine how long the sync messages will be kept in the cloud. Uses ISO 8601 duration format.
@@ -85,12 +90,5 @@ public record AzAcrConnectedRegistryUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--sync-window", ShortForm = "-w")]
     public bool? SyncWindow { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

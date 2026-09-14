@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a server.
 /// </summary>
+/// <param name="Name">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "create")]
-public record AzSqlServerCreateOptions : AzOptions
+public record AzSqlServerCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The administrator login password (required forserver creation).
@@ -29,8 +34,8 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// Administrator username for the server. Oncecreated it cannot be changed.
     /// </summary>
-    [CliFlag("--admin-user", ShortForm = "-u")]
-    public bool? AdminUser { get; set; }
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string? AdminUser { get; set; }
 
     /// <summary>
     /// Generate and assign an Azure Active Directory Identity for this server for use with key management services like Azure KeyVault.
@@ -57,34 +62,40 @@ public record AzSqlServerCreateOptions : AzOptions
     public bool? ExternalAdminPrincipalType { get; set; }
 
     /// <summary>
-    /// The unique ID of the Azure AD administrator. Object Id for User or Group, Client Id for
+    /// The unique ID of the Azure AD administrator. Object Id for User or Group, Client Id for Applications.
     /// </summary>
     [CliFlag("--external-admin-sid")]
     public bool? ExternalAdminSid { get; set; }
 
     /// <summary>
-    /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned,
+    /// The federated client id used in cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--identity-type", ShortForm = "-t")]
-    public bool? IdentityType { get; set; }
+    [CliFlag("--federated-client-id", ShortForm = "--fid")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
+    /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
+    /// </summary>
+    [CliOption("--identity-type", ShortForm = "-t")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// The key vault URI for encryption.
     /// </summary>
     [CliOption("--key-id", ShortForm = "-k")]
-    public string? KeyIdValue { get; set; }
+    public string? KeyId { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The minimal TLS version enforced by the sql server for inbound connections.  Allowed values: 1.0, 1.1, 1.2, 1.3.
     /// </summary>
-    [CliFlag("--minimal-tls-version")]
-    public bool? MinimalTlsVersion { get; set; }
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -93,22 +104,21 @@ public record AzSqlServerCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// The ID of the primary user managed identity.
+    /// </summary>
+    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    public string? Pid { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
     [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
     public bool? UserAssignedIdentityId { get; set; }
-
-    [Obsolete("Use KeyIdValue instead.")]
-    public bool? KeyId
-    {
-        get => bool.TryParse(KeyIdValue, out var value) ? value : null;
-        set => KeyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Query pipeline runs in the workspace based on input
 /// </summary>
+/// <param name="LastUpdatedAfter">The time at or after which the run event was updated in 'ISO 8601' format.</param>
+/// <param name="LastUpdatedBefore">The time at or before which the run event was updated in 'ISO 8601' format.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline-run", "query-by-workspace")]
-public record AzSynapsePipelineRunQueryByWorkspaceOptions : AzOptions
+public record AzSynapsePipelineRunQueryByWorkspaceOptions(
+    [property: CliOption("--last-updated-after")] string LastUpdatedAfter,
+    [property: CliOption("--last-updated-before")] string LastUpdatedBefore,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// The continuation token for getting the next page of results. Null for first page.
@@ -29,13 +36,13 @@ public record AzSynapsePipelineRunQueryByWorkspaceOptions : AzOptions
     /// <summary>
     /// List of filters.
     /// </summary>
-    [CliFlag("--filters")]
-    public bool? Filters { get; set; }
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// List of OrderBy option.
     /// </summary>
-    [CliFlag("--order-by")]
-    public bool? OrderBy { get; set; }
+    [CliOption("--order-by", GroupValues = true)]
+    public IEnumerable<string>? OrderBy { get; set; }
 
 }

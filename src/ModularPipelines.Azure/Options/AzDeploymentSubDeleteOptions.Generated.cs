@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a deployment at subscription scope.
 /// </summary>
+/// <param name="Name">The deployment name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "sub", "delete")]
-public record AzDeploymentSubDeleteOptions : AzOptions
+public record AzDeploymentSubDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

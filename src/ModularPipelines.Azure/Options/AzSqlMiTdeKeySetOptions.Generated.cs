@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets the SQL Instance's encryption protector.
 /// </summary>
+/// <param name="ServerKeyType">The type of the server key.  Allowed values: AzureKeyVault, ServiceManaged.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "tde-key", "set")]
-public record AzSqlMiTdeKeySetOptions : AzOptions
+public record AzSqlMiTdeKeySetOptions(
+    [property: CliOption("--server-key-type", ShortForm = "-t")] string ServerKeyType
+) : AzOptions
 {
     /// <summary>
     /// The key auto rotation opt in status. Can be either true or false.  Allowed values: false, true.
@@ -31,5 +34,23 @@ public record AzSqlMiTdeKeySetOptions : AzOptions
     /// </summary>
     [CliFlag("--kid", ShortForm = "-k")]
     public bool? Kid { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string? ManagedInstance { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

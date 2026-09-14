@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,10 +16,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a GitHub Actions workflow to a repository to deploy a
 /// </summary>
+/// <param name="RepoUrl">The GitHub repository to which the workflow file will be added. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "github-action", "add")]
-public record AzContainerappGithubActionAddOptions : AzOptions
+public record AzContainerappGithubActionAddOptions(
+    [property: CliOption("--repo-url")] string RepoUrl
+) : AzOptions
 {
     /// <summary>
     /// The branch of the Github repo. Assumed to be the Github repo's default branch if not specified.
@@ -27,10 +31,10 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     public bool? Branch { get; set; }
 
     /// <summary>
-    /// Path in the repo from which to run the docker build.
+    /// Path in the repo from which to run the docker build. Defaults to "./".
     /// </summary>
     [CliOption("--context-path")]
-    public string? ContextPathValue { get; set; }
+    public string? ContextPath { get; set; }
 
     /// <summary>
     /// Container image name that the Github Action should use. Defaults to the Container App name.
@@ -39,7 +43,7 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     public bool? Image { get; set; }
 
     /// <summary>
-    /// Interactively log in with Github to retrieve the Personal
+    /// Interactively log in with Github to retrieve the Personal Access Token.
     /// </summary>
     [CliFlag("--login-with-github")]
     public bool? LoginWithGithub { get; set; }
@@ -47,8 +51,9 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// The password of the registry. If using Azure Container Registry, we will try to infer the credentials if not supplied.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server, e.g. myregistry.azurecr.io.
@@ -59,14 +64,14 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// The username of the registry. If using Azure Container Registry, we will try to infer the credentials if not supplied.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// The service principal client ID.
     /// </summary>
-    [CliFlag("--service-principal-client-id")]
-    public bool? ServicePrincipalClientId { get; set; }
+    [CliOption("--service-principal-client-id")]
+    public string? ServicePrincipalClientId { get; set; }
 
     /// <summary>
     /// The service principal client secret.
@@ -77,8 +82,8 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// The service principal tenant ID.
     /// </summary>
-    [CliFlag("--service-principal-tenant-id")]
-    public bool? ServicePrincipalTenantId { get; set; }
+    [CliOption("--service-principal-tenant-id")]
+    public string? ServicePrincipalTenantId { get; set; }
 
     /// <summary>
     /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating-to- github/creating-a-personal-access-token-for-the-command- line.
@@ -86,11 +91,22 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     [CliFlag("--token")]
     public bool? Token { get; set; }
 
-    [Obsolete("Use ContextPathValue instead.")]
-    public bool? ContextPath
-    {
-        get => bool.TryParse(ContextPathValue, out var value) ? value : null;
-        set => ContextPathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

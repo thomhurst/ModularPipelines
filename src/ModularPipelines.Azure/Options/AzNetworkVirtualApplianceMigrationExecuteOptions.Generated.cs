@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute the migration of a Network Virtual
 /// </summary>
+/// <param name="MigrationType">The type of migration workflow to execute for the Network Virtual Appliance. Must match the type used in the prepare phase.  Allowed values: MigrateToNewILBArchitecture, MigrateToNewOSVersion.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "migration", "execute")]
@@ -22,11 +23,6 @@ public record AzNetworkVirtualApplianceMigrationExecuteOptions(
     [property: CliOption("--migration-type")] string MigrationType
 ) : AzOptions
 {
-    public AzNetworkVirtualApplianceMigrationExecuteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,28 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update your IoT Security solution.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SolutionName">Name of the IoT Security solution.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "iot-solution", "update")]
-public record AzSecurityIotSolutionUpdateOptions : AzOptions
+public record AzSecurityIotSolutionUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--solution-name")] string SolutionName
+) : AzOptions
 {
     /// <summary>
     /// Resource display name.
     /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayNameValue { get; set; }
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// IoT Hub resource IDs.
     /// </summary>
     [CliFlag("--iot-hubs")]
     public bool? IotHubs { get; set; }
-
-    [Obsolete("Use DisplayNameValue instead.")]
-    public bool? DisplayName
-    {
-        get => bool.TryParse(DisplayNameValue, out var value) ? value : null;
-        set => DisplayNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

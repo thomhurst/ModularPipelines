@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an event subscription of a domain.
 /// </summary>
+/// <param name="DomainName">Name of the domain.</param>
+/// <param name="Name">Name of the event subscription.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "event-subscription", "delete")]
-public record AzEventgridDomainEventSubscriptionDeleteOptions : AzOptions
+public record AzEventgridDomainEventSubscriptionDeleteOptions(
+    [property: CliOption("--domain-name")] string DomainName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

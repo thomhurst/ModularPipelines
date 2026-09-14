@@ -24,13 +24,24 @@ public record AzImageBuilderShowRunsOptions : AzOptions
     /// Name of the image builder run output.
     /// </summary>
     [CliOption("--output-name")]
-    public string? OutputNameValue { get; set; }
+    public string? OutputName { get; set; }
 
-    [Obsolete("Use OutputNameValue instead.")]
-    public bool? OutputName
-    {
-        get => bool.TryParse(OutputNameValue, out var value) ? value : null;
-        set => OutputNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the image template.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

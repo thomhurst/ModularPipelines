@@ -15,28 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new resource group.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Name">Name of the new resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "create")]
-public record AzGroupCreateOptions : AzOptions
+public record AzGroupCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The ID of the resource that manages this resource group.
     /// </summary>
     [CliOption("--managed-by")]
-    public string? ManagedByValue { get; set; }
+    public string? ManagedBy { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use ManagedByValue instead.")]
-    public bool? ManagedBy
-    {
-        get => bool.TryParse(ManagedByValue, out var value) ? value : null;
-        set => ManagedByValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

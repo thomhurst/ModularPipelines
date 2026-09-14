@@ -15,22 +15,28 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create invitation link for specified user to the static app.
 /// </summary>
+/// <param name="AuthenticationProvider">Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.</param>
+/// <param name="Domain">A domain added to the static app in quotes.</param>
+/// <param name="InvitationExpirationInHours">This value sets when the link will expire in hours. The maximum is 168 (7 days).</param>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="Roles">Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.</param>
+/// <param name="UserDetails">Email for AAD, Facebook, and Google. Account name (handle) for GitHub and Twitter.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "invite")]
-public record AzStaticwebappUsersInviteOptions : AzOptions
+public record AzStaticwebappUsersInviteOptions(
+    [property: CliOption("--authentication-provider")] string AuthenticationProvider,
+    [property: CliOption("--domain")] string Domain,
+    [property: CliOption("--invitation-expiration-in-hours")] string InvitationExpirationInHours,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--roles")] string Roles,
+    [property: CliOption("--user-details")] string UserDetails
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an API Management Named Value.
 /// </summary>
+/// <param name="DisplayName">The Display name of the Named Value.</param>
+/// <param name="NamedValueId">Unique name for the Named Value to be created. Must be unique in the current API Management service instance.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "nv", "create")]
-public record AzApimNvCreateOptions : AzOptions
+public record AzApimNvCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--named-value-id")] string NamedValueId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// ETag of the Entity.
@@ -41,20 +50,13 @@ public record AzApimNvCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The value of the Named Value.
     /// </summary>
     [CliOption("--value")]
-    public string? ValueValue { get; set; }
-
-    [Obsolete("Use ValueValue instead.")]
-    public bool? Value
-    {
-        get => bool.TryParse(ValueValue, out var value) ? value : null;
-        set => ValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Value { get; set; }
 
 }

@@ -15,15 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create Authorization Rule for the given Relay
 /// </summary>
+/// <param name="Name">Name of Namespace Authorization Rule.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "namespace", "authorization-rule", "create")]
-public record AzRelayNamespaceAuthorizationRuleCreateOptions : AzOptions
+public record AzRelayNamespaceAuthorizationRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rights")]
-    public bool? Rights { get; set; }
+    [CliOption("--rights", GroupValues = true)]
+    public IEnumerable<string>? Rights { get; set; }
 
 }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Prepare a Network Virtual Appliance for an
 /// </summary>
+/// <param name="MigrationType">The type of migration workflow to prepare for the Network Virtual Appliance.  Allowed values: MigrateToNewILBArchitecture, MigrateToNewOSVersion.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "migration", "prepare")]
@@ -29,7 +30,7 @@ public record AzNetworkVirtualApplianceMigrationPrepareOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The marketplace version to migrate to. Only applicable when --migration-type is
+    /// The marketplace version to migrate to. Only applicable when --migration-type is MigrateToNewOSVersion.
     /// </summary>
     [CliOption("--marketplace-version")]
     public string? MarketplaceVersion { get; set; }

@@ -15,25 +15,62 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new channel for a partner namespace.
 /// </summary>
+/// <param name="ChannelType">The type of the event channel which represents the  direction flow of events.  Allowed values: PartnerDestination, PartnerTopic.</param>
+/// <param name="DestinationRg">Azure Resource Group of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this resource group.</param>
+/// <param name="DestinationSubId">Azure subscription Id of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this Azure subscription.</param>
+/// <param name="Name">Name of the channel.</param>
+/// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "channel", "create")]
-public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
+public record AzEventgridPartnerNamespaceChannelCreateOptions(
+    [property: CliOption("--channel-type")] string ChannelType,
+    [property: CliOption("--destination-rg")] string DestinationRg,
+    [property: CliOption("--destination-sub-id")] string DestinationSubId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-namespace-name")] string PartnerNamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
+    /// </summary>
+    [CliFlag("--aad-app-id", ShortForm = "--azure-active-directory-application-id-or-uri")]
+    public bool? AadAppId { get; set; }
+
+    /// <summary>
+    /// The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
+    /// </summary>
+    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
+    public bool? AadTenantId { get; set; }
+
+    /// <summary>
+    /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') after which the channel and corresponding partner topic would expire and get auto deleted. If this time is not specified, the expiration date is set to seven days by default.
+    /// </summary>
+    [CliFlag("--act-exp-date", ShortForm = "--activation-expiration-date")]
+    public bool? ActExpDate { get; set; }
+
+    /// <summary>
+    /// Endpoint context associated with this partner destination.
+    /// </summary>
+    [CliFlag("--ed-serv-cont", ShortForm = "--endpoint-service-context")]
+    public bool? EdServCont { get; set; }
+
     /// <summary>
     /// The URL that represents the endpoint of the partner destination.
     /// </summary>
     [CliOption("--endpoint-url")]
-    public string? EndpointUrlValue { get; set; }
+    public string? EndpointUrl { get; set; }
 
     /// <summary>
-    /// The kind of event type used.
+    /// The kind of event type used. Allowed values: inline.
     /// </summary>
-    [CliFlag("--event-type-kind")]
-    public bool? EventTypeKind { get; set; }
+    [CliOption("--event-type-kind")]
+    public string? EventTypeKind { get; set; }
 
     /// <summary>
-    /// Create a channel for an existing partner namespace, either of type partner topic or partner destination. You can also add inline event type info if channel type is partner topic. Multiple attributes can be specified by using more than one `--inline- event-type` argument.
+    /// Create a channel for an existing partner namespace, either of type partner topic or partner destination. You can also add inline event type info if channel type is partner topic. Multiple attributes can be specified by using more than one `--inline-event-type` argument. Usage:       --inline-event-type KEY [description={description}] [documentation-url={url}] \ [data-schema-url={url}] Example:     --inline-event-type event1 \ description="My inline event type." \ documentation-url=https://www.microsoft.com \ data-schema-url=https://www.microsoft.com.
     /// </summary>
     [CliFlag("--inline-event-type")]
     public bool? InlineEventType { get; set; }
@@ -45,36 +82,21 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     public bool? MessageForActivation { get; set; }
 
     /// <summary>
+    /// Name of the partner destination.
+    /// </summary>
+    [CliOption("--partner-destination-name", ShortForm = "--pr-dest-n")]
+    public string? PartnerDestinationName { get; set; }
+
+    /// <summary>
     /// Name of the partner topic.
     /// </summary>
     [CliOption("--partner-topic-name")]
-    public string? PartnerTopicNameValue { get; set; }
+    public string? PartnerTopicName { get; set; }
 
     /// <summary>
     /// The identifier of the resource that forms the partner source of the events. This represents a unique resource in the partner's resource model.
     /// </summary>
     [CliOption("--partner-topic-source")]
-    public string? PartnerTopicSourceValue { get; set; }
-
-    [Obsolete("Use EndpointUrlValue instead.")]
-    public bool? EndpointUrl
-    {
-        get => bool.TryParse(EndpointUrlValue, out var value) ? value : null;
-        set => EndpointUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PartnerTopicNameValue instead.")]
-    public bool? PartnerTopicName
-    {
-        get => bool.TryParse(PartnerTopicNameValue, out var value) ? value : null;
-        set => PartnerTopicNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PartnerTopicSourceValue instead.")]
-    public bool? PartnerTopicSource
-    {
-        get => bool.TryParse(PartnerTopicSourceValue, out var value) ? value : null;
-        set => PartnerTopicSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? PartnerTopicSource { get; set; }
 
 }

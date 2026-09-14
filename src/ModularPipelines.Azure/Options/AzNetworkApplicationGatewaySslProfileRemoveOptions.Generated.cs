@@ -15,15 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an existing SSL profile of the
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the SSL profile.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "ssl-profile", "remove")]
-public record AzNetworkApplicationGatewaySslProfileRemoveOptions : AzOptions
+public record AzNetworkApplicationGatewaySslProfileRemoveOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

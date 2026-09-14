@@ -15,15 +15,42 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create storage account on the device.
 /// </summary>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The StorageAccount name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="DataPolicy">Data policy of the storage Account.  Allowed values: Cloud, Local.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account", "create")]
-public record AzDataboxedgeDeviceStorageAccountCreateOptions : AzOptions
+public record AzDataboxedgeDeviceStorageAccountCreateOptions(
+    [property: CliOption("--device-name")] string DeviceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--data-policy")] string DataPolicy
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Description for the storage Account.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Storage Account Credential Id.
+    /// </summary>
+    [CliFlag("--sac-id", ShortForm = "--storage-account-credential-id")]
+    public bool? SacId { get; set; }
+
+    /// <summary>
+    /// Current status of the storage account.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.
+    /// </summary>
+    [CliOption("--storage-account-status")]
+    public string? StorageAccountStatus { get; set; }
 
 }

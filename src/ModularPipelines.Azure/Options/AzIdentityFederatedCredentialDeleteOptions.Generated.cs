@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a federated identity credential under an
 /// </summary>
+/// <param name="IdentityName">The name of the identity resource.</param>
+/// <param name="Name">The name of the federated identity credential resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "federated-credential", "delete")]
-public record AzIdentityFederatedCredentialDeleteOptions : AzOptions
+public record AzIdentityFederatedCredentialDeleteOptions(
+    [property: CliOption("--identity-name")] string IdentityName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

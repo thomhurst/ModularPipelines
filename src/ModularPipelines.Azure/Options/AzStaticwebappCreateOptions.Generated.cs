@@ -15,28 +15,33 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a static app. To provide content to the static web app and
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "create")]
-public record AzStaticwebappCreateOptions : AzOptions
+public record AzStaticwebappCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Location of your Azure Functions code. For example, '/api' represents a folder called 'api'.
     /// </summary>
-    [CliFlag("--api-location")]
-    public bool? ApiLocation { get; set; }
+    [CliOption("--api-location")]
+    public string? ApiLocation { get; set; }
 
     /// <summary>
     /// Location of your application code. For example, '/' represents the root of your app, while '/app' represents a directory called 'app'.  Default: /.
     /// </summary>
-    [CliFlag("--app-location")]
-    public bool? AppLocation { get; set; }
+    [CliOption("--app-location")]
+    public string? AppLocation { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.  Default: centralus.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -48,25 +53,48 @@ public record AzStaticwebappCreateOptions : AzOptions
     /// The path of your build output relative to your apps location. For example, setting a value of 'build' when your app location is set to '/app' will cause the content at '/app/build' to be served.
     /// </summary>
     [CliOption("--output-location")]
-    public string? OutputLocationValue { get; set; }
+    public string? OutputLocation { get; set; }
 
     /// <summary>
     /// The pricing tiers for Static Web App.  Allowed values: Dedicated, Free, Standard.  Default: Free.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
-    [Obsolete("Use OutputLocationValue instead.")]
-    public bool? OutputLocation
-    {
-        get => bool.TryParse(OutputLocationValue, out var value) ? value : null;
-        set => OutputLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The target branch in the repository.
+    /// </summary>
+    [CliFlag("--branch", ShortForm = "-b")]
+    public bool? Branch { get; set; }
+
+    /// <summary>
+    /// Use azure credentials to create an Azure Dev Ops personal access token.
+    /// </summary>
+    [CliFlag("--login-with-ado")]
+    public bool? LoginWithAdo { get; set; }
+
+    /// <summary>
+    /// Interactively log in with Github to retrieve the Personal Access Token.
+    /// </summary>
+    [CliFlag("--login-with-github")]
+    public bool? LoginWithGithub { get; set; }
+
+    /// <summary>
+    /// URL for the repository of the static site.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// A user's GitHub or Azure Dev Ops repository token. This is used to create the Github Action or Dev Ops pipeline.
+    /// </summary>
+    [CliFlag("--token", ShortForm = "-t")]
+    public bool? Token { get; set; }
 
 }

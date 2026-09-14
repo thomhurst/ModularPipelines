@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all Spark jobs.
 /// </summary>
+/// <param name="SparkPoolName">The name of the Spark pool.</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "job", "list")]
-public record AzSynapseSparkJobListOptions : AzOptions
+public record AzSynapseSparkJobListOptions(
+    [property: CliOption("--spark-pool-name")] string SparkPoolName,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Optional parameter specifying which index the list should begin from.

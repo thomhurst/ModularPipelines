@@ -15,19 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update namespace on the managed Kubernetes cluster.
 /// </summary>
+/// <param name="ClusterName">Name of the managed cluster.</param>
+/// <param name="Name">The managed namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "update")]
-public record AzAksNamespaceUpdateOptions : AzOptions
+public record AzAksNamespaceUpdateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Action if Kubernetes namespace with same name already exists. Allowed values: Always, IfIdentical, Never.
     /// </summary>
-    [CliFlag("--adoption-policy")]
-    public bool? AdoptionPolicy { get; set; }
+    [CliOption("--adoption-policy")]
+    public string? AdoptionPolicy { get; set; }
 
     /// <summary>
-    /// Send custom headers. When specified, format should be
+    /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
     [CliFlag("--aks-custom-headers")]
     public bool? AksCustomHeaders { get; set; }
@@ -53,20 +60,20 @@ public record AzAksNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Delete options of a namespace.  Allowed values: Delete, Keep.
     /// </summary>
-    [CliFlag("--delete-policy")]
-    public bool? DeletePolicy { get; set; }
+    [CliOption("--delete-policy")]
+    public string? DeletePolicy { get; set; }
 
     /// <summary>
-    /// Egress policy rule for the network.  Allowed values: AllowAll,
+    /// Egress policy rule for the network.  Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
-    [CliFlag("--egress-policy")]
-    public bool? EgressPolicy { get; set; }
+    [CliOption("--egress-policy")]
+    public string? EgressPolicy { get; set; }
 
     /// <summary>
-    /// Ingress policy rule for the network.  Allowed values: AllowAll,
+    /// Ingress policy rule for the network.  Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
-    [CliFlag("--ingress-policy")]
-    public bool? IngressPolicy { get; set; }
+    [CliOption("--ingress-policy")]
+    public string? IngressPolicy { get; set; }
 
     /// <summary>
     /// Labels for the managed namespace.

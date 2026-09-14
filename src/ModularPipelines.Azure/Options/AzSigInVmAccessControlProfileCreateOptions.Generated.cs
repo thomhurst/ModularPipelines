@@ -15,15 +15,46 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery in VM access control profile.
 /// </summary>
+/// <param name="GalleryName">The name of the Shared Image Gallery in which the in VM access control profile is to be created.</param>
+/// <param name="Name">The name of the gallery in VM access control profile to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "in-vm-access-control-profile", "create")]
-public record AzSigInVmAccessControlProfileCreateOptions : AzOptions
+public record AzSigInVmAccessControlProfileCreateOptions(
+    [property: CliOption("--gallery-name")] string GalleryName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource location  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'.  Allowed values: IMDS, WireServer.
+    /// </summary>
+    [CliOption("--applicable-host-endpoint")]
+    public string? ApplicableHostEndpoint { get; set; }
+
+    /// <summary>
+    /// The description of this gallery in VM access control profile resources. This property is updatable.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux'.  Allowed values: Linux, Windows.
+    /// </summary>
+    [CliOption("--os-type")]
+    public string? OsType { get; set; }
 
 }

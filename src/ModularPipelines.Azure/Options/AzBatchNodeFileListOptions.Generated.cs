@@ -15,15 +15,44 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists all of the files in Task directories on the specified Compute
 /// </summary>
+/// <param name="NodeId">The ID of the Compute Node whose files you want to list. Required.</param>
+/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "file", "list")]
-public record AzBatchNodeFileListOptions : AzOptions
+public record AzBatchNodeFileListOptions(
+    [property: CliOption("--node-id")] string NodeId,
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
     /// <summary>
     /// Whether to list children of a directory.  Allowed values: false, true.
     /// </summary>
     [CliOption("--recursive")]
     public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata- filters-in-batch.
+    /// </summary>
+    [CliFlag("--filter")]
+    public bool? Filter { get; set; }
 
 }

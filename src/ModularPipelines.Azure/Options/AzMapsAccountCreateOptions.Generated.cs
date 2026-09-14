@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Maps Account. A Maps Account holds the keys which allow access
 /// </summary>
+/// <param name="AccountName">The name of the maps account.</param>
+/// <param name="ResourceGroup">Resource group name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("maps", "account", "create")]
-public record AzMapsAccountCreateOptions : AzOptions
+public record AzMapsAccountCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// You must agree to the License and Privacy Statement to create an account.
@@ -35,25 +40,43 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// Get or Set Kind property.  Allowed values: Gen1, Gen2.
     /// </summary>
-    [CliFlag("--kind")]
-    public bool? Kind { get; set; }
+    [CliOption("--kind")]
+    public string? Kind { get; set; }
 
     /// <summary>
-    /// Sets the resources to be used for Managed Identities based operations for the Map account resource.
+    /// Sets the resources to be used for Managed Identities based operations for the Map account resource. Usage: --linked-resources unique-name=XX id=XX
     /// </summary>
     [CliFlag("--linked-resources")]
     public bool? LinkedResources { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The identity type.  Allowed values: None, SystemAssigned, SystemAssigned, UserAssigned, UserAssigned.
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId} /resourceGroups/{resourceGroupName}/providers/Microsoft.Ma nagedIdentity/userAssignedIdentities/{identityName}'. Expected value: json-string/@json-file.
+    /// </summary>
+    [CliOption("--user-identities", GroupValues = true)]
+    public IEnumerable<string>? UserIdentities { get; set; }
+
+    /// <summary>
+    /// The name of the SKU, in standard format (such as S0). Allowed values: G2, S0, S1.
+    /// </summary>
+    [CliOption("--sku", ShortForm = "-s")]
+    public string? Sku { get; set; }
 
 }

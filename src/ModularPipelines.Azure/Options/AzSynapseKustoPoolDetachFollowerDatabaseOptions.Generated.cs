@@ -15,15 +15,44 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detaches all followers of a database owned by
 /// </summary>
+/// <param name="Adcn">Resource name of the attached database configuration in the follower cluster.</param>
+/// <param name="KustoPoolResourceId">Resource id of the cluster that follows a database owned by this cluster.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "detach-follower-database")]
-public record AzSynapseKustoPoolDetachFollowerDatabaseOptions : AzOptions
+public record AzSynapseKustoPoolDetachFollowerDatabaseOptions(
+    [property: CliOption("--adcn", ShortForm = "--attached-database-configuration-name")] string Adcn,
+    [property: CliOption("--kusto-pool-resource-id")] string KustoPoolResourceId
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Kusto pool.
+    /// </summary>
+    [CliOption("--kusto-pool-name", ShortForm = "-n")]
+    public string? KustoPoolName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

@@ -15,15 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a private endpoint dns zone into a dns zone
 /// </summary>
+/// <param name="EndpointName">Name of the private endpoint.</param>
+/// <param name="Name">Name of the private dns zone group.</param>
+/// <param name="PrivateDnsZone">Name or ID of the private dns zone.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">Name of the resource that is unique within a resource group. This name can be used to access the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "dns-zone-group", "add")]
-public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions : AzOptions
+public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions(
+    [property: CliOption("--endpoint-name")] string EndpointName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--private-dns-zone")] string PrivateDnsZone,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

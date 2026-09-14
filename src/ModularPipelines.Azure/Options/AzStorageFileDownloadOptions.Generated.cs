@@ -15,22 +15,33 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download a file to a file path, with automatic chunking and progress
 /// </summary>
+/// <param name="Path">The path to the file within the file share.</param>
+/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "download")]
-public record AzStorageFileDownloadOptions : AzOptions
+public record AzStorageFileDownloadOptions(
+    [property: CliOption("--path", ShortForm = "-p")] string Path,
+    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName
+) : AzOptions
 {
     /// <summary>
-    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
+    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
+
+    /// <summary>
+    /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
+    /// </summary>
+    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    public bool? BackupIntent { get; set; }
 
     /// <summary>
     /// Path of the file to write to. The source filename will be used if not specified.
     /// </summary>
     [CliOption("--dest")]
-    public string? DestValue { get; set; }
+    public string? Dest { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
@@ -39,7 +50,7 @@ public record AzStorageFileDownloadOptions : AzOptions
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
-    /// End of byte range to use for downloading a section of the file. If --end-range is given, --start-range must be provided. The
+    /// End of byte range to use for downloading a section of the file. If --end-range is given, --start-range must be provided. The --start-range and --end-range params are inclusive. Ex: --start-range=0, --end-range=511 will download first 512 bytes of file.
     /// </summary>
     [CliFlag("--end-range")]
     public bool? EndRange { get; set; }
@@ -57,7 +68,7 @@ public record AzStorageFileDownloadOptions : AzOptions
     public bool? NoProgress { get; set; }
 
     /// <summary>
-    /// Mode to use when opening the file. Note that specifying append only open_mode prevents parallel download. So, --max- connections must be set to 1 if this
+    /// Mode to use when opening the file. Note that specifying append only open_mode prevents parallel download. So, --max-connections must be set to 1 if this --open-mode is used.  Default: wb.
     /// </summary>
     [CliFlag("--open-mode")]
     public bool? OpenMode { get; set; }
@@ -66,10 +77,10 @@ public record AzStorageFileDownloadOptions : AzOptions
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
     [CliOption("--snapshot")]
-    public string? SnapshotValue { get; set; }
+    public string? Snapshot { get; set; }
 
     /// <summary>
-    /// Start of byte range to use for downloading a section of the file. If no --end-range is given, all bytes after the --start- range will be downloaded. The --start- range and --end-range params are inclusive. Ex: --start-range=0, --end- range=511 will download first 512 bytes of file.
+    /// Start of byte range to use for downloading a section of the file. If no --end-range is given, all bytes after the --start-range will be downloaded. The --start-range and --end-range params are inclusive. Ex: --start-range=0, --end-range=511 will download first 512 bytes of file.
     /// </summary>
     [CliFlag("--start-range")]
     public bool? StartRange { get; set; }
@@ -86,18 +97,34 @@ public record AzStorageFileDownloadOptions : AzOptions
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
 
-    [Obsolete("Use DestValue instead.")]
-    public bool? Dest
-    {
-        get => bool.TryParse(DestValue, out var value) ? value : null;
-        set => DestValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
 
-    [Obsolete("Use SnapshotValue instead.")]
-    public bool? Snapshot
-    {
-        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
-        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--file-endpoint")]
+    public bool? FileEndpoint { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
 
 }

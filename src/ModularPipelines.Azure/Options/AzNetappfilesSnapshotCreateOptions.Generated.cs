@@ -15,15 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the specified snapshot within the given volume.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="Name">The name of the snapshot.</param>
+/// <param name="PoolName">The name of the capacity pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VolumeName">The name of the volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "snapshot", "create")]
-public record AzNetappfilesSnapshotCreateOptions : AzOptions
+public record AzNetappfilesSnapshotCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-s")] string Name,
+    [property: CliOption("--pool-name", ShortForm = "-p")] string PoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--volume-name", ShortForm = "-v")] string VolumeName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource location  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

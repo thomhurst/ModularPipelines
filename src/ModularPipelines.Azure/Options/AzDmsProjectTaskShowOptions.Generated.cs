@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of a migration task. Use the "--expand" to get more
 /// </summary>
+/// <param name="Name">The name of the Task.</param>
+/// <param name="ProjectName">The name of the Project.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the Service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "task", "show")]
-public record AzDmsProjectTaskShowOptions : AzOptions
+public record AzDmsProjectTaskShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--project-name")] string ProjectName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// Expand the response to provide more details. Use with "command" to see more details of the task. Use with "output" to see the results of the task's migration.

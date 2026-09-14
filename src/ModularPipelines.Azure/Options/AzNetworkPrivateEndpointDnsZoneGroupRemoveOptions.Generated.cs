@@ -15,15 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a private endpoint dns zone into a
 /// </summary>
+/// <param name="EndpointName">Name of the private endpoint.</param>
+/// <param name="Name">Name of the private dns zone group.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">Name of the private dns zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "dns-zone-group", "remove")]
-public record AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions : AzOptions
+public record AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions(
+    [property: CliOption("--endpoint-name")] string EndpointName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

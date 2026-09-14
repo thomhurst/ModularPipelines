@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Gremlin graph under an Azure Cosmos DB Gremlin
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Graph name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "graph", "update")]
-public record AzCosmosdbGremlinGraphUpdateOptions : AzOptions
+public record AzCosmosdbGremlinGraphUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
@@ -27,7 +36,7 @@ public record AzCosmosdbGremlinGraphUpdateOptions : AzOptions
     public bool? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
-    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\":
+    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}]}".
     /// </summary>
     [CliFlag("--idx")]
     public bool? Idx { get; set; }

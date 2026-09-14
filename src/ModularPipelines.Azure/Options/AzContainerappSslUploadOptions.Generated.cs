@@ -15,22 +15,29 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload certificate to a managed environment, add hostname to an app
 /// </summary>
+/// <param name="CertificateFile">The filepath of the .pfx or .pem file.</param>
+/// <param name="Environment">Name or resource id of the Container App environment.</param>
+/// <param name="Hostname">The custom domain name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ssl", "upload")]
-public record AzContainerappSslUploadOptions : AzOptions
+public record AzContainerappSslUploadOptions(
+    [property: CliOption("--certificate-file", ShortForm = "-f")] string CertificateFile,
+    [property: CliOption("--environment", ShortForm = "-e")] string Environment,
+    [property: CliOption("--hostname")] string Hostname
+) : AzOptions
 {
     /// <summary>
-    /// Name of the certificate which should be unique within the
+    /// Name of the certificate which should be unique within the Container Apps environment.
     /// </summary>
     [CliOption("--certificate-name", ShortForm = "-c")]
-    public string? CertificateNameValue { get; set; }
+    public string? CertificateName { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The certificate file password.
@@ -38,11 +45,22 @@ public record AzContainerappSslUploadOptions : AzOptions
     [CliFlag("--password", ShortForm = "-p")]
     public bool? Password { get; set; }
 
-    [Obsolete("Use CertificateNameValue instead.")]
-    public bool? CertificateName
-    {
-        get => bool.TryParse(CertificateNameValue, out var value) ? value : null;
-        set => CertificateNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

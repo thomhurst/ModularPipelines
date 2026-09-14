@@ -15,15 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new managed application type on an Azure
 /// </summary>
+/// <param name="ApplicationTypeName">Specify the application type name.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-application-type", "create")]
-public record AzSfManagedApplicationTypeCreateOptions : AzOptions
+public record AzSfManagedApplicationTypeCreateOptions(
+    [property: CliOption("--application-type-name", ShortForm = "--name")] string ApplicationTypeName,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

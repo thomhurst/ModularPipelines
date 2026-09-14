@@ -15,28 +15,31 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the metric values for a resource.
 /// </summary>
+/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list")]
-public record AzMonitorMetricsListOptions : AzOptions
+public record AzMonitorMetricsListOptions(
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
     /// <summary>
     /// The list of aggregation types (space-separated) to retrieve.  Allowed values: Average, Count, Maximum, Minimum, None, Total.  Values from: az monitor metrics list-definitions.
     /// </summary>
-    [CliFlag("--aggregation")]
-    public bool? Aggregation { get; set; }
+    [CliOption("--aggregation", GroupValues = true)]
+    public IEnumerable<string>? Aggregation { get; set; }
 
     /// <summary>
     /// The list of dimensions (space-separated) the metrics are queried into. Values from: az monitor metrics list-definitions.
     /// </summary>
-    [CliFlag("--dimension")]
-    public bool? Dimension { get; set; }
+    [CliOption("--dimension", GroupValues = true)]
+    public IEnumerable<string>? Dimension { get; set; }
 
     /// <summary>
-    /// A string used to reduce the set of metric data returned. eg. "BlobType eq '*'".
+    /// A string used to reduce the set of metric data returned. eg. "BlobType eq '*'". For a full list of filters, see the filter string reference at https://learn.microsoft.com/rest/api/monitor/metrics/list.
     /// </summary>
     [CliOption("--filter")]
-    public string? FilterValue { get; set; }
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Returns the metadata values instead of metric data.
@@ -47,8 +50,8 @@ public record AzMonitorMetricsListOptions : AzOptions
     /// <summary>
     /// Space-separated list of metric names to retrieve.  Values from: az monitor metrics list-definitions.
     /// </summary>
-    [CliFlag("--metrics")]
-    public bool? Metrics { get; set; }
+    [CliOption("--metrics", GroupValues = true)]
+    public IEnumerable<string>? Metrics { get; set; }
 
     /// <summary>
     /// Namespace to query metric definitions for.  Values from: az monitor metrics list-namespaces.
@@ -68,11 +71,52 @@ public record AzMonitorMetricsListOptions : AzOptions
     [CliFlag("--top")]
     public bool? Top { get; set; }
 
-    [Obsolete("Use FilterValue instead.")]
-    public bool? Filter
-    {
-        get => bool.TryParse(FilterValue, out var value) ? value : null;
-        set => FilterValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
+
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
+
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
+
+    /// <summary>
+    /// End time of the query. Defaults to the current time. Format: date (yyyy- mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliFlag("--end-time")]
+    public bool? EndTime { get; set; }
+
+    /// <summary>
+    /// The interval over which to aggregate metrics, in ##h##m format. Default: 1m.
+    /// </summary>
+    [CliFlag("--interval")]
+    public bool? Interval { get; set; }
+
+    /// <summary>
+    /// Time offset of the query range, in ##d##h format.  Default: 1h. Can be used with either --start-time or --end-time. If used with --start-time, then the end time will be calculated by adding the offset. If used with --end-time (default), then the start time will be calculated by subtracting the offset. If --start-time and --end-time are provided, then --offset will be ignored.
+    /// </summary>
+    [CliFlag("--offset")]
+    public bool? Offset { get; set; }
+
+    /// <summary>
+    /// Start time of the query. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliFlag("--start-time")]
+    public bool? StartTime { get; set; }
 
 }

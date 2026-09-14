@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Approve a private endpoint connection request for a
 /// </summary>
+/// <param name="Name">The name of the private endpoint connection.</param>
+/// <param name="RegistryName">The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "private-endpoint-connection", "approve")]
-public record AzAcrPrivateEndpointConnectionApproveOptions : AzOptions
+public record AzAcrPrivateEndpointConnectionApproveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry-name", ShortForm = "-r")] string RegistryName
+) : AzOptions
 {
     /// <summary>
     /// Approval description. For example, the reason for approval.
@@ -30,13 +35,6 @@ public record AzAcrPrivateEndpointConnectionApproveOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

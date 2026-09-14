@@ -15,13 +15,18 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable the Azure Front Door CDN for a static webapp.
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "enterprise-edge", "enable")]
-public record AzStaticwebappEnterpriseEdgeEnableOptions : AzOptions
+public record AzStaticwebappEnterpriseEdgeEnableOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Don't try to register the Microsoft.CDN provider. Registration can be done manually with: az provider register --wait
+    /// Don't try to register the Microsoft.CDN provider. Registration can be done manually with: az provider register --wait --namespace Microsoft.CDN. For more details, please review the documentation available at https://go.microsoft.com/fwlink/?linkid=2184995 .
     /// </summary>
     [CliFlag("--no-register")]
     public bool? NoRegister { get; set; }

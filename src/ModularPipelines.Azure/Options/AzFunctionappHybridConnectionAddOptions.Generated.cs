@@ -15,22 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an existing hybrid-connection to a functionapp.
 /// </summary>
+/// <param name="HybridConnection">Hybrid connection name.</param>
+/// <param name="Name">Name of the function app.</param>
+/// <param name="Namespace">Hybrid connection namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "hybrid-connection", "add")]
-public record AzFunctionappHybridConnectionAddOptions : AzOptions
+public record AzFunctionappHybridConnectionAddOptions(
+    [property: CliOption("--hybrid-connection")] string HybridConnection,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace")] string Namespace,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
-
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Slot { get; set; }
 
 }

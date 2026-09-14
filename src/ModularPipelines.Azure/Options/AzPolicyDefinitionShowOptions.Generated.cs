@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieves a policy definition.
 /// </summary>
+/// <param name="Name">The name of the policy definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "definition", "show")]
-public record AzPolicyDefinitionShowOptions : AzOptions
+public record AzPolicyDefinitionShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The management group.

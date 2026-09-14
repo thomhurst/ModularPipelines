@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an application's password or certificate credentials.
 /// </summary>
+/// <param name="Id">Identifier uri, application id, or object id.</param>
+/// <param name="KeyId">Credential key id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "credential", "delete")]
-public record AzAdAppCredentialDeleteOptions : AzOptions
+public record AzAdAppCredentialDeleteOptions(
+    [property: CliOption("--id")] string Id,
+    [property: CliOption("--key-id")] string KeyId
+) : AzOptions
 {
     /// <summary>
     /// Operate on certificate credentials.

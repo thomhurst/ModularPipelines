@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,16 +16,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create sitecontainers for a linux webapp.
 /// </summary>
+/// <param name="Name">Name of the linux webapp.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "create")]
-public record AzWebappSitecontainersCreateOptions : AzOptions
+public record AzWebappSitecontainersCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the SiteContainer.
     /// </summary>
     [CliOption("--container-name")]
-    public string? ContainerNameValue { get; set; }
+    public string? ContainerName { get; set; }
 
     /// <summary>
     /// Image Name.
@@ -41,20 +47,33 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     /// <summary>
     /// Password used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// Username used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
+
+    /// <summary>
+    /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--si", ShortForm = "--system-assigned-identity")]
+    public bool? Si { get; set; }
+
+    /// <summary>
+    /// Path to a json sitecontainer spec file containing a list of sitecontainers, other sitecontainer input args will be ignored if this arg is provided.
+    /// </summary>
+    [CliOption("--sitecontainers-spec-file", ShortForm = "--ssf")]
+    public string? SitecontainersSpecFile { get; set; }
 
     /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Startup Command for the SiteContainer.
@@ -68,18 +87,10 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     [CliFlag("--target-port")]
     public bool? TargetPort { get; set; }
 
-    [Obsolete("Use ContainerNameValue instead.")]
-    public bool? ContainerName
-    {
-        get => bool.TryParse(ContainerNameValue, out var value) ? value : null;
-        set => ContainerNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// ClientID for the user-maganed identity which will be used for auth while pulling image.
+    /// </summary>
+    [CliFlag("--ui", ShortForm = "--user-assigned-identity")]
+    public bool? Ui { get; set; }
 
 }

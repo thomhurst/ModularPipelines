@@ -15,28 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or Update an API Management Backend.
 /// </summary>
+/// <param name="Protocol">The protocol used to communicate with the backend service. Allowed values: http, soap.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the API Management service instance.</param>
+/// <param name="Url">The URL of the backend service.</param>
+/// <param name="BackendId">Unique name for the Backend to be created or updated. Must be unique in the current API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "backend", "create")]
-public record AzApimBackendCreateOptions : AzOptions
+public record AzApimBackendCreateOptions(
+    [property: CliOption("--protocol")] string Protocol,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--url")] string Url,
+    [property: CliOption("--backend-id")] string BackendId
+) : AzOptions
 {
     /// <summary>
     /// Description of the Backend. May include HTML formatting tags.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
     [CliFlag("--if-match")]
     public bool? IfMatch { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

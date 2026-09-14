@@ -15,40 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve all protectable items within a certain container or
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VaultName">Name of the Recovery services vault.</param>
+/// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protectable-item", "list")]
-public record AzBackupProtectableItemListOptions : AzOptions
+public record AzBackupProtectableItemListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
+    [property: CliOption("--workload-type")] string WorkloadType
+) : AzOptions
 {
     /// <summary>
-    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
+    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload. Default: AzureWorkload.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
     /// </summary>
     [CliOption("--container-name", ShortForm = "-c")]
-    public string? ContainerNameValue { get; set; }
+    public string? ContainerName { get; set; }
 
     /// <summary>
-    /// Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values:
+    /// Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.
     /// </summary>
-    [CliFlag("--protectable-item-type")]
-    public bool? ProtectableItemType { get; set; }
+    [CliOption("--protectable-item-type")]
+    public string? ProtectableItemType { get; set; }
 
     /// <summary>
     /// Parent Server name of the item.
     /// </summary>
     [CliFlag("--server-name")]
     public bool? ServerName { get; set; }
-
-    [Obsolete("Use ContainerNameValue instead.")]
-    public bool? ContainerName
-    {
-        get => bool.TryParse(ContainerNameValue, out var value) ? value : null;
-        set => ContainerNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

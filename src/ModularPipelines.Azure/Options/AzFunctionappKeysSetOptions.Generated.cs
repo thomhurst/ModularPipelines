@@ -15,35 +15,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a function app key.
 /// </summary>
+/// <param name="KeyName">Name of the key to set.</param>
+/// <param name="KeyType">Type of key.  Allowed values: functionKeys, masterKey, systemKeys.</param>
+/// <param name="Name">Name of the function app.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "keys", "set")]
-public record AzFunctionappKeysSetOptions : AzOptions
+public record AzFunctionappKeysSetOptions(
+    [property: CliOption("--key-name")] string KeyName,
+    [property: CliOption("--key-type")] string KeyType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Value of the new key. If not provided, a value will be generated.
     /// </summary>
     [CliOption("--key-value")]
-    public string? KeyValueValue { get; set; }
+    public string? KeyValue { get; set; }
 
     /// <summary>
     /// The name of the slot. Defaults to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
-
-    [Obsolete("Use KeyValueValue instead.")]
-    public bool? KeyValue
-    {
-        get => bool.TryParse(KeyValueValue, out var value) ? value : null;
-        set => KeyValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Slot { get; set; }
 
 }

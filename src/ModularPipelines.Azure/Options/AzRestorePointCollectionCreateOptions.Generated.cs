@@ -15,21 +15,38 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create operation to create or update the restore point
 /// </summary>
+/// <param name="CollectionName">The name of the restore point collection.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("restore-point", "collection", "create")]
-public record AzRestorePointCollectionCreateOptions : AzOptions
+public record AzRestorePointCollectionCreateOptions(
+    [property: CliOption("--collection-name", ShortForm = "--restore-point-collection-name")] string CollectionName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// This property determines whether instant access snapshot is enabled for restore points created under this restore point collection for Premium SSD v2 or Ultra disk. Instant access snapshot for Premium SSD v2 or Ultra disk is instantaneously available for restoring disk with fast restore performance. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--instant-access")]
+    public bool? InstantAccess { get; set; }
+
+    /// <summary>
+    /// Resource Id of the source resource used to create this restore point collection.
+    /// </summary>
+    [CliOption("--source-id")]
+    public string? SourceId { get; set; }
 
 }

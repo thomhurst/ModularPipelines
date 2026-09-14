@@ -15,25 +15,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a default activity log alert rule.
 /// </summary>
+/// <param name="ActivityLogAlertName">The name of the activity log alert.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "create")]
-public record AzMonitorActivityLogAlertCreateOptions : AzOptions
+public record AzMonitorActivityLogAlertCreateOptions(
+    [property: CliOption("--activity-log-alert-name", ShortForm = "-n")] string ActivityLogAlertName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Add an action group. Accepts space-separated action group identifiers. The identifier can be the action group's name or its resource ID. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--action-group", ShortForm = "-a")]
-    public bool? ActionGroup { get; set; }
+    [CliOption("--action-group", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? ActionGroup { get; set; }
 
     /// <summary>
     /// The list of Activity Log Alert rule conditions. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--all-of")]
-    public bool? AllOf { get; set; }
+    [CliOption("--all-of", GroupValues = true)]
+    public IEnumerable<string>? AllOf { get; set; }
 
     /// <summary>
-    /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and
+    /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and FIELD=VALUE...] The possible values for the field are 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--condition", ShortForm = "-c")]
     public bool? Condition { get; set; }
@@ -42,19 +47,19 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// A description of this Activity Log Alert rule.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Disable the activity log alert rule after it is created.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--disable")]
+    [CliOption("--disable")]
     public bool? Disable { get; set; }
 
     /// <summary>
-    /// A list of strings that will be used as prefixes.
+    /// A list of strings that will be used as prefixes. The alert rule will only apply to activity logs with resourceIDs that fall under one of these prefixes. If not provided, the subscriptionId will be used. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--scope", ShortForm = "-s")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope", ShortForm = "-s", GroupValues = true)]
+    public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>
     /// The tags of the resource.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
@@ -63,16 +68,9 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command.
+    /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command. For any webhook receiver in these action group, this data is appended to the webhook payload. To attach different webhook properties to different action groups, add the action groups in separate update-action commands. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--webhook-properties", ShortForm = "-w")]
-    public bool? WebhookProperties { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--webhook-properties", ShortForm = "-w", GroupValues = true)]
+    public IEnumerable<string>? WebhookProperties { get; set; }
 
 }

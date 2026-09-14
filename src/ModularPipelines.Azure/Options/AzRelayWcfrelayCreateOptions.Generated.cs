@@ -15,27 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the Relay Service WCF Relay.
 /// </summary>
+/// <param name="Name">Name of WCF Relay.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "wcfrelay", "create")]
-public record AzRelayWcfrelayCreateOptions : AzOptions
+public record AzRelayWcfrelayCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Relay type.  Allowed values: Http, NetTcp.  Allowed values: Http, NetTcp.  Default: NetTcp.
     /// </summary>
-    [CliFlag("--relay-type")]
-    public bool? RelayType { get; set; }
+    [CliOption("--relay-type")]
+    public string? RelayType { get; set; }
 
     /// <summary>
     /// Indicates whether client authorization is required. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--requires-client-authorization", ShortForm = "-c")]
+    [CliOption("--requires-client-authorization", ShortForm = "-c")]
     public bool? RequiresClientAuthorization { get; set; }
 
     /// <summary>
     /// Indicates whether transport security is required.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--requires-transport-security", ShortForm = "-t")]
+    [CliOption("--requires-transport-security", ShortForm = "-t")]
     public bool? RequiresTransportSecurity { get; set; }
 
     /// <summary>

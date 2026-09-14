@@ -15,15 +15,20 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove the user or system managed
 /// </summary>
+/// <param name="Name">Name of the Log Analytics Workspace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "identity", "remove")]
-public record AzMonitorLogAnalyticsWorkspaceIdentityRemoveOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceIdentityRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

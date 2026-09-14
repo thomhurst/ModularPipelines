@@ -15,22 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a managed rule
 /// </summary>
+/// <param name="PolicyName">The name of the web application firewall policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Type">The type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.</param>
+/// <param name="Version">The version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "rule-set", "remove")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOptions(
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type")] string Type,
+    [property: CliOption("--version")] string Version
+) : AzOptions
 {
     /// <summary>
     /// The name of the web application firewall rule set group.
     /// </summary>
     [CliOption("--group-name")]
-    public string? GroupNameValue { get; set; }
-
-    [Obsolete("Use GroupNameValue instead.")]
-    public bool? GroupName
-    {
-        get => bool.TryParse(GroupNameValue, out var value) ? value : null;
-        set => GroupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? GroupName { get; set; }
 
 }

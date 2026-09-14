@@ -15,15 +15,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a bandwidth schedule.
 /// </summary>
+/// <param name="Days">The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The bandwidth schedule name which needs to be added/updated.</param>
+/// <param name="RateInMbps">The bandwidth rate in Mbps.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Start">The start time of the schedule in UTC.</param>
+/// <param name="Stop">The stop time of the schedule in UTC.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "bandwidth-schedule", "create")]
-public record AzDataboxedgeBandwidthScheduleCreateOptions : AzOptions
+public record AzDataboxedgeBandwidthScheduleCreateOptions(
+    [property: CliOption("--days")] string Days,
+    [property: CliOption("--device-name", ShortForm = "-d")] string DeviceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--rate-in-mbps")] string RateInMbps,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--start")] string Start,
+    [property: CliOption("--stop")] string Stop
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

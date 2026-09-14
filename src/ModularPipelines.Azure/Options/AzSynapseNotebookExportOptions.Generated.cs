@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export notebooks.
 /// </summary>
+/// <param name="OutputFolder">The folder where the notebook should be placed.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "notebook", "export")]
-public record AzSynapseNotebookExportOptions : AzOptions
+public record AzSynapseNotebookExportOptions(
+    [property: CliOption("--output-folder")] string OutputFolder,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// The notebook name.

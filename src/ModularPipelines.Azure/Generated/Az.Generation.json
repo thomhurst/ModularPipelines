@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "az",
+  "toolVersion": "azure-cli                         2.90.0  core                              2.90.0 telemetry                          1.1.0  Extensions: azure-devops                       1.0.8  Dependencies: msal                              1.36.0 azure-mgmt-resource               24.0.0  Python location '/opt/az/bin/python3' Config directory '/home/runner/.azure' Extensions directory '/opt/az/azcliextensions'  Python (Linux) 3.14.6 (main, Aug 26 2026, 01:26:46) [GCC 13.3.0]  Legal docs and information: aka.m",
+  "commandTreeSha256": "736fa1fae87fc38298cfb5dbb4ad1c854cb2a4b2145e00c6c4d9cfa8beb20195",
+  "generatorSourceSha256": "fa293cbb7c3611630fc4377b1c0a68bcb5d200e2a13b2c626592ac72cad5ac7d"
+}

@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete schedule condition.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="Index">The Space-separated list of condition indices which starts with 0 to delete.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "delete")]
-public record AzHdinsightAutoscaleConditionDeleteOptions : AzOptions
+public record AzHdinsightAutoscaleConditionDeleteOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--index", GroupValues = true)] IEnumerable<string> Index,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

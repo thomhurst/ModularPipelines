@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an MX record.
 /// </summary>
+/// <param name="Exchange">Exchange metric.</param>
+/// <param name="Preference">Preference metric.</param>
+/// <param name="RecordSetName">The name of the record set relative to the zone. Creates a new record set if one does not exist.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "mx", "add-record")]
-public record AzNetworkDnsRecordSetMxAddRecordOptions : AzOptions
+public record AzNetworkDnsRecordSetMxAddRecordOptions(
+    [property: CliOption("--exchange", ShortForm = "-e")] string Exchange,
+    [property: CliOption("--preference", ShortForm = "-p")] string Preference,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Create the record set only if it does not already exist.

@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List log files for a server.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">Name of the Server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server-logs", "list")]
-public record AzMariadbServerLogsListOptions : AzOptions
+public record AzMariadbServerLogsListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// Integer in hours to indicate file last modify time, default value is 72.
@@ -35,7 +40,7 @@ public record AzMariadbServerLogsListOptions : AzOptions
     /// <summary>
     /// The file size limitation to filter files.
     /// </summary>
-    [CliFlag("--max-file-size")]
-    public bool? MaxFileSize { get; set; }
+    [CliOption("--max-file-size")]
+    public string? MaxFileSize { get; set; }
 
 }

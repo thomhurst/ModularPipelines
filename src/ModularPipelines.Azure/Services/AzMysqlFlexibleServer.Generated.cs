@@ -22,6 +22,7 @@ public class AzMysqlFlexibleServer
 {
     private readonly ICommandContext _command;
     private AzMysqlFlexibleServerAdAdmin? _adAdmin;
+    private AzMysqlFlexibleServerAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzMysqlFlexibleServerBackup? _backup;
     private AzMysqlFlexibleServerDb? _db;
     private AzMysqlFlexibleServerDeploy? _deploy;
@@ -29,6 +30,8 @@ public class AzMysqlFlexibleServer
     private AzMysqlFlexibleServerGtid? _gtid;
     private AzMysqlFlexibleServerIdentity? _identity;
     private AzMysqlFlexibleServerImport? _import;
+    private AzMysqlFlexibleServerMaintenance? _maintenance;
+    private AzMysqlFlexibleServerMirroring? _mirroring;
     private AzMysqlFlexibleServerParameter? _parameter;
     private AzMysqlFlexibleServerReplica? _replica;
     private AzMysqlFlexibleServerServerLogs? _serverLogs;
@@ -47,6 +50,11 @@ public class AzMysqlFlexibleServer
     /// az ad-admin sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerAdAdmin AdAdmin => _adAdmin ??= new AzMysqlFlexibleServerAdAdmin(_command);
+
+    /// <summary>
+    /// az advanced-threat-protection-setting sub-commands.
+    /// </summary>
+    public AzMysqlFlexibleServerAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzMysqlFlexibleServerAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
     /// az backup sub-commands.
@@ -84,6 +92,16 @@ public class AzMysqlFlexibleServer
     public AzMysqlFlexibleServerImport Import => _import ??= new AzMysqlFlexibleServerImport(_command);
 
     /// <summary>
+    /// az maintenance sub-commands.
+    /// </summary>
+    public AzMysqlFlexibleServerMaintenance Maintenance => _maintenance ??= new AzMysqlFlexibleServerMaintenance(_command);
+
+    /// <summary>
+    /// az mirroring sub-commands.
+    /// </summary>
+    public AzMysqlFlexibleServerMirroring Mirroring => _mirroring ??= new AzMysqlFlexibleServerMirroring(_command);
+
+    /// <summary>
     /// az parameter sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerParameter Parameter => _parameter ??= new AzMysqlFlexibleServerParameter(_command);
@@ -114,7 +132,7 @@ public class AzMysqlFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerCreateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -129,7 +147,7 @@ public class AzMysqlFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +158,11 @@ public class AzMysqlFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachVnetAsync(
-        AzMysqlFlexibleServerDetachVnetOptions? options = null,
+        AzMysqlFlexibleServerDetachVnetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerDetachVnetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +173,11 @@ public class AzMysqlFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GeoRestoreAsync(
-        AzMysqlFlexibleServerGeoRestoreOptions? options = null,
+        AzMysqlFlexibleServerGeoRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerGeoRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -174,7 +192,22 @@ public class AzMysqlFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists available sku's in the given region.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSkusAsync(
+        AzMysqlFlexibleServerListSkusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -189,7 +222,7 @@ public class AzMysqlFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerRestartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerRestartOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +233,41 @@ public class AzMysqlFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAsync(
-        AzMysqlFlexibleServerRestoreOptions? options = null,
+        AzMysqlFlexibleServerRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Show the connection strings for a MySQL
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowConnectionStringAsync(
+        AzMysqlFlexibleServerShowConnectionStringOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerShowConnectionStringOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get the details of a flexible server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzMysqlFlexibleServerShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -219,7 +282,7 @@ public class AzMysqlFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerStartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerStartOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -234,7 +297,7 @@ public class AzMysqlFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerStopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerStopOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -249,7 +312,22 @@ public class AzMysqlFlexibleServer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Wait for the flexible server to satisfy certain conditions.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzMysqlFlexibleServerWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlFlexibleServerWaitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

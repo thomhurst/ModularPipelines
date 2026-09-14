@@ -15,16 +15,31 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Kusto pool.
 /// </summary>
+/// <param name="KustoPoolName">The name of the Kusto pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "create")]
-public record AzSynapseKustoPoolCreateOptions : AzOptions
+public record AzSynapseKustoPoolCreateOptions(
+    [property: CliOption("--kusto-pool-name", ShortForm = "-n")] string KustoPoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// A boolean value that indicates if the purge operations are enabled.  Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-purge")]
     public bool? EnablePurge { get; set; }
+
+    /// <summary>
+    /// A boolean value that indicates if the streaming ingest is enabled.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-streaming-ingest", ShortForm = "--esig")]
+    public bool? EnableStreamingIngest { get; set; }
 
     /// <summary>
     /// The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
@@ -39,10 +54,10 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     public bool? IfNoneMatch { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -51,7 +66,7 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Optimized auto scale definition.
+    /// Optimized auto scale definition. Usage: --optimized-autoscale version=XX is-enabled=XX minimum=XX maximum=XX
     /// </summary>
     [CliFlag("--optimized-autoscale")]
     public bool? OptimizedAutoscale { get; set; }
@@ -59,8 +74,8 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The workspace unique identifier.

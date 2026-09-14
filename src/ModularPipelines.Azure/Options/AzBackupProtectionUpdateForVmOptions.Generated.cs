@@ -23,19 +23,49 @@ public record AzBackupProtectionUpdateForVmOptions : AzOptions
     /// <summary>
     /// Option to decide whether to include or exclude the disk or reset any previous settings to default behavior.  Allowed values: exclude, include, resetexclusionsettings.
     /// </summary>
-    [CliFlag("--disk-list-setting")]
-    public bool? DiskListSetting { get; set; }
+    [CliOption("--disk-list-setting")]
+    public string? DiskListSetting { get; set; }
 
     /// <summary>
     /// List of disks to be excluded or included.
     /// </summary>
-    [CliFlag("--diskslist")]
-    public bool? Diskslist { get; set; }
+    [CliOption("--diskslist", GroupValues = true)]
+    public IEnumerable<string>? Diskslist { get; set; }
 
     /// <summary>
     /// Option to specify to backup OS disk only.  Allowed values: false, true.
     /// </summary>
     [CliOption("--exclude-all-data-disks")]
     public bool? ExcludeAllDataDisks { get; set; }
+
+    /// <summary>
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string? ContainerName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the backed up item.
+    /// </summary>
+    [CliOption("--item-name", ShortForm = "-i")]
+    public string? ItemName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string? VaultName { get; set; }
 
 }

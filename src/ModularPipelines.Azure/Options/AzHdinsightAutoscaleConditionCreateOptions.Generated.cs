@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new schedule condition.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="Days">A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Time">The 24-hour time in the form xx:xx in days.</param>
+/// <param name="WorkernodeCount">The schedule workernode count.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "create")]
-public record AzHdinsightAutoscaleConditionCreateOptions : AzOptions
+public record AzHdinsightAutoscaleConditionCreateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--days", GroupValues = true)] IEnumerable<string> Days,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--time")] string Time,
+    [property: CliOption("--workernode-count")] string WorkernodeCount
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

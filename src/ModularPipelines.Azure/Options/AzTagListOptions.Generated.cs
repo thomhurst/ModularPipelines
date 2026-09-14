@@ -24,13 +24,6 @@ public record AzTagListOptions : AzOptions
     /// The resource identifier for the entity being tagged. A resource, a resource group or a subscription may be tagged.
     /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceIdValue { get; set; }
-
-    [Obsolete("Use ResourceIdValue instead.")]
-    public bool? ResourceId
-    {
-        get => bool.TryParse(ResourceIdValue, out var value) ? value : null;
-        set => ResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceId { get; set; }
 
 }

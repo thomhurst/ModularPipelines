@@ -1,0 +1,134 @@
+
+Command
+    az netappfiles account ad add : Add an active directory to the account.
+
+Arguments
+    --account-name --name -a -n                     [Required] : The name of the NetApp account.
+    --resource-group -g                             [Required] : Name of resource group. You can
+                                                                 configure the default group using
+                                                                 `az configure --defaults
+                                                                 group=<name>`.
+    --active-directory-id                                      : Id of the Active Directory.
+    --kdc-ip                                                   : Kdc server IP address for the
+                                                                 active directory machine. This
+                                                                 optional parameter is used only
+                                                                 while creating kerberos volume.
+    --no-wait                                                  : Do not wait for the long-running
+                                                                 operation to finish.  Allowed
+                                                                 values: 0, 1, f, false, n, no, t,
+                                                                 true, y, yes.
+
+Body.properties.activeDirectories[] Arguments
+    --ad-name                                                  : Name of the active directory
+                                                                 machine. This optional parameter is
+                                                                 used only while creating kerberos
+                                                                 volume.
+    --administrators                                           : Users to be added to the Built-in
+                                                                 Administrators active directory
+                                                                 group. A list of unique usernames
+                                                                 without domain specifier  Support
+                                                                 shorthand-syntax, json-file and
+                                                                 yaml-file. Try "??" to show more.
+    --aes-encryption                                           : If enabled, AES encryption will be
+                                                                 enabled for SMB communication.
+                                                                 Allowed values: 0, 1, f, false, n,
+                                                                 no, t, true, y, yes.
+    --allow-local-ldap-users --allow-local-nfs-users-with-ldap : If enabled, NFS client local users
+                                                                 can also (in addition to LDAP
+                                                                 users) access the NFS volumes.
+                                                                 Allowed values: 0, 1, f, false, n,
+                                                                 no, t, true, y, yes.
+    --backup-operators                                         : Users to be added to the Built-in
+                                                                 Backup Operator active directory
+                                                                 group. A list of unique usernames
+                                                                 without domain specifier  Support
+                                                                 shorthand-syntax, json-file and
+                                                                 yaml-file. Try "??" to show more.
+    --dns                                                      : Comma separated list of DNS server
+                                                                 IP addresses (IPv4 only) for the
+                                                                 Active Directory domain.
+    --domain                                                   : Name of the Active Directory
+                                                                 domain.
+    --encrypt-dc-conn --encrypt-dc-connections                 : If enabled, Traffic between the SMB
+                                                                 server to Domain Controller (DC)
+                                                                 will be encrypted.  Allowed values:
+                                                                 0, 1, f, false, n, no, t, true, y,
+                                                                 yes.
+    --ldap-over-tls                                            : Specifies whether or not the LDAP
+                                                                 traffic needs to be secured via
+                                                                 TLS.  Allowed values: 0, 1, f,
+                                                                 false, n, no, t, true, y, yes.
+    --ldap-search-scope                                        : LDAP Search scope options  Support
+                                                                 shorthand-syntax, json-file and
+                                                                 yaml-file. Try "??" to show more.
+    --ldap-signing                                             : Specifies whether or not the LDAP
+                                                                 traffic needs to be signed.
+                                                                 Allowed values: 0, 1, f, false, n,
+                                                                 no, t, true, y, yes.
+    --organizational-unit                                      : The Organizational Unit (OU) within
+                                                                 the Windows Active Directory.
+                                                                 Default: CN=Computers.
+    --password                                                 : Plain text password of Active
+                                                                 Directory domain administrator,
+                                                                 value is masked in the response  If
+                                                                 value is blank it's asked from the
+                                                                 tty.
+    --preferred-servers-for-ldap-client -p                     : Comma separated list of IPv4
+                                                                 addresses of preferred servers for
+                                                                 LDAP client. At most two comma
+                                                                 separated IPv4 addresses can be
+                                                                 passed.
+    --security-operators                                       : Domain Users in the Active
+                                                                 directory to be given
+                                                                 SeSecurityPrivilege privilege
+                                                                 (Needed for SMB Continuously
+                                                                 available shares for SQL). A list
+                                                                 of unique usernames without domain
+                                                                 specifier  Support shorthand-
+                                                                 syntax, json-file and yaml-file.
+                                                                 Try "??" to show more.
+    --server-root-ca-cert --server-root-ca-certificate         : When LDAP over SSL/TLS is enabled,
+                                                                 the LDAP client is required to have
+                                                                 base64 encoded Active Directory
+                                                                 Certificate Service's self-signed
+                                                                 root CA certificate, this optional
+                                                                 parameter is used only for dual
+                                                                 protocol with LDAP user-mapping
+                                                                 volumes.  If value is blank it's
+                                                                 asked from the tty.
+    --site                                                     : The Active Directory site the
+                                                                 service will limit Domain
+                                                                 Controller discovery to.
+    --smb-server-name                                          : NetBIOS name of the SMB server.
+                                                                 This name will be registered as a
+                                                                 computer account in the AD and used
+                                                                 to mount volumes.
+    --username                                                 : A domain user account with
+                                                                 permission to create machine
+                                                                 accounts.
+
+Global Arguments
+    --debug                                                    : Increase logging verbosity to show
+                                                                 all debug logs.
+    --help -h                                                  : Show this help message and exit.
+    --only-show-errors                                         : Only show errors, suppressing
+                                                                 warnings.
+    --output -o                                                : Output format.  Allowed values:
+                                                                 json, jsonc, none, table, tsv,
+                                                                 yaml, yamlc.  Default: json.
+    --query                                                    : JMESPath query string. See
+                                                                 http://jmespath.org/ for more
+                                                                 information and examples.
+    --subscription                                             : Name or ID of subscription. You can
+                                                                 configure the default subscription
+                                                                 using `az account set -s
+                                                                 NAME_OR_ID`.
+    --verbose                                                  : Increase logging verbosity. Use
+                                                                 --debug for full debug logs.
+
+Examples
+    Add an active directory to the account
+        az netappfiles account ad add -g mygroup -a myname --username aduser --password aduser
+        --smb-server-name SMBSERVER --dns 1.2.3.4 --domain westcentralus
+
+To search AI knowledge base for examples, use: az find "az netappfiles account ad add"

@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates the EventHubs Namespace.
 /// </summary>
+/// <param name="Name">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "create")]
-public record AzEventhubsNamespaceCreateOptions : AzOptions
+public record AzEventhubsNamespaceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
@@ -59,43 +64,85 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// List of KeyVaultProperties objects.
     /// </summary>
-    [CliFlag("--encryption-config")]
-    public bool? EncryptionConfig { get; set; }
+    [CliOption("--encryption-config", GroupValues = true)]
+    public IEnumerable<string>? EncryptionConfig { get; set; }
 
     /// <summary>
-    /// A boolean value that indicates whether
+    /// A list of regions where replicas of the namespace are maintained Object.
+    /// </summary>
+    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
+    public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
+
+    /// <summary>
+    /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption) is enabled/disabled.  Allowed values: false, true.
     /// </summary>
     [CliOption("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dualstack).  Allowed values: DualStack, IPv4.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--ip-address-type")]
+    public string? IpAddressType { get; set; }
 
     /// <summary>
-    /// Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( 0 if
+    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
+    /// </summary>
+    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
+    public bool? MaxLag { get; set; }
+
+    /// <summary>
+    /// Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true).
     /// </summary>
     [CliFlag("--maximum-throughput-units")]
     public bool? MaximumThroughputUnits { get; set; }
 
     /// <summary>
+    /// The minimum TLS version for the cluster to support, e.g. 1.2.  Allowed values: 1.0, 1.1, 1.2.
+    /// </summary>
+    [CliOption("--min-tls", ShortForm = "--minimum-tls-version")]
+    public string? MinTls { get; set; }
+
+    /// <summary>
+    /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile' access rules. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--public-network", ShortForm = "--public-network-access")]
+    public string? PublicNetwork { get; set; }
+
+    /// <summary>
     /// Namespace SKU.  Allowed values: Basic, Premium, Standard.  Default: Standard.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enabling this property creates a Standard EventHubs Namespace in regions supported availability zones.  Allowed values: false, true.
     /// </summary>
     [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// Enable System Assigned Identity.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// List of User Assigned Identity ids.
+    /// </summary>
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
 }

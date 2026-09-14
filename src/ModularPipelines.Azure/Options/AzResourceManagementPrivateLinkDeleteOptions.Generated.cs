@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a resource management private link.
 /// </summary>
+/// <param name="Name">The name of the resource management private link.</param>
+/// <param name="ResourceGroup">The name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resourcemanagement", "private-link", "delete")]
-public record AzResourceManagementPrivateLinkDeleteOptions : AzOptions
+public record AzResourceManagementPrivateLinkDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

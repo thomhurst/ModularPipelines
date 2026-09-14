@@ -15,21 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new partner registration.
 /// </summary>
+/// <param name="Name">Name of the partner registration.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "registration", "create")]
-public record AzEventgridPartnerRegistrationCreateOptions : AzOptions
+public record AzEventgridPartnerRegistrationCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// A space-separated list of Azure subscription Ids that are authorized to create a partner namespace associated with this partner registration. This is an optional property. Creating partner namespaces is always permitted under the same Azure subscription as the one used for creating the partner registration.
     /// </summary>
-    [CliFlag("--authorized-subscription-ids")]
-    public bool? AuthorizedSubscriptionIds { get; set; }
+    [CliOption("--authorized-subscription-ids", GroupValues = true)]
+    public IEnumerable<string>? AuthorizedSubscriptionIds { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

@@ -15,21 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a client certificate from the managed
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "client-certificate", "delete")]
-public record AzSfManagedClusterClientCertificateDeleteOptions : AzOptions
+public record AzSfManagedClusterClientCertificateDeleteOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// A single or Space-separated list of client certificate common name(s) to be remove.
     /// </summary>
-    [CliFlag("--common-name")]
-    public bool? CommonName { get; set; }
+    [CliOption("--common-name", GroupValues = true)]
+    public IEnumerable<string>? CommonName { get; set; }
 
     /// <summary>
     /// A single or Space-separated list of client certificate thumbprint(s) to be remove.
     /// </summary>
-    [CliFlag("--thumbprint")]
-    public bool? Thumbprint { get; set; }
+    [CliOption("--thumbprint", GroupValues = true)]
+    public IEnumerable<string>? Thumbprint { get; set; }
 
 }

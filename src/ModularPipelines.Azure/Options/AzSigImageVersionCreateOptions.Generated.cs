@@ -15,15 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new image version.
 /// </summary>
+/// <param name="GalleryImageDefinition">Gallery image definition.</param>
+/// <param name="GalleryImageVersion">Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersio n&gt;.&lt;MinorVers ion&gt;.&lt;Patch&gt;` .</param>
+/// <param name="GalleryName">Gallery name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults gr oup=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "create")]
-public record AzSigImageVersionCreateOptions : AzOptions
+public record AzSigImageVersionCreateOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-image-version", ShortForm = "-e")] string GalleryImageVersion,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Indicate whether or not removing this gallery image version from replicated regions is allowed.
+    /// Indicate whether or not removing this gallery image version from replicated regions is allowed. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-replicated-location-deletion")]
+    [CliOption("--allow-replicated-location-deletion")]
     public bool? AllowReplicatedLocationDeletion { get; set; }
 
     /// <summary>
@@ -39,40 +48,46 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public bool? DataSnapshots { get; set; }
 
     /// <summary>
-    /// Logical unit numbers (space- delimited) of source VHD
+    /// Logical unit numbers (space- delimited) of source VHD URIs of data disks.
     /// </summary>
     [CliFlag("--data-vhds-luns")]
     public bool? DataVhdsLuns { get; set; }
 
     /// <summary>
-    /// Source VHD
+    /// Names or IDs (space- delimited) of storage accounts of source VHD URIs of data disks.
     /// </summary>
-    [CliOption("--data-vhds-uris")]
-    public string? DataVhdsUrisValue { get; set; }
+    [CliFlag("--data-vhds-sa", ShortForm = "--data-vhds-storage-accounts")]
+    public bool? DataVhdsSa { get; set; }
 
     /// <summary>
-    /// The flag means that if it is set to true, people deploying VMs with version omitted will not use this version.
+    /// Source VHD URIs (space- delimited) of data disks.
     /// </summary>
-    [CliFlag("--exclude-from-latest")]
+    [CliOption("--data-vhds-uris")]
+    public string? DataVhdsUris { get; set; }
+
+    /// <summary>
+    /// The flag means that if it is set to true, people deploying VMs with version omitted will not use this version. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--exclude-from-latest")]
     public bool? ExcludeFromLatest { get; set; }
 
     /// <summary>
     /// Resource id of gallery image version source.
     /// </summary>
     [CliOption("--image-version")]
-    public string? ImageVersionValue { get; set; }
+    public string? ImageVersion { get; set; }
 
     /// <summary>
-    /// Location.
+    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults lo cation=&lt;locat ion&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Image name(if in the same resource group) or resource id.
     /// </summary>
     [CliOption("--managed-image")]
-    public string? ManagedImageValue { get; set; }
+    public string? ManagedImage { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish.
@@ -81,67 +96,73 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Name or ID of
+    /// Name or ID of OS disk snapshot.
     /// </summary>
     [CliOption("--os-snapshot")]
-    public string? OsSnapshotValue { get; set; }
+    public string? OsSnapshot { get; set; }
 
     /// <summary>
-    /// Name or ID of storage account of source VHD
+    /// Name or ID of storage account of source VHD URI of OS disk.
     /// </summary>
     [CliOption("--os-vhd-storage-account")]
-    public string? OsVhdStorageAccountValue { get; set; }
+    public string? OsVhdStorageAccount { get; set; }
 
     /// <summary>
-    /// Source VHD
+    /// Source VHD URI of OS disk.
     /// </summary>
     [CliOption("--os-vhd-uri")]
-    public string? OsVhdUriValue { get; set; }
+    public string? OsVhdUri { get; set; }
 
     /// <summary>
-    /// The default number of replicas to be created per region.
+    /// The default number of replicas to be created per region. To set regional replication counts, use --target-regions.
     /// </summary>
     [CliFlag("--replica-count")]
     public bool? ReplicaCount { get; set; }
 
     /// <summary>
-    /// Optional parameter which specifies the mode to be used for replication.
+    /// Optional parameter which specifies the mode to be used for replication. This property is not updatable. Allowed values: Full, Shallow.
     /// </summary>
-    [CliFlag("--replication-mode")]
-    public bool? ReplicationMode { get; set; }
+    [CliOption("--replication-mode")]
+    public string? ReplicationMode { get; set; }
 
     /// <summary>
-    /// The default storage account type to be used per region.
+    /// The default storage account type to be used per region. To set regional storage account types, use --target-regions. Allowed values: Premium_LRS, Standard_LRS, Standard_ZRS.
     /// </summary>
-    [CliFlag("--storage-account-type")]
-    public bool? StorageAccountType { get; set; }
+    [CliOption("--storage-account-type")]
+    public string? StorageAccountType { get; set; }
 
     /// <summary>
-    /// Space- separated
+    /// Space- separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used.
+    /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each edge zone: `&lt;edge zone&gt;,&lt;os_des &gt;,&lt;lun1&gt;,&lt;lun 1_des&gt;,&lt;lun2&gt; ,&lt;lun2_des&gt;`.
+    /// </summary>
+    [CliFlag("--target-edge-zone-encryption", ShortForm = "--zone-encryption")]
+    public bool? TargetEdgeZoneEncryption { get; set; }
+
+    /// <summary>
+    /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
     /// </summary>
     [CliFlag("--target-edge-zones")]
     public bool? TargetEdgeZones { get; set; }
 
     /// <summary>
-    /// Space- separated list of customer managed key for
+    /// Space- separated list of customer managed key for Confidential VM encrypting the OS disk in the gallery artifact for each region. Format for each region: `&lt;os_cvm_encr yption_type&gt;, &lt;os_cvm_des&gt;` . The valid values for os _cvm_encrypti on_type are E ncryptedVMGue stStateOnlyWi thPmk, Encryp tedWithPmk, E ncryptedWithC mk.
     /// </summary>
     [CliFlag("--target-region-cvm-encryption")]
     public bool? TargetRegionCvmEncryption { get; set; }
 
     /// <summary>
-    /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region.
+    /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each region: `&lt;os_des&gt;,&lt;lu n1&gt;,&lt;lun1_des &gt;,&lt;lun2&gt;,&lt;lun 2_des&gt;`. Use "null" as a placeholder.
     /// </summary>
     [CliFlag("--target-region-encryption")]
     public bool? TargetRegionEncryption { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used.
+    /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
     /// </summary>
     [CliFlag("--target-regions")]
     public bool? TargetRegions { get; set; }
@@ -150,55 +171,6 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// Resource id of VM source.
     /// </summary>
     [CliOption("--virtual-machine")]
-    public string? VirtualMachineValue { get; set; }
-
-    [Obsolete("Use DataVhdsUrisValue instead.")]
-    public bool? DataVhdsUris
-    {
-        get => bool.TryParse(DataVhdsUrisValue, out var value) ? value : null;
-        set => DataVhdsUrisValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ImageVersionValue instead.")]
-    public bool? ImageVersion
-    {
-        get => bool.TryParse(ImageVersionValue, out var value) ? value : null;
-        set => ImageVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ManagedImageValue instead.")]
-    public bool? ManagedImage
-    {
-        get => bool.TryParse(ManagedImageValue, out var value) ? value : null;
-        set => ManagedImageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use OsSnapshotValue instead.")]
-    public bool? OsSnapshot
-    {
-        get => bool.TryParse(OsSnapshotValue, out var value) ? value : null;
-        set => OsSnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use OsVhdStorageAccountValue instead.")]
-    public bool? OsVhdStorageAccount
-    {
-        get => bool.TryParse(OsVhdStorageAccountValue, out var value) ? value : null;
-        set => OsVhdStorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use OsVhdUriValue instead.")]
-    public bool? OsVhdUri
-    {
-        get => bool.TryParse(OsVhdUriValue, out var value) ? value : null;
-        set => OsVhdUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VirtualMachineValue instead.")]
-    public bool? VirtualMachine
-    {
-        get => bool.TryParse(VirtualMachineValue, out var value) ? value : null;
-        set => VirtualMachineValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VirtualMachine { get; set; }
 
 }

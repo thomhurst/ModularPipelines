@@ -15,16 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show past logs and/or print logs in real time (with the --follow
 /// </summary>
+/// <param name="Name">The name of the Containerapp.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "logs", "show")]
-public record AzContainerappLogsShowOptions : AzOptions
+public record AzContainerappLogsShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of the container.
     /// </summary>
     [CliOption("--container")]
-    public string? ContainerValue { get; set; }
+    public string? Container { get; set; }
 
     /// <summary>
     /// Print logs in real time if present.  Allowed values: false, true.
@@ -35,20 +40,20 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// Log output format.  Allowed values: json, text.  Default: json.
     /// </summary>
-    [CliFlag("--format")]
-    public bool? Format { get; set; }
+    [CliOption("--format")]
+    public string? Format { get; set; }
 
     /// <summary>
     /// The name of the replica. List replicas with 'az containerapp replica list'. A replica may not exist if there is not traffic to your app.
     /// </summary>
     [CliOption("--replica")]
-    public string? ReplicaValue { get; set; }
+    public string? Replica { get; set; }
 
     /// <summary>
     /// The name of the container app revision. Defaults to the latest revision.
     /// </summary>
     [CliOption("--revision")]
-    public string? RevisionValue { get; set; }
+    public string? Revision { get; set; }
 
     /// <summary>
     /// The number of past logs to print (0-300).  Default: 20.
@@ -57,30 +62,9 @@ public record AzContainerappLogsShowOptions : AzOptions
     public bool? Tail { get; set; }
 
     /// <summary>
-    /// Type of logs to stream.  Allowed values: console, system.
+    /// Type of logs to stream.  Allowed values: console, system. Default: console.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
-
-    [Obsolete("Use ContainerValue instead.")]
-    public bool? Container
-    {
-        get => bool.TryParse(ContainerValue, out var value) ? value : null;
-        set => ContainerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ReplicaValue instead.")]
-    public bool? Replica
-    {
-        get => bool.TryParse(ReplicaValue, out var value) ? value : null;
-        set => ReplicaValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RevisionValue instead.")]
-    public bool? Revision
-    {
-        get => bool.TryParse(RevisionValue, out var value) ? value : null;
-        set => RevisionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

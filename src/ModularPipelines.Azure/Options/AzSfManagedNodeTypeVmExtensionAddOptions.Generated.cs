@@ -15,11 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an extension to the node type.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ExtensionName">Extension name.</param>
+/// <param name="ExtensionType">Specifies the type of the extension; an example is "CustomScriptExtension".</param>
+/// <param name="Name">Node type name.</param>
+/// <param name="Publisher">The name of the extension handler publisher.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="TypeHandlerVersion">Specifies the version of the script handler.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "vm-extension", "add")]
-public record AzSfManagedNodeTypeVmExtensionAddOptions : AzOptions
+public record AzSfManagedNodeTypeVmExtensionAddOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--extension-name")] string ExtensionName,
+    [property: CliOption("--extension-type")] string ExtensionType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--publisher")] string Publisher,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type-handler-version")] string TypeHandlerVersion
+) : AzOptions
 {
+    /// <summary>
+    /// Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. Allowed values: false, true.  Default: True.
+    /// </summary>
+    [CliOption("--auto-upgrade", ShortForm = "--auto-upgrade-minor-version")]
+    public bool? AutoUpgrade { get; set; }
+
     /// <summary>
     /// If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
     /// </summary>
@@ -31,6 +52,12 @@ public record AzSfManagedNodeTypeVmExtensionAddOptions : AzOptions
     /// </summary>
     [CliFlag("--protected-setting")]
     public bool? ProtectedSetting { get; set; }
+
+    /// <summary>
+    /// Collection of extension names after which this extension needs to be provisioned.
+    /// </summary>
+    [CliFlag("--provision-after", ShortForm = "--provision-after-extension")]
+    public bool? ProvisionAfter { get; set; }
 
     /// <summary>
     /// Json formatted public settings for the extension.

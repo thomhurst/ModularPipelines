@@ -23,8 +23,8 @@ public record AzVmssDiskAttachOptions : AzOptions
     /// <summary>
     /// Disk caching policy.  Allowed values: None, ReadOnly, ReadWrite.
     /// </summary>
-    [CliFlag("--caching")]
-    public bool? Caching { get; set; }
+    [CliOption("--caching")]
+    public string? Caching { get; set; }
 
     /// <summary>
     /// Existing disk name or ID to attach or detach from VM instances.
@@ -33,7 +33,7 @@ public record AzVmssDiskAttachOptions : AzOptions
     public bool? Disk { get; set; }
 
     /// <summary>
-    /// 0-based logical unit number (LUN). Max value depends on the Virtual
+    /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.
     /// </summary>
     [CliFlag("--lun")]
     public bool? Lun { get; set; }
@@ -45,9 +45,33 @@ public record AzVmssDiskAttachOptions : AzOptions
     public bool? SizeGb { get; set; }
 
     /// <summary>
-    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS,
+    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Scale set VM instance id.
+    /// </summary>
+    [CliFlag("--instance-id")]
+    public bool? InstanceId { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliFlag("--vmss-name")]
+    public bool? VmssName { get; set; }
 
 }

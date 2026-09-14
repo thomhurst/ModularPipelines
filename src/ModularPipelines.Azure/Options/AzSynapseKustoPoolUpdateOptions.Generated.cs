@@ -27,6 +27,12 @@ public record AzSynapseKustoPoolUpdateOptions : AzOptions
     public bool? EnablePurge { get; set; }
 
     /// <summary>
+    /// A boolean value that indicates if the streaming ingest is enabled.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-streaming-ingest", ShortForm = "--esig")]
+    public bool? EnableStreamingIngest { get; set; }
+
+    /// <summary>
     /// The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
     /// </summary>
     [CliFlag("--if-match")]
@@ -39,13 +45,13 @@ public record AzSynapseKustoPoolUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Optimized auto scale definition.
+    /// Optimized auto scale definition. Usage: --optimized-autoscale version=XX is-enabled=XX minimum=XX maximum=XX
     /// </summary>
     [CliFlag("--optimized-autoscale")]
     public bool? OptimizedAutoscale { get; set; }
 
     /// <summary>
-    /// The SKU of the kusto pool.
+    /// The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }
@@ -53,13 +59,37 @@ public record AzSynapseKustoPoolUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The workspace unique identifier.
     /// </summary>
     [CliFlag("--workspace-uid")]
     public bool? WorkspaceUid { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Kusto pool.
+    /// </summary>
+    [CliOption("--kusto-pool-name", ShortForm = "-n")]
+    public string? KustoPoolName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

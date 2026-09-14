@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable Kubernetes addons.
 /// </summary>
+/// <param name="Addons">Disable the Kubernetes addons in a comma-separated list.</param>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "disable-addons")]
-public record AzAksDisableAddonsOptions : AzOptions
+public record AzAksDisableAddonsOptions(
+    [property: CliOption("--addons", ShortForm = "-a")] string Addons,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

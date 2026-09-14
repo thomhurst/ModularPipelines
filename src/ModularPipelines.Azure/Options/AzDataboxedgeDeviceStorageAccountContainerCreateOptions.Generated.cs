@@ -15,15 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create container on the device.
 /// </summary>
+/// <param name="ContainerName">The container name.</param>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StorageAccountName">The Storage Account Name.</param>
+/// <param name="DataFormat">DataFormat for Container.  Allowed values: AzureFile, BlockBlob, PageBlob.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account", "container", "create")]
-public record AzDataboxedgeDeviceStorageAccountContainerCreateOptions : AzOptions
+public record AzDataboxedgeDeviceStorageAccountContainerCreateOptions(
+    [property: CliOption("--container-name", ShortForm = "-n")] string ContainerName,
+    [property: CliOption("--device-name")] string DeviceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-account-name")] string StorageAccountName,
+    [property: CliOption("--data-format")] string DataFormat
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

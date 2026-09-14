@@ -15,11 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a local VPN gateway.
 /// </summary>
+/// <param name="Name">Name of the local network gateway.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "local-gateway", "create")]
-public record AzNetworkLocalGatewayCreateOptions : AzOptions
+public record AzNetworkLocalGatewayCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// List of CIDR block prefixes representing the address space of the OnPremise VPN's subnet. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--address-prefixes", ShortForm = "--local-address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AddressPrefixes { get; set; }
+
     /// <summary>
     /// Gateway's public IP address. (e.g. 10.1.1.1).
     /// </summary>
@@ -29,19 +40,37 @@ public record AzNetworkLocalGatewayCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Autonomous System Number to use for the BGP settings.
+    /// </summary>
+    [CliFlag("--asn")]
+    public bool? Asn { get; set; }
+
+    /// <summary>
+    /// IP address from the OnPremise VPN's subnet to use for BGP peering.
+    /// </summary>
+    [CliFlag("--bgp-peering-address")]
+    public bool? BgpPeeringAddress { get; set; }
+
+    /// <summary>
+    /// Weight (0-100) added to routes learned through BGP peering.
+    /// </summary>
+    [CliFlag("--peer-weight")]
+    public bool? PeerWeight { get; set; }
 
 }

@@ -32,4 +32,34 @@ public record AzKeyvaultBackupStartOptions : AzOptions
     [CliOption("--use-managed-identity")]
     public bool? UseManagedIdentity { get; set; }
 
+    /// <summary>
+    /// Name of the HSM. Can be omitted if --id is specified.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the HSM.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
+
+    /// <summary>
+    /// Name of Blob Container.
+    /// </summary>
+    [CliOption("--blob-container-name")]
+    public string? BlobContainerName { get; set; }
+
+    /// <summary>
+    /// Name of Azure Storage Account.
+    /// </summary>
+    [CliOption("--storage-account-name")]
+    public string? StorageAccountName { get; set; }
+
+    /// <summary>
+    /// Azure Blob storage container Uri. If specified all other 'Storage Id' arguments should be omitted.
+    /// </summary>
+    [CliFlag("--storage-resource-uri")]
+    public bool? StorageResourceUri { get; set; }
+
 }

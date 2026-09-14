@@ -15,15 +15,52 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application gateway WAF
 /// </summary>
+/// <param name="Action">Action to take.  Allowed values: Allow, Block, JSChallenge, Log.</param>
+/// <param name="Name">Name of the WAF policy rule.</param>
+/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+/// <param name="Priority">Rule priority. Lower values are evaluated prior to higher values.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="RuleType">Type of rule.  Allowed values: Invalid, MatchRule, RateLimitRule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "create")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions(
+    [property: CliOption("--action")] string Action,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--priority")] string Priority,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--rule-type")] string RuleType
+) : AzOptions
 {
     /// <summary>
     /// Describe if the custom rule is in enabled or disabled state. Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
+    [CliOption("--state")]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// List of user session identifier group by clauses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--group-by-user-session", GroupValues = true)]
+    public IEnumerable<string>? GroupByUserSession { get; set; }
+
+    /// <summary>
+    /// List of match conditions.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--match-conditions", GroupValues = true)]
+    public IEnumerable<string>? MatchConditions { get; set; }
+
+    /// <summary>
+    /// Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule.  Allowed values: FiveMins, OneMin.
+    /// </summary>
+    [CliOption("--rate-limit-duration")]
+    public string? RateLimitDuration { get; set; }
+
+    /// <summary>
+    /// Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1.
+    /// </summary>
+    [CliFlag("--rate-limit-threshold")]
+    public bool? RateLimitThreshold { get; set; }
 
 }

@@ -1,0 +1,46 @@
+
+Command
+    az sql vm add-to-group : Adds SQL virtual machine to a SQL virtual machine group.
+
+Arguments
+    --sqlvm-group -r [Required] : Name or resource ID of the SQL virtual machine group. If only name
+                                  provided, SQL virtual machine group should be in the same resource
+                                  group of the SQL virtual machine.
+
+Resource Id Arguments
+    --ids                       : One or more resource IDs (space-delimited). It should be a
+                                  complete resource ID containing all information of 'Resource Id'
+                                  arguments. You should provide either --ids or other 'Resource Id'
+                                  arguments.
+    --name -n                   : Name of the SQL virtual machine.
+    --resource-group -g         : Name of resource group. You can configure the default group using
+                                  `az configure --defaults group=<name>`.
+    --subscription              : Name or ID of subscription. You can configure the default
+                                  subscription using `az account set -s NAME_OR_ID`.
+
+WSFC Domain Credentials Arguments
+    --bootstrap-acc-pwd -b      : Password for the cluster bootstrap account if provided in the SQL
+                                  virtual machine group.
+    --operator-acc-pwd -p       : Password for the cluster operator account provided in the SQL
+                                  virtual machine group.
+    --service-acc-pwd -s        : Password for the SQL service account provided in the SQL virtual
+                                  machine group.
+
+Global Arguments
+    --debug                     : Increase logging verbosity to show all debug logs.
+    --help -h                   : Show this help message and exit.
+    --only-show-errors          : Only show errors, suppressing warnings.
+    --output -o                 : Output format.  Allowed values: json, jsonc, none, table, tsv,
+                                  yaml, yamlc.  Default: json.
+    --query                     : JMESPath query string. See http://jmespath.org/ for more
+                                  information and examples.
+    --verbose                   : Increase logging verbosity. Use --debug for full debug logs.
+
+Examples
+    Add SQL virtual machine to a group.
+        az sql vm add-to-group -n sqlvm -g myresourcegroup --sqlvm-group sqlvmgroup --bootstrap-acc-
+        pwd {bootstrappassword} --operator-acc-pwd {operatorpassword} --service-acc-pwd
+        {servicepassword}
+
+
+To search AI knowledge base for examples, use: az find "az sql vm add-to-group"

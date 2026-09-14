@@ -15,15 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create Authorization Rule for given Relay Service
 /// </summary>
+/// <param name="HybridConnectionName">Name of Hybrid Connection.</param>
+/// <param name="Name">Name of Hybrid Connection Authorization Rule.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "hyco", "authorization-rule", "create")]
-public record AzRelayHycoAuthorizationRuleCreateOptions : AzOptions
+public record AzRelayHycoAuthorizationRuleCreateOptions(
+    [property: CliOption("--hybrid-connection-name")] string HybridConnectionName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rights")]
-    public bool? Rights { get; set; }
+    [CliOption("--rights", GroupValues = true)]
+    public IEnumerable<string>? Rights { get; set; }
 
 }

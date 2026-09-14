@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a data flow.
 /// </summary>
+/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+/// <param name="Name">The data flow name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "data-flow", "create")]
-public record AzSynapseDataFlowCreateOptions : AzOptions
+public record AzSynapseDataFlowCreateOptions(
+    [property: CliOption("--file")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

@@ -21,10 +21,52 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmssUpdateOptions : AzOptions
 {
     /// <summary>
+    /// Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux OS. Use with --enable-proxy-agent.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
+    public bool? AddProxyAgentExt { get; set; }
+
+    /// <summary>
+    /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
+    public bool? AdditionalEvents { get; set; }
+
+    /// <summary>
+    /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    public bool? AllInstanceDown { get; set; }
+
+    /// <summary>
+    /// Type of rebalance behavior that will be used for recreating virtualmachines in the scale set across availability zones.  Allowed values: CreateBeforeDelete.
+    /// </summary>
+    [CliOption("--automatic-zone-balancing-behavior", ShortForm = "--balancing-behavior")]
+    public string? AutomaticZoneBalancingBehavior { get; set; }
+
+    /// <summary>
+    /// Type of rebalance strategy that will be used for rebalancing virtualmachines in the scale set across availability zones.  Allowed values: Recreate.
+    /// </summary>
+    [CliOption("--automatic-zone-balancing-strategy", ShortForm = "--balancing-strategy")]
+    public string? AutomaticZoneBalancingStrategy { get; set; }
+
+    /// <summary>
+    /// The ID or name of the capacity reservation group that is used to allocate. Pass in "None" to disassociate the capacity reservation group. Please note that if you want to delete a VM/VMSS that has been associated with capacity reservation group, you need to disassociate the capacity reservation group first.
+    /// </summary>
+    [CliOption("--capacity-reservation-group", ShortForm = "--crg")]
+    public string? CapacityReservationGroup { get; set; }
+
+    /// <summary>
     /// Custom init script file or text (cloud-init, cloud- config, etc..).
     /// </summary>
     [CliFlag("--custom-data")]
     public bool? CustomData { get; set; }
+
+    /// <summary>
+    /// Specifies whether the virtual machine scale set is explicitly opted out from being associated with any capacity reservation. When set to true, its virtual machines will not be allowed to implicitly or explicitly associate with any type of capacity reservation and will consume publicly available capacity. This option applies to the parent VMSS only.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--disable-capacity-reservation-assignment", ShortForm = "--no-cap-reservation")]
+    public bool? DisableCapacityReservationAssignment { get; set; }
 
     /// <summary>
     /// Indicate whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available.  Allowed values: false, true.
@@ -33,33 +75,51 @@ public record AzVmssUpdateOptions : AzOptions
     public bool? EnableAutoOsUpgrade { get; set; }
 
     /// <summary>
-    /// Set this Boolean property will allow VMSS to ignore AZ boundaries when constructing upgrade batches, and only consider Update Domain and m axBatchInstancePerc ent to determine the batch size.
+    /// Specify whether automatic AZ balancing should be enabled on the virtualmachine scale set.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-cross-zone-upgrade")]
+    [CliOption("--enable-automatic-zone-balancing", ShortForm = "--enable-zone-balancing")]
+    public bool? EnableAutomaticZoneBalancing { get; set; }
+
+    /// <summary>
+    /// Set this Boolean property will allow VMSS to ignore AZ boundaries when constructing upgrade batches, and only consider Update Domain and m axBatchInstancePerc ent to determine the batch size. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-cross-zone-upgrade")]
     public bool? EnableCrossZoneUpgrade { get; set; }
 
     /// <summary>
-    /// The flag that enable or disable hibernation capability on the
+    /// The flag that enable or disable hibernation capability on the VMSS.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-hibernation")]
+    [CliOption("--enable-hibernation")]
     public bool? EnableHibernation { get; set; }
 
     /// <summary>
-    /// Specify whether the
+    /// Specify whether the OS Image Scheduled event is enabled or disabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-osimage-notification")]
+    [CliOption("--enable-osimage-notification")]
     public bool? EnableOsimageNotification { get; set; }
 
     /// <summary>
-    /// Specify whether metadata security protoco (proxy agent) feature should be enabled on the virtual machine or virtual machine scale set.
+    /// Specify whether metadata security protoco (proxy agent) feature should be enabled on the virtual machine or virtual machine scale set. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-proxy-agent")]
+    [CliOption("--enable-proxy-agent")]
     public bool? EnableProxyAgent { get; set; }
 
     /// <summary>
-    /// Automatically recover customers from OS
+    /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-resilient-creation")]
+    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    public bool? EnableReboot { get; set; }
+
+    /// <summary>
+    /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    public bool? EnableRedeploy { get; set; }
+
+    /// <summary>
+    /// Automatically recover customers from OS Provisioning Timeout and VM Start Timeout errors experienced during a VM Create operation by deleting and recreating the affected VM. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-resilient-creation")]
     public bool? EnableResilientCreation { get; set; }
 
     /// <summary>
@@ -69,73 +129,115 @@ public record AzVmssUpdateOptions : AzOptions
     public bool? EnableResilientDeletion { get; set; }
 
     /// <summary>
-    /// Enable secure boot.
+    /// Enable secure boot. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-secure-boot")]
+    [CliOption("--enable-secure-boot")]
     public bool? EnableSecureBoot { get; set; }
 
     /// <summary>
-    /// Enable the Spot-
+    /// Enable the Spot- Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-spot-restore")]
+    [CliOption("--enable-spot-restore")]
     public bool? EnableSpotRestore { get; set; }
 
     /// <summary>
-    /// Enable terminate notification.
+    /// Enable terminate notification. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-terminate-notification")]
+    [CliOption("--enable-terminate-notification")]
     public bool? EnableTerminateNotification { get; set; }
 
     /// <summary>
-    /// Enable vTPM.
+    /// Enable vTPM. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-vtpm")]
+    [CliOption("--enable-vtpm")]
     public bool? EnableVtpm { get; set; }
 
     /// <summary>
-    /// Allow you to specify the ephemeral disk settings for the operating system disk. Specify it to false to set ephemeral disk setting as empty and migrate it to non ephemeral.
+    /// Specify the ephemeral disk settings for operating system disk.  Allowed values: Local.
     /// </summary>
-    [CliFlag("--ephemeral-os-disk")]
+    [CliOption("--ephemeral-option", ShortForm = "--ephemeral-os-disk-option")]
+    public string? EphemeralOption { get; set; }
+
+    /// <summary>
+    /// Allow you to specify the ephemeral disk settings for the operating system disk. Specify it to false to set ephemeral disk setting as empty and migrate it to non ephemeral. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--ephemeral-os-disk")]
     public bool? EphemeralOsDisk { get; set; }
 
     /// <summary>
-    /// Specify a list of availability zones that must be excluded from placement when
+    /// Only applicable when used with `--vm-sku`. Allows you to choose the Ephemeral OS disk provisioning location.  Allowed values: CacheDisk, NvmeDisk, ResourceDisk.
     /// </summary>
-    [CliFlag("--exclude-zones")]
-    public bool? ExcludeZones { get; set; }
+    [CliOption("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
+    public string? EphemeralOsDiskPlacement { get; set; }
 
     /// <summary>
-    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
+    /// List of virtual machine extensions to exclude when applying the Security Posture. Either a Json string or a file path is acceptable. Please refer to htt ps://docs.microsoft .com/rest/api/compu te/virtualmachinesc alesets/get#virtual machineextension for the data format.
     /// </summary>
-    [CliFlag("--imds-mode")]
-    public bool? ImdsMode { get; set; }
+    [CliOption("--exclude-extensions", ShortForm = "--security-posture-reference-exclude-extensions", GroupValues = true)]
+    public IEnumerable<string>? ExcludeExtensions { get; set; }
 
     /// <summary>
-    /// Specify a list of availability zones that must be considered for placement when
+    /// Specify a list of availability zones that must be excluded from placement when --zone-placement-policy is set to Auto. If not specified, no availability zones are excluded.
     /// </summary>
-    [CliFlag("--include-zones")]
-    public bool? IncludeZones { get; set; }
+    [CliOption("--exclude-zones", GroupValues = true)]
+    public IEnumerable<string>? ExcludeZones { get; set; }
 
     /// <summary>
-    /// Specifies that the
+    /// Specify the access control profile version resource id resource id of imds.
     /// </summary>
-    [CliFlag("--license-type")]
-    public bool? LicenseType { get; set; }
+    [CliOption("--imds-access-control-profile-reference-id", ShortForm = "--imds-profile-id")]
+    public string? ImdsAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
-    /// The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch.
+    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit, Enforce.
+    /// </summary>
+    [CliOption("--imds-mode")]
+    public string? ImdsMode { get; set; }
+
+    /// <summary>
+    /// Specify a list of availability zones that must be considered for placement when --zone-placement-policy is set to Auto. If not specified, all availability zones in the region are considered.
+    /// </summary>
+    [CliOption("--include-zones", GroupValues = true)]
+    public IEnumerable<string>? IncludeZones { get; set; }
+
+    /// <summary>
+    /// Specify whether maximum percentage of virtual machine instances per zone policy should be enabled on the virtual machine scale set.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--instance-percent-policy", ShortForm = "--ipp")]
+    public bool? InstancePercentPolicy { get; set; }
+
+    /// <summary>
+    /// Whether the security posture can be overridden by the user. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--is-overridable", ShortForm = "--security-posture-reference-is-overridable")]
+    public bool? IsOverridable { get; set; }
+
+    /// <summary>
+    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
+    /// </summary>
+    [CliOption("--license-type")]
+    public string? LicenseType { get; set; }
+
+    /// <summary>
+    /// The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. Default: 20%.
     /// </summary>
     [CliFlag("--max-batch-instance-percent")]
     public bool? MaxBatchInstancePercent { get; set; }
 
     /// <summary>
-    /// The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously
+    /// Specify the maximum percentage of virtual machine instances that can be allocated to a single availability zone in the virtual machine scale set. Valid values are integers between 1 and 100.
+    /// </summary>
+    [CliFlag("--max-instance-percent", ShortForm = "--value-max-instance-percent-per-zone")]
+    public bool? MaxInstancePercent { get; set; }
+
+    /// <summary>
+    /// The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy. Default: 20%.
     /// </summary>
     [CliFlag("--max-unhealthy-instance-percent")]
     public bool? MaxUnhealthyInstancePercent { get; set; }
 
     /// <summary>
-    /// The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state.
+    /// The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. Default: 20%.
     /// </summary>
     [CliFlag("--max-unhealthy-upgraded-instance-percent")]
     public bool? MaxUnhealthyUpgradedInstancePercent { get; set; }
@@ -159,52 +261,70 @@ public record AzVmssUpdateOptions : AzOptions
     public bool? PauseTimeBetweenBatches { get; set; }
 
     /// <summary>
-    /// The name or ID of the proximity placement group the
+    /// The name or ID of the proximity placement group the VMSS should be associated with.
     /// </summary>
     [CliOption("--ppg")]
-    public string? PpgValue { get; set; }
+    public string? Ppg { get; set; }
 
     /// <summary>
-    /// Set this Boolean property will lead to all unhealthy instances in a scale set getting upgraded before any healthy instances.
+    /// Set this Boolean property will lead to all unhealthy instances in a scale set getting upgraded before any healthy instances. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--prioritize-unhealthy-instances")]
+    [CliOption("--prioritize-unhealthy-instances")]
     public bool? PrioritizeUnhealthyInstances { get; set; }
 
     /// <summary>
-    /// Priority. Use 'Spot' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' to deploy
+    /// Priority. Use 'Spot' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' to deploy Azure spot VM and/or VMSS. Default to Regular. Allowed values: Low, Regular, Spot.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
-    /// Specify the scale- in policy (space delimited) that decides which virtual machines are chosen for removal when a
+    /// Specify the scale- in policy (space delimited) that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.  Allowed values: Default, NewestVM, OldestVM.
     /// </summary>
-    [CliFlag("--scale-in-policy")]
-    public bool? ScaleInPolicy { get; set; }
+    [CliOption("--scale-in-policy")]
+    public string? ScaleInPolicy { get; set; }
 
     /// <summary>
-    /// Specify the security type of the virtual machine scale set.  Allowed
+    /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--security-type")]
-    public bool? SecurityType { get; set; }
+    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
+    public bool? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
-    /// A list for ranks associated with the
+    /// The security posture reference id in the form of / CommunityGalleries/ {communityGalleryNa me}/securityPosture s/{securityPostureN ame}/versions/{majo r.minor.patch}|{maj or.*}|latest.
+    /// </summary>
+    [CliFlag("--security-posture-id", ShortForm = "--security-posture-reference-id")]
+    public bool? SecurityPostureId { get; set; }
+
+    /// <summary>
+    /// Specify the security type of the virtual machine scale set.  Allowed values: ConfidentialVM, Standard, TrustedLaunch.
+    /// </summary>
+    [CliOption("--security-type")]
+    public string? SecurityType { get; set; }
+
+    /// <summary>
+    /// Allocation strategy for vm sizes in SKU profile.  Allowed values: CapacityOptimized, LowestPrice, Prioritized.
+    /// </summary>
+    [CliOption("--sku-allocat-strat", ShortForm = "--skuprofile-allocation-strategy")]
+    public string? SkuAllocatStrat { get; set; }
+
+    /// <summary>
+    /// A list for ranks associated with the SKU profile vm sizes.
     /// </summary>
     [CliFlag("--skuprofile-rank")]
     public bool? SkuprofileRank { get; set; }
 
     /// <summary>
-    /// A list of VM sizes in the scale set.
+    /// A list of VM sizes in the scale set. See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info.
     /// </summary>
-    [CliFlag("--skuprofile-vmsizes")]
-    public bool? SkuprofileVmsizes { get; set; }
+    [CliOption("--skuprofile-vmsizes", GroupValues = true)]
+    public IEnumerable<string>? SkuprofileVmsizes { get; set; }
 
     /// <summary>
-    /// Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the
+    /// Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances.
     /// </summary>
-    [CliFlag("--spot-restore-timeout")]
-    public bool? SpotRestoreTimeout { get; set; }
+    [CliOption("--spot-restore-timeout")]
+    public int? SpotRestoreTimeout { get; set; }
 
     /// <summary>
     /// Length of time (in minutes, between 5 and 15) a notification to be sent to the VM on the instance metadata server till the VM gets deleted.
@@ -213,16 +333,16 @@ public record AzVmssUpdateOptions : AzOptions
     public bool? TerminateNotificationTime { get; set; }
 
     /// <summary>
-    /// Enables or disables the capability to have 1 or more managed data disks with UltraSSD_LRS storage account.
+    /// Enables or disables the capability to have 1 or more managed data disks with UltraSSD_LRS storage account. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ultra-ssd-enabled")]
+    [CliOption("--ultra-ssd-enabled")]
     public bool? UltraSsdEnabled { get; set; }
 
     /// <summary>
-    /// Specify the mode of an upgrade to virtual machines in the scale set.
+    /// Specify the mode of an upgrade to virtual machines in the scale set. Allowed values: Automatic, Manual, Rolling.
     /// </summary>
-    [CliFlag("--upgrade-policy-mode")]
-    public bool? UpgradePolicyMode { get; set; }
+    [CliOption("--upgrade-policy-mode")]
+    public string? UpgradePolicyMode { get; set; }
 
     /// <summary>
     /// UserData for the virtual machines in the scale set. It can be passed in as file or string. If empty string is passed in, the existing value will be deleted.
@@ -243,34 +363,111 @@ public record AzVmssUpdateOptions : AzOptions
     public bool? VCpusPerCore { get; set; }
 
     /// <summary>
-    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
+    /// Specify the access control profile version resource id of wire server.
     /// </summary>
-    [CliFlag("--wire-server-mode")]
-    public bool? WireServerMode { get; set; }
+    [CliOption("--wire-server-access-control-profile-reference-id", ShortForm = "--wire-server-profile-id")]
+    public string? WireServerAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
-    /// Whether to force strictly even
+    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit, Enforce.
     /// </summary>
-    [CliFlag("--zone-balance")]
+    [CliOption("--wire-server-mode")]
+    public string? WireServerMode { get; set; }
+
+    /// <summary>
+    /// Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--zone-balance")]
     public bool? ZoneBalance { get; set; }
 
     /// <summary>
-    /// Specify the policy for availability zone placement of the virtual machine scale set. When set to Auto, the platform automatically selects the availability zones.
+    /// Specify the policy for availability zone placement of the virtual machine scale set. When set to Auto, the platform automatically selects the availability zones. Allowed values: Auto.
     /// </summary>
-    [CliFlag("--zone-placement-policy")]
-    public bool? ZonePlacementPolicy { get; set; }
+    [CliOption("--zone-placement-policy")]
+    public string? ZonePlacementPolicy { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.
     /// </summary>
-    [CliFlag("--zones", ShortForm = "-z")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
-    [Obsolete("Use PpgValue instead.")]
-    public bool? Ppg
-    {
-        get => bool.TryParse(PpgValue, out var value) ? value : null;
-        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Type of repair action that will be used for repairing unhealthy virtual machines in the scale set.  Allowed values: Reimage, Replace, Restart.
+    /// </summary>
+    [CliOption("--automatic-repairs-action")]
+    public string? AutomaticRepairsAction { get; set; }
+
+    /// <summary>
+    /// The amount of time (in minutes, between 30 and 90) for which automatic repairs are suspended due to a state change on VM.
+    /// </summary>
+    [CliFlag("--automatic-repairs-grace-period")]
+    public bool? AutomaticRepairsGracePeriod { get; set; }
+
+    /// <summary>
+    /// Enable automatic repairs.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-automatic-repairs")]
+    public bool? EnableAutomaticRepairs { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.lis tProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set. Example: `--set pro perty1.property2=&lt;v alue&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Protect the VM instance from scale-in operations. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--protect-from-scale-in")]
+    public bool? ProtectFromScaleIn { get; set; }
+
+    /// <summary>
+    /// Protect the VM instance from scale set actions (including scale- in).  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--protect-from-scale-set-actions")]
+    public bool? ProtectFromScaleSetActions { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Update the VM instance with this ID. If missing, update the VMSS.
+    /// </summary>
+    [CliFlag("--instance-id")]
+    public bool? InstanceId { get; set; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

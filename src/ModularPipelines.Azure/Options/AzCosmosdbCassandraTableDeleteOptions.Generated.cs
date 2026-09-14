@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the Cassandra table under an Azure Cosmos DB
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="KeyspaceName">Keyspace name.</param>
+/// <param name="Name">Table name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "table", "delete")]
-public record AzCosmosdbCassandraTableDeleteOptions : AzOptions
+public record AzCosmosdbCassandraTableDeleteOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--keyspace-name", ShortForm = "-k")] string KeyspaceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

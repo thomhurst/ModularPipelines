@@ -39,13 +39,13 @@ public record AzRoleAssignmentListOptions : AzOptions
     public bool? AssigneeObjectId { get; set; }
 
     /// <summary>
-    /// Query Microsoft Graph to get the assignee's userPrincipalName (for user), servicePrincipalNames (for service principal) or displayName (for group), then fill principalName property with it. If the logged-in account has no permission or the machine has no network access to query Microsoft Graph, set this flag to false to avoid warning or error.  Allowed values: false, true.  Default:
+    /// Query Microsoft Graph to get the assignee's userPrincipalName (for user), servicePrincipalNames (for service principal) or displayName (for group), then fill principalName property with it. If the logged-in account has no permission or the machine has no network access to query Microsoft Graph, set this flag to false to avoid warning or error.  Allowed values: false, true.  Default: True.
     /// </summary>
     [CliOption("--fill-principal-name")]
     public bool? FillPrincipalName { get; set; }
 
     /// <summary>
-    /// Fill roleDefinitionName property in addition to roleDefinitionId. This operation is expensive. If you encounter performance issue, set this flag to false.  Allowed values: false, true.  Default:
+    /// Fill roleDefinitionName property in addition to roleDefinitionId. This operation is expensive. If you encounter performance issue, set this flag to false.  Allowed values: false, true.  Default: True.
     /// </summary>
     [CliOption("--fill-role-definition-name")]
     public bool? FillRoleDefinitionName { get; set; }
@@ -77,7 +77,7 @@ public record AzRoleAssignmentListOptions : AzOptions
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/vi rtualMachines/myVM.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

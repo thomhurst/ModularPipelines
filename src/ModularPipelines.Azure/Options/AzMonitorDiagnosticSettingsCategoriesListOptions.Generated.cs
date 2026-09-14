@@ -15,16 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the diagnostic settings categories for the
 /// </summary>
+/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "categories", "list")]
-public record AzMonitorDiagnosticSettingsCategoriesListOptions : AzOptions
+public record AzMonitorDiagnosticSettingsCategoriesListOptions(
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Target resource provider namespace.
@@ -43,12 +46,5 @@ public record AzMonitorDiagnosticSettingsCategoriesListOptions : AzOptions
     /// </summary>
     [CliFlag("--resource-type")]
     public bool? ResourceType { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

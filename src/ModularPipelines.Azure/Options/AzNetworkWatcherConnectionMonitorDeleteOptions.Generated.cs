@@ -15,15 +15,20 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a connection monitor for the given region.
 /// </summary>
+/// <param name="ConnectionMonitorName">Connection monitor name.</param>
+/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "connection-monitor", "delete")]
-public record AzNetworkWatcherConnectionMonitorDeleteOptions : AzOptions
+public record AzNetworkWatcherConnectionMonitorDeleteOptions(
+    [property: CliOption("--connection-monitor-name", ShortForm = "-n")] string ConnectionMonitorName,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

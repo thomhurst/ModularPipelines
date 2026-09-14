@@ -15,15 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the specified load balancer backend address pool.
 /// </summary>
+/// <param name="AddressPoolName">The name of the backend address pool.</param>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "address-pool", "delete")]
-public record AzNetworkLbAddressPoolDeleteOptions : AzOptions
+public record AzNetworkLbAddressPoolDeleteOptions(
+    [property: CliOption("--address-pool-name", ShortForm = "-n")] string AddressPoolName,
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

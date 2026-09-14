@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a long term retention backup.
 /// </summary>
+/// <param name="Database">Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.</param>
+/// <param name="Location">The location of the desired backups.</param>
+/// <param name="Name">The name of the LTR backup. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup name.</param>
+/// <param name="Server">Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "delete")]
-public record AzSqlDbLtrBackupDeleteOptions : AzOptions
+public record AzSqlDbLtrBackupDeleteOptions(
+    [property: CliOption("--database", ShortForm = "-d")] string Database,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

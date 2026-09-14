@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve a policy set definition.
 /// </summary>
+/// <param name="Name">The name of the policy set definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "set-definition", "show")]
-public record AzPolicySetDefinitionShowOptions : AzOptions
+public record AzPolicySetDefinitionShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Additional properties to include in output.

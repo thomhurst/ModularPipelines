@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the versions of all the mongodb
 /// </summary>
+/// <param name="DatabaseRid">Rid of the database.</param>
+/// <param name="InstanceId">InstanceId of the Account.</param>
+/// <param name="Location">Location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "mongodb", "restorable-collection", "list")]
-public record AzCosmosdbMongodbRestorableCollectionListOptions : AzOptions
+public record AzCosmosdbMongodbRestorableCollectionListOptions(
+    [property: CliOption("--database-rid", ShortForm = "-d")] string DatabaseRid,
+    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// End time of restorable MongoDB collections event feed.

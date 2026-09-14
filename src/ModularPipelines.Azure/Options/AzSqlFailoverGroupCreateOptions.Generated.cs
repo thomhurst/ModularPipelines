@@ -15,25 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a failover group.
 /// </summary>
+/// <param name="Name">The name of the Failover Group.</param>
+/// <param name="PartnerServer">The name of the partner server of a Failover Group.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "create")]
-public record AzSqlFailoverGroupCreateOptions : AzOptions
+public record AzSqlFailoverGroupCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-server")] string PartnerServer,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
     /// <summary>
     /// List of databases to add to Failover Group.
     /// </summary>
-    [CliFlag("--add-db")]
-    public bool? AddDb { get; set; }
+    [CliOption("--add-db", GroupValues = true)]
+    public IEnumerable<string>? AddDb { get; set; }
 
     /// <summary>
     /// The failover policy of the Failover Group.  Allowed values: Automatic, Manual.  Default: Manual.
     /// </summary>
-    [CliFlag("--failover-policy")]
-    public bool? FailoverPolicy { get; set; }
+    [CliOption("--failover-policy")]
+    public string? FailoverPolicy { get; set; }
 
     /// <summary>
-    /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with
+    /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.  Default: 1.
     /// </summary>
     [CliFlag("--grace-period")]
     public bool? GracePeriod { get; set; }
@@ -42,44 +51,30 @@ public record AzSqlFailoverGroupCreateOptions : AzOptions
     /// The name of the resource group of the partner server.
     /// </summary>
     [CliOption("--partner-resource-group")]
-    public string? PartnerResourceGroupValue { get; set; }
+    public string? PartnerResourceGroup { get; set; }
 
     /// <summary>
     /// The list of partner server resource id's of the Failover Group.
     /// </summary>
-    [CliFlag("--partner-server-ids")]
-    public bool? PartnerServerIds { get; set; }
+    [CliOption("--partner-server-ids", GroupValues = true)]
+    public IEnumerable<string>? PartnerServerIds { get; set; }
 
     /// <summary>
     /// The resource id of the read only endpoint target server.
     /// </summary>
     [CliOption("--ro-endpoint-target")]
-    public string? RoEndpointTargetValue { get; set; }
+    public string? RoEndpointTarget { get; set; }
 
     /// <summary>
     /// The policy of the read only endpoint of the Failover Group. Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--ro-failover-policy")]
-    public bool? RoFailoverPolicy { get; set; }
+    [CliOption("--ro-failover-policy")]
+    public string? RoFailoverPolicy { get; set; }
 
     /// <summary>
-    /// Databases secondary type on partner server.  Allowed values:
+    /// Databases secondary type on partner server.  Allowed values: Geo, Standby.
     /// </summary>
-    [CliFlag("--secondary-type")]
-    public bool? SecondaryType { get; set; }
-
-    [Obsolete("Use PartnerResourceGroupValue instead.")]
-    public bool? PartnerResourceGroup
-    {
-        get => bool.TryParse(PartnerResourceGroupValue, out var value) ? value : null;
-        set => PartnerResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RoEndpointTargetValue instead.")]
-    public bool? RoEndpointTarget
-    {
-        get => bool.TryParse(RoEndpointTargetValue, out var value) ? value : null;
-        set => RoEndpointTargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--secondary-type")]
+    public string? SecondaryType { get; set; }
 
 }

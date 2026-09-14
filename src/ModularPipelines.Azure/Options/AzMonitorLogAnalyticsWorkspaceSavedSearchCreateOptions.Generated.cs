@@ -15,15 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a saved search for a given
 /// </summary>
+/// <param name="Category">The category of the saved search. This helps the user to find a saved search faster.</param>
+/// <param name="DisplayName">Display name of the saved search.</param>
+/// <param name="Name">Name of the saved search and it's unique in a given workspace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SavedQuery">The query expression for the saved search.</param>
+/// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "saved-search", "create")]
-public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions(
+    [property: CliOption("--category")] string Category,
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--saved-query", ShortForm = "-q")] string SavedQuery,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
+    /// <summary>
+    /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for Computer Groups.
+    /// </summary>
+    [CliFlag("--fa", ShortForm = "--func-alias")]
+    public bool? Fa { get; set; }
+
+    /// <summary>
+    /// The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://learn.microsoft.com/azure/kusto/query/functions/user- defined-functions.
+    /// </summary>
+    [CliFlag("--fp", ShortForm = "--func-param")]
+    public bool? Fp { get; set; }
+
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

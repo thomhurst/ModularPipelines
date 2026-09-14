@@ -15,28 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a private endpoint application security group.
 /// </summary>
+/// <param name="EndpointName">Name of the private endpoint.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "asg", "add")]
-public record AzNetworkPrivateEndpointAsgAddOptions : AzOptions
+public record AzNetworkPrivateEndpointAsgAddOptions(
+    [property: CliOption("--endpoint-name")] string EndpointName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// ID of application security group in which the private endpoint IP configuration is included.
     /// </summary>
     [CliOption("--asg-id")]
-    public string? AsgIdValue { get; set; }
+    public string? AsgId { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
-
-    [Obsolete("Use AsgIdValue instead.")]
-    public bool? AsgId
-    {
-        get => bool.TryParse(AsgIdValue, out var value) ? value : null;
-        set => AsgIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

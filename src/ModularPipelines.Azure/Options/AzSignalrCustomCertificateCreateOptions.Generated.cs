@@ -16,23 +16,27 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a custom certificate of SignalR Service.
 /// </summary>
+/// <param name="KeyvaultBaseUri">Key vault base URI. For example, `https://contoso.vault.azure.net`.</param>
+/// <param name="KeyvaultSecretName">Key vault secret name where certificate is stored.</param>
+/// <param name="Name">Name of the custom certificate.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SignalrName">Name of the SignalR.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "custom-certificate", "create")]
-public record AzSignalrCustomCertificateCreateOptions : AzOptions
+public record AzSignalrCustomCertificateCreateOptions(
+    [property: CliOption("--keyvault-base-uri")] string KeyvaultBaseUri,
+    [property: CliOption("--keyvault-secret-name")] string KeyvaultSecretName,
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--signalr-name")] string SignalrName
+) : AzOptions
 {
     /// <summary>
     /// Key vault secret version where certificate is stored. If empty, will use latest version.
     /// </summary>
     [SecretValue]
     [CliOption("--keyvault-secret-version")]
-    public string? KeyvaultSecretVersionValue { get; set; }
-
-    [Obsolete("Use KeyvaultSecretVersionValue instead.")]
-    public bool? KeyvaultSecretVersion
-    {
-        get => bool.TryParse(KeyvaultSecretVersionValue, out var value) ? value : null;
-        set => KeyvaultSecretVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? KeyvaultSecretVersion { get; set; }
 
 }

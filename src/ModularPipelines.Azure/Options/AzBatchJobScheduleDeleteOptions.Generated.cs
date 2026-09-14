@@ -15,15 +15,36 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a Job Schedule from the specified Account.
 /// </summary>
+/// <param name="JobScheduleId">The ID of the Job Schedule to delete. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job-schedule", "delete")]
-public record AzBatchJobScheduleDeleteOptions : AzOptions
+public record AzBatchJobScheduleDeleteOptions(
+    [property: CliOption("--job-schedule-id")] string JobScheduleId
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
 }

@@ -22,6 +22,9 @@ public class AzCognitiveservices : IAzCognitiveservices
 {
     private readonly ICommandContext _command;
     private AzCognitiveservicesAccount? _account;
+    private AzCognitiveservicesCommitmentTier? _commitmentTier;
+    private AzCognitiveservicesModel? _model;
+    private AzCognitiveservicesUsage? _usage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCognitiveservices"/> class.
@@ -37,6 +40,21 @@ public class AzCognitiveservices : IAzCognitiveservices
     /// az account sub-commands.
     /// </summary>
     public AzCognitiveservicesAccount Account => _account ??= new AzCognitiveservicesAccount(_command);
+
+    /// <summary>
+    /// az commitment-tier sub-commands.
+    /// </summary>
+    public AzCognitiveservicesCommitmentTier CommitmentTier => _commitmentTier ??= new AzCognitiveservicesCommitmentTier(_command);
+
+    /// <summary>
+    /// az model sub-commands.
+    /// </summary>
+    public AzCognitiveservicesModel Model => _model ??= new AzCognitiveservicesModel(_command);
+
+    /// <summary>
+    /// az usage sub-commands.
+    /// </summary>
+    public AzCognitiveservicesUsage Usage => _usage ??= new AzCognitiveservicesUsage(_command);
 
     #endregion
 }

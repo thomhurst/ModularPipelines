@@ -1,0 +1,356 @@
+
+Command
+    az mysql flexible-server create : Create a MySQL flexible server.
+        Create a MySQL flexible server with custom or default configuration. For more information
+        for network configuration, see
+        - Configure public access
+        https://learn.microsoft.com/en-us/azure/mysql/flexible-server/how-to-manage-firewall-cli
+        - Configure private access
+        https://learn.microsoft.com/en-us/azure/mysql/flexible-server/how-to-manage-virtual-network-
+        cli.
+
+Arguments
+    --accelerated-logs                                   : Enable or disable accelerated logs. Only
+                                                           support for Business Critical tier.
+                                                           Default value is Enabled.  Allowed
+                                                           values: Disabled, Enabled.
+    --address-prefixes                                   : The IP address prefix to use when
+                                                           creating a new virtual network in CIDR
+                                                           format. Default value is 10.0.0.0/16.
+    --auto-scale-iops                                    : Enable or disable the auto scale iops.
+                                                           Default value is Enabled.  Allowed
+                                                           values: Disabled, Enabled.  Default:
+                                                           Enabled.
+    --backup-identity                                    : The name or resource ID of the geo backup
+                                                           user identity for data encryption. The
+                                                           identity needs to be in the same region
+                                                           as the backup region.
+    --backup-interval                                    : The interval between backups in hours.
+                                                           Accepted values are 24, 12 and 6. The
+                                                           default value is 24.
+    --backup-key                                         : The resource ID of the geo backup
+                                                           keyvault key for data encryption. The key
+                                                           needs to be in the same region as the
+                                                           backup region.
+    --backup-retention                                   : The number of days a backup is retained.
+                                                           Range of 1 to 35 days. Default is 7 days.
+                                                           Default: 7.
+    --database-name -d                                   : The name of the database to be created
+                                                           when provisioning the database server.
+    --database-port                                      : The port of the database. Default value
+                                                           is 3306.
+    --geo-redundant-backup                               : Whether or not geo redundant backup is
+                                                           enabled.  Allowed values: Disabled,
+                                                           Enabled.  Default: Disabled.
+    --high-availability                                  : Enable (ZoneRedundant or SameZone) or
+                                                           disable high availability feature.
+                                                           Allowed values: Disabled, SameZone,
+                                                           ZoneRedundant.  Default: Disabled.
+    --identity                                           : The name or resource ID of the user
+                                                           assigned identity for data encryption.
+    --iops                                               : Number of IOPS to be allocated for this
+                                                           server. You will get certain amount of
+                                                           free IOPS based on compute and storage
+                                                           provisioned. The default value for IOPS
+                                                           is free IOPS. To learn more about IOPS
+                                                           based on compute and storage, refer to
+                                                           IOPS in Azure Database for MySQL Flexible
+                                                           Server.
+    --key                                                : The resource ID of the primary keyvault
+                                                           key for data encryption.
+    --location -l                                        : Location. Values from: `az account list-
+                                                           locations`. You can configure the default
+                                                           location using `az configure --defaults
+                                                           location=<location>`.
+    --maintenance-policy-patch-strategy --patch-strategy : The patch strategy of maintenance policy.
+                                                           Accepted values: Regular, VirtualCanary.
+                                                           Default value is Regular.  Allowed
+                                                           values: Regular, VirtualCanary.
+    --name -n                                            : Name of the server. The name can contain
+                                                           only lowercase letters, numbers, and the
+                                                           hyphen (-) character. Minimum 3
+                                                           characters and maximum 63 characters.
+    --private-dns-zone                                   : This parameter only applies if you are
+                                                           creating cross region replica server with
+                                                           private access. For in-region read
+                                                           replica with private access, source
+                                                           server settings are carried over and this
+                                                           parameter is ignored. The name or id of
+                                                           new or existing private dns zone. You can
+                                                           use the private dns zone from same
+                                                           resource group, different resource group,
+                                                           or different subscription. If you want to
+                                                           use a zone from different resource group
+                                                           or subscription, please provide resource
+                                                           Id. CLI creates a new private dns zone
+                                                           within the same resource group as virtual
+                                                           network if not provided by users.
+    --public-access                                      : Determines the public access. Enter
+                                                           single or range of IP addresses to be
+                                                           included in the allowed list of IPs. IP
+                                                           address ranges must be dash-separated and
+                                                           not contain any spaces. Specifying
+                                                           0.0.0.0 allows public access from any
+                                                           resources deployed within Azure to access
+                                                           your server. Setting it to "None" sets
+                                                           the server in public access mode but does
+                                                           not create a firewall rule.
+    --resource-group -g                                  : Name of resource group. You can configure
+                                                           the default group using `az configure
+                                                           --defaults group=<name>`.
+    --sku-name                                           : The name of the compute SKU. Follows the
+                                                           convention Standard_{VM name}. Examples:
+                                                           Standard_B1ms.  Default: Standard_B1ms.
+    --standby-zone                                       : The availability zone information of the
+                                                           standby server when high availability is
+                                                           enabled.
+    --storage-auto-grow                                  : Enable or disable autogrow of the
+                                                           storage. Default value is Enabled.
+                                                           Allowed values: Disabled, Enabled.
+                                                           Default: Enabled.
+    --storage-redundancy                    [Deprecated] : Enable local redundancy or zone
+                                                           redundancy. Zone redundancy only supports
+                                                           Business Critical tier.  Allowed values:
+                                                           LocalRedundancy, ZoneRedundancy.
+                                                           Default: LocalRedundancy.
+        WARNING: Argument '--storage-redundancy' has been deprecated and will be removed in next
+        breaking change release(2.86.0) scheduled for May 2026.
+    --storage-size                                       : The storage capacity of the server.
+                                                           Minimum is 32 GiB and max is 16 TiB.
+                                                           Default: 32.
+    --subnet                                             : Name or resource ID of a new or existing
+                                                           subnet. This parameter only applies if
+                                                           you are creating cross region replica
+                                                           server with private access. For in-region
+                                                           read replica with private access, source
+                                                           server settings are carried over and this
+                                                           parameter is ignored. If you want to use
+                                                           a subnet from different resource group or
+                                                           subscription, please provide resource ID
+                                                           instead of name. Please note that the
+                                                           subnet will be delegated to
+                                                           flexibleServers. After delegation, this
+                                                           subnet cannot be used for any other type
+                                                           of Azure resources.
+    --subnet-prefixes                                    : The subnet IP address prefix to use when
+                                                           creating a new subnet in CIDR format.
+                                                           Default value is10.0.0.0/24.
+    --tags                                               : Space-separated tags: key[=value]
+                                                           [key[=value] ...]. Use "" to clear
+                                                           existing tags.
+    --tier                                               : Compute tier of the server. Accepted
+                                                           values: Burstable, GeneralPurpose,
+                                                           MemoryOptimized.  Default: Burstable.
+    --version                                            : Server major version.  Default: 8.0.21.
+    --vnet                                               : Name or ID of a new or existing virtual
+                                                           network. This parameter only applies if
+                                                           you are creating cross region replica
+                                                           server with private access. For in-region
+                                                           read replica with private access, source
+                                                           server settings are carried over and this
+                                                           parameter is ignored. If you want to use
+                                                           a vnet from different resource group or
+                                                           subscription, please provide a resource
+                                                           ID. The name must be between 2 to 64
+                                                           characters. The name must begin with a
+                                                           letter or number, end with a letter,
+                                                           number or underscore, and may contain
+                                                           only letters, numbers, underscores,
+                                                           periods, or hyphens.
+    --yes -y                                             : Do not prompt for confirmation.
+    --zone -z                                            : Availability zone into which to provision
+                                                           the resource.
+
+Authentication Arguments
+    --admin-password -p                                  : The password of the administrator.
+                                                           Minimum 8 characters and maximum 128
+                                                           characters. Password must contain
+                                                           characters from three of the following
+                                                           categories: English uppercase letters,
+                                                           English lowercase letters, numbers, and
+                                                           non-alphanumeric characters.
+    --admin-user -u                                      : Administrator username for the server.
+                                                           Once set, it cannot be changed.  Default:
+                                                           mellowavocet3.
+
+Global Arguments
+    --debug                                              : Increase logging verbosity to show all
+                                                           debug logs.
+    --help -h                                            : Show this help message and exit.
+    --only-show-errors                                   : Only show errors, suppressing warnings.
+    --output -o                                          : Output format.  Allowed values: json,
+                                                           jsonc, none, table, tsv, yaml, yamlc.
+                                                           Default: json.
+    --query                                              : JMESPath query string. See
+                                                           http://jmespath.org/ for more information
+                                                           and examples.
+    --subscription                                       : Name or ID of subscription. You can
+                                                           configure the default subscription using
+                                                           `az account set -s NAME_OR_ID`.
+    --verbose                                            : Increase logging verbosity. Use --debug
+                                                           for full debug logs.
+
+Examples
+    Create a MySQL flexible server with custom parameters
+
+        az mysql flexible-server create --location northeurope --resource-group testGroup \
+          --name testserver --admin-user username --admin-password password \
+          --sku-name Standard_B1ms --tier Burstable --public-access 0.0.0.0 --storage-size 32 \
+          --tags "key=value" --version 5.7 --high-availability ZoneRedundant --zone 1 \
+          --standby-zone 3 --storage-auto-grow Enabled --iops 500
+
+
+    Create a MySQL flexible server with default parameters and public access enabled by default.
+    Resource group, server name, username, password, and default database will be created by CLI
+
+        az mysql flexible-server create
+
+
+    Create a MySQL flexible server with public access and add the range of IP address to have access
+    to this server. The --public-access parameter can be 'All', 'None', <startIpAddress>, or
+    <startIpAddress>-<endIpAddress>
+
+        az mysql flexible-server create --resource-group testGroup --name testserver --public-access
+        125.23.54.31-125.23.54.35
+
+
+    Create a MySQL flexible server with private access. If provided virtual network and subnet do
+    not exists, virtual network and subnet with the specified address prefixes will be created.
+
+        az mysql flexible-server create --resource-group testGroup --name testserver --vnet myVnet
+        --subnet mySubnet --address-prefixes 10.0.0.0/16 --subnet-prefixes 10.0.0.0/24
+
+
+    Create a MySQL flexible server using a new subnet resource ID and new private DNS zone resource
+    ID. The subnet and DNS zone can be created in different subscription or resource group.
+
+        az mysql flexible-server create \
+          --resource-group testGroup --name testserver \
+          --subnet /subscriptions/{SubID}/resourceGroups/{ResourceGroup}/providers/Microsoft.Network
+        /virtualNetworks/{VNetName}/subnets/{SubnetName} \
+          --private-dns-zone /subscriptions/{SubID}/resourceGroups/{resourceGroup}/providers/Microso
+        ft.Network/privateDnsZones/testMySQLFlexibleDnsZone.private.mysql.database.azure.com \
+          --address-prefixes 172.0.0.0/16 --subnet-prefixes 172.0.0.0/24
+
+
+    Create a MySQL flexible server using existing network resources in the same resource group. The
+    provided subnet should not have any other resource deployed in it and this subnet will be
+    delegated to Microsoft.DBforMySQL/flexibleServers, if not already delegated. The private DNS
+    zone will be linked to the virtual network if not already linked.
+
+        # create vnet
+        az network vnet create --resource-group testGroup --name testVnet --location testLocation
+        --address-prefixes 172.0.0.0/16
+
+        # create subnet
+        az network vnet subnet create --resource-group testGroup --vnet-name testVnet --address-
+        prefixes 172.0.0.0/24 --name testSubnet
+
+        # create private dns zone
+        az network private-dns zone create -g testGroup -n testDNS.private.mysql.database.azure.com
+
+        az mysql flexible-server create --resource-group testGroup \
+          --name testserver --location testLocation \
+          --subnet /subscriptions/{SubId}/resourceGroups/{testGroup}/providers/Microsoft.Network/vir
+        tualNetworks/tesetVnet/subnets/testSubnet \
+          --private-dns-zone /subscriptions/{SubId}/resourceGroups/{testGroup}/providers/Microsoft.N
+        etwork/privateDnsZones/testDNS.mysql.database.azure.com\
+
+
+        az mysql flexible-server create --resource-group testGroup --name testserver \
+          --vnet testVnet --subnet testSubnet --location testLocation \
+          --private-dns-zone /subscriptions/{SubId}/resourceGroups/{testGroup}/providers/Microsoft.N
+        etwork/privateDnsZones/testDNS.mysql.database.azure.com
+
+
+    Create a MySQL flexible server using existing network resources in the different resource group
+    / subscription.
+
+        az mysql flexible-server create --resource-group testGroup \
+           --name testserver --location testLocation \
+          --subnet /subscriptions/{SubId2}/resourceGroups/{testGroup2}/providers/Microsoft.Network/v
+        irtualNetworks/tesetVnet/subnets/testSubnet \
+          --private-dns-zone /subscriptions/{SubId2}/resourceGroups/{testGroup2}/providers/Microsoft
+        .Network/privateDnsZones/testDNS.mysql.database.azure.com
+
+
+    Create a MySQL flexible server with data encryption.
+
+        # create keyvault
+        az keyvault create -g testGroup -n testVault --location testLocation \
+          --enable-purge-protection true
+
+
+        # create key in keyvault and save its key identifier
+        keyIdentifier=$(az keyvault key create --name testKey -p software \
+          --vault-name testVault --query key.kid -o tsv)
+
+
+        # create identity and save its principalId
+        identityPrincipalId=$(az identity create -g testGroup --name testIdentity \
+          --location testLocation --query principalId -o tsv)
+
+
+        # add testIdentity as an access policy with key permissions 'Wrap Key', 'Unwrap Key', 'Get'
+        and 'List' inside testVault
+        az keyvault set-policy -g testGroup -n testVault --object-id $identityPrincipalId \
+          --key-permissions wrapKey unwrapKey get list
+
+
+        # create flexible server with data encryption enabled
+        az mysql flexible-server create -g testGroup -n testServer --location testLocation \
+          --key $keyIdentifier --identity testIdentity
+
+
+    Create a MySQL flexible server with geo redundant backup and data encryption.
+
+        # create keyvault
+        az keyvault create -g testGroup -n testVault --location testLocation \
+          --enable-purge-protection true
+
+
+        # create key in keyvault and save its key identifier
+        keyIdentifier=$(az keyvault key create --name testKey -p software \
+          --vault-name testVault --query key.kid -o tsv)
+
+
+        # create identity and save its principalId
+        identityPrincipalId=$(az identity create -g testGroup --name testIdentity \
+          --location testLocation --query principalId -o tsv)
+
+
+        # add testIdentity as an access policy with key permissions 'Wrap Key', 'Unwrap Key', 'Get'
+        and 'List' inside testVault
+        az keyvault set-policy -g testGroup -n testVault --object-id $identityPrincipalId \
+          --key-permissions wrapKey unwrapKey get list
+
+
+        # create backup keyvault
+        az keyvault create -g testGroup -n testBackupVault --location testBackupLocation \
+          --enable-purge-protection true
+
+
+        # create backup key in backup keyvault and save its key identifier
+        backupKeyIdentifier=$(az keyvault key create --name testBackupKey -p software \
+          --vault-name testBackupVault --query key.kid -o tsv)
+
+
+        # create backup identity and save its principalId
+        backupIdentityPrincipalId=$(az identity create -g testGroup --name testBackupIdentity \
+          --location testBackupLocation --query principalId -o tsv)
+
+
+        # add testBackupIdentity as an access policy with key permissions 'Wrap Key', 'Unwrap Key',
+        'Get' and 'List' inside testBackupVault
+        az keyvault set-policy -g testGroup -n testBackupVault \
+          --object-id $backupIdentityPrincipalId --key-permissions wrapKey unwrapKey get list
+
+
+        # create flexible server with geo redundant backup and data encryption enabled
+        az mysql flexible-server create -g testGroup -n testServer --location testLocation \
+          --geo-redundant-backup Enabled \
+          --key $keyIdentifier --identity testIdentity \
+          --backup-key $backupKeyIdentifier --backup-identity testBackupIdentity
+
+
+To search AI knowledge base for examples, use: az find "az mysql flexible-server create"

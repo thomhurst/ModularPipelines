@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove AAAA record from its record set.
 /// </summary>
+/// <param name="Ipv6Address">IPv6 address in string notation.</param>
+/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "aaaa", "remove-record")]
-public record AzNetworkDnsRecordSetAaaaRemoveRecordOptions : AzOptions
+public record AzNetworkDnsRecordSetAaaaRemoveRecordOptions(
+    [property: CliOption("--ipv6-address", ShortForm = "-a")] string Ipv6Address,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Keep the empty record set if the last record is removed.

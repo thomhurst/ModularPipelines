@@ -15,16 +15,31 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload a file to a share.
 /// </summary>
+/// <param name="Source">Path of the local file to upload as the file content.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "upload")]
-public record AzStorageFileUploadOptions : AzOptions
+public record AzStorageFileUploadOptions(
+    [property: CliOption("--source")] string Source
+) : AzOptions
 {
     /// <summary>
-    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
+    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
+
+    /// <summary>
+    /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
+    /// </summary>
+    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    public bool? BackupIntent { get; set; }
+
+    /// <summary>
+    /// The cache control string.
+    /// </summary>
+    [CliFlag("--content-cache", ShortForm = "--content-cache-control")]
+    public bool? ContentCache { get; set; }
 
     /// <summary>
     /// Conveys additional information about how to process the response payload, and can also be used to attach additional metadata.
@@ -89,8 +104,8 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
     /// Include this flag to disable progress reporting for the command.
@@ -108,13 +123,13 @@ public record AzStorageFileUploadOptions : AzOptions
     /// The path to the file within the file share. If the file name is omitted, the source file name will be used.
     /// </summary>
     [CliOption("--path", ShortForm = "-p")]
-    public string? PathValue { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// The file share name.
     /// </summary>
-    [CliFlag("--share-name", ShortForm = "-s")]
-    public bool? ShareName { get; set; }
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string? ShareName { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
@@ -128,11 +143,34 @@ public record AzStorageFileUploadOptions : AzOptions
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
 
-    [Obsolete("Use PathValue instead.")]
-    public bool? Path
-    {
-        get => bool.TryParse(PathValue, out var value) ? value : null;
-        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--file-endpoint")]
+    public bool? FileEndpoint { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
 
 }

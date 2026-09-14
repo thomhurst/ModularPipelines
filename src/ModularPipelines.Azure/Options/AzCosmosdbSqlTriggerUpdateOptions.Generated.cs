@@ -15,27 +15,38 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates an Azure Cosmos DB SQL trigger.
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="ContainerName">Container name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Trigger name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "trigger", "update")]
-public record AzCosmosdbSqlTriggerUpdateOptions : AzOptions
+public record AzCosmosdbSqlTriggerUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Trigger body, you can enter it as a string or as a file, e.g.,
+    /// Trigger body, you can enter it as a string or as a file, e.g., --body @triggerbody-file.json.
     /// </summary>
     [CliFlag("--body", ShortForm = "-b")]
     public bool? Body { get; set; }
 
     /// <summary>
-    /// The operation of the trigger.  Allowed values: All, Create,
+    /// The operation of the trigger.  Allowed values: All, Create, Delete, Replace, Update.
     /// </summary>
-    [CliFlag("--operation")]
-    public bool? Operation { get; set; }
+    [CliOption("--operation")]
+    public string? Operation { get; set; }
 
     /// <summary>
     /// Trigger type.  Allowed values: Post, Pre.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

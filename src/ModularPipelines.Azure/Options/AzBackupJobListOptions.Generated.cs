@@ -15,16 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all backup jobs of a Recovery Services vault.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VaultName">Name of the Recovery services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "job", "list")]
-public record AzBackupJobListOptions : AzOptions
+public record AzBackupJobListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
+) : AzOptions
 {
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload, MAB.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// The end date of the range in UTC (d-m-Y).
@@ -35,8 +40,8 @@ public record AzBackupJobListOptions : AzOptions
     /// <summary>
     /// User initiated operation.  Allowed values: Backup, ConfigureBackup, DeleteBackupData, DisableBackup, Restore.
     /// </summary>
-    [CliFlag("--operation")]
-    public bool? Operation { get; set; }
+    [CliOption("--operation")]
+    public string? Operation { get; set; }
 
     /// <summary>
     /// The start date of the range in UTC (d-m-Y).
@@ -45,10 +50,10 @@ public record AzBackupJobListOptions : AzOptions
     public bool? StartDate { get; set; }
 
     /// <summary>
-    /// Status of the Job.  Allowed values: Cancelled, Completed,
+    /// Status of the Job.  Allowed values: Cancelled, Completed, CompletedWithWarnings, Failed, InProgress.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
     /// <summary>
     /// Use this flag to show recoverypoints in secondary region.

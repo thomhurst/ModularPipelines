@@ -15,22 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a fixed or recurring autoscale profile.
 /// </summary>
+/// <param name="AutoscaleName">Name of the autoscale settings.</param>
+/// <param name="Name">Name of the autoscale profile.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
+/// <param name="Timezone">Timezone name.  Values from: az monitor autoscale profile list- timezones.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "profile", "create")]
-public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
+public record AzMonitorAutoscaleProfileCreateOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--count")] string Count,
+    [property: CliOption("--timezone")] string Timezone
+) : AzOptions
 {
     /// <summary>
     /// Name of an existing schedule from which to copy the scaling rules for the new schedule.
     /// </summary>
     [CliOption("--copy-rules")]
-    public string? CopyRulesValue { get; set; }
+    public string? CopyRules { get; set; }
 
-    [Obsolete("Use CopyRulesValue instead.")]
-    public bool? CopyRules
-    {
-        get => bool.TryParse(CopyRulesValue, out var value) ? value : null;
-        set => CopyRulesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The maximum number of instances.
+    /// </summary>
+    [CliFlag("--max-count")]
+    public bool? MaxCount { get; set; }
+
+    /// <summary>
+    /// The minimum number of instances.
+    /// </summary>
+    [CliFlag("--min-count")]
+    public bool? MinCount { get; set; }
+
+    /// <summary>
+    /// When the autoscale profile ends. Format depends on the type of profile. Fixed:  --end yyyy-mm-dd [hh:mm:ss] Weekly: [--end hh:mm].
+    /// </summary>
+    [CliFlag("--end")]
+    public bool? End { get; set; }
+
+    /// <summary>
+    /// When the profile recurs. If omitted, a fixed (non-recurring) profile is created. Usage:     --recurrence {week} [ARG ARG ...] Weekly:    --recurrence week Sat Sun.
+    /// </summary>
+    [CliFlag("--recurrence", ShortForm = "-r")]
+    public bool? Recurrence { get; set; }
+
+    /// <summary>
+    /// When the autoscale profile begins. Format depends on the type of profile. Fixed:  --start yyyy-mm-dd [hh:mm:ss] Weekly: [--start hh:mm].
+    /// </summary>
+    [CliFlag("--start")]
+    public bool? Start { get; set; }
 
 }

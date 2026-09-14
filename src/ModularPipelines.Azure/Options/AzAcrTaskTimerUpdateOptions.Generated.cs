@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the timer trigger for a task.
 /// </summary>
+/// <param name="Name">The name of the task.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+/// <param name="TimerName">The name of the timer trigger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "timer", "update")]
-public record AzAcrTaskTimerUpdateOptions : AzOptions
+public record AzAcrTaskTimerUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
+    [property: CliOption("--timer-name")] string TimerName
+) : AzOptions
 {
     /// <summary>
     /// Indicates whether the timer trigger is enabled.  Allowed values: false, true.
@@ -30,19 +37,12 @@ public record AzAcrTaskTimerUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The schedule of the timer trigger represented as a cron expression.
     /// </summary>
     [CliFlag("--schedule")]
     public bool? Schedule { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

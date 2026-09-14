@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all function keys.
 /// </summary>
+/// <param name="FunctionName">Name of the Function.</param>
+/// <param name="Name">Name of the function app.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "function", "keys", "list")]
-public record AzFunctionappFunctionKeysListOptions : AzOptions
+public record AzFunctionappFunctionKeysListOptions(
+    [property: CliOption("--function-name")] string FunctionName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of the slot. Defaults to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
-
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Slot { get; set; }
 
 }

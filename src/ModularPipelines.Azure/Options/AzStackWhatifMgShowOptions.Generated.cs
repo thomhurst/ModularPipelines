@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a deployment stack what-if result from management group scope.
 /// </summary>
+/// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "mg", "show")]
@@ -22,11 +23,6 @@ public record AzStackWhatifMgShowOptions(
     [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
 ) : AzOptions
 {
-    public AzStackWhatifMgShowOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// The deployment stack what-if result resource ID.
     /// </summary>

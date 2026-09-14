@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Invoke a command like nodetool for cassandra
 /// </summary>
+/// <param name="ClusterName">Cluster Name.</param>
+/// <param name="CommandName">The command which should be run.</param>
+/// <param name="Host">IP address of the cassandra host to run the command on.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "cluster", "invoke-command")]
-public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
+public record AzManagedCassandraClusterInvokeCommandOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--command-name")] string CommandName,
+    [property: CliOption("--host")] string Host,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The key="value" of arguments for the command.

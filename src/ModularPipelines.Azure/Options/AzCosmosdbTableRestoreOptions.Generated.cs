@@ -15,13 +15,20 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a deleted table within the same account.
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="TableName">Name of the CosmosDB Table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "table", "restore")]
-public record AzCosmosdbTableRestoreOptions : AzOptions
+public record AzCosmosdbTableRestoreOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--table-name", ShortForm = "-n")] string TableName
+) : AzOptions
 {
     /// <summary>
-    /// Flag to restore with TTL disabled.
+    /// Flag to restore with TTL disabled. Usage:          --disable-ttl True Default: false.
     /// </summary>
     [CliFlag("--disable-ttl")]
     public bool? DisableTtl { get; set; }
@@ -29,7 +36,7 @@ public record AzCosmosdbTableRestoreOptions : AzOptions
     /// <summary>
     /// The timestamp to which the Table needs to be restored to.
     /// </summary>
-    [CliFlag("--restore-timestamp", ShortForm = "-t")]
-    public bool? RestoreTimestamp { get; set; }
+    [CliOption("--restore-timestamp", ShortForm = "-t")]
+    public string? RestoreTimestamp { get; set; }
 
 }

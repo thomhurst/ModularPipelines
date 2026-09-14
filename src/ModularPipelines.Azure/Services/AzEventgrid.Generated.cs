@@ -23,9 +23,11 @@ public class AzEventgrid : IAzEventgrid
     private readonly ICommandContext _command;
     private AzEventgridDomain? _domain;
     private AzEventgridEventSubscription? _eventSubscription;
+    private AzEventgridExtensionTopic? _extensionTopic;
     private AzEventgridPartner? _partner;
     private AzEventgridSystemTopic? _systemTopic;
     private AzEventgridTopic? _topic;
+    private AzEventgridTopicType? _topicType;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgrid"/> class.
@@ -48,6 +50,11 @@ public class AzEventgrid : IAzEventgrid
     public AzEventgridEventSubscription EventSubscription => _eventSubscription ??= new AzEventgridEventSubscription(_command);
 
     /// <summary>
+    /// az extension-topic sub-commands.
+    /// </summary>
+    public AzEventgridExtensionTopic ExtensionTopic => _extensionTopic ??= new AzEventgridExtensionTopic(_command);
+
+    /// <summary>
     /// az partner sub-commands.
     /// </summary>
     public AzEventgridPartner Partner => _partner ??= new AzEventgridPartner(_command);
@@ -61,6 +68,11 @@ public class AzEventgrid : IAzEventgrid
     /// az topic sub-commands.
     /// </summary>
     public AzEventgridTopic Topic => _topic ??= new AzEventgridTopic(_command);
+
+    /// <summary>
+    /// az topic-type sub-commands.
+    /// </summary>
+    public AzEventgridTopicType TopicType => _topicType ??= new AzEventgridTopicType(_command);
 
     #endregion
 }

@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create Authorization Rule for the given Relay
 /// </summary>
+/// <param name="Name">Name of WCF Relay Authorization Rule.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="RelayName">Name of WCF Relay.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "wcfrelay", "authorization-rule", "create")]
-public record AzRelayWcfrelayAuthorizationRuleCreateOptions : AzOptions
+public record AzRelayWcfrelayAuthorizationRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--relay-name")] string RelayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The rights associated with the rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

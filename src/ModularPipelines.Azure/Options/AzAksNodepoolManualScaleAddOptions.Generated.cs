@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new manual to a VirtualMachines agentpool in the
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="Name">The node pool name.</param>
+/// <param name="NodeCount">Number of nodes in the manual.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VmSizes">Comma-separated list of sizes in the manual.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "manual-scale", "add")]
-public record AzAksNodepoolManualScaleAddOptions : AzOptions
+public record AzAksNodepoolManualScaleAddOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--node-count", ShortForm = "-c")] int NodeCount,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vm-sizes", GroupValues = true)] IEnumerable<string> VmSizes
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

@@ -42,55 +42,96 @@ function Invoke-PublicApiBuild(
         '-c'
         'Release'
         '--no-incremental'
+        '--verbosity'
+        'normal'
+        '-p:ReportAnalyzer=true'
         '-p:TreatWarningsAsErrors=false'
         '-p:WarningsAsErrors='
         "-p:ErrorLog=$ErrorLogPath"
     ) + $ExtraBuildArguments
 
+    Write-Host "Starting public API build: $BuildLogPath"
+    $buildTimer = [Diagnostics.Stopwatch]::StartNew()
     & $DotNetExecutable @arguments *> $BuildLogPath
-    if ($LASTEXITCODE -ne 0) {
+    $buildExitCode = $LASTEXITCODE
+    $buildTimer.Stop()
+    Write-Host "Public API build exited $buildExitCode after $([Math]::Round($buildTimer.Elapsed.TotalSeconds, 1)) seconds: $BuildLogPath"
+    if ($buildExitCode -ne 0) {
         Get-Content -LiteralPath $BuildLogPath
         throw $FailureMessage
     }
 }
 
-$removalErrorLog = Join-Path $TemporaryDirectory 'PublicAPI.removals.sarif'
-$removalBuildLog = Join-Path $TemporaryDirectory 'PublicAPI.removal-build.log'
-$confirmedRemovals = Join-Path $TemporaryDirectory 'PublicAPI.ConfirmedRemovals.txt'
-Invoke-PublicApiBuild `
-    -ErrorLogPath $removalErrorLog `
-    -BuildLogPath $removalBuildLog `
-    -FailureMessage 'Failed to collect confirmed public API removals.'
+$synchronized = $false
+try {
+    # Discover additions while the unshipped API list is empty. PublicApiAnalyzers scans
+    # that list for stale siblings whenever it reports a new API, which is expensive for
+    # large generated surfaces. The removal pass below declares those additions first.
+    foreach ($baseline in $shipped, $unshipped) {
+        $headers = @(Get-Content -LiteralPath $baseline | Where-Object {
+            $_.StartsWith('#', [StringComparison]::Ordinal)
+        })
+        [IO.File]::WriteAllLines($baseline, $headers, [Text.UTF8Encoding]::new($false))
+    }
 
-& (Join-Path $PSScriptRoot 'Write-RemovedPublicApiSnapshotFromSarif.ps1') `
-    -ErrorLogPath $removalErrorLog `
-    -SnapshotPath $confirmedRemovals `
-    -PackageDirectory $PackageDirectory
+    $errorLog = Join-Path $TemporaryDirectory 'PublicAPI.current.sarif'
+    $buildLog = Join-Path $TemporaryDirectory 'PublicAPI.snapshot-build.log'
+    Invoke-PublicApiBuild `
+        -ErrorLogPath $errorLog `
+        -BuildLogPath $buildLog `
+        -FailureMessage 'Failed to create the current public API snapshot.'
 
-foreach ($baseline in $shipped, $unshipped) {
-    $headers = @(Get-Content -LiteralPath $baseline | Where-Object {
-        $_.StartsWith('#', [StringComparison]::Ordinal)
-    })
-    [IO.File]::WriteAllLines($baseline, $headers, [Text.UTF8Encoding]::new($false))
+    & (Join-Path $PSScriptRoot 'Write-PublicApiSnapshotFromSarif.ps1') `
+        -ErrorLogPath $errorLog `
+        -SnapshotPath $unshipped `
+        -PackageDirectory $PackageDirectory `
+        -RequireEntries
+
+    $currentSnapshot = Join-Path $TemporaryDirectory 'PublicAPI.CurrentSnapshot.txt'
+    Copy-Item -LiteralPath $unshipped -Destination $currentSnapshot -Force
+    Copy-Item -LiteralPath $originalShipped -Destination $shipped -Force
+
+    $knownEntries = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    $removalPassUnshipped = [Collections.Generic.List[string]]::new()
+    foreach ($entry in Get-Content -LiteralPath $originalShipped) {
+        $null = $knownEntries.Add($entry)
+    }
+    foreach ($entry in Get-Content -LiteralPath $originalUnshipped) {
+        $null = $knownEntries.Add($entry)
+        $removalPassUnshipped.Add($entry)
+    }
+    foreach ($entry in Get-Content -LiteralPath $currentSnapshot) {
+        if ($knownEntries.Add($entry)) {
+            $removalPassUnshipped.Add($entry)
+        }
+    }
+    [IO.File]::WriteAllLines($unshipped, $removalPassUnshipped, [Text.UTF8Encoding]::new($false))
+
+    $removalErrorLog = Join-Path $TemporaryDirectory 'PublicAPI.removals.sarif'
+    $removalBuildLog = Join-Path $TemporaryDirectory 'PublicAPI.removal-build.log'
+    $confirmedRemovals = Join-Path $TemporaryDirectory 'PublicAPI.ConfirmedRemovals.txt'
+    Invoke-PublicApiBuild `
+        -ErrorLogPath $removalErrorLog `
+        -BuildLogPath $removalBuildLog `
+        -FailureMessage 'Failed to collect confirmed public API removals.'
+
+    & (Join-Path $PSScriptRoot 'Write-RemovedPublicApiSnapshotFromSarif.ps1') `
+        -ErrorLogPath $removalErrorLog `
+        -SnapshotPath $confirmedRemovals `
+        -PackageDirectory $PackageDirectory
+
+    & (Join-Path $PSScriptRoot 'Merge-PublicApiBaselineSnapshot.ps1') `
+        -OriginalShippedPath $originalShipped `
+        -OriginalUnshippedPath $originalUnshipped `
+        -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $confirmedRemovals `
+        -ShippedOutputPath $shipped `
+        -UnshippedOutputPath $unshipped
+    $synchronized = $true
 }
-
-$errorLog = Join-Path $TemporaryDirectory 'PublicAPI.current.sarif'
-$buildLog = Join-Path $TemporaryDirectory 'PublicAPI.snapshot-build.log'
-Invoke-PublicApiBuild `
-    -ErrorLogPath $errorLog `
-    -BuildLogPath $buildLog `
-    -FailureMessage 'Failed to create the current public API snapshot.'
-
-& (Join-Path $PSScriptRoot 'Write-PublicApiSnapshotFromSarif.ps1') `
-    -ErrorLogPath $errorLog `
-    -SnapshotPath $unshipped `
-    -PackageDirectory $PackageDirectory `
-    -RequireEntries
-
-& (Join-Path $PSScriptRoot 'Merge-PublicApiBaselineSnapshot.ps1') `
-    -OriginalShippedPath $originalShipped `
-    -OriginalUnshippedPath $originalUnshipped `
-    -CurrentApiSnapshotPath $unshipped `
-    -ConfirmedRemovedApiPath $confirmedRemovals `
-    -ShippedOutputPath $shipped `
-    -UnshippedOutputPath $unshipped
+finally {
+    if (-not $synchronized) {
+        Copy-Item -LiteralPath $originalShipped -Destination $shipped -Force
+        Copy-Item -LiteralPath $originalUnshipped -Destination $unshipped -Force
+    }
+}

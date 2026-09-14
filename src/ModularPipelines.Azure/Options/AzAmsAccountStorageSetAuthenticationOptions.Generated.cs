@@ -15,16 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the authentication of a storage account attached
 /// </summary>
+/// <param name="StorageAuth">The type of authentication for the storage account associated with the media services account.  Allowed values: ManagedIdentity, System.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "storage", "set-authentication")]
-public record AzAmsAccountStorageSetAuthenticationOptions : AzOptions
+public record AzAmsAccountStorageSetAuthenticationOptions(
+    [property: CliOption("--storage-auth")] string StorageAuth
+) : AzOptions
 {
     /// <summary>
     /// The storage account Id.
     /// </summary>
-    [CliFlag("--storage-account-id")]
-    public bool? StorageAccountId { get; set; }
+    [CliOption("--storage-account-id")]
+    public string? StorageAccountId { get; set; }
 
     /// <summary>
     /// Set the system managed identity on the storage account.  Allowed values: false, true.
@@ -37,5 +40,23 @@ public record AzAmsAccountStorageSetAuthenticationOptions : AzOptions
     /// </summary>
     [CliFlag("--user-assigned")]
     public bool? UserAssigned { get; set; }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

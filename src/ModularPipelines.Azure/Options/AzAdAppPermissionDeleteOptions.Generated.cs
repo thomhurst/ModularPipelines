@@ -15,15 +15,20 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an API permission.
 /// </summary>
+/// <param name="Api">RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.</param>
+/// <param name="Id">Identifier uri, application id, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "permission", "delete")]
-public record AzAdAppPermissionDeleteOptions : AzOptions
+public record AzAdAppPermissionDeleteOptions(
+    [property: CliOption("--api")] string Api,
+    [property: CliOption("--id")] string Id
+) : AzOptions
 {
     /// <summary>
     /// Specify `ResourceAccess.id` - The unique identifier for one of the OAuth2Permission or AppRole instances that the resource application exposes. Space-separated list of `&lt;resource-access-id&gt;`.
     /// </summary>
-    [CliFlag("--api-permissions")]
-    public bool? ApiPermissions { get; set; }
+    [CliOption("--api-permissions", GroupValues = true)]
+    public IEnumerable<string>? ApiPermissions { get; set; }
 
 }

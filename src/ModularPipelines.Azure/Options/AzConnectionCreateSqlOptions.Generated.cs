@@ -15,22 +15,25 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Service Connector local connection to sql.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "sql")]
-public record AzConnectionCreateSqlOptions : AzOptions
+public record AzConnectionCreateSqlOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The client type used on the connection.  Allowed values: django, dotnet, dotnet-internal, go, java, nodejs, none, php, python, ruby, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -42,13 +45,13 @@ public record AzConnectionCreateSqlOptions : AzOptions
     /// Name of the sql database. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--database")]
-    public string? DatabaseValue { get; set; }
+    public string? Database { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -60,40 +63,30 @@ public record AzConnectionCreateSqlOptions : AzOptions
     /// Name of the sql server. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--server")]
-    public string? ServerValue { get; set; }
+    public string? Server { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--server', '--database'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--server', '--database'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
-    public string? TargetIdValue { get; set; }
+    public string? TargetId { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
-    {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The resource group which contains the sql server. Required if ' --target-id' is not specified.
+    /// </summary>
+    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    public string? TargetResourceGroup { get; set; }
 
-    [Obsolete("Use DatabaseValue instead.")]
-    public bool? Database
-    {
-        get => bool.TryParse(DatabaseValue, out var value) ? value : null;
-        set => DatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
-    [Obsolete("Use ServerValue instead.")]
-    public bool? Server
-    {
-        get => bool.TryParse(ServerValue, out var value) ? value : null;
-        set => ServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TargetIdValue instead.")]
-    public bool? TargetId
-    {
-        get => bool.TryParse(TargetIdValue, out var value) ? value : null;
-        set => TargetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The user account auth info. Usage: --user-account object-id=XX
+    /// </summary>
+    [CliFlag("--user-account")]
+    public bool? UserAccount { get; set; }
 
 }

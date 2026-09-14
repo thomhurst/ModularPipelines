@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upgrade VMs within a VMSS.
 /// </summary>
+/// <param name="InstanceIds">Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances.</param>
+/// <param name="Name">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "update-instances")]
-public record AzVmssUpdateInstancesOptions : AzOptions
+public record AzVmssUpdateInstancesOptions(
+    [property: CliOption("--instance-ids", GroupValues = true)] IEnumerable<string> InstanceIds,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

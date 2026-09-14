@@ -28,7 +28,7 @@ public record AzAppservicePlanIdentityRemoveOptions : AzOptions
     public bool? SystemAssigned { get; set; }
 
     /// <summary>
-    /// Remove user-assigned managed identities from this app service plan. Accepts space-separated list of identity resource IDs. If --user- assigned is specified without any resource IDs, all user-assigned managed identities are removed from this app service plan.
+    /// Remove user-assigned managed identities from this app service plan. Accepts space-separated list of identity resource IDs. If --user-assigned is specified without any resource IDs, all user-assigned managed identities are removed from this app service plan.
     /// </summary>
     [CliOption("--user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? UserAssigned { get; set; }

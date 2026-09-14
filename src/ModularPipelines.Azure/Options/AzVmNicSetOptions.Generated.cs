@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure settings of a NIC attached to a VM.
 /// </summary>
+/// <param name="Nics">Names or IDs of NICs.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "nic", "set")]
-public record AzVmNicSetOptions : AzOptions
+public record AzVmNicSetOptions(
+    [property: CliOption("--nics")] string Nics,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vm-name")] string VmName
+) : AzOptions
 {
     /// <summary>
     /// Name or ID of the primary NIC. If missing, the first NIC in the list will be the primary.
     /// </summary>
     [CliOption("--primary-nic")]
-    public string? PrimaryNicValue { get; set; }
-
-    [Obsolete("Use PrimaryNicValue instead.")]
-    public bool? PrimaryNic
-    {
-        get => bool.TryParse(PrimaryNicValue, out var value) ? value : null;
-        set => PrimaryNicValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? PrimaryNic { get; set; }
 
 }

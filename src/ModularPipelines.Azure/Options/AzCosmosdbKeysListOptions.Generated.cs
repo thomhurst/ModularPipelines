@@ -13,17 +13,22 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// List the access keys or connection strings for a Azure Cosmos DB
+/// List the access keys or connection strings for an Azure Cosmos DB
 /// </summary>
+/// <param name="Name">Cosmosdb account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "keys", "list")]
-public record AzCosmosdbKeysListOptions : AzOptions
+public record AzCosmosdbKeysListOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The type of account key.  Allowed values: connection-strings, keys, read-only-keys.  Default: keys.
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
 }

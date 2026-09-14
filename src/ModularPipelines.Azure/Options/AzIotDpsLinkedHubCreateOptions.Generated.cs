@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a linked IoT hub in an Azure IoT Hub Device Provisioning
 /// </summary>
+/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "create")]
-public record AzIotDpsLinkedHubCreateOptions : AzOptions
+public record AzIotDpsLinkedHubCreateOptions(
+    [property: CliOption("--dps-name")] string DpsName
+) : AzOptions
 {
     /// <summary>
     /// Allocation weight of the IoT hub.
@@ -42,13 +45,24 @@ public record AzIotDpsLinkedHubCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Connection string of the IoT hub. Required if hub name is not provided using --hub-name.
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// IoT Hub name.
+    /// </summary>
+    [CliFlag("--hn", ShortForm = "--hub-name")]
+    public bool? Hn { get; set; }
+
+    /// <summary>
+    /// IoT Hub resource group name.
+    /// </summary>
+    [CliFlag("--hrg", ShortForm = "--hub-resource-group")]
+    public bool? Hrg { get; set; }
 
 }

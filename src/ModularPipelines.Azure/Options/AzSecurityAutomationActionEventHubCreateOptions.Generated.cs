@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation event hub action.
 /// </summary>
+/// <param name="ConnectionString">The target Event Hub connection string (it will not be included in any response).</param>
+/// <param name="EventHubResourceId">The target Event Hub Azure Resource ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-action-event-hub", "create")]
-public record AzSecurityAutomationActionEventHubCreateOptions : AzOptions
+public record AzSecurityAutomationActionEventHubCreateOptions(
+    [property: CliOption("--connection-string")] string ConnectionString,
+    [property: CliOption("--event-hub-resource-id")] string EventHubResourceId
+) : AzOptions
 {
     /// <summary>
     /// The target Event Hub SAS policy name.

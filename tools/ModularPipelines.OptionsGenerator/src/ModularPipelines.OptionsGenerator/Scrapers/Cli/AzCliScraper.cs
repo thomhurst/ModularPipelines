@@ -51,13 +51,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///     --help -h             : Show this help message and exit.
 ///     ...
 /// </summary>
-public partial class AzCliScraper : CliScraperBase
+public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "az";
 
     public override string NamespacePrefix => "Az";
@@ -139,7 +134,7 @@ public partial class AzCliScraper : CliScraperBase
                 sectionEnd = nextSectionMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
 
             // Parse command lines: "    command-name    : description"
             var lines = section.Split('\n');
@@ -293,7 +288,7 @@ public partial class AzCliScraper : CliScraperBase
         string[] lines,
         ref int lineIndex,
         string sectionName,
-        ISet<string> seenOptions)
+        HashSet<string> seenOptions)
     {
         var match = AzOptionPattern().Match(lines[lineIndex]);
         if (!match.Success)
@@ -383,13 +378,51 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
         AzValueDescriptionPattern().IsMatch(description)
+        || AzDescriptionOnlyValuePattern().IsMatch(description)
+        || AzCredentialOrDateTimeValuePattern().IsMatch(description)
+        || DescriptionNamesValueOption(switchName, description)
         || AzDenySettingsModeDescriptionPattern().IsMatch(description)
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
+        || AzListValueDescriptionPattern().IsMatch(description)
         || HelpDeclaresSpaceSeparatedList(description)
         || DescriptionDeclaresRepeatableOption(description)
         || description.Contains("key=value", StringComparison.OrdinalIgnoreCase)
         || IsAzureGenericUpdateOption(switchName);
+
+    private static bool DescriptionNamesValueOption(string switchName, string description)
+    {
+        if (!switchName.EndsWith("-name", StringComparison.OrdinalIgnoreCase)
+            && !switchName.EndsWith("-id", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        var subject = description.AsSpan().TrimStart();
+        if (subject.StartsWith("The ", StringComparison.OrdinalIgnoreCase))
+        {
+            subject = subject[4..];
+        }
+        else if (subject.StartsWith("An ", StringComparison.OrdinalIgnoreCase))
+        {
+            subject = subject[3..];
+        }
+        else if (subject.StartsWith("A ", StringComparison.OrdinalIgnoreCase))
+        {
+            subject = subject[2..];
+        }
+        else
+        {
+            return false;
+        }
+
+        // Compare the noun phrase with the switch, allowing "Event Hub" to describe "eventhub".
+        var sentenceEnd = subject.IndexOfAny('.', ':');
+        var valueName = sentenceEnd >= 0 ? subject[..sentenceEnd] : subject;
+        var descriptionName = string.Concat(valueName.ToString().Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
+        var optionName = switchName.Replace("-", string.Empty, StringComparison.Ordinal);
+        return descriptionName.Equals(optionName, StringComparison.OrdinalIgnoreCase);
+    }
 
     private static bool HelpDeclaresOptionalValue(string description) =>
         OptionalValueDescriptionPattern().IsMatch(description);
@@ -442,7 +475,8 @@ public partial class AzCliScraper : CliScraperBase
         // Check for numeric types
         if (lowerHint.Contains("number") || lowerHint.Contains("count") ||
             lowerHint.Contains("port") || lowerHint.Contains("size") ||
-            lowerHint.Contains("timeout") || int.TryParse(valueHint, out _))
+            lowerHint.Contains("timeout") || int.TryParse(valueHint, out _) ||
+            AzNumericValueDescriptionPattern().IsMatch(description))
         {
             return "int?";
         }
@@ -460,7 +494,8 @@ public partial class AzCliScraper : CliScraperBase
         // Check for list types (space-separated or multiple values)
         if (HelpDeclaresSpaceSeparatedList(lowerDesc)
             || DescriptionDeclaresRepeatableOption(lowerDesc)
-            || lowerDesc.Contains("list of")
+            || AzListValueDescriptionPattern().IsMatch(description)
+            || AzCollectionValueDescriptionPattern().IsMatch(description)
             || HelpDeclaresOrderedParameterValues(lowerDesc))
         {
             return "IEnumerable<string>?";
@@ -482,7 +517,7 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresGroupedValues(string description) =>
         HelpDeclaresSpaceSeparatedList(description)
-        || (description.Contains("list of", StringComparison.OrdinalIgnoreCase)
+        || (AzListValueDescriptionPattern().IsMatch(description)
             && !DescriptionDeclaresRepeatableOption(description))
         || HelpDeclaresOrderedParameterValues(description);
 
@@ -517,6 +552,11 @@ public partial class AzCliScraper : CliScraperBase
 
     #region Regex Patterns
 
+    // Input definitions may follow an introductory sentence. References to a list
+    // exposed elsewhere still describe available choices, not multiple input values.
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?:specify|specifies|accepts?|provide|provides|set|sets)\s+)?(?:(?:a|an|the)\s+)?(?:configuration\s+settings\s+of\s+(?:(?:a|an|the)\s+)?)?(?:(?:json|ordered|allowed|comma-separated|space-separ[ae]ted)\s+)?list\s+of\b(?![^.!?]*\b(?:is|are)\s+(?:available|documented|exposed|listed|published|shown)\b)", RegexOptions.IgnoreCase)]
+    private static partial Regex AzListValueDescriptionPattern();
+
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.
     /// </summary>
@@ -547,6 +587,18 @@ public partial class AzCliScraper : CliScraperBase
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
+
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:(?:additional|build|cpu|fully-qualified|main|optional|relative|secret|spark)\s+)*(?:arguments?|class(?:\s+name)?|commands?|configuration|files?|identifier|(?:geo-)?location|path|platform|timeout)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzDescriptionOnlyValuePattern();
+
+    [GeneratedRegex(@"^(?:(?:specify|specifies|set|sets)\s+)?(?:(?:a|an|the)\s+)?(?:(?:administrator|admin|database)\s+)?(?:username|password|(?:utc\s+)?(?:datetime|timestamp)|point\s+in\s+time)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzCredentialOrDateTimeValuePattern();
+
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:maximum\s+|minimum\s+|total\s+)?(?:number|count|port|size|timeout)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzNumericValueDescriptionPattern();
+
+    [GeneratedRegex(@"^(?:additional files|the array of|files to)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzCollectionValueDescriptionPattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?denysettings\s+mode\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzDenySettingsModeDescriptionPattern();

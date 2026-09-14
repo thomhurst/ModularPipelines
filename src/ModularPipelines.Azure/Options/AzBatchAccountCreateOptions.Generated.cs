@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Batch account with the specified parameters.
 /// </summary>
+/// <param name="Location">The region in which to create the account.</param>
+/// <param name="Name">Name of the Batch account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "create")]
-public record AzBatchAccountCreateOptions : AzOptions
+public record AzBatchAccountCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Full path to the versioned secret. Example https://mykeyvault.v ault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053.
@@ -27,16 +34,16 @@ public record AzBatchAccountCreateOptions : AzOptions
     public bool? EncryptionKeyIdentifier { get; set; }
 
     /// <summary>
-    /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.  Allowed values: Microsoft.Batch,
+    /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.  Allowed values: Microsoft.Batch, Microsoft.KeyVault.
     /// </summary>
-    [CliFlag("--encryption-key-source")]
-    public bool? EncryptionKeySource { get; set; }
+    [CliOption("--encryption-key-source")]
+    public string? EncryptionKeySource { get; set; }
 
     /// <summary>
     /// The KeyVault name or resource ID to be used for an account with a pool allocation mode of 'User Subscription'.
     /// </summary>
     [CliOption("--keyvault")]
-    public string? KeyvaultValue { get; set; }
+    public string? Keyvault { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -45,35 +52,33 @@ public record AzBatchAccountCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values:
+    /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// The storage account name or resource ID to be used for auto storage.
     /// </summary>
     [CliOption("--storage-account")]
-    public string? StorageAccountValue { get; set; }
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Space-separated tags in 'key[=value]' format.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
-    [Obsolete("Use KeyvaultValue instead.")]
-    public bool? Keyvault
-    {
-        get => bool.TryParse(KeyvaultValue, out var value) ? value : null;
-        set => KeyvaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Set the system managed identity on the batch services account.
+    /// </summary>
+    [CliFlag("--mi-system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
 
-    [Obsolete("Use StorageAccountValue instead.")]
-    public bool? StorageAccount
-    {
-        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
-        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Resource ID of the user assigned identity for the batch services account.
+    /// </summary>
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
 }

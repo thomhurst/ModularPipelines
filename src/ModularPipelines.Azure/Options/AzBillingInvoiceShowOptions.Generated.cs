@@ -15,28 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get an invoice. The operation is supported for billing accounts with
 /// </summary>
+/// <param name="Name">The ID that uniquely identifies an invoice.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "invoice", "show")]
-public record AzBillingInvoiceShowOptions : AzOptions
+public record AzBillingInvoiceShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The ID that uniquely identifies a billing account.
     /// </summary>
     [CliOption("--account-name")]
-    public string? AccountNameValue { get; set; }
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// When provided, it must work with --invoice-name to get an invoice by subscription ID and invoice ID.
     /// </summary>
     [CliFlag("--by-subscription")]
     public bool? BySubscription { get; set; }
-
-    [Obsolete("Use AccountNameValue instead.")]
-    public bool? AccountName
-    {
-        get => bool.TryParse(AccountNameValue, out var value) ? value : null;
-        set => AccountNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

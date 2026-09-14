@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import a certificate into KeyVault.
 /// </summary>
+/// <param name="File">PKCS12 file or PEM file containing the certificate and private key.</param>
+/// <param name="Name">Name of the certificate.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "import")]
-public record AzKeyvaultCertificateImportOptions : AzOptions
+public record AzKeyvaultCertificateImportOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
     /// <summary>
     /// Import the certificate in disabled state.  Allowed values: false, true.
@@ -41,7 +48,7 @@ public record AzKeyvaultCertificateImportOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

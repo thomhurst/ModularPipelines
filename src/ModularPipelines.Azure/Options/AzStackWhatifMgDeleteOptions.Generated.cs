@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a deployment stack what-if result from management group
 /// </summary>
+/// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "mg", "delete")]
@@ -22,11 +23,6 @@ public record AzStackWhatifMgDeleteOptions(
     [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
 ) : AzOptions
 {
-    public AzStackWhatifMgDeleteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// The deployment stack what-if result resource ID.
     /// </summary>

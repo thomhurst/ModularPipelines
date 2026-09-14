@@ -23,7 +23,127 @@ public record AzNetappfilesCacheUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// Export policy rule  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--export-policy-rules", ShortForm = "--rules")]
+    public bool? ExportPolicyRules { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt; value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Flag indicating whether a CIFS change notification is enabled for the cache. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--cifs-change-notifications", ShortForm = "--cifs-change-notify")]
+    public string? CifsChangeNotifications { get; set; }
+
+    /// <summary>
+    /// The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'.
+    /// </summary>
+    [CliOption("--key-vault-private-endpoint-resource-id", ShortForm = "--kv-private-endpoint-id")]
+    public string? KeyVaultPrivateEndpointResourceId { get; set; }
+
+    /// <summary>
+    /// Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--protocol-types")]
+    public bool? ProtocolTypes { get; set; }
+
+    /// <summary>
+    /// Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB.
+    /// </summary>
+    [CliFlag("--size")]
+    public bool? Size { get; set; }
+
+    /// <summary>
+    /// Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache.
+    /// </summary>
+    [CliFlag("--throughput-mibps")]
+    public bool? ThroughputMibps { get; set; }
+
+    /// <summary>
+    /// Flag indicating whether writeback is enabled for the cache.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--write-back")]
+    public string? WriteBack { get; set; }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// The name of the cache resource.
+    /// </summary>
+    [CliOption("--cache-name", ShortForm = "-n")]
+    public string? CacheName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the capacity pool.
+    /// </summary>
+    [CliOption("--pool-name", ShortForm = "-p")]
+    public string? PoolName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
+    public string? SmbAccessBasedEnumeration { get; set; }
+
+    /// <summary>
+    /// Enables encryption for in- flight smb3 data. Only applicable for SMB/DualProtocol cache. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--smb-encryption")]
+    public string? SmbEncryption { get; set; }
+
+    /// <summary>
+    /// Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--smb-non-browsable")]
+    public string? SmbNonBrowsable { get; set; }
 
 }

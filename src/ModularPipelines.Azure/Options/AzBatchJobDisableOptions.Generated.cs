@@ -15,15 +15,42 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable a Batch job.
 /// </summary>
+/// <param name="JobId">The ID of the Job to disable. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job", "disable")]
-public record AzBatchJobDisableOptions : AzOptions
+public record AzBatchJobDisableOptions(
+    [property: CliOption("--job-id")] string JobId
+) : AzOptions
 {
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// What to do with active Tasks associated with the Job. Required. Known values are: "requeue", "terminate", and "wait".
+    /// </summary>
+    [CliFlag("--disable-tasks")]
+    public bool? DisableTasks { get; set; }
 
 }

@@ -15,19 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment slot.
 /// </summary>
+/// <param name="Name">Name of the function app.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Slot">The name of the slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "slot", "create")]
-public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
+public record AzFunctionappDeploymentSlotCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--slot", ShortForm = "-s")] string Slot
+) : AzOptions
 {
     /// <summary>
     /// Source slot to clone configurations from. Use function app's name to refer to the production slot.
     /// </summary>
     [CliOption("--configuration-source")]
-    public string? ConfigurationSourceValue { get; set; }
+    public string? ConfigurationSource { get; set; }
 
     /// <summary>
-    /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
+    /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true. Default: True.
     /// </summary>
     [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
@@ -49,12 +56,5 @@ public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--registry-username", ShortForm = "-u")]
     public bool? RegistryUsername { get; set; }
-
-    [Obsolete("Use ConfigurationSourceValue instead.")]
-    public bool? ConfigurationSource
-    {
-        get => bool.TryParse(ConfigurationSourceValue, out var value) ? value : null;
-        set => ConfigurationSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

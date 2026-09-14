@@ -15,15 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add one backend address into the load
 /// </summary>
+/// <param name="LbName">The name of the load balancer.</param>
+/// <param name="Name">Name of the backend address.</param>
+/// <param name="PoolName">The name of the backend address pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="FrontendIp">The frontend IP configuration ID of a regional load balance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "address-pool", "address", "add")]
-public record AzNetworkCrossRegionLbAddressPoolAddressAddOptions : AzOptions
+public record AzNetworkCrossRegionLbAddressPoolAddressAddOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--pool-name")] string PoolName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--frontend-ip", ShortForm = "--frontend-ip-address")] string FrontendIp
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.  Allowed values: Down, None, Up.
+    /// </summary>
+    [CliOption("--admin-state", GroupValues = true)]
+    public IEnumerable<string>? AdminState { get; set; }
 
 }

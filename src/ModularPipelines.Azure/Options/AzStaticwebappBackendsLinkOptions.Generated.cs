@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Link a backend to a static web app. Also known as "Bring your
 /// </summary>
+/// <param name="BackendResourceId">Resource ID of the backend to link.</param>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "backends", "link")]
-public record AzStaticwebappBackendsLinkOptions : AzOptions
+public record AzStaticwebappBackendsLinkOptions(
+    [property: CliOption("--backend-resource-id")] string BackendResourceId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Region of the backend resource.
@@ -30,13 +37,6 @@ public record AzStaticwebappBackendsLinkOptions : AzOptions
     /// Name of the environment of static site.  Default: default.
     /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentNameValue { get; set; }
-
-    [Obsolete("Use EnvironmentNameValue instead.")]
-    public bool? EnvironmentName
-    {
-        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
-        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? EnvironmentName { get; set; }
 
 }

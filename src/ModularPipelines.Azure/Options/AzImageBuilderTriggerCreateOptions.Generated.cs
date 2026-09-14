@@ -15,15 +15,28 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a trigger for the specified virtual machine image
 /// </summary>
+/// <param name="ImageTemplateName">The name of the image Template.</param>
+/// <param name="Name">The name of the trigger.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "trigger", "create")]
-public record AzImageBuilderTriggerCreateOptions : AzOptions
+public record AzImageBuilderTriggerCreateOptions(
+    [property: CliOption("--image-template-name")] string ImageTemplateName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The kind of trigger.  Allowed values: SourceImage.
+    /// </summary>
+    [CliOption("--kind")]
+    public string? Kind { get; set; }
 
 }

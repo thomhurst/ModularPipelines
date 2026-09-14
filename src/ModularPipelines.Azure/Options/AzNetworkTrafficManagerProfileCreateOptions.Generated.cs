@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a traffic manager profile.
 /// </summary>
+/// <param name="Name">Traffic manager profile name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="RoutingMethod">Routing method.  Allowed values: Geographic, Multivalue, Performance, Priority, Subnet, Weighted.</param>
+/// <param name="UniqueDnsName">Relative DNS name for the traffic manager profile. Resulting FQDN will be `&lt;unique-dns-name&gt;.trafficmanager.net` and must be globally unique.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "profile", "create")]
-public record AzNetworkTrafficManagerProfileCreateOptions : AzOptions
+public record AzNetworkTrafficManagerProfileCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--routing-method")] string RoutingMethod,
+    [property: CliOption("--unique-dns-name")] string UniqueDnsName
+) : AzOptions
 {
     /// <summary>
     /// Maximum number of endpoints to be returned for MultiValue routing type.
@@ -27,27 +36,75 @@ public record AzNetworkTrafficManagerProfileCreateOptions : AzOptions
     public bool? MaxReturn { get; set; }
 
     /// <summary>
-    /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA,
+    /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA, CNAME.
     /// </summary>
-    [CliFlag("--record-type")]
-    public bool? RecordType { get; set; }
+    [CliOption("--record-type")]
+    public string? RecordType { get; set; }
 
     /// <summary>
     /// Status of the Traffic Manager profile.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// DNS config time-to-live in seconds.  Default: 30.
     /// </summary>
     [CliFlag("--ttl")]
     public bool? Ttl { get; set; }
+
+    /// <summary>
+    /// Space-separated list of NAME=VALUE pairs.
+    /// </summary>
+    [CliOption("--custom-headers", GroupValues = true)]
+    public IEnumerable<string>? CustomHeaders { get; set; }
+
+    /// <summary>
+    /// The interval in seconds at which health checks are conducted.
+    /// </summary>
+    [CliFlag("--interval")]
+    public bool? Interval { get; set; }
+
+    /// <summary>
+    /// The number of consecutive failed health checks tolerated before an endpoint is considered degraded.
+    /// </summary>
+    [CliFlag("--max-failures")]
+    public bool? MaxFailures { get; set; }
+
+    /// <summary>
+    /// Path to monitor. Use ""('""' in PowerShell) for none.
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// Port to monitor.  Default: 80.
+    /// </summary>
+    [CliFlag("--port")]
+    public bool? Port { get; set; }
+
+    /// <summary>
+    /// Monitor protocol.  Allowed values: HTTP, HTTPS, TCP.  Default: HTTP.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// Space-separated list of status codes in MIN-MAX or VAL format.
+    /// </summary>
+    [CliOption("--status-code-ranges", GroupValues = true)]
+    public IEnumerable<string>? StatusCodeRanges { get; set; }
+
+    /// <summary>
+    /// The time in seconds allowed for endpoints to respond to a health check.
+    /// </summary>
+    [CliFlag("--timeout")]
+    public bool? Timeout { get; set; }
 
 }

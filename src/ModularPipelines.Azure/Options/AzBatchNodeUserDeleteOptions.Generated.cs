@@ -15,15 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a user Account from the specified Compute Node.
 /// </summary>
+/// <param name="NodeId">The ID of the machine on which you want to delete a user Account. Required.</param>
+/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+/// <param name="UserName">The name of the user Account to delete. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "user", "delete")]
-public record AzBatchNodeUserDeleteOptions : AzOptions
+public record AzBatchNodeUserDeleteOptions(
+    [property: CliOption("--node-id")] string NodeId,
+    [property: CliOption("--pool-id")] string PoolId,
+    [property: CliOption("--user-name")] string UserName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
 }

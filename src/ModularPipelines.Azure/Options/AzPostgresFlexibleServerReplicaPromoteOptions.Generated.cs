@@ -23,19 +23,37 @@ public record AzPostgresFlexibleServerReplicaPromoteOptions : AzOptions
     /// <summary>
     /// Whether to promote read replica to an independent server or promote it as a primary server.  Allowed values: standalone, switchover.  Default: standalone.
     /// </summary>
-    [CliFlag("--promote-mode")]
-    public bool? PromoteMode { get; set; }
+    [CliOption("--promote-mode")]
+    public string? PromoteMode { get; set; }
 
     /// <summary>
     /// Whether to sync data before promoting read replica or promote as soon as possible.  Allowed values: forced, planned.  Default: planned.
     /// </summary>
-    [CliFlag("--promote-option")]
-    public bool? PromoteOption { get; set; }
+    [CliOption("--promote-option")]
+    public string? PromoteOption { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the read replica.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

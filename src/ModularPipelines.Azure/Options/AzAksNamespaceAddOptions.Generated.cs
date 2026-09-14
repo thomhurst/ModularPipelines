@@ -15,19 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add namespace to the managed Kubernetes cluster.
 /// </summary>
+/// <param name="ClusterName">Name of the managed cluster.</param>
+/// <param name="CpuLimit">CPU limit of the namespace.</param>
+/// <param name="CpuRequest">CPU request of the namespace.</param>
+/// <param name="MemoryLimit">Memory limit of the namespace.</param>
+/// <param name="MemoryRequest">Memory request of the namespace.</param>
+/// <param name="Name">The managed namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "add")]
-public record AzAksNamespaceAddOptions : AzOptions
+public record AzAksNamespaceAddOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--cpu-limit")] string CpuLimit,
+    [property: CliOption("--cpu-request")] string CpuRequest,
+    [property: CliOption("--memory-limit")] string MemoryLimit,
+    [property: CliOption("--memory-request")] string MemoryRequest,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Action if Kubernetes namespace with same name already exists. The default value is Never.  Allowed values: Always,
+    /// Action if Kubernetes namespace with same name already exists. The default value is Never.  Allowed values: Always, IfIdentical, Never.
     /// </summary>
-    [CliFlag("--adoption-policy")]
-    public bool? AdoptionPolicy { get; set; }
+    [CliOption("--adoption-policy")]
+    public string? AdoptionPolicy { get; set; }
 
     /// <summary>
-    /// Send custom headers. When specified, format should be
+    /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
     [CliFlag("--aks-custom-headers")]
     public bool? AksCustomHeaders { get; set; }
@@ -41,20 +56,20 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// Delete options of a namespace. The default value is Keep. Allowed values: Delete, Keep.
     /// </summary>
-    [CliFlag("--delete-policy")]
-    public bool? DeletePolicy { get; set; }
+    [CliOption("--delete-policy")]
+    public string? DeletePolicy { get; set; }
 
     /// <summary>
     /// Egress policy for the network. The default value is AllowAll. Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
-    [CliFlag("--egress-policy")]
-    public bool? EgressPolicy { get; set; }
+    [CliOption("--egress-policy")]
+    public string? EgressPolicy { get; set; }
 
     /// <summary>
-    /// Ingress policy for the network. The default value is AllowSameNamespace.  Allowed values: AllowAll,
+    /// Ingress policy for the network. The default value is AllowSameNamespace.  Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
-    [CliFlag("--ingress-policy")]
-    public bool? IngressPolicy { get; set; }
+    [CliOption("--ingress-policy")]
+    public string? IngressPolicy { get; set; }
 
     /// <summary>
     /// Labels for the managed namespace.

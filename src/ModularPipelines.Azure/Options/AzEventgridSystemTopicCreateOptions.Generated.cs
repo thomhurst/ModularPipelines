@@ -15,16 +15,25 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a system topic.
 /// </summary>
+/// <param name="Name">Name of the system topic.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Source">The ARM Id for the topic, e.g., /subscriptions/{SubId}/resou rceGroups/{RgName}/providers/Microsoft.Storage/storageAccoun ts/{AccountName}.</param>
+/// <param name="TopicType">Name of the topic type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "create")]
-public record AzEventgridSystemTopicCreateOptions : AzOptions
+public record AzEventgridSystemTopicCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--source")] string Source,
+    [property: CliOption("--topic-type")] string TopicType
+) : AzOptions
 {
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Presence of this param indicates that SystemAssigned managed identity will be used.
@@ -35,7 +44,7 @@ public record AzEventgridSystemTopicCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

@@ -15,11 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed cluster.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "update")]
-public record AzSfManagedClusterUpdateOptions : AzOptions
+public record AzSfManagedClusterUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Port used for client connections to the cluster.
+    /// </summary>
+    [CliFlag("--client-connection-port", ShortForm = "--client-port")]
+    public bool? ClientConnectionPort { get; set; }
+
     /// <summary>
     /// Cluster's dns name.
     /// </summary>
@@ -27,9 +38,15 @@ public record AzSfManagedClusterUpdateOptions : AzOptions
     public bool? DnsName { get; set; }
 
     /// <summary>
+    /// Port used for http connections to the cluster.
+    /// </summary>
+    [CliFlag("--gateway-connection-port", ShortForm = "--gateway-port")]
+    public bool? GatewayConnectionPort { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

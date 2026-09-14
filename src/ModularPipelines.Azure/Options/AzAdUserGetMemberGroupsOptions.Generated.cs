@@ -15,10 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get groups of which the user is a member.
 /// </summary>
+/// <param name="Id">The object ID or principal name of the user for which to get information.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "user", "get-member-groups")]
-public record AzAdUserGetMemberGroupsOptions : AzOptions
+public record AzAdUserGetMemberGroupsOptions(
+    [property: CliOption("--id")] string Id
+) : AzOptions
 {
     /// <summary>
     /// True to specify that only security groups that the entity is a member of should be returned; false to specify that all groups and directory roles that the entity is a member of should be returned.  Allowed values: false, true.

@@ -15,28 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Unlink backend from a static web app.
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "backends", "unlink")]
-public record AzStaticwebappBackendsUnlinkOptions : AzOptions
+public record AzStaticwebappBackendsUnlinkOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the environment of static site.  Default: default.
     /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentNameValue { get; set; }
+    public string? EnvironmentName { get; set; }
 
     /// <summary>
     /// If set to true, removes the identity provider configured on the backend during the linking process.
     /// </summary>
     [CliFlag("--remove-backend-auth")]
     public bool? RemoveBackendAuth { get; set; }
-
-    [Obsolete("Use EnvironmentNameValue instead.")]
-    public bool? EnvironmentName
-    {
-        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
-        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

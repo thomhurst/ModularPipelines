@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds an application to the specified Batch account.
 /// </summary>
+/// <param name="ApplicationName">The name of the application. This must be unique within the account. Required.</param>
+/// <param name="Name">Name of the Batch account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "create")]
-public record AzBatchApplicationCreateOptions : AzOptions
+public record AzBatchApplicationCreateOptions(
+    [property: CliOption("--application-name")] string ApplicationName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The parameters for the request. Is either a Application type or a IO type. Default value is None.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
-
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Parameters { get; set; }
 
 }

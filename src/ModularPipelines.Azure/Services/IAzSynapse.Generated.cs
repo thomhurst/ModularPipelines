@@ -27,6 +27,11 @@ public interface IAzSynapse
     AzSynapseActivityRun ActivityRun => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az ad-only-auth sub-commands.
+    /// </summary>
+    AzSynapseAdOnlyAuth AdOnlyAuth => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az data-flow sub-commands.
     /// </summary>
     AzSynapseDataFlow DataFlow => throw new System.NotSupportedException();
@@ -34,7 +39,7 @@ public interface IAzSynapse
     /// <summary>
     /// az dataset sub-commands.
     /// </summary>
-    AzSynapseDataset Dataset => throw new System.NotSupportedException();
+    AzSynapseDataSet DataSet => throw new System.NotSupportedException();
 
     /// <summary>
     /// az integration-runtime sub-commands.

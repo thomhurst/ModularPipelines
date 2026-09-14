@@ -26,4 +26,22 @@ public record AzAdvisorRecommendationDisableOptions : AzOptions
     [CliFlag("--days", ShortForm = "-d")]
     public bool? Days { get; set; }
 
+    /// <summary>
+    /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the recommendation as output by the list command.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
 }

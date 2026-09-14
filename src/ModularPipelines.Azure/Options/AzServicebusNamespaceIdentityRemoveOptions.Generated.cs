@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Removes System or User or System, User assigned
 /// </summary>
+/// <param name="NamespaceName">Name of the Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "identity", "remove")]
-public record AzServicebusNamespaceIdentityRemoveOptions : AzOptions
+public record AzServicebusNamespaceIdentityRemoveOptions(
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// System Assigned Identity.  Allowed values: false, true.

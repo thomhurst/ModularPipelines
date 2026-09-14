@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update properties of a web
 /// </summary>
+/// <param name="PolicyName">Name of the web application firewall policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "policy-setting", "update")]
-public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions(
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
@@ -33,7 +38,13 @@ public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : A
     public bool? CustomStatusCode { get; set; }
 
     /// <summary>
-    /// Maximum file upload size in Mb for
+    /// Whether allow WAF to enforce file upload limits.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--file-upload-enforce", ShortForm = "--file-upload-enforcement")]
+    public bool? FileUploadEnforce { get; set; }
+
+    /// <summary>
+    /// Maximum file upload size in Mb for WAF.
     /// </summary>
     [CliFlag("--file-upload-limit-in-mb")]
     public bool? FileUploadLimitInMb { get; set; }
@@ -45,27 +56,75 @@ public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : A
     public bool? JsCookieExpTime { get; set; }
 
     /// <summary>
-    /// Maximum request body size in Kb for
+    /// Maximum request body size in Kb for WAF.
     /// </summary>
     [CliFlag("--max-request-body-size-in-kb")]
     public bool? MaxRequestBodySizeInKb { get; set; }
 
     /// <summary>
-    /// If it is in detection mode or prevention mode at policy level.
+    /// If it is in detection mode or prevention mode at policy level. Allowed values: Detection, Prevention.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// Specified to require WAF to check request body.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--request-body-check")]
+    [CliOption("--request-body-check")]
     public bool? RequestBodyCheck { get; set; }
 
     /// <summary>
-    /// If the policy is in enabled state or disabled state.  Allowed values:
+    /// Whether allow WAF to enforce request body limits.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
+    [CliOption("--request-body-enforce", ShortForm = "--request-body-enforcement")]
+    public bool? RequestBodyEnforce { get; set; }
+
+    /// <summary>
+    /// Max inspection limit in KB for request body inspection for WAF.
+    /// </summary>
+    [CliFlag("--request-body-inspect-limit-in-kb", ShortForm = "--request-limit-in-kb")]
+    public bool? RequestBodyInspectLimitInKb { get; set; }
+
+    /// <summary>
+    /// If the policy is in enabled state or disabled state.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--state")]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// State of the log scrubbing config. Default value is Enabled.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--log-scrubbing-state")]
+    public string? LogScrubbingState { get; set; }
+
+    /// <summary>
+    /// The rules that are applied to the logs for scrubbing.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more. Singular flags: `--scrubbing-rule`.
+    /// </summary>
+    [CliFlag("--scrubbing-rule", ShortForm = "--scrubbing-rules")]
+    public bool? ScrubbingRule { get; set; }
 
 }

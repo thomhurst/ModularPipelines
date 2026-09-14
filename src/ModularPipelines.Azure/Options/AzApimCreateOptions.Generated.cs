@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an API Management service instance.
 /// </summary>
+/// <param name="Name">Unique name of the service instance to be created. The name must be globally unique since it will be included as the gateway hostname like' https://my-api-servicename.azure-api.net'.  See examples.</param>
+/// <param name="PublisherEmail">The e-mail address to receive all system notifications.</param>
+/// <param name="PublisherName">The name of your organization for use in the developer portal and e-mail notifications.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "create")]
-public record AzApimCreateOptions : AzOptions
+public record AzApimCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--publisher-email")] string PublisherEmail,
+    [property: CliOption("--publisher-name")] string PublisherName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Disable gateway in the master region. Only valid for an Api Management service deployed in multiple locations.  Allowed values: false, true.
@@ -41,8 +50,8 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -63,28 +72,21 @@ public record AzApimCreateOptions : AzOptions
     public bool? SkuCapacity { get; set; }
 
     /// <summary>
-    /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.  Default:
+    /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.  Default: Developer.
     /// </summary>
-    [CliFlag("--sku-name")]
-    public bool? SkuName { get; set; }
+    [CliOption("--sku-name")]
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The virtual network type.  Allowed values: External, Internal, None.  Default: None.
     /// </summary>
     [CliOption("--virtual-network", ShortForm = "-v")]
-    public string? VirtualNetworkValue { get; set; }
-
-    [Obsolete("Use VirtualNetworkValue instead.")]
-    public bool? VirtualNetwork
-    {
-        get => bool.TryParse(VirtualNetworkValue, out var value) ? value : null;
-        set => VirtualNetworkValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VirtualNetwork { get; set; }
 
 }

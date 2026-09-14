@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Connect to a managed instance App Service
 /// </summary>
+/// <param name="BastionName">Name of the Azure Bastion host to use for the RDP connection.</param>
+/// <param name="InstanceName">The name of the instance to connect to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "instance", "connect")]
@@ -23,11 +25,6 @@ public record AzAppservicePlanManagedInstanceInstanceConnectOptions(
     [property: CliOption("--instance-name")] string InstanceName
 ) : AzOptions
 {
-    public AzAppservicePlanManagedInstanceInstanceConnectOptions()
-        : this(default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Resource group name of the Azure Bastion host (defaults to the plan resource group).
     /// </summary>

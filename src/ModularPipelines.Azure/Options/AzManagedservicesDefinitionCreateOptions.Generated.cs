@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a registration definition.
 /// </summary>
+/// <param name="Name">Name of the registration definition.</param>
+/// <param name="PrincipalId">The principal id.</param>
+/// <param name="RoleDefinitionId">The role definition id.</param>
+/// <param name="TenantId">Id of the managedBy tenant.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "definition", "create")]
-public record AzManagedservicesDefinitionCreateOptions : AzOptions
+public record AzManagedservicesDefinitionCreateOptions(
+    [property: CliOption("--name")] string Name,
+    [property: CliOption("--principal-id")] string PrincipalId,
+    [property: CliOption("--role-definition-id")] string RoleDefinitionId,
+    [property: CliOption("--tenant-id")] string TenantId
+) : AzOptions
 {
     /// <summary>
     /// Guid of the registration definition.
@@ -30,19 +39,19 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     /// Description of the registration definition.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// The plan name.
     /// </summary>
-    [CliFlag("--plan-name")]
-    public bool? PlanName { get; set; }
+    [CliOption("--plan-name")]
+    public string? PlanName { get; set; }
 
     /// <summary>
     /// The product code.
@@ -61,12 +70,5 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--plan-version")]
     public bool? PlanVersion { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

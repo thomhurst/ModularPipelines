@@ -15,10 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a CAA record from its record set.
 /// </summary>
+/// <param name="Flags">Integer flags for the record.</param>
+/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Tag">Record tag.</param>
+/// <param name="Value">Value of the CAA record.</param>
+/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "caa", "remove-record")]
-public record AzNetworkDnsRecordSetCaaRemoveRecordOptions : AzOptions
+public record AzNetworkDnsRecordSetCaaRemoveRecordOptions(
+    [property: CliOption("--flags")] string Flags,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--tag")] string Tag,
+    [property: CliOption("--value")] string Value,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Keep the empty record set if the last record is removed.

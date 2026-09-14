@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,10 +16,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing sitecontainer for a linux webapp.
 /// </summary>
+/// <param name="ContainerName">Name of the SiteContainer.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "update")]
-public record AzWebappSitecontainersUpdateOptions : AzOptions
+public record AzWebappSitecontainersUpdateOptions(
+    [property: CliOption("--container-name")] string ContainerName
+) : AzOptions
 {
     /// <summary>
     /// Image Name.
@@ -35,20 +39,27 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// <summary>
     /// Password used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// Username used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
+
+    /// <summary>
+    /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--si", ShortForm = "--system-assigned-identity")]
+    public bool? Si { get; set; }
 
     /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Startup Command for the SiteContainer.
@@ -62,11 +73,28 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     [CliFlag("--target-port")]
     public bool? TargetPort { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// ClientID for the user-maganed identity which will be used for auth while pulling image.
+    /// </summary>
+    [CliFlag("--ui", ShortForm = "--user-assigned-identity")]
+    public bool? Ui { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the linux webapp.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

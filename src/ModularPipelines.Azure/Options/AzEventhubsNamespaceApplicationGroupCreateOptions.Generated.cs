@@ -15,15 +15,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates an application group for an EventHub
 /// </summary>
+/// <param name="ClientAppGroupId">The Unique identifier for application group.Supports SAS(NamespaceSASKeyName=KeyName or EntitySASKeyName=KeyName) or AAD(AADAppID=Guid).</param>
+/// <param name="Name">Name of Application Group.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "application-group", "create")]
-public record AzEventhubsNamespaceApplicationGroupCreateOptions : AzOptions
+public record AzEventhubsNamespaceApplicationGroupCreateOptions(
+    [property: CliOption("--client-app-group-id", ShortForm = "--client-app-group-identifier")] string ClientAppGroupId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Determines if Application Group is allowed to create connection with namespace or not. Once the isEnabled is set to false, all the existing connections of application group gets dropped and no new connections will be allowed.  Allowed values: false, true.
     /// </summary>
     [CliOption("--is-enabled")]
     public bool? IsEnabled { get; set; }
+
+    /// <summary>
+    /// List of Throttling Policy Objects.
+    /// </summary>
+    [CliOption("--policy-config", ShortForm = "--throttling-policy-config", GroupValues = true)]
+    public IEnumerable<string>? PolicyConfig { get; set; }
 
 }

@@ -15,15 +15,20 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Query a snapshot of the most recent connection
 /// </summary>
+/// <param name="ConnectionMonitorName">Connection monitor name.</param>
+/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "connection-monitor", "query")]
-public record AzNetworkWatcherConnectionMonitorQueryOptions : AzOptions
+public record AzNetworkWatcherConnectionMonitorQueryOptions(
+    [property: CliOption("--connection-monitor-name", ShortForm = "-n")] string ConnectionMonitorName,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

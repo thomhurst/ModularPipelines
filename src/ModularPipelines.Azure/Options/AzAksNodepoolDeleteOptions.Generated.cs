@@ -15,19 +15,26 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the agent pool in the managed Kubernetes cluster.
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="Name">The node pool name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "delete")]
-public record AzAksNodepoolDeleteOptions : AzOptions
+public record AzAksNodepoolDeleteOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The value provided will be compared to the ETag of the node pool, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new agentpool.
     /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatchValue { get; set; }
+    public string? IfMatch { get; set; }
 
     /// <summary>
-    /// Delete an existing nodepool without considering Pod
+    /// Delete an existing nodepool without considering Pod Disruption Budget.
     /// </summary>
     [CliFlag("--ignore-pdb", ShortForm = "-i")]
     public bool? IgnorePdb { get; set; }
@@ -37,12 +44,5 @@ public record AzAksNodepoolDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
-
-    [Obsolete("Use IfMatchValue instead.")]
-    public bool? IfMatch
-    {
-        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
-        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create new Redis Cache instance.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Name">Name of the Redis cache.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">Type of Redis cache.  Allowed values: Basic, Premium, Standard.</param>
+/// <param name="VmSize">Size of Redis cache to deploy. Basic and Standard Cache sizes start with C. Premium Cache sizes start with P.  Allowed values: c0, c1, c2, c3, c4, c5, c6, p1, p2, p3, p4, p5.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "create")]
-public record AzRedisCreateOptions : AzOptions
+public record AzRedisCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku,
+    [property: CliOption("--vm-size")] int VmSize
+) : AzOptions
 {
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
@@ -41,17 +52,17 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// One or more space separated resource IDs of user assigned identities.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Specifies the TLS version required by clients to connect to cache.  Allowed values: 1.0, 1.1, 1.2.
     /// </summary>
-    [CliFlag("--minimum-tls-version")]
-    public bool? MinimumTlsVersion { get; set; }
+    [CliOption("--minimum-tls-version")]
+    public string? MinimumTlsVersion { get; set; }
 
     /// <summary>
-    /// A json file used to set redis-configuration settings. You may encounter parse errors if the json file is invalid.
+    /// A json file used to set redis-configuration settings. You may encounter parse errors if the json file is invalid. Usage: --redis-configuration @"{config_file.json}"
     /// </summary>
     [CliFlag("--redis-configuration")]
     public bool? RedisConfiguration { get; set; }
@@ -69,7 +80,7 @@ public record AzRedisCreateOptions : AzOptions
     public bool? ReplicasPerMaster { get; set; }
 
     /// <summary>
-    /// The number of shards to be created on a Premium
+    /// The number of shards to be created on a Premium Cluster Cache.
     /// </summary>
     [CliFlag("--shard-count")]
     public bool? ShardCount { get; set; }
@@ -84,37 +95,36 @@ public record AzRedisCreateOptions : AzOptions
     /// The full resource ID of a subnet in a virtual network to deploy the redis cache in. Example format /subscriptions/{subid}/resourceGroups/{res ourceGroupName}/providers/Microsoft.{Network|Clas sicNetwork}/virtualNetworks/vnet1/subnets/subnet1 .
     /// </summary>
     [CliOption("--subnet-id")]
-    public string? SubnetIdValue { get; set; }
+    public string? SubnetId { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated tenant settings in key[=value] format.
     /// </summary>
-    [CliFlag("--tenant-settings")]
-    public bool? TenantSettings { get; set; }
+    [CliOption("--tenant-settings", GroupValues = true)]
+    public IEnumerable<string>? TenantSettings { get; set; }
 
     /// <summary>
     /// Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using "Preview" update channel get latest Redis updates at least 4 weeks ahead of "Stable" channel caches. Default value is "Stable". Allowed values: Preview, Stable.
     /// </summary>
-    [CliFlag("--update-channel")]
-    public bool? UpdateChannel { get; set; }
+    [CliOption("--update-channel")]
+    public string? UpdateChannel { get; set; }
+
+    /// <summary>
+    /// Specifies how availability zones are allocated to the Redis cache. "Automatic" enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. "UserDefined" will select availability zones passed in by you using the "zones" parameter. "NoZones" will produce a non-zonal cache. If "zonal-allocation-policy" is not passed, it will be set to "UserDefined" when zones are passed in, otherwise, it will be set to "Automatic in regions where zones are supported and "NoZones" in regions where zones are not supported.  Allowed values: Automatic, NoZones, UserDefined.
+    /// </summary>
+    [CliOption("--zonal-allocation", ShortForm = "--zonal-allocation-policy")]
+    public string? ZonalAllocation { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.
     /// </summary>
-    [CliFlag("--zones", ShortForm = "-z")]
-    public bool? Zones { get; set; }
-
-    [Obsolete("Use SubnetIdValue instead.")]
-    public bool? SubnetId
-    {
-        get => bool.TryParse(SubnetIdValue, out var value) ? value : null;
-        set => SubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
 }

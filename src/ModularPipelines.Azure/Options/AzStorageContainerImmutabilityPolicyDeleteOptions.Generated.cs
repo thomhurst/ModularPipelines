@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Aborts an unlocked immutability policy.
 /// </summary>
+/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+/// <param name="ContainerName">The container name.</param>
+/// <param name="IfMatch">An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "delete")]
-public record AzStorageContainerImmutabilityPolicyDeleteOptions : AzOptions
+public record AzStorageContainerImmutabilityPolicyDeleteOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--if-match")] string IfMatch
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

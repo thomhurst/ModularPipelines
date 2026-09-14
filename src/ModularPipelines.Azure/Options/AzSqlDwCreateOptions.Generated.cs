@@ -15,16 +15,29 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a data warehouse.
 /// </summary>
+/// <param name="Name">Name of the data warehouse.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "dw", "create")]
-public record AzSqlDwCreateOptions : AzOptions
+public record AzSqlDwCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
     /// <summary>
     /// Availability zone.
     /// </summary>
     [CliFlag("--availability-zone")]
     public bool? AvailabilityZone { get; set; }
+
+    /// <summary>
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
+    /// </summary>
+    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
     /// The collation of the data warehouse.
@@ -47,7 +60,13 @@ public record AzSqlDwCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The service objective for the new database. For example: DW100, DW1000c.
+    /// </summary>
+    [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
+    public bool? ServiceLevelObjective { get; set; }
 
 }

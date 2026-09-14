@@ -15,13 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update node type on a managed cluster.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="Name">Node type name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "update")]
-public record AzSfManagedNodeTypeUpdateOptions : AzOptions
+public record AzSfManagedNodeTypeUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity
+    /// Application End port of a range of ports.
+    /// </summary>
+    [CliFlag("--app-end-port", ShortForm = "--application-end-port")]
+    public bool? AppEndPort { get; set; }
+
+    /// <summary>
+    /// Application start port of a range of ports.
+    /// </summary>
+    [CliFlag("--app-start-port", ShortForm = "--application-start-port")]
+    public bool? AppStartPort { get; set; }
+
+    /// <summary>
+    /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity ClientConnections=65536 param2=value2.
     /// </summary>
     [CliFlag("--capacity")]
     public bool? Capacity { get; set; }
@@ -45,7 +64,7 @@ public record AzSfManagedNodeTypeUpdateOptions : AzOptions
     public bool? InstanceCount { get; set; }
 
     /// <summary>
-    /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example:
+    /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example: --placement-property NodeColor=Green SomeProperty=5.
     /// </summary>
     [CliFlag("--placement-property")]
     public bool? PlacementProperty { get; set; }
@@ -53,8 +72,8 @@ public record AzSfManagedNodeTypeUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The size of virtual machines in the pool. All virtual machines in a pool are the same size.

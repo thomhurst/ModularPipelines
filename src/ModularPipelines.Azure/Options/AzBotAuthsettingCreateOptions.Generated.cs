@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,22 +16,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an OAuth connection setting on a bot.
 /// </summary>
+/// <param name="ClientId">Client ID associated with the service provider setting.</param>
+/// <param name="ClientSecret">Client secret associated with the service provider setting.</param>
+/// <param name="Name">The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.</param>
+/// <param name="ProviderScopeString">The scope string associated with the service provider setting.The string should be delimited as needed for the service provider.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Service">Name of the service provider. For a list of all service providers, use `az bot connection listserviceproviders`.</param>
+/// <param name="SettingName">Name of the oauth connection setting.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "authsetting", "create")]
-public record AzBotAuthsettingCreateOptions : AzOptions
+public record AzBotAuthsettingCreateOptions(
+    [property: CliOption("--client-id")] string ClientId,
+    [property: SecretValue, CliOption("--client-secret")] string ClientSecret,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--provider-scope-string")] string ProviderScopeString,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service")] string Service,
+    [property: CliOption("--setting-name", ShortForm = "-c")] string SettingName
+) : AzOptions
 {
     /// <summary>
-    /// Parameter values for service provider parameters. Usage:
+    /// Parameter values for service provider parameters. Usage: --parameters key=value key1=value1.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
-
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Parameters { get; set; }
 
 }

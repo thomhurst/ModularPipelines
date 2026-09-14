@@ -15,22 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure IP access restrictions for a
 /// </summary>
+/// <param name="Action">Whether the IP security restriction allows or denies access. All restrictions must be use the same action. If no restrictions are set, all traffic is allowed.  Allowed values: Allow, Deny.</param>
+/// <param name="IpAddress">The address range of the IP security restriction in IPv4 CIDR notation. (for example, '198.51.100.14/24').</param>
+/// <param name="RuleName">The IP security restriction name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "access-restriction", "set")]
-public record AzContainerappIngressAccessRestrictionSetOptions : AzOptions
+public record AzContainerappIngressAccessRestrictionSetOptions(
+    [property: CliOption("--action")] string Action,
+    [property: CliOption("--ip-address")] string IpAddress,
+    [property: CliOption("--rule-name")] string RuleName
+) : AzOptions
 {
     /// <summary>
     /// The description of the IP security restriction.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

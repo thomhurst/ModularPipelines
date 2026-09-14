@@ -21,7 +21,11 @@ namespace ModularPipelines.Azure.Services;
 public class AzCognitiveservicesAccount
 {
     private readonly ICommandContext _command;
+    private AzCognitiveservicesAccountCommitmentPlan? _commitmentPlan;
+    private AzCognitiveservicesAccountConnection? _connection;
     private AzCognitiveservicesAccountDeployment? _deployment;
+    private AzCognitiveservicesAccountIdentity? _identity;
+    private AzCognitiveservicesAccountKeys? _keys;
     private AzCognitiveservicesAccountNetworkRule? _networkRule;
     private AzCognitiveservicesAccountProject? _project;
 
@@ -36,9 +40,29 @@ public class AzCognitiveservicesAccount
     #region Sub-command Groups
 
     /// <summary>
+    /// az commitment-plan sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountCommitmentPlan CommitmentPlan => _commitmentPlan ??= new AzCognitiveservicesAccountCommitmentPlan(_command);
+
+    /// <summary>
+    /// az connection sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountConnection Connection => _connection ??= new AzCognitiveservicesAccountConnection(_command);
+
+    /// <summary>
     /// az deployment sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountDeployment Deployment => _deployment ??= new AzCognitiveservicesAccountDeployment(_command);
+
+    /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountIdentity Identity => _identity ??= new AzCognitiveservicesAccountIdentity(_command);
+
+    /// <summary>
+    /// az keys sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountKeys Keys => _keys ??= new AzCognitiveservicesAccountKeys(_command);
 
     /// <summary>
     /// az network-rule sub-commands.
@@ -62,11 +86,41 @@ public class AzCognitiveservicesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzCognitiveservicesAccountCreateOptions? options = null,
+        AzCognitiveservicesAccountCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCognitiveservicesAccountCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Manage Azure Cognitive Services accounts.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzCognitiveservicesAccountDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Manage Azure Cognitive Services accounts.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListModelsAsync(
+        AzCognitiveservicesAccountListModelsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -81,7 +135,7 @@ public class AzCognitiveservicesAccount
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCognitiveservicesAccountListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCognitiveservicesAccountListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -96,7 +150,82 @@ public class AzCognitiveservicesAccount
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCognitiveservicesAccountListSkusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCognitiveservicesAccountListSkusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List usages for Azure Cognitive Services account.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsageAsync(
+        AzCognitiveservicesAccountListUsageOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Purge a soft-deleted Azure Cognitive Services account.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PurgeAsync(
+        AzCognitiveservicesAccountPurgeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Recover a soft-deleted Azure Cognitive Services account.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RecoverAsync(
+        AzCognitiveservicesAccountRecoverOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Show a soft-deleted Azure Cognitive Services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowDeletedAsync(
+        AzCognitiveservicesAccountShowDeletedOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Manage Azure Cognitive Services accounts.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzCognitiveservicesAccountShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -107,11 +236,11 @@ public class AzCognitiveservicesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        AzCognitiveservicesAccountUpdateOptions? options = null,
+        AzCognitiveservicesAccountUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCognitiveservicesAccountUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

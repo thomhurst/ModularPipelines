@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -25,5 +26,36 @@ public record AzPostgresFlexibleServerShowConnectionStringOptions : AzOptions
     /// </summary>
     [CliFlag("--pg-bouncer")]
     public bool? PgBouncer { get; set; }
+
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.  Default: {password}.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
+
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed. Default: {login}.
+    /// </summary>
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string? AdminUser { get; set; }
+
+    /// <summary>
+    /// The name of the database.  Default: {database}.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string? DatabaseName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the server.  Default: {server}.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

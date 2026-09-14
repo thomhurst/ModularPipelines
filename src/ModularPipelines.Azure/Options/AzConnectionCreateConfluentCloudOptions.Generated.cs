@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,22 +16,37 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a local connection to confluent-cloud.
 /// </summary>
+/// <param name="BootstrapServer">Kafka bootstrap server url.</param>
+/// <param name="KafkaKey">Kafka API-Key (key).</param>
+/// <param name="KafkaSecret">Kafka API-Key (secret).</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SchemaKey">Schema registry API-Key (key).</param>
+/// <param name="SchemaRegistry">Schema registry url.</param>
+/// <param name="SchemaSecret">Schema registry API-Key (secret).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "confluent-cloud")]
-public record AzConnectionCreateConfluentCloudOptions : AzOptions
+public record AzConnectionCreateConfluentCloudOptions(
+    [property: CliOption("--bootstrap-server")] string BootstrapServer,
+    [property: CliOption("--kafka-key")] string KafkaKey,
+    [property: SecretValue, CliOption("--kafka-secret")] string KafkaSecret,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--schema-key")] string SchemaKey,
+    [property: CliOption("--schema-registry")] string SchemaRegistry,
+    [property: SecretValue, CliOption("--schema-secret")] string SchemaSecret
+) : AzOptions
 {
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
@@ -41,20 +57,13 @@ public record AzConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
-
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
-    {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

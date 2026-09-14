@@ -15,22 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Copy autoscale rules from one profile to another.
 /// </summary>
+/// <param name="AutoscaleName">Name of the autoscale settings.</param>
+/// <param name="DestSchedule">Name of the profile to copy rules to.</param>
+/// <param name="Index">Space-separated list of rule indices to copy, or '*' to copy all rules.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "copy")]
-public record AzMonitorAutoscaleRuleCopyOptions : AzOptions
+public record AzMonitorAutoscaleRuleCopyOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--dest-schedule")] string DestSchedule,
+    [property: CliOption("--index", GroupValues = true)] IEnumerable<string> Index,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the profile to copy rules from.  Default: default.
     /// </summary>
     [CliOption("--source-schedule")]
-    public string? SourceScheduleValue { get; set; }
-
-    [Obsolete("Use SourceScheduleValue instead.")]
-    public bool? SourceSchedule
-    {
-        get => bool.TryParse(SourceScheduleValue, out var value) ? value : null;
-        set => SourceScheduleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? SourceSchedule { get; set; }
 
 }

@@ -15,22 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a message enrichment for chosen endpoints in your
 /// </summary>
+/// <param name="Endpoints">Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.</param>
+/// <param name="Key">The enrichment's key.</param>
+/// <param name="Name">IoT Hub name.</param>
+/// <param name="Value">The enrichment's value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "message-enrichment", "create")]
-public record AzIotHubMessageEnrichmentCreateOptions : AzOptions
+public record AzIotHubMessageEnrichmentCreateOptions(
+    [property: CliOption("--endpoints", ShortForm = "-e", GroupValues = true)] IEnumerable<string> Endpoints,
+    [property: CliOption("--key", ShortForm = "-k")] string Key,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--value", ShortForm = "-v")] string Value
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

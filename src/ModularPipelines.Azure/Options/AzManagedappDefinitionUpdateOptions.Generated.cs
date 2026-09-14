@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed application definition.
 /// </summary>
+/// <param name="Authorizations">Space-separated authorization pairs in a format of `&lt;principalId&gt;:&lt;roleDefinitionId&gt;`.</param>
+/// <param name="Description">The managed application definition description.</param>
+/// <param name="DisplayName">The managed application definition display name.</param>
+/// <param name="LockLevel">The type of lock restriction.  Allowed values: CanNotDelete, None, ReadOnly.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedapp", "definition", "update")]
-public record AzManagedappDefinitionUpdateOptions : AzOptions
+public record AzManagedappDefinitionUpdateOptions(
+    [property: CliOption("--authorizations", ShortForm = "-a", GroupValues = true)] IEnumerable<string> Authorizations,
+    [property: CliOption("--description")] string Description,
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--lock-level")] string LockLevel
+) : AzOptions
 {
     /// <summary>
     /// JSON formatted string or a path to a file with such content.
@@ -27,16 +36,16 @@ public record AzManagedappDefinitionUpdateOptions : AzOptions
     public bool? CreateUiDefinition { get; set; }
 
     /// <summary>
-    /// The managed application deployment mode.  Allowed values:
+    /// The managed application deployment mode.  Allowed values: Complete, Incremental.
     /// </summary>
-    [CliFlag("--deployment-mode")]
-    public bool? DeploymentMode { get; set; }
+    [CliOption("--deployment-mode")]
+    public string? DeploymentMode { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// JSON formatted string or a path to a file with such content.
@@ -53,7 +62,25 @@ public record AzManagedappDefinitionUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The managed application definition name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// The resource group of the managed application definition.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -15,22 +15,18 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all VPN connections.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "list")]
-public record AzNetworkVpnConnectionListOptions : AzOptions
+public record AzNetworkVpnConnectionListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the VNet gateway.
     /// </summary>
     [CliOption("--vnet-gateway")]
-    public string? VnetGatewayValue { get; set; }
-
-    [Obsolete("Use VnetGatewayValue instead.")]
-    public bool? VnetGateway
-    {
-        get => bool.TryParse(VnetGatewayValue, out var value) ? value : null;
-        set => VnetGatewayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VnetGateway { get; set; }
 
 }

@@ -21,9 +21,27 @@ namespace ModularPipelines.Azure.Options;
 public record AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions : AzOptions
 {
     /// <summary>
-    /// Retrieve recommendations based on type.  Allowed values: CreateIndex,
+    /// Retrieve recommendations based on type.  Allowed values: CreateIndex, DropIndex, ReIndex.
     /// </summary>
-    [CliFlag("--recommendation-type", ShortForm = "-r")]
-    public bool? RecommendationType { get; set; }
+    [CliOption("--recommendation-type", ShortForm = "-r")]
+    public string? RecommendationType { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

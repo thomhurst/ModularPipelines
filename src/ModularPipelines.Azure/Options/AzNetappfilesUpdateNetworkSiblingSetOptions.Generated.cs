@@ -15,15 +15,40 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the network features of a network sibling
 /// </summary>
+/// <param name="NetworkSiblingSetId">Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.</param>
+/// <param name="NetworkSiblingSetStateId">Network sibling set state Id identifying the current state of the sibling set. Value can start with a dash, use ='-value'.</param>
+/// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscr iptions/subscriptionId/resourceGroups/res ourceGroup/providers/Microsoft.Network/vi rtualNetworks/testVnet/subnets/{mySubnet} .</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "update-network-sibling-set")]
-public record AzNetappfilesUpdateNetworkSiblingSetOptions : AzOptions
+public record AzNetappfilesUpdateNetworkSiblingSetOptions(
+    [property: CliOption("--network-sibling-set-id")] string NetworkSiblingSetId,
+    [property: CliOption("--network-sibling-set-state-id", ShortForm = "--state-id")] string NetworkSiblingSetStateId,
+    [property: CliOption("--subnet-id")] string SubnetId
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Network features available to the volume. Allowed values: Basic, Standard. Default: Basic.
+    /// </summary>
+    [CliOption("--network-features")]
+    public string? NetworkFeatures { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

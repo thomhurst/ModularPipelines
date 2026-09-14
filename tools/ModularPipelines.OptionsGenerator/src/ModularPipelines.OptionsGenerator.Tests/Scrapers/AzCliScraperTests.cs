@@ -320,6 +320,133 @@ public class AzCliScraperTests
     }
 
     [Test]
+    [Arguments(null)]
+    [Arguments("'")]
+    [Arguments("\"")]
+    [Arguments("`")]
+    public async Task Nonstandard_Description_Only_Values_Are_Not_Flags(string? quote)
+    {
+        var buildArgExample = quote is null ? "--build-arg" : $"{quote}--build-arg name[=value]{quote}";
+        var secretBuildArgExample = quote is null ? "--secret-build-arg" : $"{quote}--secret-build-arg name[=value]{quote}";
+        var helpText = $"""
+            Command
+                az acr build : Queue a registry build.
+
+            Optional Arguments
+                --build-arg       : Build argument in '--build-arg name[=value]' format. Multiples are supported by passing {buildArgExample} multiple times.
+                --file            : The relative path of the docker file.
+                --platform        : The platform where the build is run.
+                --secret-build-arg: Secret build argument in '--secret-build-arg name[=value]' format. Multiples are supported by passing {secretBuildArgExample} multiple times.
+                --timeout         : The timeout in seconds.
+                --no-wait         : Do not wait for the build to complete.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "acr", "build"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.PropertyName == "BuildArg").CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "File").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Platform").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "SecretBuildArg").CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "BuildArg").GroupValues)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "SecretBuildArg").GroupValues)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Timeout").CSharpType)
+                .IsEqualTo("int?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "NoWait").IsFlag)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("authorization-rule-name", "The authorization rule name.")]
+    [Arguments("namespace-name", "The Namespace name.")]
+    [Arguments("consumer-group-name", "The consumer group name.")]
+    [Arguments("eventhub-name", "The Event Hub name.")]
+    [Arguments("external-id", "An external ID.")]
+    [Arguments("location", "Location. Values from: az account list-locations.")]
+    [Arguments("location", "The geo-location where the resource lives When not specified, the location of the resource group will be used.")]
+    public async Task Named_Values_Are_Not_Flags(string switchName, string description)
+    {
+        var helpText = $"Command\n    az service show : Show a service.\n\nArguments\n    --{switchName} : {description}";
+        var command = await new TestAzCliScraper().Parse(["az", "service", "show"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.IsRequired).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Name_Display_Action_Remains_A_Flag()
+    {
+        const string helpText = """
+            Command
+                az service show : Show a service.
+
+            Optional Arguments
+                --show-name : Show name instead of identifier.
+            """;
+        var command = await new TestAzCliScraper().Parse(["az", "service", "show"], helpText);
+
+        await Assert.That(command!.Options.Single().IsFlag).IsTrue();
+    }
+
+    [Test]
+    public async Task Repeated_Image_Tags_Remain_Collections()
+    {
+        const string helpText = """
+            Command
+                az acr task create : Create a task.
+
+            Optional Arguments
+                --image -t : The name and tag of the image using the format: '-t repo/image:tag'.
+                             Multiple tags are supported by passing -t multiple times.
+            """;
+        var command = await new TestAzCliScraper().Parse(["az", "acr", "task", "create"], helpText);
+
+        await Assert.That(command!.Options.Single().CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task Synapse_Description_Only_Values_Are_Not_Flags()
+    {
+        const string helpText = """
+            Command
+                az synapse spark job submit : Submit a Spark job.
+
+            Optional Arguments
+                --configuration  : The configuration of Spark job.
+                --main-class-name: The fully-qualified identifier or the main class that is in the main definition file.
+                --reference-files: Additional files used for reference in the main definition file.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "synapse", "spark", "job", "submit"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.PropertyName == "Configuration").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "MainClassName").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "ReferenceFiles").CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.All(option => !option.IsFlag)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Monitor_And_Stack_Descriptions_Require_Values()
     {
         const string helpText = """
@@ -688,6 +815,120 @@ public class AzCliScraperTests
             await Assert.That(command.Options.Single(option => option.SwitchName == "--size").Description)
                 .IsEqualTo("The VM size to be created. Argument '--size' is in preview and under development.");
         }
+    }
+
+    [Test]
+    [Arguments("mysql-flexible-server-create-2.84.txt", "AdminUser", false)]
+    [Arguments("mysql-flexible-server-create-2.84.txt", "AdminPassword", true)]
+    [Arguments("postgres-flexible-server-restore-2.84.txt", "RestoreTime", false)]
+    public async Task Captured_Database_Help_Preserves_Scalar_Values(string fixture, string propertyName, bool isSecret)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", fixture));
+        var command = await new TestAzCliScraper().Parse(["az", "service", "create"], help);
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsSecret).IsEqualTo(isSecret);
+        await Assert.That(command.Options.Single(option => option.PropertyName == "Yes").IsFlag).IsTrue();
+    }
+
+    [Test]
+    [Arguments("expiry", "Specifies the UTC datetime (Y-m-d'T'H:M:S'Z') at which the SAS becomes invalid.")]
+    [Arguments("admin-user", "Administrator username for the server. Once set, it cannot be changed.")]
+    [Arguments("admin-password", "The password of the administrator. Minimum 8 characters.")]
+    [Arguments("restore-time", "The point in time in UTC to restore from (ISO8601 format).")]
+    public async Task Credential_And_DateTime_Descriptions_Declare_Values(string switchName, string description)
+    {
+        var help = $"Command\n    az service create : Create a service.\n\nArguments\n    --{switchName} : {description}\n    --reset-password : Reset the administrator password.\n    --use-current-time : Use the current time.";
+        var command = await new TestAzCliScraper().Parse(["az", "service", "create"], help);
+        var option = command!.Options.Single(option => option.SwitchName == $"--{switchName}");
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single(option => option.PropertyName == "ResetPassword").IsFlag).IsTrue();
+        await Assert.That(command.Options.Single(option => option.PropertyName == "UseCurrentTime").IsFlag).IsTrue();
+    }
+
+    [Test]
+    [Arguments("vm-create-2.84.txt")]
+    [Arguments("vmss-create-2.84.txt")]
+    public async Task Captured_Vm_Help_Keeps_Admin_Username_Scalar(string fixture)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", fixture));
+        var command = await new TestAzCliScraper().Parse(["az", "vm", "create"], help);
+        var option = command!.Options.Single(option => option.PropertyName == "AdminUsername");
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.GroupValues).IsFalse();
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    public async Task Captured_Sql_Vm_Help_Classifies_Account_Passwords_As_Secrets()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", "sql-vm-add-to-group-2.84.txt"));
+        var command = await new TestAzCliScraper().Parse(["az", "sql", "vm", "add-to-group"], help);
+        foreach (var propertyName in new[] { "BootstrapAccPwd", "OperatorAccPwd", "ServiceAccPwd" })
+        {
+            var option = command!.Options.Single(option => option.PropertyName == propertyName);
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.IsSecret).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("List of resource IDs.", true)]
+    [Arguments("A list of resource IDs.", true)]
+    [Arguments("Specify the list of resource IDs.", true)]
+    [Arguments("Accepts a list of resource IDs.", true)]
+    [Arguments("Resource tags. A list of key=value pairs.", true)]
+    [Arguments("Resource selection. Specify the list of resource IDs.", true)]
+    [Arguments("Space-separeted list of private endpoint connection name.", true)]
+    [Arguments("The configuration settings of the allowed list of audiences from which to validate the JWT token.", true)]
+    [Arguments("The allowed list of audiences.", true)]
+    [Arguments("The allowed list of values is documented elsewhere.", false)]
+    [Arguments("The time zone id for the instance to set. A list of time zone ids is exposed through the sys.time_zone_info (Transact-SQL) view.", false)]
+    [Arguments("Name of the resource. See the list of allowed values.", false)]
+    [Arguments("Username for the VM. Refer to the documentation for a full list of reserved values.", false)]
+    public async Task List_Descriptions_Must_Describe_The_Accepted_Input(string description, bool isList)
+    {
+        var help = $"Command\n    az service create : Create a service.\n\nArguments\n    --value VALUE : {description}";
+        var command = await new TestAzCliScraper().Parse(["az", "service", "create"], help);
+        var option = command!.Options.Single();
+        await Assert.That(option.CSharpType).IsEqualTo(isList ? "IEnumerable<string>?" : "string?");
+        await Assert.That(option.GroupValues).IsEqualTo(isList);
+    }
+
+    [Test]
+    [Arguments("Administrators")]
+    [Arguments("BackupOperators")]
+    [Arguments("SecurityOperators")]
+    public async Task Captured_Netapp_Help_Preserves_Lists_Defined_After_An_Introduction(string propertyName)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", "netappfiles-account-ad-add-2.84.txt"));
+        var command = await new TestAzCliScraper().Parse(["az", "netappfiles", "account", "ad", "add"], help);
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.GroupValues).IsTrue();
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+    }
+
+    [Test]
+    [Arguments("signalr-network-rule-update-2.84.txt", "Allow")]
+    [Arguments("signalr-network-rule-update-2.84.txt", "Deny")]
+    [Arguments("signalr-network-rule-update-2.84.txt", "ConnectionName")]
+    [Arguments("containerapp-auth-google-update-2.84.txt", "AllowedAudiences")]
+    [Arguments("containerapp-auth-microsoft-update-2.84.txt", "AllowedAudiences")]
+    public async Task Captured_Help_Preserves_Qualified_List_Definitions(string fixture, string propertyName)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", fixture));
+        var command = await new TestAzCliScraper().Parse(["az", "service", "update"], help);
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.GroupValues).IsTrue();
     }
 
     private sealed class TestAzCliScraper()

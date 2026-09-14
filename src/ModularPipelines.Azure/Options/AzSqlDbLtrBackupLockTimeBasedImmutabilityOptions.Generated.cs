@@ -15,28 +15,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lock the time based immutability on a long
 /// </summary>
+/// <param name="Database">Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.</param>
+/// <param name="Location">The location of the desired backups.</param>
+/// <param name="Name">The name of the LTR backup. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup name.</param>
+/// <param name="Server">Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "lock-time-based-immutability")]
-public record AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions : AzOptions
+public record AzSqlDbLtrBackupLockTimeBasedImmutabilityOptions(
+    [property: CliOption("--database", ShortForm = "-d")] string Database,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

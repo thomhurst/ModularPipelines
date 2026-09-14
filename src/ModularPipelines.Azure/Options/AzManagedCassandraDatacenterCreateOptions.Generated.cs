@@ -15,10 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Datacenter in an Azure Managed Cassandra
 /// </summary>
+/// <param name="ClusterName">Cluster Name.</param>
+/// <param name="DataCenterLocation">Azure Location of the Datacenter.</param>
+/// <param name="DataCenterName">Datacenter Name.</param>
+/// <param name="DelegatedSubnetId">The resource id of a subnet where ip addresses of the Cassandra virtual machines will be allocated. This must be in the same region as data_center_location.</param>
+/// <param name="NodeCount">The number of Cassandra virtual machines in this data center. The minimum value is 3.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "datacenter", "create")]
-public record AzManagedCassandraDatacenterCreateOptions : AzOptions
+public record AzManagedCassandraDatacenterCreateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--data-center-location", ShortForm = "-l")] string DataCenterLocation,
+    [property: CliOption("--data-center-name", ShortForm = "-d")] string DataCenterName,
+    [property: CliOption("--delegated-subnet-id", ShortForm = "-s")] string DelegatedSubnetId,
+    [property: CliOption("--node-count", ShortForm = "-n")] int NodeCount,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// If the data center haves Availability Zone feature, apply it to the Virtual Machine ScaleSet that host the data center virtual machines. Allowed values: false, true.
@@ -45,7 +58,7 @@ public record AzManagedCassandraDatacenterCreateOptions : AzOptions
     public bool? DiskCapacity { get; set; }
 
     /// <summary>
-    /// Disk SKU used for data centers. Default value is
+    /// Disk SKU used for data centers. Default value is P30.
     /// </summary>
     [CliFlag("--disk-sku")]
     public bool? DiskSku { get; set; }

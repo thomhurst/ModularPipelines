@@ -15,16 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource.
 /// </summary>
+/// <param name="Properties">A JSON-formatted string containing resource properties.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "create")]
-public record AzResourceCreateOptions : AzOptions
+public record AzResourceCreateOptions(
+    [property: CliOption("--properties", ShortForm = "-p")] string Properties
+) : AzOptions
 {
     /// <summary>
     /// Resource ID.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Indicate that the properties object includes other options such as location, tags, sku, and/or plan.
@@ -33,16 +36,45 @@ public record AzResourceCreateOptions : AzOptions
     public bool? IsFullObject { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
-    {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The api version of the resource (omit for the latest stable version).
+    /// </summary>
+    [CliFlag("--api-version")]
+    public bool? ApiVersion { get; set; }
+
+    /// <summary>
+    /// The resource name. (Ex: myC).
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Provider namespace (Ex: 'Microsoft.Provider').
+    /// </summary>
+    [CliFlag("--namespace")]
+    public bool? Namespace { get; set; }
+
+    /// <summary>
+    /// The parent path (Ex: 'resA/myA/resB/myB').
+    /// </summary>
+    [CliFlag("--parent")]
+    public bool? Parent { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

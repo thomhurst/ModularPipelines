@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes the specified Task file from the Compute Node where the Task
 /// </summary>
+/// <param name="FilePath">The path to the Task file that you want to get the content of. Required.</param>
+/// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
+/// <param name="TaskId">The ID of the Task whose file you want to retrieve. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "file", "delete")]
-public record AzBatchTaskFileDeleteOptions : AzOptions
+public record AzBatchTaskFileDeleteOptions(
+    [property: CliOption("--file-path")] string FilePath,
+    [property: CliOption("--job-id")] string JobId,
+    [property: CliOption("--task-id")] string TaskId
+) : AzOptions
 {
     /// <summary>
     /// Whether to delete children of a directory. If the filePath parameter represents a directory instead of a file, you can set recursive to true to delete the directory and all of the files and subdirectories in it. If recursive is false then the directory must be empty or deletion will fail. Default value is None.  Allowed values: false, true.
@@ -31,5 +38,23 @@ public record AzBatchTaskFileDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
 }

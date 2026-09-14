@@ -192,6 +192,7 @@ public class CodeGeneratorOrchestrator
                     tool.OwnershipId!,
                     journalOwnedPaths,
                     replaceableManifestPaths,
+                    result.FilesDeleted,
                     token);
             });
 
@@ -217,6 +218,7 @@ public class CodeGeneratorOrchestrator
             tool.OwnershipId!,
             manifestOwnedPaths,
             replaceableManifestPaths,
+            result.FilesDeleted,
             cancellationToken);
         result.FilesGenerated.Add(ownershipRelativePath);
         if (!fileSystemPathComparer.Equals(
@@ -372,7 +374,7 @@ public class CodeGeneratorOrchestrator
         }
     }
 
-    private IReadOnlyList<string> ReconcileExternalOwnedFiles(
+    private List<string> ReconcileExternalOwnedFiles(
         string outputDirectory,
         IReadOnlyCollection<string> previouslyOwnedPaths,
         IReadOnlyCollection<string> currentlyOwnedPaths,
@@ -456,6 +458,7 @@ public class CodeGeneratorOrchestrator
         string ownershipId,
         IReadOnlyCollection<string> ownedPaths,
         HashSet<string> replaceableManifestPaths,
+        List<string> deletedPaths,
         CancellationToken cancellationToken)
     {
         var manifestPath = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
@@ -488,12 +491,16 @@ public class CodeGeneratorOrchestrator
                 fileNames,
                 outputDirectory,
                 replaceableManifestPaths);
-            EnsureExactFileNameCasing(
+            var renamedManifestPath = EnsureExactFileNameCasing(
                 manifestPath,
                 manifestDirectory,
                 fileNames,
                 outputDirectory,
                 replaceableManifestPaths);
+            if (renamedManifestPath is not null)
+            {
+                deletedPaths.Add(Path.GetRelativePath(outputDirectory, renamedManifestPath));
+            }
 
             await WriteFileAsync(
                 temporaryPath,
@@ -524,7 +531,7 @@ public class CodeGeneratorOrchestrator
     private async Task ProcessHtmlScrapersAsync(
         List<string> toolList,
         IReadOnlyDictionary<string, ICliScraper> cliScrapersByTool,
-        ISet<string> processedTools,
+        HashSet<string> processedTools,
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
@@ -537,7 +544,10 @@ public class CodeGeneratorOrchestrator
         {
             if (!ShouldProcess(htmlScraper.ToolName, toolList))
             {
-                _logger.LogInformation("Skipping {Tool}", htmlScraper.ToolName);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Skipping {Tool}", htmlScraper.ToolName);
+                }
                 continue;
             }
 
@@ -571,7 +581,10 @@ public class CodeGeneratorOrchestrator
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Processing {Tool}...", htmlScraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Processing {Tool}...", htmlScraper.ToolName);
+        }
         CliGenerationFailure? cliFailure = null;
 
         try
@@ -623,7 +636,10 @@ public class CodeGeneratorOrchestrator
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
+        }
         var toolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
 
         if (toolDefinition.Errors.Count > 0)
@@ -635,10 +651,13 @@ public class CodeGeneratorOrchestrator
                 htmlScraper.ToolName);
         }
 
-        _logger.LogInformation(
-            "Scraped {Count} commands for {Tool}",
-            toolDefinition.Commands.Count,
-            htmlScraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Scraped {Count} commands for {Tool}",
+                toolDefinition.Commands.Count,
+                htmlScraper.ToolName);
+        }
         toolDefinition = await EnhanceTypesAsync(toolDefinition, htmlScraper.ToolName, cancellationToken);
 
         await GenerateForToolAsync(
@@ -650,7 +669,10 @@ public class CodeGeneratorOrchestrator
             approveCommandCoverageShrinkage,
             cancellationToken);
 
-        _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
+        }
     }
 
     private async Task<CliToolDefinition> EnhanceTypesAsync(
@@ -663,11 +685,17 @@ public class CodeGeneratorOrchestrator
             return toolDefinition;
         }
 
-        _logger.LogInformation("Enhancing types for {Tool} using CLI help...", toolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Enhancing types for {Tool} using CLI help...", toolName);
+        }
         try
         {
             var enhanced = await _typeEnhancer.EnhanceAsync(toolDefinition, cancellationToken);
-            _logger.LogInformation("Type enhancement complete for {Tool}", toolName);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Type enhancement complete for {Tool}", toolName);
+            }
             return enhanced;
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
@@ -679,7 +707,7 @@ public class CodeGeneratorOrchestrator
 
     private async Task ProcessCliOnlyScrapersAsync(
         List<string> toolList,
-        ISet<string> processedTools,
+        HashSet<string> processedTools,
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
@@ -702,7 +730,10 @@ public class CodeGeneratorOrchestrator
 
             if (!ShouldProcess(cliScraper.ToolName, toolList))
             {
-                _logger.LogInformation("Skipping CLI-only tool {Tool}", cliScraper.ToolName);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Skipping CLI-only tool {Tool}", cliScraper.ToolName);
+                }
                 continue;
             }
 
@@ -728,7 +759,10 @@ public class CodeGeneratorOrchestrator
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Processing CLI-only tool {Tool}...", cliScraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Processing CLI-only tool {Tool}...", cliScraper.ToolName);
+        }
 
         try
         {
@@ -763,10 +797,14 @@ public class CodeGeneratorOrchestrator
         Exception exception,
         bool cliOnly)
     {
-        _logger.LogError(
-            exception,
-            cliOnly ? "Failed to process CLI-only tool {Tool}" : "Failed to process {Tool}",
-            toolName);
+        if (cliOnly)
+        {
+            _logger.LogError(exception, "Failed to process CLI-only tool {Tool}", toolName);
+        }
+        else
+        {
+            _logger.LogError(exception, "Failed to process {Tool}", toolName);
+        }
         result.Errors.Add(new ScrapingError
         {
             Source = toolName,
@@ -797,7 +835,10 @@ public class CodeGeneratorOrchestrator
                 Coverage: null);
         }
 
-        _logger.LogInformation("Using CLI scraper for {Tool}", cliScraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Using CLI scraper for {Tool}", cliScraper.ToolName);
+        }
         var scrapeProvenanceProvider = cliScraper as CliScraperBase;
         if (scrapeProvenanceProvider is not null)
         {
@@ -820,7 +861,10 @@ public class CodeGeneratorOrchestrator
         var toolDefinition = cliScraper.CreateToolDefinition();
         var toolVersion = await cliScraper.GetVersionAsync(cancellationToken);
 
-        _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
+        }
 
         var completeToolDefinition = toolDefinition with
         {
@@ -830,31 +874,13 @@ public class CodeGeneratorOrchestrator
         };
         if (allCommands.Count == 0)
         {
-            // Availability can change after the first probe. Keep unavailable help
-            // distinct from a successful help invocation that the parser did not recognize.
-            var (coverage, diagnosticsPath) = await EvaluateCommandCoverageAsync(
+            return await GetEmptyCliGenerationFailureAsync(
                 completeToolDefinition,
+                cliScraper.ToolName,
                 outputDirectory,
                 approveCommandCoverageShrinkage,
-                commandCoverageBaselinePath: null,
-                commandCoveragePathComparer: null,
-                allowMissingCommandCoverageManifest: false,
-                scrapeProvenanceProvider: scrapeProvenanceProvider,
-                cancellationToken: cancellationToken);
-            var diagnosticsMessage = diagnosticsPath is null
-                ? string.Empty
-                : $" Raw help diagnostics: {diagnosticsPath}.";
-            if (coverage.UnavailableCommands.Count > 0)
-            {
-                return new CliGenerationFailure(
-                    string.Join(" ", coverage.Violations) + diagnosticsMessage,
-                    coverage);
-            }
-
-            return new CliGenerationFailure(
-                $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
-                $"Check the scraper's help-text parsing against the currently installed CLI version.{diagnosticsMessage}",
-                coverage);
+                scrapeProvenanceProvider,
+                cancellationToken);
         }
 
         if (_typeEnhancer is not null)
@@ -873,10 +899,48 @@ public class CodeGeneratorOrchestrator
             cancellationToken,
             scrapeProvenanceProvider: scrapeProvenanceProvider);
 
-        _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
-            cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
+                cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
+        }
 
         return null;
+    }
+
+    private async Task<CliGenerationFailure> GetEmptyCliGenerationFailureAsync(
+        CliToolDefinition tool,
+        string toolName,
+        string outputDirectory,
+        bool approveCommandCoverageShrinkage,
+        CliScraperBase? scrapeProvenanceProvider,
+        CancellationToken cancellationToken)
+    {
+        // Availability can change after the first probe. Keep unavailable help
+        // distinct from a successful help invocation that the parser did not recognize.
+        var (coverage, diagnosticsPath) = await EvaluateCommandCoverageAsync(
+            tool,
+            outputDirectory,
+            approveCommandCoverageShrinkage,
+            commandCoverageBaselinePath: null,
+            commandCoveragePathComparer: null,
+            allowMissingCommandCoverageManifest: false,
+            scrapeProvenanceProvider: scrapeProvenanceProvider,
+            cancellationToken: cancellationToken);
+        var diagnosticsMessage = diagnosticsPath is null
+            ? string.Empty
+            : $" Raw help diagnostics: {diagnosticsPath}.";
+        if (coverage.UnavailableCommands.Count > 0)
+        {
+            return new CliGenerationFailure(
+                string.Join(" ", coverage.Violations) + diagnosticsMessage,
+                coverage);
+        }
+
+        return new CliGenerationFailure(
+            $"The {toolName} CLI reported itself available but help scraping produced no commands. " +
+            $"Check the scraper's help-text parsing against the currently installed CLI version.{diagnosticsMessage}",
+            coverage);
     }
 
     private sealed record CliGenerationFailure(
@@ -962,24 +1026,15 @@ public class CodeGeneratorOrchestrator
             await beforeWrite(candidateOwnedPaths, cancellationToken);
         }
 
-        var writtenFullPaths = new HashSet<string>(fileSystemPathComparer);
-        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
-
-        foreach (var file in generatedFiles)
-        {
-            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
-            await WriteFileAsync(
-                fullPath,
-                file.Content,
-                cancellationToken,
-                enforceOutputContainment ? outputDirectory : null,
-                "generated file path",
-                fileNamesByDirectory,
-                replaceableExistingPaths);
-            writtenFullPaths.Add(Path.GetFullPath(fullPath));
-            result.FilesGenerated.Add(file.RelativePath);
-            emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
-        }
+        var writtenFullPaths = await WriteGeneratedFilesAsync(
+            generatedFiles,
+            outputDirectory,
+            result,
+            emittedPaths,
+            fileSystemPathComparer,
+            enforceOutputContainment,
+            replaceableExistingPaths,
+            cancellationToken);
 
         // Only after every replacement is on disk is it safe to prune stale files.
         // External generation reconciles only its recorded ownership after this method returns.
@@ -1001,14 +1056,56 @@ public class CodeGeneratorOrchestrator
 
         if (toolDefinition.GenerateCode && writeAssemblyInfo)
         {
-            await WriteAssemblyInfoAsync(
+            var renamedAssemblyInfoPath = await WriteAssemblyInfoAsync(
                 outputDirectory,
                 toolDefinition,
-                cancellationToken,
-                enforceOutputContainment).ConfigureAwait(false);
+                enforceOutputContainment,
+                cancellationToken).ConfigureAwait(false);
+            if (renamedAssemblyInfoPath is not null)
+            {
+                result.FilesDeleted.Add(Path.GetRelativePath(outputDirectory, renamedAssemblyInfoPath));
+            }
+
             result.FilesGenerated.Add(
                 Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
         }
+    }
+
+    private static async Task<HashSet<string>> WriteGeneratedFilesAsync(
+        IReadOnlyList<GeneratedFile> generatedFiles,
+        string outputDirectory,
+        GenerationResult result,
+        HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
+        bool enforceOutputContainment,
+        IReadOnlySet<string>? replaceableExistingPaths,
+        CancellationToken cancellationToken)
+    {
+        var writtenFullPaths = new HashSet<string>(fileSystemPathComparer);
+        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
+
+        foreach (var file in generatedFiles)
+        {
+            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
+            var renamedPath = await WriteFileAsync(
+                fullPath,
+                file.Content,
+                cancellationToken,
+                enforceOutputContainment ? outputDirectory : null,
+                "generated file path",
+                fileNamesByDirectory,
+                replaceableExistingPaths);
+            if (renamedPath is not null)
+            {
+                result.FilesDeleted.Add(Path.GetRelativePath(outputDirectory, renamedPath));
+            }
+
+            writtenFullPaths.Add(Path.GetFullPath(fullPath));
+            result.FilesGenerated.Add(file.RelativePath);
+            emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
+        }
+
+        return writtenFullPaths;
     }
 
     private async Task<CommandCoverageEvaluation> ValidateCommandCoverageAsync(
@@ -1210,9 +1307,7 @@ public class CodeGeneratorOrchestrator
             return [];
         }
 
-        return tools.Split(',', StringSplitOptions.RemoveEmptyEntries)
-            .Select(t => t.Trim().ToLowerInvariant())
-            .ToList();
+        return [.. tools.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim().ToLowerInvariant())];
     }
 
     private static bool ShouldProcess(string toolName, List<string> toolList)
@@ -1225,7 +1320,7 @@ public class CodeGeneratorOrchestrator
         return toolList.Contains(toolName.ToLowerInvariant());
     }
 
-    private static async Task WriteFileAsync(
+    private static async Task<string?> WriteFileAsync(
         string path,
         string content,
         CancellationToken cancellationToken,
@@ -1239,12 +1334,13 @@ public class CodeGeneratorOrchestrator
             ValidateContainedPath(containmentRoot, path, propertyName);
         }
 
+        string? renamedPath = null;
         var directory = Path.GetDirectoryName(path);
         if (!string.IsNullOrEmpty(directory))
         {
             Directory.CreateDirectory(directory);
             var fileNames = GetFileNames(directory, fileNamesByDirectory);
-            EnsureExactFileNameCasing(
+            renamedPath = EnsureExactFileNameCasing(
                 path,
                 directory,
                 fileNames,
@@ -1263,6 +1359,8 @@ public class CodeGeneratorOrchestrator
         {
             GetFileNames(directory, fileNamesByDirectory).Add(Path.GetFileName(path));
         }
+
+        return renamedPath;
     }
 
     private static HashSet<string> GetFileNames(
@@ -1282,24 +1380,24 @@ public class CodeGeneratorOrchestrator
         return names;
     }
 
-    private static void EnsureExactFileNameCasing(
+    private static string? EnsureExactFileNameCasing(
         string path,
         string directory,
-        ISet<string> names,
+        HashSet<string> names,
         string? containmentRoot,
         IReadOnlySet<string>? replaceableExistingPaths)
     {
         var expectedName = Path.GetFileName(path);
         if (names.Contains(expectedName))
         {
-            return;
+            return null;
         }
 
         var casingVariant = names.FirstOrDefault(name =>
             string.Equals(name, expectedName, StringComparison.OrdinalIgnoreCase));
         if (casingVariant is null)
         {
-            return;
+            return null;
         }
 
         var existingPath = Path.Combine(directory, casingVariant);
@@ -1347,6 +1445,7 @@ public class CodeGeneratorOrchestrator
 
         names.Remove(casingVariant);
         names.Add(expectedName);
+        return existingPath;
     }
 
     private static string ValidateContainedPath(
@@ -1457,15 +1556,15 @@ public class CodeGeneratorOrchestrator
     /// This centralizes generation metadata in one file per assembly rather than in every
     /// generated file, reducing unnecessary diffs when regenerating unchanged files.
     /// </summary>
-    private static async Task WriteAssemblyInfoAsync(
+    private static async Task<string?> WriteAssemblyInfoAsync(
         string outputDirectory,
         CliToolDefinition toolDefinition,
-        CancellationToken cancellationToken,
-        bool enforceOutputContainment)
+        bool enforceOutputContainment,
+        CancellationToken cancellationToken)
     {
         var content = GeneratorUtils.GenerateAssemblyInfo(toolDefinition.TargetNamespace);
         var path = Path.Combine(outputDirectory, toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs");
-        await WriteFileAsync(
+        return await WriteFileAsync(
             path,
             content,
             cancellationToken,
@@ -1484,7 +1583,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         string toolOutputDirectory,
         string namespacePrefix,
-        IReadOnlySet<string> pathsToKeep,
+        HashSet<string> pathsToKeep,
         ICollection<string> deletedPaths)
     {
         var toolPath = Path.Combine(outputDirectory, toolOutputDirectory);
@@ -1552,7 +1651,10 @@ public class CodeGeneratorOrchestrator
             namespacePrefixes,
             deletedPaths);
 
-        _logger.LogInformation("Cleaned up old files matching prefix '{Prefix}' in {Path}", namespacePrefix, toolPath);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Cleaned up old files matching prefix '{Prefix}' in {Path}", namespacePrefix, toolPath);
+        }
     }
 
     private void CleanupLegacyGeneratedLayout(
@@ -1628,15 +1730,14 @@ public class CodeGeneratorOrchestrator
     {
         var pathComparer = GetFileSystemPathComparer(outputDirectory);
         var toolPath = Path.GetFullPath(Path.Combine(outputDirectory, toolOutputDirectory));
-        return _htmlScrapers
+        return [.. _htmlScrapers
             .Select(static scraper => (scraper.NamespacePrefix, scraper.OutputDirectory))
             .Concat(_cliScrapers.Select(static scraper => (scraper.NamespacePrefix, scraper.OutputDirectory)))
             .Where(scraper => pathComparer.Equals(
                 Path.GetFullPath(Path.Combine(outputDirectory, scraper.OutputDirectory)),
                 toolPath))
             .Select(static scraper => scraper.NamespacePrefix)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
     private static bool FileIsOwnedByNamespacePrefix(
@@ -1707,7 +1808,10 @@ public class CodeGeneratorOrchestrator
         {
             File.Delete(file);
             deletedPaths.Add(Path.GetRelativePath(outputDirectory, file));
-            _logger.LogDebug("Deleted old generated file: {File}", file);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Deleted old generated file: {File}", file);
+            }
             return true;
         }
         catch (Exception ex)
@@ -1795,9 +1899,7 @@ public class GenerationResult
             AppendDiff(
                 lines,
                 "Excluded",
-                coverage.Manifest.Exclusions
-                    .Select(exclusion => $"{exclusion.Command} ({exclusion.Reason})")
-                    .ToArray());
+                [.. coverage.Manifest.Exclusions.Select(exclusion => $"{exclusion.Command} ({exclusion.Reason})")]);
             AppendDiff(lines, "Violations", coverage.Violations);
         }
 

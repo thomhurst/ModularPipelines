@@ -15,22 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new shared access policy in an IoT hub.
 /// </summary>
+/// <param name="HubName">IoT Hub name.</param>
+/// <param name="Name">Shared access policy name.</param>
+/// <param name="Permissions">Permissions of shared access policy. Use space-separated list for multiple permissions. Possible values: RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "policy", "create")]
-public record AzIotHubPolicyCreateOptions : AzOptions
+public record AzIotHubPolicyCreateOptions(
+    [property: CliOption("--hub-name")] string HubName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--permissions", GroupValues = true)] IEnumerable<string> Permissions
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

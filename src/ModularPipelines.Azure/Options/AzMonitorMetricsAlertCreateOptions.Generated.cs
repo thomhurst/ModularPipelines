@@ -15,13 +15,22 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a metric-based alert rule.
 /// </summary>
+/// <param name="Condition">The condition which triggers the rule. It can be created by 'az monitor metrics alert condition create' command. Usage:  --condition {avg,min,max,total,count} [NAMESPACE.]METRIC [{=,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD] [{&gt;,&gt;&lt;,&lt;} dynamic SENSITIVITY VIOLATIONS of EVALUATIONS [since DATETIME]] [where DIMENSION {includes,excludes} VALUE [or VALUE ...] [and   DIMENSION {includes,excludes} VALUE [or VALUE ...] ...]] [with skipmetricvalidation]</param>
+/// <param name="Name">Name of the alert rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Scopes">Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "alert", "create")]
-public record AzMonitorMetricsAlertCreateOptions : AzOptions
+public record AzMonitorMetricsAlertCreateOptions(
+    [property: CliOption("--condition")] string Condition,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--scopes", GroupValues = true)] IEnumerable<string> Scopes
+) : AzOptions
 {
     /// <summary>
-    /// Add an action group and optional webhook properties to fire when the alert is triggered.
+    /// Add an action group and optional webhook properties to fire when the alert is triggered. Usage:   --action ACTION_GROUP_NAME_OR_ID [KEY=VAL [KEY=VAL ...]]
     /// </summary>
     [CliFlag("--action", ShortForm = "-a")]
     public bool? Action { get; set; }
@@ -51,7 +60,13 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     public bool? EvaluationFrequency { get; set; }
 
     /// <summary>
-    /// Severity of the alert from 0 (critical) to 4 (verbose).
+    /// The region of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
+    /// </summary>
+    [CliFlag("--region", ShortForm = "--target-resource-region")]
+    public bool? Region { get; set; }
+
+    /// <summary>
+    /// Severity of the alert from 0 (critical) to 4 (verbose). Default: 2.
     /// </summary>
     [CliFlag("--severity")]
     public bool? Severity { get; set; }
@@ -59,11 +74,17 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Time over which to aggregate metrics in "##h##m##s" format.
+    /// The resource type of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
+    /// </summary>
+    [CliOption("--target-resource-type", ShortForm = "--type")]
+    public string? TargetResourceType { get; set; }
+
+    /// <summary>
+    /// Time over which to aggregate metrics in "##h##m##s" format. Default: 5m.
     /// </summary>
     [CliFlag("--window-size")]
     public bool? WindowSize { get; set; }

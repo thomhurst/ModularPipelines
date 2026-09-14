@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an ExpressRoute port.
 /// </summary>
+/// <param name="Name">ExpressRoute port name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "create")]
-public record AzNetworkExpressRoutePortCreateOptions : AzOptions
+public record AzNetworkExpressRoutePortCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Bandwidth of the circuit. Usage: INT {Mbps,Gbps}. Defaults to Mbps.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -29,38 +34,37 @@ public record AzNetworkExpressRoutePortCreateOptions : AzOptions
     /// <summary>
     /// Encapsulation method on physical ports.  Allowed values: Dot1Q, QinQ.  Allowed values: Dot1Q, QinQ.
     /// </summary>
-    [CliFlag("--encapsulation")]
-    public bool? Encapsulation { get; set; }
+    [CliOption("--encapsulation")]
+    public string? Encapsulation { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// The name of the peering location that the port is mapped to physically.
     /// </summary>
     [CliOption("--peering-location")]
-    public string? PeeringLocationValue { get; set; }
+    public string? PeeringLocation { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
-    [Obsolete("Use PeeringLocationValue instead.")]
-    public bool? PeeringLocation
-    {
-        get => bool.TryParse(PeeringLocationValue, out var value) ? value : null;
-        set => PeeringLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The billing type of the ExpressRoutePort resource.  Allowed values: MeteredData, UnlimitedData.
+    /// </summary>
+    [CliOption("--billing-type")]
+    public string? BillingType { get; set; }
 
 }

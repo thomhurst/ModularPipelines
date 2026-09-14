@@ -15,10 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets a Geo-Disaster Recovery Configuration Alias for the
 /// </summary>
+/// <param name="Alias">Name of the Geo-Disaster Recovery Configuration Alias.</param>
+/// <param name="PartnerNamespace">Name (if within the same resource group) or ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "set")]
-public record AzEventhubsGeorecoveryAliasSetOptions : AzOptions
+public record AzEventhubsGeorecoveryAliasSetOptions(
+    [property: CliOption("--alias", ShortForm = "-a")] string Alias,
+    [property: CliOption("--partner-namespace")] string PartnerNamespace
+) : AzOptions
 {
     /// <summary>
     /// Alternate Name for the Alias, when the Namespace name and Alias name are same.
@@ -31,5 +36,23 @@ public record AzEventhubsGeorecoveryAliasSetOptions : AzOptions
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of Namespace.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

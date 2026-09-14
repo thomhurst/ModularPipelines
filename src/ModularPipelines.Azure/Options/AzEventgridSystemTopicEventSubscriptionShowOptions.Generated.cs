@@ -15,11 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details of an event subscription of
 /// </summary>
+/// <param name="Name">Name of the event subscription.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SystemTopicName">Name of the system topic.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "event-subscription", "show")]
-public record AzEventgridSystemTopicEventSubscriptionShowOptions : AzOptions
+public record AzEventgridSystemTopicEventSubscriptionShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--system-topic-name")] string SystemTopicName
+) : AzOptions
 {
+    /// <summary>
+    /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--include-attrib-secret", ShortForm = "--include-static-delivery-attribute-secret")]
+    public bool? IncludeAttribSecret { get; set; }
+
     /// <summary>
     /// Specify to indicate whether the full endpoint URL should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>

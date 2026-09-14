@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Queues a quick run providing streamed logs for an Azure Container Registry.
 /// </summary>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "run")]
@@ -22,22 +24,17 @@ public record AzAcrRunOptions(
     [property: CliOption("--registry", ShortForm = "-r")] string Registry
 ) : AzOptions
 {
-    public AzAcrRunOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Auth mode of the source registry.  Allowed values: Default, None.
     /// </summary>
     [CliOption("--auth-mode")]
-    public string? AuthModeValue { get; set; }
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Commands to execute. This also supports additional docker run parameters (https://docs.docker.com/engine/reference/commandline/run/) or even other docker commands (https://docs.docker.com/engine/reference/commandline/docker/).
     /// </summary>
-    [CliFlag("--cmd")]
-    public bool? Cmd { get; set; }
+    [CliOption("--cmd")]
+    public string? Cmd { get; set; }
 
     /// <summary>
     /// The task template/definition file path relative to the source context. It can be '-' to pipe a file from the standard input.
@@ -66,71 +63,44 @@ public record AzAcrRunOptions(
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
     /// </summary>
-    [CliFlag("--platform")]
-    public bool? Platform { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Value in 'name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
     [CliOption("--set")]
-    public IEnumerable<string>? SetValues { get; set; }
+    public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
     /// Secret value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
     /// </summary>
-    [CliFlag("--set-secret")]
-    public bool? SetSecret { get; set; }
+    [SecretValue]
+    [CliOption("--set-secret")]
+    public IEnumerable<string>? SetSecret { get; set; }
 
     /// <summary>
     /// Assign the identity used for source registry login. Use '[caller]' for caller identity.  Allowed values: [caller], none.
     /// </summary>
     [CliOption("--source-acr-auth-id")]
-    public string? SourceAcrAuthIdValue { get; set; }
+    public string? SourceAcrAuthId { get; set; }
 
     /// <summary>
     /// The timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// The task values file path relative to the source context.
     /// </summary>
     [CliFlag("--values")]
     public bool? Values { get; set; }
-
-    [Obsolete("Use AuthModeValue instead.")]
-    public bool? AuthMode
-    {
-        get => bool.TryParse(AuthModeValue, out var value) ? value : null;
-        set => AuthModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SetValues instead.")]
-    public bool? Set
-    {
-        get => bool.TryParse(SetValues?.FirstOrDefault(), out var value) ? value : null;
-        set => SetValues = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];
-    }
-
-    [Obsolete("Use SourceAcrAuthIdValue instead.")]
-    public bool? SourceAcrAuthId
-    {
-        get => bool.TryParse(SourceAcrAuthIdValue, out var value) ? value : null;
-        set => SourceAcrAuthIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -44,7 +44,7 @@ public class AzNetworkPublicIpDdosProtection
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkPublicIpDdosProtectionShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkPublicIpDdosProtectionShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

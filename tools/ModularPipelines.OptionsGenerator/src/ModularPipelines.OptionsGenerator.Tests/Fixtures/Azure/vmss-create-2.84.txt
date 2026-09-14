@@ -1,0 +1,1418 @@
+
+Command
+    az vmss create : Create an Azure Virtual Machine Scale Set.
+        For an end-to-end tutorial, see https://learn.microsoft.com/azure/virtual-machine-scale-
+        sets/virtual-machine-scale-sets-linux-create-cli.
+
+Arguments
+    --name -n                                                       [Required] : Name of the virtual
+                                                                                 machine scale set.
+    --resource-group -g                                             [Required] : Name of resource
+                                                                                 group. You can
+                                                                                 configure the
+                                                                                 default group using
+                                                                                 `az configure
+                                                                                 --defaults
+                                                                                 group=<name>`.
+    --accept-term                                                              : Accept the license
+                                                                                 agreement and
+                                                                                 privacy statement.
+    --add-proxy-agent-ext --add-proxy-agent-extension                          : Specify whether to
+                                                                                 implicitly install
+                                                                                 the ProxyAgent
+                                                                                 Extension. This
+                                                                                 option is currently
+                                                                                 applicable only for
+                                                                                 Linux OS. Use with
+                                                                                 --enable-proxy-
+                                                                                 agent.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --additional-events --additional-scheduled-events                          : The configuration
+                                                                                 parameter used
+                                                                                 while creating
+                                                                                 event grid and
+                                                                                 resource graph
+                                                                                 scheduled event
+                                                                                 setting.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --automatic-repairs-action                                                 : Type of repair
+                                                                                 action that will be
+                                                                                 used for repairing
+                                                                                 unhealthy virtual
+                                                                                 machines in the
+                                                                                 scale set.  Allowed
+                                                                                 values: Reimage,
+                                                                                 Replace, Restart.
+    --automatic-repairs-grace-period                                           : The amount of time
+                                                                                 (in minutes,
+                                                                                 between 30 and 90)
+                                                                                 for which automatic
+                                                                                 repairs are
+                                                                                 suspended due to a
+                                                                                 state change on VM.
+    --automatic-zone-balancing-behavior --balancing-behavior                   : Type of rebalance
+                                                                                 behavior that will
+                                                                                 be used for
+                                                                                 recreating
+                                                                                 virtualmachines in
+                                                                                 the scale set
+                                                                                 across availability
+                                                                                 zones.  Allowed
+                                                                                 values:
+                                                                                 CreateBeforeDelete.
+    --automatic-zone-balancing-strategy --balancing-strategy                   : Type of rebalance
+                                                                                 strategy that will
+                                                                                 be used for
+                                                                                 rebalancing
+                                                                                 virtualmachines in
+                                                                                 the scale set
+                                                                                 across availability
+                                                                                 zones.  Allowed
+                                                                                 values: Recreate.
+    --capacity-reservation-group --crg                                         : The ID or name of
+                                                                                 the capacity
+                                                                                 reservation group
+                                                                                 that is used to
+                                                                                 allocate. Pass in
+                                                                                 "None" to
+                                                                                 disassociate the
+                                                                                 capacity
+                                                                                 reservation group.
+                                                                                 Please note that if
+                                                                                 you want to delete
+                                                                                 a VM/VMSS that has
+                                                                                 been associated
+                                                                                 with capacity
+                                                                                 reservation group,
+                                                                                 you need to
+                                                                                 disassociate the
+                                                                                 capacity
+                                                                                 reservation group
+                                                                                 first.
+    --computer-name-prefix                                                     : Computer name
+                                                                                 prefix for all of
+                                                                                 the virtual
+                                                                                 machines in the
+                                                                                 scale set. Computer
+                                                                                 name prefixes must
+                                                                                 be 1 to 15
+                                                                                 characters long.
+    --custom-data                                                              : Custom init script
+                                                                                 file or text
+                                                                                 (cloud-init, cloud-
+                                                                                 config, etc..).
+    --disable-integrity-monitoring-autoupgrade                                 : Disable auto
+                                                                                 upgrade of guest
+                                                                                 attestation
+                                                                                 extension for
+                                                                                 Trusted Launch
+                                                                                 enabled VMs and
+                                                                                 VMSS.
+    --disable-overprovision                                                    : Overprovision
+                                                                                 option (see https:/
+                                                                                 /azure.microsoft.co
+                                                                                 m/documentation/art
+                                                                                 icles/virtual-
+                                                                                 machine-scale-sets-
+                                                                                 overview/ for
+                                                                                 details).
+    --edge-zone                                                                : The name of edge
+                                                                                 zone.
+    --enable-agent                                                             : Indicate whether
+                                                                                 virtual machine
+                                                                                 agent should be
+                                                                                 provisioned on the
+                                                                                 virtual machine.
+                                                                                 When this property
+                                                                                 is not specified,
+                                                                                 default behavior is
+                                                                                 to set it to true.
+                                                                                 This will ensure
+                                                                                 that VM Agent is
+                                                                                 installed on the VM
+                                                                                 so that extensions
+                                                                                 can be added to the
+                                                                                 VM later.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-auto-os-upgrade                                                   : Indicate whether OS
+                                                                                 upgrades should
+                                                                                 automatically be
+                                                                                 applied to scale
+                                                                                 set instances in a
+                                                                                 rolling fashion
+                                                                                 when a newer
+                                                                                 version of the OS
+                                                                                 image becomes
+                                                                                 available.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-auto-repairs --enable-automatic-repairs                           : Enable automatic
+                                                                                 repairs.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-auto-update                                                       : Indicate whether
+                                                                                 Automatic Updates
+                                                                                 is enabled for the
+                                                                                 Windows virtual
+                                                                                 machine.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-automatic-zone-balancing --enable-zone-balancing                  : Specify whether
+                                                                                 automatic AZ
+                                                                                 balancing should be
+                                                                                 enabled on the
+                                                                                 virtualmachine
+                                                                                 scale set.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-cross-zone-upgrade                                                : Set this Boolean
+                                                                                 property will allow
+                                                                                 VMSS to ignore AZ
+                                                                                 boundaries when
+                                                                                 constructing
+                                                                                 upgrade batches,
+                                                                                 and only consider
+                                                                                 Update Domain and m
+                                                                                 axBatchInstancePerc
+                                                                                 ent to determine
+                                                                                 the batch size.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-hibernation                                                       : The flag that
+                                                                                 enable or disable
+                                                                                 hibernation
+                                                                                 capability on the
+                                                                                 VMSS.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-integrity-monitoring                                              : Enable installing
+                                                                                 Microsoft
+                                                                                 propietary and not
+                                                                                 security supported
+                                                                                 guest attestation
+                                                                                 extension and
+                                                                                 enabling System
+                                                                                 Assigned Identity
+                                                                                 for Trusted Launch
+                                                                                 enabled VMs and
+                                                                                 VMSS.
+    --enable-osimage-notification                                              : Specify whether the
+                                                                                 OS Image Scheduled
+                                                                                 event is enabled or
+                                                                                 disabled.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-proxy-agent                                                       : Specify whether
+                                                                                 metadata security
+                                                                                 protoco (proxy
+                                                                                 agent) feature
+                                                                                 should be enabled
+                                                                                 on the virtual
+                                                                                 machine or virtual
+                                                                                 machine scale set.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-reboot --enable-user-reboot-scheduled-events                      : The configuration
+                                                                                 parameter used
+                                                                                 while publishing
+                                                                                 scheduled events
+                                                                                 additional
+                                                                                 publishing targets.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-redeploy --enable-user-redeploy-scheduled-events                  : The configuration
+                                                                                 parameter used
+                                                                                 while creating user
+                                                                                 initiated redeploy
+                                                                                 scheduled event
+                                                                                 setting creation.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-resilient-creation                                                : Automatically
+                                                                                 recover customers
+                                                                                 from OS
+                                                                                 Provisioning
+                                                                                 Timeout and VM
+                                                                                 Start Timeout
+                                                                                 errors experienced
+                                                                                 during a VM Create
+                                                                                 operation by
+                                                                                 deleting and
+                                                                                 recreating the
+                                                                                 affected VM.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-resilient-deletion                                                : Retry VM Delete
+                                                                                 requests
+                                                                                 asynchronously in
+                                                                                 the event of a
+                                                                                 failed delete
+                                                                                 operation.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --enable-secure-boot                                                       : Enable secure boot.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-spot-restore                                                      : Enable the Spot-
+                                                                                 Try-Restore feature
+                                                                                 where evicted VMSS
+                                                                                 SPOT instances will
+                                                                                 be tried to be
+                                                                                 restored
+                                                                                 opportunistically
+                                                                                 based on capacity
+                                                                                 availability and
+                                                                                 pricing
+                                                                                 constraints.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --enable-vtpm                                                              : Enable vTPM.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --encryption-identity                                                      : Resource Id of the
+                                                                                 user managed
+                                                                                 identity which can
+                                                                                 be used for Azure
+                                                                                 disk encryption.
+    --eviction-policy                                                          : The eviction policy
+                                                                                 for virtual
+                                                                                 machines in a Spot
+                                                                                 priority scale set.
+                                                                                 Default eviction
+                                                                                 policy is
+                                                                                 Deallocate for a
+                                                                                 Spot priority scale
+                                                                                 set.  Allowed
+                                                                                 values: Deallocate,
+                                                                                 Delete.
+    --exclude-extensions --security-posture-reference-exclude-extensions       : List of virtual
+                                                                                 machine extensions
+                                                                                 to exclude when
+                                                                                 applying the
+                                                                                 Security Posture.
+                                                                                 Either a Json
+                                                                                 string or a file
+                                                                                 path is acceptable.
+                                                                                 Please refer to htt
+                                                                                 ps://docs.microsoft
+                                                                                 .com/rest/api/compu
+                                                                                 te/virtualmachinesc
+                                                                                 alesets/get#virtual
+                                                                                 machineextension
+                                                                                 for the data
+                                                                                 format.
+    --health-probe                                                             : Probe name from the
+                                                                                 existing load
+                                                                                 balancer, mainly
+                                                                                 used for rolling
+                                                                                 upgrade or
+                                                                                 automatic repairs.
+    --host-group                                                               : Name or ID of
+                                                                                 dedicated host
+                                                                                 group that the
+                                                                                 virtual machine
+                                                                                 scale set resides
+                                                                                 in.
+    --image                                                                    : The name of the
+                                                                                 operating system
+                                                                                 image as a URN
+                                                                                 alias, URN, custom
+                                                                                 image name or ID,
+                                                                                 or VHD blob URI. In
+                                                                                 addition, it also
+                                                                                 supports shared
+                                                                                 gallery image.
+                                                                                 Please use the
+                                                                                 image alias
+                                                                                 including the
+                                                                                 version of the
+                                                                                 distribution you
+                                                                                 want to use. For
+                                                                                 example: please use
+                                                                                 Debian11 instead of
+                                                                                 Debian.' This
+                                                                                 parameter is
+                                                                                 required unless
+                                                                                 using `--attach-os-
+                                                                                 disk.` Valid URN
+                                                                                 format: "Publisher:
+                                                                                 Offer:Sku:Version".
+                                                                                 For more
+                                                                                 information, see ht
+                                                                                 tps://learn.microso
+                                                                                 ft.com/azure/virtua
+                                                                                 l-
+                                                                                 machines/linux/cli-
+                                                                                 ps-findimage.
+                                                                                 Values from: az vm
+                                                                                 image list, az vm
+                                                                                 image show, az sig
+                                                                                 image-version show-
+                                                                                 shared.
+    --imds-access-control-profile-reference-id --imds-profile-id               : Specify the access
+                                                                                 control profile
+                                                                                 version resource id
+                                                                                 resource id of
+                                                                                 imds.
+    --imds-mode                                                                : Specify the mode
+                                                                                 that proxy agent
+                                                                                 will execute on if
+                                                                                 the feature is
+                                                                                 enabled.  Allowed
+                                                                                 values: Audit,
+                                                                                 Enforce.
+    --instance-count                                                           : Number of VMs in
+                                                                                 the scale set.
+                                                                                 Default: 2.
+    --is-overridable --security-posture-reference-is-overridable               : Whether the
+                                                                                 security posture
+                                                                                 can be overridden
+                                                                                 by the user.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --license-type                                                             : Specifies that the
+                                                                                 Windows image or
+                                                                                 disk was licensed
+                                                                                 on-premises. To
+                                                                                 enable Azure Hybrid
+                                                                                 Benefit for Windows
+                                                                                 Server, use
+                                                                                 'Windows_Server'.
+                                                                                 To enable Multi-
+                                                                                 tenant Hosting
+                                                                                 Rights for Windows
+                                                                                 10, use
+                                                                                 'Windows_Client'.
+                                                                                 For more
+                                                                                 information see the
+                                                                                 Azure Windows VM
+                                                                                 online docs.
+                                                                                 Allowed values:
+                                                                                 None, RHEL_BASE,
+                                                                                 RHEL_BASESAPAPPS,
+                                                                                 RHEL_BASESAPHA,
+                                                                                 RHEL_BYOS,
+                                                                                 RHEL_ELS_6,
+                                                                                 RHEL_EUS,
+                                                                                 RHEL_SAPAPPS,
+                                                                                 RHEL_SAPHA, SLES,
+                                                                                 SLES_BYOS,
+                                                                                 SLES_HPC, SLES_SAP,
+                                                                                 SLES_STANDARD,
+                                                                                 UBUNTU, UBUNTU_PRO,
+                                                                                 Windows_Client,
+                                                                                 Windows_Server.
+    --location -l                                                              : Location in which
+                                                                                 to create VM and
+                                                                                 related resources.
+                                                                                 If default location
+                                                                                 is not configured,
+                                                                                 will default to the
+                                                                                 resource group's
+                                                                                 location.
+    --max-batch-instance-percent                                               : The maximum percent
+                                                                                 of total virtual
+                                                                                 machine instances
+                                                                                 that will be
+                                                                                 upgraded
+                                                                                 simultaneously by
+                                                                                 the rolling upgrade
+                                                                                 in one batch.
+                                                                                 Default: 20%.
+    --max-price                                                      [Preview] : The maximum price
+                                                                                 (in US Dollars) you
+                                                                                 are willing to pay
+                                                                                 for a Spot VM/VMSS.
+                                                                                 -1 indicates that
+                                                                                 the Spot VM/VMSS
+                                                                                 should not be
+                                                                                 evicted for price
+                                                                                 reasons.
+        WARNING: Argument '--max-price' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+    --max-surge                                                      [Preview] : Specify it to
+                                                                                 create new virtual
+                                                                                 machines to upgrade
+                                                                                 the scale set,
+                                                                                 rather than
+                                                                                 updating the
+                                                                                 existing virtual
+                                                                                 machines.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+        WARNING: Argument '--max-surge' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+    --max-unhealthy-instance-percent                                           : The maximum
+                                                                                 percentage of the
+                                                                                 total virtual
+                                                                                 machine instances
+                                                                                 in the scale set
+                                                                                 that can be
+                                                                                 simultaneously
+                                                                                 unhealthy. Default:
+                                                                                 20%.
+    --max-unhealthy-upgraded-instance-percent                                  : The maximum
+                                                                                 percentage of
+                                                                                 upgraded virtual
+                                                                                 machine instances
+                                                                                 that can be found
+                                                                                 to be in an
+                                                                                 unhealthy state.
+                                                                                 Default: 20%.
+    --network-api-version                                                      : Specify the
+                                                                                 Microsoft.Network
+                                                                                 API version used
+                                                                                 when creating
+                                                                                 networking
+                                                                                 resources in the
+                                                                                 Network Interface
+                                                                                 Configurations for
+                                                                                 Virtual Machine
+                                                                                 Scale Set with
+                                                                                 orchestration mode
+                                                                                 'Flexible'. Default
+                                                                                 value is
+                                                                                 2020-11-01.
+    --no-wait                                                                  : Do not wait for the
+                                                                                 long-running
+                                                                                 operation to
+                                                                                 finish.
+    --orchestration-mode                                                       : Choose how virtual
+                                                                                 machines are
+                                                                                 managed by the
+                                                                                 scale set. In
+                                                                                 Uniform mode, you
+                                                                                 define a virtual
+                                                                                 machine model and
+                                                                                 Azure will generate
+                                                                                 identical instances
+                                                                                 based on that
+                                                                                 model. In Flexible
+                                                                                 mode, you manually
+                                                                                 create and add a
+                                                                                 virtual machine of
+                                                                                 any configuration
+                                                                                 to the scale set or
+                                                                                 generate identical
+                                                                                 instances based on
+                                                                                 virtual machine
+                                                                                 model defined for
+                                                                                 the scale set.
+                                                                                 Allowed values:
+                                                                                 Flexible, Uniform.
+                                                                                 Default: Flexible.
+    --os-disk-secure-vm-disk-encryption-set                                    : Specify the
+                                                                                 customer managed
+                                                                                 disk encryption set
+                                                                                 resource ID or name
+                                                                                 for the managed
+                                                                                 disk that is used
+                                                                                 for customer
+                                                                                 managed key
+                                                                                 encrypted
+                                                                                 Confidential VM OS
+                                                                                 disk and VM guest
+                                                                                 blob.
+    --os-disk-security-encryption-type                                         : Specify the
+                                                                                 encryption type of
+                                                                                 the OS managed
+                                                                                 disk.  Allowed
+                                                                                 values: DiskWithVMG
+                                                                                 uestState,
+                                                                                 NonPersistedTPM,
+                                                                                 VMGuestStateOnly.
+    --patch-mode                                                               : Mode of in-guest
+                                                                                 patching to IaaS
+                                                                                 virtual machine.
+                                                                                 Allowed values for
+                                                                                 Windows VM:
+                                                                                 AutomaticByOS, Auto
+                                                                                 maticByPlatform,
+                                                                                 Manual. Allowed
+                                                                                 values for Linux
+                                                                                 VM: AutomaticByPlat
+                                                                                 form, ImageDefault.
+                                                                                 Manual - You
+                                                                                 control the
+                                                                                 application of
+                                                                                 patches to a
+                                                                                 virtual machine.
+                                                                                 You do this by
+                                                                                 applying patches
+                                                                                 manually inside the
+                                                                                 VM. In this mode,
+                                                                                 automatic updates
+                                                                                 are disabled; the
+                                                                                 paramater --enable-
+                                                                                 auto-update must be
+                                                                                 false.
+                                                                                 AutomaticByOS - The
+                                                                                 virtual machine
+                                                                                 will automatically
+                                                                                 be updated by the
+                                                                                 OS. The parameter
+                                                                                 --enable-auto-
+                                                                                 update must be
+                                                                                 true.
+                                                                                 AutomaticByPlatform
+                                                                                 - the virtual
+                                                                                 machine will
+                                                                                 automatically
+                                                                                 updated by the OS.
+                                                                                 ImageDefault - The
+                                                                                 virtual machine's
+                                                                                 default patching
+                                                                                 configuration is
+                                                                                 used. The parameter
+                                                                                 --enable-agent and
+                                                                                 --enable-auto-
+                                                                                 update must be
+                                                                                 true.  Allowed
+                                                                                 values:
+                                                                                 AutomaticByOS, Auto
+                                                                                 maticByPlatform,
+                                                                                 ImageDefault,
+                                                                                 Manual.
+    --pause-time-between-batches                                               : The wait time
+                                                                                 between completing
+                                                                                 the update for all
+                                                                                 virtual machines in
+                                                                                 one batch and
+                                                                                 starting the next
+                                                                                 batch. Default: 0
+                                                                                 seconds.
+    --platform-fault-domain-count                                              : Fault Domain count
+                                                                                 for each placement
+                                                                                 group in the
+                                                                                 availability zone.
+    --ppg                                                                      : The name or ID of
+                                                                                 the proximity
+                                                                                 placement group the
+                                                                                 VMSS should be
+                                                                                 associated with.
+    --prioritize-unhealthy-instances                                           : Set this Boolean
+                                                                                 property will lead
+                                                                                 to all unhealthy
+                                                                                 instances in a
+                                                                                 scale set getting
+                                                                                 upgraded before any
+                                                                                 healthy instances.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --priority                                                                 : Priority. Use
+                                                                                 'Spot' to run
+                                                                                 short-lived
+                                                                                 workloads in a
+                                                                                 cost-effective way.
+                                                                                 'Low' enum will be
+                                                                                 deprecated in the
+                                                                                 future. Please use
+                                                                                 'Spot' to deploy
+                                                                                 Azure spot VM
+                                                                                 and/or VMSS.
+                                                                                 Default to Regular.
+                                                                                 Allowed values:
+                                                                                 Low, Regular, Spot.
+    --proxy-agent-mode                                            [Deprecated] : Specify the mode
+                                                                                 that proxy agent
+                                                                                 will execute on if
+                                                                                 the feature is
+                                                                                 enabled.  Allowed
+                                                                                 values: Audit,
+                                                                                 Enforce.
+        WARNING: Option '--proxy-agent-mode' has been deprecated and will be removed in a future
+        release. Use '--wire-server-mode' instead.
+    --regular-priority-count                                         [Preview] : The base number of
+                                                                                 regular priority
+                                                                                 VMs that will be
+                                                                                 created in this
+                                                                                 scale set as it
+                                                                                 scales out. Must be
+                                                                                 greater than 0.
+        WARNING: Argument '--regular-priority-count' is in preview and under development. Reference
+        and support levels: https://aka.ms/CLI_refstatus
+    --regular-priority-percentage                                    [Preview] : The percentage of
+                                                                                 VM instances, after
+                                                                                 the base regular
+                                                                                 priority count has
+                                                                                 been reached, that
+                                                                                 are expected to use
+                                                                                 regular priority.
+                                                                                 Must be between 0
+                                                                                 and 100.
+        WARNING: Argument '--regular-priority-percentage' is in preview and under development.
+        Reference and support levels: https://aka.ms/CLI_refstatus
+    --scale-in-policy                                                          : Specify the scale-
+                                                                                 in policy (space
+                                                                                 delimited) that
+                                                                                 decides which
+                                                                                 virtual machines
+                                                                                 are chosen for
+                                                                                 removal when a
+                                                                                 Virtual Machine
+                                                                                 Scale Set is
+                                                                                 scaled-in.  Allowed
+                                                                                 values: Default,
+                                                                                 NewestVM, OldestVM.
+    --secrets                                                                  : One or many Key
+                                                                                 Vault secrets as
+                                                                                 JSON strings or
+                                                                                 files via `@{path}`
+                                                                                 containing `[{
+                                                                                 "sourceVault": {
+                                                                                 "id": "value" }, "v
+                                                                                 aultCertificates":
+                                                                                 [{
+                                                                                 "certificateUrl":
+                                                                                 "value",
+                                                                                 "certificateStore":
+                                                                                 "cert store name
+                                                                                 (only on
+                                                                                 windows)"}] }]`.
+    --security-posture-id --security-posture-reference-id                      : The security
+                                                                                 posture reference
+                                                                                 id in the form of /
+                                                                                 CommunityGalleries/
+                                                                                 {communityGalleryNa
+                                                                                 me}/securityPosture
+                                                                                 s/{securityPostureN
+                                                                                 ame}/versions/{majo
+                                                                                 r.minor.patch}|{maj
+                                                                                 or.*}|latest.
+    --security-type                                                            : Specify the
+                                                                                 security type of
+                                                                                 the virtual machine
+                                                                                 scale set. The
+                                                                                 value Standard can
+                                                                                 be used if
+                                                                                 subscription has
+                                                                                 feature flag UseSta
+                                                                                 ndardSecurityType
+                                                                                 registered under
+                                                                                 Microsoft.Compute
+                                                                                 namespace. Refer to
+                                                                                 https://learn.micro
+                                                                                 soft.com/en-
+                                                                                 us/azure/azure-
+                                                                                 resource-manager/ma
+                                                                                 nagement/preview-
+                                                                                 features for steps
+                                                                                 to enable required
+                                                                                 feature.  Allowed
+                                                                                 values:
+                                                                                 ConfidentialVM,
+                                                                                 Standard,
+                                                                                 TrustedLaunch.
+    --single-placement-group                                                   : Limit the scale set
+                                                                                 to a single
+                                                                                 placement group.
+                                                                                 See https://learn.m
+                                                                                 icrosoft.com/azure/
+                                                                                 virtual-machine-
+                                                                                 scale-sets/virtual-
+                                                                                 machine-scale-sets-
+                                                                                 placement-groups
+                                                                                 for details.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --sku-allocat-strat --skuprofile-allocation-strategy                       : Allocation strategy
+                                                                                 for vm sizes in SKU
+                                                                                 profile.  Allowed
+                                                                                 values:
+                                                                                 CapacityOptimized,
+                                                                                 LowestPrice,
+                                                                                 Prioritized.
+    --skuprofile-rank                                                          : A list for ranks
+                                                                                 associated with the
+                                                                                 SKU profile vm
+                                                                                 sizes.
+    --skuprofile-vmsizes                                                       : A list of VM sizes
+                                                                                 in the scale set.
+                                                                                 See https://azure.m
+                                                                                 icrosoft.com/pricin
+                                                                                 g/details/virtual-
+                                                                                 machines/ for size
+                                                                                 info.
+    --spot-restore-timeout                                                     : Timeout value
+                                                                                 expressed as an ISO
+                                                                                 8601 time duration
+                                                                                 after which the
+                                                                                 platform will not
+                                                                                 try to restore the
+                                                                                 VMSS SPOT
+                                                                                 instances.
+    --tags                                                                     : Space-separated
+                                                                                 tags: key[=value]
+                                                                                 [key[=value] ...].
+                                                                                 Use "" to clear
+                                                                                 existing tags.
+    --terminate-notification-time                                              : Length of time (in
+                                                                                 minutes, between 5
+                                                                                 and 15) a
+                                                                                 notification to be
+                                                                                 sent to the VM on
+                                                                                 the instance
+                                                                                 metadata server
+                                                                                 till the VM gets
+                                                                                 deleted.
+    --upgrade-policy-mode                                                      : Specify the mode of
+                                                                                 an upgrade to
+                                                                                 virtual machines in
+                                                                                 the scale set.
+                                                                                 Allowed values:
+                                                                                 Automatic, Manual,
+                                                                                 Rolling.  Default:
+                                                                                 manual.
+    --user-data                                                                : UserData for the
+                                                                                 virtual machines in
+                                                                                 the scale set. It
+                                                                                 can be passed in as
+                                                                                 file or string.
+    --v-cpus-available                                                         : Specify the number
+                                                                                 of vCPUs available.
+    --v-cpus-per-core                                                          : Specify the ratio
+                                                                                 of vCPU to physical
+                                                                                 core. Setting this
+                                                                                 property to 1 also
+                                                                                 means that hyper-
+                                                                                 threading is
+                                                                                 disabled.
+    --validate                                                                 : Generate and
+                                                                                 validate the ARM
+                                                                                 template without
+                                                                                 creating any
+                                                                                 resources.
+    --vm-sku                                                [Breaking Change] : Size of VMs in the
+                                                                                 scale set. Default
+                                                                                 to
+                                                                                 "Standard_DS1_v2".
+                                                                                 See https://azure.m
+                                                                                 icrosoft.com/pricin
+                                                                                 g/details/virtual-
+                                                                                 machines/ for size
+                                                                                 info.
+        WARNING: The default value of '--vm-sku' will be changed to 'Standard_D2s_v5' from
+        'Standard_DS1_v2' in a future release.
+    --wire-server-access-control-profile-reference-id --wire-server-profile-id : Specify the access
+                                                                                 control profile
+                                                                                 version resource id
+                                                                                 of wire server.
+    --wire-server-mode                                                         : Specify the mode
+                                                                                 that proxy agent
+                                                                                 will execute on if
+                                                                                 the feature is
+                                                                                 enabled.  Allowed
+                                                                                 values: Audit,
+                                                                                 Enforce.
+    --zone-balance                                                             : Whether to force
+                                                                                 strictly even
+                                                                                 Virtual Machine
+                                                                                 distribution cross
+                                                                                 x-zones in case
+                                                                                 there is zone
+                                                                                 outage.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --zones -z                                                                 : Space-separated
+                                                                                 list of
+                                                                                 availability zones
+                                                                                 into which to
+                                                                                 provision the
+                                                                                 resource.
+
+Authentication Arguments
+    --admin-password                                                           : Password for the VM
+                                                                                 if authentication
+                                                                                 type is 'Password'.
+    --admin-username                                                           : Username for the
+                                                                                 VM. Default value
+                                                                                 is current username
+                                                                                 of OS. If the
+                                                                                 default value is
+                                                                                 system reserved,
+                                                                                 then default value
+                                                                                 will be set to
+                                                                                 azureuser. Please
+                                                                                 refer to https://le
+                                                                                 arn.microsoft.com/r
+                                                                                 est/api/compute/vir
+                                                                                 tualmachines/create
+                                                                                 orupdate#osprofile
+                                                                                 to get a full list
+                                                                                 of reserved values.
+    --authentication-type                                                      : Type of
+                                                                                 authentication to
+                                                                                 use with the VM.
+                                                                                 Defaults to
+                                                                                 password for
+                                                                                 Windows and SSH
+                                                                                 public key for
+                                                                                 Linux. "all"
+                                                                                 enables both ssh
+                                                                                 and password
+                                                                                 authentication.
+                                                                                 Allowed values:
+                                                                                 all, password, ssh.
+    --generate-ssh-keys                                                        : Generate SSH public
+                                                                                 and private key
+                                                                                 files if missing.
+                                                                                 The keys will be
+                                                                                 stored in the
+                                                                                 ~/.ssh directory.
+    --ssh-dest-key-path                                                        : Destination file
+                                                                                 path on the VM for
+                                                                                 the SSH key. If the
+                                                                                 file already
+                                                                                 exists, the
+                                                                                 specified key(s)
+                                                                                 are appended to the
+                                                                                 file. Destination
+                                                                                 path for SSH public
+                                                                                 keys is currently
+                                                                                 limited to its
+                                                                                 default value "/hom
+                                                                                 e/username/.ssh/aut
+                                                                                 horized_keys" due
+                                                                                 to a known issue in
+                                                                                 Linux provisioning
+                                                                                 agent.
+    --ssh-key-type                                                             : Specify the type of
+                                                                                 SSH public and
+                                                                                 private key files
+                                                                                 to be generated if
+                                                                                 missing.  Allowed
+                                                                                 values: Ed25519,
+                                                                                 RSA.  Default: RSA.
+    --ssh-key-values                                                           : Space-separated
+                                                                                 list of SSH public
+                                                                                 keys or public key
+                                                                                 file paths.
+
+Managed Service Identity Arguments
+    --assign-identity                                                          : Accept system or
+                                                                                 user assigned
+                                                                                 identities
+                                                                                 separated by
+                                                                                 spaces. Use
+                                                                                 '[system]' to refer
+                                                                                 system assigned
+                                                                                 identity, or a
+                                                                                 resource id to
+                                                                                 refer user assigned
+                                                                                 identity. Check out
+                                                                                 help for more
+                                                                                 examples.
+    --role                                                                     : Role name or id the
+                                                                                 system assigned
+                                                                                 identity will have.
+    --scope                                                                    : Scope that the
+                                                                                 system assigned
+                                                                                 identity can
+                                                                                 access.
+
+Marketplace Image Plan Arguments
+    --plan-name                                                                : Plan name.
+    --plan-product                                                             : Plan product.
+    --plan-promotion-code                                                      : Plan promotion
+                                                                                 code.
+    --plan-publisher                                                           : Plan publisher.
+
+Network Arguments
+    --accelerated-networking                                                   : Enable accelerated
+                                                                                 networking. Unless
+                                                                                 specified, CLI will
+                                                                                 enable it based on
+                                                                                 machine image and
+                                                                                 size.  Allowed
+                                                                                 values: false,
+                                                                                 true.
+    --asgs                                                                     : Space-separated
+                                                                                 list of existing
+                                                                                 application
+                                                                                 security groups to
+                                                                                 associate with the
+                                                                                 VM.
+    --dns-servers                                                              : Space-separated IP
+                                                                                 addresses of DNS
+                                                                                 servers, e.g.
+                                                                                 10.0.0.5 10.0.0.6.
+    --nsg                                                                      : Name or ID of an
+                                                                                 existing Network
+                                                                                 Security Group.
+    --public-ip-address                                                        : Name of the public
+                                                                                 IP address when
+                                                                                 creating one
+                                                                                 (default) or
+                                                                                 referencing an
+                                                                                 existing one. Can
+                                                                                 also reference an
+                                                                                 existing public IP
+                                                                                 by ID or specify ""
+                                                                                 or '' for None
+                                                                                 ('""' in Azure CLI
+                                                                                 using PowerShell).
+    --public-ip-address-allocation                                             : Allowed values:
+                                                                                 dynamic, static.
+    --public-ip-address-dns-name                                               : Globally unique DNS
+                                                                                 name for a newly
+                                                                                 created public IP.
+    --public-ip-per-vm                                                         : Each VM instance
+                                                                                 will have a public
+                                                                                 ip. For security,
+                                                                                 you can use '--nsg'
+                                                                                 to apply
+                                                                                 appropriate rules.
+    --subnet                                                                   : The name of the
+                                                                                 subnet when
+                                                                                 creating a new VNet
+                                                                                 or referencing an
+                                                                                 existing one. Can
+                                                                                 also reference an
+                                                                                 existing subnet by
+                                                                                 ID. If both vnet-
+                                                                                 name and subnet are
+                                                                                 omitted, an
+                                                                                 appropriate VNet
+                                                                                 and subnet will be
+                                                                                 selected
+                                                                                 automatically, or a
+                                                                                 new one will be
+                                                                                 created.
+    --subnet-address-prefix                                                    : The subnet IP
+                                                                                 address prefix to
+                                                                                 use when creating a
+                                                                                 new VNet in CIDR
+                                                                                 format.
+    --vm-domain-name                                                           : Domain name of VM
+                                                                                 instances, once
+                                                                                 configured, the
+                                                                                 FQDN is `vm<vm-
+                                                                                 index>.<vm-domain-
+                                                                                 name>.<..rest..>`.
+    --vnet-address-prefix                                                      : The IP address
+                                                                                 prefix to use when
+                                                                                 creating a new VNet
+                                                                                 in CIDR format.
+                                                                                 Default:
+                                                                                 10.0.0.0/16.
+    --vnet-name                                                                : Name of the virtual
+                                                                                 network when
+                                                                                 creating a new one
+                                                                                 or referencing an
+                                                                                 existing one.
+
+Network Balancer Arguments
+    --app-gateway                                                              : Name to use when
+                                                                                 creating a new
+                                                                                 application gateway
+                                                                                 (default) or
+                                                                                 referencing an
+                                                                                 existing one. Can
+                                                                                 also reference an
+                                                                                 existing
+                                                                                 application gateway
+                                                                                 by ID or specify ""
+                                                                                 for none.
+    --app-gateway-capacity                                                     : The number of
+                                                                                 instances to use
+                                                                                 when creating a new
+                                                                                 application
+                                                                                 gateway.  Default:
+                                                                                 10.
+    --app-gateway-sku                                                          : SKU when creating a
+                                                                                 new application
+                                                                                 gateway.  Default:
+                                                                                 Standard_Large.
+    --app-gateway-subnet-address-prefix                                        : The subnet IP
+                                                                                 address prefix to
+                                                                                 use when creating a
+                                                                                 new application
+                                                                                 gateway in CIDR
+                                                                                 format.
+    --backend-pool-name                                                        : Name to use for the
+                                                                                 backend pool when
+                                                                                 creating a new load
+                                                                                 balancer or
+                                                                                 application
+                                                                                 gateway.
+    --backend-port                                                             : When creating a new
+                                                                                 load balancer,
+                                                                                 backend port to
+                                                                                 open with NAT rules
+                                                                                 (Defaults to 22 on
+                                                                                 Linux and 3389 on
+                                                                                 Windows). When
+                                                                                 creating an
+                                                                                 application
+                                                                                 gateway, the
+                                                                                 backend port to use
+                                                                                 for the backend
+                                                                                 HTTP settings.
+    --lb --load-balancer                                                       : Name to use when
+                                                                                 creating a new load
+                                                                                 balancer (default)
+                                                                                 or referencing an
+                                                                                 existing one. Can
+                                                                                 also reference an
+                                                                                 existing load
+                                                                                 balancer by ID or
+                                                                                 specify "" for
+                                                                                 none.
+    --lb-nat-rule-name --nat-rule-name                                         : Name to use for the
+                                                                                 NAT rule v2 when
+                                                                                 creating a new load
+                                                                                 balancer. (NAT rule
+                                                                                 V2 is used to
+                                                                                 replace NAT pool).
+    --lb-sku                                                                   : Sku of the Load
+                                                                                 Balancer to create.
+                                                                                 The public IP is
+                                                                                 supported to be
+                                                                                 created on edge
+                                                                                 zone only when it
+                                                                                 is 'Standard'.
+                                                                                 Allowed values:
+                                                                                 Basic, Gateway,
+                                                                                 Standard.  Default:
+                                                                                 Standard.
+
+Storage Arguments
+    --data-disk-caching                                                        : Storage caching
+                                                                                 type for data
+                                                                                 disk(s), including
+                                                                                 'None', 'ReadOnly',
+                                                                                 'ReadWrite', etc.
+                                                                                 Use a singular
+                                                                                 value to apply on
+                                                                                 all disks, or use
+                                                                                 `<lun>=<vaule1>
+                                                                                 <lun>=<value2>` to
+                                                                                 configure
+                                                                                 individual disk.
+    --data-disk-delete-option                                                  : Specify whether
+                                                                                 data disk should be
+                                                                                 deleted or detached
+                                                                                 upon VMSS Flex
+                                                                                 deletion (This
+                                                                                 feature is only for
+                                                                                 VMSS with flexible
+                                                                                 orchestration
+                                                                                 mode).  Allowed
+                                                                                 values: Delete,
+                                                                                 Detach.
+    --data-disk-encryption-sets                                                : Names or IDs (space
+                                                                                 delimited) of disk
+                                                                                 encryption sets for
+                                                                                 data disks.
+    --data-disk-iops                                                           : Specify the Read-
+                                                                                 Write IOPS (space
+                                                                                 delimited) for the
+                                                                                 managed disk.
+                                                                                 Should be used only
+                                                                                 when
+                                                                                 StorageAccountType
+                                                                                 is UltraSSD_LRS. If
+                                                                                 not specified, a
+                                                                                 default value would
+                                                                                 be assigned based
+                                                                                 on diskSizeGB.
+    --data-disk-mbps                                                           : Specify the
+                                                                                 bandwidth in MB per
+                                                                                 second (space
+                                                                                 delimited) for the
+                                                                                 managed disk.
+                                                                                 Should be used only
+                                                                                 when
+                                                                                 StorageAccountType
+                                                                                 is UltraSSD_LRS. If
+                                                                                 not specified, a
+                                                                                 default value would
+                                                                                 be assigned based
+                                                                                 on diskSizeGB.
+    --data-disk-sizes-gb                                                       : Space-separated
+                                                                                 empty managed data
+                                                                                 disk sizes in GB to
+                                                                                 create.
+    --disk-controller-type                                           [Preview] : Specify the disk
+                                                                                 controller type
+                                                                                 configured for the
+                                                                                 VM or VMSS.
+                                                                                 Allowed values:
+                                                                                 NVMe, SCSI.
+        WARNING: Argument '--disk-controller-type' is in preview and under development. Reference
+        and support levels: https://aka.ms/CLI_refstatus
+    --encryption-at-host                                                       : Enable Host
+                                                                                 Encryption for the
+                                                                                 VM or VMSS. This
+                                                                                 will enable the
+                                                                                 encryption for all
+                                                                                 the disks including
+                                                                                 Resource/Temp disk
+                                                                                 at host itself.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --ephemeral-os-disk                                                        : Allows you to
+                                                                                 create an OS disk
+                                                                                 directly on the
+                                                                                 host node,
+                                                                                 providing local
+                                                                                 disk performance
+                                                                                 and faster VM/VMSS
+                                                                                 reimage time.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --ephemeral-os-disk-placement --ephemeral-placement                        : Only applicable
+                                                                                 when used with
+                                                                                 `--ephemeral-os-
+                                                                                 disk`. Allows you
+                                                                                 to choose the
+                                                                                 Ephemeral OS disk
+                                                                                 provisioning
+                                                                                 location.  Allowed
+                                                                                 values: CacheDisk,
+                                                                                 NvmeDisk,
+                                                                                 ResourceDisk.
+    --os-disk-caching                                                          : Storage caching
+                                                                                 type for the VM OS
+                                                                                 disk. Default:
+                                                                                 ReadWrite.  Allowed
+                                                                                 values: None,
+                                                                                 ReadOnly,
+                                                                                 ReadWrite.
+    --os-disk-delete-option                                                    : Specify whether OS
+                                                                                 disk should be
+                                                                                 deleted or detached
+                                                                                 upon VMSS Flex
+                                                                                 deletion (This
+                                                                                 feature is only for
+                                                                                 VMSS with flexible
+                                                                                 orchestration
+                                                                                 mode).  Allowed
+                                                                                 values: Delete,
+                                                                                 Detach.
+    --os-disk-encryption-set                                                   : Name or ID of disk
+                                                                                 encryption set for
+                                                                                 OS disk.
+    --os-disk-name                                                             : The name of the new
+                                                                                 VM OS disk.
+    --os-disk-size-gb                                                          : OS disk size in GB
+                                                                                 to create.
+    --os-type                                                                  : Type of OS
+                                                                                 installed on a
+                                                                                 custom VHD. Do not
+                                                                                 use when specifying
+                                                                                 an URN or URN
+                                                                                 alias.  Allowed
+                                                                                 values: linux,
+                                                                                 windows.
+    --specialized                                                              : Indicate whether
+                                                                                 the source image is
+                                                                                 specialized.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --storage-container-name                                                   : Only applicable
+                                                                                 when used with
+                                                                                 `--use-unmanaged-
+                                                                                 disk`. Name of the
+                                                                                 storage container
+                                                                                 for the VM OS disk.
+                                                                                 Default: vhds.
+                                                                                 Default: vhds.
+    --storage-sku                                                              : The SKU of the
+                                                                                 storage account
+                                                                                 with which to
+                                                                                 persist VM. Use a
+                                                                                 singular sku that
+                                                                                 would be applied
+                                                                                 across all disks,
+                                                                                 or specify
+                                                                                 individual disks.
+                                                                                 Usage: [--storage-
+                                                                                 sku SKU |
+                                                                                 --storage-sku
+                                                                                 ID=SKU ID=SKU
+                                                                                 ID=SKU...], where
+                                                                                 each ID is "os" or
+                                                                                 a 0-indexed lun.
+                                                                                 Allowed values:
+                                                                                 Standard_LRS,
+                                                                                 Premium_LRS,
+                                                                                 StandardSSD_LRS,
+                                                                                 UltraSSD_LRS,
+                                                                                 Premium_ZRS,
+                                                                                 StandardSSD_ZRS,
+                                                                                 PremiumV2_LRS.
+    --ultra-ssd-enabled                                                        : Enables or disables
+                                                                                 the capability to
+                                                                                 have 1 or more
+                                                                                 managed data disks
+                                                                                 with UltraSSD_LRS
+                                                                                 storage account.
+                                                                                 Allowed values:
+                                                                                 false, true.
+    --use-unmanaged-disk                                                       : Do not use managed
+                                                                                 disk to persist VM.
+
+Global Arguments
+    --debug                                                                    : Increase logging
+                                                                                 verbosity to show
+                                                                                 all debug logs.
+    --help -h                                                                  : Show this help
+                                                                                 message and exit.
+    --only-show-errors                                                         : Only show errors,
+                                                                                 suppressing
+                                                                                 warnings.
+    --output -o                                                                : Output format.
+                                                                                 Allowed values:
+                                                                                 json, jsonc, none,
+                                                                                 table, tsv, yaml,
+                                                                                 yamlc.  Default:
+                                                                                 json.
+    --query                                                                    : JMESPath query
+                                                                                 string. See http://
+                                                                                 jmespath.org/ for
+                                                                                 more information
+                                                                                 and examples.
+    --subscription                                                             : Name or ID of
+                                                                                 subscription. You
+                                                                                 can configure the
+                                                                                 default
+                                                                                 subscription using
+                                                                                 `az account set -s
+                                                                                 NAME_OR_ID`.
+    --verbose                                                                  : Increase logging
+                                                                                 verbosity. Use
+                                                                                 --debug for full
+                                                                                 debug logs.
+
+Examples
+    Create a Windows VM scale set with 5 instances, a load balancer, a public IP address, a 2GB data
+    disk and 40GB OS disk.
+        az vmss create -n MyVmss -g MyResourceGroup --instance-count 5 --image Win2016Datacenter
+        --data-disk-sizes-gb 2 --os-disk-size-gb 40
+
+
+    Create a Linux VM scale set with an auto-generated ssh key pair, a public IP address, a DNS
+    entry, an existing load balancer, and an existing virtual network.
+        az vmss create -n MyVmss -g MyResourceGroup --public-ip-address-dns-name my-globally-dns-
+        name \
+            --load-balancer MyLoadBalancer --vnet-name MyVnet --subnet MySubnet --image Ubuntu2204 \
+            --generate-ssh-keys
+
+
+    Create a Linux VM scale set from a custom image using the default existing public SSH key.
+        az vmss create -n MyVmss -g MyResourceGroup --image MyImage
+
+
+    Create a Linux VM scale set with a load balancer and custom DNS servers. Each VM has a public-ip
+    address and a custom domain name.
+        az vmss create -n MyVmss -g MyResourceGroup --image CentOS85Gen2 \
+            --public-ip-per-vm --vm-domain-name myvmss --dns-servers 10.0.0.6 10.0.0.5
+
+
+    Create a Linux VM scale set using a cloud-init script for configuration. See:
+    https://learn.microsoft.com/azure/virtual-machines/linux/using-cloud-init
+        az vmss create -g MyResourceGroup -n MyVmss --image Debian11 --custom-data
+        MyCloudInitScript.yml
+
+
+    Create a VMSS from a generalized gallery image version.
+        az vmss create -g MyResourceGroup -n MyVmss --image /subscriptions/00000000-0000-0000-0000-
+        000000000000/resourceGroups/myRG/providers/Microsoft.Compute/galleries/myGallery/images/myIm
+        age/versions/1.0.0
+
+
+    Create a VMSS from a specialized gallery image version.
+        az vmss create -g MyResourceGroup -n MyVmss --image /subscriptions/00000000-0000-0000-0000-
+        000000000000/resourceGroups/myRG/providers/Microsoft.Compute/galleries/myGallery/images/myIm
+        age/versions/1.0.0 --specialized
+
+
+    Create a VMSS from the latest version of a gallery image
+        az vmss create -g MyResourceGroup -n MyVmss --image /subscriptions/00000000-0000-0000-0000-
+        000000000000/resourceGroups/myRG/providers/Microsoft.Compute/galleries/myGallery/images/myIm
+        age
+
+
+    Create a Debian11 VM scaleset using Key Vault secrets.
+        az keyvault certificate create --vault-name vaultname -n cert1 \
+          -p "$(az keyvault certificate get-default-policy)"
+
+        secrets=$(az keyvault secret list-versions --vault-name vaultname \
+          -n cert1 --query "[?attributes.enabled].id" -o tsv)
+
+        vm_secrets=$(az vm secret format -s "$secrets")
+
+        az vmss create -g group-name -n vm-name --admin-username deploy  \
+          --image Debian11 --secrets "$vm_secrets"
+
+
+    Create a VM scaleset with system assigned identity. The VM will have a 'Contributor' Role with
+    access to a storage account.
+        az vmss create -n MyVmss -g MyResourceGroup --image CentOS85Gen2 --assign-identity --scope
+        /subscriptions/99999999-1bf0-4dda-
+        aec3-cb9272f09590/MyResourceGroup/myRG/providers/Microsoft.Storage/storageAccounts/storage1
+        --role Contributor
+
+
+    Create a Debian11 VM scaleset with a user assigned identity.
+        az vmss create -n MyVmss -g rg1 --image Debian11 --assign-identity
+        /subscriptions/99999999-1bf0-4dda-aec3-
+        cb9272f09590/resourcegroups/myRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/
+        myID
+
+
+    Create a vmss with user assigned identity and add encryption identity for Azure disk encryption
+        az vmss create -n MyVm -g rg1 --image Debian11 --assign-identity myID --encryption-identity
+        /subscriptions/00000000-0000-0000-0000-
+        000000000000/resourcegroups/myRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/
+        myID --orchestration-mode Uniform --lb-sku Standard
+
+
+    Create a Debian11 VM scaleset with both system and user assigned identity.
+        az vmss create -n MyVmss -g rg1 --image Debian11 --assign-identity  [system]
+        /subscriptions/99999999-1bf0-4dda-aec3-
+        cb9272f09590/resourcegroups/myRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/
+        myID
+
+
+    Create a single zone VM scaleset in the current resource group's region
+        az vmss create -n MyVmss -g MyResourceGroup --image CentOS85Gen2 --zones 1
+
+
+    Create a VMSS that supports SpotRestore.
+        az vmss create -n MyVmss -g MyResourceGroup  --location NorthEurope --instance-count 2
+        --image CentOS85Gen2 --priority Spot --eviction-policy Deallocate --single-placement-group
+        --enable-spot-restore True --spot-restore-timeout PT1H
+
+
+    Create a VMSS from shared gallery image.
+        az vmss create -n MyVmss -g MyResourceGroup --image
+        /SharedGalleries/{gallery_unique_name}/Images/{image}/Versions/{version}
+
+
+    Create a VMSS from community gallery image.
+        az vmss create -n MyVmss -g MyResourceGroup --image
+        /CommunityGalleries/{gallery_unique_name}/Images/{image}/Versions/{version}
+
+
+    Create a Windows VMSS with patch mode 'Manual' (Currently patch mode 'AutomaticByPlatform' is
+    not supported during VMSS creation as health extension which is required for
+    'AutomaticByPlatform' mode cannot be set during VMSS creation).
+        az vmss create -n MyVmss -g MyResourceGroup --image Win2019Datacenter --enable-agent
+        --enable-auto-update false --patch-mode Manual --orchestration-mode Flexible
+
+
+    Create a VMSS with specifying the security posture to be used for all virtual machines in the
+    scale set.
+        az vmss create -n MyVmss -g MyResourceGroup --image
+        /CommunityGalleries/{gallery_unique_name}/Images/{image}/Versions/{version} --security-
+        posture-reference-id /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPo
+        stureName}/versions/{version} \
+            --security-posture-reference-exclude-extensions "c:\tmp\exclude_extensions.json"
+
+
+To search AI knowledge base for examples, use: az find "az vmss create"

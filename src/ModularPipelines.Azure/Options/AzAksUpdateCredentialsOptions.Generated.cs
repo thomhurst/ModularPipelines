@@ -15,15 +15,38 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update credentials for a managed Kubernetes cluster, like service
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "update-credentials")]
-public record AzAksUpdateCredentialsOptions : AzOptions
+public record AzAksUpdateCredentialsOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Secret associated with the service principal. This argument is required if `--service-principal` is specified.
+    /// </summary>
+    [CliFlag("--client-secret")]
+    public bool? ClientSecret { get; set; }
+
+    /// <summary>
+    /// Reset service principal for a managed cluster.
+    /// </summary>
+    [CliFlag("--reset-service-principal")]
+    public bool? ResetServicePrincipal { get; set; }
+
+    /// <summary>
+    /// Service principal used for authentication to Azure APIs. This argument is required if `--reset-service-principal` is specified.
+    /// </summary>
+    [CliFlag("--service-principal")]
+    public bool? ServicePrincipal { get; set; }
 
 }

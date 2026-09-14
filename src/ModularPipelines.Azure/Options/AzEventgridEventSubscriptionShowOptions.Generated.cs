@@ -15,11 +15,20 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details of an event subscription.
 /// </summary>
+/// <param name="Name">Name of the event subscription.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "event-subscription", "show")]
-public record AzEventgridEventSubscriptionShowOptions : AzOptions
+public record AzEventgridEventSubscriptionShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
+    /// <summary>
+    /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--include-attrib-secret", ShortForm = "--include-static-delivery-attribute-secret")]
+    public bool? IncludeAttribSecret { get; set; }
+
     /// <summary>
     /// Specify to indicate whether the full endpoint URL should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
@@ -27,7 +36,7 @@ public record AzEventgridEventSubscriptionShowOptions : AzOptions
     public bool? IncludeFullEndpointUrl { get; set; }
 
     /// <summary>
-    /// Fully qualified identifier of the Azure resource whose event subscription needs to be shown.
+    /// Fully qualified identifier of the Azure resource whose event subscription needs to be shown. Usage:                      --source-resource-id Azure-Resource-ID For Azure subscription:     --source-resource-id /subscriptions/{SubID} For resource group:         --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1 For EventGrid topic:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/topics/t1 For storage account:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.Storage/storageaccounts/sa1 For EventGrid domain:       --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/domains/d1 For EventGrid domain topic: --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/p roviders/Microsoft.EventGrid/domains/d1/topics/t1.
     /// </summary>
     [CliFlag("--source-resource-id")]
     public bool? SourceResourceId { get; set; }

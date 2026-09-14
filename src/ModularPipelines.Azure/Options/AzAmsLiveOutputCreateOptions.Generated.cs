@@ -15,10 +15,23 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a live output.
 /// </summary>
+/// <param name="AccountName">The name of the Azure Media Services account.</param>
+/// <param name="ArchiveWindowLength">ISO 8601 timespan duration of the archive window length. This is the duration that customer want to retain the recorded content. Minimum window is 5 minutes (PT5M or 00:05:00). Maximum window is 25 hours (PT25H or 25:00:00). For example, to retain the output for 10 minutes, use PT10M or 00:10:00.</param>
+/// <param name="AssetName">The name of the asset.</param>
+/// <param name="LiveEventName">The name of the live event.</param>
+/// <param name="Name">The name of the live output.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "live-output", "create")]
-public record AzAmsLiveOutputCreateOptions : AzOptions
+public record AzAmsLiveOutputCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--archive-window-length")] string ArchiveWindowLength,
+    [property: CliOption("--asset-name")] string AssetName,
+    [property: CliOption("--live-event-name")] string LiveEventName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The live output description.

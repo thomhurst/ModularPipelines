@@ -15,15 +15,24 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload a root certificate.
 /// </summary>
+/// <param name="GatewayName">Virtual network gateway name.</param>
+/// <param name="Name">Root certificate name.</param>
+/// <param name="PublicCertData">Base64 contents of the root certificate file or file path.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "root-cert", "create")]
-public record AzNetworkVnetGatewayRootCertCreateOptions : AzOptions
+public record AzNetworkVnetGatewayRootCertCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--public-cert-data")] string PublicCertData,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

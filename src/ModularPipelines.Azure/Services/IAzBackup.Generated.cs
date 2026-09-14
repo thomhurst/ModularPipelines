@@ -59,12 +59,12 @@ public interface IAzBackup
     /// <summary>
     /// az recoveryconfig sub-commands.
     /// </summary>
-    AzBackupRecoveryconfig Recoveryconfig => throw new System.NotSupportedException();
+    AzBackupRecoveryConfig RecoveryConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// az recoverypoint sub-commands.
     /// </summary>
-    AzBackupRecoverypoint Recoverypoint => throw new System.NotSupportedException();
+    AzBackupRecoveryPoint RecoveryPoint => throw new System.NotSupportedException();
 
     /// <summary>
     /// az restore sub-commands.

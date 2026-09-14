@@ -15,10 +15,21 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage Azure Cognitive Services accounts.
 /// </summary>
+/// <param name="Kind">The API name of cognitive services account. Values from: az cognitiveservices account list- kinds.</param>
+/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Name">Cognitive service account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">Name of the Sku of Cognitive Services account/deployment.  Values from: az cognitiveservices account list-skus.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "create")]
-public record AzCognitiveservicesAccountCreateOptions : AzOptions
+public record AzCognitiveservicesAccountCreateOptions(
+    [property: CliOption("--kind")] string Kind,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku", ShortForm = "--sku-name")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Api properties in JSON format or a=b c=d format. Some cognitive services (i.e. QnA Maker) require extra api properties to create the account.
@@ -33,13 +44,13 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
-    /// User domain assigned to the account. Name is the
+    /// User domain assigned to the account. Name is the CNAME source.
     /// </summary>
     [CliFlag("--custom-domain")]
     public bool? CustomDomain { get; set; }
 
     /// <summary>
-    /// The encryption properties for this resource, in
+    /// The encryption properties for this resource, in JSON format.
     /// </summary>
     [CliFlag("--encryption")]
     public bool? Encryption { get; set; }
@@ -53,13 +64,19 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for terms confirmation.
     /// </summary>
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// AIServices kind only. Enables project management. Default true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--allow-project-management", ShortForm = "--manage-projects")]
+    public bool? AllowProjectManagement { get; set; }
 
 }

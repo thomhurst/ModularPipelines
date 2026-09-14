@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing workload profile in a Container
 /// </summary>
+/// <param name="Name">The name of the Container App environment.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkloadProfileName">The friendly name for the workload profile.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "workload-profile", "update")]
-public record AzContainerappEnvWorkloadProfileUpdateOptions : AzOptions
+public record AzContainerappEnvWorkloadProfileUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workload-profile-name", ShortForm = "-w")] string WorkloadProfileName
+) : AzOptions
 {
     /// <summary>
     /// The maximum node count for the workload profile.

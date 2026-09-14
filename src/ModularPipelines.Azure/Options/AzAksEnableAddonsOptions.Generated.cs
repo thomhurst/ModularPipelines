@@ -15,22 +15,29 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable Kubernetes addons.
 /// </summary>
+/// <param name="Addons">Enable the Kubernetes addons in a comma-separated list.</param>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "enable-addons")]
-public record AzAksEnableAddonsOptions : AzOptions
+public record AzAksEnableAddonsOptions(
+    [property: CliOption("--addons", ShortForm = "-a")] string Addons,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
-    /// Resource ID of Azure Monitor Private Link scope for
+    /// Resource ID of Azure Monitor Private Link scope for Monitoring Addon.
     /// </summary>
     [CliOption("--ampls-resource-id")]
-    public string? AmplsResourceIdValue { get; set; }
+    public string? AmplsResourceId { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing data collection settings for
+    /// Path to JSON file containing data collection settings for Monitoring addon.
     /// </summary>
     [CliOption("--data-collection-settings")]
-    public string? DataCollectionSettingsValue { get; set; }
+    public string? DataCollectionSettings { get; set; }
 
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
@@ -78,40 +85,42 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// Name of an existing subnet to use with the virtual-node add- on.
     /// </summary>
     [CliOption("--subnet-name", ShortForm = "-s")]
-    public string? SubnetNameValue { get; set; }
+    public string? SubnetName { get; set; }
 
     /// <summary>
     /// The resource ID of an existing Log Analytics Workspace to use for storing monitoring data.
     /// </summary>
     [CliOption("--workspace-resource-id")]
-    public string? WorkspaceResourceIdValue { get; set; }
+    public string? WorkspaceResourceId { get; set; }
 
-    [Obsolete("Use AmplsResourceIdValue instead.")]
-    public bool? AmplsResourceId
-    {
-        get => bool.TryParse(AmplsResourceIdValue, out var value) ? value : null;
-        set => AmplsResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Resource Id of an existing Application Gateway to use with AGIC. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-id")]
+    public string? AppgwId { get; set; }
 
-    [Obsolete("Use DataCollectionSettingsValue instead.")]
-    public bool? DataCollectionSettings
-    {
-        get => bool.TryParse(DataCollectionSettingsValue, out var value) ? value : null;
-        set => DataCollectionSettingsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the application gateway to create/use in the node resource group. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-name")]
+    public string? AppgwName { get; set; }
 
-    [Obsolete("Use SubnetNameValue instead.")]
-    public bool? SubnetName
-    {
-        get => bool.TryParse(SubnetNameValue, out var value) ? value : null;
-        set => SubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Subnet CIDR to use for a new subnet created to deploy the Application Gateway. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-subnet-cidr")]
+    public string? AppgwSubnetCidr { get; set; }
 
-    [Obsolete("Use WorkspaceResourceIdValue instead.")]
-    public bool? WorkspaceResourceId
-    {
-        get => bool.TryParse(WorkspaceResourceIdValue, out var value) ? value : null;
-        set => WorkspaceResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Resource Id of an existing Subnet used to deploy the Application Gateway. Use with ingress-azure addon.
+    /// </summary>
+    [CliOption("--appgw-subnet-id")]
+    public string? AppgwSubnetId { get; set; }
+
+    /// <summary>
+    /// Specify the namespace, which AGIC should watch. This could be a single string value, or a comma-separated list of namespaces.
+    /// </summary>
+    [CliFlag("--appgw-watch-namespace")]
+    public bool? AppgwWatchNamespace { get; set; }
 
 }

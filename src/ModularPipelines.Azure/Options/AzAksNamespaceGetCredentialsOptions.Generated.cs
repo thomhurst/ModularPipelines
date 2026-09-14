@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get access credentials for a managed namespace.
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="Name">The managed namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "get-credentials")]
-public record AzAksNamespaceGetCredentialsOptions : AzOptions
+public record AzAksNamespaceGetCredentialsOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// If specified, overwrite the default context name.

@@ -22,7 +22,7 @@ public class AzFunctionappConfig
 {
     private readonly ICommandContext _command;
     private AzFunctionappConfigAccessRestriction? _accessRestriction;
-    private AzFunctionappConfigAppsettings? _appsettings;
+    private AzFunctionappConfigAppSettings? _appSettings;
     private AzFunctionappConfigContainer? _container;
     private AzFunctionappConfigHostname? _hostname;
     private AzFunctionappConfigSsl? _ssl;
@@ -45,7 +45,7 @@ public class AzFunctionappConfig
     /// <summary>
     /// az appsettings sub-commands.
     /// </summary>
-    public AzFunctionappConfigAppsettings Appsettings => _appsettings ??= new AzFunctionappConfigAppsettings(_command);
+    public AzFunctionappConfigAppSettings AppSettings => _appSettings ??= new AzFunctionappConfigAppSettings(_command);
 
     /// <summary>
     /// az container sub-commands.
@@ -78,7 +78,7 @@ public class AzFunctionappConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConfigSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConfigSetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class AzFunctionappConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConfigShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConfigShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

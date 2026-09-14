@@ -15,28 +15,28 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Link an Azure Function to a static webapp. Also known as "Bring
 /// </summary>
+/// <param name="FunctionResourceId">Resource ID of the functionapp to link. Can be retrieved with 'az functionapp --query id'.</param>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "functions", "link")]
-public record AzStaticwebappFunctionsLinkOptions : AzOptions
+public record AzStaticwebappFunctionsLinkOptions(
+    [property: CliOption("--function-resource-id")] string FunctionResourceId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the environment of static site.
     /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentNameValue { get; set; }
+    public string? EnvironmentName { get; set; }
 
     /// <summary>
     /// Force the function link even if the function is already linked to a static webapp. May be needed if the function was previously linked to a static webapp.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
-
-    [Obsolete("Use EnvironmentNameValue instead.")]
-    public bool? EnvironmentName
-    {
-        get => bool.TryParse(EnvironmentNameValue, out var value) ? value : null;
-        set => EnvironmentNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

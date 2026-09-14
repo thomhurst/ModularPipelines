@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SignalR Service.
 /// </summary>
+/// <param name="Name">Name of signalr service.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">The sku name of the signalr service. Allowed values: Premium_P1, Standard_S1, Free_F1.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "create")]
-public record AzSignalrCreateOptions : AzOptions
+public record AzSignalrCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
@@ -35,25 +42,31 @@ public record AzSignalrCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
-    /// The service mode which signalr service will be working on. Allowed values: Classic, Default, Serverless.  Default:
+    /// The service mode which signalr service will be working on. Allowed values: Classic, Default, Serverless.  Default: Default.
     /// </summary>
-    [CliFlag("--service-mode")]
-    public bool? ServiceMode { get; set; }
+    [CliOption("--service-mode")]
+    public string? ServiceMode { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The number of signalr service unit count.  Default: 1.
     /// </summary>
     [CliFlag("--unit-count")]
     public bool? UnitCount { get; set; }
+
+    /// <summary>
+    /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.  Default: Allow.
+    /// </summary>
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
 
 }

@@ -15,10 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an A record from its record set.
 /// </summary>
+/// <param name="Ipv4Address">IPV4 address in string notation.</param>
+/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">The name of the Private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "a", "remove-record")]
-public record AzNetworkPrivateDnsRecordSetARemoveRecordOptions : AzOptions
+public record AzNetworkPrivateDnsRecordSetARemoveRecordOptions(
+    [property: CliOption("--ipv4-address", ShortForm = "-a")] string Ipv4Address,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Keep the empty record set if the last record is removed.

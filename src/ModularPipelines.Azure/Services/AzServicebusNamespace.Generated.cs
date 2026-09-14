@@ -21,10 +21,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzServicebusNamespace
 {
     private readonly ICommandContext _command;
+    private AzServicebusNamespaceAuthorizationRule? _authorizationRule;
     private AzServicebusNamespaceEncryption? _encryption;
     private AzServicebusNamespaceIdentity? _identity;
     private AzServicebusNamespaceNetworkRuleSet? _networkRuleSet;
     private AzServicebusNamespacePrivateEndpointConnection? _privateEndpointConnection;
+    private AzServicebusNamespacePrivateLinkResource? _privateLinkResource;
+    private AzServicebusNamespaceReplica? _replica;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusNamespace"/> class.
@@ -35,6 +38,11 @@ public class AzServicebusNamespace
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az authorization-rule sub-commands.
+    /// </summary>
+    public AzServicebusNamespaceAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusNamespaceAuthorizationRule(_command);
 
     /// <summary>
     /// az encryption sub-commands.
@@ -56,6 +64,16 @@ public class AzServicebusNamespace
     /// </summary>
     public AzServicebusNamespacePrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzServicebusNamespacePrivateEndpointConnection(_command);
 
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzServicebusNamespacePrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzServicebusNamespacePrivateLinkResource(_command);
+
+    /// <summary>
+    /// az replica sub-commands.
+    /// </summary>
+    public AzServicebusNamespaceReplica Replica => _replica ??= new AzServicebusNamespaceReplica(_command);
+
     #endregion
 
     #region Commands
@@ -68,11 +86,11 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzServicebusNamespaceCreateOptions? options = null,
+        AzServicebusNamespaceCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -87,7 +105,22 @@ public class AzServicebusNamespace
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Check the give namespace name availability.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExistsAsync(
+        AzServicebusNamespaceExistsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -102,11 +135,11 @@ public class AzServicebusNamespace
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceFailoverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceFailoverOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// List all the available namespaces within the subscription by
+    /// List the available namespaces within a resource group.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +150,22 @@ public class AzServicebusNamespace
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get a description for the specified namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzServicebusNamespaceShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -132,7 +180,22 @@ public class AzServicebusNamespace
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzServicebusNamespaceWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceWaitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

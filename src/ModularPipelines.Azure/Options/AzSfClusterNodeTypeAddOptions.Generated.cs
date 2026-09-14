@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,16 +16,29 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new node type to a cluster.
 /// </summary>
+/// <param name="Capacity">The capacity tag applied to nodes in the node type. The cluster resource manager uses these tags to understand how much capacity a node has.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="NodeType">The Node type name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VmPassword">The password of the Vm.</param>
+/// <param name="VmUserName">The user name for logging to Vm. Default will be adminuser.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "node-type", "add")]
-public record AzSfClusterNodeTypeAddOptions : AzOptions
+public record AzSfClusterNodeTypeAddOptions(
+    [property: CliOption("--capacity")] string Capacity,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--node-type")] string NodeType,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: SecretValue, CliOption("--vm-password")] string VmPassword,
+    [property: CliOption("--vm-user-name")] string VmUserName
+) : AzOptions
 {
     /// <summary>
-    /// Durability level.  Allowed values: Bronze, Gold, Silver.
+    /// Durability level.  Allowed values: Bronze, Gold, Silver. Default: Bronze.
     /// </summary>
-    [CliFlag("--durability-level")]
-    public bool? DurabilityLevel { get; set; }
+    [CliOption("--durability-level")]
+    public string? DurabilityLevel { get; set; }
 
     /// <summary>
     /// VM Sku.  Default: Standard_D2_V2.

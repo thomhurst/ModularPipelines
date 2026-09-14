@@ -15,22 +15,27 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a cross-region load balancer.
 /// </summary>
+/// <param name="Name">The load balancer name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "create")]
-public record AzNetworkCrossRegionLbCreateOptions : AzOptions
+public record AzNetworkCrossRegionLbCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of the backend address pool.
     /// </summary>
     [CliOption("--backend-pool-name")]
-    public string? BackendPoolNameValue { get; set; }
+    public string? BackendPoolName { get; set; }
 
     /// <summary>
-    /// The name of the frontend IP configuration.
+    /// The name of the frontend IP configuration. Default: LoadBalancerFrontEnd.
     /// </summary>
     [CliOption("--frontend-ip-name")]
-    public string? FrontendIpNameValue { get; set; }
+    public string? FrontendIpName { get; set; }
 
     /// <summary>
     /// Used to create internal facing Load balancer.
@@ -41,8 +46,8 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -53,8 +58,8 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
@@ -62,18 +67,28 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
 
-    [Obsolete("Use BackendPoolNameValue instead.")]
-    public bool? BackendPoolName
-    {
-        get => bool.TryParse(BackendPoolNameValue, out var value) ? value : null;
-        set => BackendPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// IP allocation method.  Allowed values: Dynamic, Static.
+    /// </summary>
+    [CliOption("--address-allocation", ShortForm = "--public-ip-address-allocation")]
+    public string? AddressAllocation { get; set; }
 
-    [Obsolete("Use FrontendIpNameValue instead.")]
-    public bool? FrontendIpName
-    {
-        get => bool.TryParse(FrontendIpNameValue, out var value) ? value : null;
-        set => FrontendIpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name or ID of the public IP address, or '' for none. Uses existing resource if available or will create a new resource with defaults if omitted.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
+
+    /// <summary>
+    /// Globally unique DNS name for a new public IP.
+    /// </summary>
+    [CliFlag("--public-ip-dns-name")]
+    public bool? PublicIpDnsName { get; set; }
+
+    /// <summary>
+    /// Used to created a new public ip for the load balancer, a.k.a public facing Load balancer.
+    /// </summary>
+    [CliFlag("--public-ip-zone")]
+    public bool? PublicIpZone { get; set; }
 
 }

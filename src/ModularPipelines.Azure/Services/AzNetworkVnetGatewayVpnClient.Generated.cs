@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkVnetGatewayVpnClient
 {
     private readonly ICommandContext _command;
+    private AzNetworkVnetGatewayVpnClientIpsecPolicy? _ipsecPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVnetGatewayVpnClient"/> class.
@@ -29,6 +30,15 @@ public class AzNetworkVnetGatewayVpnClient
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az ipsec-policy sub-commands.
+    /// </summary>
+    public AzNetworkVnetGatewayVpnClientIpsecPolicy IpsecPolicy => _ipsecPolicy ??= new AzNetworkVnetGatewayVpnClientIpsecPolicy(_command);
+
+    #endregion
 
     #region Commands
 
@@ -44,7 +54,7 @@ public class AzNetworkVnetGatewayVpnClient
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayVpnClientGenerateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayVpnClientGenerateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +69,7 @@ public class AzNetworkVnetGatewayVpnClient
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayVpnClientShowUrlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayVpnClientShowUrlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

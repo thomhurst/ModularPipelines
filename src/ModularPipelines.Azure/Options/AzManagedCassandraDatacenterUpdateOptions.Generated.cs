@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a Datacenter in an Azure Managed Cassandra
 /// </summary>
+/// <param name="ClusterName">Cluster Name.</param>
+/// <param name="DataCenterName">Datacenter Name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "datacenter", "update")]
-public record AzManagedCassandraDatacenterUpdateOptions : AzOptions
+public record AzManagedCassandraDatacenterUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--data-center-name", ShortForm = "-d")] string DataCenterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Indicates the Key Uri of the customer key to use for encryption of the backup storage account.

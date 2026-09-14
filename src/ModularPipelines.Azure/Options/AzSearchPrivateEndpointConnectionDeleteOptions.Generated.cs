@@ -15,10 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disconnects the private endpoint connection and
 /// </summary>
+/// <param name="Name">The name of the private endpoint connection to the Azure AI Search service with the specified resource group. Required.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the search service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "private-endpoint-connection", "delete")]
-public record AzSearchPrivateEndpointConnectionDeleteOptions : AzOptions
+public record AzSearchPrivateEndpointConnectionDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

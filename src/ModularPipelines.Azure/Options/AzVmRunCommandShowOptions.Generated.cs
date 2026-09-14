@@ -23,8 +23,8 @@ public record AzVmRunCommandShowOptions : AzOptions
     /// <summary>
     /// The command id.
     /// </summary>
-    [CliFlag("--command-id")]
-    public bool? CommandId { get; set; }
+    [CliOption("--command-id")]
+    public string? CommandId { get; set; }
 
     /// <summary>
     /// The instance view of a run command.
@@ -35,7 +35,31 @@ public record AzVmRunCommandShowOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The name of the virtual machine run command.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--run-command-name")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the virtual machine.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string? VmName { get; set; }
 
 }

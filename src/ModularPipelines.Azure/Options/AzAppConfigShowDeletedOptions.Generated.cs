@@ -15,15 +15,18 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show properties of a deleted, but not yet purged App Configuration
 /// </summary>
+/// <param name="Name">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "show-deleted")]
-public record AzAppConfigShowDeletedOptions : AzOptions
+public record AzAppConfigShowDeletedOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Location of the deleted App Configuration store.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

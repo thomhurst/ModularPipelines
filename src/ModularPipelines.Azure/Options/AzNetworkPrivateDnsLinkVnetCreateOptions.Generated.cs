@@ -15,28 +15,38 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network link to the specified Private
 /// </summary>
+/// <param name="Name">Name of the virtual network link to the specified private DNS zone.</param>
+/// <param name="RegistrationEnabled">Specify if the link is registration enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VirtualNetwork">Name or ID of the virtual network.</param>
+/// <param name="ZoneName">Name of the private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "link", "vnet", "create")]
-public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
+public record AzNetworkPrivateDnsLinkVnetCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registration-enabled", ShortForm = "-e")] bool RegistrationEnabled,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--virtual-network", ShortForm = "-v")] string VirtualNetwork,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Resource tags for the virtual network link.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
-    public string? TagsValue { get; set; }
+    public string? Tags { get; set; }
 
-    [Obsolete("Use TagsValue instead.")]
-    public bool? Tags
-    {
-        get => bool.TryParse(TagsValue, out var value) ? value : null;
-        set => TagsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.  Allowed values: Default, NxDomainRedirect.
+    /// </summary>
+    [CliOption("--resolution-policy")]
+    public string? ResolutionPolicy { get; set; }
 
 }

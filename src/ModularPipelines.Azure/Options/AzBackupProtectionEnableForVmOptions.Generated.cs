@@ -15,22 +15,31 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start protecting a previously unprotected Azure VM as per
 /// </summary>
+/// <param name="PolicyName">Name of the backup policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VaultName">Name of the Recovery services vault.</param>
+/// <param name="Vm">Name or ID of the Virtual Machine to be protected.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "enable-for-vm")]
-public record AzBackupProtectionEnableForVmOptions : AzOptions
+public record AzBackupProtectionEnableForVmOptions(
+    [property: CliOption("--policy-name", ShortForm = "-p")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
+    [property: CliOption("--vm")] string Vm
+) : AzOptions
 {
     /// <summary>
     /// Option to decide whether to include or exclude the disk or reset any previous settings to default behavior.  Allowed values: exclude, include.
     /// </summary>
-    [CliFlag("--disk-list-setting")]
-    public bool? DiskListSetting { get; set; }
+    [CliOption("--disk-list-setting")]
+    public string? DiskListSetting { get; set; }
 
     /// <summary>
     /// List of disks to be excluded or included.
     /// </summary>
-    [CliFlag("--diskslist")]
-    public bool? Diskslist { get; set; }
+    [CliOption("--diskslist", GroupValues = true)]
+    public IEnumerable<string>? Diskslist { get; set; }
 
     /// <summary>
     /// Option to specify to backup OS disk only.  Allowed values: false, true.

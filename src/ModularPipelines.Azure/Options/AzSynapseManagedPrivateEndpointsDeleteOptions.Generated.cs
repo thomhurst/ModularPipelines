@@ -15,15 +15,30 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete synapse managed private endpoints in a
 /// </summary>
+/// <param name="PeName">The managed private endpoint name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "managed-private-endpoints", "delete")]
-public record AzSynapseManagedPrivateEndpointsDeleteOptions : AzOptions
+public record AzSynapseManagedPrivateEndpointsDeleteOptions(
+    [property: CliOption("--pe-name")] string PeName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

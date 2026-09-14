@@ -15,15 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a rule for a URL path map.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the rule for a URL path map.</param>
+/// <param name="PathMapName">Name of the URL path map.</param>
+/// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "url-path-map", "rule", "create")]
-public record AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--path-map-name")] string PathMapName,
+    [property: CliOption("--paths", GroupValues = true)] IEnumerable<string> Paths,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Name or ID of the backend address pool to use with the created rule.
+    /// </summary>
+    [CliOption("--address-pool")]
+    public string? AddressPool { get; set; }
+
+    /// <summary>
+    /// Name or ID of the HTTP settings to use with the created rule.
+    /// </summary>
+    [CliOption("--http-settings")]
+    public string? HttpSettings { get; set; }
+
+    /// <summary>
+    /// Name or ID of the redirect configuration to use with the created rule.
+    /// </summary>
+    [CliOption("--redirect-config")]
+    public string? RedirectConfig { get; set; }
+
+    /// <summary>
+    /// Name or ID of the rewrite rule set. If not specified, the default for the map will be used.
+    /// </summary>
+    [CliOption("--rewrite-rule-set")]
+    public string? RewriteRuleSet { get; set; }
+
+    /// <summary>
+    /// Name or ID of a web application firewall policy resource.
+    /// </summary>
+    [CliOption("--waf-policy")]
+    public string? WafPolicy { get; set; }
 
 }
