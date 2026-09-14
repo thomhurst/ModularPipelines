@@ -185,6 +185,8 @@
 *REMOVED*ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Command.set -> void
 *REMOVED*ModularPipelines.Flux.Options.FluxTagOptions.Command.get -> string?
 *REMOVED*ModularPipelines.Flux.Options.FluxTagOptions.Command.set -> void
+*REMOVED*ModularPipelines.Flux.Options.FluxTraceOptions.Name.init -> void
+*REMOVED*ModularPipelines.Flux.Options.FluxTraceOptions.Resource.init -> void
 *REMOVED*ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Command.get -> string?
 *REMOVED*ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Command.set -> void
 *REMOVED*ModularPipelines.Flux.Options.FluxTreeOptions.Command.get -> string?

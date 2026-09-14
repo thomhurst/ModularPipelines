@@ -19,11 +19,36 @@ namespace ModularPipelines.Flux.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trace")]
-public record FluxTraceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
-) : FluxOptions
+public record FluxTraceOptions : FluxOptions
 {
+    public FluxTraceOptions(
+        string Resource,
+        IEnumerable<string> Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Name);
+            var materialized = global::System.Linq.Enumerable.ToArray(Name);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Name));
+            }
+
+            Name = materialized;
+        }
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Resource, out IEnumerable<string> Name)
+    {
+        Resource = this.Resource;
+        Name = this.Name;
+    }
+
     /// <summary>
     /// the Kubernetes object API version, e.g. 'apps/v1'
     /// </summary>
@@ -180,5 +205,17 @@ public record FluxTraceOptions(
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;resource&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Name { get; private init; }
 
 }
