@@ -19,15 +19,10 @@ internal class OptionsValidator : IOptionsValidator
     /// <inheritdoc />
     public Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
-        var optionsSnapshot = services.GetService<IOptions<PipelineOptions>>();
-        if (optionsSnapshot?.Value == null)
-        {
-            return Task.FromResult(ValidationResult.Success());
-        }
-
-        var result = ValidateOptions(
-            optionsSnapshot.Value,
-            GetRegisteredCategories(services));
+        var pipelineOptions = services.GetService<IOptions<PipelineOptions>>()?.Value;
+        var result = pipelineOptions is null
+            ? ValidationResult.Success()
+            : ValidateOptions(pipelineOptions, GetRegisteredCategories(services));
         var distributedOptions = services.GetService<IOptions<DistributedOptions>>()?.Value;
         if (distributedOptions?.MaxParallelism is < 1)
         {

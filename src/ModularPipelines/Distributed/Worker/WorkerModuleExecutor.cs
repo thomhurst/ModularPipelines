@@ -383,7 +383,11 @@ internal class WorkerModuleExecutor(
             var failureResult = ModuleResultFactory.CreateException(
                 resultType,
                 exception,
-                new ModuleExecutionContext(module, module.GetType()));
+                new ModuleExecutionContext(module, module.GetType())
+                {
+                    Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
+                    Exception = exception,
+                });
             var serialized = _serializer.Serialize(
                 failureResult,
                 assignment.ModuleTypeName,

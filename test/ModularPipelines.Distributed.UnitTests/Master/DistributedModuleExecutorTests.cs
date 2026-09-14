@@ -1265,11 +1265,13 @@ public class DistributedModuleExecutorTests
             coordinator: coordinator,
             distributedOptions: options);
 
-        await executor.ExecuteAsync([module]).WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
+        await executor.ExecuteAsync([module]).WaitAsync(testCancellation);
 
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.ExceptionOrDefault).IsTypeOf<TimeoutException>();
+        await Assert.That(registeredResult.Status).IsEqualTo(ModuleStatus.TimedOut);
+        await Assert.That(coordinator.ResultWaitTokens[typeof(DistributedModule).FullName!].IsCancellationRequested).IsTrue();
         scheduler.Verify(
             instance => instance.MarkModuleCompleted(typeof(DistributedModule), false, null, null),
             Times.Once());

@@ -172,7 +172,9 @@ public class WorkerModuleExecutorTests
 
     [Test]
     [Timeout(10_000)]
-    public async Task Cancellation_Publishes_Results_For_All_Claimed_Assignments(CancellationToken cancellationToken)
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Failures_Publish_Results_For_All_Claimed_Assignments(bool cancelled, CancellationToken cancellationToken)
     {
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton(new WorkerConcurrencyProbe());
@@ -217,7 +219,12 @@ public class WorkerModuleExecutorTests
                     await releaseFirst.Task.WaitAsync(cancellationToken);
                 }
 
-                token.ThrowIfCancellationRequested();
+                if (cancelled)
+                {
+                    token.ThrowIfCancellationRequested();
+                }
+
+                throw new InvalidOperationException("Worker execution failed.");
             });
         var typeRegistry = new ModuleTypeRegistry();
         var serializer = new ModuleResultSerializer(typeRegistry);
@@ -236,7 +243,10 @@ public class WorkerModuleExecutorTests
         try
         {
             await secondDequeued.Task.WaitAsync(cancellationToken);
-            await stop.CancelAsync();
+            if (cancelled)
+            {
+                await stop.CancelAsync();
+            }
         }
         finally
         {
@@ -248,7 +258,9 @@ public class WorkerModuleExecutorTests
             .IsEquivalentTo(modules.Select(module => module.GetType().FullName!).Order());
         foreach (var result in published)
         {
-            await Assert.That(serializer.Deserialize(result)!.ExceptionOrDefault).IsNotNull();
+            var failure = serializer.Deserialize(result)!;
+            await Assert.That(failure.ExceptionOrDefault).IsNotNull();
+            await Assert.That(failure.Status).IsEqualTo(cancelled ? ModuleStatus.Cancelled : ModuleStatus.Failed);
         }
     }
 

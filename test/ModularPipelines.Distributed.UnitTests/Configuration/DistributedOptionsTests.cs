@@ -210,6 +210,24 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    [Arguments(-1)]
+    [Arguments(0)]
+    [Arguments(1)]
+    public async Task MaxParallelism_Validation_Does_Not_Require_Pipeline_Options(int maxParallelism)
+    {
+        var services = new ServiceCollection();
+        services.AddSingleton<IOptions<DistributedOptions>>(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions { MaxParallelism = maxParallelism }));
+        await using var provider = services.BuildServiceProvider();
+
+        var result = await new OptionsValidator().ValidateAsync(provider);
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options
+            && error.Message.Contains("Distributed.MaxParallelism"))).IsEqualTo(maxParallelism < 1);
+    }
+
+    [Test]
     public async Task Parameterless_Registration_Binds_Standard_Environment_Variables()
     {
         var previousInstanceIndex = Environment.GetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX");

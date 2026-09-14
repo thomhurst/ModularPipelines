@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
@@ -13,8 +12,6 @@ namespace ModularPipelines.Distributed;
 /// </summary>
 internal static class DependencyResultApplicator
 {
-    private static readonly ConditionalWeakTable<IModule, Lock> ModuleLocks = new();
-
     /// <summary>
     /// Builds an O(1) lookup from module type name to module instance.
     /// </summary>
@@ -68,15 +65,12 @@ internal static class DependencyResultApplicator
                 var result = serializer.Deserialize(serializedResult);
                 if (result is not null)
                 {
-                    lock (ModuleLocks.GetValue(depModule, static _ => new Lock()))
-                    {
-                        var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
-                        var internalModule = depModule.AsInternal();
-                        var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
-                            ? internalModule.ResultTask.Result
-                            : result;
-                        resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
-                    }
+                    var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                    var internalModule = depModule.AsInternal();
+                    var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
+                        ? internalModule.ResultTask.Result
+                        : result;
+                    resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
                 }
             }
             catch (Exception ex)
