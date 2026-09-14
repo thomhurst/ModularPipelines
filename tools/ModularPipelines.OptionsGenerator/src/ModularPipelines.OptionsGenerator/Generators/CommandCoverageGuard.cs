@@ -58,7 +58,7 @@ internal static class CommandCoverageGuard
         var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, allowedMissingCommands);
         var hasSameVersionCommandSetDrift = previous is not null
             && HasSameResolvedVersion(previous.ToolVersion, tool.ToolVersion)
-            && (addedCommands.Length > 0 || removedCommands.Length > 0);
+            && (addedCommands.Length > 0 || unapprovedRemovedCommands.Length > 0);
         var violations = GetViolations(
             tool.CommandCoverage,
             commands.Count,

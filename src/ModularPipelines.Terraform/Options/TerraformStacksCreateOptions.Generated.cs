@@ -15,29 +15,18 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Create a Terraform Stack.
 /// </summary>
+/// <param name="OrganizationName">The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)</param>
+/// <param name="ProjectName">The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)</param>
+/// <param name="StackName">The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "create")]
-public record TerraformStacksCreateOptions : TerraformOptions
+public record TerraformStacksCreateOptions(
+    [property: CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)] string OrganizationName,
+    [property: CliOption("-project-name", Format = OptionFormat.EqualsSeparated)] string ProjectName,
+    [property: CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)] string StackName
+) : TerraformOptions
 {
-    /// <summary>
-    /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)
-    /// </summary>
-    [CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)]
-    public string? OrganizationName { get; set; }
-
-    /// <summary>
-    /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)
-    /// </summary>
-    [CliOption("-project-name", Format = OptionFormat.EqualsSeparated)]
-    public string? ProjectName { get; set; }
-
-    /// <summary>
-    /// The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)
-    /// </summary>
-    [CliOption("-stack-name", Format = OptionFormat.EqualsSeparated)]
-    public string? StackName { get; set; }
-
     /// <summary>
     /// The directory within the configuration that contains the stack to be deployed. Defaults to the root of the configuration.
     /// </summary>

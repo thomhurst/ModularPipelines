@@ -104,11 +104,6 @@ public partial class AwsCliScraper : CliScraperBase
 
 
     /// <summary>
-    /// AWS CLI has 350+ services - use higher parallelism for faster discovery.
-    /// </summary>
-    protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
-
-    /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)

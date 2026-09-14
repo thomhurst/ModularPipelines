@@ -289,6 +289,14 @@ public class OptionTypeEnhancer
         var executor = new ProcessCliCommandExecutor(
             loggerFactory.CreateLogger<ProcessCliCommandExecutor>());
 
+        return CreateDefault(executor, loggerFactory, overridesDirectory);
+    }
+
+    internal static OptionTypeEnhancer CreateDefault(
+        ICliCommandExecutor executor,
+        ILoggerFactory loggerFactory,
+        string? overridesDirectory = null)
+    {
         var pipeline = OptionTypeDetectorPipeline.CreateDefault(
             executor,
             loggerFactory,

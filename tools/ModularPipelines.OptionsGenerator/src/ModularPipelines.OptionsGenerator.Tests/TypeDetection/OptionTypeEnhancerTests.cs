@@ -8,6 +8,74 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class OptionTypeEnhancerTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CreateDefault_Uses_Supplied_Executor_For_Help_Detection(bool timedOut)
+    {
+        var executor = new HelpExecutor(timedOut);
+        var enhancer = OptionTypeEnhancer.CreateDefault(executor, NullLoggerFactory.Instance);
+        var tool = new CliToolDefinition
+        {
+            ToolName = "kubectl",
+            NamespacePrefix = "Kubectl",
+            TargetNamespace = "ModularPipelines.Kubernetes",
+            OutputDirectory = "unused",
+            Commands =
+            [
+                new CliCommandDefinition
+                {
+                    FullCommand = "kubectl example",
+                    CommandParts = ["example"],
+                    ClassName = "KubectlExampleOptions",
+                    ParentClassName = "KubectlOptions",
+                    ToolNamespacePrefix = "Kubectl",
+                    Options = [new CliOptionDefinition { SwitchName = "--style", PropertyName = "Style", CSharpType = "string?" }],
+                },
+            ],
+        };
+
+        var enhanced = await enhancer.EnhanceAsync(tool);
+        var option = enhanced.Commands.Single().Options.Single();
+
+        await Assert.That(executor.Calls).IsEquivalentTo([("kubectl", "example --help")]);
+        if (timedOut)
+        {
+            await Assert.That(option.EnumDefinition).IsNull();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+        else
+        {
+            await Assert.That(option.EnumDefinition).IsNotNull();
+            await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+                .IsEquivalentTo(["compact", "expanded"]);
+        }
+    }
+
+    private sealed class HelpExecutor(bool timedOut) : ICliCommandExecutor
+    {
+        public List<(string Command, string Arguments)> Calls { get; } = [];
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            Calls.Add((command, arguments));
+            return Task.FromResult(new CliCommandResult
+            {
+                StandardOutput = timedOut ? string.Empty : "  --style string   One of: compact|expanded",
+                StandardError = string.Empty,
+                ExitCode = timedOut ? -1 : 0,
+                TimedOut = timedOut,
+            });
+        }
+    }
+
+    [Test]
     public async Task EnhanceAsync_Preserves_Repeatability_For_Detected_Enums()
     {
         var detector = new HeuristicTypeDetector(NullLogger<HeuristicTypeDetector>.Instance);

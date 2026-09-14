@@ -33,6 +33,7 @@ internal static class OptionsGeneratorCommand
         rootCommand.Options.Add(options.ChangeManifest);
         rootCommand.Options.Add(options.ListTools);
         rootCommand.Options.Add(options.Json);
+        rootCommand.Options.Add(options.CommandTimeoutSeconds);
         rootCommand.SetAction((parseResult, cancellationToken) =>
             ExecuteAsync(ParseSettings(parseResult, options), cancellationToken));
         return rootCommand;
@@ -81,6 +82,11 @@ internal static class OptionsGeneratorCommand
             Json: new Option<bool>("--json")
             {
                 Description = "Write machine-readable JSON when listing tools",
+            },
+            CommandTimeoutSeconds: new Option<int>("--command-timeout-seconds")
+            {
+                Description = "Deadline for each CLI command in seconds (1-600)",
+                DefaultValueFactory = _ => 30,
             });
     }
 
@@ -95,13 +101,20 @@ internal static class OptionsGeneratorCommand
             ApproveCommandCoverageShrinkage: parseResult.GetValue(options.ApproveCommandCoverageShrinkage),
             ChangeManifest: parseResult.GetValue(options.ChangeManifest),
             ListTools: parseResult.GetValue(options.ListTools),
-            Json: parseResult.GetValue(options.Json));
+            Json: parseResult.GetValue(options.Json),
+            CommandTimeoutSeconds: parseResult.GetValue(options.CommandTimeoutSeconds));
     }
 
     private static async Task<int> ExecuteAsync(
         GeneratorSettings settings,
         CancellationToken cancellationToken)
     {
+        if (settings.CommandTimeoutSeconds is < 1 or > 600)
+        {
+            Console.Error.WriteLine("--command-timeout-seconds must be between 1 and 600.");
+            return 1;
+        }
+
         if (settings.Json && !settings.ListTools)
         {
             Console.Error.WriteLine("--json requires --list-tools.");
@@ -129,7 +142,7 @@ internal static class OptionsGeneratorCommand
         }
 
         ValidateExecutableOverride(settings);
-        using var host = BuildHost(settings.EnhanceTypes);
+        using var host = BuildHost(settings.EnhanceTypes, commandTimeout: TimeSpan.FromSeconds(settings.CommandTimeoutSeconds));
         var logger = host.Services.GetRequiredService<ILoggerFactory>()
             .CreateLogger(nameof(OptionsGeneratorCommand));
         var orchestrator = CreateOrchestrator(host, settings.Input is not null);
@@ -160,13 +173,15 @@ internal static class OptionsGeneratorCommand
         }
     }
 
-    private static IHost BuildHost(bool enhanceTypes, bool suppressLogs = false)
+    private static IHost BuildHost(bool enhanceTypes, bool suppressLogs = false, TimeSpan? commandTimeout = null)
     {
         var builder = Host.CreateApplicationBuilder();
         builder.Logging.AddConsole();
         builder.Logging.SetMinimumLevel(suppressLogs ? LogLevel.None : LogLevel.Information);
         builder.Services.AddHttpClient();
-        builder.Services.AddSingleton<ProcessCliCommandExecutor>();
+        builder.Services.AddSingleton(serviceProvider => new ProcessCliCommandExecutor(
+            serviceProvider.GetRequiredService<ILogger<ProcessCliCommandExecutor>>(),
+            commandTimeout));
         builder.Services.AddSingleton<ICliCommandExecutor>(serviceProvider =>
         {
             var inner = serviceProvider.GetRequiredService<ProcessCliCommandExecutor>();
@@ -181,15 +196,22 @@ internal static class OptionsGeneratorCommand
 
         if (enhanceTypes)
         {
-            builder.Services.AddSingleton(serviceProvider =>
-            {
-                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-                return OptionTypeEnhancer.CreateDefault(loggerFactory);
-            });
+            builder.Services.AddSingleton(CreateTypeEnhancer);
         }
 
         builder.Services.AddSingleton<CodeGeneratorOrchestrator>();
         return builder.Build();
+    }
+
+    internal static OptionTypeEnhancer CreateTypeEnhancer(IServiceProvider serviceProvider)
+    {
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        // Share the configured process deadline, but keep fallback enhancement independent
+        // of a circuit opened by CLI-first scraping.
+        var executor = new ResilientCliCommandExecutor(
+            serviceProvider.GetRequiredService<ProcessCliCommandExecutor>(),
+            loggerFactory.CreateLogger<ResilientCliCommandExecutor>());
+        return OptionTypeEnhancer.CreateDefault(executor, loggerFactory);
     }
 
     internal static IReadOnlyList<ToolCatalogEntry> CreateToolCatalog()
@@ -293,10 +315,16 @@ internal static class OptionsGeneratorCommand
 
     private static void LogConfiguration(ILogger logger, GeneratorSettings settings)
     {
+        if (!logger.IsEnabled(LogLevel.Information))
+        {
+            return;
+        }
+
         logger.LogInformation("Starting CLI Options Generator");
         if (settings.Input is null)
         {
             logger.LogInformation("Tools: {Tools}", settings.Tools);
+            logger.LogInformation("CLI command deadline: {Seconds} seconds", settings.CommandTimeoutSeconds);
             logger.LogInformation(
                 "CLI-first scraping: {UseCliFirst}",
                 settings.UseCliFirst ? "Enabled" : "Disabled");
@@ -385,7 +413,8 @@ internal static class OptionsGeneratorCommand
         Option<bool> ApproveCommandCoverageShrinkage,
         Option<string?> ChangeManifest,
         Option<bool> ListTools,
-        Option<bool> Json);
+        Option<bool> Json,
+        Option<int> CommandTimeoutSeconds);
 
     private sealed record GeneratorSettings(
         string Tools,
@@ -396,5 +425,6 @@ internal static class OptionsGeneratorCommand
         bool ApproveCommandCoverageShrinkage,
         string? ChangeManifest,
         bool ListTools,
-        bool Json);
+        bool Json,
+        int CommandTimeoutSeconds);
 }

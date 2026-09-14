@@ -15,6 +15,8 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// This command will move an item matched by the address given to the
 /// </summary>
+/// <param name="Source">The SOURCE operand.</param>
+/// <param name="Destination">The DESTINATION operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "mv")]

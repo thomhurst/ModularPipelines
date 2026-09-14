@@ -23,6 +23,50 @@ public class TerraformCliScraperTests
             CreateHelpText(command, switchName, description));
 
         await AssertValueOption(definition, switchName);
+        await Assert.That(definition!.Options.Single(option => option.SwitchName == switchName).IsRequired).IsTrue();
+    }
+
+    [Test]
+    [Arguments("The ID of the deployment step.", false)]
+    [Arguments("The ID is required only when another option is set.", false)]
+    [Arguments("The name, for example required.", false)]
+    [Arguments("For example, use (required) to illustrate a marker.", false)]
+    [Arguments("The name, FOR EXAMPLE use (required).", false)]
+    [Arguments("For example, use 'name' (required).", false)]
+    [Arguments("For example, use 'Example. (required) value'.", false)]
+    [Arguments("For example, use (required). The selector (required).", true)]
+    [Arguments("The selector (required). For example, use the name.", true)]
+    [Arguments("For example, use a name. Use the 'name' selector (required).", true)]
+    [Arguments("The name, for example \"(required)\".", false)]
+    [Arguments("The name, for example '(required)'.", false)]
+    [Arguments("The name, for example `(required)`.", false)]
+    [Arguments("The name, for example \"Example. (required) value\".", false)]
+    [Arguments("The name, for example 'Example. (required) value'.", false)]
+    [Arguments("The name, for example `Example. (required) value`.", false)]
+    [Arguments("The name. (required when creating a deployment)", false)]
+    [Arguments("The name. (REQUIRED)", true)]
+    [Arguments("(required) The name of the deployment step.", true)]
+    [Arguments("The name. (required) One of: plan-description, apply-description.", true)]
+    [Arguments("The name.\n                       (required)", true)]
+    [Arguments("The ID of the deployment run to watch (required).", true)]
+    [Arguments("The ID of the deployment run to cancel (required).", true)]
+    [Arguments("The ID of the deployment run (required).", true)]
+    [Arguments("A comma-separated list of deployment names to rerun within the deployment group (required).", true)]
+    [Arguments("The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)", true)]
+    [Arguments("The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)", true)]
+    [Arguments("The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)", true)]
+    [Arguments("The deployment's ID (required).", true)]
+    [Arguments("Use the 'name' selector (required).", true)]
+    [Arguments("The name, for example \"(required).\".", false)]
+    [Arguments("The name, for example '(required).'.", false)]
+    [Arguments("The name, for example `(required).`.", false)]
+    public async Task Only_Explicit_Required_Markers_Make_Options_Required(string description, bool expected)
+    {
+        var definition = await _scraper.Parse(
+            ["terraform", "stacks", "deployment-step", "show"],
+            CreateHelpText("show", "-deployment-step-id", description));
+
+        await Assert.That(definition!.Options.Single().IsRequired).IsEqualTo(expected);
     }
 
     [Test]
