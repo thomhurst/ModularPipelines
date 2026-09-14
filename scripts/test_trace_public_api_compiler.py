@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 spec = importlib.util.spec_from_file_location(
@@ -47,6 +48,37 @@ class CompilerSelectionTests(unittest.TestCase):
             (root / '101' / 'status').write_text('PPid:\t101\n')
             self.assertFalse(compiler_trace.is_descendant(101, 100, root))
             self.assertFalse(compiler_trace.is_descendant(102, 100, root))
+
+    def test_failed_trace_start_allows_a_later_compiler_and_closes_logs(self):
+        for failure in ('proc', 'launch'):
+            with self.subTest(failure=failure):
+                build = mock.Mock(pid=100, returncode=7)
+                build.poll.side_effect = [None, None, None, 0]
+                trace = mock.Mock()
+                trace.poll.return_value = 0
+                logs = [mock.Mock(), mock.Mock()]
+                launches = [build, trace] if failure == 'proc' else [build, OSError('trace launch failed'), trace]
+                reads = [FileNotFoundError('compiler exited'), 'status', 'stat'] if failure == 'proc' else ['status'] * 4
+                with (
+                    mock.patch.object(sys, 'argv', ['collector', '--project', 'Azure', '--trace-tool', 'trace',
+                                                   '--output-directory', '/output', '--', 'build']),
+                    mock.patch.object(compiler_trace.platform, 'system', return_value='Linux'),
+                    mock.patch.object(compiler_trace.platform, 'platform', return_value='Linux-test'),
+                    mock.patch.object(compiler_trace.signal, 'signal'),
+                    mock.patch.object(compiler_trace, 'stop_owned_process'),
+                    mock.patch.object(compiler_trace, 'find_compilers', side_effect=[[101], [101, 102], [102]]),
+                    mock.patch.object(compiler_trace.time, 'monotonic', side_effect=[0, 121, 242, 242]),
+                    mock.patch.object(compiler_trace.time, 'sleep'),
+                    mock.patch.object(Path, 'read_text', side_effect=reads),
+                    mock.patch.object(Path, 'write_text'),
+                    mock.patch('builtins.open', side_effect=logs),
+                    mock.patch.object(compiler_trace.subprocess, 'Popen', side_effect=launches) as popen,
+                ):
+                    self.assertEqual(7, compiler_trace.main())
+                self.assertEqual('102', popen.call_args.args[0][3])
+                logs[0].close.assert_called_once()
+                if failure == 'launch':
+                    logs[1].close.assert_called_once()
 
     @unittest.skipUnless(platform.system() == 'Linux', 'The collector uses Linux /proc.')
     def test_build_failure_exit_code_is_preserved_without_a_compiler(self):

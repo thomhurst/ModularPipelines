@@ -21,7 +21,7 @@ try {
     Set-Content -LiteralPath $projectPath -Value '<Project />'
     @('#nullable enable', 'Api.Existing', 'Api.Removed') |
         Set-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt')
-    @('#nullable enable') |
+    @('#nullable enable', 'Api.Draft', 'Api.RemovedDraft') |
         Set-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt')
 
     $fakeDotNet = Join-Path $resolvedTestRoot 'fake-dotnet.ps1'
@@ -36,14 +36,33 @@ $count = if (Test-Path -LiteralPath $env:SYNC_TEST_COUNT_FILE) {
 } else { 0 }
 $count++
 Set-Content -LiteralPath $env:SYNC_TEST_COUNT_FILE -Value $count
+if ($env:SYNC_TEST_FAIL_BUILD -and $count -eq [int] $env:SYNC_TEST_FAIL_BUILD) {
+    $global:LASTEXITCODE = 1
+    return
+}
 $targetUri = [Uri]::new((Join-Path $env:SYNC_TEST_PACKAGE 'Generated.cs')).AbsoluteUri
-$messageSuffix = if ($count -eq 1) {
+$isRemovalBuild = $errorLogPath.EndsWith('PublicAPI.removals.sarif', [StringComparison]::Ordinal)
+$shipped = @(Get-Content -LiteralPath (Join-Path $env:SYNC_TEST_PACKAGE 'PublicAPI.Shipped.txt'))
+$unshipped = @(Get-Content -LiteralPath (Join-Path $env:SYNC_TEST_PACKAGE 'PublicAPI.Unshipped.txt'))
+if ($count -eq 1) {
+    if ($isRemovalBuild -or $shipped.Count -ne 1 -or $unshipped.Count -ne 1) {
+        throw 'Discover the current API from empty baselines before collecting removals.'
+    }
+} elseif (-not $isRemovalBuild -or
+    $shipped -notcontains 'Api.Removed' -or
+    $unshipped -notcontains 'Api.RemovedDraft' -or
+    $unshipped -notcontains 'Api.Added' -or
+    @($unshipped | Where-Object { $_ -eq 'Api.Draft' }).Count -ne 1 -or
+    $unshipped -contains 'Api.Existing') {
+    throw 'Removal discovery must retain old APIs and declare current additions without duplicates.'
+}
+$messageSuffix = if ($isRemovalBuild) {
     ' is part of the declared API, but is either not public or could not be found'
 } else {
     ' is not part of the declared public API'
 }
-$symbols = if ($count -eq 1) { @('Api.Removed') } else { @('Api.Existing', 'Api.Added') }
-$ruleId = if ($count -eq 1) { 'RS0017' } else { 'RS0016' }
+$symbols = if ($isRemovalBuild) { @('Api.Removed', 'Api.RemovedDraft') } else { @('Api.Existing', 'Api.Draft', 'Api.Added') }
+$ruleId = if ($isRemovalBuild) { 'RS0017' } else { 'RS0016' }
 $results = @($symbols | ForEach-Object {
     @{
         ruleId = $ruleId
@@ -73,7 +92,7 @@ $global:LASTEXITCODE = 0
     $actualShipped = @(Get-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt'))
     $actualUnshipped = @(Get-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt'))
     $expectedShipped = @('#nullable enable', 'Api.Existing', 'Api.Removed')
-    $expectedUnshipped = @('#nullable enable', '*REMOVED*Api.Removed', 'Api.Added')
+    $expectedUnshipped = @('#nullable enable', '*REMOVED*Api.Removed', 'Api.Added', 'Api.Draft')
     if (-not [Linq.Enumerable]::SequenceEqual(
             [string[]] $actualShipped,
             [string[]] $expectedShipped,
@@ -89,11 +108,49 @@ $global:LASTEXITCODE = 0
         throw 'Expected exactly two public API builds.'
     }
 
+    foreach ($failedBuild in 1, 2) {
+        $initialShipped = @('#nullable enable', 'Api.Existing', 'Api.Removed')
+        $initialUnshipped = @('#nullable enable', 'Api.Draft', 'Api.RemovedDraft')
+        $initialShipped | Set-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt')
+        $initialUnshipped | Set-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt')
+        Set-Content -LiteralPath $countFile -Value 0
+        $env:SYNC_TEST_FAIL_BUILD = [string] $failedBuild
+        $priorExitCode = $global:LASTEXITCODE
+        $failure = $null
+        try {
+            & $syncScript `
+                -PackageDirectory $packageDirectory `
+                -ProjectPath $projectPath `
+                -TemporaryDirectory $temporaryDirectory `
+                -ExtraBuildArguments @('-test-extra') `
+                -DotNetExecutable $fakeDotNet
+        }
+        catch {
+            $failure = $_
+        }
+        finally {
+            $global:LASTEXITCODE = $priorExitCode
+        }
+
+        if ($null -eq $failure -or
+            $failure.Exception.Message -notlike 'Failed to * public API *') {
+            throw "Expected a public API build failure in pass $failedBuild."
+        }
+        foreach ($baseline in 'PublicAPI.Shipped.txt', 'PublicAPI.Unshipped.txt') {
+            $actual = [IO.File]::ReadAllBytes((Join-Path $packageDirectory $baseline))
+            $original = [IO.File]::ReadAllBytes((Join-Path $temporaryDirectory ($baseline.Replace('.txt', '.original.txt'))))
+            if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $actual, [byte[]] $original)) {
+                throw "Failed pass $failedBuild did not restore $baseline exactly."
+            }
+        }
+    }
+
     Write-Output 'OK public API synchronization orchestration passed.'
 }
 finally {
     Remove-Item Env:SYNC_TEST_COUNT_FILE -ErrorAction SilentlyContinue
     Remove-Item Env:SYNC_TEST_PACKAGE -ErrorAction SilentlyContinue
+    Remove-Item Env:SYNC_TEST_FAIL_BUILD -ErrorAction SilentlyContinue
     if (Test-Path -LiteralPath $resolvedTestRoot) {
         Remove-Item -LiteralPath $resolvedTestRoot -Recurse -Force
     }

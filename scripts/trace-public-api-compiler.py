@@ -102,7 +102,6 @@ def main():
                 for process_id in compilers:
                     if now - first_seen[process_id] < 120:
                         continue
-                    sampled = True
                     trace_command = [args.trace_tool, 'collect', '--process-id', str(process_id),
                                      '--duration', '00:00:30', '--buffersize', '64',
                                      '--profile', 'dotnet-common,dotnet-sampled-thread-time',
@@ -118,10 +117,14 @@ def main():
                         trace_log = open(str(output) + '.log', 'w')
                         trace = subprocess.Popen(trace_command, stdout=trace_log,
                                                  stderr=subprocess.STDOUT, start_new_session=True)
+                        sampled = True
                         trace_started = time.monotonic()
                         print(f'Collecting 30 seconds of compiler diagnostics for PID {process_id}.',
                               flush=True)
                     except OSError as error:
+                        if trace_log is not None:
+                            trace_log.close()
+                            trace_log = None
                         print(f'Compiler diagnostics unavailable: {error}', flush=True)
                     break
             time.sleep(1)
