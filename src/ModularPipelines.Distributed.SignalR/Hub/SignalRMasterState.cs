@@ -10,6 +10,7 @@ internal class SignalRMasterState
 {
     private readonly Lock _pendingReconnectLock = new();
     private readonly Dictionary<string, PendingReconnect> _pendingReconnects = [];
+    private readonly HashSet<string> _admittedWorkerResults = [];
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
     private readonly ConcurrentDictionary<int, object> _workerStateLocks = new();
 
@@ -142,8 +143,7 @@ internal class SignalRMasterState
 
         lock (_pendingReconnectLock)
         {
-            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
-                && waiter.Task.IsCompleted)
+            if (HasAcceptedResult(assignment.ModuleTypeName))
             {
                 return null;
             }
@@ -244,8 +244,7 @@ internal class SignalRMasterState
     {
         lock (_pendingReconnectLock)
         {
-            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
-                && waiter.Task.IsCompleted)
+            if (HasAcceptedResult(assignment.ModuleTypeName))
             {
                 return false;
             }
@@ -275,8 +274,7 @@ internal class SignalRMasterState
     {
         lock (_pendingReconnectLock)
         {
-            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
-                && waiter.Task.IsCompleted)
+            if (HasAcceptedResult(assignment.ModuleTypeName))
             {
                 return false;
             }
@@ -287,6 +285,11 @@ internal class SignalRMasterState
                    || pending.TryReturnToQueue(worker);
         }
     }
+
+    // Called while holding _pendingReconnectLock so admission and redispatch cannot race.
+    private bool HasAcceptedResult(string moduleTypeName) =>
+        _admittedWorkerResults.Contains(moduleTypeName)
+        || (ResultWaiters.TryGetValue(moduleTypeName, out var waiter) && waiter.Task.IsCompleted);
 
     public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(
         string moduleTypeName,
@@ -345,6 +348,12 @@ internal class SignalRMasterState
             {
                 return (false, []);
             }
+
+            // Fence waits must not let reconnect recovery claim an already admitted result.
+            lock (_pendingReconnectLock)
+            {
+                _admittedWorkerResults.Add(result.ModuleTypeName);
+            }
         }
 
         using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
@@ -364,6 +373,7 @@ internal class SignalRMasterState
                 static _ => new TaskCompletionSource<SerializedModuleResult>(
                     TaskCreationOptions.RunContinuationsAsynchronously));
             waiter.TrySetResult(result);
+            _admittedWorkerResults.Remove(result.ModuleTypeName);
 
             if (_pendingReconnects.Remove(result.ModuleTypeName, out pending))
             {

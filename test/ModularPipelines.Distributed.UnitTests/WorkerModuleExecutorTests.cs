@@ -12,6 +12,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using MsOptions = Microsoft.Extensions.Options.Options;
@@ -100,6 +101,34 @@ public class WorkerModuleExecutorTests
     }
 
     private sealed class DefaultRetryModule : RetryingModule;
+
+    private sealed class CyclicOutput
+    {
+        public CyclicOutput? Next { get; set; }
+    }
+
+    private sealed class CyclicOutputModule : Module<CyclicOutput>
+    {
+        protected internal override Task<CyclicOutput> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var output = new CyclicOutput();
+            output.Next = output;
+            return Task.FromResult(output);
+        }
+    }
+
+    [Test]
+    public async Task Unserializable_Success_Publishes_A_Serialization_Failure(CancellationToken cancellationToken)
+    {
+        var (_, result) = await ExecuteWorkerModuleAsync<CyclicOutputModule, CyclicOutput>(
+            null, cancellationToken);
+
+        await Assert.That(result?.ExceptionOrDefault).IsNotNull();
+        await Assert.That(result!.ExceptionOrDefault!.Message).Contains("cycle");
+        await Assert.That(result.ValueOrDefault).IsNull();
+    }
 
     private sealed class RejectFirstPublicationCoordinator(IDistributedWorkerCoordinator inner) : IDistributedWorkerCoordinator
     {
@@ -299,6 +328,25 @@ public class WorkerModuleExecutorTests
         bool rejectFirstPublication = false)
         where TModule : RetryingModule
     {
+        var (module, result) = await ExecuteWorkerModuleAsync<TModule, int>(
+            configureBuilder, cancellationToken, rejectFirstPublication);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.AttemptCount).IsEqualTo(3);
+            await Assert.That(module.AmbientModuleType).IsEqualTo(typeof(TModule));
+            await Assert.That(module.AmbientLogger).IsNotNull();
+            await Assert.That(result?.ExceptionOrDefault).IsNull();
+            await Assert.That(result?.ValueOrDefault).IsEqualTo(3);
+        }
+    }
+
+    private static async Task<(TModule Module, IModuleResult? Result)> ExecuteWorkerModuleAsync<TModule, TResult>(
+        Action<PipelineBuilder>? configureBuilder,
+        CancellationToken cancellationToken,
+        bool rejectFirstPublication = false)
+        where TModule : Module<TResult>
+    {
         var builder = TestPipelineBuilder.Create();
         configureBuilder?.Invoke(builder);
         builder.AddModule<TModule>();
@@ -312,7 +360,7 @@ public class WorkerModuleExecutorTests
         var serializer = new ModuleResultSerializer(typeRegistry);
         var assignment = new ModuleAssignment(
             typeof(TModule).FullName!,
-            typeof(int).FullName!,
+            typeof(TResult).FullName!,
             [],
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
@@ -338,20 +386,17 @@ public class WorkerModuleExecutorTests
             NullLogger<WorkerModuleExecutor>.Instance);
 
         var executionTask = executor.ExecuteAsync([module]);
-        var serializedResult = await coordinator.WaitForResultAsync(
-            typeof(TModule).FullName!,
-            cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
-        await coordinator.SignalCompletionAsync(cancellationToken);
-        await executionTask.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
-        var result = serializer.Deserialize(serializedResult);
-
-        using (Assert.Multiple())
+        try
         {
-            await Assert.That(module.AttemptCount).IsEqualTo(3);
-            await Assert.That(module.AmbientModuleType).IsEqualTo(typeof(TModule));
-            await Assert.That(module.AmbientLogger).IsNotNull();
-            await Assert.That(result?.ExceptionOrDefault).IsNull();
-            await Assert.That(result?.ValueOrDefault).IsEqualTo(3);
+            var serializedResult = await coordinator.WaitForResultAsync(
+                typeof(TModule).FullName!,
+                cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+            return (module, serializer.Deserialize(serializedResult));
+        }
+        finally
+        {
+            await coordinator.SignalCompletionAsync(CancellationToken.None);
+            await executionTask.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
         }
     }
 

@@ -400,11 +400,29 @@ internal class WorkerModuleExecutor(
                         Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
                         Exception = exception,
                     });
-            var serialized = _serializer.Serialize(
-                terminalResult,
-                assignment.ModuleTypeName,
-                assignment.ResultTypeName,
-                instanceIndex);
+            SerializedModuleResult serialized;
+            try
+            {
+                serialized = _serializer.Serialize(
+                    terminalResult,
+                    assignment.ModuleTypeName,
+                    assignment.ResultTypeName,
+                    instanceIndex);
+            }
+            catch (Exception serializationException) when (resultTask.IsCompletedSuccessfully)
+            {
+                // An accepted outcome that cannot cross the wire must still complete the master's waiter.
+                var failure = ModuleResultFactory.CreateException(
+                    resultType,
+                    serializationException,
+                    new ModuleExecutionContext(module, module.GetType()));
+                serialized = _serializer.Serialize(
+                    failure,
+                    assignment.ModuleTypeName,
+                    assignment.ResultTypeName,
+                    instanceIndex);
+            }
+
             await DistributedFailurePublisher.PublishAsync(_coordinator, serialized).ConfigureAwait(false);
         }
         catch (Exception publishException)

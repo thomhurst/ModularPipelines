@@ -93,19 +93,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     {
         while (true)
         {
-            long connectionGeneration;
-            Task<bool>? registration;
-            lock (_reconnectLock)
-            {
-                connectionGeneration = _connectionGeneration;
-                registration = _reconnecting ? _connectionTransition.Task : null;
-            }
-
-            if (registration is not null
-                && !await registration.WaitAsync(cancellationToken).ConfigureAwait(false))
-            {
-                throw new InvalidOperationException("Worker registration failed after reconnecting to the master.");
-            }
+            var connectionGeneration = await WaitForRegistrationAsync(cancellationToken).ConfigureAwait(false);
 
             try
             {
@@ -113,9 +101,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
                     .ConfigureAwait(false);
                 break;
             }
-            catch (Exception ex) when (!cancellationToken.IsCancellationRequested
-                                       && (ex is not Microsoft.AspNetCore.SignalR.HubException
-                                           || HasReconnectSince(connectionGeneration)))
+            catch (Exception ex) when (CanRetryPublication(ex, connectionGeneration, cancellationToken))
             {
                 if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken).ConfigureAwait(false))
                 {
@@ -130,6 +116,33 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             Interlocked.CompareExchange(ref _inFlightAssignment, null, assignment);
         }
     }
+
+    private async Task<long> WaitForRegistrationAsync(CancellationToken cancellationToken)
+    {
+        long connectionGeneration;
+        Task<bool>? registration;
+        lock (_reconnectLock)
+        {
+            connectionGeneration = _connectionGeneration;
+            registration = _reconnecting ? _connectionTransition.Task : null;
+        }
+
+        if (registration is not null
+            && !await registration.WaitAsync(cancellationToken).ConfigureAwait(false))
+        {
+            throw new InvalidOperationException("Worker registration failed after reconnecting to the master.");
+        }
+
+        return connectionGeneration;
+    }
+
+    private bool CanRetryPublication(
+        Exception exception,
+        long connectionGeneration,
+        CancellationToken cancellationToken) =>
+        !cancellationToken.IsCancellationRequested
+        && (exception is not Microsoft.AspNetCore.SignalR.HubException
+            || HasReconnectSince(connectionGeneration));
 
     public async Task<SerializedModuleResult> WaitForResultAsync(
         string moduleTypeName,

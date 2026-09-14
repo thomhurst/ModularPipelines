@@ -370,18 +370,23 @@ public class DistributedPipelineHubTests
             resumingModuleTypeName: null);
         state.Workers["old-connection"].TryAssign(assignment);
 
-        Task publication;
-        using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName))
-        {
-            publication = oldHub.PublishResult(result);
-            await Assert.That(publication.IsCompleted).IsFalse();
-            await currentHub.RegisterWorker(
-                new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
-                resumesAssignment ? assignment.ModuleTypeName : null);
-        }
-
+        var publication = Task.CompletedTask;
         try
         {
+            using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName))
+            {
+                publication = oldHub.PublishResult(result);
+                await Assert.That(publication.IsCompleted).IsFalse();
+                await currentHub.RegisterWorker(
+                    new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+                    resumesAssignment ? assignment.ModuleTypeName : null);
+
+                // Advance any pending reconnect as if grace elapsed while delivery remained blocked.
+                state.GetPendingReconnect(1)?.TryMakeAvailableForRedispatch();
+                await Assert.That(state.TryClaimRedispatch(assignment)).IsFalse();
+                await Assert.That(state.TryReturnRedispatchToQueue(assignment)).IsFalse();
+            }
+
             await publication.WaitAsync(cancellationToken);
             await Assert.That(waiter.Task.IsCompletedSuccessfully).IsTrue();
             await Assert.That(await waiter.Task).IsSameReferenceAs(result);
@@ -392,6 +397,7 @@ public class DistributedPipelineHubTests
         finally
         {
             state.CompletePendingReconnect(assignment.ModuleTypeName);
+            await publication.WaitAsync(cancellationToken);
         }
     }
 
