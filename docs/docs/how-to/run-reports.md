@@ -43,6 +43,27 @@ build system, and the previous run's finish time when it supplies a duration-del
 Registering the Git or GitHub integration also adds the available commit, branch, and CI run URL.
 Correlation strings pass through secret obfuscation before persistence.
 
+## Inspect distributed utilization
+
+Schema v5 adds `PipelineRunReport.Distributed` when the master collected distributed worker
+telemetry. It contains:
+
+- each module's worker index, queue-wait time, execution interval, and measured overhead for
+  assignment/dependency-result transfer, dependency-result processing, artifact download/upload,
+  and result collection;
+- each worker's module count, busy and idle durations, and utilization percentage; and
+- utilization across the configured worker fleet, including workers that executed no modules.
+
+Worker busy time spans assignment claim through result serialization, so dependency processing and
+artifact transfer count as useful worker activity. Module intervals and worker indexes provide the
+per-worker timeline. The final console output also calls out fleet idle percentage and the module
+with the longest queue wait. Concurrent modules contribute the union of their intervals to worker
+busy time, so utilization measures whether a worker is active, not how many of its slots are occupied.
+
+Dependency transfer measures waits for referenced results, including the worker cache; processing
+measures deserialization and application separately. Queue wait and result transfer compare master
+and worker timestamps and assume synchronized clocks; negative differences are clamped to zero.
+
 ## Include module output excerpts
 
 Schema v4 adds the optional per-module `Output` excerpt.

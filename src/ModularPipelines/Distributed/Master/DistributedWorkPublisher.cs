@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
@@ -14,7 +15,8 @@ internal class DistributedWorkPublisher(
     IModuleDependencyRegistry? dependencyRegistry = null,
     IModuleMetadataRegistry? metadataRegistry = null,
     IExecutionLocationContext? executionLocationContext = null,
-    IModuleConditionHandler? conditionHandler = null)
+    IModuleConditionHandler? conditionHandler = null,
+    DistributedTelemetryTracker? telemetryTracker = null)
 {
     private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
@@ -137,7 +139,10 @@ internal class DistributedWorkPublisher(
 
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
+        assignment = assignment with { EnqueuedAt = DateTimeOffset.UtcNow };
+        var startedAt = Stopwatch.GetTimestamp();
         await _coordinator.EnqueueModuleAsync(assignment, cancellationToken).ConfigureAwait(false);
+        telemetryTracker?.RecordAssignment(assignment, Stopwatch.GetElapsedTime(startedAt));
     }
 
     private static void AddExplicitOperatingSystemRoutes(

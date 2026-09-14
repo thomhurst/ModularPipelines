@@ -18,5 +18,8 @@ public record ModuleAssignment(
     /// </summary>
     public TimeSpan CriticalPathWeight { get; init; }
 
+    /// <summary>Gets when the assignment was enqueued for a worker.</summary>
+    public DateTimeOffset EnqueuedAt { get; init; }
+
     public IReadOnlyList<string> SatisfiedConditionGroups { get; init; } = [];
 }

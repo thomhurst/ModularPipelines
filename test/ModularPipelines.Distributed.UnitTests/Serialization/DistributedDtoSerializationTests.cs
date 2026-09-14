@@ -14,6 +14,7 @@ public class DistributedDtoSerializationTests
             new ModuleAssignmentOptions(TimeSpan.FromMilliseconds(1234), false),
             [new DependencyResultReference("DependencyModule", IsAvailable: true)])
         {
+            EnqueuedAt = DateTimeOffset.UtcNow,
             SatisfiedConditionGroups = ["Conditions.CrossPlatform"],
         };
 
@@ -23,7 +24,8 @@ public class DistributedDtoSerializationTests
         await Assert.That(actual).IsNotNull();
         await Assert.That(json).Contains("\"RequiredCapabilities\":[");
         await Assert.That(json).DoesNotContain("MatrixTarget");
-        await Assert.That(actual!.RequiredCapabilities).Contains((Capability) "Docker");
+        await Assert.That(actual!.EnqueuedAt).IsEqualTo(expected.EnqueuedAt);
+        await Assert.That(actual.RequiredCapabilities).Contains((Capability) "Docker");
         await Assert.That(actual.SatisfiedConditionGroups).Contains("Conditions.CrossPlatform");
         await Assert.That(actual.Configuration.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(1234));
         await Assert.That(actual.DependencyResultReferences).IsEquivalentTo(expected.DependencyResultReferences!);
@@ -72,6 +74,36 @@ public class DistributedDtoSerializationTests
 
         await Assert.That(json).Contains("\"Payload\":\"{}\"");
         await Assert.That(json).DoesNotContain("SerializedJson");
+    }
+
+    [Test]
+    public async Task SerializedModuleResult_RoundTrips_ExecutionTelemetry()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var expected = new SerializedModuleResult(
+            "BuildModule",
+            "System.String",
+            1,
+            "{}",
+            now)
+        {
+            ExecutionTelemetry = new DistributedModuleExecutionTelemetry
+            {
+                ClaimedAt = now.AddSeconds(-4),
+                ExecutionStartedAt = now.AddSeconds(-3),
+                ExecutionFinishedAt = now.AddSeconds(-1),
+                DependencyResultTransferDuration = TimeSpan.FromMilliseconds(50),
+                DependencyResultProcessingDuration = TimeSpan.FromMilliseconds(100),
+                ArtifactDownloadDuration = TimeSpan.FromMilliseconds(200),
+                ArtifactUploadDuration = TimeSpan.FromMilliseconds(300),
+            },
+        };
+
+        var json = JsonSerializer.Serialize(expected);
+        var actual = JsonSerializer.Deserialize<SerializedModuleResult>(json);
+
+        await Assert.That(actual).IsNotNull();
+        await Assert.That(actual!.ExecutionTelemetry).IsEqualTo(expected.ExecutionTelemetry);
     }
 
     [Test]

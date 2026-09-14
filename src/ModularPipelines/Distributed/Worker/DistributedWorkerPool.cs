@@ -25,19 +25,21 @@ internal static class DistributedWorkerPool
 
     public static async Task RunAsync(
         Func<CancellationToken, Task<ModuleAssignment?>> dequeueAsync,
-        Func<ModuleAssignment, CancellationToken, Task> executeAsync,
+        Func<ModuleAssignment, DateTimeOffset, CancellationToken, Task> executeAsync,
         int maxConcurrency,
         Action<Exception> onError,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        TimeProvider? timeProvider = null)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
+        var clock = timeProvider ?? TimeProvider.System;
 
         using var concurrencyGate = new SemaphoreSlim(maxConcurrency, maxConcurrency);
         var running = new List<Task>();
-        var pendingDequeue = DequeueAsync(dequeueAsync, onError, cancellationToken);
+        var pendingDequeue = DequeueAsync(dequeueAsync, onError, clock, cancellationToken);
         while (true)
         {
-            var assignment = await pendingDequeue.ConfigureAwait(false);
+            var (assignment, claimedAt) = await pendingDequeue.ConfigureAwait(false);
             if (assignment is null)
             {
                 break;
@@ -50,6 +52,7 @@ internal static class DistributedWorkerPool
             running.RemoveAll(static task => task.IsCompletedSuccessfully);
             running.Add(ExecuteAndReleaseAsync(
                 assignment,
+                claimedAt,
                 executeAsync,
                 onError,
                 concurrencyGate,
@@ -59,26 +62,28 @@ internal static class DistributedWorkerPool
                 break;
             }
 
-            pendingDequeue = DequeueAsync(dequeueAsync, onError, cancellationToken);
+            pendingDequeue = DequeueAsync(dequeueAsync, onError, clock, cancellationToken);
         }
 
         await Task.WhenAll(running).ConfigureAwait(false);
     }
 
-    private static async Task<ModuleAssignment?> DequeueAsync(
+    private static async Task<(ModuleAssignment? Assignment, DateTimeOffset ClaimedAt)> DequeueAsync(
         Func<CancellationToken, Task<ModuleAssignment?>> dequeueAsync,
         Action<Exception> onError,
+        TimeProvider clock,
         CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
-                return await dequeueAsync(cancellationToken).ConfigureAwait(false);
+                var assignment = await dequeueAsync(cancellationToken).ConfigureAwait(false);
+                return (assignment, clock.GetUtcNow());
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
-                return null;
+                return (null, default);
             }
             catch (Exception exception)
             {
@@ -89,23 +94,24 @@ internal static class DistributedWorkerPool
                 }
                 catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
                 {
-                    return null;
+                    return (null, default);
                 }
             }
         }
 
-        return null;
+        return (null, default);
     }
 
     private static async Task ExecuteAsync(
         ModuleAssignment assignment,
-        Func<ModuleAssignment, CancellationToken, Task> executeAsync,
+        DateTimeOffset claimedAt,
+        Func<ModuleAssignment, DateTimeOffset, CancellationToken, Task> executeAsync,
         Action<Exception> onError,
         CancellationToken cancellationToken)
     {
         try
         {
-            await executeAsync(assignment, cancellationToken).ConfigureAwait(false);
+            await executeAsync(assignment, claimedAt, cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
             when (cancellationToken.IsCancellationRequested ||
@@ -120,14 +126,15 @@ internal static class DistributedWorkerPool
 
     private static async Task ExecuteAndReleaseAsync(
         ModuleAssignment assignment,
-        Func<ModuleAssignment, CancellationToken, Task> executeAsync,
+        DateTimeOffset claimedAt,
+        Func<ModuleAssignment, DateTimeOffset, CancellationToken, Task> executeAsync,
         Action<Exception> onError,
         SemaphoreSlim concurrencyGate,
         CancellationToken cancellationToken)
     {
         try
         {
-            await ExecuteAsync(assignment, executeAsync, onError, cancellationToken)
+            await ExecuteAsync(assignment, claimedAt, executeAsync, onError, cancellationToken)
                 .ConfigureAwait(false);
         }
         finally

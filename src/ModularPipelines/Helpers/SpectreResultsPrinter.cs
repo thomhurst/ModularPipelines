@@ -16,16 +16,11 @@ namespace ModularPipelines.Helpers;
 /// Handles all console rendering for pipeline execution results.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class SpectreResultsPrinter : IResultsPrinter
+internal class SpectreResultsPrinter(IOptions<PipelineOptions> options) : IResultsPrinter
 {
     private const int MaxStackFrames = 5;
 
-    private readonly IOptions<PipelineOptions> _options;
-
-    public SpectreResultsPrinter(IOptions<PipelineOptions> options)
-    {
-        _options = options;
-    }
+    private readonly IOptions<PipelineOptions> _options = options;
 
     public void PrintResults(PipelineSummary pipelineSummary)
     {
@@ -51,6 +46,8 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         // Print execution metrics if available
         PrintMetrics(pipelineSummary);
+
+        PrintDistributedSummary(pipelineSummary.RunReport?.Distributed);
 
         System.Console.WriteLine();
     }
@@ -99,6 +96,20 @@ internal class SpectreResultsPrinter : IResultsPrinter
             : $"[dim]{totalCount} modules[/]";
     }
 
+    internal static string CreateDistributedSummaryLine(DistributedRunReport report)
+    {
+        var idlePercentage = Math.Clamp(100 - report.FleetUtilizationPercentage, 0, 100);
+        var longestQueueWait = report.Modules.MaxBy(static module => module.QueueWaitDuration);
+        if (longestQueueWait is null)
+        {
+            return $"Workers idle {idlePercentage:F1}% of run";
+        }
+
+        return $"Workers idle {idlePercentage:F1}% of run; longest queue wait: "
+               + $"{longestQueueWait.QueueWaitDuration.ToDisplayString()} on "
+               + SpectreMarkupEscaper.Escape(GetModuleName(longestQueueWait.ModuleTypeName));
+    }
+
     private static void PrintHeader(PipelineSummary pipelineSummary)
     {
         var summaryLine = CreateSummaryLine(pipelineSummary);
@@ -140,7 +151,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         table.AddColumn(new TableColumn("[bold]Status[/]").Centered());
         table.AddColumn(new TableColumn("[bold]Duration[/]").RightAligned());
         var reportLookup = pipelineSummary.RunReport is null
-            ? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal)
+            ? [with(StringComparer.Ordinal)]
             : pipelineSummary.RunReport.Modules
                 .ToUniqueByKeyDictionary(static report => report.ModuleTypeName);
         var showDeltas = pipelineSummary.RunReport?.TotalDurationDelta.HasValue == true
@@ -159,7 +170,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
                 static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
                     ? timeline.ModuleTypeName
                     : timeline.RuntimeModuleTypeName)
-            ?? new Dictionary<string, ModuleTimeline>(StringComparer.Ordinal);
+            ?? [with(StringComparer.Ordinal)];
 
         // Sort modules: Failed first, then Skipped, then by start time
         var sortedModules = pipelineSummary.Modules
@@ -368,6 +379,24 @@ internal class SpectreResultsPrinter : IResultsPrinter
         System.Console.WriteLine();
 
         AnsiConsole.Write(CreateMetricsPanel(metrics));
+    }
+
+    private static void PrintDistributedSummary(DistributedRunReport? report)
+    {
+        if (report is null)
+        {
+            return;
+        }
+
+        System.Console.WriteLine();
+        AnsiConsole.MarkupLine($"[dim]Distributed:[/] {CreateDistributedSummaryLine(report)}");
+    }
+
+    private static string GetModuleName(string moduleTypeName)
+    {
+        var typeName = moduleTypeName.Split(',')[0];
+        var separator = typeName.LastIndexOf('.');
+        return separator >= 0 ? typeName[(separator + 1)..] : typeName;
     }
 
     private static Panel CreateMetricsPanelCore(PipelineMetrics metrics)

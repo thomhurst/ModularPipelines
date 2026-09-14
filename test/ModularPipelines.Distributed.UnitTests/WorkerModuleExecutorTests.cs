@@ -392,6 +392,8 @@ public class WorkerModuleExecutorTests
             var serializedResult = await coordinator.WaitForResultAsync(
                 typeof(TModule).FullName!,
                 cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+            await Assert.That(serializedResult.ExecutionTelemetry).IsNotNull();
+            await Assert.That(serializedResult.ExecutionTelemetry!.ClaimedAt).IsNotEqualTo(default(DateTimeOffset));
             return (module, serializer.Deserialize(serializedResult));
         }
         finally
