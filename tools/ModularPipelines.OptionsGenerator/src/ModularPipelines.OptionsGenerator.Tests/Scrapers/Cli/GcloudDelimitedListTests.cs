@@ -135,6 +135,13 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUE", "Path of a JSON/YAML file. Multiple scopes can be specified, separated by commas.", null)]
     [Arguments("VALUE", "Configuration document. Nested fields accept names (separated by commas).", null)]
     [Arguments("VALUE", "Values to include. This option accepts names, separated by commas.", ",")]
+    [Arguments("VALUE", "Values, seperated by commas if multiple are supplied.", ",")]
+    [Arguments("VALUE", "A string of user-to-service-account mappings. Mappings are separated by commas.", ",")]
+    [Arguments("VALUE", "A string of labels. Mappings are separated by commas.", null)]
+    [Arguments("VALUE", "Path to a file containing mappings. Mappings are separated by commas.", null)]
+    [Arguments("[VALUE,...]", "Specify the --values flag multiple times.", null)]
+    [Arguments("[VALUE,...]", "The --values flag can be repeated.", null)]
+    [Arguments("[VALUE,...]", "Specify the --values-other flag multiple times.", ",")]
     [Arguments("FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", ",")]
     [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]]", "Set pool flags.", ",")]
     [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", null)]
@@ -227,11 +234,13 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("sql-instances-patch", "sql instances patch", "--connection-pool-flags", ",")]
     [Arguments("container-hub-policycontroller-enable", "container hub policycontroller enable", "--exemptable-namespaces", ",")]
     [Arguments("container-hub-policycontroller-enable", "container hub policycontroller enable", "--monitoring", ",")]
+    [Arguments("compute-instances-create", "compute instances create", "--local-ssd", null, "550")]
+    [Arguments("dataproc-clusters-create", "dataproc clusters create", "--secure-multi-tenancy-user-mapping", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
-        string fixture, string commandPath, string switchName, string? separator)
+        string fixture, string commandPath, string switchName, string? separator, string version = "550.0.0")
     {
         var helpText = await File.ReadAllTextAsync(Path.Combine(
-            AppContext.BaseDirectory, "Fixtures", "Gcloud", $"{fixture}-550.0.0.txt"));
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", $"{fixture}-{version}.txt"));
         var command = await CreateGcloudScraper().Parse(["gcloud", .. commandPath.Split(' ')], helpText);
         var option = command!.Options.Single(option => option.SwitchName == switchName);
 

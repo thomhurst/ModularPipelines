@@ -380,8 +380,9 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var valueHint = argument.ValueHint ?? string.Empty;
         var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, argument.SwitchName);
-        var repeatsSwitch = !isFlag && (RepeatedSwitchDescriptionPattern().IsMatch(argument.Description ?? string.Empty)
-            || HelpOptionBlockMatches(helpText, argument.SwitchName, RepeatedSwitchDescriptionPattern()));
+        var repeatsSwitch = !isFlag && (DescriptionDeclaresRepeatedSwitch(argument.Description, argument.SwitchName)
+            || HelpOptionBlockMatches(helpText, argument.SwitchName,
+                block => DescriptionDeclaresRepeatedSwitch(block, argument.SwitchName)));
         var isDelimitedList = UsesCommaSeparatedList(
             valueHint, argument.Description, isFlag, isStructuredValue, isKeyValue, isKnownScalar, repeatsSwitch);
         var acceptsMultipleValues = isDelimitedList
@@ -390,6 +391,11 @@ public partial class GcloudCliScraper : CliScraperBase
                                         && AcceptsMultipleValues(argument.SwitchName, valueHint, argument.Description, isFlag, hasCompositeSyntax));
         return (acceptsMultipleValues, isDelimitedList);
     }
+
+    private static bool DescriptionDeclaresRepeatedSwitch(string? description, string switchName) =>
+        RepeatedSwitchDescriptionPattern().IsMatch(description ?? string.Empty)
+        || NamedRepeatedSwitchDescriptionPattern().Matches(description ?? string.Empty)
+            .Any(match => match.Groups["switch"].Value.Equals(switchName, StringComparison.OrdinalIgnoreCase));
 
     private static bool UsesCommaSeparatedList(
         string valueHint,
@@ -433,7 +439,7 @@ public partial class GcloudCliScraper : CliScraperBase
         bool hasCompositeSyntax) =>
         !isFlag
         && (DescriptionDeclaresValueList(description)
-            || RepeatedSwitchDescriptionPattern().IsMatch(description ?? string.Empty)
+            || DescriptionDeclaresRepeatedSwitch(description, switchName)
             || DescriptionDeclaresRepeatableOption(description ?? string.Empty)
             || (!hasCompositeSyntax && valueHint.Contains("..."))
             || DescriptionRepeatsStructuredOption(description, switchName));
@@ -745,6 +751,14 @@ public partial class GcloudCliScraper : CliScraperBase
         + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex RepeatedSwitchDescriptionPattern();
 
+    [GeneratedRegex(@"(?:^|[.!?]\s+)\s*" + StatusPrefixPattern
+        + @"(?:(?:to\s+[^.!?;\r\n]+,\s*)?(?:specify|supply|provide|use|pass|set|give)\s+"
+        + @"(?:the\s+)?(?<switch>--?[\w-]+)\s+(?:(?:flag|argument|option)\s+)?"
+        + @"(?:multiple\s+times|more\s+than\s+once)"
+        + @"|(?:the\s+)?(?<switch>--?[\w-]+)\s+(?:(?:flag|argument|option)\s+)?"
+        + RepeatableSwitchRegex + @")\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex NamedRepeatedSwitchDescriptionPattern();
+
     [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern
         + @"(?:(?:(?:at (?:most|least)|exactly) one) of these (?:can|must) be specified:\s+)*"
         + @"(?:(?:this|the)\s+(?:flag|argument|option)\s+)?"
@@ -754,7 +768,10 @@ public partial class GcloudCliScraper : CliScraperBase
         // Unqualified subjects describe the option only in its opening sentence. Later
         // sentences may describe fields inside a configuration file instead.
         + @"|(?:^|[.!?]\s+(?:this|the)\s+(?:flag|argument|option)\s+)"
-        + @"(?:(?!--)[^.!?])*?[,([]\s*separated\s+by\s+commas\b", RegexOptions.IgnoreCase)]
+        + @"(?:(?!--)[^.!?])*?[,([]\s*sep[ae]rated\s+by\s+commas\b"
+        // A repeated subject links the passive sentence to the option's string value.
+        + @"|^(?:a|the)\s+string\s+of\s+(?:[\w-]+\s+)*(?<subject>[\w-]+)\.\s+"
+        + @"\k<subject>\s+are\s+sep[ae]rated\s+by\s+commas\b", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
 
     [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\](?(outer)\])$")]
