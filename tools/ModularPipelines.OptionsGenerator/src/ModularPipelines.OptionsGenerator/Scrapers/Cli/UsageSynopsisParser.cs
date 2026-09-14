@@ -574,7 +574,7 @@ public static class UsageSynopsisParser
         List<string> requiredOptionSwitches,
         ref string? associatedOptionSwitch)
     {
-        operandToken = operandToken.TrimEnd('.', '…');
+        operandToken = TrimTrailingOperandPunctuation(operandToken).TrimEnd('.', '…');
         var optionSwitches = GetOptionSwitches(operandToken);
         if (optionSwitches.Count == 0)
         {

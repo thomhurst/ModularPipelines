@@ -60,7 +60,12 @@ public class UsageSynopsisParserTests
     [Test]
     [Arguments("[--inherited]...")]
     [Arguments("[--inherited]…")]
-    public async Task Repeated_Closed_Flag_Groups_Do_Not_Own_Following_Operands(string flag)
+    [Arguments("[--inherited]:")]
+    [Arguments("[--inherited];")]
+    [Arguments("[--inherited],")]
+    [Arguments("[--inherited]...:")]
+    [Arguments("[--inherited]…,")]
+    public async Task Closed_Flag_Groups_Do_Not_Own_Following_Operands(string flag)
     {
         var usage = UsageSynopsisParser.Parse($"Usage: tool run {flag} <TARGET>", ["tool", "run"]);
         var target = usage.PositionalArguments.Single();
