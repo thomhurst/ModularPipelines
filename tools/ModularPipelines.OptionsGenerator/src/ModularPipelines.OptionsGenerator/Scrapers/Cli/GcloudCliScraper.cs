@@ -292,14 +292,35 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         required |= group.Description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) == true;
+        if (required)
+        {
+            ApplyRequiredArguments(group, options, requiredAlternativeGroups);
+        }
+
+        if (group.Kind.HasFlag(CliArgumentGroupKind.Resource))
+        {
+            return;
+        }
+
+        foreach (var nested in group.Groups)
+        {
+            ApplyRequiredGroups(nested, options, requiredAlternativeGroups, required);
+        }
+    }
+
+    private static void ApplyRequiredArguments(
+        CliArgumentGroup group,
+        List<CliOptionDefinition> options,
+        List<CliRequiredAlternativeGroup> requiredAlternativeGroups)
+    {
         var isResource = group.Kind.HasFlag(CliArgumentGroupKind.Resource);
         foreach (var argument in group.Arguments)
         {
             // A required resource needs its selector; its other attributes can come
             // from configuration or a fully qualified selector value.
-            if (!required || (isResource && argument.Description?.Contains(
+            if (isResource && argument.Description?.Contains(
                     "This flag argument must be specified if any of the other arguments in this group are specified.",
-                    StringComparison.OrdinalIgnoreCase) != true))
+                    StringComparison.OrdinalIgnoreCase) != true)
             {
                 continue;
             }
@@ -322,16 +343,6 @@ public partial class GcloudCliScraper : CliScraperBase
                     options[index] = options[index] with { IsRequired = true };
                 }
             }
-        }
-
-        if (isResource)
-        {
-            return;
-        }
-
-        foreach (var nested in group.Groups)
-        {
-            ApplyRequiredGroups(nested, options, requiredAlternativeGroups, required);
         }
     }
 
