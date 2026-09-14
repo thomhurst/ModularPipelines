@@ -2,6 +2,22 @@
 
 This page describes the internal architecture of distributed mode for contributors and advanced users.
 
+## Upgrading SignalR configuration for v4[​](#upgrading-signalr-configuration-for-v4 "Direct link to Upgrading SignalR configuration for v4")
+
+`SignalRDistributedOptions.MaximumReceiveMessageSize` is renamed to `SignalRDistributedOptions.MaxReceiveMessageSize`. Update property assignments and configuration keys to the new name. The value remains a byte count, with a default of `1024 * 1024` (1 MB).
+
+```
+// Before
+
+options.MaximumReceiveMessageSize = 4 * 1024 * 1024;
+
+
+
+// v4
+
+options.MaxReceiveMessageSize = 4 * 1024 * 1024;
+```
+
 ## Execution Flow[​](#execution-flow "Direct link to Execution Flow")
 
 ### Master Startup[​](#master-startup "Direct link to Master Startup")
@@ -9,7 +25,7 @@ This page describes the internal architecture of distributed mode for contributo
 1. `AddDistributedMode` enables distributed services and configures `DistributedOptions`.
 2. While the pipeline is built, `PipelineBuilder` activates distributed mode whenever `AddDistributedMode` was called. `TotalInstances` describes topology; it is not a second activation switch.
 3. `RoleDetector` honors an explicit `DistributedOptions.Role`. With the default `Auto` role, `InstanceIndex == 0` selects master and any other index selects worker. The master selects `DistributedModuleExecutor` as the execution backend.
-4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator, so its `CreateAsync` method runs when the coordinator is first used. A directly registered `IDistributedCoordinator` is used as-is.
+4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator, so `CreateMasterAsync` or `CreateWorkerAsync` runs when that role's coordinator is first used. Directly registered role-specific coordinators are used as-is.
 5. Before scheduling work, the master registers module types for serialization. Dispatch starts immediately by default; `DistributedOptions.MinimumWorkerCount` can opt into a startup barrier. Capability-restricted assignments wait only until a matching worker registers or `CapabilityTimeout` expires.
 
 ### Worker Startup[​](#worker-startup "Direct link to Worker Startup")
@@ -17,7 +33,7 @@ This page describes the internal architecture of distributed mode for contributo
 1. `RoleDetector` selects `Worker` explicitly, or derives it from a non-zero `DistributedOptions.InstanceIndex` when `Role` is `Auto`. Workers select `WorkerModuleExecutor` as the execution backend. Registration and run-report metrics use `DistributedOptions.InstanceIndex`, so every worker must configure a distinct index.
 2. The worker registers all available module types for serialization.
 3. The worker builds its capability set from configured capabilities and, by default, the auto-detected operating-system capability.
-4. The worker registers its capabilities with the coordinator via `RegisterWorkerAsync`. During run-report finalization it calls the method again to upsert its final command metrics.
+4. The worker registers its identity, run ID, and capabilities via `RegisterWorkerAsync`. Periodic `SendHeartbeatAsync` calls carry `WorkerStatus`. During run-report finalization, a final status adds command metrics without replacing registration.
 5. The worker starts a bounded execution pool, continuously dequeuing one assignment ahead while up to the configured number of modules execute concurrently.
 
 ### Module Execution (Master Side)[​](#module-execution-master-side "Direct link to Module Execution (Master Side)")
@@ -128,50 +144,48 @@ Explicit custom registrations take precedence over automatic local, distributed-
 
 Capability-mismatch handling is transport-specific. The in-memory and Redis coordinators scan their lists and leave incompatible assignments in place. The queue-backed SignalR master coordinator dequeues each candidate, re-enqueues an incompatible assignment, and continues scanning for work that the current worker can execute.
 
-## Coordinator Interface[​](#coordinator-interface "Direct link to Coordinator Interface")
+## Coordinator Interfaces[​](#coordinator-interfaces "Direct link to Coordinator Interfaces")
 
-The shipped `IDistributedCoordinator` interface defines seven methods across four concerns:
+`IDistributedWorkerCoordinator` defines the six operations available to workers. `IDistributedMasterCoordinator` inherits that contract and adds five master operations, so the master can also execute modules locally. Custom coordinator factories supply implementations of these role-specific contracts.
 
-### Work Queue[​](#work-queue "Direct link to Work Queue")
+### Worker Operations[​](#worker-operations "Direct link to Worker Operations")
 
-| Method               | Direction      | Description                                                                                                       |
-| -------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `EnqueueModuleAsync` | Master → Queue | Pushes a module assignment onto the work queue.                                                                   |
-| `DequeueModuleAsync` | Queue → Worker | Waits for and claims an assignment compatible with the worker's capabilities, or returns `null` after completion. |
+| Method                     | Description                                                                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DequeueModuleAsync`       | Claims an assignment compatible with the worker's capabilities, or returns `null` after completion.                                                   |
+| `PublishResultAsync`       | Stores a serialized module result and notifies waiters.                                                                                               |
+| `WaitForResultAsync`       | Waits for a stored module result; workers use it to load dependency results.                                                                          |
+| `RegisterWorkerAsync`      | Registers the worker's index, capabilities, registration time, and run identifier, including re-registration after reconnecting.                      |
+| `SendHeartbeatAsync`       | Reports `WorkerStatus`, including liveness, current assignments, and command metrics; workers send final metrics through this method after execution. |
+| `WaitForCancellationAsync` | Waits for the master to broadcast cancellation.                                                                                                       |
 
-### Results[​](#results "Direct link to Results")
+### Additional Master Operations[​](#additional-master-operations "Direct link to Additional Master Operations")
 
-| Method               | Direction            | Description                                           |
-| -------------------- | -------------------- | ----------------------------------------------------- |
-| `PublishResultAsync` | Worker → Coordinator | Stores the serialized result and notifies waiters.    |
-| `WaitForResultAsync` | Master ← Coordinator | Blocks until a specific module's result is available. |
-
-### Worker Management[​](#worker-management "Direct link to Worker Management")
-
-| Method                      | Direction            | Description                                                                                                                                      |
-| --------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `RegisterWorkerAsync`       | Worker → Coordinator | Upserts a worker's index, capabilities, registration time, and run identifier; workers call it again after execution with final command metrics. |
-| `GetRegisteredWorkersAsync` | Master ← Coordinator | Returns registered workers for an optional startup barrier, capability-route validation, and post-execution worker metrics.                      |
-
-### Completion[​](#completion "Direct link to Completion")
-
-| Method                  | Direction    | Description                                                                          |
-| ----------------------- | ------------ | ------------------------------------------------------------------------------------ |
-| `SignalCompletionAsync` | Master → All | Tells waiting workers that the run has finished and no more assignments will arrive. |
+| Method                       | Description                                                             |
+| ---------------------------- | ----------------------------------------------------------------------- |
+| `EnqueueModuleAsync`         | Adds a module assignment to the work queue.                             |
+| `GetRegisteredWorkersAsync`  | Returns live registrations for startup barriers and capability routing. |
+| `GetWorkerStatusesAsync`     | Returns the latest status for each worker, including command metrics.   |
+| `SignalCompletionAsync`      | Tells workers that no more assignments will arrive.                     |
+| `BroadcastCancellationAsync` | Requests cancellation of distributed execution.                         |
 
 ## Redis Implementation Details[​](#redis-implementation-details "Direct link to Redis Implementation Details")
 
 The `RedisDistributedCoordinator` maps each method to Redis operations:
 
-| Method                      | Redis Operations                                                                                                                                                                                           |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EnqueueModuleAsync`        | `LPUSH` to the work queue + `EXPIRE` + `PUBLISH` on the work-available channel                                                                                                                             |
-| `DequeueModuleAsync`        | `GET` completion flag (check first), `SUBSCRIBE` to work/completion channels, atomically scan `LRANGE` and claim a capability-compatible item with `LREM`, then `GET` completion again (close race window) |
-| `PublishResultAsync`        | `HSET` on results hash + `EXPIRE` + `PUBLISH` on the module result channel                                                                                                                                 |
-| `WaitForResultAsync`        | `HGET` results hash (check first), then `SUBSCRIBE` result channel, then `HGET` again (close race window), await message                                                                                   |
-| `RegisterWorkerAsync`       | `HSET` on workers hash + `EXPIRE`                                                                                                                                                                          |
-| `GetRegisteredWorkersAsync` | `HGETALL` on workers hash                                                                                                                                                                                  |
-| `SignalCompletionAsync`     | `SET` completion key, separate `EXPIRE`, then `PUBLISH` completion channel                                                                                                                                 |
+| Method                       | Redis Operations                                                                                                                                                                                           |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `EnqueueModuleAsync`         | `LPUSH` to the work queue + `EXPIRE` + `PUBLISH` on the work-available channel                                                                                                                             |
+| `DequeueModuleAsync`         | `GET` completion flag (check first), `SUBSCRIBE` to work/completion channels, atomically scan `LRANGE` and claim a capability-compatible item with `LREM`, then `GET` completion again (close race window) |
+| `PublishResultAsync`         | `HSET` on results hash + `EXPIRE` + `PUBLISH` on the module result channel                                                                                                                                 |
+| `WaitForResultAsync`         | `HGET` results hash (check first), then `SUBSCRIBE` result channel, then `HGET` again (close race window), await message                                                                                   |
+| `RegisterWorkerAsync`        | `HSET` registration and heartbeat in the workers hash + `EXPIRE`                                                                                                                                           |
+| `SendHeartbeatAsync`         | `HSET` status and refresh its expiry; refresh the worker heartbeat using Redis server time                                                                                                                 |
+| `GetWorkerStatusesAsync`     | `HGETALL` on the worker status hash                                                                                                                                                                        |
+| `GetRegisteredWorkersAsync`  | `HGETALL` on workers and status hashes; filters registrations by heartbeat age                                                                                                                             |
+| `SignalCompletionAsync`      | `SET` completion key, separate `EXPIRE`, then `PUBLISH` completion channel                                                                                                                                 |
+| `BroadcastCancellationAsync` | `SET` cancellation key, `EXPIRE`, then `PUBLISH` cancellation channel                                                                                                                                      |
+| `WaitForCancellationAsync`   | Check the cancellation key, subscribe, then check again before waiting                                                                                                                                     |
 
 ### WaitForResultAsync Race Condition Handling[​](#waitforresultasync-race-condition-handling "Direct link to WaitForResultAsync Race Condition Handling")
 
@@ -188,11 +202,13 @@ This guarantees no result is missed regardless of timing.
 
 Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module type names to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
 
-The `ReadOnlySetJsonConverter` keeps `IReadOnlySet<Capability>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`) as plain string arrays on the wire.
+Capability collections on `ModuleAssignment` and `WorkerRegistration` are lists, so the default JSON serializer writes them as plain string arrays on the wire.
+
+`SerializedModuleResult.Payload` contains the serialized result. Assignments carry `DependencyResultReference` entries; workers fetch those results from the coordinator's result store rather than embedding dependency payloads in each assignment.
 
 ## Implementing a Custom Coordinator[​](#implementing-a-custom-coordinator "Direct link to Implementing a Custom Coordinator")
 
-To implement a different transport (HTTP, shared filesystem, message queue, etc.), implement `IDistributedCoordinator` and optionally `IDistributedCoordinatorFactory`:
+To implement a different transport (HTTP, shared filesystem, message queue, etc.), implement `IDistributedMasterCoordinator` and optionally `IDistributedCoordinatorFactory`. The master interface includes `IDistributedWorkerCoordinator` because the master also executes assignments. A factory can return a separate worker-only implementation.
 
 ```
 using System;
@@ -207,7 +223,7 @@ using ModularPipelines.Distributed;
 
 
 
-public sealed class MyCustomCoordinator : IDistributedCoordinator
+public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
 {
 
@@ -269,7 +285,37 @@ public sealed class MyCustomCoordinator : IDistributedCoordinator
 
 
 
+    public Task SendHeartbeatAsync(
+
+        WorkerStatus status,
+
+        CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(
+
+        CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
     public Task SignalCompletionAsync(CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task BroadcastCancellationAsync(CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
@@ -289,11 +335,19 @@ public sealed class MyCoordinatorFactory : IDistributedCoordinatorFactory
 
 {
 
-    public Task<IDistributedCoordinator> CreateAsync(
+    public Task<IDistributedMasterCoordinator> CreateMasterAsync(
 
         CancellationToken cancellationToken) =>
 
-        Task.FromResult<IDistributedCoordinator>(new MyCustomCoordinator());
+        Task.FromResult<IDistributedMasterCoordinator>(new MyCustomCoordinator());
+
+
+
+    public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(
+
+        CancellationToken cancellationToken) =>
+
+        Task.FromResult<IDistributedWorkerCoordinator>(new MyCustomCoordinator());
 
 }
 
@@ -302,16 +356,16 @@ public sealed class MyCoordinatorFactory : IDistributedCoordinatorFactory
 builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 ```
 
-## Current Liveness Limitations[​](#current-liveness-limitations "Direct link to Current Liveness Limitations")
+## Worker Liveness and Final Metrics[​](#worker-liveness-and-final-metrics "Direct link to Worker Liveness and Final Metrics")
 
-Worker registration is not a heartbeat. Workers upsert an initial capability record and later upsert final command metrics during run-report finalization. The master reads registrations while validating capability routes and polls them again after execution to aggregate those final metrics. A custom coordinator must therefore retain registration state for the whole run and support repeated upserts and post-execution reads.
+`WorkerRegistration` contains immutable identity, run ID, and capabilities. Liveness and command metrics arrive through `SendHeartbeatAsync(WorkerStatus, ...)`; the master reads the latest statuses with `GetWorkerStatusesAsync`. Coordinators retain final metrics for post-execution reads, including after a worker disconnects or its heartbeat expires.
 
-The shipped coordinator contract still has no heartbeat, unregister, or worker-health member. After `CapabilityTimeout`, the master fails any queued assignment that no registered worker or the master can execute. Later metrics polling reports completion data but does not provide continuous liveness detection.
+`GetRegisteredWorkersAsync` returns workers with live heartbeats or retained final metrics. Scheduling considers live workers when checking capability routes. After `CapabilityTimeout`, the master fails a queued assignment if neither a suitable worker nor the master can execute it. Custom coordinators must keep heartbeat timing separate from the worker's registration timestamp.
 
-If a worker disappears after claiming an assignment, the master can wait until `ModuleResultTimeout` (45 minutes by default) for that assignment's result. SignalR can react to connection state internally, but that behavior is not part of the shared coordinator contract. First-class liveness is tracked by [#4373](https://github.com/thomhurst/ModularPipelines/issues/4373).
+If a worker disappears after claiming an assignment, the master can wait until `ModuleResultTimeout` (45 minutes by default) for that assignment's result. SignalR can react to connection state internally, but that behavior is not part of the shared coordinator contract.
 
 ## Cancellation and Completion[​](#cancellation-and-completion "Direct link to Cancellation and Completion")
 
-Cancellation tokens stop work only in the process where cancellation is requested. The shipped coordinator contract does not broadcast cancellation between the master and workers.
+`BroadcastCancellationAsync` signals cancellation to distributed workers, which observe it through `WaitForCancellationAsync`. Local cancellation tokens still bound individual operations.
 
-`SignalCompletionAsync` is different from cancellation. When the master receives at least one runnable module, it calls this method in a `finally` block after distributed execution ends. Coordinators use that signal to wake workers blocked in `DequeueModuleAsync` and let their execution loops exit normally. If the runnable set is empty, the master currently returns before sending the signal, so external workers remain blocked until their local cancellation tokens are canceled. First-class distributed cancellation is also tracked by [#4373](https://github.com/thomhurst/ModularPipelines/issues/4373).
+`SignalCompletionAsync` is different from cancellation. When the master receives at least one runnable module, it calls this method in a `finally` block after distributed execution ends. Coordinators use that signal to wake workers blocked in `DequeueModuleAsync` and let their execution loops exit normally. If the runnable set is empty, the master currently returns before sending the signal, so external workers remain blocked until their local cancellation tokens are canceled.
