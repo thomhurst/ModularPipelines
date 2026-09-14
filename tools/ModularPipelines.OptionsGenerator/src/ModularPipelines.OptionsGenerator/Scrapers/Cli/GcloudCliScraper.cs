@@ -252,7 +252,7 @@ public partial class GcloudCliScraper : CliScraperBase
                         continue;
                     }
 
-                    options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                    options.Add(NormalizeRepeatability(option, helpText, commandParts, argument.Description));
                 }
             }
         }
@@ -284,7 +284,8 @@ public partial class GcloudCliScraper : CliScraperBase
     private CliOptionDefinition NormalizeRepeatability(
         CliOptionDefinition option,
         string helpText,
-        IReadOnlyList<string> commandParts)
+        IReadOnlyList<string> commandParts,
+        string? optionDescription)
     {
         if (option.IsFlag
             || option.CSharpType is "bool" or "bool?"
@@ -293,7 +294,7 @@ public partial class GcloudCliScraper : CliScraperBase
             || !HelpDeclaresRepeatableOption(
                 helpText,
                 option.SwitchName,
-                option.Description ?? string.Empty))
+                optionDescription ?? string.Empty))
         {
             return option;
         }
@@ -343,7 +344,7 @@ public partial class GcloudCliScraper : CliScraperBase
                                     && AcceptsMultipleValues(
                 longForm,
                 valueHint,
-                description,
+                argument.Description,
                 isFlag,
                 hasCompositeSyntax));
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
@@ -743,7 +744,7 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"comma[- ](?:sep[ae]rated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
 
-    [GeneratedRegex(@"^\[?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\]\]?$")]
+    [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\](?(outer)\])$")]
     private static partial Regex RepeatedPairValueHintPattern();
 
     /// <summary>

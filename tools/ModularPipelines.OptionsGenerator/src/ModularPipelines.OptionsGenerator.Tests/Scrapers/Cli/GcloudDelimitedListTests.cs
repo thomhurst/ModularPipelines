@@ -128,6 +128,10 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("[VALUE,...]", "Values to include. Specify the --other flag multiple times.", ",")]
     [Arguments("[VALUE,...]", "Values to include. To add more items, specify --other multiple times.", ",")]
     [Arguments("[name=NAME,config=CONFIG]", "A comma-separated list of fields.", null)]
+    [Arguments("FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", ",")]
+    [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]]", "Set pool flags.", ",")]
+    [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", null)]
+    [Arguments("FLAG=VALUE,[FLAG=VALUE,...]]", "Set pool flags.", null)]
     public async Task Gcloud_Distinguishes_Delimited_Lists_From_Repeated_Options(
         string hint, string description, string? separator)
     {
@@ -149,9 +153,11 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    public async Task Gcloud_Containing_Group_Does_Not_Make_A_Repeated_Option_Delimited()
+    [Arguments("Configure a comma-separated list of resources.")]
+    [Arguments("One of these flags can be repeated: --resource.")]
+    public async Task Gcloud_Containing_Group_Does_Not_Change_Sibling_Collection_Shapes(string groupDescription)
     {
-        const string helpText = """
+        var helpText = $"""
             NAME
                 gcloud example update - update an example
 
@@ -159,16 +165,22 @@ public partial class NestedArgumentGroupParsingTests
                 gcloud example update
 
             FLAGS
-                 Configure a comma-separated list of resources.
+                 {groupDescription}
                    --resource=RESOURCE
                       This flag can be repeated.
+                   --label=LABEL
+                      The label to assign.
             """;
 
         var command = await CreateGcloudScraper().Parse(["gcloud", "example", "update"], helpText);
-        var option = command!.Options.Single();
+        var option = command!.Options.Single(option => option.SwitchName == "--resource");
 
         await Assert.That(option.AcceptsMultipleValues).IsTrue();
         await Assert.That(option.CollectionSeparator).IsNull();
+        var sibling = command.Options.Single(option => option.SwitchName == "--label");
+        await Assert.That(sibling.AcceptsMultipleValues).IsFalse();
+        await Assert.That(sibling.CSharpType).IsEqualTo("string?");
+        await Assert.That(sibling.CollectionSeparator).IsNull();
     }
 
     [Test]
