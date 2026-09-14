@@ -1,0 +1,258 @@
+using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
+using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
+using ModularPipelines.OptionsGenerator.TypeDetection;
+
+namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
+
+public class GcloudResourceArgumentTests
+{
+    [Test]
+    [Arguments("B")]
+    [Arguments("[B]")]
+    public async Task Incomplete_Synopsis_Does_Not_Guess_Operand_Order_Or_Requiredness(string middle)
+    {
+        var help = $$"""
+            NAME
+                gcloud example copy - copy resources
+            SYNOPSIS
+                gcloud example copy A C
+            POSITIONAL ARGUMENTS
+                 A
+                    The first operand.
+                 {{middle}}
+                    The middle operand.
+                 C
+                    The last operand.
+            """;
+        var exception = await Assert.That(async () =>
+            { await new TestScraper().Parse(["gcloud", "example", "copy"], help); })
+            .Throws<InvalidOperationException>();
+        await Assert.That(exception!.Message).Contains("synopsis omits declared positional operand 'B'");
+    }
+
+    [Test]
+    public async Task Without_Synopsis_Explicit_Operand_Declarations_Retain_Order_And_Optionality()
+    {
+        const string help = """
+            NAME
+                gcloud example copy - copy resources
+            POSITIONAL ARGUMENTS
+                 A
+                    The first operand.
+                 [B]
+                    The optional middle operand.
+                 C
+                    The last operand.
+            """;
+        var command = (await new TestScraper().Parse(["gcloud", "example", "copy"], help))!;
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["A", "B", "C"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(command.PositionalArguments.Select(argument => argument.IsRequired))
+            .IsEquivalentTo([true, false, true], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    [Arguments("kms-keyrings-delete", "kms keyrings delete", "Keyring", "--location")]
+    [Arguments("metastore-services-migrations-describe", "metastore services migrations describe", "Migration", "--location,--service")]
+    [Arguments("metastore-services-migrations-delete", "metastore services migrations delete", "Migration", "--location,--service,--async")]
+    public async Task Resource_Groups_Preserve_Required_Operands_And_Optional_Selectors(
+        string fixture, string path, string operandName, string switches)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", fixture + ".txt"));
+        var command = (await ScrapeFixture(path, help)).Single();
+
+        var operand = command.PositionalArguments.Single();
+        await Assert.That(command.HasOperandTakingUsage).IsTrue();
+        await Assert.That(command.UsageSynopsis).Contains($"gcloud {path}");
+        await Assert.That(command.UsagePositionalArguments.Single().PropertyName).IsEqualTo(operandName);
+        await Assert.That(operand.PropertyName).IsEqualTo(operandName);
+        await Assert.That(operand.IsRequired).IsTrue();
+        await Assert.That(operand.PositionIndex).IsEqualTo(0);
+        await Assert.That(operand.Description).Contains("fully qualified identifier");
+        await Assert.That(command.Options.Select(option => option.SwitchName)).IsEquivalentTo(switches.Split(','));
+        await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
+        await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generated).Contains($"string {operandName}");
+        await Assert.That(generated).Contains("public string? Location");
+        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]");
+        var services = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var service = string.Join(Environment.NewLine, services.Select(file => file.Content));
+        await Assert.That(service).Contains($"{command.ClassName} options,");
+        await Assert.That(service).DoesNotContain($"{command.ClassName}? options = null");
+    }
+
+    [Test]
+    public async Task Resource_Operands_Retain_Synopsis_Order_And_Optional_Repetition()
+    {
+        const string help = """
+            NAME
+                gcloud example move - move resources
+            SYNOPSIS
+                gcloud example move SOURCE DESTINATION [EXTRA ...] [GCLOUD_WIDE_FLAG ...]
+            POSITIONAL ARGUMENTS
+                 Source resource - The source to move.
+                   SOURCE
+                      The source identifier.
+                      EXAMPLE
+                         This uppercase example is documentation, not an operand.
+                   --source-location=LOCATION
+                      The source location or a fully qualified source name.
+                 Destination resource - The destination to use.
+                   DESTINATION
+                      The destination identifier.
+                   --destination-location=LOCATION
+                      The destination location or a fully qualified destination name.
+                 [EXTRA ...]
+                    Additional optional identifiers.
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT
+            """;
+        var command = (await new TestScraper().Parse(["gcloud", "example", "move"], help))!;
+
+        await Assert.That(string.Join(",", command.PositionalArguments.Select(argument => argument.PropertyName)))
+            .IsEqualTo("Source,Destination,Extra");
+        await Assert.That(string.Join(",", command.PositionalArguments.Select(argument => argument.PositionIndex)))
+            .IsEqualTo("0,1,2");
+        await Assert.That(command.PositionalArguments.Take(2).All(argument => argument.IsRequired)).IsTrue();
+        var extra = command.PositionalArguments[2];
+        await Assert.That(extra.IsRequired).IsFalse();
+        await Assert.That(extra.IsVariadic).IsTrue();
+        await Assert.That(extra.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--source-location", "--destination-location"]);
+    }
+
+    [Test]
+    public async Task Optional_Resource_Can_Use_Configuration_Without_An_Operand()
+    {
+        const string help = """
+            NAME
+                gcloud example describe - describe a resource
+            SYNOPSIS
+                gcloud example describe [RESOURCE : --location=LOCATION] [GCLOUD_WIDE_FLAG ...]
+            POSITIONAL ARGUMENTS
+                 Resource resource - The resource to describe.
+                   RESOURCE
+                      The resource identifier; otherwise use the configured default.
+                   --location=LOCATION
+                      The location; otherwise use the configured default or a fully qualified name.
+            """;
+        var command = (await new TestScraper().Parse(["gcloud", "example", "describe"], help))!;
+
+        await Assert.That(command.PositionalArguments.Single().IsRequired).IsFalse();
+        await Assert.That(command.PositionalArguments.Single().CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single().IsRequired).IsFalse();
+        await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    public async Task Shared_Synopsis_Preserves_Required_Option_Alternatives()
+    {
+        const string help = """
+            SYNOPSIS
+                gcloud example export (--destination=DESTINATION | --stdout) [GCLOUD_WIDE_FLAG ...]
+            FLAGS
+                 --destination=DESTINATION
+                    Where to write the export.
+                 --stdout
+                    Write the export to standard output.
+            """;
+        var command = (await ScrapeFixture("example export", help)).Single();
+
+        await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(["Destination", "Stdout"]);
+    }
+
+    [Test]
+    public async Task Shared_Synopsis_Excludes_The_Gcloud_Wide_Flag_Placeholder()
+    {
+        const string help = """
+            SYNOPSIS
+                gcloud example list [GCLOUD_WIDE_FLAG ...]
+            FLAGS
+                 --filter=FILTER
+                    Filter the returned resources.
+            """;
+        var command = (await ScrapeFixture("example list", help)).Single();
+
+        await Assert.That(command.HasOperandTakingUsage).IsFalse();
+        await Assert.That(command.UsagePositionalArguments).IsEmpty();
+        await Assert.That(command.Options.Single().PropertyName).IsEqualTo("Filter");
+    }
+
+    [Test]
+    public async Task Shared_Synopsis_Rejects_Commands_With_Unrepresented_Operands()
+    {
+        const string help = """
+            SYNOPSIS
+                gcloud example show RESOURCE [GCLOUD_WIDE_FLAG ...]
+            FLAGS
+                 --format=FORMAT
+                    Format the resource details.
+            """;
+
+        await Assert.That(await ScrapeFixture("example show", help)).IsEmpty();
+    }
+
+    private static async Task<List<CliCommandDefinition>> ScrapeFixture(string path, string help)
+    {
+        var scraper = new GcloudCliScraper(new FixtureExecutor(path.Split(' '), help),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<GcloudCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+        return commands;
+    }
+
+    private sealed class TestScraper() : GcloudCliScraper(
+        new UnusedExecutor(),
+        new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+        NullLogger<GcloudCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] path, string help) =>
+            ParseCommandAsync(path, help, CancellationToken.None);
+    }
+
+    private sealed class FixtureExecutor(string[] path, string help) : UnusedExecutor
+    {
+        public override Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null)
+        {
+            var prefix = arguments.Split(' ').TakeWhile(part => part != "--help").ToArray();
+            if (!prefix.SequenceEqual(path.Take(prefix.Length)))
+            {
+                throw new InvalidOperationException($"Unexpected command: {arguments}");
+            }
+            return Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = prefix.Length == path.Length ? help : $"COMMANDS\n     {path[prefix.Length]}\n",
+                StandardError = string.Empty,
+            });
+        }
+    }
+
+    private class UnusedExecutor : ICliCommandExecutor
+    {
+        public virtual Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            throw new InvalidOperationException("Execution was not expected.");
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+}

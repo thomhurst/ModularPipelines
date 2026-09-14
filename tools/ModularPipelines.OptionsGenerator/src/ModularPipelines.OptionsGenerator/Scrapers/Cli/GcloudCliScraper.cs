@@ -13,6 +13,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GcloudCliScraper : CliScraperBase
 {
+    private static readonly string[] GcloudUsageSynopsisHeadings = ["SYNOPSIS"];
+
     private static readonly string[] StructuredExampleEndMarkers =
         ["JSON Example:", "YAML Example:", "File Example:"];
 
@@ -31,6 +33,8 @@ public partial class GcloudCliScraper : CliScraperBase
     /// On Windows, gcloud is installed as gcloud.cmd in the SDK directory.
     /// </summary>
     protected override string ExecutablePath { get; }
+
+    protected override IReadOnlyList<string> UsageSynopsisHeadings => GcloudUsageSynopsisHeadings;
 
     #endregion
 
@@ -95,6 +99,13 @@ public partial class GcloudCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(commandPath, helpText, ParseUsageSynopsis(commandPath, helpText), cancellationToken);
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray();
@@ -108,7 +119,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
         var parsedOptions = ParseOptions(helpText, commandParts);
         var options = parsedOptions.Options;
-        var positionalArgs = ParsePositionalArguments(helpText);
+        var positionalArgs = ParsePositionalArguments(usage, commandPath, parsedOptions.ArgumentGroups);
 
         var enums = options
             .Where(o => o.EnumDefinition is not null)
@@ -129,6 +140,7 @@ public partial class GcloudCliScraper : CliScraperBase
             Options = options,
             ArgumentGroups = parsedOptions.ArgumentGroups,
             PositionalArguments = positionalArgs,
+            UsageSynopsis = usage.Synopsis,
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -140,12 +152,28 @@ public partial class GcloudCliScraper : CliScraperBase
 
     #region Virtual Method Overrides
 
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command, UsageSynopsisParseResult usage)
+    {
+        // This synopsis placeholder denotes inherited flags, not a positional operand.
+        var operands = usage.PositionalArguments
+            .Where(argument => argument.PropertyName != "GcloudWideFlag")
+            .ToList();
+        return usage with
+        {
+            PositionalArguments = operands,
+            HasOperandTokens = operands.Count > 0 || usage.UnparsedOperandTokens.Count > 0,
+        };
+    }
+
     /// <summary>
     /// gcloud uses "FLAGS" section instead of "Flags:" or "Options:".
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("\nFLAGS\n") ||
+        return helpText.Contains("\nPOSITIONAL ARGUMENTS\n") ||
+               helpText.Contains("\nPOSITIONAL ARGUMENTS\r\n") ||
+               helpText.Contains("\nFLAGS\n") ||
                helpText.Contains("\nFLAGS\r\n") ||
                base.HasOptions(helpText);
     }
@@ -174,30 +202,17 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var subcommands = new List<string>();
 
-        // Find the section
-        var sectionMatch = Regex.Match(helpText, $@"^{sectionName}\s*$", RegexOptions.Multiline);
-        if (!sectionMatch.Success)
+        foreach (var (_, content) in ExtractSections(helpText, sectionName))
         {
-            return subcommands;
-        }
-
-        var sectionStart = sectionMatch.Index + sectionMatch.Length;
-
-        // Find where section ends (next uppercase section header)
-        var nextMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
-        var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
-
-        var section = helpText[sectionStart..sectionEnd];
-
-        // gcloud format: command names are indented with 5+ spaces at line start
-        // Example: "     compute"
-        var matches = SubcommandPattern().Matches(section);
-        foreach (Match match in matches)
-        {
-            var name = match.Groups[1].Value.Trim();
-            if (!string.IsNullOrEmpty(name))
+            // gcloud command names are indented with five spaces at line start.
+            var matches = SubcommandPattern().Matches(content);
+            foreach (Match match in matches)
             {
-                subcommands.Add(name);
+                var name = match.Groups[1].Value.Trim();
+                if (!string.IsNullOrEmpty(name))
+                {
+                    subcommands.Add(name);
+                }
             }
         }
 
@@ -222,37 +237,49 @@ public partial class GcloudCliScraper : CliScraperBase
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find FLAGS section
-        var flagsMatch = FlagsSectionPattern().Match(helpText);
-        if (!flagsMatch.Success)
+        var argumentGroups = new List<CliArgumentGroup>();
+        foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "POSITIONAL ARGUMENTS"))
         {
-            return (options, []);
-        }
-
-        var sectionStart = flagsMatch.Index + flagsMatch.Length;
-
-        // Find end of FLAGS section
-        var nextSectionMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
-        var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
-
-        var flagsSection = helpText[sectionStart..sectionEnd];
-        var argumentGroup = ParseArgumentGroups(flagsSection, ParseGcloudArgument);
-
-        foreach (var argument in argumentGroup.FlattenArguments())
-        {
-            foreach (var option in CreateOptions(argument, commandParts))
+            var group = ParseArgumentGroups(content,
+                name == "POSITIONAL ARGUMENTS" ? ParseGcloudResourceArgument : ParseGcloudArgument);
+            argumentGroups.Add(group);
+            foreach (var argument in group.FlattenArguments().Where(argument => !argument.IsPositional))
             {
-                if (!seenOptions.Add(option.SwitchName))
+                foreach (var option in CreateOptions(argument, commandParts))
                 {
-                    continue;
-                }
+                    if (!seenOptions.Add(option.SwitchName))
+                    {
+                        continue;
+                    }
 
-                options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                    options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                }
             }
         }
 
-        return (options, [argumentGroup]);
+        return (options, argumentGroups);
     }
+
+    private static IEnumerable<(string Name, string Content)> ExtractSections(string helpText, params string[] sectionNames)
+    {
+        var headings = SectionHeaderPattern().Matches(helpText);
+        for (var index = 0; index < headings.Count; index++)
+        {
+            var heading = headings[index];
+            var name = heading.Value.Trim();
+            if (!sectionNames.Contains(name, StringComparer.Ordinal))
+            {
+                continue;
+            }
+
+            var start = heading.Index + heading.Length;
+            var end = index + 1 < headings.Count ? headings[index + 1].Index : helpText.Length;
+            yield return (name, helpText[start..end]);
+        }
+    }
+
+    [GeneratedRegex(@"^[A-Z][A-Z_ ]*[ \t]*\r?$", RegexOptions.Multiline)]
+    private static partial Regex SectionHeaderPattern();
 
     private CliOptionDefinition NormalizeRepeatability(
         CliOptionDefinition option,
@@ -428,44 +455,63 @@ public partial class GcloudCliScraper : CliScraperBase
         };
     }
 
-    private static List<CliPositionalArgument> ParsePositionalArguments(string helpText)
+    private static CliArgumentDefinition? ParseGcloudResourceArgument(string line)
     {
-        var args = new List<CliPositionalArgument>();
-
-        var sectionMatch = PositionalSectionPattern().Match(helpText);
-        if (!sectionMatch.Success)
+        if (ParseGcloudArgument(line) is { } option)
         {
-            return args;
+            return option;
         }
 
-        var sectionStart = sectionMatch.Index + sectionMatch.Length;
-        var nextMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
-        var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
-
-        var section = helpText[sectionStart..sectionEnd];
-
-        // Match: "     ARG_NAME [ARG_NAME ...]"
-        var argMatch = PositionalArgumentPattern().Match(section);
-        if (argMatch.Success)
+        var match = ResourceOperandPattern().Match(line);
+        if (!match.Success)
         {
-            var argName = argMatch.Groups[1].Value;
-            var isMultiple = argMatch.Value.Contains("...");
+            return null;
+        }
 
-            var propertyName = NormalizePropertyName(argName);
-            if (propertyName is not null)
+        return new CliArgumentDefinition
+        {
+            SwitchName = match.Groups["name"].Value,
+            IsPositional = true,
+            ValueHint = line.Trim(),
+            Indentation = GetIndentation(line),
+        };
+    }
+
+    [GeneratedRegex(@"^[ \t]+\[?(?<name>[A-Z][A-Z0-9_]*)(?:[ \t]+\[?\k<name>)?(?:[ \t]*\.\.\.)?\]*[ \t]*$")]
+    private static partial Regex ResourceOperandPattern();
+
+    private static IReadOnlyList<CliPositionalArgument> ParsePositionalArguments(
+        UsageSynopsisParseResult usage, string[] commandPath, IReadOnlyList<CliArgumentGroup> groups)
+    {
+        var usageArguments = GetPositionalArguments(usage);
+        var arguments = groups.SelectMany(group => group.FlattenArguments())
+            .Where(argument => argument.IsPositional)
+            .Select((argument, index) =>
             {
-                args.Add(new CliPositionalArgument
+                var propertyName = NormalizePropertyName(argument.SwitchName)!;
+                var synopsisArgument = usageArguments.FirstOrDefault(candidate =>
+                    candidate.PropertyName.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
+                if (synopsisArgument is null && usage.HasExtractedSynopses)
+                {
+                    throw new InvalidOperationException(
+                        $"{string.Join(" ", commandPath)} synopsis omits declared positional operand '{argument.SwitchName}'; "
+                        + "its order and requiredness cannot be inferred safely.");
+                }
+
+                var variadic = argument.ValueHint?.Contains("...", StringComparison.Ordinal) == true;
+                var required = argument.ValueHint?.StartsWith('[') != true;
+                return (synopsisArgument ?? new CliPositionalArgument
                 {
                     PropertyName = propertyName,
-                    CSharpType = isMultiple ? "IEnumerable<string>" : "string",
-                    IsRequired = true,
-                    PositionIndex = 0,
-                    Description = null
-                });
-            }
-        }
-
-        return args;
+                    CSharpType = (variadic ? "IEnumerable<string>" : "string") + (required ? "" : "?"),
+                    PositionIndex = index,
+                    IsRequired = required,
+                    IsVariadic = variadic,
+                }) with
+                { Description = argument.Documentation };
+            })
+            .OrderBy(argument => argument.PositionIndex);
+        return CliPositionalArgument.MergeDuplicates(arguments);
     }
 
     private static bool IsNumericHint(string hint)
@@ -643,24 +689,11 @@ public partial class GcloudCliScraper : CliScraperBase
         @"\bmust be one of:\s*[A-Za-z][A-Za-z0-9_-]*\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex TextualCategoriesPattern();
-
-    [GeneratedRegex(@"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline)]
-    private static partial Regex SectionHeaderPattern();
-
     [GeneratedRegex(@"^\s{5}(\w[\w-]*)\s*$", RegexOptions.Multiline)]
     private static partial Regex SubcommandPattern();
 
     [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
     private static partial Regex CommandDescriptionPattern();
-
-    [GeneratedRegex(@"^FLAGS\s*$", RegexOptions.Multiline)]
-    private static partial Regex FlagsSectionPattern();
-
-    [GeneratedRegex(@"^POSITIONAL ARGUMENTS\s*$", RegexOptions.Multiline)]
-    private static partial Regex PositionalSectionPattern();
-
-    [GeneratedRegex(@"^\s{5}([A-Z][A-Z_]+)(?:\s+\[[A-Z][A-Z_]+\s*\.\.\.\])?", RegexOptions.Multiline)]
-    private static partial Regex PositionalArgumentPattern();
 
     [GeneratedRegex(@"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();

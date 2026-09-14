@@ -10,6 +10,108 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    [Arguments("(RESOURCE|ALIAS : --location=LOCATION)")]
+    [Arguments("[RESOURCE | ALIAS : --location=LOCATION]")]
+    [Arguments("(SOURCE : DESTINATION | ALTERNATIVE)")]
+    [Arguments("(RESOURCE : --location=LOCATION | --global)")]
+    public async Task Rejects_Ambiguous_Alternatives_Across_Colon_Groups(string group)
+    {
+        await Assert.That(() => UsageSynopsisParser.Parse(
+                $"Usage: tool show {group}", ["tool", "show"]))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("ambiguous alternatives in colon group");
+    }
+
+    [Test]
+    [Arguments("((RESOURCE|ALIAS) : --location=LOCATION)")]
+    [Arguments("(RESOURCE : --location=(REGION|ZONE))")]
+    public async Task Colon_Groups_Preserve_Explicitly_Nested_Alternatives(string group)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+
+        var operand = result.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo("Resource");
+        await Assert.That(operand.IsRequired).IsTrue();
+    }
+
+    [Test]
+    [Arguments("(RESOURCE : --location=LOCATION)", true)]
+    [Arguments("[RESOURCE : --location=LOCATION]", false)]
+    [Arguments("(RESOURCE\n          : --location=LOCATION --service=SERVICE)", true)]
+    public async Task Joins_Indented_Synopsis_Continuation_Lines(string resourceGroup, bool required)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"SYNOPSIS\n    gcloud example show\n        {resourceGroup}\n        [--async]\nDESCRIPTION\n    Show a resource.",
+            ["gcloud", "example", "show"], acceptedHeadings: ["SYNOPSIS"]);
+
+        var operand = result.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo("Resource");
+        await Assert.That(operand.IsRequired).IsEqualTo(required);
+        await Assert.That(result.Synopsis).Contains("[--async]").And.DoesNotContain("DESCRIPTION");
+    }
+
+    [Test]
+    public async Task Indented_Synopsis_Alternatives_Remain_Separate()
+    {
+        const string help = """
+            SYNOPSIS
+                tool show
+                    RESOURCE
+                tool show
+                    --all
+            DESCRIPTION
+                Show one or all resources.
+            """;
+        var result = UsageSynopsisParser.Parse(help, ["tool", "show"], acceptedHeadings: ["SYNOPSIS"]);
+
+        await Assert.That(result.MatchedSynopsisCount).IsEqualTo(2);
+        await Assert.That(result.PositionalArguments.Single().PropertyName).IsEqualTo("Resource");
+        await Assert.That(result.PositionalArguments.Single().IsRequired).IsFalse();
+    }
+
+    [Test]
+    [Arguments("(RESOURCE : --location=LOCATION)", true, false)]
+    [Arguments("[RESOURCE : --location=LOCATION]", false, false)]
+    [Arguments("(RESOURCE [RESOURCE ...] : --location=LOCATION)", true, true)]
+    [Arguments("[RESOURCE ... : --location=LOCATION]", false, true)]
+    [Arguments("(RESOURCE : --location=LOCATION --service=SERVICE)", true, false)]
+    [Arguments("(RESOURCE : [--location=LOCATION])", true, false)]
+    public async Task Resource_Groups_Keep_Only_Their_Positional_Inputs(
+        string resourceGroup, bool required, bool variadic)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"SYNOPSIS\n    gcloud example show {resourceGroup}",
+            ["gcloud", "example", "show"], acceptedHeadings: ["SYNOPSIS"]);
+        var operand = result.PositionalArguments.Single();
+
+        await Assert.That(operand.PropertyName).IsEqualTo("Resource");
+        await Assert.That(operand.IsRequired).IsEqualTo(required);
+        await Assert.That(operand.IsVariadic).IsEqualTo(variadic);
+        await Assert.That(operand.AssociatedOptionSwitch).IsNull();
+    }
+
+    [Test]
+    [Arguments("(SOURCE : DESTINATION)", true, true, CommandLinePhase.EarlyOperand, 1)]
+    [Arguments("[SOURCE : DESTINATION]", false, false, CommandLinePhase.EarlyOperand, 1)]
+    [Arguments("(SOURCE : [DESTINATION])", true, false, CommandLinePhase.EarlyOperand, 1)]
+    [Arguments("(SOURCE : --location=LOCATION DESTINATION)", true, true, CommandLinePhase.Passthrough, 0)]
+    public async Task Colon_Groups_Preserve_Operands_After_The_Separator(
+        string group, bool sourceRequired, bool destinationRequired,
+        CommandLinePhase destinationPhase, int destinationIndex)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool copy {group}", ["tool", "copy"]);
+
+        await Assert.That(result.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Source", "Destination"]);
+        await Assert.That(result.PositionalArguments[0].PositionIndex).IsEqualTo(0);
+        await Assert.That(result.PositionalArguments[1].PositionIndex).IsEqualTo(destinationIndex);
+        await Assert.That(result.PositionalArguments[1].Phase).IsEqualTo(destinationPhase);
+        await Assert.That(result.PositionalArguments[0].IsRequired).IsEqualTo(sourceRequired);
+        await Assert.That(result.PositionalArguments[1].IsRequired).IsEqualTo(destinationRequired);
+        await Assert.That(result.PositionalArguments[1].AssociatedOptionSwitch).IsNull();
+    }
+
+    [Test]
     public async Task Ignores_Azure_Usage_Examples()
     {
         const string helpText = """
@@ -1477,7 +1579,7 @@ public class UsageSynopsisParserTests
         {
         }
 
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
     }
 
     private sealed class CountingUsageScraper : CliScraperBase

@@ -1,0 +1,73 @@
+NAME
+    gcloud metastore services migrations describe - describe a migration
+
+SYNOPSIS
+    gcloud metastore services migrations describe
+        (MIGRATION : --location=LOCATION --service=SERVICE)
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Describe a migration.
+
+    Displays all details of a migration given a migration ID.
+
+EXAMPLES
+    To describe a migration with the ID my-migration under service my-service,
+    run:
+
+        $ gcloud metastore services migrations describe my-migration \
+            --service=my-service
+
+POSITIONAL ARGUMENTS
+     Migration resource - Arguments and flags that specify the migration you
+     want to describe. The arguments in this group can be used to specify the
+     attributes of this resource. (NOTE) Some attributes are not given
+     arguments in this group but can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument migration on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       MIGRATION
+          ID of the migration or fully qualified identifier for the migration.
+
+          To set the migration attribute:
+          + provide the argument migration on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --location=LOCATION
+          The location of the Dataproc Metastore service.
+
+          If not specified, will use default metastore/location.
+
+          To set the location attribute:
+          + provide the argument migration on the command line with a fully
+            specified name;
+          + provide the argument --location on the command line;
+          + set the property metastore/location.
+
+       --service=SERVICE
+          The identifier of the Dataproc Metastore service
+
+          To set the service attribute:
+          + provide the argument migration on the command line with a fully
+            specified name;
+          + provide the argument --service on the command line.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+API REFERENCE
+    This command uses the metastore/v1 API. The full documentation for this API
+    can be found at: https://cloud.google.com/dataproc-metastore/docs

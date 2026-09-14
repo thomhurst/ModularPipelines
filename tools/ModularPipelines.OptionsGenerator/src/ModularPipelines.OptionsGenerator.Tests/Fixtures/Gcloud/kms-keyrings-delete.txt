@@ -1,0 +1,53 @@
+NAME
+    gcloud kms keyrings delete - delete a keyring
+
+SYNOPSIS
+    gcloud kms keyrings delete (KEYRING : --location=LOCATION)
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Deletes a keyring within the given location.
+
+EXAMPLES
+    The following command deletes the keyring fellowship within location
+    us-east1:
+
+        $ gcloud kms keyrings delete fellowship --location=us-east1
+
+POSITIONAL ARGUMENTS
+     Keyring resource - The KMS keyring resource. The arguments in this group
+     can be used to specify the attributes of this resource. (NOTE) Some
+     attributes are not given arguments in this group but can be set in other
+     ways.
+
+     To set the project attribute:
+      * provide the argument keyring on the command line with a fully
+        specified name;
+      * set the property core/project.
+
+     This must be specified.
+
+       KEYRING
+          ID of the keyring or fully qualified identifier for the keyring.
+
+          To set the keyring attribute:
+          + provide the argument keyring on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --location=LOCATION
+          The Google Cloud location for the keyring.
+
+          To set the location attribute:
+          + provide the argument keyring on the command line with a fully
+            specified name;
+          + provide the argument --location on the command line.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
