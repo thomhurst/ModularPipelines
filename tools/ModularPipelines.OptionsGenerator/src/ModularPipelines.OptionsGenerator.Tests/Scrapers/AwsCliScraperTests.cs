@@ -60,7 +60,7 @@ public class AwsCliScraperTests
     }
 
     [Test]
-    public async Task Enum_Detection_Deduplicates_Case_Variant_Values()
+    public async Task Enum_Detection_Preserves_Case_Variant_Values()
     {
         var definition = AwsCliScraper.TryDetectEnum(
             "TrafficRoutingConfig",
@@ -71,9 +71,27 @@ public class AwsCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(values.Select(value => value.CliValue))
-                .IsEquivalentTo(["TimeBasedCanary", "TimeBasedLinear", "AllAtOnce"]);
+                .IsEquivalentTo(["TimeBasedCanary", "TimeBasedLinear", "AllAtOnce", "timeBasedCanary", "timeBasedLinear"]);
             await Assert.That(values.Select(value => value.MemberName).Distinct().Count())
                 .IsEqualTo(values.Count);
+        }
+    }
+
+    [Test]
+    [Arguments(1, false)]
+    [Arguments(2, true)]
+    [Arguments(16, true)]
+    [Arguments(20, true)]
+    [Arguments(21, false)]
+    public async Task Enum_Detection_Uses_Shared_Member_Limits(int count, bool expectEnum)
+    {
+        var values = Enumerable.Range(1, count).Select(index => $"value{index}").ToArray();
+        var definition = AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", $"Possible values: {string.Join(' ', values)}");
+
+        await Assert.That(definition is not null).IsEqualTo(expectEnum);
+        if (expectEnum)
+        {
+            await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(values);
         }
     }
 
@@ -87,6 +105,17 @@ public class AwsCliScraperTests
 
         await Assert.That(definition!.Values.Select(value => value.CliValue))
             .IsEquivalentTo(["Event", "RequestResponse", "DryRun"]);
+    }
+
+    [Test]
+    public async Task Enum_Detection_Preserves_Punctuation_And_Leading_Digits()
+    {
+        var definition = AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions",
+            "Possible values: foo-bar foo_bar net8.0 net9.0 1st");
+
+        await Assert.That(definition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["foo-bar", "foo_bar", "net8.0", "net9.0", "1st"]);
+        await Assert.That(definition.Values.Select(value => value.MemberName).Distinct().Count()).IsEqualTo(5);
     }
 
     [Test]

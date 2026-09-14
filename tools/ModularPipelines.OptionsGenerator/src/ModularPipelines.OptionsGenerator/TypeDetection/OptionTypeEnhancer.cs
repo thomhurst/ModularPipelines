@@ -69,8 +69,14 @@ public class OptionTypeEnhancer
                 manualOverridesOnly,
                 cancellationToken);
 
-            // Merge existing enums with newly detected enums
-            var allEnums = command.Enums.Concat(detectedEnums)
+            // Option metadata is authoritative after enhancement; retain only unrelated
+            // command enums so an old definition cannot shadow its replacement or fallback.
+            var originalOptionEnums = command.Options.Where(option => option.EnumDefinition is not null)
+                .Select(option => option.EnumDefinition!.EnumName)
+                .ToHashSet(StringComparer.Ordinal);
+            var allEnums = detectedEnums
+                .Concat(enhancedOptions.Where(option => option.EnumDefinition is not null).Select(option => option.EnumDefinition!))
+                .Concat(command.Enums.Where(enumDefinition => !originalOptionEnums.Contains(enumDefinition.EnumName)))
                 .DistinctBy(e => e.EnumName)
                 .ToList();
 
@@ -152,13 +158,19 @@ public class OptionTypeEnhancer
             if (result.Type != CliOptionType.Unknown && result.Confidence >= MinimumConfidenceToEnhance)
             {
                 // Check if we detected enum values - create an enum definition
-                if (result.Type == CliOptionType.Enum && result.EnumValues is { Length: > 0 })
+                var hasDetectedChoices = result.Type == CliOptionType.Enum && result.EnumValues is { Length: > 0 };
+                if (hasDetectedChoices)
                 {
-                    enumDef = CreateEnumDefinition(option, command, result.EnumValues);
+                    enumDef = OptionEnumFactory.TryCreate(command.ClassName, option.PropertyName, option.SwitchName,
+                        result.EnumValues!.Select(value => (value, option.EnumDefinition?.Values
+                            .FirstOrDefault(existing => existing.CliValue.Equals(value, StringComparison.Ordinal))?.Description)));
                 }
 
                 // Use existing enum def or newly created one
-                var effectiveEnumDef = enumDef ?? option.EnumDefinition;
+                var effectiveEnumDef = hasDetectedChoices ? enumDef : option.EnumDefinition;
+                var description = hasDetectedChoices && enumDef is null
+                    ? OptionEnumFactory.PreserveChoices(option.Description, result.EnumValues!)
+                    : option.Description;
                 var acceptsMultipleValues = result.Type == CliOptionType.StringList
                     || (result.Type == CliOptionType.Enum
                         && (result.AcceptsMultipleValues || option.AcceptsMultipleValues));
@@ -172,7 +184,8 @@ public class OptionTypeEnhancer
                 if (newCSharpType != option.CSharpType
                     || newIsFlag != option.IsFlag
                     || result.GroupValues != option.GroupValues
-                    || enumDef is not null)
+                    || enumDef is not null
+                    || description != option.Description)
                 {
                     _logger.LogInformation(
                         "Enhanced {Command} {Option}: {OldType} -> {NewType} (confidence: {Confidence}, source: {Source}){EnumInfo}",
@@ -187,6 +200,7 @@ public class OptionTypeEnhancer
                     enhancedOption = option with
                     {
                         CSharpType = newCSharpType,
+                        Description = description,
                         IsFlag = newIsFlag,
                         IsNumeric = result.Type == CliOptionType.Int || result.Type == CliOptionType.Decimal,
                         AcceptsMultipleValues = acceptsMultipleValues,
@@ -244,40 +258,6 @@ public class OptionTypeEnhancer
         {
             IsSecret = !isBoolean && requestsSecret,
             SecretValueKeys = isBoolean ? [] : secretValueKeys,
-        };
-    }
-
-    /// <summary>
-    /// Creates an enum definition from detected enum values.
-    /// </summary>
-    private static CliEnumDefinition CreateEnumDefinition(
-        CliOptionDefinition option,
-        CliCommandDefinition command,
-        string[] enumValues)
-    {
-        // Generate enum name based on command and option
-        // e.g., "DotNetBuildVerbosity" for dotnet build --verbosity
-        var commandPrefix = command.ClassName.Replace("Options", "");
-        var enumName = GeneratorUtils.ToEnumName(option.SwitchName, commandPrefix);
-
-        // Create enum values in the shared order first, so which of two colliding member
-        // names survives does not depend on the order the tool printed its values.
-        var values = CliEnumDefinition.OrderValues(enumValues
-                .Where(v => !string.IsNullOrWhiteSpace(v))
-                .Select(cliValue => new CliEnumValue
-                {
-                    MemberName = GeneratorUtils.ToEnumMemberName(cliValue),
-                    CliValue = cliValue,
-                    Description = null
-                }))
-            .DistinctBy(v => v.MemberName) // Avoid duplicate member names
-            .ToList();
-
-        return new CliEnumDefinition
-        {
-            EnumName = enumName,
-            Values = values,
-            Description = $"Allowed values for the {option.SwitchName} option."
         };
     }
 

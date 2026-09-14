@@ -389,7 +389,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
                 // Try to detect enum values
                 var enumDef = ShouldGenerateEnum(commandParts, longForm)
-                    ? TryDetectEnumFromDescription(propertyName, className, actualType, description)
+                    ? TryDetectEnumFromDescription(propertyName, className, longForm, actualType, description)
                     : null;
 
                 var csharpType = DetermineCSharpType(isBoolean, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
@@ -401,7 +401,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                     PropertyName = propertyName,
                     CSharpType = csharpType,
-                    Description = description,
+                    Description = OptionEnumFactory.PreserveValueHint(enumDef, description, actualType),
                     IsFlag = isFlag,
                     IsRequired = false,
                     AcceptsMultipleValues = isArray,
@@ -590,32 +590,29 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static CliEnumDefinition? TryDetectEnumFromDescription(
         string propertyName,
         string className,
+        string switchName,
         string typeHint,
         string description)
     {
         var descriptionMatch = DescriptionEnumValueParser.TryParse(description);
         if (descriptionMatch is not null)
         {
-            return CreateEnumDefinition(propertyName, className, descriptionMatch.Values);
+            return OptionEnumFactory.TryCreate(className, propertyName, switchName, descriptionMatch.Values);
         }
 
         return TryCreateEnumDefinition(
                    propertyName,
                    className,
-                   AllowedValuesPattern().Match(description),
-                   minimumValues: 2,
-                   maximumValues: 20,
-                   validateValues: true)
-               ?? TryCreateEnumDefinitionFromTypeHint(propertyName, className, typeHint);
+                   switchName,
+                   AllowedValuesPattern().Match(description))
+               ?? TryCreateEnumDefinitionFromTypeHint(propertyName, className, switchName, typeHint);
     }
 
     private static CliEnumDefinition? TryCreateEnumDefinition(
         string propertyName,
         string className,
-        Match match,
-        int minimumValues,
-        int maximumValues,
-        bool validateValues)
+        string switchName,
+        Match match)
     {
         if (!match.Success)
         {
@@ -623,19 +620,18 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         var values = ParseEnumValues(match.Groups["values"].Value);
-        if (values.Length < minimumValues
-            || values.Length > maximumValues
-            || (validateValues && !values.All(IsValidEnumValue)))
+        if (values.Any(value => !value.Any(char.IsLetter)))
         {
             return null;
         }
 
-        return CreateEnumDefinition(propertyName, className, values);
+        return OptionEnumFactory.TryCreate(className, propertyName, switchName, values);
     }
 
     private static CliEnumDefinition? TryCreateEnumDefinitionFromTypeHint(
         string propertyName,
         string className,
+        string switchName,
         string typeHint)
     {
         if (!typeHint.Contains('|'))
@@ -644,8 +640,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         var values = ParseEnumValues(typeHint);
-        return values.Length >= 2 && values.All(IsValidEnumValue)
-            ? CreateEnumDefinition(propertyName, className, values)
+        return values.All(value => value.Any(char.IsLetter))
+            ? OptionEnumFactory.TryCreate(className, propertyName, switchName, values)
             : null;
     }
 
@@ -667,7 +663,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             .Select(ExtractQuotedEnumValue)
             // Remove any embedded newlines, carriage returns, or other control characters
             .Select(SanitizeEnumValue)
-            .Where(v => !string.IsNullOrWhiteSpace(v) && v.Length < 30)
+            .Where(v => !string.IsNullOrWhiteSpace(v))
             .Distinct()
             .ToArray();
     }
@@ -709,61 +705,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         return sanitized.ToString().Trim();
-    }
-
-    private static bool IsValidEnumValue(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return false;
-        }
-
-        // Reject purely numeric values or ranges (e.g., "0", "0-3", "1,2,3")
-        // These are typically examples for numeric inputs, not enum choices
-        if (value.All(c => char.IsDigit(c) || c == '-' || c == ',' || c == '.'))
-        {
-            return false;
-        }
-
-        // Must start with a letter to be a valid enum name
-        // (after normalization, leading digits would create invalid identifiers)
-        if (!char.IsLetter(value[0]))
-        {
-            return false;
-        }
-
-        return value.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_');
-    }
-
-    private static CliEnumDefinition CreateEnumDefinition(
-        string propertyName,
-        string className,
-        string[] values)
-    {
-        var enumName = $"{className.Replace("Options", "")}{propertyName}";
-
-        return new CliEnumDefinition
-        {
-            EnumName = enumName,
-            Values = values.Select(v => new CliEnumValue
-            {
-                MemberName = NormalizeEnumMemberName(v),
-                CliValue = v
-            }).ToList(),
-            Description = $"Allowed values for the --{propertyName.ToLowerInvariant()} option."
-        };
-    }
-
-    private static string NormalizeEnumMemberName(string value)
-    {
-        // First sanitize to remove control characters
-        var sanitized = SanitizeEnumValue(value);
-        if (string.IsNullOrEmpty(sanitized))
-        {
-            return "Unknown";
-        }
-
-        return GeneratorUtils.ToEnumMemberName(sanitized);
     }
 
     /// <summary>

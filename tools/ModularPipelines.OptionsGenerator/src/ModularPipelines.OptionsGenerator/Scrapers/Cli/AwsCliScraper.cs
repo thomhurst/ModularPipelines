@@ -104,11 +104,6 @@ public partial class AwsCliScraper : CliScraperBase
 
 
     /// <summary>
-    /// AWS CLI has 350+ services - use higher parallelism for faster discovery.
-    /// </summary>
-    protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
-
-    /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -418,7 +413,7 @@ public partial class AwsCliScraper : CliScraperBase
 
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
-                : TryDetectEnum(propertyName, className, description);
+                : TryDetectEnum(propertyName, className, description, longForm);
             var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
 
             options.Add(new CliOptionDefinition
@@ -492,7 +487,7 @@ public partial class AwsCliScraper : CliScraperBase
         return lower.Contains("integer") || lower.Contains("long") || lower.Contains("float") || lower.Contains("double");
     }
 
-    internal static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
+    internal static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description, string? switchName = null)
     {
         if (string.IsNullOrEmpty(description))
         {
@@ -500,25 +495,20 @@ public partial class AwsCliScraper : CliScraperBase
         }
 
         // Pattern: "Possible values: value1, value2, value3" or "Valid values: ..."
-        var match = Regex.Match(description, @"(?:Possible|Valid|Allowed)\s+values?:\s*([a-zA-Z][a-zA-Z0-9_-]*(?:,?\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
+        var match = EnumValuesPattern().Match(description);
         if (match.Success)
         {
             var values = match.Groups[1].Value
                 .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
                 .Select(v => v.Trim().TrimEnd('.'))
                 .Where(v => !v.Equals("o", StringComparison.OrdinalIgnoreCase)
-                            && v.Length > 0
-                            && v.Length < 30
-                            && IsValidEnumValue(v))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
+                            && v.Length > 0)
                 .ToArray();
 
-            if (values.Length >= 2
-                && values.Length <= 15
-                && !NumericConstraintValuesPattern().IsMatch(match.Groups[1].Value)
+            if (!NumericConstraintValuesPattern().IsMatch(match.Groups[1].Value)
                 && !values.Any(FreeFormValueDescriptionTokens.Contains))
             {
-                return CreateEnumDefinition(propertyName, className, values);
+                return OptionEnumFactory.TryCreate(className, propertyName, switchName ?? propertyName, values);
             }
         }
 
@@ -596,45 +586,6 @@ public partial class AwsCliScraper : CliScraperBase
             IsRequired = true,
         };
 
-    private static bool IsValidEnumValue(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return false;
-        }
-
-        // Must start with letter
-        if (!char.IsLetter(value[0]))
-        {
-            return false;
-        }
-
-        return value.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_');
-    }
-
-    private static CliEnumDefinition CreateEnumDefinition(string propertyName, string className, string[] values)
-    {
-        var enumName = $"{className.Replace("Options", "")}{propertyName}";
-
-        return new CliEnumDefinition
-        {
-            EnumName = enumName,
-            Values = values.Select(v => new CliEnumValue
-            {
-                MemberName = NormalizeEnumMemberName(v),
-                CliValue = v
-            }).ToList(),
-            Description = $"Allowed values for --{propertyName.ToLowerInvariant()}."
-        };
-    }
-
-    private static string NormalizeEnumMemberName(string value)
-    {
-        var cleaned = value.Replace("-", "_").Replace(".", "_");
-        var parts = cleaned.Split('_', StringSplitOptions.RemoveEmptyEntries);
-        return string.Join("", parts.Select(ToPascalCase));
-    }
-
     private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
     {
         if (isFlag)
@@ -695,6 +646,9 @@ public partial class AwsCliScraper : CliScraperBase
         @"\b(?:integer|long|float|double)\s+(?:greater|less)\s+than\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex NumericConstraintValuesPattern();
+
+    [GeneratedRegex(@"(?:Possible|Valid|Allowed)\s+values?:\s*([a-zA-Z0-9][a-zA-Z0-9_.+-]*(?:,?\s+[a-zA-Z0-9][a-zA-Z0-9_.+-]*|,\s*[a-zA-Z0-9][a-zA-Z0-9_.+-]*)*)", RegexOptions.IgnoreCase)]
+    private static partial Regex EnumValuesPattern();
 
     #endregion
 }

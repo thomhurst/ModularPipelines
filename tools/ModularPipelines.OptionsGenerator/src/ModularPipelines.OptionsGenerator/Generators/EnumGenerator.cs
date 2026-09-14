@@ -100,7 +100,7 @@ public class EnumGenerator : ICodeGenerator
         return sb.ToString();
     }
 
-    private static IReadOnlyList<CliEnumValue> GetUniqueValues(IReadOnlyList<CliEnumValue> values)
+    internal static IReadOnlyList<CliEnumValue> GetUniqueValues(IReadOnlyList<CliEnumValue> values)
     {
         var usedCliValues = new HashSet<string>(StringComparer.Ordinal);
         var usedMemberNames = new HashSet<string>(StringComparer.Ordinal);
