@@ -317,6 +317,12 @@ public record CliOptionDefinition
     internal bool IsStructuredValue { get; init; }
 
     /// <summary>
+    /// Whether the scraper synthesized this option from another option's negation syntax.
+    /// Explicit declarations take precedence and must retain their own constraint identity.
+    /// </summary>
+    internal bool IsGeneratedNegation { get; init; }
+
+    /// <summary>
     /// Whether generated code needs the ModularPipelines.Models namespace for this option type.
     /// </summary>
     public bool RequiresModelsNamespace

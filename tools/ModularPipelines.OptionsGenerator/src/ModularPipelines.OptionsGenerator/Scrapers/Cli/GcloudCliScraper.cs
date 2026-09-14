@@ -274,6 +274,12 @@ public partial class GcloudCliScraper : CliScraperBase
                 {
                     if (!seenOptions.Add(option.SwitchName))
                     {
+                        var existingIndex = options.FindIndex(existing => existing.SwitchName.Equals(option.SwitchName, StringComparison.OrdinalIgnoreCase));
+                        if (options[existingIndex].IsGeneratedNegation && !option.IsGeneratedNegation)
+                        {
+                            options[existingIndex] = NormalizeRepeatability(option, helpText, commandParts, argument.Description);
+                        }
+
                         continue;
                     }
 
@@ -487,7 +493,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         return options.Where(option => option.SwitchName == argument.SwitchName
-                || (option.IsFlag && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
+                || (option.IsGeneratedNegation && option.IsFlag && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
             .Select(option => new CliRequiredAlternativeMember
             {
                 OptionSwitch = option.SwitchName,
@@ -695,6 +701,7 @@ public partial class GcloudCliScraper : CliScraperBase
             PropertyName = propertyName,
             CSharpType = "bool?",
             Description = $"Negates {option.SwitchName}. {description}",
+            IsGeneratedNegation = true,
             IsFlag = true,
             ValueArity = CliOptionValueArity.Required,
             AcceptsMultipleValues = false,

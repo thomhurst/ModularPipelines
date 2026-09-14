@@ -7,6 +7,55 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Gcloud_Explicit_Negations_Count_Once_In_Exclusive_Groups(bool mentionNegation, bool negativeFirst)
+    {
+        var positive = "       --address=ADDRESS\n          External address." + (mentionNegation ? " Use --no-address instead to disable it." : "");
+        const string negative = "       --no-address\n          Disable the external address.";
+        var help = "NAME\n    gcloud example create - create an example\nFLAGS\n     At most one of these can be specified:\n"
+                   + (negativeFirst ? negative + "\n" + positive : positive + "\n" + negative);
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], help))!;
+        var group = command.RequiredAlternativeGroups.Single();
+        await Assert.That(group.Groups).IsEmpty();
+        await Assert.That(group.PropertyNames).IsEquivalentTo(["Address", "NoAddress"]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+        await VerifyGeneratedValidation(generated, command.ClassName, async type =>
+        {
+            foreach (var address in new[] { null, "address" })
+            {
+                foreach (var noAddress in new bool?[] { null, false, true })
+                {
+                    var instance = Activator.CreateInstance(type)!;
+                    type.GetProperty("Address")!.SetValue(instance, address);
+                    type.GetProperty("NoAddress")!.SetValue(instance, noAddress);
+                    var valid = !((IValidatableObject) instance).Validate(new(instance)).Any();
+                    await Assert.That(valid).IsEqualTo(address is null || noAddress != true);
+                }
+            }
+        });
+    }
+
+    [Test]
+    public async Task Gcloud_Captured_Address_Choice_Has_No_Duplicate_Negative_Branch()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "compute-instances-create-550.txt"));
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "compute", "instances", "create"], help))!;
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("NoAddress"));
+        await Assert.That(group.Groups).IsEmpty();
+        await Assert.That(group.PropertyNames).IsEquivalentTo(["Address", "NoAddress"]);
+        await Assert.That(group.IsMutuallyExclusive).IsTrue();
+    }
+    [Test]
     public async Task Gcloud_Conditional_Positional_Operand_Requires_Value_When_Selector_Is_Set()
     {
         const string help = """
