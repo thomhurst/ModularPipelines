@@ -58,25 +58,33 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         // Skip if the switch name contains special characters (like examples with quotes/equals)
         // e.g., --security-opt="label=user:USER" is an example, not a valid option
         if (optionName.Contains('=') || optionName.Contains('"') || optionName.Contains('\'') || optionName.Contains(':'))
+        {
             return null;
+        }
 
         // Remove leading dashes
         var cleaned = optionName.TrimStart('-');
 
         // Skip if there's nothing left after removing dashes
         if (string.IsNullOrWhiteSpace(cleaned))
+        {
             return null;
+        }
 
         // Skip if it's just a line of dashes (table separator)
         if (cleaned.All(c => c == '-' || c == '_'))
+        {
             return null;
+        }
 
         // Split by dash or underscore and convert to PascalCase
         var parts = cleaned.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries);
 
         // Skip if no valid parts remain
         if (parts.Length == 0)
+        {
             return null;
+        }
 
         return string.Join("", parts.Select(ToPascalCase));
     }
@@ -109,11 +117,31 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         bool isNumeric,
         CliEnumDefinition? enumDefinition)
     {
-        if (isFlag) return CliTypeMapper.ToCSharpType(CliOptionType.Bool);
-        if (enumDefinition is not null) return CliTypeMapper.ToCSharpType(CliOptionType.Enum, enumDefinition);
-        if (isKeyValue) return CliTypeMapper.ToCSharpType(CliOptionType.KeyValue);
-        if (acceptsMultipleValues) return CliTypeMapper.ToCSharpType(CliOptionType.StringList);
-        if (isNumeric) return CliTypeMapper.ToCSharpType(CliOptionType.Int);
+        if (isFlag)
+        {
+            return CliTypeMapper.ToCSharpType(CliOptionType.Bool);
+        }
+
+        if (enumDefinition is not null)
+        {
+            return CliTypeMapper.ToCSharpType(CliOptionType.Enum, enumDefinition);
+        }
+
+        if (isKeyValue)
+        {
+            return CliTypeMapper.ToCSharpType(CliOptionType.KeyValue);
+        }
+
+        if (acceptsMultipleValues)
+        {
+            return CliTypeMapper.ToCSharpType(CliOptionType.StringList);
+        }
+
+        if (isNumeric)
+        {
+            return CliTypeMapper.ToCSharpType(CliOptionType.Int);
+        }
+
         return CliTypeMapper.ToCSharpType(CliOptionType.String);
     }
 
@@ -131,11 +159,15 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         {
             var lowerType = explicitType.ToLowerInvariant().Trim();
             if (lowerType is "bool" or "boolean" or "flag")
+            {
                 return true;
+            }
             // Explicit non-boolean types
             if (lowerType is "string" or "int" or "integer" or "number" or "path" or "file"
                 or "list" or "array" or "duration" or "bytes" or "uint" or "float" or "double")
+            {
                 return false;
+            }
         }
 
         // 2. Default value is exactly "true" or "false" (kubectl pattern)
@@ -143,7 +175,9 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         {
             var lowerDefault = defaultValue.ToLowerInvariant().Trim();
             if (lowerDefault is "true" or "false")
+            {
                 return true;
+            }
         }
 
         // 3. Accepted values contain boolean patterns (Azure CLI pattern)
@@ -153,7 +187,9 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
             // Azure CLI pattern: {0, 1, f, false, n, no, t, true, y, yes}
             if ((lowerAccepted.Contains("true") && lowerAccepted.Contains("false")) ||
                 (lowerAccepted.Contains("yes") && lowerAccepted.Contains("no")))
+            {
                 return true;
+            }
         }
 
         // 4. Default: assume it's NOT a boolean (safer to require explicit signals)
@@ -166,7 +202,9 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     protected static bool DetectMultipleValues(string? description, string? valueType)
     {
         if (string.IsNullOrEmpty(valueType) && string.IsNullOrEmpty(description))
+        {
             return false;
+        }
 
         var combined = $"{valueType} {description}".ToLowerInvariant();
         return combined.Contains("multiple") ||
@@ -183,7 +221,9 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     protected static bool DetectNumericType(string? valueType)
     {
         if (string.IsNullOrEmpty(valueType))
+        {
             return false;
+        }
 
         var lowerType = valueType.ToLowerInvariant();
         return lowerType is "int" or "integer" or "number" or "int32" or "int64" or "uint";
@@ -195,28 +235,29 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     protected static CliEnumDefinition? DetectEnumValues(string propertyName, string commandClassName, string? valueType, string? description)
     {
         if (string.IsNullOrEmpty(valueType))
+        {
             return null;
+        }
 
         // Look for patterns like: json|yaml|table or {json, yaml, table}
-        var pipeMatch = EnumPipePattern().Match(valueType);
-        if (pipeMatch.Success)
+        var pipeContent = OptionEnumFactory.UnwrapChoiceHint(valueType);
+        if (pipeContent.Contains('|'))
         {
-            var values = valueType.Split('|', StringSplitOptions.RemoveEmptyEntries)
-                .Select(v => v.Trim())
-                .Where(v => !string.IsNullOrEmpty(v) && v.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
-                .ToList();
-
-            // Duration placeholders describe suffixes for a free-form value such as "30s";
-            // they are not the complete values accepted by the option.
-            if (values.Count >= 2 && values.All(IsDurationUnit))
+            if (!EnumPipePattern().IsMatch(pipeContent))
             {
                 return null;
             }
 
-            if (values.Count >= 2)
+            var values = pipeContent.Split('|');
+
+            // Duration placeholders describe suffixes for a free-form value such as "30s";
+            // they are not the complete values accepted by the option.
+            if (values.All(IsDurationUnit))
             {
-                return CreateEnumDefinition(propertyName, commandClassName, values);
+                return null;
             }
+
+            return OptionEnumFactory.TryCreateFromHint(commandClassName, propertyName, propertyName, values);
         }
 
         // Look for brace patterns like {Public, Private}
@@ -231,7 +272,7 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
 
             if (values.Count >= 2)
             {
-                return CreateEnumDefinition(propertyName, commandClassName, values);
+                return OptionEnumFactory.TryCreateFromHint(commandClassName, propertyName, propertyName, values);
             }
         }
 
@@ -243,37 +284,15 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         return value.ToLowerInvariant() is "ns" or "us" or "ms" or "s" or "m" or "h" or "d";
     }
 
-    private static CliEnumDefinition CreateEnumDefinition(string propertyName, string commandClassName, List<string> values)
-    {
-        // Generate command-specific enum name
-        var enumName = $"{commandClassName.Replace("Options", "")}{propertyName}";
-
-        return new CliEnumDefinition
-        {
-            EnumName = enumName,
-            Values = values.Select(v => new CliEnumValue
-            {
-                MemberName = NormalizeEnumMemberName(v),
-                CliValue = v
-            }).ToList()
-        };
-    }
-
-    private static string NormalizeEnumMemberName(string value)
-    {
-        // Convert to PascalCase, handle special characters
-        var cleaned = value.Replace("-", "_").Replace(".", "_");
-        var parts = cleaned.Split('_', StringSplitOptions.RemoveEmptyEntries);
-        return string.Join("", parts.Select(ToPascalCase));
-    }
-
     /// <summary>
     /// Escapes text for XML documentation comments.
     /// </summary>
     protected static string EscapeXmlComment(string? text)
     {
         if (string.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         return text
             .Replace("&", "&amp;")
@@ -285,7 +304,7 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
             .Trim();
     }
 
-    [GeneratedRegex(@"^[\w-]+\|[\w-]+")]
+    [GeneratedRegex(@"\A[^\s|]+(?:\|[^\s|]+)+\z")]
     private static partial Regex EnumPipePattern();
 
     [GeneratedRegex(@"\{([^}]+)\}")]

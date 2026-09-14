@@ -65,7 +65,7 @@ internal static partial class DescriptionEnumValueParser
             values.Add(value);
         }
 
-        var distinctValues = values.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        var distinctValues = values.Distinct(StringComparer.Ordinal).ToArray();
         return distinctValues.Length is >= 2 and <= 20 ? distinctValues : null;
     }
 

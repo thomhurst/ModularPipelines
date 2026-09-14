@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -30,6 +30,62 @@ public class CobraCliScraperTests
         await Assert.That(urls.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(command.Options.Single(option => option.SwitchName == "--nodes").Description)
             .IsEqualTo("Number of nodes.");
+    }
+
+    [Test]
+    public async Task Type_Hint_Preserves_Long_Choices()
+    {
+        const string longValue = "this-is-a-valid-choice-longer-than-thirty-characters";
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --output-mode plain|json|{longValue}   Select mode\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+        var definition = command!.Options.Single().EnumDefinition!;
+
+        await Assert.That(definition.Values.Select(value => value.CliValue)).IsEquivalentTo(["plain", "json", longValue]);
+        await Assert.That(definition.Description).IsEqualTo("Allowed values for --output-mode.");
+    }
+
+    [Test]
+    [Arguments("<json|yaml>")]
+    [Arguments("{json|yaml}")]
+    [Arguments("[json|yaml]")]
+    public async Task Type_Hint_Strips_Choice_Wrappers(string hint)
+    {
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --mode {hint}   Select mode\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
+    public async Task Large_Type_Hint_Choice_Set_Remains_In_Description()
+    {
+        var valueHint = string.Join('|', Enumerable.Range(1, 21).Select(index => $"mode{index}"));
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --mode {valueHint}   Select mode\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+        var option = command!.Options.Single();
+
+        await Assert.That(option.EnumDefinition).IsNull();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.Description).IsEqualTo($"Select mode [value type: {valueHint}]");
+    }
+
+    [Test]
+    public async Task Explicit_Enum_Choices_Preserve_Case_And_Normalization_Collisions()
+    {
+        const string helpText = """
+            Usage: fake run [OPTIONS]
+
+            Options:
+              --mode string   Allowed values: plain, PLAIN, foo-bar, foo_bar
+            """;
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+        var definition = command!.Options.Single().EnumDefinition!;
+
+        await Assert.That(definition.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["plain", "PLAIN", "foo-bar", "foo_bar"]);
+        await Assert.That(definition.Values.Select(value => value.MemberName).Distinct().Count())
+            .IsEqualTo(definition.Values.Count);
     }
 
     [Test]

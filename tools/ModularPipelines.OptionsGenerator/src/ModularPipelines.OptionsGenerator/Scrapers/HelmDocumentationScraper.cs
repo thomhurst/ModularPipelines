@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 /// Scrapes Helm CLI documentation from helm.sh.
 /// Helm docs use underscore-separated URLs like helm_install, helm_repo_add.
 /// </summary>
-public partial class HelmDocumentationScraper : CliDocumentationScraperBase
+public partial class HelmDocumentationScraper(HttpClient httpClient, ILogger<HelmDocumentationScraper> logger) : CliDocumentationScraperBase(httpClient, logger)
 {
     private const string BaseUrl = "https://helm.sh/docs/helm/helm/";
     private const string CommandBaseUrl = "https://helm.sh/docs/helm/";
@@ -20,11 +20,6 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
     public override string NamespacePrefix => "Helm";
     public override string TargetNamespace => "ModularPipelines.Helm";
     public override string OutputDirectory => "src/ModularPipelines.Helm";
-
-    public HelmDocumentationScraper(HttpClient httpClient, ILogger<HelmDocumentationScraper> logger)
-        : base(httpClient, logger)
-    {
-    }
 
     public override async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
     {
@@ -86,7 +81,7 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
         };
     }
 
-    private List<(string Url, string CommandName)> ExtractCommandLinks(IDocument doc)
+    private static List<(string Url, string CommandName)> ExtractCommandLinks(IDocument doc)
     {
         var links = new List<(string, string)>();
 
@@ -97,7 +92,9 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
         {
             var href = link.GetAttribute("href");
             if (string.IsNullOrEmpty(href))
+            {
                 continue;
+            }
 
             // Normalize URL
             var fullUrl = href.StartsWith("http")
@@ -130,7 +127,9 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
         // Parse command parts from name (helm_repo_add -> ["repo", "add"])
         var commandParts = ParseCommandParts(commandName);
         if (commandParts.Length == 0)
+        {
             return null;
+        }
 
         // Determine sub-domain group (first command part)
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
@@ -182,7 +181,9 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
         // Look for the first paragraph after the title, or synopsis section
         var content = doc.QuerySelector("article, .content, main");
         if (content is null)
+        {
             return null;
+        }
 
         // Find synopsis or first meaningful paragraph
         var paragraphs = content.QuerySelectorAll("p");
@@ -208,7 +209,9 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
         // Find the Options section - usually in a <pre> or code block after "Options" heading
         var content = doc.QuerySelector("article, .content, main");
         if (content is null)
+        {
             return options;
+        }
 
         var fullText = content.TextContent;
 
@@ -225,12 +228,16 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
             var description = match.Groups["desc"].Value.Trim();
 
             if (string.IsNullOrEmpty(longForm))
+            {
                 continue;
+            }
 
             var switchName = longForm;
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
+            {
                 continue;
+            }
 
             // Detect if this is a boolean flag
             var isFlag = DetectBooleanFlag(description, valueType, null, null);
@@ -252,7 +259,7 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
                 ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
-                Description = description,
+                Description = OptionEnumFactory.PreserveValueHint(enumDef, description, valueType),
                 IsFlag = isFlag,
                 IsRequired = false,
                 AcceptsMultipleValues = acceptsMultiple,

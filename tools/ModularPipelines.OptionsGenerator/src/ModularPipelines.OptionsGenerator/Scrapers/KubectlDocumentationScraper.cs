@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 /// Scrapes kubectl CLI documentation from kubernetes.io.
 /// Kubectl docs are on a single page with anchor links for each command.
 /// </summary>
-public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
+public partial class KubectlDocumentationScraper(HttpClient httpClient, ILogger<KubectlDocumentationScraper> logger) : CliDocumentationScraperBase(httpClient, logger)
 {
     private const string BaseUrl = "https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands/";
 
@@ -19,11 +19,6 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
     public override string NamespacePrefix => "Kubectl";
     public override string TargetNamespace => "ModularPipelines.Kubernetes";
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
-
-    public KubectlDocumentationScraper(HttpClient httpClient, ILogger<KubectlDocumentationScraper> logger)
-        : base(httpClient, logger)
-    {
-    }
 
     public override async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
     {
@@ -85,14 +80,16 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
         };
     }
 
-    private List<CommandSection> ExtractCommandSections(IDocument doc)
+    private static List<CommandSection> ExtractCommandSections(IDocument doc)
     {
         var sections = new List<CommandSection>();
 
         // Get the main content area
         var content = doc.QuerySelector("article, .content, main, #content, body");
         if (content is null)
+        {
             return sections;
+        }
 
         // kubectl docs use <h1> elements for main commands (apply, get, etc.)
         var headings = content.QuerySelectorAll("h1");
@@ -106,16 +103,20 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
                 headingText.Equals("kubectl", StringComparison.OrdinalIgnoreCase) ||
                 headingText.Contains("Reference", StringComparison.OrdinalIgnoreCase) ||
                 headingText.Contains("Documentation", StringComparison.OrdinalIgnoreCase))
+            {
                 continue;
+            }
 
             // Skip if heading doesn't look like a command name (should be a single word or hyphenated)
-            if (headingText.Contains(" ") && !headingText.Contains("-"))
+            if (headingText.Contains(' ') && !headingText.Contains('-'))
+            {
                 continue;
+            }
 
             // Collect all content until the next h1
             var sectionContent = new List<IElement>();
             var sibling = heading.NextElementSibling;
-            while (sibling is not null && sibling.TagName.ToUpperInvariant() != "H1")
+            while (sibling is not null && !sibling.TagName.Equals("H1", StringComparison.InvariantCultureIgnoreCase))
             {
                 sectionContent.Add(sibling);
                 sibling = sibling.NextElementSibling;
@@ -144,7 +145,9 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
         var commandParts = commandName.Split('-', StringSplitOptions.RemoveEmptyEntries);
 
         if (commandParts.Length == 0 || string.IsNullOrEmpty(commandParts[0]))
+        {
             return null;
+        }
 
         // Get description from first paragraph
         var description = ExtractDescription(section.ContentElements);
@@ -177,7 +180,7 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
     {
         foreach (var element in elements)
         {
-            if (element.TagName.ToUpperInvariant() == "P")
+            if (element.TagName.Equals("P", StringComparison.InvariantCultureIgnoreCase))
             {
                 var text = element.TextContent.Trim();
                 if (!string.IsNullOrEmpty(text) && text.Length > 20)
@@ -198,8 +201,8 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
         // Look for tables containing flags
         foreach (var element in elements)
         {
-            var tables = element.TagName.ToUpperInvariant() == "TABLE"
-                ? new[] { element }
+            var tables = element.TagName.Equals("TABLE", StringComparison.InvariantCultureIgnoreCase)
+                ? [element]
                 : element.QuerySelectorAll("table").ToArray();
 
             foreach (var table in tables)
@@ -209,7 +212,9 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
                 {
                     var cells = row.QuerySelectorAll("td").ToArray();
                     if (cells.Length < 2)
+                    {
                         continue;
+                    }
 
                     var option = ParseTableRow(cells, className);
                     if (option is not null && !options.Any(o => o.SwitchName == option.SwitchName))
@@ -234,12 +239,16 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
                 var description = match.Groups["desc"].Value.Trim();
 
                 if (string.IsNullOrEmpty(longForm) || options.Any(o => o.SwitchName == longForm))
+                {
                     continue;
+                }
 
                 var switchName = longForm;
                 var propertyName = NormalizePropertyName(longForm);
                 if (propertyName is null)
+                {
                     continue;
+                }
 
                 var isFlag = DetectBooleanFlag(description, valueType, null, null);
                 var isNumeric = DetectNumericType(valueType);
@@ -254,7 +263,7 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
                     ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                     PropertyName = propertyName,
                     CSharpType = csharpType,
-                    Description = description,
+                    Description = OptionEnumFactory.PreserveValueHint(enumDef, description, valueType),
                     IsFlag = isFlag,
                     IsRequired = false,
                     AcceptsMultipleValues = acceptsMultiple,
@@ -270,11 +279,13 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
         return options;
     }
 
-    private CliOptionDefinition? ParseTableRow(IElement[] cells, string className)
+    private static CliOptionDefinition? ParseTableRow(IElement[] cells, string className)
     {
         // Expected format: Name, Shorthand, Default, Usage
         if (cells.Length < 2)
+        {
             return null;
+        }
 
         var nameCell = cells[0].TextContent.Trim();
         var shorthand = cells.Length > 1 ? cells[1].TextContent.Trim() : null;
@@ -282,12 +293,16 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
         var usage = cells.Length > 3 ? cells[3].TextContent.Trim() : string.Empty;
 
         if (string.IsNullOrEmpty(nameCell) || !nameCell.StartsWith("--"))
+        {
             return null;
+        }
 
         var switchName = nameCell;
         var propertyName = NormalizePropertyName(nameCell);
         if (propertyName is null)
+        {
             return null;
+        }
 
         // Detect types from default value (kubectl shows "true"/"false" for boolean flags)
         var isFlag = DetectBooleanFlag(usage, defaultValue, null, null);
@@ -303,7 +318,7 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
             ShortForm = string.IsNullOrEmpty(shorthand) || shorthand == "-" ? null : (shorthand.StartsWith("-") ? shorthand : $"-{shorthand}"),
             PropertyName = propertyName,
             CSharpType = csharpType,
-            Description = usage,
+            Description = OptionEnumFactory.PreserveValueHint(enumDef, usage, defaultValue),
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultiple,
