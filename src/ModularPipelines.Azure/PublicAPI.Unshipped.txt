@@ -12399,7 +12399,7 @@ ModularPipelines.Azure.Options.AzAccountShowOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzAccountShowOptions.Name.set -> void
 ModularPipelines.Azure.Options.AzAcrBuildOptions.AuthMode.get -> string?
 ModularPipelines.Azure.Options.AzAcrBuildOptions.AzAcrBuildOptions(string! Registry) -> void
-ModularPipelines.Azure.Options.AzAcrBuildOptions.BuildArg.get -> string?
+ModularPipelines.Azure.Options.AzAcrBuildOptions.BuildArg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrBuildOptions.Deconstruct(out string! Registry) -> void
 ModularPipelines.Azure.Options.AzAcrBuildOptions.File.get -> string?
 ModularPipelines.Azure.Options.AzAcrBuildOptions.Image.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -12407,7 +12407,7 @@ ModularPipelines.Azure.Options.AzAcrBuildOptions.Platform.get -> string?
 ModularPipelines.Azure.Options.AzAcrBuildOptions.Registry.get -> string!
 ModularPipelines.Azure.Options.AzAcrBuildOptions.Registry.init -> void
 ModularPipelines.Azure.Options.AzAcrBuildOptions.ResourceGroup.get -> string?
-ModularPipelines.Azure.Options.AzAcrBuildOptions.SecretBuildArg.get -> string?
+ModularPipelines.Azure.Options.AzAcrBuildOptions.SecretBuildArg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrBuildOptions.SourceAcrAuthId.get -> string?
 ModularPipelines.Azure.Options.AzAcrBuildOptions.Target.get -> string?
 ModularPipelines.Azure.Options.AzAcrBuildOptions.Timeout.get -> int?
@@ -12882,7 +12882,7 @@ ModularPipelines.Azure.Options.AzAcrTaskCancelRunOptions.Registry.init -> void
 ModularPipelines.Azure.Options.AzAcrTaskCancelRunOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzAcrTaskCancelRunOptions.RunId.get -> string!
 ModularPipelines.Azure.Options.AzAcrTaskCancelRunOptions.RunId.init -> void
-ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Arg.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Arg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AssignIdentity.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AuthMode.get -> string?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.AzAcrTaskCreateOptions(string! Name, string! Registry) -> void
@@ -12911,7 +12911,7 @@ ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Registry.init -> void
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Schedule.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Schedule.set -> void
-ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SecretArg.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SecretArg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.Set.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SetSecret.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskCreateOptions.SourceAcrAuthId.get -> string?
@@ -13008,7 +13008,7 @@ ModularPipelines.Azure.Options.AzAcrTaskLogsOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzAcrTaskLogsOptions.Registry.get -> string!
 ModularPipelines.Azure.Options.AzAcrTaskLogsOptions.Registry.init -> void
 ModularPipelines.Azure.Options.AzAcrTaskLogsOptions.ResourceGroup.get -> string?
-ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Arg.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Arg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.AzAcrTaskRunOptions(string! Name, string! Registry) -> void
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Deconstruct(out string! Name, out string! Registry) -> void
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.File.get -> string?
@@ -13017,7 +13017,7 @@ ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Registry.get -> string!
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Registry.init -> void
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.ResourceGroup.get -> string?
-ModularPipelines.Azure.Options.AzAcrTaskRunOptions.SecretArg.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskRunOptions.SecretArg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Set.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.SetSecret.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskRunOptions.Target.get -> string?
@@ -13071,7 +13071,7 @@ ModularPipelines.Azure.Options.AzAcrTaskTimerUpdateOptions.Registry.init -> void
 ModularPipelines.Azure.Options.AzAcrTaskTimerUpdateOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzAcrTaskTimerUpdateOptions.TimerName.get -> string!
 ModularPipelines.Azure.Options.AzAcrTaskTimerUpdateOptions.TimerName.init -> void
-ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Arg.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Arg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.AuthMode.get -> string?
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.AzAcrTaskUpdateOptions(string! Name, string! Registry) -> void
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.BaseImageTriggerEnabled.get -> bool?
@@ -13095,7 +13095,7 @@ ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.PullRequestTriggerEnabled.
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Registry.get -> string!
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Registry.init -> void
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.ResourceGroup.get -> string?
-ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SecretArg.get -> string?
+ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SecretArg.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.Set.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SetSecret.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrTaskUpdateOptions.SourceAcrAuthId.get -> string?

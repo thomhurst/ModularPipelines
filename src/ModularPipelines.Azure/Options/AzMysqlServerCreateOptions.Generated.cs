@@ -117,7 +117,7 @@ public record AzMysqlServerCreateOptions : AzOptions
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: direfuldingo3.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: dopeybongo1.
     /// </summary>
     [CliFlag("--admin-user", ShortForm = "-u")]
     public bool? AdminUser { get; set; }
