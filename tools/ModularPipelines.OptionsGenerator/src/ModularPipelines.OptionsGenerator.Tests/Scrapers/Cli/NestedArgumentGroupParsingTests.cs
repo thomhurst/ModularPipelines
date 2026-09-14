@@ -203,6 +203,64 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Unsplit_Flags_Preserve_Required_Choices_Without_Requiring_Other_Options()
+    {
+        const string helpText = """
+            NAME
+                gcloud artifacts files upload - upload a file
+            FLAGS
+                 --async
+                    Run asynchronously.
+                 Exactly one of these must be specified:
+                   --source=SOURCE
+                      Input file.
+                   --source-directory=SOURCE_DIRECTORY
+                      Input directory.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "artifacts", "files", "upload"], helpText))!;
+        await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
+        await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(["Source", "SourceDirectory"]);
+        await Assert.That(command.RequiredAlternativeGroups.Single().IsMutuallyExclusive).IsTrue();
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await VerifyUploadValidation(generated);
+    }
+
+    [Test]
+    [Arguments("REQUIRED FLAGS")]
+    [Arguments("FLAGS")]
+    public async Task Gcloud_Required_Resource_Requires_Selector_Without_Configurable_Attributes(string sectionHeading)
+    {
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "dataproc-clusters-gke-create.txt"));
+        helpText = helpText.Replace("REQUIRED FLAGS", sectionHeading, StringComparison.Ordinal);
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "dataproc", "clusters", "gke", "create"], helpText))!;
+        await Assert.That(command.RequiredOptions.Select(option => option.SwitchName)).Contains("--gke-cluster");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--gke-cluster-location").IsRequired).IsFalse();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--history-server-cluster").IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Gcloud_Optional_Resource_Selector_Remains_Optional_In_Unsplit_Flags()
+    {
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "dataproc-clusters-gke-create.txt"));
+        helpText = helpText.Replace("REQUIRED FLAGS", "FLAGS", StringComparison.Ordinal)
+            .Replace("This must be specified.", string.Empty, StringComparison.Ordinal);
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "dataproc", "clusters", "gke", "create"], helpText))!;
+        await Assert.That(command.RequiredOptions).IsEmpty();
+        await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
     public async Task Gcloud_Upload_Parses_Required_And_Optional_Flag_Sections()
     {
         var helpText = await File.ReadAllTextAsync(Path.Combine(
@@ -316,6 +374,9 @@ public partial class NestedArgumentGroupParsingTests
         var helpText = """
             NAME
                 gcloud example create - create an example
+            POSITIONAL ARGUMENTS
+                 INPUT
+                    Input identifier.
             REQUIRED FLAGS
                  --name=NAME
                     The name to create.
@@ -339,6 +400,7 @@ public partial class NestedArgumentGroupParsingTests
         await Assert.That(command.Options.Single(option => option.SwitchName == "--name").IsRequired).IsTrue();
         await Assert.That(command.Options.Where(option => option.SwitchName != "--name").All(option => !option.IsRequired)).IsTrue();
         await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName)).IsEquivalentTo(["Input"]);
     }
 
     [Test]

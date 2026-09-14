@@ -246,9 +246,9 @@ public partial class GcloudCliScraper : CliScraperBase
                 }
             }
 
-            if (section.Name == "REQUIRED FLAGS")
+            if (section.Name != "OPTIONAL FLAGS")
             {
-                ApplyRequiredGroups(argumentGroup, options, requiredAlternativeGroups);
+                ApplyRequiredGroups(argumentGroup, options, requiredAlternativeGroups, section.Name == "REQUIRED FLAGS");
             }
         }
 
@@ -258,13 +258,12 @@ public partial class GcloudCliScraper : CliScraperBase
     private static void ApplyRequiredGroups(
         CliArgumentGroup group,
         List<CliOptionDefinition> options,
-        List<CliRequiredAlternativeGroup> requiredAlternativeGroups)
+        List<CliRequiredAlternativeGroup> requiredAlternativeGroups,
+        bool required)
     {
-        // Resource attributes can come from configuration or a fully qualified name.
         // A group introduced by "Or" is conditional on selecting that alternative.
-        if (group.Kind.HasFlag(CliArgumentGroupKind.Resource)
-            || (group.Kind.HasFlag(CliArgumentGroupKind.Alternative)
-                && group.Description?.TrimStart().StartsWith("Or ", StringComparison.OrdinalIgnoreCase) == true))
+        if (group.Kind.HasFlag(CliArgumentGroupKind.Alternative)
+            && group.Description?.TrimStart().StartsWith("Or ", StringComparison.OrdinalIgnoreCase) == true)
         {
             return;
         }
@@ -292,8 +291,19 @@ public partial class GcloudCliScraper : CliScraperBase
             return;
         }
 
+        required |= group.Description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) == true;
+        var isResource = group.Kind.HasFlag(CliArgumentGroupKind.Resource);
         foreach (var argument in group.Arguments)
         {
+            // A required resource needs its selector; its other attributes can come
+            // from configuration or a fully qualified selector value.
+            if (!required || (isResource && argument.Description?.Contains(
+                    "This flag argument must be specified if any of the other arguments in this group are specified.",
+                    StringComparison.OrdinalIgnoreCase) != true))
+            {
+                continue;
+            }
+
             var index = options.FindIndex(option => option.SwitchName == argument.SwitchName);
             if (index >= 0)
             {
@@ -314,9 +324,14 @@ public partial class GcloudCliScraper : CliScraperBase
             }
         }
 
+        if (isResource)
+        {
+            return;
+        }
+
         foreach (var nested in group.Groups)
         {
-            ApplyRequiredGroups(nested, options, requiredAlternativeGroups);
+            ApplyRequiredGroups(nested, options, requiredAlternativeGroups, required);
         }
     }
 
@@ -509,17 +524,11 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var args = new List<CliPositionalArgument>();
 
-        var sectionMatch = Regex.Match(helpText, @"^POSITIONAL ARGUMENTS\s*$", RegexOptions.Multiline);
-        if (!sectionMatch.Success)
+        var section = ExtractSections(helpText, "POSITIONAL ARGUMENTS").FirstOrDefault().Content;
+        if (section is null)
         {
             return args;
         }
-
-        var sectionStart = sectionMatch.Index + sectionMatch.Length;
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
-        var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
-
-        var section = helpText[sectionStart..sectionEnd];
 
         // Match: "     ARG_NAME [ARG_NAME ...]"
         var argMatch = Regex.Match(section, @"^\s{5}([A-Z][A-Z_]+)(?:\s+\[[A-Z][A-Z_]+\s*\.\.\.\])?", RegexOptions.Multiline);
