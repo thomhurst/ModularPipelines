@@ -44,7 +44,7 @@ public class KindExport : IKindExport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class KindExport : IKindExport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportKubeConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportKubeConfigOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class KindExport : IKindExport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KindExportLogsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
