@@ -18,13 +18,33 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-verify")]
-public record SkopeoStandaloneVerifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Manifest,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DockerReference,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyFingerprints,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Signature
-) : SkopeoOptions
+public record SkopeoStandaloneVerifyOptions : SkopeoOptions
 {
+    public SkopeoStandaloneVerifyOptions(
+        string Manifest,
+        string DockerReference,
+        string KeyFingerprints,
+        string Signature
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Manifest);
+        this.Manifest = Manifest;
+        global::System.ArgumentNullException.ThrowIfNull(DockerReference);
+        this.DockerReference = DockerReference;
+        global::System.ArgumentNullException.ThrowIfNull(KeyFingerprints);
+        this.KeyFingerprints = KeyFingerprints;
+        global::System.ArgumentNullException.ThrowIfNull(Signature);
+        this.Signature = Signature;
+    }
+
+    public void Deconstruct(out string Manifest, out string DockerReference, out string KeyFingerprints, out string Signature)
+    {
+        Manifest = this.Manifest;
+        DockerReference = this.DockerReference;
+        KeyFingerprints = this.KeyFingerprints;
+        Signature = this.Signature;
+    }
+
     /// <summary>
     /// help for standalone-verify
     /// </summary>
@@ -36,5 +56,29 @@ public record SkopeoStandaloneVerifyOptions(
     /// </summary>
     [CliOption("--public-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? PublicKeyFile { get; set; }
+
+    /// <summary>
+    /// The MANIFEST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Manifest { get; private init; }
+
+    /// <summary>
+    /// The DOCKER-REFERENCE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DockerReference { get; private init; }
+
+    /// <summary>
+    /// The KEY-FINGERPRINTS operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyFingerprints { get; private init; }
+
+    /// <summary>
+    /// The SIGNATURE operand.
+    /// </summary>
+    [CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Signature { get; private init; }
 
 }

@@ -19,10 +19,21 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("list-tags")]
-public record SkopeoListTagsOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceImage
-) : SkopeoOptions
+public record SkopeoListTagsOptions : SkopeoOptions
 {
+    public SkopeoListTagsOptions(
+        string SourceImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceImage);
+        this.SourceImage = SourceImage;
+    }
+
+    public void Deconstruct(out string SourceImage)
+    {
+        SourceImage = this.SourceImage;
+    }
+
     /// <summary>
     /// path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
     /// </summary>
@@ -91,5 +102,11 @@ public record SkopeoListTagsOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The SOURCE-IMAGE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceImage { get; private init; }
 
 }

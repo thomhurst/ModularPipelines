@@ -18,10 +18,21 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logout")]
-public record SkopeoLogoutOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Registry
-) : SkopeoOptions
+public record SkopeoLogoutOptions : SkopeoOptions
 {
+    public SkopeoLogoutOptions(
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Registry)
+    {
+        Registry = this.Registry;
+    }
+
     /// <summary>
     /// Remove the cached credentials for all registries in the auth file
     /// </summary>
@@ -57,5 +68,11 @@ public record SkopeoLogoutOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The REGISTRY operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Registry { get; private init; }
 
 }

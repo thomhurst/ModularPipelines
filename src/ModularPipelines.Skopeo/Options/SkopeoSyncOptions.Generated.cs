@@ -20,11 +20,25 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sync")]
-public record SkopeoSyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
-) : SkopeoOptions
+public record SkopeoSyncOptions : SkopeoOptions
 {
+    public SkopeoSyncOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
     /// <summary>
     /// Copy all images if SOURCE-IMAGE is a list
     /// </summary>
@@ -235,5 +249,17 @@ public record SkopeoSyncOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The SOURCE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// The DESTINATION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Destination { get; private init; }
 
 }

@@ -20,11 +20,25 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("copy")]
-public record SkopeoCopyOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceImage,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DestinationImage
-) : SkopeoOptions
+public record SkopeoCopyOptions : SkopeoOptions
 {
+    public SkopeoCopyOptions(
+        string SourceImage,
+        string DestinationImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceImage);
+        this.SourceImage = SourceImage;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationImage);
+        this.DestinationImage = DestinationImage;
+    }
+
+    public void Deconstruct(out string SourceImage, out string DestinationImage)
+    {
+        SourceImage = this.SourceImage;
+        DestinationImage = this.DestinationImage;
+    }
+
     /// <summary>
     /// additional tags (supports docker-archive)
     /// </summary>
@@ -307,5 +321,17 @@ public record SkopeoCopyOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The SOURCE-IMAGE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceImage { get; private init; }
+
+    /// <summary>
+    /// The DESTINATION-IMAGE operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DestinationImage { get; private init; }
 
 }

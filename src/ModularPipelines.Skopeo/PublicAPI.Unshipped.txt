@@ -1,14 +1,31 @@
 #nullable enable
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoCopyOptions.DestinationImage.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoCopyOptions.SourceImage.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoDeleteOptions.ImageName.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Deconstruct(out string! Prefix) -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Prefix.get -> string!
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Prefix.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.SkopeoGenerateSigstoreKeyOptions(string! Prefix) -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoInspectOptions.ImageName.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoListTagsOptions.SourceImage.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoLoginOptions.Registry.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoLogoutOptions.Registry.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoManifestDigestOptions.ManifestFile.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Deconstruct(out string! Signature, out string! Manifest, out string! DockerReference, out string! KeyFingerprint) -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.DockerReference.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.KeyFingerprint.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Manifest.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Signature.get -> string!
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Signature.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.SkopeoStandaloneSignOptions(string! Signature, string! Manifest, string! DockerReference, string! KeyFingerprint) -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions.DockerReference.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions.KeyFingerprints.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions.Manifest.init -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions.Signature.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Deconstruct(out string! Transport, out string! Source, out string! Destination) -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Destination.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SkopeoSyncOptions(string! Transport, string! Source, string! Destination) -> void
+*REMOVED*ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Source.init -> void
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Transport.get -> string!
 *REMOVED*ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Transport.init -> void
 *REMOVED*ModularPipelines.Skopeo.Services.ISkopeo.CopyAsync(ModularPipelines.Skopeo.Options.SkopeoCopyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

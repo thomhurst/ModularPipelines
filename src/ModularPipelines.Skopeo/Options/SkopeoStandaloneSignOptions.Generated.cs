@@ -18,12 +18,29 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-sign")]
-public record SkopeoStandaloneSignOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Manifest,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DockerReference,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyFingerprint
-) : SkopeoOptions
+public record SkopeoStandaloneSignOptions : SkopeoOptions
 {
+    public SkopeoStandaloneSignOptions(
+        string Manifest,
+        string DockerReference,
+        string KeyFingerprint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Manifest);
+        this.Manifest = Manifest;
+        global::System.ArgumentNullException.ThrowIfNull(DockerReference);
+        this.DockerReference = DockerReference;
+        global::System.ArgumentNullException.ThrowIfNull(KeyFingerprint);
+        this.KeyFingerprint = KeyFingerprint;
+    }
+
+    public void Deconstruct(out string Manifest, out string DockerReference, out string KeyFingerprint)
+    {
+        Manifest = this.Manifest;
+        DockerReference = this.DockerReference;
+        KeyFingerprint = this.KeyFingerprint;
+    }
+
     /// <summary>
     /// help for standalone-sign
     /// </summary>
@@ -47,5 +64,23 @@ public record SkopeoStandaloneSignOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The MANIFEST operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Manifest { get; private init; }
+
+    /// <summary>
+    /// The DOCKER-REFERENCE operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DockerReference { get; private init; }
+
+    /// <summary>
+    /// The KEY-FINGERPRINT operand.
+    /// </summary>
+    [CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyFingerprint { get; private init; }
 
 }

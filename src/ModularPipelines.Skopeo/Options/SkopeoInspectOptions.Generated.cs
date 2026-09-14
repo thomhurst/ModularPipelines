@@ -19,10 +19,21 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
-public record SkopeoInspectOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : SkopeoOptions
+public record SkopeoInspectOptions : SkopeoOptions
 {
+    public SkopeoInspectOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out string ImageName)
+    {
+        ImageName = this.ImageName;
+    }
+
     /// <summary>
     /// path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
     /// </summary>
@@ -127,5 +138,11 @@ public record SkopeoInspectOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The IMAGE-NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageName { get; private init; }
 
 }
