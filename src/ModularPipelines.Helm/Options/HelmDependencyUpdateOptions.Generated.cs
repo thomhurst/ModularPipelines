@@ -19,10 +19,21 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dependency", "update")]
-public record HelmDependencyUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Chart
-) : HelmOptions
+public record HelmDependencyUpdateOptions : HelmOptions
 {
+    public HelmDependencyUpdateOptions(
+        string Chart
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Chart);
+        this.Chart = Chart;
+    }
+
+    public void Deconstruct(out string Chart)
+    {
+        Chart = this.Chart;
+    }
+
     /// <summary>
     /// verify certificates of HTTPS-enabled servers using this CA bundle
     /// </summary>
@@ -186,5 +197,11 @@ public record HelmDependencyUpdateOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The CHART operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Chart { get; private init; }
 
 }

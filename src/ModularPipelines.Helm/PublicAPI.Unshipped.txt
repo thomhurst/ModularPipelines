@@ -21,6 +21,26 @@
 *REMOVED*ModularPipelines.Helm.Enums.HelmUninstallCascade.Orphan = 1 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
 *REMOVED*ModularPipelines.Helm.Enums.HelmUpgradeOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
 *REMOVED*ModularPipelines.Helm.Enums.HelmUpgradeOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
+*REMOVED*ModularPipelines.Helm.Options.HelmCreateOptions.Name.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmDependencyBuildOptions.Chart.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmDependencyListOptions.Chart.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmDependencyUpdateOptions.Chart.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmGetAllOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmGetHooksOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmGetManifestOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmGetMetadataOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmGetNotesOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmGetValuesOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmHistoryOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmInstallOptions.Chart.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmLintOptions.Path.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmPluginInstallOptions.Path.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmPluginUninstallOptions.Plugin.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmPluginUpdateOptions.Plugin.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmRollbackOptions.Release.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmStatusOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmUninstallOptions.ReleaseName.init -> void
+*REMOVED*ModularPipelines.Helm.Options.HelmVerifyOptions.Path.init -> void
 *REMOVED*ModularPipelines.Helm.Services.HelmDependency.HelmDependency(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Helm.Services.HelmGet.HelmGet(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Helm.Services.HelmPlugin.HelmPlugin(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void

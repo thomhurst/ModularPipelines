@@ -19,10 +19,21 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "hooks")]
-public record HelmGetHooksOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReleaseName
-) : HelmOptions
+public record HelmGetHooksOptions : HelmOptions
 {
+    public HelmGetHooksOptions(
+        string ReleaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseName);
+        this.ReleaseName = ReleaseName;
+    }
+
+    public void Deconstruct(out string ReleaseName)
+    {
+        ReleaseName = this.ReleaseName;
+    }
+
     /// <summary>
     /// help for hooks
     /// </summary>
@@ -131,5 +142,11 @@ public record HelmGetHooksOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The RELEASE_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReleaseName { get; private init; }
 
 }
