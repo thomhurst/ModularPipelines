@@ -1061,14 +1061,26 @@ public abstract partial class CliScraperBase : ICliScraper
             return command.RequiredAlternativeGroups;
         }
 
-        return
-        [
-            .. command.RequiredAlternativeGroups,
-            .. usage.RequiredAlternativeGroups
-                .Select(group => TryResolveRequiredAlternativeGroup(command, group))
-                .OfType<CliRequiredAlternativeGroup>(),
-        ];
+        var groups = command.RequiredAlternativeGroups.ToList();
+        foreach (var inferred in usage.RequiredAlternativeGroups
+                     .Select(group => TryResolveRequiredAlternativeGroup(command, group))
+                     .OfType<CliRequiredAlternativeGroup>())
+        {
+            var identities = inferred.Members.Select(GetRequiredAlternativeIdentity).ToHashSet(StringComparer.Ordinal);
+            // A richer required help constraint already enforces presence over these members.
+            // Optional help constraints cannot replace a synopsis requirement.
+            if (!groups.Any(group => group.IsRequired && identities.SetEquals(GetAlternativeGroupIdentities(group))))
+            {
+                groups.Add(inferred);
+            }
+        }
+
+        return groups;
     }
+
+    private static IEnumerable<string> GetAlternativeGroupIdentities(CliRequiredAlternativeGroup group) =>
+        group.Members.Select(GetRequiredAlternativeIdentity)
+            .Concat(group.Groups.SelectMany(GetAlternativeGroupIdentities));
 
     private static CliRequiredAlternativeGroup? TryResolveRequiredAlternativeGroup(
         CliCommandDefinition command,

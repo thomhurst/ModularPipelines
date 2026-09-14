@@ -463,30 +463,93 @@ public class OptionsClassGenerator : ICodeGenerator
 
         foreach (var group in command.RequiredAlternativeGroups)
         {
-            var propertyNames = group.PropertyNames.Distinct(StringComparer.Ordinal).ToArray();
-            if (propertyNames.Length == 0)
-            {
-                throw new InvalidOperationException(
-                    $"Required alternative group for {command.FullCommand} has no properties.");
-            }
-
-            var presenceExpression = string.Join(
-                " || ",
-                propertyNames.Select(propertyName => GetPresenceExpression(
-                    command,
-                    positionalArguments,
-                    propertyName)));
-            var memberNames = string.Join(", ", propertyNames.Select(propertyName => $"nameof({propertyName})"));
-            var message = $"At least one of {FormatChoice(propertyNames)} must be specified.";
-
-            sb.AppendLine($"        if (!({presenceExpression}))");
-            sb.AppendLine("        {");
-            sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
-            sb.AppendLine("        }");
+            GenerateGroupValidation(sb, command, positionalArguments, group, group.IsRequired, activation: null);
         }
 
+        sb.AppendLine("        yield break;");
         sb.AppendLine("    }");
         sb.AppendLine();
+    }
+
+    private static void GenerateGroupValidation(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliRequiredAlternativeGroup group,
+        bool required,
+        string? activation)
+    {
+        var propertyNames = group.PropertyNames.Distinct(StringComparer.Ordinal).ToArray();
+        if (propertyNames.Length == 0)
+        {
+            throw new InvalidOperationException($"Required alternative group for {command.FullCommand} has no properties.");
+        }
+
+        string Presence(string propertyName) => GetPresenceExpression(command, positionalArguments, propertyName);
+        string GroupPresence(CliRequiredAlternativeGroup nested) =>
+            $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(Presence))})";
+
+        var presence = GroupPresence(group);
+        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, Presence, GroupPresence);
+
+        var activeGroup = activation is null ? presence : $"{activation} && {presence}";
+        if (!group.IsChoice)
+        {
+            foreach (var member in group.Members.Where(member => member.IsRequired))
+            {
+                WriteValidationFailure(sb, $"!({Presence(member.PropertyName)})", activeGroup,
+                    $"{member.PropertyName} must be specified when other arguments in this group are specified.",
+                    [member.PropertyName]);
+            }
+        }
+
+        foreach (var nested in group.Groups)
+        {
+            // A choice activates only the selected branches. A bundle can require
+            // one of its nested groups whenever any part of the bundle is supplied.
+            GenerateGroupValidation(sb, command, positionalArguments, nested,
+                required: !group.IsChoice && nested.IsRequired, activeGroup);
+        }
+    }
+
+    private static void GenerateGroupPresenceValidation(
+        StringBuilder sb,
+        CliRequiredAlternativeGroup group,
+        bool required,
+        string? activation,
+        string[] propertyNames,
+        string presence,
+        Func<string, string> getPresence,
+        Func<CliRequiredAlternativeGroup, string> getGroupPresence)
+    {
+        if (group.IsChoice && group.IsMutuallyExclusive)
+        {
+            var branches = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
+                .Select(getPresence).Concat(group.Groups.Select(getGroupPresence));
+            var count = string.Join(" + ", branches.Select(expression => $"({expression} ? 1 : 0)"));
+            var branchNames = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
+                .Concat(group.Groups.Select(nested =>
+                    $"({FormatChoice([.. nested.PropertyNames.Distinct(StringComparer.Ordinal)])})")).ToArray();
+            var cardinality = required ? "Exactly one" : "At most one";
+            WriteValidationFailure(sb, $"{count} {(required ? "!= 1" : "> 1")}", activation,
+                $"{cardinality} of {FormatChoice(branchNames)} {(required ? "must" : "may")} be specified.", propertyNames);
+        }
+        else if (required)
+        {
+            WriteValidationFailure(sb, $"!{presence}", activation,
+                $"At least one of {FormatChoice(propertyNames)} must be specified.", propertyNames);
+        }
+    }
+
+    private static void WriteValidationFailure(
+        StringBuilder sb, string invalidExpression, string? activation, string message, string[] propertyNames)
+    {
+        var condition = activation is null ? invalidExpression : $"{activation} && ({invalidExpression})";
+        var memberNames = string.Join(", ", propertyNames.Select(propertyName => $"nameof({propertyName})"));
+        sb.AppendLine($"        if ({condition})");
+        sb.AppendLine("        {");
+        sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
+        sb.AppendLine("        }");
     }
 
     private static string GetPresenceExpression(

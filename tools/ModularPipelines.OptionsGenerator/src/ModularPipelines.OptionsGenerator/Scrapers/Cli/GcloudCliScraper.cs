@@ -117,9 +117,9 @@ public partial class GcloudCliScraper : CliScraperBase
 
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
         var description = ExtractDescription(helpText);
-        var parsedOptions = ParseOptions(helpText, commandParts);
+        var parsedOptions = ParseArguments(helpText, commandParts, commandPath, usage);
         var options = parsedOptions.Options;
-        var positionalArgs = ParsePositionalArguments(usage, commandPath, parsedOptions.ArgumentGroups, options);
+        var positionalArgs = parsedOptions.PositionalArguments;
 
         var enums = options
             .Where(o => o.EnumDefinition is not null)
@@ -139,6 +139,7 @@ public partial class GcloudCliScraper : CliScraperBase
             DocumentationUrl = $"https://cloud.google.com/sdk/gcloud/reference/{string.Join("/", commandParts)}",
             Options = options,
             ArgumentGroups = parsedOptions.ArgumentGroups,
+            RequiredAlternativeGroups = parsedOptions.RequiredAlternativeGroups,
             PositionalArguments = positionalArgs,
             UsageSynopsis = usage.Synopsis,
             SubDomainGroup = subDomain,
@@ -167,15 +168,12 @@ public partial class GcloudCliScraper : CliScraperBase
     }
 
     /// <summary>
-    /// gcloud uses "FLAGS" section instead of "Flags:" or "Options:".
+    /// gcloud can split flags into required and optional sections.
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("\nPOSITIONAL ARGUMENTS\n") ||
-               helpText.Contains("\nPOSITIONAL ARGUMENTS\r\n") ||
-               helpText.Contains("\nFLAGS\n") ||
-               helpText.Contains("\nFLAGS\r\n") ||
-               base.HasOptions(helpText);
+        return ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS").Any()
+               || base.HasOptions(helpText);
     }
 
     /// <summary>
@@ -219,6 +217,26 @@ public partial class GcloudCliScraper : CliScraperBase
         return subcommands;
     }
 
+    private static IEnumerable<(string Name, string Content)> ExtractSections(string helpText, params string[] sectionNames)
+    {
+        var headings = SectionHeadingPattern().Matches(helpText);
+        for (var index = 0; index < headings.Count; index++)
+        {
+            var heading = headings[index];
+            if (!sectionNames.Contains(heading.Value.Trim(), StringComparer.Ordinal))
+            {
+                continue;
+            }
+
+            var start = heading.Index + heading.Length;
+            var end = index + 1 < headings.Count ? headings[index + 1].Index : helpText.Length;
+            yield return (heading.Value.Trim(), helpText[start..end]);
+        }
+    }
+
+    [GeneratedRegex(@"^[A-Z][A-Z_ ]*[ \t]*\r?$", RegexOptions.Multiline)]
+    private static partial Regex SectionHeadingPattern();
+
     private static string? ExtractDescription(string helpText)
     {
         // NAME section: "gcloud command - description"
@@ -230,20 +248,27 @@ public partial class GcloudCliScraper : CliScraperBase
         return null;
     }
 
-    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
+    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups,
+        IReadOnlyList<CliRequiredAlternativeGroup> RequiredAlternativeGroups,
+        IReadOnlyList<CliPositionalArgument> PositionalArguments) ParseArguments(
         string helpText,
-        IReadOnlyList<string> commandParts)
+        IReadOnlyList<string> commandParts,
+        string[] commandPath,
+        UsageSynopsisParseResult usage)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         var argumentGroups = new List<CliArgumentGroup>();
-        foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "POSITIONAL ARGUMENTS"))
+        var sections = new List<(string Name, CliArgumentGroup Group)>();
+        var requiredAlternativeGroups = new List<CliRequiredAlternativeGroup>();
+        foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS"))
         {
-            var group = ParseArgumentGroups(content,
+            var argumentGroup = ParseArgumentGroups(content,
                 name == "POSITIONAL ARGUMENTS" ? ParseGcloudResourceArgument : ParseGcloudArgument);
-            argumentGroups.Add(group);
-            foreach (var argument in group.FlattenArguments().Where(argument => !argument.IsPositional))
+            argumentGroups.Add(argumentGroup);
+            sections.Add((name, argumentGroup));
+            foreach (var argument in argumentGroup.FlattenArguments().Where(argument => !argument.IsPositional))
             {
                 foreach (var option in CreateOptions(argument, commandParts, helpText))
                 {
@@ -257,29 +282,222 @@ public partial class GcloudCliScraper : CliScraperBase
             }
         }
 
-        return (options, argumentGroups);
+        var positionalArguments = ParsePositionalArguments(usage, commandPath, argumentGroups, options);
+        foreach (var (name, argumentGroup) in sections)
+        {
+            ApplyRequiredGroups(argumentGroup, options, positionalArguments, requiredAlternativeGroups,
+                name == "REQUIRED FLAGS", allowPresenceRequirements: name != "OPTIONAL FLAGS");
+        }
+
+        return (options, argumentGroups, requiredAlternativeGroups, positionalArguments);
     }
 
-    private static IEnumerable<(string Name, string Content)> ExtractSections(string helpText, params string[] sectionNames)
+    private static void ApplyRequiredGroups(
+        CliArgumentGroup group,
+        List<CliOptionDefinition> options,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        List<CliRequiredAlternativeGroup> requiredAlternativeGroups,
+        bool required,
+        bool allowPresenceRequirements)
     {
-        var headings = SectionHeaderPattern().Matches(helpText);
-        for (var index = 0; index < headings.Count; index++)
+        // A group introduced by "Or" is conditional on selecting that alternative.
+        if (group.Kind.HasFlag(CliArgumentGroupKind.Alternative)
+            && group.Description?.TrimStart().StartsWith("Or ", StringComparison.OrdinalIgnoreCase) == true)
         {
-            var heading = headings[index];
-            var name = heading.Value.Trim();
-            if (!sectionNames.Contains(name, StringComparer.Ordinal))
+            return;
+        }
+
+        if (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
+            || group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne))
+        {
+            var constraint = CreateAlternativeConstraint(group, options, positionalArguments);
+            requiredAlternativeGroups.Add(constraint with
+            {
+                IsRequired = allowPresenceRequirements && constraint.IsRequired,
+            });
+            return;
+        }
+
+        if (group.Kind.HasFlag(CliArgumentGroupKind.Alternative))
+        {
+            return;
+        }
+
+        if (allowPresenceRequirements
+            && (required || group.Description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) == true))
+        {
+            if (ApplyMandatoryGroup(group, options, positionalArguments, requiredAlternativeGroups, required))
+            {
+                return;
+            }
+        }
+        else if (group.Arguments.Any(ArgumentIsConditionallyRequired))
+        {
+            // Optional bundles still require their mandatory members when any member is supplied.
+            requiredAlternativeGroups.Add(CreateAlternativeConstraint(group, options, positionalArguments) with { IsRequired = false });
+            return;
+        }
+
+        if (group.Kind.HasFlag(CliArgumentGroupKind.Resource))
+        {
+            return;
+        }
+
+        foreach (var nested in group.Groups)
+        {
+            var inheritsRequiredness = required && IsOrdinaryArgumentBundle(nested);
+            ApplyRequiredGroups(nested, options, positionalArguments, requiredAlternativeGroups, inheritsRequiredness, allowPresenceRequirements);
+        }
+    }
+
+    private static bool IsOrdinaryArgumentBundle(CliArgumentGroup group) =>
+        group.Kind == CliArgumentGroupKind.None
+        && group.Description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) != true
+        && !group.Arguments.Any(ArgumentIsConditionallyRequired);
+
+    private static bool ApplyMandatoryGroup(
+        CliArgumentGroup group,
+        List<CliOptionDefinition> options,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        List<CliRequiredAlternativeGroup> requiredAlternativeGroups,
+        bool requireAllArguments)
+    {
+        if (!requireAllArguments && !group.Kind.HasFlag(CliArgumentGroupKind.Resource)
+            && !group.Arguments.Any(ArgumentIsConditionallyRequired))
+        {
+            // A mandatory bundle still needs input when no individual member is mandatory.
+            requiredAlternativeGroups.Add(CreateAlternativeConstraint(group, options, positionalArguments) with { IsRequired = true });
+            return true;
+        }
+
+        ApplyRequiredArguments(group, options, positionalArguments, requiredAlternativeGroups, requireAllArguments);
+        return false;
+    }
+
+    private static CliRequiredAlternativeGroup CreateAlternativeConstraint(
+        CliArgumentGroup group,
+        IReadOnlyList<CliOptionDefinition> options,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var isChoice = group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
+                       || group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne);
+        var members = new List<CliRequiredAlternativeMember>();
+        var nestedGroups = group.Groups.Select(nested => CreateAlternativeConstraint(nested, options, positionalArguments)).ToList();
+        foreach (var argument in group.Arguments)
+        {
+            var argumentMembers = GetRequiredAlternativeMembers(argument, options, positionalArguments).ToArray();
+            var required = ArgumentIsRequiredInGroup(group, argument);
+            if (argumentMembers.Length > 1)
+            {
+                // Positive and negated forms are one exclusive branch in any containing group.
+                nestedGroups.Add(new CliRequiredAlternativeGroup
+                {
+                    IsRequired = required,
+                    IsMutuallyExclusive = true,
+                    Members = argumentMembers,
+                });
+            }
+            else
+            {
+                members.AddRange(argumentMembers.Select(member => member with { IsRequired = required }));
+            }
+        }
+
+        return new CliRequiredAlternativeGroup
+        {
+            IsRequired = group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
+                         || group.Description?.Contains("This must be specified", StringComparison.OrdinalIgnoreCase) == true,
+            IsChoice = isChoice,
+            IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
+            Members = members,
+            Groups = nestedGroups,
+        };
+    }
+
+    private static bool ArgumentIsRequiredInGroup(CliArgumentGroup group, CliArgumentDefinition argument) =>
+        (group.Kind.HasFlag(CliArgumentGroupKind.Resource) && group.Arguments.Count == 1)
+        || ArgumentIsConditionallyRequired(argument);
+
+    private static bool ArgumentIsConditionallyRequired(CliArgumentDefinition argument) =>
+        argument.Description?.Contains(
+            "This flag argument must be specified if any of the other arguments in this group are specified.",
+            StringComparison.OrdinalIgnoreCase) == true;
+
+    private static void ApplyRequiredArguments(
+        CliArgumentGroup group,
+        List<CliOptionDefinition> options,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        List<CliRequiredAlternativeGroup> requiredAlternativeGroups,
+        bool requireAllArguments)
+    {
+        var isResource = group.Kind.HasFlag(CliArgumentGroupKind.Resource);
+        foreach (var argument in group.Arguments)
+        {
+            // Mandatory groups can contain optional settings. Only explicitly mandatory
+            // members (or a resource's sole selector) inherit the group's requirement.
+            if ((!requireAllArguments || isResource)
+                && !ArgumentIsRequiredInGroup(group, argument))
             {
                 continue;
             }
 
-            var start = heading.Index + heading.Length;
-            var end = index + 1 < headings.Count ? headings[index + 1].Index : helpText.Length;
-            yield return (name, helpText[start..end]);
+            var members = GetRequiredAlternativeMembers(argument, options, positionalArguments).ToArray();
+            if (argument.IsPositional)
+            {
+                if (members.Any(member => positionalArguments.Any(positional =>
+                        positional.PropertyName == member.PropertyName && !positional.IsRequired)))
+                {
+                    requiredAlternativeGroups.Add(new CliRequiredAlternativeGroup { Members = members });
+                }
+
+                continue;
+            }
+
+            var index = options.FindIndex(option => option.SwitchName == argument.SwitchName);
+            if (index >= 0)
+            {
+                if (options[index].IsFlag || members.Length > 1)
+                {
+                    // Require an emitted flag or one of the documented positive/negated forms.
+                    requiredAlternativeGroups.Add(new CliRequiredAlternativeGroup
+                    {
+                        IsMutuallyExclusive = members.Length > 1,
+                        Members = members,
+                    });
+                }
+                else
+                {
+                    options[index] = options[index] with { IsRequired = true };
+                }
+            }
         }
     }
 
-    [GeneratedRegex(@"^[A-Z][A-Z_ ]*[ \t]*\r?$", RegexOptions.Multiline)]
-    private static partial Regex SectionHeaderPattern();
+    private static IEnumerable<CliRequiredAlternativeMember> GetRequiredAlternativeMembers(
+        CliArgumentDefinition argument,
+        IReadOnlyList<CliOptionDefinition> options,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        if (argument.IsPositional)
+        {
+            var propertyName = NormalizePropertyName(argument.SwitchName);
+            return positionalArguments.Where(positional => positional.PropertyName == propertyName)
+                .Select(positional => new CliRequiredAlternativeMember
+                {
+                    PropertyName = positional.PropertyName,
+                    PositionalArgumentPhase = positional.Phase,
+                    PositionalArgumentPositionIndex = positional.PositionIndex,
+                });
+        }
+
+        return options.Where(option => option.SwitchName == argument.SwitchName
+                || (option.IsFlag && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
+            .Select(option => new CliRequiredAlternativeMember
+            {
+                OptionSwitch = option.SwitchName,
+                PropertyName = option.PropertyName,
+            });
+    }
 
     private CliOptionDefinition NormalizeRepeatability(
         CliOptionDefinition option,
@@ -325,6 +543,24 @@ public partial class GcloudCliScraper : CliScraperBase
             yield break;
         }
 
+        var option = CreateOptionDefinition(argument, longForm, propertyName, commandParts, helpText);
+        yield return option;
+
+        var negativeSwitch = $"--no-{longForm[2..]}";
+        if (argument.IsNegatable
+            || DescriptionMentionsSwitch(argument.Documentation, negativeSwitch))
+        {
+            yield return CreateNegatedOption(option, negativeSwitch, argument.Documentation);
+        }
+    }
+
+    private CliOptionDefinition CreateOptionDefinition(
+        CliArgumentDefinition argument,
+        string longForm,
+        string propertyName,
+        IReadOnlyList<string> commandParts,
+        string helpText)
+    {
         var valueHint = argument.ValueHint ?? string.Empty;
         var description = argument.Documentation;
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
@@ -334,10 +570,11 @@ public partial class GcloudCliScraper : CliScraperBase
         var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
         var (acceptsMultipleValues, isDelimitedList) = GetCollectionBehavior(
             argument, commandParts, helpText, isFlag, hasCompositeSyntax, isStructuredValue, isKeyValue);
-        var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
+        var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue)
+                        && !DurationDescriptionPattern().IsMatch(argument.Description ?? string.Empty);
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(propertyName, description);
 
-        var option = new CliOptionDefinition
+        return new CliOptionDefinition
         {
             SwitchName = longForm,
             PropertyName = propertyName,
@@ -358,15 +595,6 @@ public partial class GcloudCliScraper : CliScraperBase
             EnumDefinition = enumDefinition,
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description)
         };
-
-        yield return option;
-
-        var negativeSwitch = $"--no-{longForm[2..]}";
-        if (argument.IsNegatable
-            || DescriptionMentionsSwitch(description, negativeSwitch))
-        {
-            yield return CreateNegatedOption(option, negativeSwitch, description);
-        }
     }
 
     private (bool AcceptsMultipleValues, bool IsDelimitedList) GetCollectionBehavior(
@@ -791,13 +1019,16 @@ public partial class GcloudCliScraper : CliScraperBase
     /// Default annotations are display text and may contain spaces, such as Python enum representations.
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=[^\r\n]+)?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>\w[\w-]*)|(?<long>--\w[\w-]*))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=[^\r\n]+)?$")]
     private static partial Regex GcloudFlagPattern();
 
     [GeneratedRegex(
         @"(?<![A-Za-z0-9])(?:counts?|numbers?|sizes?|timeouts?|seconds|iops)(?![A-Za-z0-9])",
         RegexOptions.IgnoreCase)]
     private static partial Regex NumericHintPattern();
+
+    [GeneratedRegex(@"\bdurations?\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex DurationDescriptionPattern();
 
     [GeneratedRegex(
         @"(?<![A-Za-z0-9])(?:file|filename|filepath|path)(?![A-Za-z0-9])",

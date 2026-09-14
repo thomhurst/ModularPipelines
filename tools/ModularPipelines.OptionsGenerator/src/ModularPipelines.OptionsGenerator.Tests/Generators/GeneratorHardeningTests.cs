@@ -1022,7 +1022,9 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task Required_Alternatives_Preserve_Option_And_Argument_Identity_After_Collision()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Required_Alternatives_Preserve_Option_And_Argument_Identity_After_Collision(bool nested)
     {
         var command = Command("ToolCreateOptions", "ToolOptions", ["create"]) with
         {
@@ -1065,6 +1067,18 @@ public class GeneratorHardeningTests
                 },
             ],
         };
+
+        if (nested)
+        {
+            command = command with
+            {
+                RequiredAlternativeGroups = [new CliRequiredAlternativeGroup
+                {
+                    Members = [],
+                    Groups = command.RequiredAlternativeGroups,
+                }],
+            };
+        }
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
