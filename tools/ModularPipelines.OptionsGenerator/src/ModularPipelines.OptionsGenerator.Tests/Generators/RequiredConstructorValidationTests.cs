@@ -6,7 +6,7 @@ using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 
-public class RequiredConstructorValidationTests
+public partial class RequiredConstructorValidationTests
 {
     private static readonly string[] SingleValue = ["value"];
     private static readonly MetadataReference[] CompilationReferences =
@@ -148,7 +148,7 @@ public class RequiredConstructorValidationTests
         return (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
     }
 
-    private static Assembly Compile(string generated)
+    private static Assembly Compile(params string[] generated)
     {
         const string support = """
             global using System.Collections.Generic;
@@ -156,6 +156,15 @@ public class RequiredConstructorValidationTests
             {
                 public sealed class CliOptionAttribute(string name) : System.Attribute;
                 public sealed class CliSubCommandAttribute(params string[] parts) : System.Attribute;
+                public sealed class CliFlagAttribute(string name) : System.Attribute
+                {
+                    public string? NegatedName { get; set; }
+                }
+            }
+            namespace PrivatePackage
+            {
+                public sealed class Token;
+                public readonly record struct ValueToken(int Value);
             }
             namespace ModularPipelines.Tool.Options
             {
@@ -168,7 +177,7 @@ public class RequiredConstructorValidationTests
             }
             """;
         var compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N"),
-            [CSharpSyntaxTree.ParseText(support), CSharpSyntaxTree.ParseText(generated)], CompilationReferences,
+            [CSharpSyntaxTree.ParseText(support), .. generated.Select(static source => CSharpSyntaxTree.ParseText(source))], CompilationReferences,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         using var stream = new MemoryStream();
         var result = compilation.Emit(stream);

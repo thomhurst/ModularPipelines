@@ -79,8 +79,11 @@ public record CliOptionDefinition
         return resolution.IsResolved;
     }
 
-    internal static bool IsKnownReferenceType(string cSharpType) =>
-        CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).IsReferenceType;
+    internal static bool MayBeReferenceType(string cSharpType)
+    {
+        var resolution = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
+        return !resolution.IsResolved || resolution.IsReferenceType;
+    }
 
     internal static bool CanAssignMaterializedArray(string cSharpType) =>
         CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).IsArrayAssignable;

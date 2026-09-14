@@ -56,7 +56,8 @@ public class OptionsClassGenerator : ICodeGenerator
         var requiresCollectionValidation = GeneratorUtils
             .GetRequiredConstructorParameters(command, positionalArguments)
             .Any(IsCollectionParameter);
-        var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresCollectionValidation;
+        var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresCollectionValidation
+            || command.RequiredOptions.Any(RequiresNullableFlagProperty);
         var existingPropertyNames = GenerateClassDeclaration(
             sb,
             command,
@@ -71,7 +72,7 @@ public class OptionsClassGenerator : ICodeGenerator
                 command,
                 positionalArguments,
                 includePrivateParameterlessConstructor: supportsAlternateInputModes);
-            if (requiresCollectionValidation && !supportsAlternateInputModes)
+            if (!supportsAlternateInputModes)
             {
                 // Alternate-input factories leave operation values unset, so they cannot
                 // promise the non-null outputs of positional record deconstruction.
@@ -287,7 +288,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         foreach (var parameter in constructorParameters)
         {
-            if (!IsCollectionParameter(parameter) && CliOptionDefinition.IsKnownReferenceType(parameter.CSharpType))
+            if (!IsCollectionParameter(parameter) && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType))
             {
                 sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
             }
@@ -322,7 +323,10 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    {");
         foreach (var parameter in constructorParameters)
         {
-            sb.AppendLine($"        {parameter.PropertyName} = this.{parameter.PropertyName};");
+            var value = RequiresNullableFlagProperty(parameter.Option)
+                ? $"this.{parameter.PropertyName}.GetValueOrDefault()"
+                : $"this.{parameter.PropertyName}";
+            sb.AppendLine($"        {parameter.PropertyName} = {value};");
         }
 
         sb.AppendLine("    }");
@@ -334,6 +338,9 @@ public class OptionsClassGenerator : ICodeGenerator
         CliOptionDefinition.TryGetCollectionShape(parameter.CSharpType.TrimEnd('?'), out var isCollection)
             ? isCollection
             : parameter.Option?.IsCollection == true;
+
+    private static bool RequiresNullableFlagProperty(CliOptionDefinition? option) =>
+        option is { IsFlag: true, NegatedSwitchName: not null };
 
     private static void GenerateDeclaredCollectionValidation(
         StringBuilder sb,
@@ -482,7 +489,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         // Property
         var accessor = GetPropertyAccessor(option.IsRequired);
-        var propertyType = option.IsRequired && requiredPropertiesAreNonNullable
+        var propertyType = option.IsRequired && requiredPropertiesAreNonNullable && !RequiresNullableFlagProperty(option)
             ? option.PropertyType.TrimEnd('?')
             : option.PropertyType;
         sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{propertyType} {option.PropertyName} {{ get; {accessor}; }}");
