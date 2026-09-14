@@ -108,8 +108,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
     {
         var tcs = _results.GetOrAdd(moduleTypeName, _ => new TaskCompletionSource<SerializedModuleResult>());
-        using var reg = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
-        return await tcs.Task;
+        return await tcs.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)

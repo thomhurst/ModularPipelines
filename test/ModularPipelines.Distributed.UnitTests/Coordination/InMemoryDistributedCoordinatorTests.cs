@@ -20,6 +20,25 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task Cancelling_One_Result_Waiter_Preserves_Other_And_Late_Waiters()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        using var cancellation = new CancellationTokenSource();
+        var cancelledWait = coordinator.WaitForResultAsync("Module", cancellation.Token);
+        var survivingWait = coordinator.WaitForResultAsync("Module", CancellationToken.None);
+
+        await cancellation.CancelAsync();
+        await Assert.That(async () => await cancelledWait).Throws<OperationCanceledException>();
+        var published = new SerializedModuleResult("Module", "System.String", 1, "{}", DateTimeOffset.UtcNow);
+        await coordinator.PublishResultAsync(published, CancellationToken.None);
+
+        await Assert.That(await survivingWait.WaitAsync(TimeSpan.FromSeconds(10))).IsSameReferenceAs(published);
+        var lateResult = await coordinator.WaitForResultAsync("Module", CancellationToken.None)
+            .WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(lateResult).IsSameReferenceAs(published);
+    }
+
+    [Test]
     public async Task RegisterWorker_And_GetRegisteredWorkers()
     {
         var coordinator = new InMemoryDistributedCoordinator();

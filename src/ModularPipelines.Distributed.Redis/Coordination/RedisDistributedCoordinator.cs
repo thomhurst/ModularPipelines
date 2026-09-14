@@ -137,10 +137,18 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var json = JsonSerializer.Serialize(result, _jsonOptions);
-        await _database.HashSetAsync(_keys.Results, result.ModuleTypeName, json);
-        await _database.KeyExpireAsync(_keys.Results, _keyExpiration);
-        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.ResultChannel(result.ModuleTypeName)), json);
+
+        // Redis cannot cancel commands already sent; bound each wait and stop issuing later commands.
+        await _database.HashSetAsync(_keys.Results, result.ModuleTypeName, json)
+            .WaitAsync(cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+        await _database.KeyExpireAsync(_keys.Results, _keyExpiration)
+            .WaitAsync(cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.ResultChannel(result.ModuleTypeName)), json)
+            .WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)

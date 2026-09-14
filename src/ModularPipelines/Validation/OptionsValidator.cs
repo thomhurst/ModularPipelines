@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -18,15 +19,19 @@ internal class OptionsValidator : IOptionsValidator
     /// <inheritdoc />
     public Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
-        var optionsSnapshot = services.GetService<IOptions<PipelineOptions>>();
-        if (optionsSnapshot?.Value == null)
+        var pipelineOptions = services.GetService<IOptions<PipelineOptions>>()?.Value;
+        var result = pipelineOptions is null
+            ? ValidationResult.Success()
+            : ValidateOptions(pipelineOptions, GetRegisteredCategories(services));
+        var distributedOptions = services.GetService<IOptions<DistributedOptions>>()?.Value;
+        if (distributedOptions?.MaxParallelism is < 1)
         {
-            return Task.FromResult(ValidationResult.Success());
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Distributed.MaxParallelism must be at least 1. Current value: {distributedOptions.MaxParallelism}"));
         }
 
-        return Task.FromResult(ValidateOptions(
-            optionsSnapshot.Value,
-            GetRegisteredCategories(services)));
+        return Task.FromResult(result);
     }
 
     /// <inheritdoc />

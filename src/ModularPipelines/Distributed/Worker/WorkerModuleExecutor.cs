@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -26,6 +28,7 @@ internal class WorkerModuleExecutor(
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
+    IParallelLimitProvider parallelLimitProvider,
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger,
@@ -44,6 +47,7 @@ internal class WorkerModuleExecutor(
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
+    private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
@@ -81,6 +85,9 @@ internal class WorkerModuleExecutor(
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(availableModules);
         var dependencyResultCache = new DependencyResultCache(_coordinator, cancellationToken);
         var capabilities = BuildCapabilities(options);
+        var maxConcurrency = DistributedWorkerPool.GetMaxConcurrency(
+            _parallelLimitProvider,
+            options);
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
         var heartbeatTask = SendHeartbeatsAsync(
             options.InstanceIndex,
@@ -90,20 +97,17 @@ internal class WorkerModuleExecutor(
             executionCts,
             options.WorkerHeartbeatInterval);
 
-        var executedModules = new List<IModule>();
+        var executedModules = new ConcurrentQueue<IModule>();
         try
         {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                try
+            _logger.LogInformation(
+                "Worker {Index} starting {MaxConcurrency} concurrent execution slot(s)",
+                options.InstanceIndex,
+                maxConcurrency);
+            await DistributedWorkerPool.RunAsync(
+                token => _coordinator.DequeueModuleAsync(capabilities, token),
+                async (assignment, token) =>
                 {
-                    var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
-                    if (assignment is null)
-                    {
-                        // No more work available
-                        break;
-                    }
-
                     _logger.LogInformation("Worker {Index} executing module {Module}",
                         options.InstanceIndex, assignment.ModuleTypeName);
                     await ExecuteAssignmentAsync(
@@ -112,18 +116,14 @@ internal class WorkerModuleExecutor(
                         dependencyResultCache,
                         executedModules,
                         options.InstanceIndex,
-                        cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    _logger.LogInformation("Worker {Index} shutting down", options.InstanceIndex);
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Worker {Index} encountered an error in execution loop", options.InstanceIndex);
-                }
-            }
+                        token).ConfigureAwait(false);
+                },
+                maxConcurrency,
+                exception => _logger.LogError(
+                    exception,
+                    "Worker {Index} encountered an error in execution loop",
+                    options.InstanceIndex),
+                cancellationToken).ConfigureAwait(false);
         }
         finally
         {
@@ -243,7 +243,7 @@ internal class WorkerModuleExecutor(
         ModuleAssignment assignment,
         Dictionary<string, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
-        List<IModule> executedModules,
+        ConcurrentQueue<IModule> executedModules,
         int instanceIndex,
         CancellationToken cancellationToken)
     {
@@ -251,14 +251,14 @@ internal class WorkerModuleExecutor(
         if (resolved is null)
         {
             _logger.LogError("Cannot resolve module type: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger).ConfigureAwait(false);
             return;
         }
 
         if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
         {
             _logger.LogError("Module instance not found: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger).ConfigureAwait(false);
             return;
         }
 
@@ -276,13 +276,13 @@ internal class WorkerModuleExecutor(
             }
 
             await ExecuteAndPublishAsync(assignment, module, instanceIndex, cancellationToken).ConfigureAwait(false);
-            executedModules.Add(module);
+            executedModules.Enqueue(module);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Module {Module} execution failed on worker {Index}",
                 assignment.ModuleTypeName, instanceIndex);
-            await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, instanceIndex, cancellationToken);
+            await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, instanceIndex).ConfigureAwait(false);
         }
     }
 
@@ -376,21 +376,24 @@ internal class WorkerModuleExecutor(
         Type resultType,
         IModule module,
         Exception exception,
-        int instanceIndex,
-        CancellationToken cancellationToken)
+        int instanceIndex)
     {
         try
         {
             var failureResult = ModuleResultFactory.CreateException(
                 resultType,
                 exception,
-                new ModuleExecutionContext(module, module.GetType()));
+                new ModuleExecutionContext(module, module.GetType())
+                {
+                    Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
+                    Exception = exception,
+                });
             var serialized = _serializer.Serialize(
                 failureResult,
                 assignment.ModuleTypeName,
                 assignment.ResultTypeName,
                 instanceIndex);
-            await _coordinator.PublishResultAsync(serialized, cancellationToken);
+            await DistributedFailurePublisher.PublishAsync(_coordinator, serialized).ConfigureAwait(false);
         }
         catch (Exception publishException)
         {

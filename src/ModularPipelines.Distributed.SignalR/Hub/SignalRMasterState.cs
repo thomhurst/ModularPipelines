@@ -220,12 +220,14 @@ internal class SignalRMasterState
         }
     }
 
-    public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(string moduleTypeName)
+    public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(
+        string moduleTypeName,
+        CancellationToken cancellationToken = default)
     {
         var deliveryFence = _assignmentDeliveryFences.GetOrAdd(
             moduleTypeName,
             _ => new SemaphoreSlim(1, 1));
-        await deliveryFence.WaitAsync();
+        await deliveryFence.WaitAsync(cancellationToken).ConfigureAwait(false);
         return new SemaphoreReleaser(deliveryFence);
     }
 
@@ -246,9 +248,12 @@ internal class SignalRMasterState
         pending.Dispose();
     }
 
-    public async Task<IReadOnlyList<WorkerState>> CompleteResultAsync(SerializedModuleResult result)
+    public async Task<IReadOnlyList<WorkerState>> CompleteResultAsync(
+        SerializedModuleResult result,
+        CancellationToken cancellationToken = default)
     {
-        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName);
+        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName, cancellationToken)
+            .ConfigureAwait(false);
         return CompleteResult(result);
     }
 
