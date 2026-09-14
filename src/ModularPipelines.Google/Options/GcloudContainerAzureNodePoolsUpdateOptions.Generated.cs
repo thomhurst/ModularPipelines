@@ -58,9 +58,9 @@ public record GcloudContainerAzureNodePoolsUpdateOptions : GcloudOptions
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Annotations At most one of these can be specified: Annotations for the node pool.
+    /// Node pool autoscaling Annotations At most one of these can be specified: Annotations for the node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>

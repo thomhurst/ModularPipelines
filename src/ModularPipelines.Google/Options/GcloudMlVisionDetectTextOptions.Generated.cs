@@ -24,9 +24,9 @@ public record GcloudMlVisionDetectTextOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// List of languages to use for text detection.
+    /// List of languages to use for text detection. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LanguageHints { get; set; }
 
 }

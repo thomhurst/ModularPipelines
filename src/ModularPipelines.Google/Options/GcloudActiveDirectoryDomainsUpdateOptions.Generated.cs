@@ -41,15 +41,15 @@ public record GcloudActiveDirectoryDomainsUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of URLs of additional networks to peer this domain to in the form projects/{project}/global/networks/{network}. Networks must belong to the project.
+    /// At most one of these can be specified: A list of URLs of additional networks to peer this domain to in the form projects/{project}/global/networks/{network}. Networks must belong to the project. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of URLs of additional networks to unpeer this domain from in the form projects/{project}/global/networks/{network}. Networks must belong to the project.
+    /// At most one of these can be specified: A list of URLs of additional networks to unpeer this domain from in the form projects/{project}/global/networks/{network}. Networks must belong to the project. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -71,9 +71,9 @@ public record GcloudActiveDirectoryDomainsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

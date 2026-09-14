@@ -48,15 +48,15 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     public string? DnssecState { get; set; }
 
     /// <summary>
-    /// List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for public visibility. Non-RFC1918 addresses will forward to the target through the Internet. RFC1918 addresses will forward through the VPC.
+    /// List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for public visibility. Non-RFC1918 addresses will forward to the target through the Internet. RFC1918 addresses will forward through the VPC. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--forwarding-targets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--forwarding-targets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ForwardingTargets { get; set; }
 
     /// <summary>
-    /// List of GKE clusters that the zone should be visible in if the zone visibility is [private].
+    /// List of GKE clusters that the zone should be visible in if the zone visibility is [private]. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Gkeclusters { get; set; }
 
     /// <summary>
@@ -96,15 +96,15 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     public bool? ManagedReverseLookup { get; set; }
 
     /// <summary>
-    /// List of networks that the zone should be visible in if the zone visibility is [private].
+    /// List of networks that the zone should be visible in if the zone visibility is [private]. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Networks { get; set; }
 
     /// <summary>
-    /// List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for public visibility. All addresses specified for this parameter will be reached through the VPC.
+    /// List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for public visibility. All addresses specified for this parameter will be reached through the VPC. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--private-forwarding-targets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--private-forwarding-targets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PrivateForwardingTargets { get; set; }
 
     /// <summary>
@@ -132,9 +132,9 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

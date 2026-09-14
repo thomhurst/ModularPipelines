@@ -60,7 +60,7 @@ public class GcloudContainerFleetPolicycontrollerContent
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetPolicycontrollerContentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerFleetPolicycontrollerContentOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

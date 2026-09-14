@@ -23,15 +23,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Groups of users that can perform operations as a cluster administrator.
+    /// Groups of users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdminGroups { get; set; }
 
     /// <summary>
-    /// Users that can perform operations as a cluster administrator.
+    /// Users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdminUsers { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Set the components that have logging enabled. Examples: $ gcloud container azure clusters update --logging=SYSTEM $ gcloud container azure clusters update --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudLogging? Logging { get; set; }
 
     /// <summary>
@@ -71,9 +71,9 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     public int? VmSize { get; set; }
 
     /// <summary>
-    /// Annotations At most one of these can be specified: Annotations for the cluster.
+    /// Annotations At most one of these can be specified: Annotations for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>

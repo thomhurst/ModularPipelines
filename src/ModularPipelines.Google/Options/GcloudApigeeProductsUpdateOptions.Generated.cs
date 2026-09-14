@@ -37,15 +37,15 @@ public record GcloudApigeeProductsUpdateOptions(
     public bool? AllApis { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Adds a new API to the set of APIs.
+    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Adds a new API to the set of APIs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-api", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-api", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddApi { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Removes an existing API from the set of APIs.
+    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Removes an existing API from the set of APIs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-api", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-api", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveApi { get; set; }
 
     /// <summary>
@@ -55,15 +55,15 @@ public record GcloudApigeeProductsUpdateOptions(
     public bool? AllEnvironments { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Adds a new environment to the set of environments.
+    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Adds a new environment to the set of environments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-environment", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-environment", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddEnvironment { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Removes an existing environment from the set of environments.
+    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Removes an existing environment from the set of environments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-environment", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-environment", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveEnvironment { get; set; }
 
     /// <summary>
@@ -109,9 +109,9 @@ public record GcloudApigeeProductsUpdateOptions(
     public string? AddAttribute { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Removes an existing attribute from the set of attributes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Removes an existing attribute from the set of attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-attribute", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-attribute", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAttribute { get; set; }
 
     /// <summary>
@@ -133,15 +133,15 @@ public record GcloudApigeeProductsUpdateOptions(
     public bool? ClearOauthScopes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Adds a new OAuth scope to the set of OAuth scopes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Adds a new OAuth scope to the set of OAuth scopes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-oauth-scope", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-oauth-scope", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddOauthScope { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Removes an existing OAuth scope from the set of OAuth scopes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Removes an existing OAuth scope from the set of OAuth scopes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-oauth-scope", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-oauth-scope", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveOauthScope { get; set; }
 
     /// <summary>

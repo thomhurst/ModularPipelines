@@ -72,7 +72,7 @@ public class GcloudApiGateway : IGcloudApiGateway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApiGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApiGatewayOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -102,9 +102,9 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public string? RdbSnapshotStartTime { get; set; }
 
     /// <summary>
-    /// A list of Redis Cluster config parameters to remove. Removing a non-existent config parameter is silently ignored.
+    /// A list of Redis Cluster config parameters to remove. Removing a non-existent config parameter is silently ignored. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-redis-config", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-redis-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveRedisConfig { get; set; }
 
     /// <summary>
@@ -150,9 +150,9 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

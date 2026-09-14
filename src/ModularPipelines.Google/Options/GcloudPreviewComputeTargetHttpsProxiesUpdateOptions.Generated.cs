@@ -42,9 +42,9 @@ public record GcloudPreviewComputeTargetHttpsProxiesUpdateOptions(
     public string? UrlMap { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Certificate resource - certificate-manager-certificates to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the location attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ default value of location is [global]. IDs of the certificates or fully qualified identifiers for the certificates. To set the certificate attribute:
+    /// At most one of these can be specified: At most one of these can be specified: Certificate resource - certificate-manager-certificates to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the location attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ default value of location is [global]. IDs of the certificates or fully qualified identifiers for the certificates. To set the certificate attribute: Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--certificate-manager-certificates", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--certificate-manager-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CertificateManagerCertificates { get; set; }
 
     /// <summary>
@@ -54,9 +54,9 @@ public record GcloudPreviewComputeTargetHttpsProxiesUpdateOptions(
     public bool? ClearSslCertificates { get; set; }
 
     /// <summary>
-    /// ▫ provide the argument --certificate-manager-certificates on the command line. References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target HTTPS proxy.
+    /// ▫ provide the argument --certificate-manager-certificates on the command line. References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target HTTPS proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SslCertificates { get; set; }
 
     /// <summary>

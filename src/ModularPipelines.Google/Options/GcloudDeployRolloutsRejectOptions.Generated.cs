@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeployRolloutsRejectOptions : GcloudOptions
 {
     /// <summary>
-    /// Deploy policies to override
+    /// Deploy policies to override Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OverrideDeployPolicies { get; set; }
 
 }

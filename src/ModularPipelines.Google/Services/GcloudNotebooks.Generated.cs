@@ -72,7 +72,7 @@ public class GcloudNotebooks : IGcloudNotebooks
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNotebooksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNotebooksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

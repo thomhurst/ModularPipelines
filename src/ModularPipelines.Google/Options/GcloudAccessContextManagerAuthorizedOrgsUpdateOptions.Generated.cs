@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerAuthorizedOrgsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Append the given values to the current orgs.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Append the given values to the current orgs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-orgs", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-orgs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddOrgs { get; set; }
 
     /// <summary>
@@ -34,15 +34,15 @@ public record GcloudAccessContextManagerAuthorizedOrgsUpdateOptions : GcloudOpti
     public bool? ClearOrgs { get; set; }
 
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Remove the given values from the current orgs.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Remove the given values from the current orgs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-orgs", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-orgs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveOrgs { get; set; }
 
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Completely replace the current orgs with the given values.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Completely replace the current orgs with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-orgs", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-orgs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetOrgs { get; set; }
 
 }

@@ -60,7 +60,7 @@ public class GcloudBeyondcorp : IGcloudBeyondcorp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBeyondcorpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBeyondcorpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

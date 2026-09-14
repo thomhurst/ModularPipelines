@@ -34,9 +34,9 @@ public record GcloudPubsubLiteSubscriptionsSubscribeOptions : GcloudOptions
     public string? NumMessages { get; set; }
 
     /// <summary>
-    /// The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned.
+    /// The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Partitions { get; set; }
 
 }

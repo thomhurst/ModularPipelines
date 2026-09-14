@@ -52,9 +52,9 @@ public record GcloudBigtableTablesUpdateOptions : GcloudOptions
     public string? AutomatedBackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: List of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format projects/{project}/locations/{zone}. Setting this flag will enable automated backup for the table.
+    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: List of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format projects/{project}/locations/{zone}. Setting this flag will enable automated backup for the table. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--automated-backup-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--automated-backup-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AutomatedBackupLocations { get; set; }
 
     /// <summary>

@@ -64,9 +64,9 @@ public record GcloudMetastoreServicesMigrationsStartOptions : GcloudOptions
     public string? HiveCatalog { get; set; }
 
     /// <summary>
-    /// Configuration for migrating Hive tables to a BigLake Hive catalog. Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. Comma-separated list of databases to migrate to the Hive catalog. Defaults to * (migrate all databases). Note: If Iceberg tables exist in these databases, they will only be migrated if --iceberg-catalog is also specified.
+    /// Configuration for migrating Hive tables to a BigLake Hive catalog. Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. Comma-separated list of databases to migrate to the Hive catalog. Defaults to * (migrate all databases). Note: If Iceberg tables exist in these databases, they will only be migrated if --iceberg-catalog is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--hive-databases", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--hive-databases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HiveDatabases { get; set; }
 
     /// <summary>
@@ -76,9 +76,9 @@ public record GcloudMetastoreServicesMigrationsStartOptions : GcloudOptions
     public string? IcebergCatalog { get; set; }
 
     /// <summary>
-    /// Configuration for migrating Hive tables to a BigLake Hive catalog. Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. Comma-separated list of namespaces to migrate to the Iceberg REST catalog. Defaults to * (migrate all namespaces). Note: If Hive tables exist in these namespaces, they will only be migrated if --hive-catalog is also specified.
+    /// Configuration for migrating Hive tables to a BigLake Hive catalog. Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. Comma-separated list of namespaces to migrate to the Iceberg REST catalog. Defaults to * (migrate all namespaces). Note: If Hive tables exist in these namespaces, they will only be migrated if --hive-catalog is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--iceberg-namespaces", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--iceberg-namespaces", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IcebergNamespaces { get; set; }
 
 }

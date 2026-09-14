@@ -59,9 +59,9 @@ public record GcloudLoggingReadOptions : GcloudOptions
     public string? Project { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma.
+    /// At most one of these can be specified: Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ResourceNames { get; set; }
 
     /// <summary>

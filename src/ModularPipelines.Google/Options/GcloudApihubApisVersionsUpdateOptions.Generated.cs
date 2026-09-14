@@ -70,21 +70,21 @@ public record GcloudApihubApisVersionsUpdateOptions : GcloudOptions
     public bool? ClearAccreditation { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--accreditation-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--accreditation-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AccreditationJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--accreditation-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--accreditation-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AccreditationStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--accreditation-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--accreditation-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AccreditationUriValues { get; set; }
 
     /// <summary>
@@ -118,21 +118,21 @@ public record GcloudApihubApisVersionsUpdateOptions : GcloudOptions
     public bool? ClearCompliance { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--compliance-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--compliance-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ComplianceJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--compliance-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--compliance-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ComplianceStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--compliance-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--compliance-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ComplianceUriValues { get; set; }
 
     /// <summary>
@@ -178,21 +178,21 @@ public record GcloudApihubApisVersionsUpdateOptions : GcloudOptions
     public bool? ClearLifecycle { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--lifecycle-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--lifecycle-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LifecycleJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--lifecycle-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--lifecycle-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LifecycleStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--lifecycle-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--lifecycle-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LifecycleUriValues { get; set; }
 
     /// <summary>
@@ -232,15 +232,15 @@ public record GcloudApihubApisVersionsUpdateOptions : GcloudOptions
     public string? SelectedDeployment { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Update deployments. At most one of these can be specified: Deployment resource - Set deployments to new value. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --deployments on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --deployments on the command line with a fully specified name; ▸ provide the argument --location on the command line. IDs of the deployments or fully qualified identifiers for the deployments. To set the deployment attribute: ▸ provide the argument --deployments on the command line.
+    /// The attribute values associated with resource. Update deployments. At most one of these can be specified: Deployment resource - Set deployments to new value. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --deployments on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --deployments on the command line with a fully specified name; ▸ provide the argument --location on the command line. IDs of the deployments or fully qualified identifiers for the deployments. To set the deployment attribute: ▸ provide the argument --deployments on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--deployments", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--deployments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Deployments { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Deployment resource - Add new value to deployments list. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --location on the command line. IDs of the deployments or fully qualified identifiers for the deployments. To set the deployment attribute: ▸ provide the argument --add-deployments on the command line.
+    /// The attribute values associated with resource. Deployment resource - Add new value to deployments list. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --location on the command line. IDs of the deployments or fully qualified identifiers for the deployments. To set the deployment attribute: ▸ provide the argument --add-deployments on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-deployments", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-deployments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddDeployments { get; set; }
 
     /// <summary>
@@ -250,9 +250,9 @@ public record GcloudApihubApisVersionsUpdateOptions : GcloudOptions
     public bool? ClearDeployments { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Deployment resource - Add new value to deployments list. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --location on the command line. At most one of these can be specified: Or at least one of these can be specified: Deployment resource - Remove value from deployments list. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --remove-deployments on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. To set the location attribute: ◇ provide the argument --remove-deployments on the command line with a fully specified name; ◇ provide the argument --location on the command line. IDs of the deployments or fully qualified identifiers for the deployments. To set the deployment attribute: ◇ provide the argument --remove-deployments on the command line.
+    /// The attribute values associated with resource. Deployment resource - Add new value to deployments list. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --add-deployments on the command line with a fully specified name; ▸ provide the argument --location on the command line. At most one of these can be specified: Or at least one of these can be specified: Deployment resource - Remove value from deployments list. The deployments linked to this API version. Note: A particular API version could be deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is projects/{project}/locations/{location}/deployments/{deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --remove-deployments on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. To set the location attribute: ◇ provide the argument --remove-deployments on the command line with a fully specified name; ◇ provide the argument --location on the command line. IDs of the deployments or fully qualified identifiers for the deployments. To set the deployment attribute: ◇ provide the argument --remove-deployments on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-deployments", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-deployments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveDeployments { get; set; }
 
 }

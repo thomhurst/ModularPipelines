@@ -36,9 +36,9 @@ public record GcloudPreviewComputeInstancesRemoveMetadataOptions(
     public bool? All { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The keys of the entries to remove.
+    /// At most one of these can be specified: The keys of the entries to remove. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--keys", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Keys { get; set; }
 
 }

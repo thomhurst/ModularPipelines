@@ -36,9 +36,9 @@ public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
     public string? IntendedTopologyCapability { get; set; }
 
     /// <summary>
-    /// Member interconnects to set the interconnect group to contain.
+    /// Member interconnects to set the interconnect group to contain. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Interconnects { get; set; }
 
     /// <summary>

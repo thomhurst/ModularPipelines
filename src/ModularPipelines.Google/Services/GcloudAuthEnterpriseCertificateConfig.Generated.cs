@@ -54,7 +54,7 @@ public class GcloudAuthEnterpriseCertificateConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuthEnterpriseCertificateConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuthEnterpriseCertificateConfigOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

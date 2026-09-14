@@ -64,15 +64,15 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     public bool? ClearSaasRuntimeContext { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Set saas_runtime_context_names to new value.
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Set saas_runtime_context_names to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SaasRuntimeContextNames { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: Add new value to saas_runtime_context_names list.
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: Add new value to saas_runtime_context_names list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddSaasRuntimeContextNames { get; set; }
 
     /// <summary>
@@ -82,9 +82,9 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     public bool? ClearSaasRuntimeContextNames { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from saas_runtime_context_names list.
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from saas_runtime_context_names list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveSaasRuntimeContextNames { get; set; }
 
     /// <summary>

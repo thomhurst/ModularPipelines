@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageBatchOperationsBucketOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// If provided, only show operations for buckets in the list.
+    /// If provided, only show operations for buckets in the list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--buckets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--buckets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Buckets { get; set; }
 
 }

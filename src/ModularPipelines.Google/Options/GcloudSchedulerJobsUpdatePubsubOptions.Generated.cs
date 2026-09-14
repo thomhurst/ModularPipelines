@@ -47,9 +47,9 @@ public record GcloudSchedulerJobsUpdatePubsubOptions : GcloudOptions
     public bool? ClearAttributes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attribute keys to remove with the form "KEY1,KEY2".
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attribute keys to remove with the form "KEY1,KEY2". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAttributes { get; set; }
 
     /// <summary>

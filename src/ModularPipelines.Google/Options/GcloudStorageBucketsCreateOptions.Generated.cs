@@ -79,9 +79,9 @@ public record GcloudStorageBucketsCreateOptions(
     public string? Location { get; set; }
 
     /// <summary>
-    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--placement", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--placement", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Placement { get; set; }
 
     /// <summary>

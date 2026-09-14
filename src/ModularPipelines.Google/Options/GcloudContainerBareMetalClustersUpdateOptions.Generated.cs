@@ -65,9 +65,9 @@ public record GcloudContainerBareMetalClustersUpdateOptions : GcloudOptions
     public string? LoginUser { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster control plane configuration. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal cluster network configurations. Populate one of the network configs. Island mode CIDR network configuration. IPv4 addresses to be placed into maintenance mode.
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster control plane configuration. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal cluster network configurations. Populate one of the network configs. Island mode CIDR network configuration. IPv4 addresses to be placed into maintenance mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
 
     /// <summary>
@@ -89,9 +89,9 @@ public record GcloudContainerBareMetalClustersUpdateOptions : GcloudOptions
     public string? AddAnnotations { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster control plane configuration. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal cluster network configurations. Populate one of the network configs. Island mode CIDR network configuration. At most one of these can be specified: Remove annotations of the given keys.
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster control plane configuration. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal cluster network configurations. Populate one of the network configs. Island mode CIDR network configuration. At most one of these can be specified: Remove annotations of the given keys. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAnnotations { get; set; }
 
     /// <summary>
@@ -239,9 +239,9 @@ public record GcloudContainerBareMetalClustersUpdateOptions : GcloudOptions
     public bool? EnableMetalLbLoadBalancerSerializeImagePulls { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster control plane configuration. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal cluster network configurations. Populate one of the network configs. Island mode CIDR network configuration. IPv4 address range for all services in the cluster.
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Anthos on bare metal cluster operations configuration. Anthos on bare metal node access related settings for the user cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal cluster control plane configuration. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal cluster network configurations. Populate one of the network configs. Island mode CIDR network configuration. IPv4 address range for all services in the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
 
     /// <summary>

@@ -120,9 +120,9 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public int? NodeCount { get; set; }
 
     /// <summary>
-    /// Private Clusters IP Alias (VPC-native) The set of Google API scopes to be made available on all of the node VMs. Defaults to ['https://www.googleapis.com/auth/cloud-platform']. Cannot be updated.
+    /// Private Clusters IP Alias (VPC-native) The set of Google API scopes to be made available on all of the node VMs. Defaults to ['https://www.googleapis.com/auth/cloud-platform']. Cannot be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OauthScopes { get; set; }
 
     /// <summary>
@@ -150,9 +150,9 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public bool? SupportWebServerPlugins { get; set; }
 
     /// <summary>
-    /// Private Clusters IP Alias (VPC-native) The set of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC 1035. Cannot be updated.
+    /// Private Clusters IP Alias (VPC-native) The set of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC 1035. Cannot be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -330,9 +330,9 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Private Clusters IP Alias (VPC-native) Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Comma separated Master Authorized Networks specified in CIDR notation. Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// Private Clusters IP Alias (VPC-native) Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Comma separated Master Authorized Networks specified in CIDR notation. Cannot be specified unless --enable-master-authorized-networks is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>

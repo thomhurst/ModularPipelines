@@ -41,21 +41,21 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Accelerator settings Arguments passed to the entrypoint. Example: $ gcloud workstations configs update --container-args=arg_1,arg_2
+    /// Accelerator settings Arguments passed to the entrypoint. Example: $ gcloud workstations configs update --container-args=arg_1,arg_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerArgs { get; set; }
 
     /// <summary>
-    /// Accelerator settings If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs update \ --container-command=executable,parameter_1,parameter_2
+    /// Accelerator settings If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs update \ --container-command=executable,parameter_1,parameter_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerCommand { get; set; }
 
     /// <summary>
-    /// Accelerator settings Environment variables passed to the container. Example: $ gcloud workstations configs update \ --container-env=key1=value1,key2=value2
+    /// Accelerator settings Environment variables passed to the container. Example: $ gcloud workstations configs update \ --container-env=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerEnv { get; set; }
 
     /// <summary>
@@ -113,15 +113,15 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public int? IdleTimeout { get; set; }
 
     /// <summary>
-    /// Accelerator settings Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs update \ --instance-metadata=key1=value1,key2=value2
+    /// Accelerator settings Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs update \ --instance-metadata=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? InstanceMetadata { get; set; }
 
     /// <summary>
-    /// Accelerator settings Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs update \ --labels=label1=value1,label2=value2
+    /// Accelerator settings Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs update \ --labels=label1=value1,label2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -137,9 +137,9 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public int? MaxUsableWorkstationsCount { get; set; }
 
     /// <summary>
-    /// Accelerator settings Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs update --network-tags=tag_1,tag_2
+    /// Accelerator settings Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs update --network-tags=tag_1,tag_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
@@ -191,9 +191,9 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public string? StartupScriptUri { get; set; }
 
     /// <summary>
-    /// Accelerator settings Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs update \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2
+    /// Accelerator settings Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs update \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? VmTags { get; set; }
 
     /// <summary>

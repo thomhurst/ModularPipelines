@@ -24,15 +24,15 @@ public record GcloudComputeInstanceGroupsManagedAllInstancesConfigDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Remove labels keys from the group's all instances configuration.
+    /// Remove labels keys from the group's all instances configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Remove metadata keys from the group's all instances configuration.
+    /// Remove metadata keys from the group's all instances configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>

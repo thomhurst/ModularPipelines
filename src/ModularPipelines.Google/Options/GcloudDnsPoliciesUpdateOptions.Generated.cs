@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of alternative name servers to forward to. Non-RFC1918 addresses will forward to the target through the Internet.RFC1918 addresses will forward through the VPC.
+    /// List of alternative name servers to forward to. Non-RFC1918 addresses will forward to the target through the Internet.RFC1918 addresses will forward through the VPC. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--alternative-name-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AlternativeNameServers { get; set; }
 
     /// <summary>
@@ -58,15 +58,15 @@ public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
     public bool? EnableLogging { get; set; }
 
     /// <summary>
-    /// The comma separated list of network names to associate with the policy.
+    /// The comma separated list of network names to associate with the policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Networks { get; set; }
 
     /// <summary>
-    /// List of alternative name servers to forward to. All addresses specified for this parameter will be reached through the VPC.
+    /// List of alternative name servers to forward to. All addresses specified for this parameter will be reached through the VPC. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--private-alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--private-alternative-name-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PrivateAlternativeNameServers { get; set; }
 
 }

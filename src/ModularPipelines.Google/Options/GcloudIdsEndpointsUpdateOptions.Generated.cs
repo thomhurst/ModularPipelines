@@ -40,9 +40,9 @@ public record GcloudIdsEndpointsUpdateOptions : GcloudOptions
     public string? MaxWait { get; set; }
 
     /// <summary>
-    /// List of threat IDs to be excepted from alerting. Passing empty list clears the exceptions.
+    /// List of threat IDs to be excepted from alerting. Passing empty list clears the exceptions. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--threat-exceptions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--threat-exceptions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ThreatExceptions { get; set; }
 
 }

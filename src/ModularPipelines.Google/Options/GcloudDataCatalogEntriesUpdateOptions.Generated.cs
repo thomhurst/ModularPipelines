@@ -42,9 +42,9 @@ public record GcloudDataCatalogEntriesUpdateOptions(
     public string? LookupEntry { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of file patterns to add to the current list.
+    /// At most one of these can be specified: A list of file patterns to add to the current list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-file-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-file-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddFilePatterns { get; set; }
 
     /// <summary>
@@ -54,9 +54,9 @@ public record GcloudDataCatalogEntriesUpdateOptions(
     public bool? ClearFilePatterns { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: A list of file patterns to remove from the current list.
+    /// At most one of these can be specified: At most one of these can be specified: A list of file patterns to remove from the current list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-file-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-file-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveFilePatterns { get; set; }
 
     /// <summary>

@@ -33,9 +33,9 @@ public record GcloudSqlInstancesPatchOptions(
     public GcloudActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
+    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -728,9 +728,9 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? UpgradeSqlNetworkArchitecture { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedPscProjects { get; set; }
 
     /// <summary>
@@ -740,9 +740,9 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearAllowedPscProjects { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: First Generation instances only. List of project IDs for App Engine applications running in the Standard environment that can access this instance. The value given for this argument replaces the existing list.
+    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: First Generation instances only. List of project IDs for App Engine applications running in the Standard environment that can access this instance. The value given for this argument replaces the existing list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-gae-apps", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--authorized-gae-apps", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthorizedGaeApps { get; set; }
 
     /// <summary>
@@ -752,9 +752,9 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearGaeApps { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). The value given for this argument replaces the existing list.
+    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). The value given for this argument replaces the existing list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -782,10 +782,10 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearCustomSubjectAlternativeNames { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance.
+    /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated)]
-    public string? CustomSubjectAlternativeNames { get; set; }
+    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomSubjectAlternativeNames { get; set; }
 
     /// <summary>
     /// Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Clear the database flags set on the instance. WARNING: Instance will be restarted.

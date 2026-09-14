@@ -35,9 +35,9 @@ public record GcloudKmsEkmConnectionsUpdateOptions : GcloudOptions
     public string? Hostname { get; set; }
 
     /// <summary>
-    /// Specifies the key management mode for the EkmConnection and associated fields. A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER.
+    /// Specifies the key management mode for the EkmConnection and associated fields. A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--server-certificates-files", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--server-certificates-files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ServerCertificatesFiles { get; set; }
 
     /// <summary>

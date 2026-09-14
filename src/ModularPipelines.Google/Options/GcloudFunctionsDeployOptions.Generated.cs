@@ -199,9 +199,9 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetBuildEnvVars { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of build environment variables to be removed.
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of build environment variables to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-build-env-vars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-build-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveBuildEnvVars { get; set; }
 
     /// <summary>
@@ -265,9 +265,9 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveEnvVars { get; set; }
 
     /// <summary>
@@ -295,9 +295,9 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.Label keys starting with deployment are reserved for use by deployment tools and cannot be specified manually.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.Label keys starting with deployment are reserved for use by deployment tools and cannot be specified manually. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -349,9 +349,9 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public bool? ClearNetworkTags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Function. To clear existing tags, use --clear-network-tags.
+    /// At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Function. To clear existing tags, use --clear-network-tags. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
@@ -368,10 +368,10 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public string? SetSecrets { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, then --remove-secrets will be applied first. List of secret environment variable names and secret paths to remove. Existing secrets configuration of secret environment variable names and secret paths not specified in this list will be preserved. To remove a secret environment variable, use the name of the environment variable SECRET_ENV_VAR. To remove a file within a secret volume or the volume itself, use the secret path as the key (either /secret_path or /mount_path:/secret_file_path).
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, then --remove-secrets will be applied first. List of secret environment variable names and secret paths to remove. Existing secrets configuration of secret environment variable names and secret paths not specified in this list will be preserved. To remove a secret environment variable, use the name of the environment variable SECRET_ENV_VAR. To remove a file within a secret volume or the volume itself, use the secret path as the key (either /secret_path or /mount_path:/secret_file_path). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [SecretValue]
-    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveSecrets { get; set; }
 
     /// <summary>

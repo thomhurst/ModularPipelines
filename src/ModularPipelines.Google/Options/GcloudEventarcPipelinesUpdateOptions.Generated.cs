@@ -72,9 +72,9 @@ public record GcloudEventarcPipelinesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// The retry policy configuration for the pipeline. The pipeline exponentially backs off if the destination is non-responsive or returns a retryable error code. The backoff starts with a 1 second delay and doubles the delay after each failed attempt. The delay is capped at 60 seconds. If the max-retry-delay and min-retry-delay are set to the same value, then the duration between retries is constant. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// The retry policy configuration for the pipeline. The pipeline exponentially backs off if the destination is non-responsive or returns a retryable error code. The backoff starts with a 1 second delay and doubles the delay after each failed attempt. The delay is capped at 60 seconds. If the max-retry-delay and min-retry-delay are set to the same value, then the duration between retries is constant. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

@@ -53,9 +53,9 @@ public record GcloudSpannerDatabasesCreateOptions : GcloudOptions
     public string? ProtoDescriptorsFile { get; set; }
 
     /// <summary>
-    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key(s) to be used to create the Cloud Spanner database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the kms-project attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-location attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-keyring attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. IDs of the keys or fully qualified identifiers for the keys. To set the kms-key attribute: ▸ provide the argument --kms-keys on the command line.
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key(s) to be used to create the Cloud Spanner database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the kms-project attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-location attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-keyring attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. IDs of the keys or fully qualified identifiers for the keys. To set the kms-key attribute: ▸ provide the argument --kms-keys on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? KmsKeys { get; set; }
 
     /// <summary>

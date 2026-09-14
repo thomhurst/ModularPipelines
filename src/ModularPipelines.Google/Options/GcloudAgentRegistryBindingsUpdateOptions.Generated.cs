@@ -64,15 +64,15 @@ public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
     public bool? ClearAuthProviderBinding { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAuthProviderBindingScopes { get; set; }
 
     /// <summary>
@@ -82,9 +82,9 @@ public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
     public bool? ClearAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAuthProviderBindingScopes { get; set; }
 
     /// <summary>

@@ -78,9 +78,9 @@ public record GcloudLoggingSinksUpdateOptions(
     public string? LogFilter { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. Specify the name of the Logging exclusion(s) to delete.
+    /// Settings for sink exporting data to BigQuery. Specify the name of the Logging exclusion(s) to delete. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-exclusions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-exclusions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveExclusions { get; set; }
 
     /// <summary>

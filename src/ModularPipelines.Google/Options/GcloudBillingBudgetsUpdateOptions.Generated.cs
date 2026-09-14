@@ -42,9 +42,9 @@ public record GcloudBillingBudgetsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Set of credit types, specifying that usage from only this set of credits should be included in the budget. If a nonempty list is specified, then --credit-types-treatment must be include-specified-credits.
+    /// Set of credit types, specifying that usage from only this set of credits should be included in the budget. If a nonempty list is specified, then --credit-types-treatment must be include-specified-credits. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--filter-credit-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--filter-credit-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? FilterCreditTypes { get; set; }
 
     /// <summary>
@@ -54,33 +54,33 @@ public record GcloudBillingBudgetsUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? FilterLabels { get; set; }
 
     /// <summary>
-    /// Set of projects in the form projects/{project_id}, specifying that usage from only this set of projects should be included in the budget. If omitted, all projects will be included.
+    /// Set of projects in the form projects/{project_id}, specifying that usage from only this set of projects should be included in the budget. If omitted, all projects will be included. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--filter-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--filter-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? FilterProjects { get; set; }
 
     /// <summary>
-    /// A set of folder and organization names of the form folders/{folderId} or organizations/{organizationId}, specifying that usage from only this set of folders and organizations should be included in the budget. If omitted, the budget includes all usage that the billing account pays for. If the folder or organization contains projects that are paid for by a different Cloud Billing account, the budget doesn't apply to those projects.
+    /// A set of folder and organization names of the form folders/{folderId} or organizations/{organizationId}, specifying that usage from only this set of folders and organizations should be included in the budget. If omitted, the budget includes all usage that the billing account pays for. If the folder or organization contains projects that are paid for by a different Cloud Billing account, the budget doesn't apply to those projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--filter-resource-ancestors", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--filter-resource-ancestors", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? FilterResourceAncestors { get; set; }
 
     /// <summary>
-    /// Set of services of the form services/{service_id}, specifying that usage from only this set of services should be included in the budget. If omitted, the report will include usage for all services. The service names are available through the Catalog API: https://cloud.google.com/billing/v1/how-tos/catalog-api.
+    /// Set of services of the form services/{service_id}, specifying that usage from only this set of services should be included in the budget. If omitted, the report will include usage for all services. The service names are available through the Catalog API: https://cloud.google.com/billing/v1/how-tos/catalog-api. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--filter-services", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--filter-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? FilterServices { get; set; }
 
     /// <summary>
-    /// Set of subaccounts of the form billingAccounts/{account_id}, specifying that usage from only this set of subaccounts should be included in the budget. If a subaccount is set to the name of the parent account, usage from the parent account will be included. If omitted, the report will include usage from the parent account and all subaccounts, if they exist.
+    /// Set of subaccounts of the form billingAccounts/{account_id}, specifying that usage from only this set of subaccounts should be included in the budget. If a subaccount is set to the name of the parent account, usage from the parent account will be included. If omitted, the report will include usage from the parent account and all subaccounts, if they exist. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--filter-subaccounts", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--filter-subaccounts", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? FilterSubaccounts { get; set; }
 
     /// <summary>
-    /// Targets to send notifications to when a threshold is exceeded. This is in addition to default recipients who have billing account roles. The value is the full REST resource name of a monitoring notification channel in the form projects/{project_id}/notificationChannels/{channel_id}. A maximum of 5 channels is allowed. See https://cloud.google.com/billing/docs/how-to/budgets-notification-recipients for more details.
+    /// Targets to send notifications to when a threshold is exceeded. This is in addition to default recipients who have billing account roles. The value is the full REST resource name of a monitoring notification channel in the form projects/{project_id}/notificationChannels/{channel_id}. A maximum of 5 channels is allowed. See https://cloud.google.com/billing/docs/how-to/budgets-notification-recipients for more details. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--notifications-rule-monitoring-notification-channels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--notifications-rule-monitoring-notification-channels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NotificationsRuleMonitoringNotificationChannels { get; set; }
 
     /// <summary>

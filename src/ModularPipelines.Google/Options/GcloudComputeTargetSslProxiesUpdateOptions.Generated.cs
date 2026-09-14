@@ -60,9 +60,9 @@ public record GcloudComputeTargetSslProxiesUpdateOptions(
     public string? SslPolicyRegion { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target SSL proxy.
+    /// At most one of these can be specified: References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target SSL proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SslCertificates { get; set; }
 
     /// <summary>

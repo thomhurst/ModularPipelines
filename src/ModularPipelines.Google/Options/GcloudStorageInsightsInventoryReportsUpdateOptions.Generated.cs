@@ -53,21 +53,21 @@ public record GcloudStorageInsightsInventoryReportsUpdateOptions : GcloudOptions
     public string? ScheduleStarts { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Adds fields to the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Adds fields to the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddMetadataFields { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Removes fields from the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Removes fields from the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveMetadataFields { get; set; }
 
     /// <summary>

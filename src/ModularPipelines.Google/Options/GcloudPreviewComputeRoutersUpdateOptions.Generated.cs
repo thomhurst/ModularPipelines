@@ -60,9 +60,9 @@ public record GcloudPreviewComputeRoutersUpdateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// The list of pre-defined groups of IP ranges to dynamically advertise on this router. This list can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.
+    /// The list of pre-defined groups of IP ranges to dynamically advertise on this router. This list can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-advertisement-groups", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetAdvertisementGroups { get; set; }
 
     /// <summary>
@@ -72,9 +72,9 @@ public record GcloudPreviewComputeRoutersUpdateOptions(
     public string? SetAdvertisementRanges { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to dynamically advertise on this router. This list is appended to any existing advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.
+    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to dynamically advertise on this router. This list is appended to any existing advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-advertisement-groups", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAdvertisementGroups { get; set; }
 
     /// <summary>
@@ -84,15 +84,15 @@ public record GcloudPreviewComputeRoutersUpdateOptions(
     public string? AddAdvertisementRanges { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to remove from dynamic advertisement on this router. Each group in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.
+    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to remove from dynamic advertisement on this router. Each group in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-advertisement-groups", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAdvertisementGroups { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to remove from dynamic advertisement on this router. Each IP range in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode.
+    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to remove from dynamic advertisement on this router. Each IP range in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-advertisement-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAdvertisementRanges { get; set; }
 
 }

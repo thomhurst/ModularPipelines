@@ -65,9 +65,9 @@ public record GcloudDataplexEntryTypesUpdateOptions : GcloudOptions
     public string? System { get; set; }
 
     /// <summary>
-    /// Indicates the class this Entry Type belongs to.
+    /// Indicates the class this Entry Type belongs to. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--type-aliases", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--type-aliases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? TypeAliases { get; set; }
 
     /// <summary>

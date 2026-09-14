@@ -28,9 +28,9 @@ public record GcloudMonitoringSnoozesUpdateOptions : GcloudOptions
     public string? SnoozeFromFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The list of fields to update. Must specify --snooze-from-file if using this flag.
+    /// At most one of these can be specified: The list of fields to update. Must specify --snooze-from-file if using this flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

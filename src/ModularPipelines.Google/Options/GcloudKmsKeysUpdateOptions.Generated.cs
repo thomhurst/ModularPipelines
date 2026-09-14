@@ -26,7 +26,7 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions
     /// <summary>
     /// The list of allowed Key Access Justifications access reasons on the key. The key must be enrolled in Key Access Justifications to configure this field. By default, this field is absent, and all justification codes are allowed. For more information about justification codes, see https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes. ALLOWED_ACCESS_REASONS must be one of: customer-authorized-workflow-servicing, customer-initiated-access, customer-initiated-support, google-initiated-review, google-initiated-service, google-initiated-system-operation, google-response-to-production-alert, modified-customer-initiated-access, modified-google-initiated-system-operation, reason-not-expected, reason-unspecified, third-party-data-request.
     /// </summary>
-    [CliOption("--allowed-access-reasons", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-access-reasons", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudAllowedAccessReasons? AllowedAccessReasons { get; set; }
 
     /// <summary>
@@ -78,9 +78,9 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

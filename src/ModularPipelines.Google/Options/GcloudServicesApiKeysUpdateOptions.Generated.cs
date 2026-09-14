@@ -83,21 +83,21 @@ public record GcloudServicesApiKeysUpdateOptions : GcloudOptions
     public IEnumerable<string>? AllowedApplication { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: iOS app's bundle ids that are allowed to use the key.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: iOS app's bundle ids that are allowed to use the key. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-bundle-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-bundle-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedBundleIds { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: A list of the caller IP addresses that are allowed to make API calls with this key.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: A list of the caller IP addresses that are allowed to make API calls with this key. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-ips", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedIps { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: A list of regular expressions for the referrer URLs that are allowed to make API calls with this key.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: A list of regular expressions for the referrer URLs that are allowed to make API calls with this key. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-referrers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-referrers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedReferrers { get; set; }
 
 }

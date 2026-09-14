@@ -54,7 +54,7 @@ public class GcloudIapTcp
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIapTcpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIapTcpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

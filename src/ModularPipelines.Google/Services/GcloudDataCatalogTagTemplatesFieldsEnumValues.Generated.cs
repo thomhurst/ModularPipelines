@@ -44,7 +44,7 @@ public class GcloudDataCatalogTagTemplatesFieldsEnumValues
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataCatalogTagTemplatesFieldsEnumValuesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataCatalogTagTemplatesFieldsEnumValuesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudDataCatalogTagTemplatesFieldsEnumValues
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

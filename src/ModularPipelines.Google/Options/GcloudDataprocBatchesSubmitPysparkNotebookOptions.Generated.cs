@@ -25,9 +25,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Archives to be extracted into the working directory. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+    /// Archives to be extracted into the working directory. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--archives", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--archives", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Archives { get; set; }
 
     /// <summary>
@@ -55,9 +55,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? DepsBucket { get; set; }
 
     /// <summary>
-    /// Files to be placed in the working directory.
+    /// Files to be placed in the working directory. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--files", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Files { get; set; }
 
     /// <summary>
@@ -67,9 +67,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? HistoryServerCluster { get; set; }
 
     /// <summary>
-    /// Comma-separated list of jar files to be provided to the classpaths.
+    /// Comma-separated list of jar files to be provided to the classpaths. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Jars { get; set; }
 
     /// <summary>
@@ -103,9 +103,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? Properties { get; set; }
 
     /// <summary>
-    /// Comma-separated list of Python scripts to be passed to the PySpark framework. Supported file types: .py, .egg and .zip.
+    /// Comma-separated list of Python scripts to be passed to the PySpark framework. Supported file types: .py, .egg and .zip. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--py-files", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--py-files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PyFiles { get; set; }
 
     /// <summary>
@@ -139,9 +139,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? StagingBucket { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control.
+    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

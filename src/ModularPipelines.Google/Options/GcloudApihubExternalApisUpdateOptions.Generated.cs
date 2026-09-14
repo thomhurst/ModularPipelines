@@ -70,15 +70,15 @@ public record GcloudApihubExternalApisUpdateOptions : GcloudOptions
     public string? DocumentationExternalUri { get; set; }
 
     /// <summary>
-    /// Documentation details. Update endpoints. At most one of these can be specified: Set endpoints to new value.
+    /// Documentation details. Update endpoints. At most one of these can be specified: Set endpoints to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
-    /// Documentation details. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoints list.
+    /// Documentation details. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoints list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-endpoints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-endpoints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddEndpoints { get; set; }
 
     /// <summary>
@@ -88,21 +88,21 @@ public record GcloudApihubExternalApisUpdateOptions : GcloudOptions
     public bool? ClearEndpoints { get; set; }
 
     /// <summary>
-    /// Documentation details. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoints list.
+    /// Documentation details. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoints list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-endpoints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-endpoints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveEndpoints { get; set; }
 
     /// <summary>
-    /// Documentation details. Update paths. At most one of these can be specified: Set paths to new value.
+    /// Documentation details. Update paths. At most one of these can be specified: Set paths to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--paths", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--paths", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Paths { get; set; }
 
     /// <summary>
-    /// Documentation details. Update paths. At most one of these can be specified: Or at least one of these can be specified: Add new value to paths list.
+    /// Documentation details. Update paths. At most one of these can be specified: Or at least one of these can be specified: Add new value to paths list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-paths", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-paths", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddPaths { get; set; }
 
     /// <summary>
@@ -112,9 +112,9 @@ public record GcloudApihubExternalApisUpdateOptions : GcloudOptions
     public bool? ClearPaths { get; set; }
 
     /// <summary>
-    /// Documentation details. Update paths. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from paths list.
+    /// Documentation details. Update paths. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from paths list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-paths", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-paths", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemovePaths { get; set; }
 
 }

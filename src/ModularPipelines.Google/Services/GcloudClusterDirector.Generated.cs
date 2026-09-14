@@ -66,7 +66,7 @@ public class GcloudClusterDirector : IGcloudClusterDirector
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudClusterDirectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudClusterDirectorOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

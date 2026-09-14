@@ -58,7 +58,7 @@ public record GcloudPreviewComputeDisksCreateOptions(
     /// <summary>
     /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, SNP_SVSM_CAPABLE, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS.
     /// </summary>
-    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudGuestOsFeatures? GuestOsFeatures { get; set; }
 
     /// <summary>
@@ -68,9 +68,9 @@ public record GcloudPreviewComputeDisksCreateOptions(
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies.
+    /// A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Licenses { get; set; }
 
     /// <summary>
@@ -92,10 +92,10 @@ public record GcloudPreviewComputeDisksCreateOptions(
     public string? ProvisionedThroughput { get; set; }
 
     /// <summary>
-    /// A comma-separated list of exactly 2 zones that a regional disk will be replicated to. Required when creating regional disk. The zones must be in the same region as specified in the --region flag. See available zones with gcloud compute zones list.
+    /// A comma-separated list of exactly 2 zones that a regional disk will be replicated to. Required when creating regional disk. The zones must be in the same region as specified in the --region flag. See available zones with gcloud compute zones list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated)]
-    public string? ReplicaZones { get; set; }
+    [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ReplicaZones { get; set; }
 
     /// <summary>
     /// (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
@@ -116,9 +116,9 @@ public record GcloudPreviewComputeDisksCreateOptions(
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
-    /// A list of resource policy names to be added to the disk. The policies must exist in the same region as the disk.
+    /// A list of resource policy names to be added to the disk. The policies must exist in the same region as the disk. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ResourcePolicies { get; set; }
 
     /// <summary>

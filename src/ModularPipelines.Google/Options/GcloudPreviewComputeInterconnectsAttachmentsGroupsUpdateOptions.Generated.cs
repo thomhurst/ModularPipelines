@@ -24,9 +24,9 @@ public record GcloudPreviewComputeInterconnectsAttachmentsGroupsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Member interconnect attachments to add to the interconnect attachment group initially.
+    /// Member interconnect attachments to add to the interconnect attachment group initially. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Attachments { get; set; }
 
     /// <summary>

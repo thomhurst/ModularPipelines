@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationMigrationJobsPromoteOptions : GcloudOptions
 {
     /// <summary>
-    /// The migration job objects config. A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations.
+    /// The migration job objects config. A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DatabasesFilter { get; set; }
 
     /// <summary>

@@ -77,9 +77,9 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// IDs of other projects involved in the connectivity test, besides the source and destination project.
+    /// IDs of other projects involved in the connectivity test, besides the source and destination project. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OtherProjects { get; set; }
 
     /// <summary>

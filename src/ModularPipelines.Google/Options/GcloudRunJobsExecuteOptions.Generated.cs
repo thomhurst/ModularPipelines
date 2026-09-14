@@ -47,9 +47,9 @@ public record GcloudRunJobsExecuteOptions : GcloudOptions
     public string? Tasks { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If provided, an execution will be created with the input values. Otherwise, the existing arguments of the job are used.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If provided, an execution will be created with the input values. Otherwise, the existing arguments of the job are used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Args { get; set; }
 
     /// <summary>

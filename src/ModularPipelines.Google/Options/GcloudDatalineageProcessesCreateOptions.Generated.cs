@@ -23,9 +23,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatalineageProcessesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Additional attributes for the process.
+    /// Additional attributes for the process. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Attributes { get; set; }
 
     /// <summary>

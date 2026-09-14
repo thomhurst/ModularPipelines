@@ -72,7 +72,7 @@ public class GcloudMetastore : IGcloudMetastore
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMetastoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMetastoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

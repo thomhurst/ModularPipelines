@@ -33,9 +33,9 @@ public record GcloudSqlInstancesCreateOptions(
     public GcloudActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -100,9 +100,9 @@ public record GcloudSqlInstancesCreateOptions(
     public string? AuditUploadInterval { get; set; }
 
     /// <summary>
-    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24).
+    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -172,10 +172,10 @@ public record GcloudSqlInstancesCreateOptions(
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance.
+    /// A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated)]
-    public string? CustomSubjectAlternativeNames { get; set; }
+    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomSubjectAlternativeNames { get; set; }
 
     /// <summary>
     /// Controls connectivity to the instance using ExecuteSql API. DATA_API_ACCESS must be one of: ALLOW_DATA_API Allow using ExecuteSql API to connect to the instance. For Private IP instances, this will allow authorized users to access the instance from the public internet using ExecuteSql API. DATA_API_ACCESS_UNSPECIFIED Unspecified mode, effectively the same as DISALLOW_DATA_API. DISALLOW_DATA_API Disallow using ExecuteSql API to connect to the instance.
@@ -693,9 +693,9 @@ public record GcloudSqlInstancesCreateOptions(
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedPscProjects { get; set; }
 
     /// <summary>

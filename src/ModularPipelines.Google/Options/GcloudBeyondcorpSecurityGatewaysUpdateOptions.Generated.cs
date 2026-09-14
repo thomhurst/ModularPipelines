@@ -88,15 +88,15 @@ public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions
     public string? UserInfoOutputType { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Set proxy_protocol_config_allowed_client_headers to new value.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Set proxy_protocol_config_allowed_client_headers to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: Add new value to proxy_protocol_config_allowed_client_headers list.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: Add new value to proxy_protocol_config_allowed_client_headers list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
@@ -106,9 +106,9 @@ public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions
     public bool? ClearProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from proxy_protocol_config_allowed_client_headers list.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from proxy_protocol_config_allowed_client_headers list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>

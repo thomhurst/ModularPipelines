@@ -50,15 +50,15 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public bool? CacheKeyIncludeHost { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyIncludeHttpHeader { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a comma-separated list of HTTP cookie names to include in cache keys. The name=value pair are used in the cache key Cloud CDN generates. Cookies are not included in cache keys by default.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a comma-separated list of HTTP cookie names to include in cache keys. The name=value pair are used in the cache key Cloud CDN generates. Cookies are not included in cache keys by default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyIncludeNamedCookie { get; set; }
 
     /// <summary>
@@ -200,9 +200,9 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public string? HaPolicyLeaderInstance { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of health check objects for checking the health of the backend service. Currently at most one health check can be specified. Health checks need not be for the same protocol as that of the backend service.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of health check objects for checking the health of the backend service. Currently at most one health check can be specified. Health checks need not be for the same protocol as that of the backend service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HealthChecks { get; set; }
 
     /// <summary>
@@ -212,15 +212,15 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public bool? NoHealthChecks { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of legacy HTTP health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of legacy HTTP health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HttpHealthChecks { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of legacy HTTPS health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of legacy HTTPS health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HttpsHealthChecks { get; set; }
 
     /// <summary>
@@ -254,9 +254,9 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public GcloudLoggingOptional? LoggingOptional { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. This field can only be specified if logging is enabled for the backend service and "--logging-optional" was set to CUSTOM. Contains a comma-separated list of optional fields you want to include in the logs. For example: serverInstance, serverGkeDetails.cluster, serverGkeDetails.pod.podNamespace. This can only be specified for internal and external passthrough Network Load Balancers.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. This field can only be specified if logging is enabled for the backend service and "--logging-optional" was set to CUSTOM. Contains a comma-separated list of optional fields you want to include in the logs. For example: serverInstance, serverGkeDetails.cluster, serverGkeDetails.pod.podNamespace. This can only be specified for internal and external passthrough Network Load Balancers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LoggingOptionalFields { get; set; }
 
     /// <summary>
@@ -362,15 +362,15 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public bool? NoBypassCacheOnRequestHeaders { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Specifies a comma separated list of query string parameters to exclude in cache keys. All other parameters will be included. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Specifies a comma separated list of query string parameters to exclude in cache keys. All other parameters will be included. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-query-string-blacklist", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-query-string-blacklist", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyQueryStringBlacklist { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Specifies a comma separated list of query string parameters to include in cache keys. All other parameters will be excluded. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Specifies a comma separated list of query string parameters to include in cache keys. All other parameters will be excluded. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyQueryStringWhitelist { get; set; }
 
     /// <summary>
@@ -488,9 +488,9 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public bool? NoLocalityLbPolicy { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP request headers you want to include in the logs.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP request headers you want to include in the logs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-http-request-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging-http-request-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LoggingHttpRequestHeaders { get; set; }
 
     /// <summary>
@@ -500,9 +500,9 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public bool? NoLoggingHttpRequestHeaders { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP response headers you want to include in the logs.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP response headers you want to include in the logs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-http-response-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging-http-response-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LoggingHttpResponseHeaders { get; set; }
 
     /// <summary>
@@ -658,9 +658,9 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public string? SecuritySettingsClientTlsPolicy { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Comma-separated list of Subject Alternative Names (SANs) verified by the client during mutual TLS handshake with a server/endpoint for this backend service.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Comma-separated list of Subject Alternative Names (SANs) verified by the client during mutual TLS handshake with a server/endpoint for this backend service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--security-settings-subject-alt-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--security-settings-subject-alt-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SecuritySettingsSubjectAltNames { get; set; }
 
     /// <summary>
@@ -676,9 +676,9 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     public bool? NoServeWhileStale { get; set; }
 
     /// <summary>
-    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: List of service bindings to be attached to this backend service. Can only be set if load balancing scheme is INTERNAL_SELF_MANAGED. If set, lists of backends and health checks must be both empty.
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: List of service bindings to be attached to this backend service. Can only be set if load balancing scheme is INTERNAL_SELF_MANAGED. If set, lists of backends and health checks must be both empty. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ServiceBindings { get; set; }
 
     /// <summary>

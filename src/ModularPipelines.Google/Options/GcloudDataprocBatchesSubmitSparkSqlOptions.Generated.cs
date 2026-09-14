@@ -55,9 +55,9 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     public string? HistoryServerCluster { get; set; }
 
     /// <summary>
-    /// Comma-separated list of jar files to be provided to the classpaths.
+    /// Comma-separated list of jar files to be provided to the classpaths. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Jars { get; set; }
 
     /// <summary>
@@ -115,9 +115,9 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     public string? StagingBucket { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control.
+    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

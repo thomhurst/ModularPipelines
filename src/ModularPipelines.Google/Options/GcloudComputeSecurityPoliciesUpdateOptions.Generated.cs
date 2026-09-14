@@ -37,9 +37,9 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     public bool? EnableLayer7DdosDefense { get; set; }
 
     /// <summary>
-    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded.
+    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? JsonCustomContentTypes { get; set; }
 
     /// <summary>
@@ -73,9 +73,9 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     public string? RecaptchaRedirectSiteKey { get; set; }
 
     /// <summary>
-    /// A comma-separated list of request header names to use for resolving the caller's user IP address.
+    /// A comma-separated list of request header names to use for resolving the caller's user IP address. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? UserIpRequestHeaders { get; set; }
 
     /// <summary>

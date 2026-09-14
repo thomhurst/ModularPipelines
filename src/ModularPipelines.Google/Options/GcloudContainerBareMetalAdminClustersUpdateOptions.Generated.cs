@@ -47,9 +47,9 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public bool? EnableApplicationLogs { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. IPv4 address range for all services in the cluster.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. IPv4 address range for all services in the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
 
     /// <summary>
@@ -59,9 +59,9 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public string? LoginUser { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. IPv4 addresses to be placed into maintenance mode.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. IPv4 addresses to be placed into maintenance mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
 
     /// <summary>
@@ -107,9 +107,9 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy.
+    /// Anthos on bare metal cluster operations configuration. Populate one of the network configs. Island mode CIDR network configuration. Anthos on bare metal node access related settings for the admin cluster. Anthos on bare metal cluster maintenance configuration. Anthos on bare metal admin cluster workload node configuration. Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NoProxy { get; set; }
 
     /// <summary>

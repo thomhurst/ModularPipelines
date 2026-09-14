@@ -78,9 +78,9 @@ public record GcloudComputeHealthChecksCreateHttpsOptions(
     public string? Response { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. Define the list of Google Cloud regions from which health checks are performed. This option is supported only for global health checks that will be referenced by DNS routing policies. If specified, the --check-interval field should be at least 30 seconds. The --proxy-header and --request fields (for TCP health checks) are not supported with this option. If --source-regions is specified for a health check, then that health check cannot be used by a backend service or by a managed instance group (for autohealing).
+    /// These flags configure the port that the health check monitors. If none is specified, the default port of 80 is used. If both --port and --port-name are specified, --port takes precedence. Define the list of Google Cloud regions from which health checks are performed. This option is supported only for global health checks that will be referenced by DNS routing policies. If specified, the --check-interval field should be at least 30 seconds. The --proxy-header and --request fields (for TCP health checks) are not supported with this option. If --source-regions is specified for a health check, then that health check cannot be used by a backend service or by a managed instance group (for autohealing). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceRegions { get; set; }
 
     /// <summary>

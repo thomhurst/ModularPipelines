@@ -77,15 +77,15 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     public string? BigqueryPublishingTableType { get; set; }
 
     /// <summary>
-    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to exclude during discovery. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Exclude patterns will be applied before include patterns.
+    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to exclude during discovery. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Exclude patterns will be applied before include patterns. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? StorageExcludePatterns { get; set; }
 
     /// <summary>
-    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to include during discovery when only a subset of the data should be considered. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket.
+    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to include during discovery when only a subset of the data should be considered. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? StorageIncludePatterns { get; set; }
 
     /// <summary>

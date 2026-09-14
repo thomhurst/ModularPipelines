@@ -111,9 +111,9 @@ public record GcloudTasksQueuesUpdateOptions(
     public bool? ClearHttpUriOverride { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default.
+    /// At most one of these can be specified: If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HttpUriOverride { get; set; }
 
     /// <summary>
@@ -219,9 +219,9 @@ public record GcloudTasksQueuesUpdateOptions(
     public bool? ClearRoutingOverride { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default.
+    /// At most one of these can be specified: If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RoutingOverride { get; set; }
 
 }

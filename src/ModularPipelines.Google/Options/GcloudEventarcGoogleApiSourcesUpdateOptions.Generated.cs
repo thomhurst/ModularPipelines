@@ -60,9 +60,9 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -84,9 +84,9 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
     public bool? NoOrganizationSubscription { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The project subscriptions for the resource.
+    /// At most one of these can be specified: The project subscriptions for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--project-subscriptions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--project-subscriptions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProjectSubscriptions { get; set; }
 
     /// <summary>

@@ -29,9 +29,9 @@ public record GcloudBiglakeIcebergTablesUpdateOptions : GcloudOptions
     public bool? ClearProperties { get; set; }
 
     /// <summary>
-    /// List of properties to remove.
+    /// List of properties to remove. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-properties", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveProperties { get; set; }
 
     /// <summary>

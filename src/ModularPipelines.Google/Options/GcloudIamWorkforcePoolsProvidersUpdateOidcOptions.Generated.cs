@@ -97,9 +97,9 @@ public record GcloudIamWorkforcePoolsProvidersUpdateOidcOptions : GcloudOptions
     public string? JwkJsonPath { get; set; }
 
     /// <summary>
-    /// Additional scopes to request for the OIDC authentication on top of scopes requested by default. By default, the openid, profile and email scopes that are supported by the identity provider are requested. Each additional scope may be at most 256 characters. A maximum of 10 additional scopes may be configured. Updating this field replaces any existing values. Include the full list of additional scopes to avoid losing existing values.
+    /// Additional scopes to request for the OIDC authentication on top of scopes requested by default. By default, the openid, profile and email scopes that are supported by the identity provider are requested. Each additional scope may be at most 256 characters. A maximum of 10 additional scopes may be configured. Updating this field replaces any existing values. Include the full list of additional scopes to avoid losing existing values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--web-sso-additional-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--web-sso-additional-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? WebSsoAdditionalScopes { get; set; }
 
     /// <summary>

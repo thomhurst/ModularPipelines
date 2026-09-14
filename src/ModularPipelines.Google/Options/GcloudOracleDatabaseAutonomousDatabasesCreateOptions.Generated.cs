@@ -116,9 +116,9 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public string? PropertiesLicenseType { get; set; }
 
     /// <summary>
-    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The list of allowlisted IP addresses for the Autonomous Database.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The list of allowlisted IP addresses for the Autonomous Database. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--properties-allowlisted-ips", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--properties-allowlisted-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PropertiesAllowlistedIps { get; set; }
 
     /// <summary>

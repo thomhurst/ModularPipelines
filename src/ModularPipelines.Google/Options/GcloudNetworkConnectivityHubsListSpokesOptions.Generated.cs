@@ -23,9 +23,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsListSpokesOptions : GcloudOptions
 {
     /// <summary>
-    /// A comma separated list of locations. The locations can be set to 'global' and/or Google Cloud supported regions. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
+    /// A comma separated list of locations. The locations can be set to 'global' and/or Google Cloud supported regions. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--spoke-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--spoke-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SpokeLocations { get; set; }
 
     /// <summary>

@@ -139,9 +139,9 @@ public record GcloudComputeFutureReservationsUpdateOptions(
     public GcloudShareSetting? ShareSetting { get; set; }
 
     /// <summary>
-    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ShareWith { get; set; }
 
     /// <summary>

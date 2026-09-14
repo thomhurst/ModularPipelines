@@ -80,9 +80,9 @@ public record GcloudPrivatecaTemplatesUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -92,9 +92,9 @@ public record GcloudPrivatecaTemplatesUpdateOptions(
     public bool? CopyAllRequestedExtensions { get; set; }
 
     /// <summary>
-    /// Constraints on requested X.509 extensions. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. Constraints on unknown extensions by their OIDs. At most one of these can be specified: If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
+    /// Constraints on requested X.509 extensions. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. Constraints on unknown extensions by their OIDs. At most one of these can be specified: If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--copy-extensions-by-oid", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--copy-extensions-by-oid", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CopyExtensionsByOid { get; set; }
 
     /// <summary>
@@ -106,7 +106,7 @@ public record GcloudPrivatecaTemplatesUpdateOptions(
     /// <summary>
     /// Constraints on requested X.509 extensions. At most one of these can be specified: Constraints on known extensions. At most one of these can be specified: If this is set, then the given extensions will be copied from the certificate request into the signed certificate. KNOWN_EXTENSIONS must be one of: base-key-usage, extended-key-usage, ca-options, policy-ids, aia-ocsp-servers.
     /// </summary>
-    [CliOption("--copy-known-extensions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--copy-known-extensions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudCopyKnownExtensions? CopyKnownExtensions { get; set; }
 
     /// <summary>

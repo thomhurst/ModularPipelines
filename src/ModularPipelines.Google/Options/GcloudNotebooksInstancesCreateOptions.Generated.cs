@@ -96,9 +96,9 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? NoShieldedVtpm { get; set; }
 
     /// <summary>
-    /// The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. GPU driver configurations. Data disk configurations. Disk encryption configurations. Tags to apply to this instance.
+    /// The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. GPU driver configurations. Data disk configurations. Disk encryption configurations. Tags to apply to this instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

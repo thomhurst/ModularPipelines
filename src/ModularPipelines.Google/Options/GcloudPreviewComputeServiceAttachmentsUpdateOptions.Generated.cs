@@ -36,9 +36,9 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     public string? ConsumerAcceptList { get; set; }
 
     /// <summary>
-    /// Specifies a comma-separated list of projects/networks/endpoints that are not allowed to connect to this service attachment. The project can be specified using its project ID or project number and the network or endpoint can be specified using its URL. For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks, or all endpoints.
+    /// Specifies a comma-separated list of projects/networks/endpoints that are not allowed to connect to this service attachment. The project can be specified using its project ID or project number and the network or endpoint can be specified using its URL. For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks, or all endpoints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ConsumerRejectList { get; set; }
 
     /// <summary>
@@ -66,9 +66,9 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     public string? NatIpsPerEndpoint { get; set; }
 
     /// <summary>
-    /// The subnetworks provided by service producer to use for NAT
+    /// The subnetworks provided by service producer to use for NAT Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NatSubnets { get; set; }
 
     /// <summary>

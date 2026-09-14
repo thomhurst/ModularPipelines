@@ -70,9 +70,9 @@ public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
     public string? CaPool { get; set; }
 
     /// <summary>
-    /// Private instance configuration. Custom hostname configuration. List of additional projects allowed to connect to the instance via private service connect.
+    /// Private instance configuration. Custom hostname configuration. List of additional projects allowed to connect to the instance via private service connect. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PscAllowedProjects { get; set; }
 
     /// <summary>

@@ -70,9 +70,9 @@ public record GcloudBigtableAppProfilesUpdateOptions : GcloudOptions
     public bool? RouteAny { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Multi Cluster Routing Policy Single Cluster Routing Policy Cluster IDs to route to using the Multi Cluster Routing Policy. If unset, all clusters in the instance are eligible.
+    /// At most one of these can be specified: Multi Cluster Routing Policy Single Cluster Routing Policy Cluster IDs to route to using the Multi Cluster Routing Policy. If unset, all clusters in the instance are eligible. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--restrict-to", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--restrict-to", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RestrictTo { get; set; }
 
     /// <summary>

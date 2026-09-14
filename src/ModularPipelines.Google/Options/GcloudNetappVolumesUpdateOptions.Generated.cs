@@ -77,15 +77,15 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public string? ExportPolicy { get; set; }
 
     /// <summary>
-    /// Type of File System protocols for the Cloud NetApp Volume. Valid component values are: NFSV3, NFSV4, SMB, ISCSI.
+    /// Type of File System protocols for the Cloud NetApp Volume. Valid component values are: NFSV3, NFSV4, SMB, ISCSI. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--protocols", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
-    /// Actions to be restricted for a volume. Valid restricted action options are: 'DELETE'.
+    /// Actions to be restricted for a volume. Valid restricted action options are: 'DELETE'. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--restricted-actions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--restricted-actions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RestrictedActions { get; set; }
 
     /// <summary>
@@ -101,9 +101,9 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public string? ShareName { get; set; }
 
     /// <summary>
-    /// List of settings specific to SMB protocol for a Cloud NetApp Files Volume. Valid component values are: ENCRYPT_DATA, BROWSABLE, CHANGE_NOTIFY, NON_BROWSABLE, OPLOCKS, SHOW_SNAPSHOT, SHOW_PREVIOUS_VERSIONS, ACCESS_BASED_ENUMERATION, CONTINUOUSLY_AVAILABLE.
+    /// List of settings specific to SMB protocol for a Cloud NetApp Files Volume. Valid component values are: ENCRYPT_DATA, BROWSABLE, CHANGE_NOTIFY, NON_BROWSABLE, OPLOCKS, SHOW_SNAPSHOT, SHOW_PREVIOUS_VERSIONS, ACCESS_BASED_ENUMERATION, CONTINUOUSLY_AVAILABLE. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--smb-settings", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--smb-settings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SmbSettings { get; set; }
 
     /// <summary>
@@ -185,9 +185,9 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

@@ -44,7 +44,7 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

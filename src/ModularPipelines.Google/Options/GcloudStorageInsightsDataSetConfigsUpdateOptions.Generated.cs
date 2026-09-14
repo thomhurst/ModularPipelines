@@ -55,7 +55,7 @@ public record GcloudStorageInsightsDataSetConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source folder IDs or the file containing list of folder IDs. List of source folder IDs.
     /// </summary>
-    [CliOption("--source-folders", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-folders", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<int>? SourceFolders { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record GcloudStorageInsightsDataSetConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// List of source options either source projects or source folders or enable organization scope. Refer Dataset Configuration Properties (https://cloud.google.com/storage/docs/insights/datasets#dataset-config) for more details. At most one of these can be specified: Or at most one of these can be specified: List of source project numbers or the file containing list of project numbers. List of source project numbers.
     /// </summary>
-    [CliOption("--source-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<int>? SourceProjects { get; set; }
 
     /// <summary>
@@ -77,39 +77,39 @@ public record GcloudStorageInsightsDataSetConfigsUpdateOptions : GcloudOptions
     public IEnumerable<string>? SourceProjectsFile { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names to be excluded.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names to be excluded. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude-bucket-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--exclude-bucket-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ExcludeBucketNames { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be excluded. Allowed regex patterns are similar to those for the --include-bucket-prefix-regexes flag.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be excluded. Allowed regex patterns are similar to those for the --include-bucket-prefix-regexes flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--exclude-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ExcludeBucketPrefixRegexes { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names be included.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket names be included. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--include-bucket-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--include-bucket-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IncludeBucketNames { get; set; }
 
     /// <summary>
-    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be included. The dataset config will include all the buckets that match with the prefix regex. Examples of allowed prefix regex patterns can be testbucket*, testbucket.*foo, testb.+foo* . It should follow syntax specified in google/re2 on GitHub.
+    /// Specify the list of buckets to be included or excluded, both a list of bucket names and prefix regexes can be specified for either include or exclude buckets. At most one of these can be specified: Specify the list of buckets to be excluded. Specify the list of buckets to be included. List of bucket prefix regexes to be included. The dataset config will include all the buckets that match with the prefix regex. Examples of allowed prefix regex patterns can be testbucket*, testbucket.*foo, testb.+foo* . It should follow syntax specified in google/re2 on GitHub. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--include-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--include-bucket-prefix-regexes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IncludeBucketPrefixRegexes { get; set; }
 
     /// <summary>
-    /// Specify the list of locations for source projects to be included or excluded from available locations (https://cloud.google.com/storage/docs/locations#available-locations). At most one of these can be specified: List of locations for projects to be excluded.
+    /// Specify the list of locations for source projects to be included or excluded from available locations (https://cloud.google.com/storage/docs/locations#available-locations). At most one of these can be specified: List of locations for projects to be excluded. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude-source-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--exclude-source-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ExcludeSourceLocations { get; set; }
 
     /// <summary>
-    /// Specify the list of locations for source projects to be included or excluded from available locations (https://cloud.google.com/storage/docs/locations#available-locations). At most one of these can be specified: List of locations for projects to be included.
+    /// Specify the list of locations for source projects to be included or excluded from available locations (https://cloud.google.com/storage/docs/locations#available-locations). At most one of these can be specified: List of locations for projects to be included. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--include-source-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--include-source-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IncludeSourceLocations { get; set; }
 
 }

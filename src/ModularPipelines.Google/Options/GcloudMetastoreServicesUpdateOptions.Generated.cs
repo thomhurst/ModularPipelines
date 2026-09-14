@@ -78,9 +78,9 @@ public record GcloudMetastoreServicesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -174,9 +174,9 @@ public record GcloudMetastoreServicesUpdateOptions : GcloudOptions
     public string? UpdateAuxiliaryVersionsFromFile { get; set; }
 
     /// <summary>
-    /// Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of auxiliary Hive metastore versions to deploy. Auxiliary Hive metastore versions must be less than the primary Hive metastore service's version.
+    /// Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of auxiliary Hive metastore versions to deploy. Auxiliary Hive metastore versions must be less than the primary Hive metastore service's version. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-auxiliary-versions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-auxiliary-versions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAuxiliaryVersions { get; set; }
 
     /// <summary>
@@ -204,9 +204,9 @@ public record GcloudMetastoreServicesUpdateOptions : GcloudOptions
     public bool? ClearHiveMetastoreConfigs { get; set; }
 
     /// <summary>
-    /// Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Configuration properties specific to running Hive metastore software as the metastore service. At most one of these can be specified: Or at least one of these can be specified: Modify the Hive metastore configuration properties by passing key-value pairs in through the flags. At most one of these can be specified: Comma-separated list of configuration keys to remove with the form "KEY1, KEY2". If a label does not exist it is silently ignored. If --update-hive-metastore-configs is also specified, then --remove-hive-metastore-configs is applied first.
+    /// Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Configuration properties specific to running Hive metastore software as the metastore service. At most one of these can be specified: Or at least one of these can be specified: Modify the Hive metastore configuration properties by passing key-value pairs in through the flags. At most one of these can be specified: Comma-separated list of configuration keys to remove with the form "KEY1, KEY2". If a label does not exist it is silently ignored. If --update-hive-metastore-configs is also specified, then --remove-hive-metastore-configs is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-hive-metastore-configs", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-hive-metastore-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveHiveMetastoreConfigs { get; set; }
 
 }

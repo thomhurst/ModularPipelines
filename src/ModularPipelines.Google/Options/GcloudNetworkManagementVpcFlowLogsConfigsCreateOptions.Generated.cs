@@ -70,9 +70,9 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOpt
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// Arguments for the metadata. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA.
+    /// Arguments for the metadata. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>

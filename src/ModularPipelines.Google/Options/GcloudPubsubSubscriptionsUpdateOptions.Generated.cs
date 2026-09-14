@@ -271,9 +271,9 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Push Config Options. Configuration for a push delivery endpoint. When updating PushConfig flags, all PushConfig flags must be specified. Otherwise, any omitted PushConfig flags revert to their default value. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

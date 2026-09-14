@@ -49,9 +49,9 @@ public record GcloudApigeeProductsCreateOptions(
     public bool? ManualApproval { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product.
+    /// To impose a quota limit on calls to the API product, specify all of the following: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OauthScopes { get; set; }
 
     /// <summary>
@@ -61,9 +61,9 @@ public record GcloudApigeeProductsCreateOptions(
     public bool? AllEnvironments { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: At most one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources through API Proxies deployed in another environment. For example, this can prevent resources associated with API proxies in a prod environment from also granting access to matching API proxies deployed in a test environment. To get a list of available environments, run: $ gcloud apigee environments list
+    /// To impose a quota limit on calls to the API product, specify all of the following: At most one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources through API Proxies deployed in another environment. For example, this can prevent resources associated with API proxies in a prod environment from also granting access to matching API proxies deployed in a test environment. To get a list of available environments, run: $ gcloud apigee environments list Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--environments", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--environments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Environments { get; set; }
 
     /// <summary>
@@ -73,9 +73,9 @@ public record GcloudApigeeProductsCreateOptions(
     public bool? AllProxies { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Or at least one of these can be specified: Arguments that restrict exposed API proxies. One or both of these may be specified if --all-proxies is not: Comma-separated names of API proxies to which this API product is bound. Only those API proxies will be accessible through the new API product. If not provided, all deployed API proxies will be included in the product, so long as they match the other parameters. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy
+    /// To impose a quota limit on calls to the API product, specify all of the following: Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Or at least one of these can be specified: Arguments that restrict exposed API proxies. One or both of these may be specified if --all-proxies is not: Comma-separated names of API proxies to which this API product is bound. Only those API proxies will be accessible through the new API product. If not provided, all deployed API proxies will be included in the product, so long as they match the other parameters. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--apis", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--apis", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Apis { get; set; }
 
     /// <summary>

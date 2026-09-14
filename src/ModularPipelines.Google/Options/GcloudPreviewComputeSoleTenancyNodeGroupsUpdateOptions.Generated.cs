@@ -43,9 +43,9 @@ public record GcloudPreviewComputeSoleTenancyNodeGroupsUpdateOptions(
     public string? AddNodes { get; set; }
 
     /// <summary>
-    /// Autoscaling policy for node groups. Manage the properties of a shared setting At most one of these can be specified: The names of the nodes to remove from the group.
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting At most one of these can be specified: The names of the nodes to remove from the group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--delete-nodes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--delete-nodes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DeleteNodes { get; set; }
 
     /// <summary>
@@ -73,9 +73,9 @@ public record GcloudPreviewComputeSoleTenancyNodeGroupsUpdateOptions(
     public GcloudShareSetting? ShareSetting { get; set; }
 
     /// <summary>
-    /// Autoscaling policy for node groups. Manage the properties of a shared setting A list of specific projects this node group should be shared with.
+    /// Autoscaling policy for node groups. Manage the properties of a shared setting A list of specific projects this node group should be shared with. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ShareWith { get; set; }
 
 }

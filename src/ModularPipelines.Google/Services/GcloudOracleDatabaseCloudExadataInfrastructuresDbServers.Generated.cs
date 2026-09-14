@@ -44,7 +44,7 @@ public class GcloudOracleDatabaseCloudExadataInfrastructuresDbServers
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDbServersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDbServersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudOracleDatabaseCloudExadataInfrastructuresDbServers
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDbServersListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDbServersListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

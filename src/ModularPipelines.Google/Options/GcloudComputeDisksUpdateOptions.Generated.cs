@@ -56,15 +56,15 @@ public record GcloudComputeDisksUpdateOptions(
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// "A list of license URIs or license codes. These licenses will be appended to the existing licenses on the disk. Provided licenses can be either license URIs or license codes but not a mix of both.
+    /// "A list of license URIs or license codes. These licenses will be appended to the existing licenses on the disk. Provided licenses can be either license URIs or license codes but not a mix of both. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--append-licenses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--append-licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AppendLicenses { get; set; }
 
     /// <summary>
-    /// A list of license URIs or license codes. If present in the set of existing licenses, these licenses will be removed. If not present, this is a no-op. Provided licenses can be either license URIs or license codes but not a mix of both.
+    /// A list of license URIs or license codes. If present in the set of existing licenses, these licenses will be removed. If not present, this is a no-op. Provided licenses can be either license URIs or license codes but not a mix of both. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-licenses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLicenses { get; set; }
 
     /// <summary>
@@ -92,9 +92,9 @@ public record GcloudComputeDisksUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

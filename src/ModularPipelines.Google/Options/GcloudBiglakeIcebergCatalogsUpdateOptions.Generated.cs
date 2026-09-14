@@ -49,9 +49,9 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Additional Google Cloud Storage buckets and locations (e.g., gs://my-other-bucket/...) that are permitted for use by resources within a catalog. This field is currently only used for BigLake catalogs.If restricted_locations is empty and unrestricted catalog creation is enabled, all accessible locations are allowed. Otherwise, only default_location and locations in this list are allowed.
+    /// Additional Google Cloud Storage buckets and locations (e.g., gs://my-other-bucket/...) that are permitted for use by resources within a catalog. This field is currently only used for BigLake catalogs.If restricted_locations is empty and unrestricted catalog creation is enabled, all accessible locations are allowed. Otherwise, only default_location and locations in this list are allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RestrictedLocations { get; set; }
 
     /// <summary>

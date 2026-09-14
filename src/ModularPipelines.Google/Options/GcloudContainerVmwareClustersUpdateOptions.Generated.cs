@@ -76,9 +76,9 @@ public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
     public string? AddAnnotations { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Remove annotations of the given keys.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Remove annotations of the given keys. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAnnotations { get; set; }
 
     /// <summary>

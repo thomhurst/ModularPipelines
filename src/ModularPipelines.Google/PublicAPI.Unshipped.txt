@@ -231,6 +231,8 @@
 *REMOVED*ModularPipelines.Google.Enums.GcloudZone
 *REMOVED*ModularPipelines.Google.Enums.GcloudZone.Local = 0 -> ModularPipelines.Google.Enums.GcloudZone
 *REMOVED*ModularPipelines.Google.Enums.GcloudZone.Projects = 1 -> ModularPipelines.Google.Enums.GcloudZone
+*REMOVED*ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.EnrolledServices.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.NotificationEmails.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.RequestScopeMaxWidthPreference.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudAccessContextManagerCloudBindingsCreateOptions.ServiceAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudAccessContextManagerLevelsUpdateOptions.Title.get -> ModularPipelines.Google.Enums.GcloudTitle?
@@ -253,6 +255,9 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudAppUpdateOptions.ServiceAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudAppUpdateOptions.SslPolicy.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudArtifactsRulesUpdateOptions.Action.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudAssetSearchAllIamPoliciesOptions.OrderBy.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudAssetSearchAllResourcesOptions.OrderBy.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudAssetSearchAllResourcesOptions.ReadMask.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudAuthListOptions.FilterAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudAuthPrintIdentityTokenOptions.TokenFormat.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudBackupDrBackupPlansUpdateOptions.AddBackupRule.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
@@ -284,6 +289,7 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NegativeCachingPolicy.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.ZonalAffinitySpilloverRatio.get -> ModularPipelines.Google.Enums.GcloudZonalAffinitySpilloverRatio?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.Architecture.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.ReplicaZones.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeDisksUpdateOptions.ReplaceLicense.get -> ModularPipelines.Google.Enums.GcloudReplaceLicense?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeForwardingRulesUpdateOptions.UpdateLabels.get -> ModularPipelines.Google.Enums.GcloudUpdateLabels?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeFutureReservationsUpdateOptions.Zone.get -> ModularPipelines.Google.Enums.GcloudZone?
@@ -494,6 +500,7 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudNetappVolumesUpdateOptions.BlockDevices.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudNetappVolumesUpdateOptions.TieringPolicy.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsListSpokesOptions.View.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsQueryStatusOptions.GroupBy.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudNotebooksInstancesCreateOptions.ReservationAffinity.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudNotebooksInstancesCreateOptions.ServiceAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudNotebooksRuntimesMigrateOptions.ServiceAccount.get -> int?
@@ -575,6 +582,7 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NegativeCachingPolicy.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.ZonalAffinitySpilloverRatio.get -> ModularPipelines.Google.Enums.GcloudZonalAffinitySpilloverRatio?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.Architecture.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.ReplicaZones.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeDisksUpdateOptions.ReplaceLicense.get -> ModularPipelines.Google.Enums.GcloudReplaceLicense?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeForwardingRulesUpdateOptions.UpdateLabels.get -> ModularPipelines.Google.Enums.GcloudUpdateLabels?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeFutureReservationsUpdateOptions.Zone.get -> ModularPipelines.Google.Enums.GcloudZone?
@@ -644,6 +652,7 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudRedisClustersUpdateOptions.UpdateRedisConfig.get -> ModularPipelines.Google.Enums.GcloudUpdateRedisConfig?
 *REMOVED*ModularPipelines.Google.Options.GcloudRedisInstancesUpdateOptions.UpdateRedisConfig.get -> ModularPipelines.Google.Enums.GcloudUpdateRedisConfig?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunDeployOptions.AddVolumeMount.get -> System.Collections.Generic.IEnumerable<string!>?
+*REMOVED*ModularPipelines.Google.Options.GcloudRunDeployOptions.Regions.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunDeployOptions.ServiceAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunJobsCreateOptions.AddVolumeMount.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunJobsCreateOptions.ServiceAccount.get -> int?
@@ -652,6 +661,7 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudRunJobsLogsReadOptions.Order.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunJobsUpdateOptions.AddVolumeMount.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunJobsUpdateOptions.ServiceAccount.get -> int?
+*REMOVED*ModularPipelines.Google.Options.GcloudRunMultiRegionServicesReplaceOptions.Regions.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunMultiRegionServicesUpdateOptions.AddVolumeMount.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunMultiRegionServicesUpdateOptions.ServiceAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunServicesLogsReadOptions.Order.get -> string?
@@ -673,6 +683,7 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudSpannerCliOptions.SystemCommand.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.AutoScaleTargetMetrics.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.ConnectionPoolFlags.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
+*REMOVED*ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.CustomSubjectAlternativeNames.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.DatabaseFlags.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.Tags.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.AutoScaleTargetMetrics.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
@@ -10576,8 +10587,10 @@ ModularPipelines.Google.Options.GcloudAccessApprovalSettingsGetOptions.Organizat
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsGetOptions.Organization.set -> void
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsGetOptions.Project.get -> string?
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsGetOptions.Project.set -> void
+ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.EnrolledServices.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.Folder.get -> string?
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.Folder.set -> void
+ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.NotificationEmails.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.Organization.get -> string?
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.Organization.set -> void
 ModularPipelines.Google.Options.GcloudAccessApprovalSettingsUpdateOptions.Project.get -> string?
@@ -11544,6 +11557,9 @@ ModularPipelines.Google.Options.GcloudArtifactsSbomListOptions.Resource.get -> s
 ModularPipelines.Google.Options.GcloudArtifactsSbomListOptions.Resource.set -> void
 ModularPipelines.Google.Options.GcloudArtifactsSbomListOptions.ResourcePrefix.get -> string?
 ModularPipelines.Google.Options.GcloudArtifactsSbomListOptions.ResourcePrefix.set -> void
+ModularPipelines.Google.Options.GcloudAssetSearchAllIamPoliciesOptions.OrderBy.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Google.Options.GcloudAssetSearchAllResourcesOptions.OrderBy.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Google.Options.GcloudAssetSearchAllResourcesOptions.ReadMask.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudAuthApplicationDefaultLoginOptions.NoBrowser.get -> bool?
 ModularPipelines.Google.Options.GcloudAuthApplicationDefaultLoginOptions.NoBrowser.set -> void
 ModularPipelines.Google.Options.GcloudAuthApplicationDefaultLoginOptions.NoLaunchBrowser.get -> bool?
@@ -12308,6 +12324,7 @@ ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.PrimaryDiskZone.
 ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.PrimaryDiskZone.set -> void
 ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.Region.get -> string?
 ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.Region.set -> void
+ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.ReplicaZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.SourceDisk.get -> string?
 ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.SourceDisk.set -> void
 ModularPipelines.Google.Options.GcloudComputeDisksCreateOptions.SourceDiskRegion.get -> string?
@@ -17761,6 +17778,7 @@ ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsGroupsUpdateOptions
 ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsGroupsUpdateOptions.RemoveLabels.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsGroupsUpdateOptions.RemoveLabels.set -> void
 ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsListSpokesOptions.View.get -> ModularPipelines.Google.Enums.GcloudView?
+ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsQueryStatusOptions.GroupBy.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsUpdateOptions.ClearLabels.get -> bool?
 ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsUpdateOptions.ClearLabels.set -> void
 ModularPipelines.Google.Options.GcloudNetworkConnectivityHubsUpdateOptions.RemoveLabels.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -18762,6 +18780,7 @@ ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.PrimaryDi
 ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.PrimaryDiskZone.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.Region.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.Region.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.ReplicaZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.SourceDisk.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.SourceDisk.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeDisksCreateOptions.SourceDiskRegion.get -> string?
@@ -20726,6 +20745,7 @@ ModularPipelines.Google.Options.GcloudRunDeployOptions.NoUseHttp2.get -> bool?
 ModularPipelines.Google.Options.GcloudRunDeployOptions.NoUseHttp2.set -> void
 ModularPipelines.Google.Options.GcloudRunDeployOptions.PostKeyRevocationActionType.get -> string?
 ModularPipelines.Google.Options.GcloudRunDeployOptions.PostKeyRevocationActionType.set -> void
+ModularPipelines.Google.Options.GcloudRunDeployOptions.Regions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudRunDeployOptions.RemoveBuildEnvVars.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudRunDeployOptions.RemoveBuildEnvVars.set -> void
 ModularPipelines.Google.Options.GcloudRunDeployOptions.RemoveCloudsqlInstances.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -20918,6 +20938,7 @@ ModularPipelines.Google.Options.GcloudRunMultiRegionServicesDeleteOptions.Async.
 ModularPipelines.Google.Options.GcloudRunMultiRegionServicesDeleteOptions.Async.set -> void
 ModularPipelines.Google.Options.GcloudRunMultiRegionServicesDeleteOptions.NoAsync.get -> bool?
 ModularPipelines.Google.Options.GcloudRunMultiRegionServicesDeleteOptions.NoAsync.set -> void
+ModularPipelines.Google.Options.GcloudRunMultiRegionServicesReplaceOptions.Regions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudRunMultiRegionServicesUpdateOptions.AddCloudsqlInstances.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudRunMultiRegionServicesUpdateOptions.AddCloudsqlInstances.set -> void
 ModularPipelines.Google.Options.GcloudRunMultiRegionServicesUpdateOptions.AddCustomAudiences.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -21807,6 +21828,7 @@ ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.AutoScaleEnabled
 ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.AutoScaleEnabled.set -> void
 ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.AutoScaleTargetMetrics.get -> string?
 ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.ConnectionPoolFlags.get -> string?
+ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.CustomSubjectAlternativeNames.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.DatabaseFlags.get -> string?
 ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.DeletionProtection.get -> bool?
 ModularPipelines.Google.Options.GcloudSqlInstancesCreateOptions.DeletionProtection.set -> void
@@ -21932,7 +21954,7 @@ ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.ClearPscNetworkAt
 ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.ClearPscNetworkAttachmentUri.set -> void
 ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.ConnectionPoolFlags.get -> string?
 ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.ConnectionPoolFlags.set -> void
-ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.CustomSubjectAlternativeNames.get -> string?
+ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.CustomSubjectAlternativeNames.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.CustomSubjectAlternativeNames.set -> void
 ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.DatabaseFlags.get -> string?
 ModularPipelines.Google.Options.GcloudSqlInstancesPatchOptions.DatabaseFlags.set -> void

@@ -54,7 +54,7 @@ public class GcloudFirebase : IGcloudFirebase
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirebaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirebaseOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

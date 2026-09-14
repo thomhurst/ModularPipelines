@@ -114,9 +114,9 @@ public record GcloudContainerAwsNodePoolsUpdateOptions : GcloudOptions
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Annotations At most one of these can be specified: Annotations for the node pool.
+    /// Node pool autoscaling Annotations At most one of these can be specified: Annotations for the node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
@@ -132,9 +132,9 @@ public record GcloudContainerAwsNodePoolsUpdateOptions : GcloudOptions
     public bool? ClearAutoscalingMetrics { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Node pool autoscaling metrics collection At most one of these can be specified: Or at least one of these can be specified: Update existing cloudwatch autoscaling metrics collection parameters Autoscaling metrics to enable. For a list of valid metrics, refer to https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If granularity is specified but not any metrics, all metrics are enabled.
+    /// Node pool autoscaling Node pool autoscaling metrics collection At most one of these can be specified: Or at least one of these can be specified: Update existing cloudwatch autoscaling metrics collection parameters Autoscaling metrics to enable. For a list of valid metrics, refer to https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If granularity is specified but not any metrics, all metrics are enabled. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autoscaling-metrics", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autoscaling-metrics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AutoscalingMetrics { get; set; }
 
     /// <summary>
@@ -150,9 +150,9 @@ public record GcloudContainerAwsNodePoolsUpdateOptions : GcloudOptions
     public bool? ClearNodeLabels { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Node labels At most one of these can be specified: Labels assigned to the node pool's nodes.
+    /// Node pool autoscaling Node labels At most one of these can be specified: Labels assigned to the node pool's nodes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NodeLabels { get; set; }
 
     /// <summary>
@@ -181,9 +181,9 @@ public record GcloudContainerAwsNodePoolsUpdateOptions : GcloudOptions
     public bool? ClearSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Security groups At most one of these can be specified: IDs of additional security groups to add to the node pool's nodes.
+    /// Node pool autoscaling Security groups At most one of these can be specified: IDs of additional security groups to add to the node pool's nodes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
@@ -205,9 +205,9 @@ public record GcloudContainerAwsNodePoolsUpdateOptions : GcloudOptions
     public bool? ClearTags { get; set; }
 
     /// <summary>
-    /// Node pool autoscaling Tags At most one of these can be specified: Applies the given tags (comma separated) on the node pool. Example: $ gcloud container aws node-pools update EXAMPLE_NODE_POOL \ --tags=tag1=one,tag2=two
+    /// Node pool autoscaling Tags At most one of these can be specified: Applies the given tags (comma separated) on the node pool. Example: $ gcloud container aws node-pools update EXAMPLE_NODE_POOL \ --tags=tag1=one,tag2=two Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

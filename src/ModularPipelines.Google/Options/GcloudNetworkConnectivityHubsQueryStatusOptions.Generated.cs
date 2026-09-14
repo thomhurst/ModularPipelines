@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsQueryStatusOptions : GcloudOptions
 {
     /// <summary>
-    /// Comma-separated list of resource field key names to group by. Aggregated values will be displayed for each group. If --group-by is set, the value of the --sort-by flag must be the same as or a subset of the --group-by flag. Accepted values are: ◆ 'psc_propagation_status.source_spoke' ◆ 'psc_propagation_status.source_group' ◆ 'psc_propagation_status.source_forwarding_rule' ◆ 'psc_propagation_status.target_spoke' ◆ 'psc_propagation_status.target_group' ◆ 'psc_propagation_status.code'
+    /// Comma-separated list of resource field key names to group by. Aggregated values will be displayed for each group. If --group-by is set, the value of the --sort-by flag must be the same as or a subset of the --group-by flag. Accepted values are: ◆ 'psc_propagation_status.source_spoke' ◆ 'psc_propagation_status.source_group' ◆ 'psc_propagation_status.source_forwarding_rule' ◆ 'psc_propagation_status.target_spoke' ◆ 'psc_propagation_status.target_group' ◆ 'psc_propagation_status.code' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated)]
-    public string? GroupBy { get; set; }
+    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GroupBy { get; set; }
 
 }
