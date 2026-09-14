@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -163,19 +164,13 @@ internal class ModuleRunner : IModuleRunner
             {
                 try
                 {
-                    if (!skipDependencyWait)
-                    {
-                        await _dependencyWaiter.WaitForDependenciesAsync(
-                                moduleState,
-                                scheduler!,
-                                scope.ServiceProvider,
-                                cancellationToken)
-                            .ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
-                    }
+                    await WaitForDependenciesAsync(
+                            moduleState,
+                            scheduler,
+                            scope.ServiceProvider,
+                            cancellationToken,
+                            skipDependencyWait)
+                        .ConfigureAwait(false);
 
                     if (executionLimit is not null)
                     {
@@ -235,38 +230,18 @@ internal class ModuleRunner : IModuleRunner
                             cancellationToken)
                         .ConfigureAwait(false);
 
-                    scheduler?.MarkModuleCompleted(
-                        moduleType,
-                        moduleState.Result?.Status != ModuleStatus.Cancelled,
-                        statusOverride: moduleState.Result?.Status);
+                    MarkExecutionCompleted(moduleState, scheduler);
                 }
                 catch (Exception ex)
                 {
-                    var handledException = NormalizeLimiterCancellation(
-                        ex,
-                        cancellationToken,
-                        limiterCancellationToken);
-                    HandleExecutionFailure(
+                    HandleScopedExecutionFailure(
                         moduleState,
                         scheduler,
-                        handledException,
-                        cancellationToken);
-                    FinalizeReadyLoggerAfterFailure(
-                        readyLogger,
+                        ex,
                         scope.ServiceProvider,
-                        moduleState,
-                        moduleType,
-                        handledException);
-
-                    if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
-                    {
-                        if (ReferenceEquals(handledException, ex))
-                        {
-                            throw;
-                        }
-
-                        throw handledException;
-                    }
+                        readyLogger,
+                        cancellationToken,
+                        limiterCancellationToken);
                 }
             }
         }
@@ -274,6 +249,52 @@ internal class ModuleRunner : IModuleRunner
         {
             // Keep the slot until module hooks and asynchronous scope disposal have finished.
             executionLimitHandle?.Dispose();
+        }
+    }
+
+    private Task WaitForDependenciesAsync(
+        ModuleState moduleState,
+        IModuleScheduler? scheduler,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken cancellationToken,
+        bool skipDependencyWait)
+    {
+        if (skipDependencyWait)
+        {
+            _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleState.ModuleType.Name);
+            return Task.CompletedTask;
+        }
+
+        return _dependencyWaiter.WaitForDependenciesAsync(
+            moduleState, scheduler!, scopedServiceProvider, cancellationToken);
+    }
+
+    private static void MarkExecutionCompleted(ModuleState moduleState, IModuleScheduler? scheduler)
+    {
+        scheduler?.MarkModuleCompleted(
+            moduleState.ModuleType,
+            moduleState.Result?.Status != ModuleStatus.Cancelled,
+            statusOverride: moduleState.Result?.Status);
+    }
+
+    private void HandleScopedExecutionFailure(
+        ModuleState moduleState,
+        IModuleScheduler? scheduler,
+        Exception exception,
+        IServiceProvider scopedServiceProvider,
+        IInternalModuleLogger? readyLogger,
+        CancellationToken cancellationToken,
+        CancellationToken limiterCancellationToken)
+    {
+        var handledException = NormalizeLimiterCancellation(
+            exception, cancellationToken, limiterCancellationToken);
+        HandleExecutionFailure(moduleState, scheduler, handledException, cancellationToken);
+        FinalizeReadyLoggerAfterFailure(
+            readyLogger, scopedServiceProvider, moduleState, moduleState.ModuleType, handledException);
+
+        if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
+        {
+            ExceptionDispatchInfo.Capture(handledException).Throw();
         }
     }
 
