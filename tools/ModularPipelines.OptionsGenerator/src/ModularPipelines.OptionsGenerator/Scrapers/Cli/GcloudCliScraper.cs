@@ -119,7 +119,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
         var parsedOptions = ParseOptions(helpText, commandParts);
         var options = parsedOptions.Options;
-        var positionalArgs = ParsePositionalArguments(usage, commandPath, parsedOptions.ArgumentGroups);
+        var positionalArgs = ParsePositionalArguments(usage, commandPath, parsedOptions.ArgumentGroups, options);
 
         var enums = options
             .Where(o => o.EnumDefinition is not null)
@@ -480,10 +480,11 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"^[ \t]+\[?(?<name>[A-Z][A-Z0-9_]*)(?:[ \t]+\[?\k<name>)?(?:[ \t]*\.\.\.)?\]*[ \t]*$")]
     private static partial Regex ResourceOperandPattern();
 
-    private static IReadOnlyList<CliPositionalArgument> ParsePositionalArguments(
-        UsageSynopsisParseResult usage, string[] commandPath, IReadOnlyList<CliArgumentGroup> groups)
+    private IReadOnlyList<CliPositionalArgument> ParsePositionalArguments(
+        UsageSynopsisParseResult usage, string[] commandPath, IReadOnlyList<CliArgumentGroup> groups,
+        IReadOnlyList<CliOptionDefinition> options)
     {
-        var usageArguments = GetPositionalArguments(usage);
+        var usageArguments = GetPositionalArguments(usage, options);
         var arguments = groups.SelectMany(group => group.FlattenArguments())
             .Where(argument => argument.IsPositional)
             .Select((argument, index) =>
