@@ -133,26 +133,7 @@ public partial class CargoCliScraper : CliScraperBase
         var manual = options.Any(static option => !option.IsFlag && !option.AcceptsMultipleValues)
             ? await GetManualHelpTextAsync(commandPath, cancellationToken).ConfigureAwait(false)
             : string.Empty;
-        for (var index = 0; index < options.Count; index++)
-        {
-            var option = options[index];
-            if (option.IsFlag || option.AcceptsMultipleValues)
-            {
-                continue;
-            }
-
-            var repeated = HelpDeclaresRepeatableOption(manual, option.SwitchName, option.Description ?? "");
-            var commaSeparated = !repeated && HelpOptionBlockMatches(manual, option.SwitchName, CommaSeparatedListPattern());
-            if (repeated || commaSeparated)
-            {
-                options[index] = option with
-                {
-                    AcceptsMultipleValues = true,
-                    CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
-                    CollectionSeparator = commaSeparated ? "," : null,
-                };
-            }
-        }
+        ApplyManualCollectionMetadata(options, manual);
 
         var enums = options
             .Where(o => o.EnumDefinition is not null)
@@ -177,6 +158,30 @@ public partial class CargoCliScraper : CliScraperBase
         };
 
         return command;
+    }
+
+    private static void ApplyManualCollectionMetadata(List<CliOptionDefinition> options, string manual)
+    {
+        for (var index = 0; index < options.Count; index++)
+        {
+            var option = options[index];
+            if (option.IsFlag || option.AcceptsMultipleValues)
+            {
+                continue;
+            }
+
+            var repeated = HelpDeclaresRepeatableOption(manual, option.SwitchName, option.Description ?? "");
+            var commaSeparated = !repeated && HelpOptionBlockMatches(manual, option.SwitchName, CommaSeparatedListPattern());
+            if (repeated || commaSeparated)
+            {
+                options[index] = option with
+                {
+                    AcceptsMultipleValues = true,
+                    CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+                    CollectionSeparator = commaSeparated ? "," : null,
+                };
+            }
+        }
     }
 
     /// <summary>
@@ -218,39 +223,52 @@ public partial class CargoCliScraper : CliScraperBase
                 continue;
             }
 
-            var line = lines[index];
-            var match = ClapOptionDeclarationPattern().Match(line);
-            if (!match.Success)
+            var option = ParseOption(lines, ref index, className, seenOptions);
+            if (option is not null)
             {
-                continue;
+                options.Add(option);
             }
-
-            var longSwitch = match.Groups["long"];
-            var primarySwitch = longSwitch.Success ? longSwitch : match.Groups["short"];
-            var switchName = primarySwitch.Value.Trim();
-            var switchColumn = GetColumn(line, primarySwitch.Index) + (longSwitch.Success ? 0 : 4);
-            var block = string.IsNullOrWhiteSpace(match.Groups["desc"].Value)
-                ? ReadClapOptionBlock(lines, ref index, switchColumn)
-                : SplitPossibleValuesTrailer(
-                    AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow));
-            var propertyName = NormalizePropertyName(switchName);
-            if (switchName is "--help" or "-h" || propertyName is null || !seenOptions.Add(switchName))
-            {
-                continue;
-            }
-
-            var value = match.Groups["value"];
-            if (value.Value.StartsWith("[<", StringComparison.Ordinal))
-            {
-                // Cargo uses these brackets for a missing-value diagnostic, not a valid bare switch.
-                var declaration = line[..value.Index] + value.Value[1..^1] + line[(value.Index + value.Length)..];
-                match = ClapOptionDeclarationPattern().Match(declaration);
-            }
-
-            options.Add(CreateClapOption(match, className, propertyName, switchName, block));
         }
 
         return options;
+    }
+
+    private static CliOptionDefinition? ParseOption(
+        string[] lines,
+        ref int index,
+        string className,
+        HashSet<string> seenOptions)
+    {
+        var line = lines[index];
+        var match = ClapOptionDeclarationPattern().Match(line);
+        if (!match.Success)
+        {
+            return null;
+        }
+
+        var longSwitch = match.Groups["long"];
+        var primarySwitch = longSwitch.Success ? longSwitch : match.Groups["short"];
+        var switchName = primarySwitch.Value.Trim();
+        var switchColumn = GetColumn(line, primarySwitch.Index) + (longSwitch.Success ? 0 : 4);
+        var block = string.IsNullOrWhiteSpace(match.Groups["desc"].Value)
+            ? ReadClapOptionBlock(lines, ref index, switchColumn)
+            : SplitPossibleValuesTrailer(
+                AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow));
+        var propertyName = NormalizePropertyName(switchName);
+        if (propertyName is null || !seenOptions.Add(switchName))
+        {
+            return null;
+        }
+
+        var value = match.Groups["value"];
+        if (value.Value.StartsWith("[<", StringComparison.Ordinal))
+        {
+            // Cargo uses these brackets for a missing-value diagnostic, not a valid bare switch.
+            var declaration = line[..value.Index] + value.Value[1..^1] + line[(value.Index + value.Length)..];
+            match = ClapOptionDeclarationPattern().Match(declaration);
+        }
+
+        return CreateClapOption(match, className, propertyName, switchName, block);
     }
 
     private static bool TryGetSectionHeading(string line, out string heading)
