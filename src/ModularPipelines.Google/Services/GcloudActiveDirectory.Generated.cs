@@ -66,7 +66,7 @@ public class GcloudActiveDirectory : IGcloudActiveDirectory
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudActiveDirectoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudActiveDirectoryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

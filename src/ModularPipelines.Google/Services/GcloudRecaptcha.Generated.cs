@@ -60,7 +60,7 @@ public class GcloudRecaptcha : IGcloudRecaptcha
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRecaptchaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRecaptchaOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

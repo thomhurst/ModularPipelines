@@ -263,7 +263,7 @@ public record GcloudComputeInstancesCreateOptions(
     /// Assigns a custom PTR domain for the external IPv6 in the IPv6 access configuration of instance. If unspecified or specified to be an empty string, the default PTR record will be used. This option can only be specified for the default network interface, nic0.
     /// </summary>
     [CliOption("--ipv6-public-ptr-domain", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Ipv6PublicPtrDomain { get; set; }
+    public string? Ipv6PublicPtrDomain { get; set; }
 
     /// <summary>
     /// Specifies the behavior of the instance when the KMS key of one of its attached disks is revoked. The default is none. POLICY must be one of: none No operation is performed. stop The instance is stopped when the KMS key of one of its attached disks is revoked.

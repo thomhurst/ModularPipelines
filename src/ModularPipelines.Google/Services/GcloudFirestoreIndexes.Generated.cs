@@ -60,7 +60,7 @@ public class GcloudFirestoreIndexes
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreIndexesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFirestoreIndexesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -72,7 +72,7 @@ public class GcloudLooker : IGcloudLooker
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLookerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLookerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

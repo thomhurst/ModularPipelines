@@ -90,7 +90,7 @@ public class GcloudManagedKafka : IGcloudManagedKafka
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudManagedKafkaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudManagedKafkaOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

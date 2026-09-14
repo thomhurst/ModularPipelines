@@ -60,7 +60,7 @@ public class GcloudEventarcAuditLogsProvider
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcAuditLogsProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcAuditLogsProviderOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

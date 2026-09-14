@@ -90,7 +90,7 @@ public class GcloudEdgeCloud : IGcloudEdgeCloud
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
