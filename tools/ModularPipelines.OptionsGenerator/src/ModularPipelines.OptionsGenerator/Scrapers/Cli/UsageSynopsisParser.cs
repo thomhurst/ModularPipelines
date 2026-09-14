@@ -702,13 +702,33 @@ public static class UsageSynopsisParser
             .ThenByDescending(candidate => candidate.PositionalArguments.Count)
             .ThenBy(candidate => candidate.UnparsedOperandTokens.Count)
             .First();
-        var sameSynopsis = selected.Synopsis == usage.Synopsis;
-        var arguments = sameSynopsis ? usage.PositionalArguments : selected.PositionalArguments;
+        if (selected.Synopsis != usage.Synopsis)
+        {
+            usage = usage with
+            {
+                Synopsis = selected.Synopsis,
+                HasOperandTokens = selected.PositionalArguments.Count > 0 || selected.UnparsedOperandTokens.Count > 0,
+                PositionalArguments = selected.PositionalArguments,
+                UnparsedOperandTokens = selected.UnparsedOperandTokens,
+                RequiredOptionSwitches = selected.RequiredOptionSwitches,
+                RequiredAlternativeGroups = GetRequiredAlternativeGroups(selected, candidates),
+            };
+        }
+
         var resolved = RelaxArgumentsMissingFromAlternatives(
             selected.PositionalArguments,
             candidates,
             options);
-        var positionalArguments = arguments.Select(argument =>
+        return usage with
+        {
+            PositionalArguments = ProjectRequiredness(usage.PositionalArguments, resolved),
+        };
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> ProjectRequiredness(
+        IReadOnlyList<CliPositionalArgument> arguments,
+        IReadOnlyList<CliPositionalArgument> resolved) =>
+        arguments.Select(argument =>
         {
             var resolvedArgument = resolved.FirstOrDefault(candidate =>
                 candidate.PropertyName == argument.PropertyName
@@ -721,20 +741,6 @@ public static class UsageSynopsisParser
                 CSharpType = resolvedArgument.IsRequired ? argument.CSharpType.TrimEnd('?') : $"{argument.CSharpType.TrimEnd('?')}?",
             };
         }).ToArray();
-        return usage with
-        {
-            Synopsis = selected.Synopsis,
-            HasOperandTokens = sameSynopsis
-                ? usage.HasOperandTokens
-                : positionalArguments.Length > 0 || selected.UnparsedOperandTokens.Count > 0,
-            PositionalArguments = positionalArguments,
-            UnparsedOperandTokens = sameSynopsis ? usage.UnparsedOperandTokens : selected.UnparsedOperandTokens,
-            RequiredOptionSwitches = sameSynopsis ? usage.RequiredOptionSwitches : selected.RequiredOptionSwitches,
-            RequiredAlternativeGroups = sameSynopsis
-                ? usage.RequiredAlternativeGroups
-                : GetRequiredAlternativeGroups(selected, candidates),
-        };
-    }
 
     private static IReadOnlyList<CliPositionalArgument> RelaxArgumentsMissingFromAlternatives(
         IReadOnlyList<CliPositionalArgument> selectedArguments,
