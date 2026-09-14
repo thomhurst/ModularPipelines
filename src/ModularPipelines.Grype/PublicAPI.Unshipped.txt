@@ -1,8 +1,11 @@
 #nullable enable
+*REMOVED*ModularPipelines.Grype.Options.GrypeDbDiffOptions.OldDbUrlOrPath.init -> void
+*REMOVED*ModularPipelines.Grype.Options.GrypeDbImportOptions.File.init -> void
 *REMOVED*ModularPipelines.Grype.Options.GrypeDbOptions.Command.get -> string?
 *REMOVED*ModularPipelines.Grype.Options.GrypeDbOptions.Command.set -> void
 *REMOVED*ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.get -> string?
 *REMOVED*ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.set -> void
+*REMOVED*ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Id.init -> void
 *REMOVED*ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.get -> string?
 *REMOVED*ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.set -> void
 *REMOVED*ModularPipelines.Grype.Services.GrypeDb.GrypeDb(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void

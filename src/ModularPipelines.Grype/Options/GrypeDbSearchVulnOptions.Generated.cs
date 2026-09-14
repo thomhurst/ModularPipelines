@@ -18,10 +18,32 @@ namespace ModularPipelines.Grype.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "search", "vuln")]
-public record GrypeDbSearchVulnOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Id
-) : GrypeOptions
+public record GrypeDbSearchVulnOptions : GrypeOptions
 {
+    public GrypeDbSearchVulnOptions(
+        IEnumerable<string> Id
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Id);
+            var materialized = global::System.Linq.Enumerable.ToArray(Id);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Id));
+            }
+
+            Id = materialized;
+        }
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// only show vulnerabilities with the given fix state (fixed, not-fixed, unknown, wont-fix)
     /// </summary>
@@ -87,5 +109,11 @@ public record GrypeDbSearchVulnOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The ID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Id { get; private init; }
 
 }

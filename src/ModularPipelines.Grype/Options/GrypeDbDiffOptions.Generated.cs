@@ -18,10 +18,21 @@ namespace ModularPipelines.Grype.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "diff")]
-public record GrypeDbDiffOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string OldDbUrlOrPath
-) : GrypeOptions
+public record GrypeDbDiffOptions : GrypeOptions
 {
+    public GrypeDbDiffOptions(
+        string OldDbUrlOrPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OldDbUrlOrPath);
+        this.OldDbUrlOrPath = OldDbUrlOrPath;
+    }
+
+    public void Deconstruct(out string OldDbUrlOrPath)
+    {
+        OldDbUrlOrPath = this.OldDbUrlOrPath;
+    }
+
     /// <summary>
     /// help for diff
     /// </summary>
@@ -69,6 +80,12 @@ public record GrypeDbDiffOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The old_db_url_or_path operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string OldDbUrlOrPath { get; private init; }
 
     /// <summary>
     /// The new_db_url_or_path operand.
