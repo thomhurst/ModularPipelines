@@ -128,6 +128,10 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("[VALUE,...]", "Values to include. Specify the --other flag multiple times.", ",")]
     [Arguments("[VALUE,...]", "Values to include. To add more items, specify --other multiple times.", ",")]
     [Arguments("[name=NAME,config=CONFIG]", "A comma-separated list of fields.", null)]
+    [Arguments("VALUE", "Namespaces to ignore, separated by commas if multiple are supplied.", ",")]
+    [Arguments("VALUE", "One or more rule files (separated by commas if multiple).", ",")]
+    [Arguments("VALUE", "Path to a file containing values separated by commas.", null)]
+    [Arguments("VALUE", "Values for --other, separated by commas if multiple are supplied.", null)]
     [Arguments("FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", ",")]
     [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]]", "Set pool flags.", ",")]
     [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", null)]
@@ -190,6 +194,8 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("app-logs-read", "app logs read", "--logs", ",")]
     [Arguments("artifacts-docker-upgrade-migrate", "artifacts docker upgrade migrate", "--projects", ",")]
     [Arguments("sql-instances-patch", "sql instances patch", "--connection-pool-flags", ",")]
+    [Arguments("container-hub-policycontroller-enable", "container hub policycontroller enable", "--exemptable-namespaces", ",")]
+    [Arguments("container-hub-policycontroller-enable", "container hub policycontroller enable", "--monitoring", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
         string fixture, string commandPath, string switchName, string? separator)
     {
