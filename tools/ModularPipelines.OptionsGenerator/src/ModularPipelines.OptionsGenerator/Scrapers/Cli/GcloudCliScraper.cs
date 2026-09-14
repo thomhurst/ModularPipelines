@@ -341,10 +341,7 @@ public partial class GcloudCliScraper : CliScraperBase
     }
 
     private static bool DescribesRequiredBundle(CliArgumentGroup group) =>
-        RequiredBundleMarkerPattern().IsMatch(group.Description ?? string.Empty);
-
-    [GeneratedRegex(@"\bThis must be specified(?:[.:]|$)", RegexOptions.IgnoreCase)]
-    private static partial Regex RequiredBundleMarkerPattern();
+        CliArgumentGroupParser.DescribesRequiredBundle(group.Description);
 
     private static bool IsOrdinaryArgumentBundle(CliArgumentGroup group) =>
         group.Kind == CliArgumentGroupKind.None

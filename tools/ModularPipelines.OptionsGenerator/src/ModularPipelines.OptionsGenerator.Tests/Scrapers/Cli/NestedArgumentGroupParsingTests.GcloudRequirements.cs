@@ -171,6 +171,31 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    [Arguments(".")]
+    [Arguments(":")]
+    [Arguments("")]
+    public async Task Gcloud_Mandatory_Bundles_Separate_From_Preceding_Choices(string punctuation)
+    {
+        var help = $$"""
+            NAME
+                gcloud example create - create an example
+            FLAGS
+                 At most one of these can be specified:
+                   --token=TOKEN
+                      Access token.
+                   Configuration bundle. This must be specified{{punctuation}}
+                   --config=CONFIG
+                      Inline configuration.
+                   --profile=PROFILE
+                      Saved configuration.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], help))!;
+        var bundle = command.RequiredAlternativeGroups.Single(group => group.IsRequired && !group.IsChoice);
+        await Assert.That(bundle.PropertyNames).IsEquivalentTo(["Config", "Profile"]);
+        await Assert.That(GeneratorUtils.RequiresOptionsParameter(command)).IsTrue();
+    }
+
+    [Test]
     public async Task Gcloud_Mid_Sentence_Alternative_Prose_Preserves_Nested_Requirements()
     {
         const string help = """
