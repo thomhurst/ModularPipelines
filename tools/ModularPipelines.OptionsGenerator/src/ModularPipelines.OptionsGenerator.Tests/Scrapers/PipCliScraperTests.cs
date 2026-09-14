@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -7,6 +8,57 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class PipCliScraperTests
 {
+    [Test]
+    [Arguments("uninstall", "Package")]
+    [Arguments("wheel", "RequirementSpecifier")]
+    [Arguments("lock", "LocalProjectPath")]
+    [Arguments("install", "RequirementSpecifier")]
+    [Arguments("download", "RequirementSpecifier")]
+    public async Task Requirement_File_Alternatives_Do_Not_Require_Positional_Operands(string verb, string positionalName)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", $"pip-25.3-{verb}-help.txt"));
+        var scraper = new PipCliScraper(new RequirementHelpExecutor(verb, help),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<PipCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var leaf = commands.Single(command => command.FullCommand == $"pip {verb}");
+        var positional = leaf.PositionalArguments.Single();
+        await Assert.That(positional.PropertyName).IsEqualTo(positionalName);
+        await Assert.That(positional.IsRequired).IsFalse();
+        await Assert.That(positional.IsValidationRequired == true).IsFalse();
+        await Assert.That(positional.IsVariadic).IsTrue();
+        var requirement = leaf.Options.Single(option => option.SwitchName == "--requirement");
+        await Assert.That(requirement.ShortForm).IsEqualTo("-r");
+        await Assert.That(requirement.AcceptsMultipleValues).IsTrue();
+        await Assert.That(requirement.IsRequired).IsFalse();
+        var inputChoice = leaf.RequiredAlternativeGroups.Single();
+        await Assert.That(inputChoice.PropertyNames).Contains(positionalName).And.Contains("Requirement");
+        if (verb != "uninstall")
+        {
+            await Assert.That(inputChoice.PropertyNames).Contains("Group");
+            if (verb != "download")
+            {
+                await Assert.That(inputChoice.PropertyNames).Contains("Editable");
+            }
+        }
+
+        var tool = new CliToolDefinition
+        {
+            ToolName = "pip",
+            NamespacePrefix = "Pip",
+            TargetNamespace = "ModularPipelines.Python",
+            OutputDirectory = "output",
+            Commands = [leaf],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generated).DoesNotContain("Required = true");
+    }
+
     [Test]
     public async Task Captured_Abi_Description_Preserves_The_Python_Version_Flag()
     {
@@ -89,6 +141,26 @@ public class PipCliScraperTests
             await Assert.That(command.Options.Single(option => option.SwitchName == "--requirement").Description)
                 .IsEqualTo("Install from the given requirements file. Combine with --no-deps  to skip dependency installation.");
         }
+    }
+
+    private sealed class RequirementHelpExecutor(string verb, string help) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardError = string.Empty,
+                StandardOutput = arguments switch
+                {
+                    "--help" => $"Usage: pip <command> [options]\n\nCommands:\n  {verb}    Run the pip command.\n",
+                    _ when arguments == $"{verb} --help" => help,
+                    _ => throw new InvalidOperationException($"Unexpected pip invocation: {arguments}"),
+                },
+            });
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class TestPipCliScraper()

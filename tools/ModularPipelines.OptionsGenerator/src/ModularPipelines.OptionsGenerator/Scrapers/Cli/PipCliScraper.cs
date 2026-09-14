@@ -53,6 +53,21 @@ public partial class PipCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Python";
 
+    /// <inheritdoc />
+    protected override IEnumerable<string> GetAdditionalUsageSynopses(string[] commandPath, string helpText)
+    {
+        if (commandPath is not ["pip", "install" or "download" or "wheel" or "lock"])
+        {
+            return [];
+        }
+
+        // pip's requirement command accepts editable projects and dependency groups as
+        // input sources even when the usage summary omits their standalone forms.
+        return ParseOptions(helpText, commandPath.Skip(1).ToArray())
+            .Where(static option => !option.IsFlag && option.SwitchName is "--editable" or "--group")
+            .Select(option => $"{string.Join(" ", commandPath)} [options] {option.SwitchName} <{option.PropertyName}>");
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
@@ -183,16 +198,27 @@ public partial class PipCliScraper : CliScraperBase
                 UnparsedOperandTokens = [],
             }
             : usage;
-        var hasPackageIndexLabel = normalized.PositionalArguments.Any(argument =>
+        return normalized with
+        {
+            PositionalArguments = NormalizePackageIndexArguments(normalized.PositionalArguments),
+            RequirednessCandidates = [.. normalized.RequirednessCandidates.Select(candidate => candidate with
+            {
+                PositionalArguments = NormalizePackageIndexArguments(candidate.PositionalArguments),
+            })],
+        };
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizePackageIndexArguments(
+        IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        var hasPackageIndexLabel = arguments.Any(argument =>
             argument.PropertyName.Equals("PackageIndexOptions", StringComparison.Ordinal));
         if (!hasPackageIndexLabel)
         {
-            return normalized;
+            return arguments;
         }
 
-        return normalized with
-        {
-            PositionalArguments = normalized.PositionalArguments
+        return arguments
                 .Where(argument => !argument.PropertyName.Equals(
                     "PackageIndexOptions",
                     StringComparison.Ordinal))
@@ -207,8 +233,7 @@ public partial class PipCliScraper : CliScraperBase
                         IsVariadic = true,
                     }
                     : argument)
-                .ToArray(),
-        };
+                .ToArray();
     }
 
     /// <inheritdoc />
