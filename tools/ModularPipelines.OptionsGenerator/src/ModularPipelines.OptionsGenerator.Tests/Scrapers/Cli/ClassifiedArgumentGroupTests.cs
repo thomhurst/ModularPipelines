@@ -1,0 +1,48 @@
+using ModularPipelines.OptionsGenerator.Models;
+
+namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
+
+public partial class NestedArgumentGroupParsingTests
+{
+    [Test]
+    [Arguments("At most one of these can be specified:", CliArgumentGroupKind.AtMostOne)]
+    [Arguments("At least one of these must be specified:", CliArgumentGroupKind.AtLeastOne)]
+    [Arguments("Or use these options:", CliArgumentGroupKind.Alternative)]
+    [Arguments("Arguments for authentication:", CliArgumentGroupKind.Resource)]
+    public async Task Narrative_Asides_Preserve_Classified_Group_Membership(string heading, CliArgumentGroupKind kind)
+    {
+        var section = $"""
+            {heading}
+              --token=TOKEN
+                 Authenticate with a token.
+
+              Note: authentication is checked before execution.
+              --profile=PROFILE
+                 Select a saved profile.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        var group = root.Groups.Single();
+        await Assert.That(group.Kind).IsEqualTo(kind);
+        await Assert.That(group.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--token", "--profile"]);
+        await Assert.That(group.Description).Contains("authentication is checked before execution");
+    }
+
+    [Test]
+    public async Task Explicit_Headings_Can_Start_Siblings_After_Classified_Groups()
+    {
+        const string section = """
+            At most one of these can be specified:
+              --token=TOKEN
+                 Authenticate with a token.
+
+              At least one of these must be specified:
+              --profile=PROFILE
+                 Select a saved profile.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        await Assert.That(root.Groups).Count().IsEqualTo(2);
+        await Assert.That(root.Groups[0].Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+        await Assert.That(root.Groups[1].Kind).IsEqualTo(CliArgumentGroupKind.AtLeastOne);
+    }
+}

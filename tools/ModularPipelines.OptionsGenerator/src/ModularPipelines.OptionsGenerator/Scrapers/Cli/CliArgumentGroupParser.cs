@@ -54,14 +54,17 @@ internal static partial class CliArgumentGroupParser
             var preludeLines = lines[preludeStart..declaration.LineIndex];
             var prelude = NormalizeDocumentation(preludeLines);
             var preludeIndentation = GetMinimumContentIndentation(preludeLines);
-            var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
-                || preludeIndentation <= declaration.Argument.Indentation;
             previousDescriptionEnd = descriptionEnd;
 
             MoveToContainingGroup(
                 stack,
                 declaration.Argument.Indentation,
                 preludeIndentation);
+            // Plain prose can separate unnamed groups, but cannot remove a sibling
+            // argument from an established constraint group without an explicit heading.
+            var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
+                || (preludeIndentation <= declaration.Argument.Indentation
+                    && Classify(stack.Peek().Description) == CliArgumentGroupKind.None);
             AddArgument(
                 stack,
                 declaration.Argument with
