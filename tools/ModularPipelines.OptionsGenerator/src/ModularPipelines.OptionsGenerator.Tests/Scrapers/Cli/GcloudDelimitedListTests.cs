@@ -143,6 +143,11 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUE", "A list of databases to migrate. Provide databases as a comma separated list.", ",")]
     [Arguments("VALUE", "(ALPHA) Supply names as a comma-separated list.", ",")]
     [Arguments("VALUE", "Provide values for --other as a comma separated list.", null)]
+    [Arguments("VALUE", "Optional update mask to specify which fields to update. Use commas to separate masks.", ",")]
+    [Arguments("VALUE", "(BETA) Use commas to separate values.", ",")]
+    [Arguments("VALUE", "Use commas to delimit individual masks.", ",")]
+    [Arguments("VALUE", "Use commas to separate values for --other.", null)]
+    [Arguments("VALUE", "Path to a file. Use commas to separate fields in that file.", null)]
     [Arguments("VALUE", "A string of labels. Mappings are separated by commas.", null)]
     [Arguments("VALUE", "Path to a file containing mappings. Mappings are separated by commas.", null)]
     [Arguments("[VALUE,...]", "Specify the --values flag multiple times.", null)]
@@ -243,6 +248,7 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("compute-instances-create", "compute instances create", "--local-ssd", null, "550")]
     [Arguments("dataproc-clusters-create", "dataproc clusters create", "--secure-multi-tenancy-user-mapping", ",")]
     [Arguments("database-migration-migration-jobs-promote", "database-migration migration-jobs promote", "--databases-filter", ",")]
+    [Arguments("compute-interconnects-groups-update", "compute interconnects groups update", "--update-mask", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
         string fixture, string commandPath, string switchName, string? separator, string version = "550.0.0")
     {

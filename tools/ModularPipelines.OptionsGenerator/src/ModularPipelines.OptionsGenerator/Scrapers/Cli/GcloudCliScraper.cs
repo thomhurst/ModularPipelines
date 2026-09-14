@@ -773,7 +773,9 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"|^" + StatusPrefixPattern + @"(?:a|the)\s+string\s+of\s+(?:[\w-]+\s+)*(?<subject>[\w-]+)\.\s+"
         + @"\k<subject>\s+are\s+sep[ae]rated\s+by\s+commas\b"
         + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"(?:provide|supply|pass|specify|use)\s+"
-        + @"(?:[a-z][\w-]*\s+)+as\s+(?:a\s+)?comma[- ](?:sep[ae]rated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
+        + @"(?:[a-z][\w-]*\s+)+as\s+(?:a\s+)?comma[- ](?:sep[ae]rated|delimited)\s+list\b"
+        + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"use\s+commas\s+to\s+(?:separate|delimit)\s+"
+        + @"(?:(?:the|individual|multiple)\s+)?[a-z][\w-]*(?=\s*(?:[.!?]|$))", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
 
     [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\](?(outer)\])$")]
