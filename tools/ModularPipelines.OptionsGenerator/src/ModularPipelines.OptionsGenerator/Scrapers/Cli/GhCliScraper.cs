@@ -69,7 +69,7 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     public override async Task<CliToolDefinition> CreateToolDefinitionAsync(CancellationToken cancellationToken = default)
     {
         var tool = CreateToolDefinition();
-        var result = await Executor.ExecuteAsync(ExecutablePath, "extension list", cancellationToken);
+        var result = await Executor.ExecuteAsync(ExecutablePath, "extension list", cancellationToken).ConfigureAwait(false);
         if (result.Unavailable || !result.Success || !string.IsNullOrWhiteSpace(result.StandardError))
         {
             throw new InvalidOperationException("Cannot verify gh extension availability: gh extension list did not complete reliably.");
@@ -81,14 +81,7 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var stackInstalled = false;
         foreach (var line in result.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries))
         {
-            var fields = line.TrimEnd('\r').Split('\t');
-            if (fields.Length != 3 || !fields[0].StartsWith("gh ", StringComparison.Ordinal)
-                || fields[0].Length == 3 || fields[0][3..].Any(char.IsWhiteSpace))
-            {
-                throw new InvalidOperationException("Cannot verify gh extension availability: unexpected gh extension list output.");
-            }
-
-            stackInstalled |= fields[0].Equals("gh stack", StringComparison.OrdinalIgnoreCase);
+            stackInstalled |= ParseExtensionCommand(line).Equals("gh stack", StringComparison.OrdinalIgnoreCase);
         }
 
         if (stackInstalled)
@@ -111,6 +104,18 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
                 ],
             },
         };
+    }
+
+    private static string ParseExtensionCommand(string line)
+    {
+        var fields = line.TrimEnd('\r').Split('\t');
+        if (fields.Length != 3 || !fields[0].StartsWith("gh ", StringComparison.Ordinal)
+            || fields[0].Length == 3 || fields[0][3..].Any(char.IsWhiteSpace))
+        {
+            throw new InvalidOperationException("Cannot verify gh extension availability: unexpected gh extension list output.");
+        }
+
+        return fields[0];
     }
 
     /// <summary>

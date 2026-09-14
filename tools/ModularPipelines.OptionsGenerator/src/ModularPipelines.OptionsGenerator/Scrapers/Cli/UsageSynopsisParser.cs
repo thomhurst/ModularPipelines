@@ -676,6 +676,10 @@ public static class UsageSynopsisParser
         && left.PositionalArguments.Count == right.PositionalArguments.Count
         && left.UnparsedOperandTokens.Count == right.UnparsedOperandTokens.Count;
 
+    /// <summary>
+    /// Resolves usage against known option shapes. Must remain idempotent because adapters
+    /// and the shared parsing pipeline can apply it more than once.
+    /// </summary>
     internal static UsageSynopsisParseResult ResolveOptionUsage(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options)
@@ -696,25 +700,7 @@ public static class UsageSynopsisParser
             return usage with { RequiredAlternativeGroups = ResolveInlineAlternativeGroups(usage, options) };
         }
 
-        // Preserve operands deliberately removed by traversal or adapter normalization when
-        // reconsidering alternate forms. In particular, never restore command-group placeholders.
-        var omittedArguments = original.PositionalArguments
-            .Where(argument => !usage.PositionalArguments.Any(candidate =>
-                candidate.PropertyName == argument.PropertyName
-                && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options)))
-            .Select(argument => (argument.PropertyName, IsPositionalSlot(argument, options)))
-            .ToHashSet();
-        var candidates = usage.RequirednessCandidates.Select(candidate => candidate with
-        {
-            PositionalArguments = [.. candidate.PositionalArguments.Where(argument =>
-                    !omittedArguments.Contains((argument.PropertyName, IsPositionalSlot(argument, options))))
-                .Select(argument => IsPositionalSlot(argument, options)
-                    ? argument with { AssociatedOptionSwitch = null }
-                    : argument)],
-            RequiredAlternativeGroups = [.. ResolveInlineAlternativeGroups(candidate, options).Where(group =>
-                group.Members.All(member => member.PositionalPropertyName is not { } name
-                    || !omittedArguments.Contains((name, true))))],
-        }).ToArray();
+        var candidates = NormalizeUsageCandidates(usage, original, options);
         var selected = candidates
             .OrderByDescending(candidate => candidate.PositionalArguments.Count(argument => IsPositionalSlot(argument, options)))
             .ThenByDescending(candidate => candidate.PositionalArguments.Count)
@@ -741,6 +727,32 @@ public static class UsageSynopsisParser
             PositionalArguments = ProjectRequiredness(usage.PositionalArguments, resolved, options),
             RequiredAlternativeGroups = GetRequiredAlternativeGroups(selected, candidates),
         };
+    }
+
+    private static UsageSynopsisParseResult[] NormalizeUsageCandidates(
+        UsageSynopsisParseResult usage,
+        UsageSynopsisParseResult original,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        // Preserve operands deliberately removed by traversal or adapter normalization when
+        // reconsidering alternate forms. In particular, never restore command-group placeholders.
+        var omittedArguments = original.PositionalArguments
+            .Where(argument => !usage.PositionalArguments.Any(candidate =>
+                candidate.PropertyName == argument.PropertyName
+                && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options)))
+            .Select(argument => (argument.PropertyName, IsPositionalSlot(argument, options)))
+            .ToHashSet();
+        return usage.RequirednessCandidates.Select(candidate => candidate with
+        {
+            PositionalArguments = [.. candidate.PositionalArguments.Where(argument =>
+                    !omittedArguments.Contains((argument.PropertyName, IsPositionalSlot(argument, options))))
+                .Select(argument => IsPositionalSlot(argument, options)
+                    ? argument with { AssociatedOptionSwitch = null }
+                    : argument)],
+            RequiredAlternativeGroups = [.. ResolveInlineAlternativeGroups(candidate, options).Where(group =>
+                group.Members.All(member => member.PositionalPropertyName is not { } name
+                    || !omittedArguments.Contains((name, true))))],
+        }).ToArray();
     }
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> ResolveInlineAlternativeGroups(

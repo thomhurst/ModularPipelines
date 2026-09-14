@@ -858,7 +858,7 @@ public class CodeGeneratorOrchestrator
             allCommands.Add(command);
         }
 
-        var toolDefinition = await cliScraper.CreateToolDefinitionAsync(cancellationToken);
+        var toolDefinition = await cliScraper.CreateToolDefinitionAsync(cancellationToken).ConfigureAwait(false);
         var toolVersion = await cliScraper.GetVersionAsync(cancellationToken);
 
         if (_logger.IsEnabled(LogLevel.Information))

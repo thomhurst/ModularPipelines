@@ -612,6 +612,9 @@ jobs:
       - name: Run Generator for ${{ matrix.tool }}
         id: generator
         if: steps.should-run.outputs.run == 'true'
+        env:
+          # gh requires authentication even for its local extension inventory.
+          GH_TOKEN: ${{ matrix.tool == 'gh' && github.token || '' }}
         run: |
           set -o pipefail
           cd "$RUNNER_TEMP/generator-work"
