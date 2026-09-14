@@ -197,7 +197,7 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public IEnumerable<string>? Dep { get; set; }
 
     /// <inheritdoc />
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
         if (!(Dep?.Any() == true || !string.IsNullOrWhiteSpace(Path) || !string.IsNullOrWhiteSpace(Git)))
         {
