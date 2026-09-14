@@ -38,7 +38,10 @@ public partial class GcloudCliScraper : CliScraperBase
         : base(executor, helpCache, logger)
     {
         ExecutablePath = ResolveGcloudPath();
-        Logger.LogInformation("Resolved gcloud path: {Path}", ExecutablePath);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Resolved gcloud path: {Path}", ExecutablePath);
+        }
     }
 
     #region Path Resolution
@@ -204,7 +207,7 @@ public partial class GcloudCliScraper : CliScraperBase
     private static string? ExtractDescription(string helpText)
     {
         // NAME section: "gcloud command - description"
-        var match = Regex.Match(helpText, @"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline);
+        var match = CommandDescriptionPattern().Match(helpText);
         if (match.Success)
         {
             return match.Groups[1].Value.Trim().Replace("\n", " ").Replace("  ", " ");
@@ -220,7 +223,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         // Find FLAGS section
-        var flagsMatch = Regex.Match(helpText, @"^FLAGS\s*$", RegexOptions.Multiline);
+        var flagsMatch = FlagsSectionPattern().Match(helpText);
         if (!flagsMatch.Success)
         {
             return (options, []);
@@ -360,6 +363,9 @@ public partial class GcloudCliScraper : CliScraperBase
         && !isStructuredValue
         && !isKeyValue
         && !isKnownScalar
+        // Repeating a switch preserves boundaries between structured records. Merely
+        // accepting multiple values does not distinguish a list from repeated switches.
+        && !RepeatedSwitchDescriptionPattern().IsMatch(description ?? string.Empty)
         && ((valueHint.Contains(',') && valueHint.Contains("...", StringComparison.Ordinal))
             || CommaSeparatedListDescriptionPattern().IsMatch(description ?? string.Empty));
 
@@ -462,20 +468,20 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var args = new List<CliPositionalArgument>();
 
-        var sectionMatch = Regex.Match(helpText, @"^POSITIONAL ARGUMENTS\s*$", RegexOptions.Multiline);
+        var sectionMatch = PositionalSectionPattern().Match(helpText);
         if (!sectionMatch.Success)
         {
             return args;
         }
 
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
+        var nextMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
 
         // Match: "     ARG_NAME [ARG_NAME ...]"
-        var argMatch = Regex.Match(section, @"^\s{5}([A-Z][A-Z_]+)(?:\s+\[[A-Z][A-Z_]+\s*\.\.\.\])?", RegexOptions.Multiline);
+        var argMatch = PositionalArgumentPattern().Match(section);
         if (argMatch.Success)
         {
             var argName = argMatch.Groups[1].Value;
@@ -565,7 +571,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         // Pattern 1: "OPTION must be one of: value1, value2, value3" (comma-separated list)
-        var match = Regex.Match(description, @"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
+        var match = RequiredEnumValuesPattern().Match(description);
         if (match.Success)
         {
             var values = match.Groups[1].Value
@@ -582,7 +588,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         // Pattern 2: "; one of value1, value2" at end of description
-        match = Regex.Match(description, @";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
+        match = TrailingEnumValuesPattern().Match(description);
         if (match.Success)
         {
             var values = match.Groups[1].Value
@@ -648,7 +654,10 @@ public partial class GcloudCliScraper : CliScraperBase
 
     #region Regex Patterns
 
-    [GeneratedRegex(@"^(?:(?:a|the)\s+)?comma[- ](?:separated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:^|[.!?]\s+)(?:(?:this|the)\s+)?(?:(?:is\s+(?:a|an)\s+)?(?:repeatable|repeated)\s+(?:flag|argument|option)|(?:flag|argument|option)\s+(?:(?:can|may|must|should)\s+be|is)\s+(?:repeatable|repeated|(?:specified|supplied|provided|used|passed|set|given)\s+(?:multiple\s+times|more\s+than\s+once)))\b", RegexOptions.IgnoreCase)]
+    private static partial Regex RepeatedSwitchDescriptionPattern();
+
+    [GeneratedRegex(@"^(?:\((?:DEPRECATED|ALPHA|BETA)\)\s+)*(?:(?:a|the)\s+)?comma[- ](?:separated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
 
     /// <summary>
@@ -679,6 +688,23 @@ public partial class GcloudCliScraper : CliScraperBase
     private static partial Regex SectionHeaderPattern();
     [GeneratedRegex(@"^\s{5}(\w[\w-]*)\s*$", RegexOptions.Multiline)]
     private static partial Regex IndentedCommandNamePattern();
+    [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
+    private static partial Regex CommandDescriptionPattern();
+
+    [GeneratedRegex(@"^FLAGS\s*$", RegexOptions.Multiline)]
+    private static partial Regex FlagsSectionPattern();
+
+    [GeneratedRegex(@"^POSITIONAL ARGUMENTS\s*$", RegexOptions.Multiline)]
+    private static partial Regex PositionalSectionPattern();
+
+    [GeneratedRegex(@"^\s{5}([A-Z][A-Z_]+)(?:\s+\[[A-Z][A-Z_]+\s*\.\.\.\])?", RegexOptions.Multiline)]
+    private static partial Regex PositionalArgumentPattern();
+
+    [GeneratedRegex(@"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    private static partial Regex RequiredEnumValuesPattern();
+
+    [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    private static partial Regex TrailingEnumValuesPattern();
 
     #endregion
 }

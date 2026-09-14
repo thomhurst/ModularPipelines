@@ -6,6 +6,25 @@ namespace ModularPipelines.Google.UnitTests;
 public class GcloudDelimitedListTests
 {
     [Test]
+    public async Task DnsRecordSetsRenderAsRepeatedOptions()
+    {
+        var arguments = BuildArguments(new GcloudDnsResponsePoliciesRulesUpdateOptions
+        {
+            LocalData =
+            [
+                "name=zone.com.,type=A,ttl=21600,rrdata=1.2.3.4",
+                "name=www.zone.com.,type=CNAME,ttl=21600,rrdata=1.2.3.4|5.6.7.8",
+            ],
+        });
+
+        await AssertArguments(arguments,
+        [
+            "--local-data=name=zone.com.,type=A,ttl=21600,rrdata=1.2.3.4",
+            "--local-data=name=www.zone.com.,type=CNAME,ttl=21600,rrdata=1.2.3.4|5.6.7.8",
+        ]);
+    }
+
+    [Test]
     public async Task MigrationListsRenderAsOneCommaSeparatedValuePerOption()
     {
         var arguments = BuildArguments(new GcloudMetastoreServicesMigrationsStartOptions

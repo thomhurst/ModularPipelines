@@ -58,6 +58,17 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUES", "A comma-delimited list of values.", ",")]
     [Arguments("VALUES", "A comma separated list of values.", ",")]
     [Arguments("VALUES", "The comma-separated list of values.", ",")]
+    [Arguments("VALUES", "(DEPRECATED) A comma-separated list of values.", ",")]
+    [Arguments("VALUES", "(BETA) A comma-separated list of values.", ",")]
+    [Arguments("VALUES", "(ALPHA) A comma-delimited list of values.", ",")]
+    [Arguments("SIZE", "(DEPRECATED) When using a comma-separated list in --worker, set the batch size.", null)]
+    [Arguments("[VALUE,...]", "Values to include. This flag can be repeated.", null)]
+    [Arguments("[VALUE,...]", "This is a repeated argument that can be specified multiple times.", null)]
+    [Arguments("[VALUE,...]", "This option may be specified multiple times.", null)]
+    [Arguments("[VALUE,...]", "Values to include. This option accepts multiple values.", ",")]
+    [Arguments("[VALUE,...]", "Values to include. The --other flag can be repeated.", ",")]
+    [Arguments("[VALUE,...]", "Values to include alongside a repeated argument.", ",")]
+    [Arguments("[VALUE,...]", "Values to include. The option is repeatable.", null)]
     [Arguments("SIZE", "When using a comma-separated list in --worker, set the batch size.", null)]
     [Arguments("VALUE", "The current value controls a comma-separated list in --other.", null)]
     [Arguments("VALUE", "This flag can be repeated.", null)]
@@ -105,6 +116,36 @@ public partial class NestedArgumentGroupParsingTests
 
         await Assert.That(option.AcceptsMultipleValues).IsTrue();
         await Assert.That(option.CollectionSeparator).IsNull();
+    }
+
+    [Test]
+    [Arguments("dns-response-policies-rules-update", "dns response-policies rules update", "--local-data", null)]
+    [Arguments("artifacts-docker-images-scan", "artifacts docker images scan", "--additional-package-types", ",")]
+    public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
+        string fixture, string commandPath, string switchName, string? separator)
+    {
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", $"{fixture}-550.0.0.txt"));
+        var command = await CreateGcloudScraper().Parse(["gcloud", .. commandPath.Split(' ')], helpText);
+        var option = command!.Options.Single(option => option.SwitchName == switchName);
+
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.CollectionSeparator).IsEqualTo(separator);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+
+        var attribute = separator is null
+            ? $"[CliOption(\"{switchName}\", Format = OptionFormat.EqualsSeparated)]"
+            : $"[CliOption(\"{switchName}\", Format = OptionFormat.EqualsSeparated, CollectionSeparator = \",\")]";
+        await Assert.That(generated).Contains(attribute);
     }
 
     [Test]
