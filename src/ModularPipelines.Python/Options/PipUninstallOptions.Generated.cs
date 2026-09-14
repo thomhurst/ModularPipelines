@@ -19,9 +19,7 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
-public record PipUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Package
-) : PipOptions, IValidatableObject
+public record PipUninstallOptions : PipOptions, IValidatableObject
 {
     /// <summary>
     /// Uninstall all the packages listed in the given requirements file.  This option can be used multiple times.
@@ -172,6 +170,12 @@ public record PipUninstallOptions(
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The &lt;package&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Package { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

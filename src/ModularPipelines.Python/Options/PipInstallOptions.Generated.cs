@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Python.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Python.Options;
 
@@ -18,7 +19,7 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
-public record PipInstallOptions : PipOptions
+public record PipInstallOptions : PipOptions, IValidatableObject
 {
     /// <summary>
     /// Install from the given requirements file. This option can be used multiple times.
@@ -361,5 +362,14 @@ public record PipInstallOptions : PipOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? RequirementSpecifier { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(RequirementSpecifier?.Any() == true || Requirement?.Any() == true || !string.IsNullOrWhiteSpace(Editable)))
+        {
+            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, or Editable must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(Editable)]);
+        }
+    }
 
 }
