@@ -17,6 +17,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Generate a patch out of a directory
 /// </summary>
+/// <param name="PatchDir">The &lt;PATCH_DIR&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch-commit")]

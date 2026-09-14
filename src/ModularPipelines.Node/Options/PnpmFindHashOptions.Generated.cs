@@ -17,6 +17,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Lists the packages that include the file with the specified hash
 /// </summary>
+/// <param name="Hash">The &lt;HASH&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("find-hash")]

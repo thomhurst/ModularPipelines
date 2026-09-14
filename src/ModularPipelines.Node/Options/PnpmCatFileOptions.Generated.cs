@@ -17,6 +17,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Prints the contents of a file based on the hash value stored in the index file
 /// </summary>
+/// <param name="Hash">The &lt;HASH&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cat-file")]

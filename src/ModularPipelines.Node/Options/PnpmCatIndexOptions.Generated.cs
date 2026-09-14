@@ -17,6 +17,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Prints the index file of a specific package from the store
 /// </summary>
+/// <param name="WantedDependency">The &lt;WANTED_DEPENDENCY&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cat-index")]

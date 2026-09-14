@@ -17,6 +17,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Deletes a key from package.json
 /// </summary>
+/// <param name="Keys">The &lt;KEYS&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pkg", "delete")]
