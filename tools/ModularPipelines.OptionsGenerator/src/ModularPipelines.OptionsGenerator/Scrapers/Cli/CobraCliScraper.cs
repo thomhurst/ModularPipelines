@@ -445,7 +445,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return "bool";
         }
 
-        if (typeHint == "[]")
+        if (typeHint.StartsWith('[') && typeHint.EndsWith(']'))
         {
             return "stringArray";
         }
@@ -986,9 +986,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
     ///     -A, --all-namespaces=false:
     ///     --chunk-size=500:
     /// </summary>
-    // A quoted default ('gcr.io/kicbase:v1', "a:b") is captured whole so the colons inside it are
-    // never mistaken for the separator that precedes the description.
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
+    // Quoted defaults and bracketed lists are captured whole so their colons do not start
+    // the description. A list item may contain its own brackets, as in an IPv6 URL.
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|\[(?:[^\[\]\r\n]|\[[^\[\]\r\n]*\])*\]|[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
 
     [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]

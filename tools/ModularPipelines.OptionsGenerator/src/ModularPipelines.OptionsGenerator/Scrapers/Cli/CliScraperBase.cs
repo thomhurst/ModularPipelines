@@ -1408,10 +1408,10 @@ public abstract partial class CliScraperBase : ICliScraper
         var heading = text.TrimEnd(':');
         // Sentence punctuation and capitalization alone do not turn a repeatability note
         // into a section. Custom colon-ended headings must have a title-shaped label.
-        return !DescriptionDeclaresRepeatableOption(text)
-               && (NamedHelpSectionPattern().IsMatch(heading)
-                   || NamedOptionSectionPattern().IsMatch(heading)
-                   || (text.EndsWith(':') && TitleHelpSectionPattern().IsMatch(heading)));
+        return NamedHelpSectionPattern().IsMatch(heading)
+               || NamedOptionSectionPattern().IsMatch(heading)
+               || (!DescriptionDeclaresRepeatableOption(text)
+                   && text.EndsWith(':') && TitleHelpSectionPattern().IsMatch(heading));
     }
 
     [GeneratedRegex(@"^[A-Z][a-z0-9/-]*(?:[ \t]+(?:[A-Z][a-z0-9/-]*|and|or|of|for|the))*$", RegexOptions.CultureInvariant)]
