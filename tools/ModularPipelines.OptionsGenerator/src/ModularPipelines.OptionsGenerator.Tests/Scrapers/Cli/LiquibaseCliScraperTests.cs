@@ -395,6 +395,24 @@ public class LiquibaseCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Scrape_Preserves_Operand_After_Inherited_Presence_Only_Flag()
+    {
+        const string rootHelp = "Usage: liquibase [OPTIONS] [COMMAND]\n\nCommands\n  update                Deploy changes\n\nGlobal Options:\n      --quiet              Suppress output\n      --config-file=PARAM  Read configuration";
+        const string updateHelp = "Usage: liquibase update [OPTIONS] --quiet <TARGET> --config-file <FILE>\n\n      --quiet              Suppress output\n      --config-file=PARAM  Read configuration";
+        var scraper = new TestLiquibaseCliScraper(new StubExecutor(rootHelp, updateHelp));
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var result = commands.Single();
+        await Assert.That(result.Options).IsEmpty();
+        await Assert.That(result.PositionalArguments.Single().PropertyName).IsEqualTo("Target");
+        await Assert.That(result.PositionalArguments.Single().IsRequired).IsTrue();
+    }
+
     private sealed class TestLiquibaseCliScraper(ICliCommandExecutor? executor = null)
         : LiquibaseCliScraper(executor ?? new StubExecutor(), new StubHelpTextCache(), NullLogger<LiquibaseCliScraper>.Instance)
     {

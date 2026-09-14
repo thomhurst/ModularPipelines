@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -33,6 +34,8 @@ public class CodeGeneratorOrchestratorTests
         public IReadOnlyList<CliOptionDefinition> GlobalOptions { get; init; } = [];
 
         public CliCommandCoveragePolicy CommandCoverage { get; init; } = new();
+
+        public Func<CancellationToken, Task<CliCommandCoveragePolicy>>? ProbeCoverage { get; init; }
 
         public string? Version { get; init; } = "fake 1.0";
 
@@ -81,6 +84,12 @@ public class CodeGeneratorOrchestratorTests
             ExecutablePrerequisite = ExecutablePrerequisite,
             ExecutablePrerequisiteMetadataExemption = ExecutablePrerequisiteMetadataExemption,
         };
+
+        public async Task<CliToolDefinition> CreateToolDefinitionAsync(CancellationToken cancellationToken = default) =>
+            CreateToolDefinition() with
+            {
+                CommandCoverage = ProbeCoverage is null ? CommandCoverage : await ProbeCoverage(cancellationToken),
+            };
     }
 
     private sealed class FakeGenerator : ICodeGenerator
@@ -421,6 +430,67 @@ public class CodeGeneratorOrchestratorTests
         finally
         {
             Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Installation_Metadata_Is_Checked_Before_Publishing_Output(bool probeFails)
+    {
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
+        var originalContent = await File.ReadAllTextAsync(existingFile);
+        var generatorCalled = false;
+        var scraper = new FakeCliScraper
+        {
+            Commands = [FakeCommand()],
+            ProbeCoverage = _ => probeFails
+                ? Task.FromException<CliCommandCoveragePolicy>(new InvalidOperationException("Inventory unavailable"))
+                : Task.FromResult(new CliCommandCoveragePolicy { SentinelCommands = ["fake missing"] }),
+        };
+        try
+        {
+            var result = await Orchestrator(scraper, new FakeGenerator
+            {
+                OnGenerate = _ => { generatorCalled = true; return []; },
+            }).GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.HasErrors).IsTrue();
+            await Assert.That(result.Errors[0].Message).Contains(probeFails ? "Inventory unavailable" : "fake missing");
+            // Coverage runs after in-memory generation; a failed probe stops even that stage.
+            await Assert.That(generatorCalled).IsEqualTo(!probeFails);
+            await Assert.That(await File.ReadAllTextAsync(existingFile)).IsEqualTo(originalContent);
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Scraping_Orchestrator_Uses_Installation_Metadata(bool probeFails)
+    {
+        var coverage = new CliCommandCoveragePolicy { SentinelCommands = ["fake missing"] };
+        var scraper = new FakeCliScraper
+        {
+            Commands = [FakeCommand()],
+            ProbeCoverage = _ => probeFails
+                ? Task.FromException<CliCommandCoveragePolicy>(new InvalidOperationException("Inventory unavailable"))
+                : Task.FromResult(coverage),
+        };
+        var orchestrator = new ScrapingOrchestrator(NullLogger<ScrapingOrchestrator>.Instance);
+        if (probeFails)
+        {
+            await Assert.That(async () => { await orchestrator.ScrapeAndEnhanceAsync(scraper); })
+                .Throws<InvalidOperationException>();
+        }
+        else
+        {
+            var tool = await orchestrator.ScrapeAndEnhanceAsync(scraper);
+            await Assert.That(tool.CommandCoverage).IsSameReferenceAs(coverage);
+            await Assert.That(tool.Commands).HasSingleItem();
         }
     }
 

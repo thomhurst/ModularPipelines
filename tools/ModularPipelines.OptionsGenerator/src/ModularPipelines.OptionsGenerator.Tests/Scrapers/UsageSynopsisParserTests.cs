@@ -112,6 +112,156 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("(--verbose <TARGET>|--file <FILE>)", true, false)]
+    [Arguments("(--file <FILE>|--verbose <TARGET>)", true, false)]
+    [Arguments("(--verbose <TARGET>|--file <FILE>)", false, true)]
+    [Arguments("(--verbose|--file <FILE>)", true, true)]
+    public async Task Resolving_Single_Synopsis_Uses_Option_Shapes_For_Inline_Alternatives(
+        string alternatives, bool verboseIsFlag, bool hasAlternativeGroup)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool run {alternatives}", ["tool", "run"]);
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "--verbose", PropertyName = "Verbose", CSharpType = verboseIsFlag ? "bool?" : "string?", IsFlag = verboseIsFlag },
+            new() { SwitchName = "--file", PropertyName = "File", CSharpType = "string?" },
+        ];
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage, options);
+        var repeated = UsageSynopsisParser.ResolveOptionUsage(resolved, options);
+
+        await Assert.That(resolved.RequiredAlternativeGroups.Count).IsEqualTo(hasAlternativeGroup ? 1 : 0);
+        await Assert.That(repeated.RequiredAlternativeGroups).IsEquivalentTo(resolved.RequiredAlternativeGroups);
+        if (hasAlternativeGroup)
+        {
+            await Assert.That(resolved.RequiredAlternativeGroups.Single().Members.Select(member => member.OptionSwitch!))
+                .IsEquivalentTo(["--verbose", "--file"]);
+        }
+    }
+
+    [Test]
+    public async Task Resolving_Alternatives_Reranks_After_Removing_The_Only_Selected_Placeholder()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: tool group <COMMAND>\n       tool group <TARGET>", ["tool", "group"]);
+        var normalized = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, []);
+
+        await Assert.That(resolved.PositionalArguments.Single().PropertyName).IsEqualTo("Target");
+        await Assert.That(resolved.PositionalArguments.Single().IsRequired).IsFalse();
+        await Assert.That(resolved.HasOperandTokens).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Resolving_Flag_Shapes_Does_Not_Flatten_A_Conjunction_Into_An_Alternative(bool fileFirst)
+    {
+        var flagForm = "tool run --verbose <TARGET>";
+        var fileForm = "tool run --file <FILE>";
+        var usage = UsageSynopsisParser.Parse(
+            $"Usage: {(fileFirst ? fileForm : flagForm)}\n       {(fileFirst ? flagForm : fileForm)}", ["tool", "run"]);
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "--verbose", PropertyName = "Verbose", CSharpType = "bool?", IsFlag = true },
+            new() { SwitchName = "--file", PropertyName = "File", CSharpType = "string?" },
+        ];
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage, options);
+        var repeated = UsageSynopsisParser.ResolveOptionUsage(resolved, options);
+
+        // A flat OR group cannot express (--verbose AND TARGET) OR --file.
+        await Assert.That(resolved.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(repeated.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(resolved.PositionalArguments.Single().PropertyName).IsEqualTo("Target");
+        await Assert.That(resolved.PositionalArguments.Single().IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Resolving_Alternatives_Does_Not_Restore_Renamed_Command_Group_Placeholders()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: tool group <COMMAND> <ARG>\n       tool group <SUBCOMMAND> <ARG>",
+            ["tool", "group"]);
+        var normalized = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, []);
+
+        await Assert.That(resolved.PositionalArguments.Single().PropertyName).IsEqualTo("Arg");
+        await Assert.That(resolved.RequirednessCandidates.SelectMany(candidate => candidate.PositionalArguments)
+            .Any(UsageSynopsisParser.IsCommandGroupPlaceholder)).IsFalse();
+    }
+
+    [Test]
+    public async Task Case_Distinct_Value_Switch_Does_Not_Borrow_A_Flag_Shape()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run -F <VALUE>", ["tool", "run"]);
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "-f", PropertyName = "Force", CSharpType = "bool?", IsFlag = true },
+            new() { SwitchName = "-F", PropertyName = "File", CSharpType = "string?" },
+        ];
+
+        await Assert.That(UsageSynopsisParser.IsPositionalSlot(usage.PositionalArguments.Single(), options)).IsFalse();
+    }
+
+    [Test]
+    public async Task Reranking_Does_Not_Restore_Removed_Option_Values_With_A_Positional_Name()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [OPTIONS] --file <PATH> --config <CONFIG> <PATH>\n       tool run [OPTIONS] --file <PATH> <X> <Y>", ["tool", "run"]);
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "--file", PropertyName = "File", CSharpType = "string?" },
+            new() { SwitchName = "--config", PropertyName = "Config", CSharpType = "string?" },
+        ];
+        var normalized = usage with
+        {
+            PositionalArguments = [.. usage.PositionalArguments.Where(argument => argument.AssociatedOptionSwitch is null)],
+        };
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, options);
+
+        await Assert.That(resolved.PositionalArguments.Select(argument => argument.PropertyName)).IsEquivalentTo(["X", "Y"]);
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.AssociatedOptionSwitch is null)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("[--inherited]...")]
+    [Arguments("[--inherited]…")]
+    [Arguments("[--inherited]:")]
+    [Arguments("[--inherited];")]
+    [Arguments("[--inherited],")]
+    [Arguments("[--inherited]...:")]
+    [Arguments("[--inherited]…,")]
+    public async Task Closed_Flag_Groups_Do_Not_Own_Following_Operands(string flag)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool run {flag} <TARGET>", ["tool", "run"]);
+        var target = usage.PositionalArguments.Single();
+
+        await Assert.That(target.AssociatedOptionSwitch).IsNull();
+        await Assert.That(UsageSynopsisParser.IsPositionalSlot(target, [])).IsTrue();
+        await Assert.That(target.IsRequired).IsTrue();
+    }
+
+    [Test]
+    public async Task Resolving_Normalized_Flag_Operands_Preserves_Requiredness_And_Is_Idempotent()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [OPTIONS] --verbose <A> <B>\n       tool run [OPTIONS] <X> <Y>", ["tool", "run"]);
+        CliOptionDefinition[] options = [new() { SwitchName = "--verbose", PropertyName = "Verbose", CSharpType = "bool?", IsFlag = true }];
+        var normalized = usage with
+        {
+            PositionalArguments = [.. usage.PositionalArguments.Select(argument => argument with { AssociatedOptionSwitch = null })],
+        };
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, options);
+        var repeated = UsageSynopsisParser.ResolveOptionUsage(resolved, options);
+
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.CSharpType == "string")).IsTrue();
+        await Assert.That(repeated.PositionalArguments).IsEquivalentTo(resolved.PositionalArguments);
+    }
+
+    [Test]
     public async Task Ignores_Azure_Usage_Examples()
     {
         const string helpText = """
@@ -864,6 +1014,48 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Does_Not_Match_Selected_Option_Operand_To_Alternative_Positional()
+    {
+        const string helpText = """
+            Usage:
+              tool run [OPTIONS] --file <FILE> <TARGET>
+              tool run [OPTIONS] <OBJECT>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+        var file = result.PositionalArguments.Single(argument => argument.PropertyName == "File");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(file.AssociatedOptionSwitch).IsEqualTo("--file");
+            await Assert.That(file.IsRequired).IsFalse();
+            await Assert.That(file.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    [Arguments("<A> --file <FILE> <B>", "<X> <Y>", "B")]
+    [Arguments("--file <FILE> <TARGET>", "<OBJECT> --mode <MODE>", "Target")]
+    [Arguments("--file <FILE> <TARGET>", "<OBJECT>", "Target")]
+    public async Task Matches_Renamed_Positionals_After_Filtering_Option_Operands(
+        string selectedForm,
+        string alternativeForm,
+        string propertyName)
+    {
+        var helpText = $"Usage:\n  tool run [OPTIONS] {selectedForm}\n  tool run [OPTIONS] {alternativeForm}";
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+        var positional = result.PositionalArguments.Single(argument => argument.PropertyName == propertyName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(positional.AssociatedOptionSwitch).IsNull();
+            await Assert.That(positional.IsRequired).IsTrue();
+            await Assert.That(positional.CSharpType).IsEqualTo("string");
+        }
+    }
+
+    [Test]
     public async Task Relaxes_Operands_Absent_From_Alternate_Invocation_Forms()
     {
         const string helpText = """
@@ -883,6 +1075,30 @@ public class UsageSynopsisParserTests
             await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
             await Assert.That(dependency.IsRequired).IsFalse();
             await Assert.That(dependency.CSharpType).IsEqualTo("string?");
+            await Assert.That(requiredSources).IsEquivalentTo(["Dep", "--path", "--git"]);
+        }
+    }
+
+    [Test]
+    public async Task Relaxes_Operands_Absent_From_Alternate_Forms_With_Option_Placeholders_And_Ellipses()
+    {
+        // cargo 1.98 prints the three forms with [OPTIONS] and a trailing " ..." each.
+        const string helpText = """
+            Usage: cargo add [OPTIONS] <DEP>[@<VERSION>] ...
+                   cargo add [OPTIONS] --path <PATH> ...
+                   cargo add [OPTIONS] --git <URL> ...
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["cargo", "add"]);
+        var dependency = result.PositionalArguments.Single();
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
+            await Assert.That(dependency.IsRequired).IsFalse();
+            await Assert.That(dependency.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(requiredSources).IsEquivalentTo(["Dep", "--path", "--git"]);
         }
     }
@@ -1479,10 +1695,14 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Model_Rejects_Operand_After_SameNamed_Boolean_Option()
+    [Arguments("--output", "--output")]
+    [Arguments("[--output]", null)]
+    public async Task Model_Rejects_Operand_After_SameNamed_Boolean_Option(
+        string optionUsage,
+        string? associatedOptionSwitch)
     {
         var usage = UsageSynopsisParser.Parse(
-            "Usage: tool run [--output] OUTPUT",
+            $"Usage: tool run {optionUsage} OUTPUT",
             ["tool", "run"]);
         var command = new CliCommandDefinition
         {
@@ -1511,7 +1731,7 @@ public class UsageSynopsisParserTests
         using (Assert.Multiple())
         {
             await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
-                .IsEqualTo("--output");
+                .IsEqualTo(associatedOptionSwitch);
             await Assert.That(Validate)
                 .Throws<InvalidOperationException>()
                 .And.HasMessageContaining("no CliPositionalArgument");

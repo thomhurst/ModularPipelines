@@ -83,6 +83,7 @@ public partial class NbgvCliScraper(
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
+        var options = ParseOptions(helpText);
         var command = new CliCommandDefinition
         {
             FullCommand = string.Join(' ', commandPath),
@@ -92,8 +93,8 @@ public partial class NbgvCliScraper(
             ToolNamespacePrefix = NamespacePrefix,
             Description = ExtractDescription(helpText),
             DocumentationUrl = DocumentationUrl,
-            Options = ParseOptions(helpText),
-            PositionalArguments = usage.PositionalArguments,
+            Options = options,
+            PositionalArguments = GetPositionalArguments(usage, options),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             Enums = [],

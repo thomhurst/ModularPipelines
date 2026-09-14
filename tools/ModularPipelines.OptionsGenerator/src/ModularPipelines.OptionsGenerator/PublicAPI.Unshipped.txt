@@ -1,9 +1,11 @@
 #nullable enable
 *REMOVED*override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.MaxParallelism.get -> int
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.GhCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.UsageSynopsisHeadings.get -> System.Collections.Generic.IReadOnlyList<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseCommandAsync(string![]! commandPath, string! helpText, ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult! usage, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition?>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.NormalizeUsageSynopsis(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition! command, ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult! usage) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GhCliScraper.CreateToolDefinitionAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliToolDefinition!>!
+ModularPipelines.OptionsGenerator.Scrapers.Cli.ICliScraper.CreateToolDefinitionAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliToolDefinition!>!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.CreateToolDefinitionAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliToolDefinition!>!
 ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.HasProcessExitCode.get -> bool
 ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.HasProcessExitCode.init -> void
 ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.IsPositional.get -> bool

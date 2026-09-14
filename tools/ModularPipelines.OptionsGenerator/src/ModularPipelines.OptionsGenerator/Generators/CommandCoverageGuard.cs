@@ -44,7 +44,7 @@ internal static class CommandCoverageGuard
             fallbackManifestPath,
             pathComparer ?? StringComparer.OrdinalIgnoreCase,
             allowMissingManifest);
-        var (exclusions, allowedMissingCommands) = ValidateCoveragePolicy(tool.CommandCoverage);
+        var (exclusions, allowedMissingCommands) = ValidateCoveragePolicy(tool.CommandCoverage, commands, previous);
         var unavailableCommands = GetUnavailableCommands(unavailableHelpPaths);
         var (addedCommands, removedCommands) = GetCommandDiff(previous, commands, unavailableCommands);
         var unapprovedRemovedCommands = removedCommands
@@ -94,7 +94,10 @@ internal static class CommandCoverageGuard
     }
 
     private static (IReadOnlyList<CliCommandCoverageExclusion> Exclusions, HashSet<string> AllowedMissingCommands)
-        ValidateCoveragePolicy(CliCommandCoveragePolicy policy)
+        ValidateCoveragePolicy(
+            CliCommandCoveragePolicy policy,
+            IReadOnlyList<string> commands,
+            CommandCoverageManifest? previous)
     {
         var exclusions = ValidateExclusions(policy.Exclusions);
         var excludedCommands = exclusions
@@ -115,8 +118,17 @@ internal static class CommandCoverageGuard
                 + string.Join(", ", conflictingCommands));
         }
 
+        // An absent optional installation removes the whole subtree. If any part is
+        // still visible, missing descendants must continue to fail coverage checks.
+        var absentConditionalRoots = conditionallyAvailableCommands
+            .Where(root => !commands.Any(command => IsSameOrChildOf(root, command)))
+            .ToArray();
+        var conditionalDescendants = (previous?.Commands ?? [])
+            .Concat(policy.SentinelCommands.Select(NormalizeCommand))
+            .Where(command => absentConditionalRoots.Any(root => IsSameOrChildOf(root, command)));
         var allowedMissingCommands = excludedCommands
-            .Concat(conditionallyAvailableCommands)
+            .Concat(absentConditionalRoots)
+            .Concat(conditionalDescendants)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
         return (exclusions, allowedMissingCommands);
     }
@@ -127,11 +139,10 @@ internal static class CommandCoverageGuard
     /// removal arithmetic and its approval budget and are reported on their own.
     /// </summary>
     private static string[] GetUnavailableCommands(IReadOnlyList<string>? unavailableHelpPaths) =>
-        (unavailableHelpPaths ?? [])
+        [.. (unavailableHelpPaths ?? [])
             .Select(NormalizeCommand)
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Order(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .Order(StringComparer.OrdinalIgnoreCase)];
 
     private static bool IsUnavailable(string command, IReadOnlyList<string> unavailableCommands) =>
         unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, command));
@@ -553,7 +564,7 @@ internal static class CommandCoverageGuard
                 allowMissingManifest: false)
             ?.CommandGroups
             .ToHashSet(StringComparer.OrdinalIgnoreCase)
-        ?? new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        ?? [with(StringComparer.OrdinalIgnoreCase)];
 }
 
 internal sealed record CommandCoverageManifest

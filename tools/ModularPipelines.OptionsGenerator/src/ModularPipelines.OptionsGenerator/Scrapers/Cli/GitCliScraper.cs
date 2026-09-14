@@ -251,7 +251,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             ToolNamespacePrefix = NamespacePrefix,
             Description = ExtractDescription(helpText, command),
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(usage, options),
             SubDomainGroup = null, // The handwritten Git facade owns command grouping.
         });
     }

@@ -8,6 +8,24 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class PositionalOperandAdapterTests
 {
+    [Test]
+    public async Task Pip_Flag_Preserves_Following_Required_Operand()
+    {
+        const string helpText = "Usage: pip install --require-hashes <TARGET>\n\nInstall Options:\n  --require-hashes      Require hashes.";
+        var command = await new TestPipCliScraper().Parse(["pip", "install"], helpText);
+
+        await AssertArgument(command, "Target", isRequired: true, isVariadic: false);
+    }
+
+    [Test]
+    public async Task Pnpm_Flag_Preserves_Following_Required_Operand()
+    {
+        const string helpText = "Usage: pnpm add --offline <TARGET>\n\nOptions:\n      --offline       Use cached packages.";
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "add"], helpText);
+
+        await AssertArgument(command, "Target", isRequired: true, isVariadic: false);
+    }
+
     private static ICliCommandExecutor Executor { get; } =
         new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
 
@@ -428,7 +446,7 @@ public class PositionalOperandAdapterTests
             NullLogger<PnpmCliScraper>.Instance)
     {
         public IReadOnlyList<string> Extract(string helpText) =>
-            ExtractSubcommands(helpText).ToArray();
+            [.. ExtractSubcommands(helpText)];
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(

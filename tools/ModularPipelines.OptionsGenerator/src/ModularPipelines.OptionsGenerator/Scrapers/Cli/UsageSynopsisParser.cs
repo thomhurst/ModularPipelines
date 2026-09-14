@@ -102,10 +102,6 @@ public static class UsageSynopsisParser
             ? [.. sameCommandCandidates
                 .Where(candidate => suppliedSynopsisSet.Contains(candidate.Synopsis ?? ""))]
             : sameCommandCandidates;
-        var requirednessCandidateMemberKeys = requirednessCandidates
-            .Select(GetRequiredAlternativeMemberKeys)
-            .ToArray();
-
         return selected with
         {
             HasExtractedSynopses = true,
@@ -116,16 +112,8 @@ public static class UsageSynopsisParser
             PositionalArguments = RelaxArgumentsMissingFromAlternatives(
                 selected.PositionalArguments,
                 requirednessCandidates),
-            RequiredAlternativeGroups =
-            [
-                .. selected.RequiredAlternativeGroups.Where(group =>
-                    requirednessCandidateMemberKeys.All(candidateMemberKeys =>
-                        group.Members.Any(member => candidateMemberKeys.Contains(
-                            GetAlternativeMemberKey(member))))),
-                .. GetCrossSynopsisRequiredAlternativeGroups(
-                    requirednessCandidates,
-                    selected.PositionalArguments),
-            ],
+            RequirednessCandidates = requirednessCandidates,
+            RequiredAlternativeGroups = GetRequiredAlternativeGroups(selected, requirednessCandidates),
         };
     }
 
@@ -162,6 +150,7 @@ public static class UsageSynopsisParser
         {
             HasOperandTokens = positionalArguments.Count > 0 || result.UnparsedOperandTokens.Count > 0,
             PositionalArguments = positionalArguments,
+            RequirednessCandidates = [.. result.RequirednessCandidates.Select(RemoveCommandGroupPlaceholders)],
             RequiredAlternativeGroups =
             [
                 .. result.RequiredAlternativeGroups.Where(group => group.Members.All(member =>
@@ -218,7 +207,8 @@ public static class UsageSynopsisParser
 
     private static List<UsageRequiredAlternativeGroup> ParseInlineRequiredAlternativeGroups(
         IEnumerable<string> operandTokens,
-        CommandLinePhase phase)
+        CommandLinePhase phase,
+        IReadOnlyList<CliOptionDefinition>? options = null)
     {
         var groups = new List<UsageRequiredAlternativeGroup>();
         foreach (var token in operandTokens)
@@ -243,7 +233,7 @@ public static class UsageSynopsisParser
                     var normalizedAlternative = NormalizeCommaSeparatedOptionAliases(alternative);
                     return CollapseOptionAliases(
                         GetRequiredAlternativeMembers(
-                            ParseOperandTokens(Tokenize(normalizedAlternative), phase)),
+                            ParseOperandTokens(Tokenize(normalizedAlternative), phase), options),
                         alternative);
                 })
                 .ToArray();
@@ -274,8 +264,22 @@ public static class UsageSynopsisParser
             .Select(GetAlternativeMemberKey)
             .ToHashSet(StringComparer.Ordinal);
 
+    private static IReadOnlyList<UsageRequiredAlternativeGroup> GetRequiredAlternativeGroups(
+        UsageSynopsisParseResult selected,
+        IReadOnlyList<UsageSynopsisParseResult> candidates)
+    {
+        var candidateMemberKeys = candidates.Select(GetRequiredAlternativeMemberKeys).ToArray();
+        return
+        [
+            .. selected.RequiredAlternativeGroups.Where(group =>
+                candidateMemberKeys.All(keys =>
+                    group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))),
+            .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
+        ];
+    }
+
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
-        List<UsageSynopsisParseResult> candidates,
+        IReadOnlyList<UsageSynopsisParseResult> candidates,
         IReadOnlyList<CliPositionalArgument> selectedArguments)
     {
         if (candidates.Count <= 1
@@ -351,11 +355,13 @@ public static class UsageSynopsisParser
     }
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> GetRequiredAlternativeMembers(
-        ParsedOperands operands) =>
+        ParsedOperands operands,
+        IReadOnlyList<CliOptionDefinition>? options = null) =>
         DistinctAlternativeMembers(
             operands.Arguments
                 .Where(static argument => argument.IsRequired)
                 .Select(argument => argument.AssociatedOptionSwitch is { } optionSwitch
+                                    && !IsPositionalSlot(argument, options)
                                     && operands.RequiredOptionSwitches.Contains(
                                         optionSwitch,
                                         StringComparer.Ordinal)
@@ -570,13 +576,16 @@ public static class UsageSynopsisParser
         List<string> requiredOptionSwitches,
         ref string? associatedOptionSwitch)
     {
+        operandToken = TrimTrailingOperandPunctuation(operandToken).TrimEnd('.', '…');
         var optionSwitches = GetOptionSwitches(operandToken);
         if (optionSwitches.Count == 0)
         {
             return false;
         }
 
+        // A closed optional switch group does not consume a value outside its brackets.
         associatedOptionSwitch = HasInlineOptionValue(operandToken)
+                                 || (operandToken.StartsWith('[') && IsWrapped(operandToken))
             ? null
             : SelectPreferredOptionSwitch(optionSwitches);
         if (IsRequiredUsageToken(operandToken))
@@ -667,21 +676,139 @@ public static class UsageSynopsisParser
         && left.PositionalArguments.Count == right.PositionalArguments.Count
         && left.UnparsedOperandTokens.Count == right.UnparsedOperandTokens.Count;
 
+    /// <summary>
+    /// Resolves usage against known option shapes. Must remain idempotent because adapters
+    /// and the shared parsing pipeline can apply it more than once.
+    /// </summary>
+    internal static UsageSynopsisParseResult ResolveOptionUsage(
+        UsageSynopsisParseResult usage,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var original = usage.RequirednessCandidates.FirstOrDefault(candidate => candidate.Synopsis == usage.Synopsis);
+        // Adapter suppression clears the selected usage only; placeholder removal also
+        // clears its candidate, allowing another legitimate synopsis to be selected.
+        if (original is null
+            || (!usage.HasOperandTokens && original.HasOperandTokens))
+        {
+            return usage;
+        }
+
+        if (usage.RequirednessCandidates.Count == 1)
+        {
+            // There are no alternate forms to rerank. Preserve adapter-requiredness
+            // decisions while still checking inline choices against option shapes.
+            return usage with { RequiredAlternativeGroups = ResolveInlineAlternativeGroups(usage, options) };
+        }
+
+        var candidates = NormalizeUsageCandidates(usage, original, options);
+        var selected = candidates
+            .OrderByDescending(candidate => candidate.PositionalArguments.Count(argument => IsPositionalSlot(argument, options)))
+            .ThenByDescending(candidate => candidate.PositionalArguments.Count)
+            .ThenBy(candidate => candidate.UnparsedOperandTokens.Count)
+            .First();
+        if (selected.Synopsis != usage.Synopsis)
+        {
+            usage = usage with
+            {
+                Synopsis = selected.Synopsis,
+                HasOperandTokens = selected.PositionalArguments.Count > 0 || selected.UnparsedOperandTokens.Count > 0,
+                PositionalArguments = selected.PositionalArguments,
+                UnparsedOperandTokens = selected.UnparsedOperandTokens,
+                RequiredOptionSwitches = selected.RequiredOptionSwitches,
+            };
+        }
+
+        var resolved = RelaxArgumentsMissingFromAlternatives(
+            selected.PositionalArguments,
+            candidates,
+            options);
+        return usage with
+        {
+            PositionalArguments = ProjectRequiredness(usage.PositionalArguments, resolved, options),
+            RequiredAlternativeGroups = GetRequiredAlternativeGroups(selected, candidates),
+        };
+    }
+
+    private static UsageSynopsisParseResult[] NormalizeUsageCandidates(
+        UsageSynopsisParseResult usage,
+        UsageSynopsisParseResult original,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        // Preserve operands deliberately removed by traversal or adapter normalization when
+        // reconsidering alternate forms. In particular, never restore command-group placeholders.
+        var omittedArguments = original.PositionalArguments
+            .Where(argument => !usage.PositionalArguments.Any(candidate =>
+                candidate.PropertyName == argument.PropertyName
+                && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options)))
+            .Select(argument => (argument.PropertyName, IsPositionalSlot(argument, options)))
+            .ToHashSet();
+        return usage.RequirednessCandidates.Select(candidate => candidate with
+        {
+            PositionalArguments = [.. candidate.PositionalArguments.Where(argument =>
+                    !omittedArguments.Contains((argument.PropertyName, IsPositionalSlot(argument, options))))
+                .Select(argument => IsPositionalSlot(argument, options)
+                    ? argument with { AssociatedOptionSwitch = null }
+                    : argument)],
+            RequiredAlternativeGroups = [.. ResolveInlineAlternativeGroups(candidate, options).Where(group =>
+                group.Members.All(member => member.PositionalPropertyName is not { } name
+                    || !omittedArguments.Contains((name, true))))],
+        }).ToArray();
+    }
+
+    private static IReadOnlyList<UsageRequiredAlternativeGroup> ResolveInlineAlternativeGroups(
+        UsageSynopsisParseResult candidate,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (candidate.RequiredAlternativeGroups.Count == 0)
+        {
+            return [];
+        }
+
+        // Recheck each inline branch with known option shapes. A presence-only flag
+        // followed by an operand is a conjunction, which a flat OR cannot represent.
+        var resolved = ParseInlineRequiredAlternativeGroups(
+            Tokenize(candidate.Synopsis ?? ""), CommandLinePhase.EarlyOperand, options);
+        return [.. candidate.RequiredAlternativeGroups.Where(group =>
+            resolved.Any(resolvedGroup => resolvedGroup.Members.SequenceEqual(group.Members)))];
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> ProjectRequiredness(
+        IReadOnlyList<CliPositionalArgument> arguments,
+        IReadOnlyList<CliPositionalArgument> resolved,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        [.. arguments.Select(argument =>
+        {
+            var resolvedArgument = resolved.FirstOrDefault(candidate =>
+                candidate.PropertyName == argument.PropertyName
+                && candidate.Phase == argument.Phase
+                && candidate.PositionIndex == argument.PositionIndex
+                && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options));
+            return resolvedArgument is null ? argument : argument with
+            {
+                IsRequired = resolvedArgument.IsRequired,
+                CSharpType = resolvedArgument.IsRequired ? argument.CSharpType.TrimEnd('?') : $"{argument.CSharpType.TrimEnd('?')}?",
+            };
+        })];
+
     private static IReadOnlyList<CliPositionalArgument> RelaxArgumentsMissingFromAlternatives(
         IReadOnlyList<CliPositionalArgument> selectedArguments,
-        List<UsageSynopsisParseResult> alternatives)
+        IReadOnlyList<UsageSynopsisParseResult> alternatives,
+        IReadOnlyList<CliOptionDefinition>? options = null)
     {
         if (alternatives.Count <= 1)
         {
             return selectedArguments;
         }
 
+        var selectedPositionals = selectedArguments.Where(argument => IsPositionalSlot(argument, options)).ToArray();
         return [.. selectedArguments
             .Select(argument => alternatives.All(alternative =>
                 IsRequiredInAlternative(
                     argument,
-                    selectedArguments.Count,
-                    alternative.PositionalArguments))
+                    Array.IndexOf(selectedPositionals, argument),
+                    selectedPositionals.Length,
+                    alternative.PositionalArguments,
+                    options))
                     ? argument
                     : argument with
                     {
@@ -692,23 +819,46 @@ public static class UsageSynopsisParser
 
     private static bool IsRequiredInAlternative(
         CliPositionalArgument selectedArgument,
+        int selectedPosition,
         int selectedArgumentCount,
-        IReadOnlyList<CliPositionalArgument> alternativeArguments)
+        IReadOnlyList<CliPositionalArgument> alternativeArguments,
+        IReadOnlyList<CliOptionDefinition>? options)
     {
         if (alternativeArguments.Any(candidate =>
                 candidate.IsRequired
+                && IsPositionalSlot(candidate, options) == IsPositionalSlot(selectedArgument, options)
                 && candidate.PropertyName.Equals(
                     selectedArgument.PropertyName,
-                    StringComparison.OrdinalIgnoreCase)))
+                    StringComparison.Ordinal)))
         {
             return true;
         }
 
-        return alternativeArguments.Count == selectedArgumentCount
-               && alternativeArguments.Any(candidate =>
-                   candidate.IsRequired
-                   && candidate.PositionIndex == selectedArgument.PositionIndex
-                   && candidate.Phase == selectedArgument.Phase);
+        // An operand attached to an option ("--path <PATH>") is that option's value, not a
+        // positional slot. Compare ordinals after filtering those operands from both forms.
+        var positionalCandidates = alternativeArguments.Where(argument => IsPositionalSlot(argument, options)).ToArray();
+        return selectedPosition >= 0
+               && positionalCandidates.Length == selectedArgumentCount
+               && positionalCandidates[selectedPosition].IsRequired
+               && positionalCandidates[selectedPosition].Phase == selectedArgument.Phase;
+    }
+
+    internal static bool IsPositionalSlot(
+        CliPositionalArgument argument,
+        IReadOnlyList<CliOptionDefinition>? options)
+    {
+        if (argument.AssociatedOptionSwitch is null)
+        {
+            return true;
+        }
+
+        if (options is null)
+        {
+            return false;
+        }
+
+        var optionIndex = CliOptionDefinition.FindIndexBySwitch(options, argument.AssociatedOptionSwitch);
+        return optionIndex >= 0 && options[optionIndex].IsFlag;
     }
 
     private static List<string> ExtractSynopses(
@@ -1693,6 +1843,8 @@ public sealed record UsageSynopsisParseResult
     internal bool SupportsRequiredAlternativeInference { get; init; }
 
     internal IReadOnlyList<string> RequiredOptionSwitches { get; init; } = [];
+
+    internal IReadOnlyList<UsageSynopsisParseResult> RequirednessCandidates { get; init; } = [];
 
     public IReadOnlyList<CliPositionalArgument> PositionalArguments { get; init; } = [];
 

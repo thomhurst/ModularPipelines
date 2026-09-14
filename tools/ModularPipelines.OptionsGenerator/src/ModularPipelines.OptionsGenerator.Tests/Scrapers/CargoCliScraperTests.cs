@@ -9,6 +9,152 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    [Arguments("Aliases:")]
+    [Arguments("Note:")]
+    [Arguments("Compatibility:")]
+    [Arguments("Examples Options:")]
+    public async Task Prose_Sections_Do_Not_Create_Options(string heading)
+    {
+        var helpText = $"Usage: cargo run [OPTIONS]\n\nOptions:\n  --quiet  Suppress output\n\n{heading}\n  --example  This is prose, not an option.";
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName)).IsEquivalentTo(["--quiet"]);
+    }
+
+    [Test]
+    public async Task Command_Options_Heading_Preserves_Real_Options()
+    {
+        const string helpText = "Usage: cargo run [OPTIONS]\n\nCommand Options:\n  --quiet  Suppress output";
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().SwitchName).IsEqualTo("--quiet");
+    }
+
+    [Test]
+    [Arguments("--package <SPEC>")]
+    [Arguments("--package [<SPEC>]")]
+    [Arguments("--package=<SPEC>")]
+    public async Task Unparsed_Value_Options_Do_Not_Become_Positionals(string usage)
+    {
+        var helpText = $"""
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] {usage}
+
+            Options:
+              -p, --package [<SPEC>]  Select a package
+              -h, --help            Print help
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Same_Named_Option_Value_Does_Not_Make_An_Alternative_Positional_Required()
+    {
+        const string helpText = """
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] <PATH>
+                   cargo run [OPTIONS] --file <PATH>
+
+            Options:
+                  --file <PATH>   Read a file
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+        var positional = command!.PositionalArguments.Single();
+
+        await Assert.That(positional.IsRequired).IsFalse();
+        await Assert.That(positional.CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
+    public async Task Option_Values_And_Positionals_With_The_Same_Name_Keep_Distinct_Requiredness()
+    {
+        const string helpText = """
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] --file <PATH> <PATH>
+                   cargo run [OPTIONS] <OBJECT>
+
+            Options:
+                  --file <PATH>   Read a file
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+        var positional = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(positional.PropertyName).IsEqualTo("Path");
+            await Assert.That(positional.AssociatedOptionSwitch).IsNull();
+            await Assert.That(positional.IsRequired).IsTrue();
+            await Assert.That(positional.CSharpType).IsEqualTo("string");
+        }
+    }
+
+    [Test]
+    public async Task Presence_Only_Flags_Do_Not_Require_An_Operand_Missing_From_Another_Form()
+    {
+        const string helpText = """
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] <A> [--verbose] <B>
+                   cargo run [OPTIONS] <A>
+
+            Options:
+              -v, --verbose       Print detailed output
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+        var first = command!.PositionalArguments.Single(argument => argument.PropertyName == "A");
+        var second = command.PositionalArguments.Single(argument => argument.PropertyName == "B");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first.IsRequired).IsTrue();
+            await Assert.That(second.IsRequired).IsFalse();
+            await Assert.That(second.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    [Arguments("<A> [--verbose] <B>", "<X> <Y>")]
+    [Arguments("<A> --verbose <B>", "<X> <Y>")]
+    [Arguments("<A> [--missing] <B>", "<X> <Y>")]
+    [Arguments("<A> [-v] <B>", "<X> <Y>")]
+    [Arguments("<A> <B>", "<X> [--verbose] <Y>")]
+    [Arguments("[--verbose] <A> --file <FILE> <B>", "<X> <Y>")]
+    public async Task Presence_Only_Flags_Do_Not_Relax_Renamed_Required_Operands(
+        string firstForm,
+        string secondForm)
+    {
+        var helpText = $"""
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] {firstForm}
+                   cargo run [OPTIONS] {secondForm}
+
+            Options:
+              -v, --verbose       Print detailed output
+                  --file <FILE>   Read a file
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["A", "B"]);
+            await Assert.That(command.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+            await Assert.That(command.PositionalArguments.All(argument => argument.CSharpType == "string")).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
     {
         const string helpText = """
@@ -37,6 +183,68 @@ public class CargoCliScraperTests
                 .IsEqualTo("Do not abort the build as soon as there is an error. Implies --jobs");
             await Assert.That(GetOption(command, "--timings").Description)
                 .IsEqualTo("Output information how long each compilation takes");
+        }
+    }
+
+    [Test]
+    public async Task Options_Under_Custom_Clap_Headings_Are_Parsed()
+    {
+        // cargo add groups its dependency-source and section switches under "Source:" and
+        // "Section:" rather than an "Options" heading; only Arguments/Commands are skipped.
+        // (-p, --package [<SPEC>] uses clap's optional-value form, which this scraper does not
+        // read yet; see #4712.)
+        const string helpText = """
+            Add dependencies to a Cargo.toml manifest file
+
+            Usage: cargo add [OPTIONS] <DEP>[@<VERSION>] ...
+                   cargo add [OPTIONS] --path <PATH> ...
+                   cargo add [OPTIONS] --git <URL> ...
+
+            Arguments:
+              [DEP_ID]...
+                      Reference to a package to add as a dependency
+
+            Options:
+                  --no-default-features
+                      Disable the default features
+              -h, --help
+                      Print help (see a summary with '-h')
+
+            Manifest Options:
+                  --manifest-path <PATH>
+                      Path to Cargo.toml
+
+            Package Selection:
+              -p, --package [<SPEC>]
+                      Package to modify
+
+            Source:
+                  --path <PATH>
+                      Filesystem path to local crate to add
+                  --git <URI>
+                      Git repository location
+                  --branch <BRANCH>
+                      Git branch to download the crate from
+
+            Section:
+                  --dev
+                      Add as development dependency
+                  --target <TARGET>
+                      Add as dependency to the given target platform
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "add"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo([
+                    "--no-default-features", "--help", "--manifest-path",
+                    "--path", "--git", "--branch", "--dev", "--target",
+                ]);
+            await Assert.That(GetOption(command, "--path").Description)
+                .IsEqualTo("Filesystem path to local crate to add");
+            await Assert.That(GetOption(command, "--dev").IsFlag).IsTrue();
         }
     }
 

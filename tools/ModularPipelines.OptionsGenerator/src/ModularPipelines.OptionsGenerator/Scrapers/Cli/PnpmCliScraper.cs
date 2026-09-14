@@ -179,14 +179,16 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         var className = GenerateClassName(commandPath);
 
         // Parse options from the help text; clap lists required ones in the usage line
-        var options = ApplyUsageRequiredOptions(ParseOptions(helpText, className), usage);
+        var options = ParseOptions(helpText, className);
+        usage = UsageSynopsisParser.ResolveOptionUsage(usage, options);
+        options = ApplyUsageRequiredOptions(options, usage);
 
         // Extract enums from options
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
-        var positionalArguments = GetPositionalArguments(usage);
+        var positionalArguments = GetPositionalArguments(usage, options);
 
         var command = new CliCommandDefinition
         {

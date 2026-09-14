@@ -261,7 +261,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://docs.liquibase.com/commands/home.html",
             Options = options,
-            PositionalArguments = GetPositionalArguments(usage),
+            PositionalArguments = GetPositionalArguments(usage, options),
             SubDomainGroup = null,
             Enums = enums
         };
