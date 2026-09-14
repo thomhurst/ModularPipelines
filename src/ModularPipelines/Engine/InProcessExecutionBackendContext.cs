@@ -145,7 +145,9 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
             state.Result = result;
         }
 
-        scheduler.MarkModuleCompleted(module.GetType(), result.ExceptionOrDefault is null,
+        var success = result.Status is ModuleStatus.Succeeded or ModuleStatus.FailureIgnored
+            or ModuleStatus.Skipped or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache;
+        scheduler.MarkModuleCompleted(module.GetType(), success,
             result.ExceptionOrDefault, result.Status);
     }
 

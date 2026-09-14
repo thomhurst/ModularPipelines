@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Configuration;
 using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.ExecutionBackend.TestFixtures;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -57,14 +59,17 @@ public class ExecutionBackendTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
     [Timeout(30_000)]
-    public async Task CancellingExecutionWhileWaitingForDependencyCompletesRequest(CancellationToken cancellationToken)
+    public async Task CancellingExecutionWhileWaitingForDependencyCompletesRequest(
+        bool alwaysRun, CancellationToken cancellationToken)
     {
         using var requestCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var requestStarted = false;
         var backend = new CallbackBackend(async (modules, context, _) =>
         {
-            var dependent = modules.OfType<DependentBackendModule>().Single();
+            var dependent = modules.OfType<OrderingDependentModule>().Single();
             var execution = context.ExecuteModuleAsync(dependent, requestCancellation.Token);
             requestStarted = true;
             requestCancellation.Cancel();
@@ -72,13 +77,13 @@ public class ExecutionBackendTests
         });
         await using var pipeline = await TestPipelineBuilder.Create()
             .AddModule<BackendTestModule>()
-            .AddModule<DependentBackendModule>()
+            .AddModule(new OrderingDependentModule { AlwaysRun = alwaysRun })
             .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
             .BuildAsync();
 
         await Assert.That(() => pipeline.RunAsync(cancellationToken)).Throws<OperationCanceledException>();
         await Assert.That(requestStarted).IsTrue();
-        var dependent = pipeline.Services.GetServices<IModule>().OfType<DependentBackendModule>().Single();
+        var dependent = pipeline.Services.GetServices<IModule>().OfType<OrderingDependentModule>().Single();
         await Assert.That(dependent.ExecutionCount).IsEqualTo(0);
     }
 
@@ -249,6 +254,80 @@ public class ExecutionBackendTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(30_000)]
+    public async Task IgnoredRemoteFailureUnblocksLocalDependency(
+        bool applyBeforeExecution, CancellationToken cancellationToken)
+    {
+        var backend = new CallbackBackend(async (modules, context, _) =>
+        {
+            var dependency = modules.OfType<BackendTestModule>().Single();
+            var dependent = modules.OfType<OrderingDependentModule>().Single();
+            var remoteFailure = ModuleResult<int>.CreateFailure(
+                new InvalidOperationException("Ignored remote failure"),
+                new ModuleExecutionContext(dependency, dependency.GetType())) with
+            {
+                Status = ModuleStatus.FailureIgnored,
+            };
+            if (applyBeforeExecution)
+            {
+                await Assert.That(context.TryApplyResult(dependency, remoteFailure)).IsTrue();
+            }
+
+            var execution = context.ExecuteModuleAsync(dependent, cancellationToken);
+            if (!applyBeforeExecution)
+            {
+                await Assert.That(execution.IsCompleted).IsFalse();
+                await Assert.That(context.TryApplyResult(dependency, remoteFailure)).IsTrue();
+            }
+
+            var result = await execution;
+            await Assert.That(((ModuleResult<int>) result).Value).IsEqualTo(43);
+            await Assert.That(dependency.ExecutionCount).IsEqualTo(0);
+            await Assert.That(dependent.ExecutionCount).IsEqualTo(1);
+            await Assert.That(await dependency).IsSameReferenceAs(remoteFailure);
+            return [result];
+        });
+        await using var pipeline = await TestPipelineBuilder.Create()
+            .AddModule<BackendTestModule>()
+            .AddModule<OrderingDependentModule>()
+            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
+            .BuildAsync();
+
+        await pipeline.RunAsync(cancellationToken);
+    }
+
+    [Test]
+    [Arguments(ModuleStatus.Failed)]
+    [Arguments(ModuleStatus.TimedOut)]
+    [Arguments(ModuleStatus.Cancelled)]
+    [Arguments(ModuleStatus.DependencyFailed)]
+    [Timeout(30_000)]
+    public async Task RemoteFailurePreventsLocalExecution(ModuleStatus status, CancellationToken cancellationToken)
+    {
+        var dependency = new BackendTestModule();
+        var dependent = new OrderingDependentModule();
+        var backend = new CallbackBackend(async (_, context, _) =>
+        {
+            var result = ModuleResult<int>.CreateFailure(
+                new InvalidOperationException("Remote failure"),
+                new ModuleExecutionContext(dependency, dependency.GetType())) with
+            { Status = status };
+            await Assert.That(context.TryApplyResult(dependency, result)).IsTrue();
+            return [await context.ExecuteModuleAsync(dependent, cancellationToken)];
+        });
+        await using var pipeline = await TestPipelineBuilder.Create()
+            .AddModule(dependency)
+            .AddModule(dependent)
+            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
+            .BuildAsync();
+
+        await Assert.That(() => pipeline.RunAsync(cancellationToken)).Throws<DependencyFailedException>();
+        await Assert.That(dependent.ExecutionCount).IsEqualTo(0);
+    }
+
+    [Test]
     [Timeout(30_000)]
     public async Task ExecutionRemainsActiveUntilScopeDisposalCompletes(CancellationToken cancellationToken)
     {
@@ -342,6 +421,28 @@ public class ExecutionBackendTests
         {
             ExecutionCount++;
             return (await context.GetModule<BackendTestModule>()).Value + 1;
+        }
+    }
+
+    [ModularPipelines.DependsOn<BackendTestModule>]
+    private sealed class OrderingDependentModule : Module<int>
+    {
+        public bool AlwaysRun { get; init; }
+
+        public int ExecutionCount { get; private set; }
+
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            if (AlwaysRun)
+            {
+                module.WithAlwaysRun();
+            }
+        }
+
+        protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+            return Task.FromResult(43);
         }
     }
 
