@@ -35,6 +35,7 @@ public class PipCliScraperTests
         var requirement = leaf.Options.Single(option => option.SwitchName == "--requirement");
         await Assert.That(requirement.ShortForm).IsEqualTo("-r");
         await Assert.That(requirement.AcceptsMultipleValues).IsTrue();
+        await Assert.That(requirement.IsRequired).IsFalse();
         var inputChoice = leaf.RequiredAlternativeGroups.Single();
         await Assert.That(inputChoice.PropertyNames).Contains(positionalName).And.Contains("Requirement");
         if (verb != "uninstall")
