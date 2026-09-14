@@ -60,7 +60,7 @@ public class ArgoCdAdminNotifications
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminNotificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminNotificationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
