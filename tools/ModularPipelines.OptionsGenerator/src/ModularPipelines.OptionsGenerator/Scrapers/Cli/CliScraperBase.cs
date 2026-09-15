@@ -1941,6 +1941,7 @@ public abstract partial class CliScraperBase : ICliScraper
         var listingValues = false;
         var pendingTrailer = string.Empty;
         var startsParagraph = false;
+        var lastProseIndex = -1;
         while (index + 1 < lines.Count)
         {
             var line = lines[index + 1];
@@ -1965,18 +1966,20 @@ public abstract partial class CliScraperBase : ICliScraper
             var text = line.Trim();
             if (TryReadClapTrailer(text, ref pendingTrailer, possibleValues, prose))
             {
+                startsParagraph = false;
                 continue;
             }
 
             if (text.Equals("Possible values:", StringComparison.OrdinalIgnoreCase))
             {
                 listingValues = true;
+                startsParagraph = false;
                 continue;
             }
 
             if (!listingValues)
             {
-                AppendClapProse(prose, text, startsParagraph);
+                AppendClapProse(prose, text, startsParagraph, ref lastProseIndex);
                 startsParagraph = false;
                 continue;
             }
@@ -2005,15 +2008,17 @@ public abstract partial class CliScraperBase : ICliScraper
         return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
     }
 
-    private static void AppendClapProse(List<string> prose, string text, bool startsParagraph)
+    private static void AppendClapProse(List<string> prose, string text, bool startsParagraph, ref int lastProseIndex)
     {
         // Wrapped lines stay in the same sentence; blank lines separate prose
         // paragraphs even when clap omits punctuation from the first paragraph.
-        if (startsParagraph && prose.Count > 0 && !EndsWithSentencePunctuation(prose[^1]))
+        // Metadata trailers are annotations, so punctuation belongs to the preceding prose.
+        if (startsParagraph && lastProseIndex >= 0 && !EndsWithSentencePunctuation(prose[lastProseIndex]))
         {
-            prose[^1] += ".";
+            prose[lastProseIndex] += ".";
         }
 
+        lastProseIndex = prose.Count;
         prose.Add(text);
     }
 

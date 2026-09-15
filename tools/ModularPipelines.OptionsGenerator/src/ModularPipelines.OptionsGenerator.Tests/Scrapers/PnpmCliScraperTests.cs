@@ -10,6 +10,29 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("[default: info]", " [default: info]", true)]
+    [Arguments("[default: info]", " [default: info]", false)]
+    [Arguments("[possible values: info, debug]", "", true)]
+    [Arguments("[possible values: info, debug]", "", false)]
+    [Arguments("[alias: verbosity]", " [alias: verbosity]", true)]
+    [Arguments("[alias: verbosity]", " [alias: verbosity]", false)]
+    [Arguments("Possible values:\n          - info: Standard output\n          - debug: Detailed output", "", true)]
+    public async Task Clap_Metadata_Does_Not_Consume_Prose_Paragraph_Boundaries(string metadata, string retainedMetadata, bool separateParagraph)
+    {
+        var helpText = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --level <LEVEL>\n          Log level\n\n          "
+            + metadata + (separateParagraph ? "\n\n" : "\n") + "          Set via LOG_LEVEL env var.\n";
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+        var option = command!.Options.Single();
+        await Assert.That(option.Description)
+            .IsEqualTo($"Log level{(separateParagraph ? "." : "")}{retainedMetadata} Set via LOG_LEVEL env var.");
+        if (metadata.StartsWith("[possible values:", StringComparison.Ordinal) || metadata.StartsWith("Possible values:", StringComparison.Ordinal))
+        {
+            await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+                .IsEquivalentTo(["info", "debug"]);
+        }
+    }
+
+    [Test]
     [Arguments("", ".")]
     [Arguments(".", ".")]
     [Arguments("!", "!")]
