@@ -1397,7 +1397,7 @@ public class CliScraperTraversalTests
             await Assert.That(command.Options.Single(option => option.PropertyName == "Registry").Description)
                 .IsEqualTo("Package registry to use");
             await Assert.That(command.Options.Single(option => option.PropertyName == "Rename").Description)
-                .IsEqualTo("Rename the dependency Example uses: - Depending on multiple versions of a crate");
+                .IsEqualTo("Rename the dependency. Example uses: - Depending on multiple versions of a crate");
             await Assert.That(command.Options.Single(option => option.PropertyName == "Workspace").Description)
                 .IsEqualTo("Add dependencies to every workspace package");
             await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)

@@ -1943,6 +1943,8 @@ public abstract partial class CliScraperBase : ICliScraper
         int? descriptionColumn = null;
         var listingValues = false;
         var pendingTrailer = string.Empty;
+        var startsParagraph = false;
+        var lastProseIndex = -1;
         while (index + 1 < lines.Count)
         {
             var line = lines[index + 1];
@@ -1950,6 +1952,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 index++;
                 listingValues = false;
+                startsParagraph = true;
                 continue;
             }
 
@@ -1966,18 +1969,21 @@ public abstract partial class CliScraperBase : ICliScraper
             var text = line.Trim();
             if (TryReadClapTrailer(text, ref pendingTrailer, possibleValues, prose))
             {
+                startsParagraph = false;
                 continue;
             }
 
             if (text.Equals("Possible values:", StringComparison.OrdinalIgnoreCase))
             {
                 listingValues = true;
+                startsParagraph = false;
                 continue;
             }
 
             if (!listingValues)
             {
-                prose.Add(text);
+                AppendClapProse(prose, text, startsParagraph, ref lastProseIndex);
+                startsParagraph = false;
                 continue;
             }
 
@@ -2003,6 +2009,26 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
+    }
+
+    private static void AppendClapProse(List<string> prose, string text, bool startsParagraph, ref int lastProseIndex)
+    {
+        // Wrapped lines stay in the same sentence; blank lines separate prose
+        // paragraphs even when clap omits punctuation from the first paragraph.
+        // Metadata trailers are annotations, so punctuation belongs to the preceding prose.
+        if (startsParagraph && lastProseIndex >= 0 && !EndsWithSentencePunctuation(prose[lastProseIndex]))
+        {
+            prose[lastProseIndex] += ".";
+        }
+
+        lastProseIndex = prose.Count;
+        prose.Add(text);
+    }
+
+    private static bool EndsWithSentencePunctuation(string text)
+    {
+        var content = text.AsSpan().TrimEnd("\"'`’”)]}»›");
+        return !content.IsEmpty && ".!?:;。！？：；…؟۔।॥".Contains(content[^1]);
     }
 
     private static bool TryReadClapTrailer(

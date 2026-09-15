@@ -10,6 +10,76 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("[default: info]", " [default: info]", true)]
+    [Arguments("[default: info]", " [default: info]", false)]
+    [Arguments("[possible values: info, debug]", "", true)]
+    [Arguments("[possible values: info, debug]", "", false)]
+    [Arguments("[alias: verbosity]", " [alias: verbosity]", true)]
+    [Arguments("[alias: verbosity]", " [alias: verbosity]", false)]
+    [Arguments("Possible values:\n          - info: Standard output\n          - debug: Detailed output", "", true)]
+    public async Task Clap_Metadata_Does_Not_Consume_Prose_Paragraph_Boundaries(string metadata, string retainedMetadata, bool separateParagraph)
+    {
+        var helpText = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --level <LEVEL>\n          Log level\n\n          "
+            + metadata + (separateParagraph ? "\n\n" : "\n") + "          Set via LOG_LEVEL env var.\n";
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+        var option = command!.Options.Single();
+        await Assert.That(option.Description)
+            .IsEqualTo($"Log level{(separateParagraph ? "." : "")}{retainedMetadata} Set via LOG_LEVEL env var.");
+        if (metadata.StartsWith("[possible values:", StringComparison.Ordinal) || metadata.StartsWith("Possible values:", StringComparison.Ordinal))
+        {
+            await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+                .IsEquivalentTo(["info", "debug"]);
+        }
+    }
+
+    [Test]
+    [Arguments("", ".")]
+    [Arguments(".", ".")]
+    [Arguments("!", "!")]
+    [Arguments("?", "?")]
+    [Arguments(":", ":")]
+    [Arguments(";", ";")]
+    [Arguments(" \"Done!\"", " \"Done!\"")]
+    [Arguments(" (done.)", " (done.)")]
+    [Arguments(" `done?`", " `done?`")]
+    [Arguments(" [done!]", " [done!]")]
+    [Arguments(" “done!”", " “done!”")]
+    [Arguments("。", "。")]
+    [Arguments("！", "！")]
+    [Arguments("؟", "؟")]
+    [Arguments(" (unstable)", " (unstable).")]
+    [Arguments(" \"name\"", " \"name\".")]
+    public async Task Clap_Paragraphs_Preserve_Sentences_And_Metadata(string ending, string expectedEnding)
+    {
+        var helpText = $"""
+            Usage: pnpm install [OPTIONS]
+
+            Options:
+                  --reporter <REPORTER>
+                      Select the reporter{ending}
+
+                      Reporter output wraps
+                      across terminal lines.
+
+                      [possible values: default,
+                      silent]
+
+                      [default: default]
+
+                  --offline
+                      Use cached packages.
+            """;
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+        var reporter = command!.Options.Single(option => option.SwitchName == "--reporter");
+        await Assert.That(reporter.Description)
+            .IsEqualTo($"Select the reporter{expectedEnding} Reporter output wraps across terminal lines. [default: default]");
+        await Assert.That(reporter.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["default", "silent"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
+            .IsEqualTo("Use cached packages.");
+    }
+
+    [Test]
     [Arguments("--custom <VALUE>", "The authentication token value.", true)]
     [Arguments("--custom <VALUE>", "Select the output format.", false)]
     [Arguments("--custom", "Show the authentication token value.", false)]
