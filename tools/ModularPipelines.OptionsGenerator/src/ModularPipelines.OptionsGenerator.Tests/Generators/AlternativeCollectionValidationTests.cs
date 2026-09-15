@@ -414,6 +414,15 @@ public partial class RequiredConstructorValidationTests
         retained.Add(new ModularPipelines.Models.CliValuePair("third", "fourth"));
         await Assert.That(RenderAlternativeCollection(instance, false))
             .IsEquivalentTo(["--requirement", "third", "fourth"]);
+        retained.Add("ordinary object addition");
+        retained.Add(null!);
+        await Assert.That(retained.Count).IsEqualTo(3);
+        await Assert.That(RenderAlternativeCollection(instance, false))
+            .IsEquivalentTo(["--requirement", "third", "fourth"]);
+        retained.Remove(new ModularPipelines.Models.CliValuePair("third", "fourth"));
+        await Assert.That(retained.Count).IsEqualTo(2);
+        await Assert.That(RenderAlternativeCollection(instance, false)).IsEmpty();
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
         retained.Clear();
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
         await Assert.That(RenderAlternativeCollection(instance, false)).IsEmpty();

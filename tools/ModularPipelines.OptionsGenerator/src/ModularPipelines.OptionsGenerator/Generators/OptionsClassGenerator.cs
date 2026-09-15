@@ -520,9 +520,18 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Character sequences use scalar rendering; validation must not consume them.
-        return $"((object?){propertyName} is global::System.Collections.Generic.IEnumerable<char>"
+        var presence = $"((object?){propertyName} is global::System.Collections.Generic.IEnumerable<char>"
                + $" ? (object?){propertyName} is not string || !string.IsNullOrWhiteSpace({propertyName}?.ToString())"
                + $" : {propertyName}?.Cast<object>().Any() == true)";
+        if (option is null)
+        {
+            return presence;
+        }
+
+        // Option rendering selects the pair interface before the ordinary collection
+        // view. Mutations visible only through the object view do not emit pair values.
+        const string pairValues = "global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>";
+        return $"((object?){propertyName} is {pairValues} ? global::System.Linq.Enumerable.Any(({pairValues})(object){propertyName}, static pair => pair is not null) : {presence})";
     }
 
     private static string FormatChoice(string[] propertyNames) =>
@@ -638,7 +647,10 @@ public class OptionsClassGenerator : ICodeGenerator
                     {
                         foreach (var value in this)
                         {
-                            yield return (global::ModularPipelines.Models.CliValuePair)value;
+                            if (value is global::ModularPipelines.Models.CliValuePair pair)
+                            {
+                                yield return pair;
+                            }
                         }
                     }
                 }
