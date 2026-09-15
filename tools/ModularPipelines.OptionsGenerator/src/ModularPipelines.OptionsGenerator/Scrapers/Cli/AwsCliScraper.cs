@@ -273,7 +273,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
 
         // Find where section ends (next uppercase section header)
-        var nextMatch = MyRegex().Match(helpText[sectionStart..]);
+        var nextMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
@@ -349,7 +349,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionStart = optionsMatch.Index + optionsMatch.Length;
 
         // Find end of OPTIONS section
-        var nextSectionMatch = MyRegex().Match(helpText[sectionStart..]);
+        var nextSectionMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
 
         var optionsSection = helpText[sectionStart..sectionEnd];
@@ -846,7 +846,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     [GeneratedRegex(@"^AVAILABLE COMMANDS\s*$", RegexOptions.Multiline)]
     private static partial Regex AvailableCommandsHeaderPattern();
     [GeneratedRegex(@"^[A-Z][A-Z\s]+$", RegexOptions.Multiline)]
-    private static partial Regex MyRegex();
+    private static partial Regex SectionHeaderPattern();
 
     #endregion
 }
