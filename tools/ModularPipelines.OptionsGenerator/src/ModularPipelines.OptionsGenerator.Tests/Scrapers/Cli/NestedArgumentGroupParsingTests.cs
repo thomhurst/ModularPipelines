@@ -14,6 +14,59 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    public async Task Scraped_Optional_Operand_Bundle_Validates_Conditional_Members(bool nested, bool optionalParent)
+    {
+        var help = """
+            NAME
+                gcloud example create - create a resource
+            SYNOPSIS
+                gcloud example create [RESOURCE --parent=PARENT]
+            POSITIONAL ARGUMENTS
+                 [RESOURCE]
+                    The resource name.
+            FLAGS
+                 --parent=PARENT
+                    The parent name.
+            """;
+        if (optionalParent)
+        {
+            help = help.Replace("[RESOURCE --parent=PARENT]", "[RESOURCE [--parent=PARENT]]", StringComparison.Ordinal);
+        }
+        if (nested)
+        {
+            help = help.Replace("create [RESOURCE --parent=PARENT]", "create ([ROOT] [RESOURCE --parent=PARENT])", StringComparison.Ordinal)
+                .Replace("POSITIONAL ARGUMENTS", "POSITIONAL ARGUMENTS\n     [ROOT]\n        Optional root.", StringComparison.Ordinal);
+        }
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example create", help)).Single();
+        var group = command.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.IsChoice).IsFalse();
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await VerifyGeneratedValidation(generated, command.ClassName, async type =>
+        {
+            for (var mask = 0; mask < 4; mask++)
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("Resource")!.SetValue(instance, (mask & 1) != 0 ? "resource" : null);
+                type.GetProperty("Parent")!.SetValue(instance, (mask & 2) != 0 ? "parent" : null);
+                var errors = ((IValidatableObject) instance).Validate(new(instance));
+                await Assert.That(!errors.Any()).IsEqualTo(mask is 0 or 3 || (optionalParent && mask == 1));
+            }
+        });
+    }
+
+    [Test]
     [Arguments("FLAGS")]
     [Arguments("OPTIONAL FLAGS")]
     public async Task Gcloud_Optional_Resource_Bundle_Preserves_Conditional_Requirements(string section)

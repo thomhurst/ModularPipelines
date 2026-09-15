@@ -1,0 +1,63 @@
+NAME
+    gcloud resource-manager tags keys create - creates a TagKey resource under
+        the specified tag parent
+
+SYNOPSIS
+    gcloud resource-manager tags keys create (SHORT_NAME --parent=PARENT)
+        [--async] [--description=DESCRIPTION] [--purpose=PURPOSE]
+        [--purpose-data=[network=NETWORK],[organization=ORGANIZATION]]
+        [GCLOUD_WIDE_FLAG ...]
+
+EXAMPLES
+    To create a TagKey with the name env under 'organizations/123' with
+    description 'description', run:
+
+        $ gcloud resource-manager tags keys create env \
+        --parent=organizations/123 --description=description
+
+POSITIONAL ARGUMENTS
+     TagKey.
+
+     This must be specified.
+
+       SHORT_NAME
+          User specified, friendly name of the TagKey or TagValue. The field
+          must be 1-63 characters, beginning and ending with an alphanumeric
+          character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.),
+          and alphanumerics between.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --parent=PARENT
+          Parent of the TagKey in the form of organizations/{org_id}.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --description=DESCRIPTION
+        User-assigned description of the TagKey or TagValue. Must not exceed
+        256 characters.
+
+     --purpose=PURPOSE
+        Purpose specifier of the TagKey that can only be set on creation.
+        Specifying this field adds additional validation from the policy system
+        that corresponds to the purpose. PURPOSE must be one of: GCE_FIREWALL,
+        DATA_GOVERNANCE.
+
+     --purpose-data=[network=NETWORK],[organization=ORGANIZATION]
+        Purpose data of the TagKey that can only be set on creation. This data
+        is validated by the policy system that corresponds to the purpose.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

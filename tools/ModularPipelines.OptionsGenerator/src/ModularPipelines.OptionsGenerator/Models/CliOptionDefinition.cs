@@ -11,6 +11,9 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
+    /// <summary>Option-local prose for shape validation, excluding inherited group documentation.</summary>
+    internal string? ValueShapeDescription { get; init; }
+
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
     private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);
@@ -558,6 +561,12 @@ public record CliOptionDefinition
     /// its nested fields contain collection-shaped values.
     /// </summary>
     internal bool IsStructuredValue { get; init; }
+
+    /// <summary>
+    /// Whether an explicit CLI type declares one scalar value, taking precedence over
+    /// collection-shaped prose about results or the contents of that value.
+    /// </summary>
+    internal bool IsScalarValue { get; init; }
 
     /// <summary>
     /// Whether the scraper synthesized this option from another option's negation syntax.

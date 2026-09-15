@@ -1041,7 +1041,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Parses positional operands through the shared usage/synopsis model.
     /// </summary>
-    protected UsageSynopsisParseResult ParseUsageSynopsis(
+    protected virtual UsageSynopsisParseResult ParseUsageSynopsis(
         string[] commandPath,
         string helpText) =>
         UsageSynopsisParser.Parse(
@@ -1106,10 +1106,11 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return new CliRequiredAlternativeGroup
         {
+            IsRequired = group.IsRequired,
             IsChoice = group.IsChoice,
             IsUsageFormChoice = group.IsChoice && group.Groups.Count > 0,
             Members = [.. members
-                .Select(member => member! with { IsRequired = !group.IsChoice })
+                .Select((member, index) => member! with { IsRequired = !group.IsChoice && group.Members[index].IsRequired })
                 .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
             Groups = [.. groups.Select(static nested => nested!)],
         };
@@ -2273,8 +2274,9 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         foreach (var option in command.Options)
         {
-            var description = option.Description ?? string.Empty;
-            var isBoolean = option.CSharpType is "bool" or "bool?";
+            // Both validation checks describe this option's value syntax. Inherited group prose can
+            // describe sibling values, so it is not evidence of boolean or collection shape.
+            var description = option.ValueShapeDescription ?? option.Description ?? string.Empty;
             if (HelpDeclaresExplicitBooleanValue(description)
                 && option.IsFlag
                 && option.NegatedSwitchName is null)
@@ -2284,17 +2286,27 @@ public abstract partial class CliScraperBase : ICliScraper
                     + "but the parsed model marks it as a presence-only flag.");
             }
 
-            if (!option.IsFlag
-                && !isBoolean
-                && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
-                && !option.IsStructuredValue
-                && !ShouldTreatOptionAsScalar(command.CommandParts, option.SwitchName)
-                && !option.AcceptsMultipleValues)
-            {
-                throw new InvalidOperationException(
-                    $"{command.FullCommand} {option.SwitchName} is documented as repeatable, "
-                    + "but the parsed model is scalar.");
-            }
+            ValidateRepeatableOption(command, option, helpText, description);
+        }
+    }
+
+    private void ValidateRepeatableOption(
+        CliCommandDefinition command,
+        CliOptionDefinition option,
+        string helpText,
+        string description)
+    {
+        if (!option.IsFlag
+            && option.CSharpType is not ("bool" or "bool?")
+            && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
+            && !option.IsStructuredValue
+            && !option.IsScalarValue
+            && !ShouldTreatOptionAsScalar(command.CommandParts, option.SwitchName)
+            && !option.AcceptsMultipleValues)
+        {
+            throw new InvalidOperationException(
+                $"{command.FullCommand} {option.SwitchName} is documented as repeatable, "
+                + "but the parsed model is scalar.");
         }
     }
 

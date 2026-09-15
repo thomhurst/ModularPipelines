@@ -1,0 +1,73 @@
+NAME
+    gcloud app instances scp - SCP from or to the VM of an App Engine Flexible
+        instance
+
+SYNOPSIS
+    gcloud app instances scp [INSTANCE:]SRC [[INSTANCE:]SRC ...]
+        [INSTANCE:]DEST [--compress] [--recurse] [--service=SERVICE]
+        [--tunnel-through-iap] [--version=VERSION] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    gcloud app instances scp lets you remotely copy files to or from an App
+    Engine Flexible instance.
+
+    gcloud app instances scp resolves the instance's IP address and
+    pre-populates the VM with a public key managed by gcloud. If the gcloud
+    managed key pair does not exist, it is generated the first time an SSH
+    command is run, which may prompt you for a passphrase for the private key
+    encryption.
+
+    All SSH commands require the OpenSSH client suite to be installed on Linux
+    and Mac OS X. On Windows, the Google Cloud CLI comes with a bundled PuTTY
+    suite instead, so it has no external dependencies.
+
+EXAMPLES
+    To copy one file from a remote instance to the local machine, run:
+
+        $ gcloud app instances scp --service=s1 --version=v1 \
+          i1:remote_file local_file
+
+    To copy several local files to a remote instance, run:
+
+        $ gcloud app instances scp --service=s1 --version=v1 local_1 \
+          local_1 i1:remote_dir
+
+    To use recursive copy, run:
+
+        $ gcloud app instances scp --service=s1 --version=v1 \
+          --recurse local_dir i1:remote_dir
+
+POSITIONAL ARGUMENTS
+     [INSTANCE:]SRC [[INSTANCE:]SRC ...]
+        Specifies the files to copy.
+
+     [INSTANCE:]DEST
+        Specifies a destination for the source files.
+
+FLAGS
+     --compress
+        Enable compression.
+
+     --recurse
+        Upload directories recursively.
+
+     --service=SERVICE
+        The service ID.
+
+     --tunnel-through-iap
+        Tunnel the ssh connection through Identity-Aware Proxy for TCP
+        forwarding.
+
+        To learn more, see the IAP for TCP forwarding documentation
+        (https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+
+     --version=VERSION
+        The version ID.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

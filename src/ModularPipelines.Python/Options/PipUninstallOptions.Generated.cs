@@ -19,15 +19,53 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
-public record PipUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Package
-) : PipOptions, IValidatableObject
+public record PipUninstallOptions : PipOptions, IValidatableObject
 {
     /// <summary>
     /// Uninstall all the packages listed in the given requirements file.  This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
-    public IEnumerable<string>? Requirement { get; set; }
+    public IEnumerable<string>? Requirement
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RequirementSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RequirementSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RequirementSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RequirementSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Don't ask for confirmation of uninstall deletions.
@@ -40,12 +78,6 @@ public record PipUninstallOptions(
     /// </summary>
     [CliOption("--break-system-packages")]
     public string? BreakSystemPackages { get; set; }
-
-    /// <summary>
-    /// Show help.
-    /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
 
     /// <summary>
     /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
@@ -173,13 +205,42 @@ public record PipUninstallOptions(
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
 
+    /// <summary>
+    /// The &lt;package&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Package
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PackageSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values)))) : default;
+    }
+
+    private sealed class __PackageSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!(Package?.Any() == true || Requirement?.Any() == true))
+        if (!(((object?)Package is global::System.Collections.Generic.IEnumerable<char> ? (object?)Package is not string || !string.IsNullOrWhiteSpace(Package?.ToString()) : ((object?)Package is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Package, static item => item is not null) : (Package is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Package), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null)))))))
         {
             yield return new ValidationResult("At least one of Package or Requirement must be specified.", [nameof(Package), nameof(Requirement)]);
         }
+        yield break;
     }
 
 }

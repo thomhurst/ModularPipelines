@@ -61,11 +61,11 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DownloadAsync(
-        PipDownloadOptions? options = null,
+        PipDownloadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PipDownloadOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -106,11 +106,11 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> InstallAsync(
-        PipInstallOptions? options = null,
+        PipInstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PipInstallOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

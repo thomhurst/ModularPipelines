@@ -1,0 +1,66 @@
+NAME
+    gcloud spanner operations cancel - cancel a Cloud Spanner operation
+
+SYNOPSIS
+    gcloud spanner operations cancel OPERATION-ID
+        (--instance=INSTANCE | --instance-config=INSTANCE_CONFIG)
+        [--backup=BACKUP] [--database=DATABASE]
+        [--instance-partition=INSTANCE_PARTITION] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Cancel a Cloud Spanner operation.
+
+EXAMPLES
+    To cancel an instance operation with ID auto_12345, run:
+
+        $ gcloud spanner operations cancel _auto_12345 \
+            --instance=my-instance-id
+
+    To cancel a database operation with ID auto_12345, run:
+
+        $ gcloud spanner operations cancel _auto_12345 \
+            --instance=my-instance-id --database=my-database-id
+
+    To cancel a backup operation with ID auto_12345, run:
+
+        $ gcloud spanner operations cancel _auto_12345 \
+            --instance=my-instance-id --backup=my-backup-id
+
+    To cancel an instance partition operation with ID auto_12345, run:
+
+        $ gcloud spanner operations cancel auto_12345 \
+            --instance=my-instance-id --instance-partition=my-partition-id
+
+POSITIONAL ARGUMENTS
+     OPERATION-ID
+        ID of the operation
+
+REQUIRED FLAGS
+     Exactly one of these must be specified:
+
+       --instance=INSTANCE
+          The ID of the instance the operation is executing on.
+
+       --instance-config=INSTANCE_CONFIG
+          The ID of the instance configuration the operation is executing on.
+
+OPTIONAL FLAGS
+     --backup=BACKUP
+        For a backup operation, the name of the backup the operation is
+        executing on.
+
+     --database=DATABASE
+        For a database operation, the name of the database the operation is
+        executing on.
+
+     --instance-partition=INSTANCE_PARTITION
+        For an instance partition operation, the name of the instance partition
+        the operation is executing on.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

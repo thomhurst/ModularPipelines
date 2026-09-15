@@ -244,7 +244,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         // Leaf commands have OPTIONS section with actual options, not just global options
         // Service-level commands have AVAILABLE COMMANDS but minimal OPTIONS
         return OptionsSectionPattern().IsMatch(helpText) &&
-               !Regex.IsMatch(helpText, @"^AVAILABLE COMMANDS\s*$", RegexOptions.Multiline);
+               !AvailableCommandsHeaderPattern().IsMatch(helpText);
     }
 
     /// <summary>
@@ -273,7 +273,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
 
         // Find where section ends (next uppercase section header)
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z\s]+$", RegexOptions.Multiline);
+        var nextMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
@@ -337,7 +337,6 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var requiredSynopsisOptions = GetRequiredSynopsisOptions(helpText);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find OPTIONS section
@@ -350,13 +349,19 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionStart = optionsMatch.Index + optionsMatch.Length;
 
         // Find end of OPTIONS section
-        var nextSectionMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z\s]+$", RegexOptions.Multiline);
+        var nextSectionMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
 
         var optionsSection = helpText[sectionStart..sectionEnd];
 
         // Parse each option: "--option (type)" or "--option"
         var optionMatches = AwsOptionPattern().Matches(optionsSection);
+        var booleanSwitches = optionMatches
+            .Where(match => IsAwsBooleanType(match.Groups["type"].Value))
+            .SelectMany(match => new[] { match.Groups["long"].Value, match.Groups["alternate"].Value })
+            .Where(name => !string.IsNullOrEmpty(name))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var requiredSynopsisOptions = GetRequiredSynopsisOptions(helpText, booleanSwitches);
 
         foreach (Match match in optionMatches)
         {
@@ -365,7 +370,8 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             var typeHint = match.Groups["type"].Value.Trim().Trim('(', ')');
             var (longForm, negatedLongForm) = GetBooleanSwitchPair(
                 firstLongForm,
-                alternateLongForm);
+                alternateLongForm,
+                IsAwsBooleanType(typeHint));
             negatedLongForm ??= FindWrappedNegatedSwitch(helpText, longForm);
 
             if (string.IsNullOrEmpty(longForm)
@@ -412,11 +418,14 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                           || (isBooleanValue && !requiresExplicitBooleanValue))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
             var isStructure = typeHint.Contains("structure");
-            var isKeyValue = !isStructure
+            var isScalar = typeHint is "string" or "integer" or "long" or "float" or "double" or "timestamp" or "blob";
+            var isKeyValue = !isScalar
+                             && !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
             var isArray = typeHint.Contains("list")
                           || typeHint.Contains("...")
-                          || (!isStructure
+                          || (!isScalar
+                              && !isStructure
                               && !isKeyValue
                               && !isFlag
                               && !isBooleanValue
@@ -445,12 +454,14 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = match.Groups["required"].Success
-                             || requiredSynopsisOptions.Contains(longForm),
+                             || requiredSynopsisOptions.Contains(longForm)
+                             || (negatedLongForm is not null && requiredSynopsisOptions.Contains(negatedLongForm)),
                 AcceptsMultipleValues = isArray,
                 GroupValues = isArray && !isKeyValue,
                 CollectionSeparator = isKeyValue ? "," : null,
                 IsKeyValue = isKeyValue,
                 IsStructuredValue = isStructure || isKeyValue,
+                IsScalarValue = isScalar,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = enumDef,
@@ -463,7 +474,8 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
     private static (string SwitchName, string? NegatedSwitchName) GetBooleanSwitchPair(
         string switchName,
-        string alternateSwitchName)
+        string alternateSwitchName,
+        bool isBoolean)
     {
         if (string.IsNullOrEmpty(alternateSwitchName))
         {
@@ -477,7 +489,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
         return IsNegatedFormOf(switchName, alternateSwitchName)
             ? (alternateSwitchName, switchName)
-            : (switchName, null);
+            : (switchName, isBoolean ? alternateSwitchName : null);
     }
 
     private static bool IsNegatedFormOf(string candidate, string positiveSwitch) =>
@@ -499,7 +511,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             : null;
     }
 
-    private static HashSet<string> GetRequiredSynopsisOptions(string helpText)
+    private static HashSet<string> GetRequiredSynopsisOptions(string helpText, IReadOnlySet<string> booleanSwitches)
     {
         var requiredOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var candidate in GetLogicalSynopsisLines(GetSynopsisLines(helpText)))
@@ -514,7 +526,8 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             {
                 var (positive, negative) = GetBooleanSwitchPair(
                     booleanAlternativeMatch.Groups["first"].Value,
-                    booleanAlternativeMatch.Groups["second"].Value);
+                    booleanAlternativeMatch.Groups["second"].Value,
+                    booleanSwitches.Contains(booleanAlternativeMatch.Groups["first"].Value));
                 if (negative is not null)
                 {
                     requiredOptions.Add(positive);
@@ -602,8 +615,10 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
     private static bool IsAwsBooleanType(string typeHint)
     {
-        var lower = typeHint.ToLowerInvariant();
-        return string.IsNullOrEmpty(lower) || lower == "boolean" || lower == "bool";
+        // Missing types still identify standalone flags, but do not prove that two
+        // unrelated switch names are boolean opposites (especially across wrapped lines).
+        var lower = typeHint.Trim().ToLowerInvariant();
+        return lower is "boolean" or "bool";
     }
 
     private static bool IsNumericType(string typeHint)
@@ -713,10 +728,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         var sectionStart = synopsisMatch.Index + synopsisMatch.Length;
-        var nextSectionMatch = Regex.Match(
-            helpText[sectionStart..],
-            @"^[A-Z][A-Z\s]+$",
-            RegexOptions.Multiline);
+        var nextSectionMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextSectionMatch.Success
             ? sectionStart + nextSectionMatch.Index
             : helpText.Length;
@@ -832,6 +844,10 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         @"^(?<first>--[\w-]+)\s*\|\s*(?<second>--[\w-]+)$",
         RegexOptions.IgnoreCase)]
     private static partial Regex AwsRequiredBooleanAlternativePattern();
+    [GeneratedRegex(@"^AVAILABLE COMMANDS\s*$", RegexOptions.Multiline)]
+    private static partial Regex AvailableCommandsHeaderPattern();
+    [GeneratedRegex(@"^[A-Z][A-Z\s]+$", RegexOptions.Multiline)]
+    private static partial Regex SectionHeaderPattern();
 
     #endregion
 }

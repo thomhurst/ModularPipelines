@@ -1,0 +1,262 @@
+NAME
+    gcloud preview compute ssh - SSH into a virtual machine instance
+
+SYNOPSIS
+    gcloud preview compute ssh [USER@]INSTANCE [--command=COMMAND]
+        [--container=CONTAINER] [--dry-run] [--force-key-file-overwrite]
+        [--plain] [--ssh-flag=SSH_FLAG] [--ssh-key-file=SSH_KEY_FILE]
+        [--strict-host-key-checking=STRICT_HOST_KEY_CHECKING] [--troubleshoot]
+        [--zone=ZONE] [--internal-ip | --tunnel-through-iap]
+        [--network=NETWORK --region=REGION : --dest-group=DEST_GROUP]
+        [--ssh-key-expiration=SSH_KEY_EXPIRATION
+          | --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER] [GCLOUD_WIDE_FLAG ...]
+        [-- SSH_ARGS ...]
+
+DESCRIPTION
+    (PREVIEW) gcloud preview compute ssh is a thin wrapper around the ssh(1)
+    command that takes care of authentication and the translation of the
+    instance name into an IP address.
+
+    To use SSH to connect to a Windows VM, refer to this guide:
+    https://cloud.google.com/compute/docs/connect/windows-ssh
+
+    The default network comes preconfigured to allow ssh access to all VMs. If
+    the default network was edited, or if not using the default network, you
+    may need to explicitly enable ssh access by adding a firewall-rule:
+
+        $ gcloud compute firewall-rules create --network=NETWORK \
+            default-allow-ssh --allow=tcp:22
+
+    gcloud preview compute ssh ensures that the user's public SSH key is
+    present in the project's metadata. If the user does not have a public SSH
+    key, one is generated using ssh-keygen(1) (if the --quiet flag is given,
+    the generated key will have an empty passphrase).
+
+    If the --region and --network flags are provided, then --plain and
+    --tunnel-through-iap are implied and an IP address must be supplied instead
+    of an instance name. This is most useful for connecting to on-prem
+    resources.
+
+EXAMPLES
+    To SSH into 'example-instance' in zone us-central1-a, run:
+
+        $ gcloud preview compute ssh example-instance --zone=us-central1-a
+
+    You can also run a command on the virtual machine. For example, to get a
+    snapshot of the guest's process tree, run:
+
+        $ gcloud preview compute ssh example-instance --zone=us-central1-a \
+            --command="ps -ejH"
+
+    When running a command on a virtual machine, a non-interactive shell will
+    typically be used. (See the INVOCATION section of
+    https://linux.die.net/man/1/bash for an overview.) That behavior can be
+    overridden by specifying a shell to run the command, and passing the -t
+    flag to SSH to allocate a pseudo-TTY. For example, to see the environment
+    variables set during an interactive session, run:
+
+        $ gcloud preview compute ssh example-instance --zone=us-central1-a \
+            --command="bash -i -c env" -- -t
+
+    If you are using the Google Container-Optimized virtual machine image, you
+    can SSH into one of your containers with:
+
+        $ gcloud preview compute ssh example-instance --zone=us-central1-a \
+            --container=CONTAINER
+
+    You can limit the allowed time to ssh. For example, to allow a key to be
+    used through 2019:
+
+        $ gcloud preview compute ssh example-instance --zone=us-central1-a \
+            --ssh-key-expiration="2020-01-01T00:00:00:00Z"
+
+    Or alternatively, allow access for the next two minutes:
+
+        $ gcloud preview compute ssh example-instance --zone=us-central1-a \
+            --ssh-key-expire-after=2m
+
+    To use the IP address of your remote VM (eg, for on-prem), you must also
+    specify the --region and --network flags:
+
+        $ gcloud preview compute ssh 10.1.2.3 --region=us-central1 \
+            --network=default
+
+POSITIONAL ARGUMENTS
+     [USER@]INSTANCE
+        Specifies the instance to SSH into.
+
+        USER specifies the username with which to SSH. If omitted, the user
+        login name is used. If using OS Login, USER will be replaced by the OS
+        Login user.
+
+        INSTANCE specifies the name of the virtual machine instance to SSH
+        into.
+
+     [-- SSH_ARGS ...]
+        Flags and positionals passed to the underlying ssh implementation.
+
+        The '--' argument must be specified between gcloud specific args on the
+        left and SSH_ARGS on the right. Example:
+
+            $ gcloud preview compute ssh example-instance --zone=us-central1-a \
+            -- -vvv -L 80:%INSTANCE%:80
+
+FLAGS
+     --command=COMMAND
+        A command to run on the virtual machine.
+
+        Runs the command on the target instance and then exits.
+
+     --container=CONTAINER
+        The name or ID of a container inside of the virtual machine instance to
+        connect to. This only applies to virtual machines that are using a
+        Google Container-Optimized virtual machine image. For more information,
+        see https://cloud.google.com/compute/docs/containers.
+
+     --dry-run
+        Print the equivalent scp/ssh command that would be run to stdout,
+        instead of executing it.
+
+     --force-key-file-overwrite
+        If enabled, the gcloud command-line tool will regenerate and overwrite
+        the files associated with a broken SSH key without asking for
+        confirmation in both interactive and non-interactive environments.
+
+        If disabled, the files associated with a broken SSH key will not be
+        regenerated and will fail in both interactive and non-interactive
+        environments.
+
+     --plain
+        Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is
+        useful if you want to take care of authentication yourself or use
+        specific ssh/scp features.
+
+     --ssh-flag=SSH_FLAG
+        Additional flags to be passed to ssh(1). It is recommended that flags
+        be passed using an assignment operator and quotes. Example:
+
+            $ gcloud preview compute ssh example-instance --zone=us-central1-a \
+                --ssh-flag="-vvv" --ssh-flag="-L 80:localhost:80"
+
+        This flag will replace occurences of %USER%, %INSTANCE%, and %INTERNAL%
+        with their dereferenced values. For example, passing 80:%INSTANCE%:80
+        into the flag is equivalent to passing 80:162.222.181.197:80 to ssh(1)
+        if the external IP address of 'example-instance' is 162.222.181.197.
+
+        If connecting to the instance's external IP, then %INSTANCE% is
+        replaced with that, otherwise it is replaced with the internal IP.
+        %INTERNAL% is always replaced with the internal interface of the
+        instance.
+
+     --ssh-key-file=SSH_KEY_FILE
+        The path to the SSH key file. By default, this is
+        ~\.ssh\google_compute_engine.
+
+     --strict-host-key-checking=STRICT_HOST_KEY_CHECKING
+        Override the default behavior of StrictHostKeyChecking for the
+        connection. By default, StrictHostKeyChecking is set to 'no' the first
+        time you connect to an instance, and will be set to 'yes' for all
+        subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes,
+        no, ask.
+
+     --troubleshoot
+        If you can't connect to a virtual machine (VM) instance using SSH, you
+        can investigate the problem using the --troubleshoot flag:
+
+            $ gcloud preview compute ssh VM_NAME --zone=ZONE \
+                --troubleshoot [--tunnel-through-iap]
+
+        The troubleshoot flag runs tests and returns recommendations for the
+        following types of issues:
+        * VM status
+        * Network connectivity
+        * User permissions
+        * Virtual Private Cloud (VPC) settings
+        * VM boot
+
+        If you specify the --tunnel-through-iap flag, the tool also checks IAP
+        port forwarding.
+
+     --zone=ZONE
+        Zone of the instance to connect to. If not specified and the
+        compute/zone property isn't set, you might be prompted to select a zone
+        (interactive mode only).
+
+        To avoid prompting when this flag is omitted, you can set the
+        compute/zone property:
+
+            $ gcloud config set compute/zone ZONE
+
+        A list of zones can be fetched by running:
+
+            $ gcloud compute zones list
+
+        To unset the property, run:
+
+            $ gcloud config unset compute/zone
+
+        Alternatively, the zone can be stored in the environment variable
+        CLOUDSDK_COMPUTE_ZONE.
+
+     At most one of these can be specified:
+
+       --internal-ip
+          Connect to instances using their internal IP addresses rather than
+          their external IP addresses. Use this to connect from one instance to
+          another on the same VPC network, over a VPN connection, or between
+          two peered VPC networks.
+
+          For this connection to work, you must configure your networks and
+          firewall to allow SSH connections to the internal IP address of the
+          instance to which you want to connect.
+
+          To learn how to use this flag, see
+          https://cloud.google.com/compute/docs/instances/connecting-advanced#sshbetweeninstances.
+
+       --tunnel-through-iap
+          Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+          forwarding.
+
+          To learn more, see the IAP for TCP forwarding documentation
+          (https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+
+     --network=NETWORK
+        Configures the VPC network to use when connecting via IP address or
+        FQDN.
+
+     --region=REGION
+        Configures the region to use when connecting via IP address or FQDN.
+
+     --dest-group=DEST_GROUP
+        Configures the destination group to use when connecting via IP address
+        or FQDN.
+
+     At most one of these can be specified:
+
+       --ssh-key-expiration=SSH_KEY_EXPIRATION
+          The time when the ssh key will be valid until, such as
+          "2017-08-29T18:52:51.142Z." This is only valid if the instance is not
+          using OS Login. See $ gcloud topic datetimes for information on time
+          formats.
+
+       --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER
+          The maximum length of time an SSH key is valid for once created and
+          installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for
+          information on duration formats.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+NOTES
+    This command is currently in DEVELOPER PREVIEW and may change without
+    notice. If this command fails with API permission errors despite specifying
+    the correct project, you might be trying to access an API with an
+    invitation-only early access allowlist. This variant is also available:
+
+        $ gcloud compute ssh
+

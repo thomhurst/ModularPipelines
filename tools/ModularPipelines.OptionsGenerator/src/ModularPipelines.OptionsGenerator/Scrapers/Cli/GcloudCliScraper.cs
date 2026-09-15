@@ -153,6 +153,32 @@ public partial class GcloudCliScraper : CliScraperBase
 
     #region Virtual Method Overrides
 
+    protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
+    {
+        var arguments = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
+            .SelectMany(section => ParseArgumentGroups(section.Content, ParseGcloudArgument).FlattenArguments())
+            .Where(argument => !string.IsNullOrEmpty(argument.ValueHint))
+            .DistinctBy(argument => (argument.SwitchName, argument.ValueHint))
+            .OrderByDescending(argument => argument.ValueHint!.Length)
+            .ToArray();
+        foreach (var (_, synopsis) in ExtractSections(helpText, "SYNOPSIS"))
+        {
+            var normalized = synopsis;
+            foreach (var argument in arguments)
+            {
+                // The declared value grammar can wrap across lines. Its brackets and
+                // spaces describe an option value, not additional positional operands.
+                var valuePattern = string.Concat(argument.ValueHint!.Select(character => char.IsWhiteSpace(character)
+                    ? @"\s+" : Regex.Escape(character.ToString()) + @"\s*"));
+                normalized = Regex.Replace(normalized,
+                    @"(?<![\w-])" + Regex.Escape(argument.SwitchName) + "=" + valuePattern + @"(?![\w])",
+                    argument.SwitchName + "=VALUE ");
+            }
+            helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
+        }
+        return base.ParseUsageSynopsis(commandPath, helpText);
+    }
+
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command, UsageSynopsisParseResult usage)
     {
@@ -587,6 +613,7 @@ public partial class GcloudCliScraper : CliScraperBase
                 isNumeric,
                 enumDefinition),
             Description = AddDelimitedListGuidance(description, isDelimitedList, isNumeric, enumDefinition),
+            ValueShapeDescription = argument.Description ?? string.Empty,
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultipleValues,
@@ -611,6 +638,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var valueHint = argument.ValueHint ?? string.Empty;
         var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, argument.SwitchName);
         var repeatsSwitch = !isFlag && (DescriptionDeclaresRepeatedSwitch(argument.Description, argument.SwitchName)
+            || GroupRepeatedSwitchDescriptionPattern().IsMatch(argument.GroupDescription ?? string.Empty)
             || HelpOptionBlockMatches(helpText, argument.SwitchName,
                 block => DescriptionDeclaresRepeatedSwitch(block, argument.SwitchName)));
         var isDelimitedList = UsesCommaSeparatedList(
@@ -763,14 +791,14 @@ public partial class GcloudCliScraper : CliScraperBase
 
         return new CliArgumentDefinition
         {
-            SwitchName = match.Groups["name"].Value,
+            SwitchName = UsageSynopsisParser.GetOperandPropertyName(match.Groups["operand"].Value)!,
             IsPositional = true,
             ValueHint = line.Trim(),
             Indentation = GetIndentation(line),
         };
     }
 
-    [GeneratedRegex(@"^[ \t]+\[?(?<name>[A-Z][A-Z0-9_]*)(?:[ \t]+\[?\k<name>)?(?:[ \t]*\.\.\.)?\]*[ \t]*$")]
+    [GeneratedRegex(@"^[ \t]+\[?(?:--[ \t]+)?(?<operand>(?:(?:\[[^\s]+\]|\([^()\s]+\)):?)?(?<name>[A-Z][A-Z0-9_/-]*))(?:[ \t]+\[?\k<operand>)?(?:[ \t]*\.\.\.)?\]*[ \t]*$")]
     private static partial Regex ResourceOperandPattern();
 
     private IReadOnlyList<CliPositionalArgument> ParsePositionalArguments(
@@ -981,6 +1009,10 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"(?:(?:this|the)\s+)?(?:(?:flag|argument|option)\s+)?"
         + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex RepeatedSwitchDescriptionPattern();
+
+    [GeneratedRegex(@"(?:^|[.!?]\s+)\s*(?:these|the following)\s+(?:flags|arguments|options)\s+"
+        + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex GroupRepeatedSwitchDescriptionPattern();
 
     [GeneratedRegex(@"(?:^|[.!?]\s+)\s*" + StatusPrefixPattern
         + @"(?:(?:to\s+[^.!?;\r\n]+,\s*)?(?:specify|supply|provide|use|pass|set|give)\s+"

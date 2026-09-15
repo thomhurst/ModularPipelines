@@ -73,12 +73,16 @@ ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Gro
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Groups.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.IsChoice.get -> bool
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.IsChoice.init -> void
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.IsRequired.get -> bool
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.IsRequired.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Members.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember!>!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Members.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.UsageRequiredAlternativeGroup() -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember.<Clone>$() -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember.Equals(ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember? other) -> bool
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember.IsRequired.get -> bool
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember.IsRequired.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember.OptionSwitch.get -> string?
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember.OptionSwitch.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember.PositionalPropertyName.get -> string?
@@ -190,3 +194,6 @@ ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.Groups.get 
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.Groups.init -> void
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.IsRequired.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.IsRequired.init -> void
+*REMOVED*ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!

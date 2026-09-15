@@ -1,0 +1,36 @@
+NAME
+    gcloud dns dns-keys describe - show details about a DNS key resource
+
+SYNOPSIS
+    gcloud dns dns-keys describe KEY-ID --zone=ZONE [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    This command displays the details of a single DNS key resource.
+
+EXAMPLES
+    To show details about a DNS key resource with ID 3 in a managed zone
+    my_zone, run:
+
+        $ gcloud dns dns-keys describe --zone=my_zone 3
+
+    To get the DS record corresponding for the DNSKEY record from the previous
+    example, run (the DNSKEY record must be for a key-signing key):
+
+        $ gcloud dns dns-keys describe --zone=my_zone 3 \
+            --format='value(ds_record())'
+
+POSITIONAL ARGUMENTS
+     KEY-ID
+        The DNS key identifier.
+
+REQUIRED FLAGS
+     --zone=ZONE
+        The name of the managed-zone the DNSKEY record belongs to
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
