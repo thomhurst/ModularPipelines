@@ -284,14 +284,18 @@ public static class UsageSynopsisParser
         var parsed = ParseOperandTokens(tokens, phase);
         var operands = parsed.Arguments.Where(argument => IsPositionalSlot(argument, options)).ToArray();
         var nestedGroups = ParseInlineRequiredAlternativeGroups(tokens, phase, options);
-        if (operands.Length == 0 || (parsed.RequiredOptionSwitches.Count == 0 && nestedGroups.Count == 0))
+        if (operands.Length == 0)
         {
             return null;
         }
         var nestedSwitches = nestedGroups.SelectMany(static group => group.EnumerateMembers())
             .Select(static member => member.OptionSwitch).OfType<string>().ToHashSet(StringComparer.Ordinal);
         var switches = tokens.SelectMany(GetOptionSwitches).Concat(parsed.RequiredOptionSwitches)
-            .Where(optionSwitch => !nestedSwitches.Contains(optionSwitch)).Distinct(StringComparer.Ordinal);
+            .Where(optionSwitch => !nestedSwitches.Contains(optionSwitch)).Distinct(StringComparer.Ordinal).ToArray();
+        if (switches.Length == 0 && nestedGroups.Count == 0)
+        {
+            return null;
+        }
         return new UsageRequiredAlternativeGroup
         {
             IsRequired = false,

@@ -80,6 +80,16 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Optional_Switch_Activates_Its_Enclosing_Resource_Bundle()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [RESOURCE [--format=FORMAT]]", ["tool", "run"]);
+        var bundle = usage.RequiredAlternativeGroups.Single();
+        await Assert.That(bundle.IsRequired).IsFalse();
+        await Assert.That(bundle.Members.Single(member => member.PositionalPropertyName == "Resource").IsRequired).IsTrue();
+        await Assert.That(bundle.Members.Single(member => member.OptionSwitch == "--format").IsRequired).IsFalse();
+    }
+
+    [Test]
     public async Task Optional_Flag_Bundle_Is_Resolved_After_Flag_Shapes_Are_Known()
     {
         var usage = UsageSynopsisParser.Parse("Usage: tool run [--verbose RESOURCE]", ["tool", "run"]);

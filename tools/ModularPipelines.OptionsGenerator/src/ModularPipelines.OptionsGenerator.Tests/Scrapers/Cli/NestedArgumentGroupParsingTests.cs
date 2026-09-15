@@ -14,9 +14,10 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Scraped_Optional_Operand_Bundle_Validates_All_Or_None(bool nested)
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    public async Task Scraped_Optional_Operand_Bundle_Validates_Conditional_Members(bool nested, bool optionalParent)
     {
         var help = """
             NAME
@@ -30,6 +31,10 @@ public partial class NestedArgumentGroupParsingTests
                  --parent=PARENT
                     The parent name.
             """;
+        if (optionalParent)
+        {
+            help = help.Replace("[RESOURCE --parent=PARENT]", "[RESOURCE [--parent=PARENT]]", StringComparison.Ordinal);
+        }
         if (nested)
         {
             help = help.Replace("create [RESOURCE --parent=PARENT]", "create ([ROOT] [RESOURCE --parent=PARENT])", StringComparison.Ordinal)
@@ -56,7 +61,7 @@ public partial class NestedArgumentGroupParsingTests
                 type.GetProperty("Resource")!.SetValue(instance, (mask & 1) != 0 ? "resource" : null);
                 type.GetProperty("Parent")!.SetValue(instance, (mask & 2) != 0 ? "parent" : null);
                 var errors = ((IValidatableObject) instance).Validate(new(instance));
-                await Assert.That(!errors.Any()).IsEqualTo(mask is 0 or 3);
+                await Assert.That(!errors.Any()).IsEqualTo(mask is 0 or 3 || (optionalParent && mask == 1));
             }
         });
     }
