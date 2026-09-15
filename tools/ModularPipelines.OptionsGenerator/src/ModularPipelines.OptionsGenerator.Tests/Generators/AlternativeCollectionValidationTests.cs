@@ -394,6 +394,7 @@ public partial class RequiredConstructorValidationTests
     [Arguments("IList<object>?")]
     [Arguments("ICollection<object>?")]
     [Arguments("List<object>?")]
+    [Arguments("System.Collections.IList?")]
     public async Task Alternative_Mutable_Object_Collections_Snapshot_The_Pair_Interface(string collectionType)
     {
         var options = Compile(await GenerateAlternativeCollection(false, collectionType))
@@ -409,7 +410,7 @@ public partial class RequiredConstructorValidationTests
         }
 
         await Assert.That(input.EnumerationCount).IsEqualTo(1);
-        var retained = (ICollection<object>) options.GetProperty("Values")!.GetValue(instance)!;
+        var retained = (IList) options.GetProperty("Values")!.GetValue(instance)!;
         retained.Clear();
         retained.Add(new ModularPipelines.Models.CliValuePair("third", "fourth"));
         await Assert.That(RenderAlternativeCollection(instance, false))
@@ -434,6 +435,7 @@ public partial class RequiredConstructorValidationTests
     [Arguments("List<object>?")]
     [Arguments("IEnumerable<object>?")]
     [Arguments("System.Collections.IEnumerable?")]
+    [Arguments("System.Collections.IList?")]
     public async Task Alternative_Positional_Collections_Use_The_Ordinary_Enumeration(string collectionType)
     {
         var options = Compile(await GenerateAlternativeCollection(true, collectionType))

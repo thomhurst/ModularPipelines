@@ -199,10 +199,7 @@ public record CliOptionDefinition
         var snapshotExpression = isCollection
             ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
             : null;
-        var objectListType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
-        var needsValuePairSnapshotAdapter = elementType.SpecialType == SpecialType.System_Object
-            && (IsMutableCollectionInterface(compilation, propertyType) && propertyType is INamedTypeSymbol { IsGenericType: true }
-                || SymbolEqualityComparer.Default.Equals(propertyType, objectListType));
+        var needsValuePairSnapshotAdapter = IsMutableObjectCollection(compilation, propertyType, elementType);
         return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
             IsReferenceType: propertyType.IsReferenceType,
             SnapshotExpression: snapshotExpression,
@@ -213,6 +210,22 @@ public record CliOptionDefinition
                 ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, needsValuePairSnapshotAdapter)
                 : null,
             NeedsValuePairSnapshotAdapter: needsValuePairSnapshotAdapter);
+    }
+
+    private static bool IsMutableObjectCollection(CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType)
+    {
+        if (elementType.SpecialType != SpecialType.System_Object)
+        {
+            return false;
+        }
+
+        if (IsMutableCollectionInterface(compilation, propertyType))
+        {
+            return true;
+        }
+
+        var objectListType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
+        return SymbolEqualityComparer.Default.Equals(propertyType, objectListType);
     }
 
     private static string? GetOptionalSnapshotExpression(
@@ -227,22 +240,12 @@ public record CliOptionDefinition
         // Broad contracts can receive a typed pair collection. An object snapshot would
         // erase the runtime shape that CommandArgumentBuilder uses to group both operands.
         const string pairType = "global::ModularPipelines.Models.CliValuePair";
-        if (needsValuePairSnapshotAdapter)
-        {
-            return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{pairType}> valuePairs ? new {{1}}(valuePairs) : ({snapshot})";
-        }
-
-        var pairSnapshot = "global::System.Linq.Enumerable.ToArray(valuePairs)";
-        var emptySnapshot = $"global::System.Array.Empty<{pairType}>()";
-        if (IsMutableCollectionInterface(compilation, propertyType))
-        {
-            pairSnapshot = $"new global::System.Collections.Generic.List<{pairType}>(valuePairs)";
-            emptySnapshot = $"new global::System.Collections.Generic.List<{pairType}>()";
-        }
-
+        var pairValues = $"default(global::System.Collections.Immutable.ImmutableArray<{pairType}>).Equals((object)valuePairs) ? global::System.Array.Empty<{pairType}>() : valuePairs";
         var propertyName = propertyType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        var reusablePairs = $"default(global::System.Collections.Immutable.ImmutableArray<{pairType}>).Equals((object)valuePairs) ? {emptySnapshot} : {pairSnapshot}";
-        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{pairType}> valuePairs ? ({propertyName})(object)({reusablePairs}) : ({snapshot})";
+        var pairSnapshot = needsValuePairSnapshotAdapter
+            ? $"new {{1}}({pairValues})"
+            : $"({propertyName})(object)global::System.Linq.Enumerable.ToArray({pairValues})";
+        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{pairType}> valuePairs ? {pairSnapshot} : ({snapshot})";
     }
 
     private static string? GetSnapshotExpression(
