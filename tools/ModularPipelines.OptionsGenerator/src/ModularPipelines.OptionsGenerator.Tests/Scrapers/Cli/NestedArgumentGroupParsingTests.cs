@@ -14,9 +14,11 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
-    public async Task Scraped_Optional_Operand_Bundle_Validates_All_Or_None()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Scraped_Optional_Operand_Bundle_Validates_All_Or_None(bool nested)
     {
-        const string help = """
+        var help = """
             NAME
                 gcloud example create - create a resource
             SYNOPSIS
@@ -28,6 +30,11 @@ public partial class NestedArgumentGroupParsingTests
                  --parent=PARENT
                     The parent name.
             """;
+        if (nested)
+        {
+            help = help.Replace("create [RESOURCE --parent=PARENT]", "create ([ROOT] [RESOURCE --parent=PARENT])", StringComparison.Ordinal)
+                .Replace("POSITIONAL ARGUMENTS", "POSITIONAL ARGUMENTS\n     [ROOT]\n        Optional root.", StringComparison.Ordinal);
+        }
         var command = (await GcloudResourceArgumentTests.ScrapeFixture("example create", help)).Single();
         var group = command.RequiredAlternativeGroups.Single();
         await Assert.That(group.IsRequired).IsFalse();

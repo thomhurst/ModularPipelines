@@ -34,6 +34,20 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("(RESOURCE [CHILD --parent=PARENT])")]
+    [Arguments("[RESOURCE [CHILD --parent=PARENT]]")]
+    public async Task Nested_Optional_Bundles_Retain_Conditional_Requirements(string syntax)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {syntax}", ["tool", "run"]);
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.IsChoice).IsFalse();
+        await Assert.That(group.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Child", "--parent"]);
+        await Assert.That(group.Members.All(member => member.IsRequired)).IsTrue();
+    }
+
+    [Test]
     public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded()
     {
         await Assert.That(() => UsageSynopsisParser.Parse(

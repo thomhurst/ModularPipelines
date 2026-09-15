@@ -226,12 +226,14 @@ public static class UsageSynopsisParser
                 {
                     groups.Add(bundle);
                 }
+                groups.AddRange(ParseInlineRequiredAlternativeGroups(Tokenize(TrimWrapper(normalizedToken)), phase, options));
                 continue;
             }
 
             var alternatives = SplitTopLevelAlternatives(TrimWrapper(normalizedToken));
             if (alternatives.Count <= 1)
             {
+                groups.AddRange(ParseInlineRequiredAlternativeGroups(Tokenize(TrimWrapper(normalizedToken)), phase, options));
                 continue;
             }
 
