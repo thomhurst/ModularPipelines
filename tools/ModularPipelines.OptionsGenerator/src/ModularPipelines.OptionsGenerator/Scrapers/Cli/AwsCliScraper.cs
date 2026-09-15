@@ -357,7 +357,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         // Parse each option: "--option (type)" or "--option"
         var optionMatches = AwsOptionPattern().Matches(optionsSection);
         var booleanSwitches = optionMatches
-            .Where(match => match.Groups["type"].Value is "boolean" or "bool")
+            .Where(match => IsAwsBooleanType(match.Groups["type"].Value))
             .SelectMany(match => new[] { match.Groups["long"].Value, match.Groups["alternate"].Value })
             .Where(name => !string.IsNullOrEmpty(name))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
@@ -371,7 +371,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             var (longForm, negatedLongForm) = GetBooleanSwitchPair(
                 firstLongForm,
                 alternateLongForm,
-                typeHint is "boolean" or "bool");
+                IsAwsBooleanType(typeHint));
             negatedLongForm ??= FindWrappedNegatedSwitch(helpText, longForm);
 
             if (string.IsNullOrEmpty(longForm)
@@ -615,8 +615,10 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
     private static bool IsAwsBooleanType(string typeHint)
     {
-        var lower = typeHint.ToLowerInvariant();
-        return string.IsNullOrEmpty(lower) || lower == "boolean" || lower == "bool";
+        // Missing types still identify standalone flags, but do not prove that two
+        // unrelated switch names are boolean opposites (especially across wrapped lines).
+        var lower = typeHint.Trim().ToLowerInvariant();
+        return lower is "boolean" or "bool";
     }
 
     private static bool IsNumericType(string typeHint)
@@ -726,10 +728,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         var sectionStart = synopsisMatch.Index + synopsisMatch.Length;
-        var nextSectionMatch = Regex.Match(
-            helpText[sectionStart..],
-            @"^[A-Z][A-Z\s]+$",
-            RegexOptions.Multiline);
+        var nextSectionMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextSectionMatch.Success
             ? sectionStart + nextSectionMatch.Index
             : helpText.Length;

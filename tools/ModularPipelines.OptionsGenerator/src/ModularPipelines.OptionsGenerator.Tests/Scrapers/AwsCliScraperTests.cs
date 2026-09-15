@@ -382,10 +382,12 @@ public class AwsCliScraperTests
     }
 
     [Test]
-    [Arguments("--egress | --ingress", true)]
-    [Arguments("[--egress | --ingress]", false)]
-    [Arguments("--egress |\n       --ingress", true)]
-    public async Task Documented_Nonstandard_Boolean_Pairs_Preserve_False(string synopsis, bool required)
+    [Arguments("--egress | --ingress", true, "boolean")]
+    [Arguments("[--egress | --ingress]", false, "boolean")]
+    [Arguments("--egress |\n       --ingress", true, "boolean")]
+    [Arguments("--egress | --ingress", true, "Boolean")]
+    [Arguments("--egress | --ingress", true, " BOOL ")]
+    public async Task Documented_Nonstandard_Boolean_Pairs_Preserve_False(string synopsis, bool required, string typeHint)
     {
         var helpText = $"""
             SYNOPSIS
@@ -393,7 +395,7 @@ public class AwsCliScraperTests
                    {synopsis}
 
             OPTIONS
-                   "--egress" | "--ingress" (boolean)
+                   "--egress" | "--ingress" ({typeHint})
                     Indicates whether to replace the egress rule.
             """;
         var scraper = new TestAwsCliScraper();
