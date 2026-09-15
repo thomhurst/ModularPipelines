@@ -382,6 +382,34 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    [Arguments("--egress | --ingress", true)]
+    [Arguments("--egress |\n                   --ingress", true)]
+    [Arguments("[--egress | --ingress]", false)]
+    public async Task Scraped_Required_Boolean_Pair_Does_Not_Reject_False(string synopsis, bool required)
+    {
+        var help = $"""
+            SYNOPSIS
+                   aws fixture apply
+                   {synopsis}
+            OPTIONS
+                   --egress | --ingress (boolean)
+                    Select the traffic direction.
+            """;
+        var scraper = new TestAwsCliScraper(help);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+        var parsed = commands.Single();
+        await Assert.That(parsed.Options.Single().IsRequired).IsEqualTo(required);
+        await Assert.That(parsed.Options.Single().NegatedSwitchName).IsEqualTo("--ingress");
+        var files = await new OptionsClassGenerator().GenerateAsync(scraper.CreateToolDefinition() with { Commands = [parsed] });
+        var content = files.Single(file => file.RelativePath.EndsWith("Options.Generated.cs", StringComparison.Ordinal)).Content;
+        await Assert.That(content).DoesNotContain("Egress == true");
+    }
+
+    [Test]
     [Arguments("--egress | --ingress", true, "boolean")]
     [Arguments("[--egress | --ingress]", false, "boolean")]
     [Arguments("--egress |\n       --ingress", true, "boolean")]
