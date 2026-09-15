@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace ModularPipelines.ProcessTestHost;
 
@@ -10,10 +11,11 @@ public static class Host
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "parent-exit" or "grace-parent" or "startup-failure" or "never-ready" ? "parent" : role;
+        var name = role is "parent-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" ? "parent" : role;
         if (name == "parent")
         {
-            Publish(directory, name + ".pid", Environment.ProcessId.ToString());
+            using var currentProcess = Process.GetCurrentProcess();
+            Publish(directory, name + ".pid", JsonSerializer.Serialize(ProcessIdentity.Capture(currentProcess)));
         }
         try
         {
@@ -31,7 +33,7 @@ public static class Host
 
     private static async Task RunRoleAsync(string role, string name, string directory, string runtimeConfiguration)
     {
-        if (role == "startup-failure")
+        if (role is "startup-failure" or "failing-child")
         {
             throw new InvalidOperationException("Requested process-fixture startup failure.");
         }
@@ -49,7 +51,14 @@ public static class Host
             case "parent":
             case "parent-exit":
             case "grace-parent":
-                using (var child = StartChild(role == "grace-parent" ? "intermediate" : "child", directory, runtimeConfiguration))
+            case "child-failure-parent":
+                var childRole = role switch
+                {
+                    "grace-parent" => "intermediate",
+                    "child-failure-parent" => "failing-child",
+                    _ => "child",
+                };
+                using (var child = StartChild(childRole, directory, runtimeConfiguration))
                 {
                     if (role == "parent-exit")
                     {
@@ -58,6 +67,10 @@ public static class Host
                     else
                     {
                         await child.WaitForExitAsync();
+                        if (child.ExitCode != 0)
+                        {
+                            throw new InvalidOperationException($"Fixture child {childRole} exited with code {child.ExitCode}.");
+                        }
                     }
                 }
 
@@ -93,7 +106,7 @@ public static class Host
         }
 
         var child = Process.Start(startInfo)!;
-        Publish(directory, role + ".pid", child.Id.ToString());
+        Publish(directory, role + ".pid", JsonSerializer.Serialize(ProcessIdentity.Capture(child)));
         return child;
     }
 

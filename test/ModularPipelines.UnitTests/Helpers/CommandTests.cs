@@ -717,7 +717,7 @@ public class CommandTests : TestBase
     {
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
-        var child = await fixture.WaitForProcessAsync("child", TimeSpan.FromSeconds(5));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         fixture.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
@@ -730,7 +730,7 @@ public class CommandTests : TestBase
     {
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), "parent-exit", TimeSpan.FromMilliseconds(100));
-        var child = await fixture.WaitForProcessAsync("child", TimeSpan.FromSeconds(5));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         fixture.Cancel();
         await fixture.TriggerAsync("parent-exit");
 
@@ -822,10 +822,10 @@ public class CommandTests : TestBase
     {
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), "grace-parent", TimeSpan.FromSeconds(1), gateForcefulCancellation: true);
-        await fixture.WaitForReadyAsync("intermediate", TimeSpan.FromSeconds(10));
+        await fixture.WaitForReadyProcessAsync("intermediate", TimeSpan.FromSeconds(10));
         fixture.Cancel();
         await fixture.TriggerAsync("spawn");
-        var grandchild = await fixture.WaitForProcessAsync("grandchild", TimeSpan.FromSeconds(10));
+        var grandchild = await fixture.WaitForReadyProcessAsync("grandchild", TimeSpan.FromSeconds(10));
         fixture.AllowForcefulCancellation();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
@@ -834,12 +834,14 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
-    public async Task ProcessTreeFixture_Reports_Startup_Failure_Before_Readiness_Timeout()
+    [Arguments("startup-failure", "parent")]
+    [Arguments("child-failure-parent", "failing-child")]
+    public async Task ProcessTreeFixture_Reports_Startup_Failure_Before_Readiness_Timeout(string role, string processName)
     {
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "startup-failure", TimeSpan.FromMilliseconds(50));
+        fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.FromMilliseconds(50));
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            fixture.WaitForReadyAsync("parent", TimeSpan.FromSeconds(5)));
+            fixture.WaitForReadyAsync(processName, TimeSpan.FromSeconds(5)));
         await Assert.That(exception!.Message).Contains("Requested process-fixture startup failure.");
     }
 
@@ -859,6 +861,26 @@ public class CommandTests : TestBase
         await fixture.DisposeAsync();
         await Assert.That(observer.HasExited).IsTrue();
         await Assert.That(childObserver.HasExited).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ProcessTreeFixture_Does_Not_Kill_A_Reused_Process_Id()
+    {
+        await using var otherFixture = new ProcessTreeFixture();
+        otherFixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        var parent = await otherFixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
+        var child = await otherFixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+        await using var staleFixture = new ProcessTreeFixture();
+        var identity = ModularPipelines.ProcessTestHost.ProcessIdentity.Capture(parent);
+        var staleIdentity = identity with { StartTimeUtcTicks = identity.StartTimeUtcTicks - 1 };
+        await File.WriteAllTextAsync(Path.Combine(staleFixture.DirectoryPath, "stale.pid"),
+            System.Text.Json.JsonSerializer.Serialize(staleIdentity));
+
+        await staleFixture.DisposeAsync();
+
+        await Assert.That(parent.HasExited).IsFalse();
+        await Assert.That(child.HasExited).IsFalse();
     }
 
     private static string EscapePowerShellLiteral(string value) => value.Replace("'", "''");
