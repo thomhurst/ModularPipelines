@@ -12,6 +12,7 @@ public class UsageSynopsisParserTests
     [Test]
     [Arguments("[(--spark-main-class=CLASS | --spark-main-jar-file-uri=JAR) : --vpc-network-name=NETWORK | --vpc-sub-network-name=SUBNET]")]
     [Arguments("[(--spark-main-class=CLASS | --spark-main-jar-file-uri=JAR) : --packages=[PACKAGES, ...] --vpc-network-name=NETWORK | --vpc-sub-network-name=SUBNET]")]
+    [Arguments("[(--spark-main-class=CLASS|--spark-main-jar-file-uri=JAR) : --vpc-network-name=NETWORK|--vpc-sub-network-name=SUBNET]")]
     public async Task Option_Only_Colon_Groups_Do_Not_Create_Operands(string group)
     {
         var result = UsageSynopsisParser.Parse($"Usage: tool run RESOURCE {group}", ["tool", "run"]);
@@ -58,6 +59,9 @@ public class UsageSynopsisParserTests
     [Arguments("((--input=INPUT | --other=OTHER) : TARGET | ALTERNATIVE)")]
     [Arguments("((--input VALUE | --other=OTHER) : --network=NETWORK | --global)")]
     [Arguments("((--input=INPUT | --other=OTHER) : --network=NETWORK | --global)")]
+    [Arguments("[--force|TARGET : --location=LOCATION]")]
+    [Arguments("[--force | TARGET : --location=LOCATION]")]
+    [Arguments("[TARGET|--force : --location=LOCATION]")]
     public async Task Rejects_Ambiguous_Alternatives_Across_Colon_Groups(string group)
     {
         await Assert.That(() => UsageSynopsisParser.Parse(

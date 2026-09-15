@@ -1279,7 +1279,7 @@ public static class UsageSynopsisParser
         var optionTokens = tokens.Where(static token => token is not (":" or "|")).ToArray();
         return optionTokens.Length > 0 && optionTokens.All(static token => IsWrapped(token)
             ? ContainsOnlyInlineOptions(Tokenize(TrimWrapper(token)))
-            : GetOptionSwitch(token) is not null);
+            : GetOptionSwitches(token).Count > 0);
     }
 
     private static bool TryParseOptionalNestedOperands(
