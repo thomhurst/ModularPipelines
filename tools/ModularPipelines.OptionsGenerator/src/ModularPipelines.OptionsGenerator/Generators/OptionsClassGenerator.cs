@@ -594,11 +594,11 @@ public class OptionsClassGenerator : ICodeGenerator
             propertyType = propertyType.TrimEnd('?');
         }
 
-        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative, positional.IsVariadic);
+        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative, positional.IsVariadic, preserveValuePairs: false);
     }
 
     private static void GeneratePropertyDeclaration(
-        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null)
+        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null, bool preserveValuePairs = true)
     {
         var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
         // Required collections are already materialized by their constructor. Optional
@@ -606,17 +606,43 @@ public class OptionsClassGenerator : ICodeGenerator
         if (!isRequired && participatesInAlternative
             && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
+            var valuePairSnapshotType = $"__{propertyName}ValuePairSnapshot";
             var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
-                propertyType, "values", retainUnsupportedCollections: true);
+                propertyType, "values", retainUnsupportedCollections: true, valuePairSnapshotType, preserveValuePairs);
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
             sb.AppendLine("        get;");
             sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
             sb.AppendLine("    }");
+            if (preserveValuePairs && CliOptionDefinition.NeedsValuePairSnapshotAdapter(propertyType))
+            {
+                GenerateValuePairSnapshotAdapter(sb, valuePairSnapshotType);
+            }
+
             return;
         }
 
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
+    }
+
+    private static void GenerateValuePairSnapshotAdapter(StringBuilder sb, string typeName)
+    {
+        sb.AppendLine();
+        sb.AppendLine($$"""
+                private sealed class {{typeName}}(global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+                    : global::System.Collections.Generic.List<object>(global::System.Linq.Enumerable.Select(values, static pair => (object)pair)),
+                        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+                {
+                    global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+                        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator()
+                    {
+                        foreach (var value in this)
+                        {
+                            yield return (global::ModularPipelines.Models.CliValuePair)value;
+                        }
+                    }
+                }
+            """);
     }
 
     private static string GetPropertyAccessor(bool isRequired) =>

@@ -390,6 +390,77 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
     }
 
+    [Test]
+    [Arguments("IList<object>?")]
+    [Arguments("ICollection<object>?")]
+    [Arguments("List<object>?")]
+    public async Task Alternative_Mutable_Object_Collections_Snapshot_The_Pair_Interface(string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(false, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseMutablePairs();
+        options.GetProperty("Values")!.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, false))
+                .IsEquivalentTo(["--requirement", "first", "second"]);
+        }
+
+        await Assert.That(input.EnumerationCount).IsEqualTo(1);
+        var retained = (ICollection<object>) options.GetProperty("Values")!.GetValue(instance)!;
+        retained.Clear();
+        retained.Add(new ModularPipelines.Models.CliValuePair("third", "fourth"));
+        await Assert.That(RenderAlternativeCollection(instance, false))
+            .IsEquivalentTo(["--requirement", "third", "fourth"]);
+        retained.Clear();
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
+        await Assert.That(RenderAlternativeCollection(instance, false)).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("IList<object>?")]
+    [Arguments("ICollection<object>?")]
+    [Arguments("List<object>?")]
+    [Arguments("IEnumerable<object>?")]
+    [Arguments("System.Collections.IEnumerable?")]
+    public async Task Alternative_Positional_Collections_Use_The_Ordinary_Enumeration(string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(true, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseMutablePairs();
+        options.GetProperty("Values")!.SetValue(instance, input);
+        input.Clear();
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, true)).IsEquivalentTo(["ordinary object view"]);
+        }
+
+        await Assert.That(input.EnumerationCount).IsEqualTo(0);
+    }
+
+    private sealed class SingleUseMutablePairs : List<object>, IEnumerable<ModularPipelines.Models.CliValuePair>
+    {
+        public int EnumerationCount { get; private set; }
+
+        // The object view intentionally differs from the pair view. Rendering and
+        // snapshots must use the specialized interface selected by the command builder.
+        public SingleUseMutablePairs() => Add("ordinary object view");
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        {
+            if (++EnumerationCount != 1)
+            {
+                throw new InvalidOperationException("Pair input can only be enumerated once.");
+            }
+
+            yield return new("first", "second");
+        }
+    }
+
     private sealed class SingleUseValuePairs : IEnumerable<ModularPipelines.Models.CliValuePair>
     {
         public int EnumerationCount { get; private set; }

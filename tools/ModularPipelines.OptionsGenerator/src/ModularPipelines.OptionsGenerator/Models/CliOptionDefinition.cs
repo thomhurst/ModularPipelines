@@ -89,7 +89,7 @@ public record CliOptionDefinition
     }
 
     internal static string GetCollectionSnapshotExpression(
-        string cSharpType, string valueExpression, bool retainUnsupportedCollections = false)
+        string cSharpType, string valueExpression, bool retainUnsupportedCollections = false, string valuePairSnapshotType = "__ValuePairSnapshot", bool preserveValuePairs = true)
     {
         var shape = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
         if (retainUnsupportedCollections)
@@ -102,7 +102,9 @@ public record CliOptionDefinition
 
             // Optional properties must continue accepting every implementation allowed by
             // their declared contract. Retain it when no assignable safe copy is available.
-            var snapshot = shape.OptionalSnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
+            var snapshotExpression = preserveValuePairs ? shape.OptionalValuePairSnapshotExpression : shape.OptionalSnapshotExpression;
+            var snapshot = snapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
+                               .Replace("{1}", valuePairSnapshotType, StringComparison.Ordinal)
                            ?? valueExpression;
             // CommandArgumentBuilder renders every character sequence as a scalar through
             // ToString, so copying or enumerating it would change its rendering contract.
@@ -113,6 +115,9 @@ public record CliOptionDefinition
             ?? throw new InvalidOperationException(
                 $"Required collection type '{cSharpType}' cannot safely retain a reusable snapshot. Use a supported collection contract.");
     }
+
+    internal static bool NeedsValuePairSnapshotAdapter(string cSharpType) =>
+        CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).NeedsValuePairSnapshotAdapter;
 
     internal static int FindIndexBySwitch(
         IReadOnlyList<CliOptionDefinition> options,
@@ -194,19 +199,27 @@ public record CliOptionDefinition
         var snapshotExpression = isCollection
             ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
             : null;
+        var objectListType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
+        var needsValuePairSnapshotAdapter = elementType.SpecialType == SpecialType.System_Object
+            && (IsMutableCollectionInterface(compilation, propertyType) && propertyType is INamedTypeSymbol { IsGenericType: true }
+                || SymbolEqualityComparer.Default.Equals(propertyType, objectListType));
         return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
             IsReferenceType: propertyType.IsReferenceType,
             SnapshotExpression: snapshotExpression,
             OptionalSnapshotExpression: isCollection
-                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
-                : null);
+                ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true)
+                : null,
+            OptionalValuePairSnapshotExpression: isCollection
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, needsValuePairSnapshotAdapter)
+                : null,
+            NeedsValuePairSnapshotAdapter: needsValuePairSnapshotAdapter);
     }
 
     private static string? GetOptionalSnapshotExpression(
-        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, bool needsValuePairSnapshotAdapter)
     {
         var snapshot = GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true);
-        if (!isArrayAssignable || elementType.SpecialType != SpecialType.System_Object)
+        if ((!isArrayAssignable && !needsValuePairSnapshotAdapter) || elementType.SpecialType != SpecialType.System_Object)
         {
             return snapshot;
         }
@@ -214,17 +227,15 @@ public record CliOptionDefinition
         // Broad contracts can receive a typed pair collection. An object snapshot would
         // erase the runtime shape that CommandArgumentBuilder uses to group both operands.
         const string pairType = "global::ModularPipelines.Models.CliValuePair";
+        if (needsValuePairSnapshotAdapter)
+        {
+            return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{pairType}> valuePairs ? new {{1}}(valuePairs) : ({snapshot})";
+        }
+
         var pairSnapshot = "global::System.Linq.Enumerable.ToArray(valuePairs)";
         var emptySnapshot = $"global::System.Array.Empty<{pairType}>()";
         if (IsMutableCollectionInterface(compilation, propertyType))
         {
-            if (propertyType is INamedTypeSymbol { IsGenericType: true })
-            {
-                // An invariant mutable object interface cannot accept List<CliValuePair>.
-                // Preserve unusual implementations exposing both interfaces unchanged.
-                return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{pairType}> ? {{0}} : ({snapshot})";
-            }
-
             pairSnapshot = $"new global::System.Collections.Generic.List<{pairType}>(valuePairs)";
             emptySnapshot = $"new global::System.Collections.Generic.List<{pairType}>()";
         }
@@ -359,7 +370,8 @@ public record CliOptionDefinition
 
     private readonly record struct CollectionShapeResolution(
         bool IsResolved, bool IsCollection, bool IsReferenceType,
-        string? SnapshotExpression = null, string? OptionalSnapshotExpression = null);
+        string? SnapshotExpression = null, string? OptionalSnapshotExpression = null,
+        string? OptionalValuePairSnapshotExpression = null, bool NeedsValuePairSnapshotAdapter = false);
 
     /// <summary>
     /// Description for XML documentation.
