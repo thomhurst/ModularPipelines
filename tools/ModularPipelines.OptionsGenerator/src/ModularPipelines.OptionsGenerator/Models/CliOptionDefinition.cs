@@ -206,7 +206,11 @@ public record CliOptionDefinition
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable,
         bool retainUnsupportedCollections = false)
     {
-        if (isArrayAssignable)
+        var needsMutableSnapshot = retainUnsupportedCollections && propertyType.TypeKind == TypeKind.Interface
+            && (propertyType.OriginalDefinition.SpecialType is SpecialType.System_Collections_Generic_ICollection_T
+                or SpecialType.System_Collections_Generic_IList_T
+                || SymbolEqualityComparer.Default.Equals(propertyType, compilation.GetTypeByMetadataName("System.Collections.IList")));
+        if (isArrayAssignable && !needsMutableSnapshot)
         {
             return GetArraySnapshotExpression(compilation, propertyType, elementType, retainUnsupportedCollections);
         }
@@ -244,7 +248,10 @@ public record CliOptionDefinition
                 return $"{{0}} is {snapshotName} {{ IsDefault: true }} ? {defaultValue} : global::System.Collections.Immutable.ImmutableArray.CreateRange({values})";
             }
 
-            return $"new {snapshotName}({values})";
+            var snapshot = $"new {snapshotName}({values})";
+            return retainUnsupportedCollections
+                ? GetDefaultImmutableArraySafeSnapshot(compilation, propertyType, elementType, snapshot, $"new {snapshotName}()")
+                : snapshot;
         }
 
         var arrayList = compilation.GetTypeByMetadataName("System.Collections.ArrayList");
@@ -259,14 +266,22 @@ public record CliOptionDefinition
         var elementName = elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
         var snapshot = $"global::System.Linq.Enumerable.ToArray({values})";
+        return retainUnsupportedCollections
+            ? GetDefaultImmutableArraySafeSnapshot(compilation, propertyType, elementType, snapshot, $"global::System.Array.Empty<{elementName}>()")
+            : snapshot;
+    }
+
+    private static string GetDefaultImmutableArraySafeSnapshot(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, string snapshot, string emptySnapshot)
+    {
         var immutableArrayType = compilation.GetTypeByMetadataName("System.Collections.Immutable.ImmutableArray`1")?.Construct(elementType);
-        if (retainUnsupportedCollections && immutableArrayType is not null
+        if (immutableArrayType is not null
             && compilation.ClassifyConversion(immutableArrayType, propertyType).IsImplicit)
         {
             var immutableArrayName = immutableArrayType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
             // Object equality compares backing-array identity across element types, so a
             // default ImmutableArray<string> is also recognized through IEnumerable<object>.
-            snapshot = $"default({immutableArrayName}).Equals((object){{0}}) ? global::System.Array.Empty<{elementName}>() : {snapshot}";
+            return $"default({immutableArrayName}).Equals((object){{0}}) ? {emptySnapshot} : {snapshot}";
         }
 
         return snapshot;

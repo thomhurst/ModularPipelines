@@ -22,6 +22,12 @@ public partial class RequiredConstructorValidationTests
     [Arguments(true, "IReadOnlyList<object>?")]
     [Arguments(false, "System.Collections.IEnumerable?")]
     [Arguments(true, "System.Collections.IEnumerable?")]
+    [Arguments(false, "IList<string>?")]
+    [Arguments(true, "IList<string>?")]
+    [Arguments(false, "ICollection<string>?")]
+    [Arguments(true, "ICollection<string>?")]
+    [Arguments(false, "System.Collections.IList?")]
+    [Arguments(true, "System.Collections.IList?")]
     public async Task Alternative_Default_ImmutableArrays_Are_Absent_And_Allow_Fallback(bool positional, string collectionType)
     {
         var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
@@ -77,6 +83,51 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
         options.GetProperty("Fallback")!.SetValue(instance, "fallback");
         await Assert.That(validation.Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
+    [Arguments(false, "IList<string>?")]
+    [Arguments(true, "IList<string>?")]
+    [Arguments(false, "ICollection<string>?")]
+    [Arguments(true, "ICollection<string>?")]
+    [Arguments(false, "System.Collections.IList?")]
+    [Arguments(true, "System.Collections.IList?")]
+    public async Task Alternative_Mutable_Interfaces_Preserve_Mutations(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("Values")!;
+        List<string> supplied = ["first", "second"];
+        property.SetValue(instance, supplied);
+        supplied.Clear();
+        var retained = property.GetValue(instance)!;
+        if (retained is ICollection<string> collection)
+        {
+            collection.Remove("first");
+            collection.Add("third");
+        }
+        else
+        {
+            ((IList) retained).Remove("first");
+            ((IList) retained).Add("third");
+        }
+
+        var validation = (IValidatableObject) instance;
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+        await Assert.That(RenderAlternativeCollection(instance, positional))
+            .IsEquivalentTo(positional ? new[] { "second", "third" } : new[] { "--requirement", "second", "--requirement", "third" });
+        if (retained is ICollection<string> mutableCollection)
+        {
+            mutableCollection.Clear();
+        }
+        else
+        {
+            ((IList) retained).Clear();
+        }
+
+        await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
+        await Assert.That(RenderAlternativeCollection(instance, positional)).IsEmpty();
     }
 
     [Test]
