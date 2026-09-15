@@ -227,34 +227,43 @@ public record CliOptionDefinition
                 continue;
             }
 
-            var snapshotName = snapshotType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-            if (metadataName == "System.Collections.Generic.HashSet`1")
-            {
-                // A set may use identity or another non-default equality contract.
-                // Preserve that comparer instead of silently collapsing distinct CLI values.
-                return retainUnsupportedCollections
-                    ? $"{{0}} is {snapshotName} sourceSet ? new {snapshotName}({values}, sourceSet.Comparer) : {{0}}"
-                    : $"new {snapshotName}({values}, {{0}} is {snapshotName} sourceSet ? sourceSet.Comparer : throw new global::System.ArgumentException(\"Required set must be a HashSet so its comparer can be preserved.\"))";
-            }
-
-            if (metadataName == "System.Collections.Immutable.ImmutableArray`1")
-            {
-                var defaultValue = retainUnsupportedCollections
-                    ? $"{snapshotName}.Empty"
-                    : "throw new global::System.ArgumentException(\"Required collection must contain at least one value.\", nameof({0}))";
-                return $"{{0}} is {snapshotName} {{ IsDefault: true }} ? {defaultValue} : global::System.Collections.Immutable.ImmutableArray.CreateRange({values})";
-            }
-
-            var snapshot = $"new {snapshotName}({values})";
-            return retainUnsupportedCollections
-                ? GetDefaultImmutableArraySafeSnapshot(compilation, propertyType, elementType, snapshot, $"new {snapshotName}()")
-                : snapshot;
+            return GetConstructedSnapshotExpression(compilation, propertyType, elementType,
+                snapshotType, metadataName, retainUnsupportedCollections);
         }
 
         var arrayList = compilation.GetTypeByMetadataName("System.Collections.ArrayList");
         return arrayList is not null && compilation.ClassifyConversion(arrayList, propertyType).IsImplicit
             ? $"new global::System.Collections.ArrayList(global::System.Linq.Enumerable.ToArray({values}))"
             : null;
+    }
+
+    private static string GetConstructedSnapshotExpression(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType,
+        INamedTypeSymbol snapshotType, string metadataName, bool retainUnsupportedCollections)
+    {
+        var values = $"global::System.Linq.Enumerable.Cast<{elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}>({{0}})";
+        var snapshotName = snapshotType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        if (metadataName == "System.Collections.Generic.HashSet`1")
+        {
+            // A set may use identity or another non-default equality contract.
+            // Preserve that comparer instead of silently collapsing distinct CLI values.
+            return retainUnsupportedCollections
+                ? $"{{0}} is {snapshotName} sourceSet ? new {snapshotName}({values}, sourceSet.Comparer) : {{0}}"
+                : $"new {snapshotName}({values}, {{0}} is {snapshotName} sourceSet ? sourceSet.Comparer : throw new global::System.ArgumentException(\"Required set must be a HashSet so its comparer can be preserved.\"))";
+        }
+
+        if (metadataName == "System.Collections.Immutable.ImmutableArray`1")
+        {
+            var defaultValue = retainUnsupportedCollections
+                ? $"{snapshotName}.Empty"
+                : "throw new global::System.ArgumentException(\"Required collection must contain at least one value.\", nameof({0}))";
+            return $"{{0}} is {snapshotName} {{ IsDefault: true }} ? {defaultValue} : global::System.Collections.Immutable.ImmutableArray.CreateRange({values})";
+        }
+
+        var snapshot = $"new {snapshotName}({values})";
+        return retainUnsupportedCollections
+            ? GetDefaultImmutableArraySafeSnapshot(compilation, propertyType, elementType, snapshot, $"new {snapshotName}()")
+            : snapshot;
     }
 
     private static bool IsMutableCollectionInterface(CSharpCompilation compilation, ITypeSymbol propertyType) =>
