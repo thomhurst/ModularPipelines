@@ -545,7 +545,8 @@ public static class UsageSynopsisParser
                     operandToken,
                     arguments.Count,
                     operandPhase,
-                    out var nestedArguments))
+                    out var nestedArguments,
+                    out var nestedRequiredOptions))
             {
                 nestedArguments = PreserveOptionTerminatorOnNestedGroup(
                     nestedArguments,
@@ -559,6 +560,7 @@ public static class UsageSynopsisParser
                     })];
                 }
                 arguments.AddRange(nestedArguments);
+                requiredOptionSwitches.AddRange(nestedRequiredOptions);
                 if (nestedArguments.Count > 0)
                 {
                     prependOptionTerminatorToNextOperand = false;
@@ -1251,9 +1253,11 @@ public static class UsageSynopsisParser
         string token,
         int positionIndex,
         CommandLinePhase phase,
-        out IReadOnlyList<CliPositionalArgument> arguments)
+        out IReadOnlyList<CliPositionalArgument> arguments,
+        out IReadOnlyList<string> requiredOptionSwitches)
     {
         arguments = [];
+        requiredOptionSwitches = [];
         var normalizedToken = TrimTrailingOperandPunctuation(token);
         if (!IsWrapped(normalizedToken))
         {
@@ -1283,7 +1287,7 @@ public static class UsageSynopsisParser
         }
 
         if (TryParseColonSeparatedOperands(
-                nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments))
+                nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches))
         {
             return true;
         }
@@ -1299,7 +1303,7 @@ public static class UsageSynopsisParser
             return false;
         }
 
-        return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments);
+        return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
     }
 
     private static bool ContainsOnlyInlineOptions(IEnumerable<string> tokens)
@@ -1315,17 +1319,33 @@ public static class UsageSynopsisParser
         bool isRequiredGroup,
         int positionIndex,
         CommandLinePhase phase,
-        out IReadOnlyList<CliPositionalArgument> arguments)
+        out IReadOnlyList<CliPositionalArgument> arguments,
+        out IReadOnlyList<string> requiredOptionSwitches)
     {
         arguments = [];
+        requiredOptionSwitches = [];
+        var parsedRequiredOptions = new List<string>();
         var parsedArguments = new List<CliPositionalArgument>();
         string? associatedOptionSwitch = null;
         foreach (var nestedToken in nestedTokens)
         {
+            if (TryParseNestedOperandGroup(nestedToken, positionIndex + parsedArguments.Count, phase,
+                    out var nestedArguments, out var nestedRequiredOptions))
+            {
+                parsedArguments.AddRange(nestedArguments);
+                parsedRequiredOptions.AddRange(nestedRequiredOptions);
+                associatedOptionSwitch = null;
+                continue;
+            }
+
             var isOptionSwitch = TryGetOptionSwitch(nestedToken, out var optionSwitch);
             if (isOptionSwitch)
             {
                 associatedOptionSwitch = optionSwitch;
+            }
+            if (IsRequiredUsageToken(nestedToken))
+            {
+                parsedRequiredOptions.AddRange(GetOptionSwitches(nestedToken));
             }
 
             if (TryApplyStandaloneRepeat(nestedToken, parsedArguments))
@@ -1354,14 +1374,25 @@ public static class UsageSynopsisParser
 
             parsedArguments.Add(argument with
             {
-                CSharpType = GetCSharpType(isRequiredGroup && argument.IsRequired, argument.IsVariadic),
-                IsRequired = isRequiredGroup && argument.IsRequired,
                 AssociatedOptionSwitch = associatedOptionSwitch,
             });
             associatedOptionSwitch = null;
         }
 
-        arguments = parsedArguments;
+        if (!isRequiredGroup && parsedRequiredOptions.Count > 0
+            && parsedArguments.Any(static argument => argument.AssociatedOptionSwitch is null))
+        {
+            // Conditional sibling requirements need a richer model; never silently drop them.
+            throw new InvalidOperationException(
+                $"Usage synopsis has unsupported conditional requirements in group '{string.Join(" ", nestedTokens)}'.");
+        }
+
+        arguments = [.. parsedArguments.Select(argument => argument with
+        {
+            IsRequired = isRequiredGroup && argument.IsRequired,
+            CSharpType = GetCSharpType(isRequiredGroup && argument.IsRequired, argument.IsVariadic),
+        })];
+        requiredOptionSwitches = isRequiredGroup ? parsedRequiredOptions : [];
         return true;
     }
 
@@ -1370,9 +1401,11 @@ public static class UsageSynopsisParser
         bool groupRequired,
         int positionIndex,
         CommandLinePhase phase,
-        out IReadOnlyList<CliPositionalArgument> arguments)
+        out IReadOnlyList<CliPositionalArgument> arguments,
+        out IReadOnlyList<string> requiredOptionSwitches)
     {
         arguments = [];
+        requiredOptionSwitches = [];
         var separator = tokens.IndexOf(":");
         if (separator <= 0)
         {
@@ -1387,7 +1420,15 @@ public static class UsageSynopsisParser
         var operandTokens = hasOnlySelectors
             ? tokens.Take(separator)
             : tokens.Where(static token => token != ":");
-        var groupArguments = ParseOperandTokens(operandTokens, phase).Arguments;
+        var parsed = ParseOperandTokens(operandTokens, phase);
+        if (!groupRequired && parsed.RequiredOptionSwitches.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has unsupported conditional requirements in colon group '{string.Join(" ", tokens)}'.");
+        }
+
+        requiredOptionSwitches = groupRequired ? parsed.RequiredOptionSwitches : [];
+        var groupArguments = parsed.Arguments;
         arguments = [.. groupArguments.Select((argument, index) => argument with
         {
             PositionIndex = positionIndex + index,

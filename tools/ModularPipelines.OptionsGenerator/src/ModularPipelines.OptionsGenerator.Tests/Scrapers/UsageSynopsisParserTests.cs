@@ -10,6 +10,26 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    [Arguments("(RESOURCE --parent=PARENT)")]
+    [Arguments("(RESOURCE --parent=PARENT [--optional=VALUE])")]
+    [Arguments("((RESOURCE --parent=PARENT) [--optional=VALUE])")]
+    [Arguments("((RESOURCE --parent=PARENT) : --selector=VALUE)")]
+    public async Task Required_Group_Preserves_Required_Options(string group)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {group}", ["tool", "run"]);
+        await Assert.That(result.RequiredOptionSwitches).IsEquivalentTo(["--parent"]);
+        await Assert.That(result.PositionalArguments.Single().IsRequired).IsTrue();
+    }
+
+    [Test]
+    public async Task Optional_Group_Does_Not_Discard_Conditional_Requirements()
+    {
+        await Assert.That(() => UsageSynopsisParser.Parse(
+                "Usage: tool run [RESOURCE --parent=PARENT]", ["tool", "run"]))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
     public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded()
     {
         await Assert.That(() => UsageSynopsisParser.Parse(
@@ -25,7 +45,6 @@ public class UsageSynopsisParserTests
     [Arguments("[(cloudshell|localhost):SRC ...]", "CloudshellLocalhostSrc", false, true)]
     [Arguments("[-- ARGS ...]", "Args", false, true)]
     [Arguments("(RESOURCE --parent=PARENT)", "Resource", true, false)]
-    [Arguments("[RESOURCE --parent=PARENT]", "Resource", false, false)]
     public async Task Compound_And_Grouped_Operands_Retain_Their_Value_Contract(
         string syntax, string name, bool required, bool variadic)
     {

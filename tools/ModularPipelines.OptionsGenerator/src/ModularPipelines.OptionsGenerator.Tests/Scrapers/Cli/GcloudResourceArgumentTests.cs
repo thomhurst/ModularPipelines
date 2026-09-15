@@ -30,6 +30,25 @@ public class GcloudResourceArgumentTests
     }
 
     [Test]
+    public async Task Required_Group_Preserves_Parent_Constructor_Argument()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "resource-manager-tags-keys-create-550.0.0.txt"));
+        var command = (await ScrapeFixture("resource-manager tags keys create", help)).Single();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--parent").IsRequired).IsTrue();
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generated).Contains("string Parent");
+        await Assert.That(generated).Contains("this.Parent = Parent;");
+    }
+
+    [Test]
     public async Task Group_Repeatability_Produces_Repeated_Structured_Options()
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "compute-network-endpoint-groups-update-550.0.0.txt"));
