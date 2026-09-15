@@ -18,6 +18,11 @@ public sealed record CliRequiredAlternativeGroup
     public bool IsChoice { get; init; } = true;
 
     /// <summary>
+    /// Whether satisfying a complete usage form is sufficient even when another form is partially supplied.
+    /// </summary>
+    public bool IsUsageFormChoice { get; init; }
+
+    /// <summary>
     /// Whether supplying more than one member is also invalid.
     /// </summary>
     public bool IsMutuallyExclusive { get; init; }

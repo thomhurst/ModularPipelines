@@ -486,6 +486,19 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         string Presence(string propertyName) => GetPresenceExpression(command, positionalArguments, propertyName);
+        if (group.IsUsageFormChoice)
+        {
+            // Usage forms describe sufficient combinations. A complete form remains valid
+            // when unrelated options also supply part of another form.
+            if (required)
+            {
+                WriteValidationFailure(sb, $"!{GetCompleteUsageExpression(group, Presence)}", activation,
+                    "At least one complete usage alternative must be specified.", propertyNames);
+            }
+
+            return;
+        }
+
         string GroupPresence(CliRequiredAlternativeGroup nested) =>
             $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(Presence))})";
 
@@ -510,6 +523,13 @@ public class OptionsClassGenerator : ICodeGenerator
             GenerateGroupValidation(sb, command, positionalArguments, nested,
                 required: !group.IsChoice && nested.IsRequired, activeGroup);
         }
+    }
+
+    private static string GetCompleteUsageExpression(CliRequiredAlternativeGroup group, Func<string, string> presence)
+    {
+        var expressions = group.Members.Select(member => presence(member.PropertyName))
+            .Concat(group.Groups.Select(nested => GetCompleteUsageExpression(nested, presence)));
+        return $"({string.Join(group.IsChoice ? " || " : " && ", expressions)})";
     }
 
     private static void GenerateGroupPresenceValidation(
