@@ -2009,12 +2009,18 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         // Wrapped lines stay in the same sentence; blank lines separate prose
         // paragraphs even when clap omits punctuation from the first paragraph.
-        if (startsParagraph && prose.Count > 0 && prose[^1][^1] is not ('.' or '!' or '?' or ':' or ';'))
+        if (startsParagraph && prose.Count > 0 && !EndsWithSentencePunctuation(prose[^1]))
         {
             prose[^1] += ".";
         }
 
         prose.Add(text);
+    }
+
+    private static bool EndsWithSentencePunctuation(string text)
+    {
+        var content = text.AsSpan().TrimEnd("\"'`’”)]}»›");
+        return !content.IsEmpty && ".!?:;。！？：；…؟۔।॥".Contains(content[^1]);
     }
 
     private static bool TryReadClapTrailer(

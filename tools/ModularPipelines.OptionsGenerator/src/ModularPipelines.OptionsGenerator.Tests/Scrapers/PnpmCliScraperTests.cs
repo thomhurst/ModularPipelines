@@ -16,6 +16,16 @@ public class PnpmCliScraperTests
     [Arguments("?", "?")]
     [Arguments(":", ":")]
     [Arguments(";", ";")]
+    [Arguments(" \"Done!\"", " \"Done!\"")]
+    [Arguments(" (done.)", " (done.)")]
+    [Arguments(" `done?`", " `done?`")]
+    [Arguments(" [done!]", " [done!]")]
+    [Arguments(" “done!”", " “done!”")]
+    [Arguments("。", "。")]
+    [Arguments("！", "！")]
+    [Arguments("؟", "؟")]
+    [Arguments(" (unstable)", " (unstable).")]
+    [Arguments(" \"name\"", " \"name\".")]
     public async Task Clap_Paragraphs_Preserve_Sentences_And_Metadata(string ending, string expectedEnding)
     {
         var helpText = $"""
