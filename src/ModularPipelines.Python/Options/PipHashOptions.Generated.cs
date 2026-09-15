@@ -15,19 +15,38 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Compute a hash of a local package archive.
 /// </summary>
-/// <param name="File">The &lt;file&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hash")]
-public record PipHashOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> File
-) : PipOptions
+public record PipHashOptions : PipOptions
 {
     /// <summary>
-    /// Show help.
+    /// Compute a hash of a local package archive.
     /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
+    /// <param name="File">The &lt;file&gt; operand.</param>
+    public PipHashOptions(
+        IEnumerable<string> File
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(File);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(File));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(File));
+            }
+
+            File = materialized;
+        }
+        this.File = File;
+    }
+
+    public void Deconstruct(out IEnumerable<string> File)
+    {
+        File = this.File;
+    }
 
     /// <summary>
     /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
@@ -154,5 +173,11 @@ public record PipHashOptions(
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The &lt;file&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> File { get; private init; }
 
 }

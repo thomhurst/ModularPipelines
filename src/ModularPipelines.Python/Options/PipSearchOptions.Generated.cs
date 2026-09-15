@@ -15,25 +15,33 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Search for PyPI packages whose name or summary contains &lt;query&gt;.
 /// </summary>
-/// <param name="Query">The &lt;query&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record PipSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Query
-) : PipOptions
+public record PipSearchOptions : PipOptions
 {
+    /// <summary>
+    /// Search for PyPI packages whose name or summary contains &lt;query&gt;.
+    /// </summary>
+    /// <param name="Query">The &lt;query&gt; operand.</param>
+    public PipSearchOptions(
+        string Query
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+    }
+
+    public void Deconstruct(out string Query)
+    {
+        Query = this.Query;
+    }
+
     /// <summary>
     /// Base URL of Python Package Index (default https://pypi.org/pypi)
     /// </summary>
     [CliOption("--index", ShortForm = "-i")]
     public string? Index { get; set; }
-
-    /// <summary>
-    /// Show help.
-    /// </summary>
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
 
     /// <summary>
     /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
@@ -160,5 +168,11 @@ public record PipSearchOptions(
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The &lt;query&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Query { get; private init; }
 
 }
