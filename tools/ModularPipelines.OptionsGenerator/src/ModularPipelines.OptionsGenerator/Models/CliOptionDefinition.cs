@@ -198,8 +198,40 @@ public record CliOptionDefinition
             IsReferenceType: propertyType.IsReferenceType,
             SnapshotExpression: snapshotExpression,
             OptionalSnapshotExpression: isCollection
-                ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true)
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
                 : null);
+    }
+
+    private static string? GetOptionalSnapshotExpression(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
+    {
+        var snapshot = GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true);
+        if (!isArrayAssignable || elementType.SpecialType != SpecialType.System_Object)
+        {
+            return snapshot;
+        }
+
+        // Broad contracts can receive a typed pair collection. An object snapshot would
+        // erase the runtime shape that CommandArgumentBuilder uses to group both operands.
+        const string pairType = "global::ModularPipelines.Models.CliValuePair";
+        var pairSnapshot = "global::System.Linq.Enumerable.ToArray(valuePairs)";
+        var emptySnapshot = $"global::System.Array.Empty<{pairType}>()";
+        if (IsMutableCollectionInterface(compilation, propertyType))
+        {
+            if (propertyType is INamedTypeSymbol { IsGenericType: true })
+            {
+                // An invariant mutable object interface cannot accept List<CliValuePair>.
+                // Preserve unusual implementations exposing both interfaces unchanged.
+                return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{pairType}> ? {{0}} : ({snapshot})";
+            }
+
+            pairSnapshot = $"new global::System.Collections.Generic.List<{pairType}>(valuePairs)";
+            emptySnapshot = $"new global::System.Collections.Generic.List<{pairType}>()";
+        }
+
+        var propertyName = propertyType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var reusablePairs = $"default(global::System.Collections.Immutable.ImmutableArray<{pairType}>).Equals((object)valuePairs) ? {emptySnapshot} : {pairSnapshot}";
+        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{pairType}> valuePairs ? ({propertyName})(object)({reusablePairs}) : ({snapshot})";
     }
 
     private static string? GetSnapshotExpression(

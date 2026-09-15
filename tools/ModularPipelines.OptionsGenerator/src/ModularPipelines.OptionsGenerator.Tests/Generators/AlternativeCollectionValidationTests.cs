@@ -319,6 +319,94 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
+    [Test]
+    [Arguments("IEnumerable<object>?")]
+    [Arguments("IReadOnlyList<object>?")]
+    [Arguments("IReadOnlyCollection<object>?")]
+    [Arguments("object[]?")]
+    [Arguments("System.Collections.IEnumerable?")]
+    [Arguments("System.Collections.ICollection?")]
+    [Arguments("System.Collections.IList?")]
+    public async Task Alternative_Broad_Collections_Preserve_Value_Pair_Rendering(string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(false, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("Values")!;
+        ModularPipelines.Models.CliValuePair[] input = [new("first", "second"), new("third", "fourth")];
+        property.SetValue(instance, collectionType == "object[]?" ? input : input.ToList());
+        input[0] = new("changed", "input");
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, false))
+                .IsEquivalentTo(["--requirement", "first", "second", "--requirement", "third", "fourth"]);
+        }
+
+        if (collectionType == "System.Collections.IList?")
+        {
+            var retained = (IList) property.GetValue(instance)!;
+            retained.Clear();
+            retained.Add(new ModularPipelines.Models.CliValuePair("fifth", "sixth"));
+            await Assert.That(RenderAlternativeCollection(instance, false))
+                .IsEquivalentTo(["--requirement", "fifth", "sixth"]);
+        }
+    }
+
+    [Test]
+    [Arguments("IEnumerable<object>?")]
+    [Arguments("System.Collections.IEnumerable?")]
+    public async Task Alternative_Value_Pairs_Enumerate_Once(string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(false, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseValuePairs();
+        options.GetProperty("Values")!.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, false))
+                .IsEquivalentTo(["--requirement", "first", "second"]);
+        }
+
+        await Assert.That(input.EnumerationCount).IsEqualTo(1);
+    }
+
+    [Test]
+    [Arguments("IEnumerable<object>?")]
+    [Arguments("IReadOnlyList<object>?")]
+    [Arguments("System.Collections.IEnumerable?")]
+    [Arguments("System.Collections.IList?")]
+    public async Task Alternative_Default_Value_Pair_Arrays_Allow_Fallback(string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(false, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        options.GetProperty("Values")!.SetValue(instance, default(System.Collections.Immutable.ImmutableArray<ModularPipelines.Models.CliValuePair>));
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
+        await Assert.That(RenderAlternativeCollection(instance, false)).IsEmpty();
+        options.GetProperty("Fallback")!.SetValue(instance, "fallback");
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+    }
+
+    private sealed class SingleUseValuePairs : IEnumerable<ModularPipelines.Models.CliValuePair>
+    {
+        public int EnumerationCount { get; private set; }
+
+        public IEnumerator<ModularPipelines.Models.CliValuePair> GetEnumerator()
+        {
+            if (++EnumerationCount != 1)
+            {
+                throw new InvalidOperationException("Input can only be enumerated once.");
+            }
+
+            yield return new("first", "second");
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
     private sealed class ScalarCharacterSequence : List<char>, IEnumerable<char>
     {
         public override string ToString() => "scalar-value";
