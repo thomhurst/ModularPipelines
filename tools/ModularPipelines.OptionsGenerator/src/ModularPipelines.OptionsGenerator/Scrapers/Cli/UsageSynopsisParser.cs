@@ -1379,13 +1379,7 @@ public static class UsageSynopsisParser
             associatedOptionSwitch = null;
         }
 
-        if (!isRequiredGroup && parsedRequiredOptions.Count > 0
-            && parsedArguments.Any(static argument => argument.AssociatedOptionSwitch is null))
-        {
-            // Conditional sibling requirements need a richer model; never silently drop them.
-            throw new InvalidOperationException(
-                $"Usage synopsis has unsupported conditional requirements in group '{string.Join(" ", nestedTokens)}'.");
-        }
+        ValidateNestedGroupRequirements(isRequiredGroup, parsedRequiredOptions, parsedArguments, nestedTokens);
 
         arguments = [.. parsedArguments.Select(argument => argument with
         {
@@ -1394,6 +1388,22 @@ public static class UsageSynopsisParser
         })];
         requiredOptionSwitches = isRequiredGroup ? parsedRequiredOptions : [];
         return true;
+    }
+
+    private static void ValidateNestedGroupRequirements(
+        bool isRequiredGroup,
+        IReadOnlyList<string> requiredOptionSwitches,
+        IReadOnlyList<CliPositionalArgument> arguments,
+        IEnumerable<string> nestedTokens)
+    {
+        if (!isRequiredGroup && requiredOptionSwitches.Count > 0
+            && arguments.Any(static argument => argument.AssociatedOptionSwitch is null))
+        {
+            // Conditional sibling requirements need a richer model; never silently drop them.
+            throw new InvalidOperationException(
+                $"Usage synopsis has unsupported conditional requirements in group '{string.Join(" ", nestedTokens)}'.");
+        }
+
     }
 
     private static bool TryParseColonSeparatedOperands(
