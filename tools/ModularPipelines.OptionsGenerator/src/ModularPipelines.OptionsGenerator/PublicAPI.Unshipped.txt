@@ -69,6 +69,10 @@ ModularPipelines.OptionsGenerator.Scrapers.Cli.ICliScraper.CreateToolDefinitionA
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.<Clone>$() -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Equals(ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup? other) -> bool
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Groups.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup!>!
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Groups.init -> void
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.IsChoice.get -> bool
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.IsChoice.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Members.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeMember!>!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.Members.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageRequiredAlternativeGroup.UsageRequiredAlternativeGroup() -> void
@@ -169,3 +173,20 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GlobalOpti
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.PreserveCommandGroupPlaceholders.get -> bool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.UsageSynopsisHeadings.get -> System.Collections.Generic.IReadOnlyList<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PipCliScraper.GetAdditionalUsageSynopses(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
+ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ApplyIgnoredOptionPolicy(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition! command) -> ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.PnpmCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionDeclarationPattern() -> System.Text.RegularExpressions.Regex!
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.CreateClapOption(System.Text.RegularExpressions.Match! match, string! className, string! propertyName, string! switchName, ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionBlock! block) -> ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CargoCliScraper.GetManualHelpTextAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string!>!
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsRequired.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsRequired.init -> void
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsChoice.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsChoice.init -> void
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsUsageFormChoice.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsUsageFormChoice.init -> void
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.Groups.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup!>!
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.Groups.init -> void
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.IsRequired.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.IsRequired.init -> void

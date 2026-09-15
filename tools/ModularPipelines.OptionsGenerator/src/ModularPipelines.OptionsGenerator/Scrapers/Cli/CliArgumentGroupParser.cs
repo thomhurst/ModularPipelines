@@ -248,11 +248,16 @@ internal static partial class CliArgumentGroupParser
         return kind;
     }
 
+    internal static bool DescribesRequiredBundle(string? description) =>
+        RequiredBundleMarkerPattern().IsMatch(description ?? string.Empty);
+
+    [GeneratedRegex(@"\bThis must be specified(?:[.:]|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex RequiredBundleMarkerPattern();
     private static bool StartsArgumentGroup(
         IEnumerable<string> lines,
         string? description) =>
         Classify(description) != CliArgumentGroupKind.None
-        || description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) == true
+        || DescribesRequiredBundle(description)
         || lines.Any(line => SectionHeadingPattern().IsMatch(line.Trim()));
 
     private sealed class ArgumentGroupBuilder(int indentation, string? description)

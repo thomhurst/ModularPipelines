@@ -196,12 +196,15 @@ public class DotNetCliScraperTests
 
         public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(
+        public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var command = await ParseCommandAsync(
                 commandPath,
                 helpText,
                 UsageSynopsisParser.Parse(helpText, commandPath),
                 CancellationToken.None);
+            return command is null ? null : ApplyIgnoredOptionPolicy(command);
+        }
     }
 
     private sealed class StaticHtmlHandler(string html) : HttpMessageHandler

@@ -15,18 +15,38 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Manually unlock the state for the defined configuration.
 /// </summary>
-/// <param name="LockId">The LOCK_ID operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string LockId
-) : TerraformOptions
+public record TerraformForceUnlockOptions : TerraformOptions
 {
+    /// <summary>
+    /// Manually unlock the state for the defined configuration.
+    /// </summary>
+    /// <param name="LockId">The LOCK_ID operand.</param>
+    public TerraformForceUnlockOptions(
+        string LockId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LockId);
+        this.LockId = LockId;
+    }
+
+    public void Deconstruct(out string LockId)
+    {
+        LockId = this.LockId;
+    }
+
     /// <summary>
     /// Don't ask for input for unlock confirmation.
     /// </summary>
     [CliFlag("-force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The LOCK_ID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string LockId { get; private init; }
 
 }

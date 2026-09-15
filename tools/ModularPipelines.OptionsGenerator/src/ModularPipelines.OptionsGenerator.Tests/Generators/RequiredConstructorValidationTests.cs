@@ -116,9 +116,9 @@ public partial class RequiredConstructorValidationTests
     {
         var assembly = Compile(await Generate(collectionType, alternateInput: false, isCollection: null));
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
-        var elementType = assembly.GetType("ModularPipelines.Models.KeyValue")!;
+        var elementType = typeof(ModularPipelines.Models.KeyValue);
         var values = Array.CreateInstance(elementType, 1);
-        values.SetValue(Activator.CreateInstance(elementType), 0);
+        values.SetValue(new ModularPipelines.Models.KeyValue("key", "value"), 0);
         var listType = typeof(List<>).MakeGenericType(elementType);
         var supplied = (System.Collections.IList) Activator.CreateInstance(listType, [values])!;
         object argument = supplied;
@@ -149,7 +149,7 @@ public partial class RequiredConstructorValidationTests
     {
         var assembly = Compile(await Generate("IReadOnlyList<KeyValue>?", alternateInput: false, isCollection: null));
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
-        var elementType = assembly.GetType("ModularPipelines.Models.KeyValue")!;
+        var elementType = typeof(ModularPipelines.Models.KeyValue);
 
         foreach (var count in new[] { 0, 1 })
         {
@@ -388,7 +388,7 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(options.GetProperty("Path")!.GetValue(instance)).IsEqualTo(supportsAlternateInput ? null : "path");
     }
 
-    private static async Task<string> Generate(List<CliOptionDefinition> options, IReadOnlyList<CliPositionalArgument>? positionalArguments = null)
+    private static async Task<string> Generate(List<CliOptionDefinition> options, IReadOnlyList<CliPositionalArgument>? positionalArguments = null, IReadOnlyList<CliRequiredAlternativeGroup>? alternativeGroups = null)
     {
         var tool = new CliToolDefinition
         {
@@ -396,7 +396,7 @@ public partial class RequiredConstructorValidationTests
             NamespacePrefix = "Tool",
             TargetNamespace = "ModularPipelines.Tool",
             OutputDirectory = "src/ModularPipelines.Tool",
-            Commands = [new() { FullCommand = "tool run", CommandParts = ["run"], ClassName = "ToolRunOptions", ParentClassName = "ToolOptions", ToolNamespacePrefix = "Tool", Options = options, PositionalArguments = positionalArguments ?? [] }],
+            Commands = [new() { FullCommand = "tool run", CommandParts = ["run"], ClassName = "ToolRunOptions", ParentClassName = "ToolOptions", ToolNamespacePrefix = "Tool", Options = options, PositionalArguments = positionalArguments ?? [], RequiredAlternativeGroups = alternativeGroups ?? [] }],
         };
         return (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
     }
@@ -405,9 +405,15 @@ public partial class RequiredConstructorValidationTests
     {
         const string support = """
             global using System.Collections.Generic;
+            global using System.Linq;
             namespace ModularPipelines.Attributes
             {
-                public sealed class CliOptionAttribute(string name) : System.Attribute;
+                public sealed class CliOptionAttribute(string name) : System.Attribute
+                {
+                    public CliOptionValueArity ValueArity { get; set; }
+                    public string? CollectionSeparator { get; set; }
+                    public OptionFormat Format { get; set; }
+                }
                 public sealed class CliSubCommandAttribute(params string[] parts) : System.Attribute;
                 public sealed class CliArgumentAttribute(int position) : System.Attribute
                 {
@@ -425,18 +431,14 @@ public partial class RequiredConstructorValidationTests
                 public sealed class Token;
                 public readonly record struct ValueToken(int Value);
             }
-            namespace ModularPipelines.Models
-            {
-                public sealed class KeyValue;
-            }
             namespace ModularPipelines.Tool.Options
             {
                 public record ToolOptions;
             }
             """;
         var compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N"),
-            [CSharpSyntaxTree.ParseText(support), .. generated.Select(static source => CSharpSyntaxTree.ParseText(source,
-                CSharpParseOptions.Default.WithDocumentationMode(DocumentationMode.Diagnose)))], CompilationReferences,
+            [CSharpSyntaxTree.ParseText(support, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview)), .. generated.Select(static source => CSharpSyntaxTree.ParseText(source,
+                CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview).WithDocumentationMode(DocumentationMode.Diagnose)))], CompilationReferences,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         using var stream = new MemoryStream();
         var result = compilation.Emit(stream);

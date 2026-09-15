@@ -162,6 +162,8 @@ public class OptionsClassGenerator : ICodeGenerator
         bool requiredPropertiesAreNonNullable)
     {
         // Required definitions own colliding names, including with explicit constructors.
+        var alternativeProperties = command.RequiredAlternativeGroups
+            .SelectMany(static group => group.PropertyNames).ToHashSet(StringComparer.Ordinal);
         foreach (var option in command.Options
                      .Where(option => includeRequiredProperties || !option.IsRequired)
                      .OrderByDescending(static option => option.IsRequired))
@@ -170,7 +172,8 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 continue; // Skip duplicates
             }
-            GenerateProperty(sb, option, requiredPropertiesAreNonNullable);
+            GenerateProperty(sb, option, requiredPropertiesAreNonNullable,
+                alternativeProperties.Contains(option.PropertyName));
             sb.AppendLine();
         }
 
@@ -182,7 +185,8 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 continue; // Skip duplicates
             }
-            GeneratePositionalArgument(sb, positional, requiredPropertiesAreNonNullable);
+            GeneratePositionalArgument(sb, positional, requiredPropertiesAreNonNullable,
+                alternativeProperties.Contains(positional.PropertyName));
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
@@ -386,9 +390,8 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool IsCollectionParameter(
         GeneratorUtils.RequiredConstructorParameter parameter) =>
-        CliOptionDefinition.TryGetCollectionShape(parameter.CSharpType.TrimEnd('?'), out var isCollection)
-            ? isCollection
-            : parameter.Option?.IsCollection == true;
+        CliOptionDefinition.IsCollectionType(parameter.CSharpType.TrimEnd('?'),
+            parameter.Option?.IsCollection ?? parameter.PositionalArgument?.IsVariadic);
 
     private static bool RequiresNullableFlagProperty(CliOptionDefinition? option) =>
         option is { IsFlag: true, NegatedSwitchName: not null };
@@ -463,32 +466,113 @@ public class OptionsClassGenerator : ICodeGenerator
 
         foreach (var group in command.RequiredAlternativeGroups)
         {
-            var propertyNames = group.PropertyNames.Distinct(StringComparer.Ordinal).ToArray();
-            if (propertyNames.Length == 0)
-            {
-                throw new InvalidOperationException(
-                    $"Required alternative group for {command.FullCommand} has no properties.");
-            }
-
-            var presenceExpressions = propertyNames.Select(propertyName => GetPresenceExpression(
-                    command,
-                    positionalArguments,
-                    propertyName)).ToArray();
-            var invalidExpression = group.IsMutuallyExclusive
-                ? $"{string.Join(" + ", presenceExpressions.Select(expression => $"({expression} ? 1 : 0)"))} != 1"
-                : $"!({string.Join(" || ", presenceExpressions)})";
-            var memberNames = string.Join(", ", propertyNames.Select(propertyName => $"nameof({propertyName})"));
-            var cardinality = group.IsMutuallyExclusive ? "Exactly one" : "At least one";
-            var message = $"{cardinality} of {FormatChoice(propertyNames)} must be specified.";
-
-            sb.AppendLine($"        if ({invalidExpression})");
-            sb.AppendLine("        {");
-            sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
-            sb.AppendLine("        }");
+            GenerateGroupValidation(sb, command, positionalArguments, group, group.IsRequired, activation: null);
         }
 
+        sb.AppendLine("        yield break;");
         sb.AppendLine("    }");
         sb.AppendLine();
+    }
+
+    private static void GenerateGroupValidation(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliRequiredAlternativeGroup group,
+        bool required,
+        string? activation)
+    {
+        var propertyNames = group.PropertyNames.Distinct(StringComparer.Ordinal).ToArray();
+        if (propertyNames.Length == 0)
+        {
+            throw new InvalidOperationException($"Required alternative group for {command.FullCommand} has no properties.");
+        }
+
+        string Presence(string propertyName) => GetPresenceExpression(command, positionalArguments, propertyName);
+        if (group.IsUsageFormChoice)
+        {
+            // Usage forms describe sufficient combinations. A complete form remains valid
+            // when unrelated options also supply part of another form.
+            if (required)
+            {
+                WriteValidationFailure(sb, $"!{GetCompleteUsageExpression(group, Presence)}", activation,
+                    "At least one complete usage alternative must be specified.", propertyNames);
+            }
+
+            return;
+        }
+
+        string GroupPresence(CliRequiredAlternativeGroup nested) =>
+            $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(Presence))})";
+
+        var presence = GroupPresence(group);
+        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, Presence, GroupPresence);
+
+        var activeGroup = activation is null ? presence : $"{activation} && {presence}";
+        if (!group.IsChoice)
+        {
+            foreach (var member in group.Members.Where(member => member.IsRequired))
+            {
+                WriteValidationFailure(sb, $"!({Presence(member.PropertyName)})", activeGroup,
+                    $"{member.PropertyName} must be specified when other arguments in this group are specified.",
+                    [member.PropertyName]);
+            }
+        }
+
+        foreach (var nested in group.Groups)
+        {
+            // A choice activates only the selected branches. A bundle can require
+            // one of its nested groups whenever any part of the bundle is supplied.
+            GenerateGroupValidation(sb, command, positionalArguments, nested,
+                required: !group.IsChoice && nested.IsRequired, activeGroup);
+        }
+    }
+
+    private static string GetCompleteUsageExpression(CliRequiredAlternativeGroup group, Func<string, string> presence)
+    {
+        var expressions = group.Members.Select(member => presence(member.PropertyName))
+            .Concat(group.Groups.Select(nested => GetCompleteUsageExpression(nested, presence)));
+        return $"({string.Join(group.IsChoice ? " || " : " && ", expressions)})";
+    }
+
+    private static void GenerateGroupPresenceValidation(
+        StringBuilder sb,
+        CliRequiredAlternativeGroup group,
+        bool required,
+        string? activation,
+        string[] propertyNames,
+        string presence,
+        Func<string, string> getPresence,
+        Func<CliRequiredAlternativeGroup, string> getGroupPresence)
+    {
+        if (group.IsChoice && group.IsMutuallyExclusive)
+        {
+            var branches = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
+                .Select(getPresence).Concat(group.Groups.Select(getGroupPresence));
+            var count = string.Join(" + ", branches.Select(expression => $"({expression} ? 1 : 0)"));
+            var branchNames = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
+                .Concat(group.Groups.Select(nested =>
+                    $"({FormatChoice([.. nested.PropertyNames.Distinct(StringComparer.Ordinal)])})")).ToArray();
+            var cardinality = required ? "Exactly one" : "At most one";
+            WriteValidationFailure(sb, $"{count} {(required ? "!= 1" : "> 1")}", activation,
+                $"{cardinality} of {FormatChoice(branchNames)} {(required ? "must" : "may")} be specified.", propertyNames);
+        }
+        else if (required)
+        {
+            WriteValidationFailure(sb, $"!{presence}", activation,
+                $"At least one of {FormatChoice(propertyNames)} must be specified.", propertyNames);
+        }
+    }
+
+    private static void WriteValidationFailure(
+        StringBuilder sb, string invalidExpression, string? activation, string message, string[] propertyNames)
+    {
+        var condition = activation is null ? invalidExpression : $"{activation} && ({invalidExpression})";
+        var memberNames = string.Join(", ", propertyNames.Select(propertyName => $"nameof({propertyName})"));
+        sb.AppendLine($"        if ({condition})");
+        sb.AppendLine("        {");
+        sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
+        sb.AppendLine("        }");
     }
 
     private static string GetPresenceExpression(
@@ -497,9 +581,9 @@ public class OptionsClassGenerator : ICodeGenerator
         string propertyName)
     {
         var option = command.Options.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
+        var positional = positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
         var csharpType = option?.PropertyType
-                         ?? positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName)
-                             ?.CSharpType
+                         ?? positional?.CSharpType
                          ?? throw new InvalidOperationException(
                              $"Required alternative property {propertyName} was not generated for {command.FullCommand}.");
 
@@ -513,10 +597,41 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"!string.IsNullOrWhiteSpace({propertyName})";
         }
 
-        return CliOptionDefinition.TryGetCollectionShape(csharpType, out var isCollection) && isCollection
-            ? $"{propertyName}?.Any() == true"
-            : $"{propertyName} is not null";
+        if (!CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection ?? positional?.IsVariadic))
+        {
+            return $"{propertyName} is not null";
+        }
+
+        if (option?.ValueArity == CliOptionValueArity.Optional)
+        {
+            return GetTypedCollectionPresenceExpression(propertyName, "CliOptionValue", "false");
+        }
+
+        var ordinaryPresence = $"({propertyName} is not null && {GetNonNullCollectionPresenceExpression($"global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object){propertyName})")})";
+        var collectionPresence = GetTypedCollectionPresenceExpression(propertyName, "KeyValue", ordinaryPresence);
+        // Character sequences use scalar rendering; validation must not consume them.
+        var presence = $"((object?){propertyName} is global::System.Collections.Generic.IEnumerable<char>"
+               + $" ? (object?){propertyName} is not string || !string.IsNullOrWhiteSpace({propertyName}?.ToString())"
+               + $" : {collectionPresence})";
+        if (option is null || option.CollectionSeparator is not null)
+        {
+            return presence;
+        }
+
+        // Option rendering selects the pair interface before the ordinary collection
+        // view. Mutations visible only through the object view do not emit pair values.
+        return GetTypedCollectionPresenceExpression(propertyName, "CliValuePair", presence);
     }
+
+    private static string GetTypedCollectionPresenceExpression(string propertyName, string elementName, string fallback)
+    {
+        var enumerableType = $"global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.{elementName}>";
+        return $"((object?){propertyName} is {enumerableType} ? {GetNonNullCollectionPresenceExpression($"({enumerableType})(object){propertyName}")} : {fallback})";
+    }
+
+    // A predicate matches rendering's null filtering and avoids unrelated collection Count shortcuts.
+    private static string GetNonNullCollectionPresenceExpression(string values) =>
+        $"global::System.Linq.Enumerable.Any({values}, static item => item is not null)";
 
     private static string FormatChoice(string[] propertyNames) =>
         propertyNames.Length switch
@@ -530,7 +645,8 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateProperty(
         StringBuilder sb,
         CliOptionDefinition option,
-        bool requiredPropertiesAreNonNullable)
+        bool requiredPropertiesAreNonNullable,
+        bool participatesInAlternative)
     {
         // XML documentation
         GeneratorUtils.GenerateXmlDocumentation(sb, option.Description);
@@ -555,17 +671,17 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        var accessor = GetPropertyAccessor(option.IsRequired);
         var propertyType = option.IsRequired && requiredPropertiesAreNonNullable && !RequiresNullableFlagProperty(option)
             ? option.PropertyType.TrimEnd('?')
             : option.PropertyType;
-        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{propertyType} {option.PropertyName} {{ get; {accessor}; }}");
+        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative, option.IsCollection, option);
     }
 
     private static void GeneratePositionalArgument(
         StringBuilder sb,
         CliPositionalArgument positional,
-        bool requiredPropertiesAreNonNullable)
+        bool requiredPropertiesAreNonNullable,
+        bool participatesInAlternative)
     {
         GeneratorUtils.GenerateXmlDocumentation(sb, positional.Description);
 
@@ -576,7 +692,6 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        var accessor = GetPropertyAccessor(positional.IsRequired);
         var propertyType = positional.CSharpType;
         if (positional.IsValidationRequired == false)
         {
@@ -587,7 +702,148 @@ public class OptionsClassGenerator : ICodeGenerator
             propertyType = propertyType.TrimEnd('?');
         }
 
-        sb.AppendLine($"    public {propertyType} {positional.PropertyName} {{ get; {accessor}; }}");
+        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative, positional.IsVariadic);
+    }
+
+    private static void GeneratePropertyDeclaration(
+        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null,
+        CliOptionDefinition? option = null)
+    {
+        var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
+        // Required collections are already materialized by their constructor. Optional
+        // alternative inputs must retain the same values for validation and rendering.
+        if (!isRequired && participatesInAlternative
+            && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
+        {
+            var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
+            var preserveValuePairs = option is not null && option.CollectionSeparator is null;
+            var typedSnapshotPrefix = $"__{propertyName}Snapshot";
+            var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
+                propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
+            if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
+                && option.ValueSeparator != " ")
+            {
+                // The renderer checks pair format before joining the selected values.
+                // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
+                snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
+            }
+
+            sb.AppendLine(declaration);
+            sb.AppendLine("    {");
+            sb.AppendLine("        get;");
+            sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
+            sb.AppendLine("    }");
+            if (valueArity != CliOptionValueArity.Optional)
+            {
+                GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
+            }
+
+            return;
+        }
+
+        sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
+    }
+
+    private static void GenerateTypedSnapshotAdapters(StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs)
+    {
+        var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType);
+        if (collectionType is null or "HashSet")
+        {
+            return;
+        }
+
+        foreach (var elementName in new[] { "KeyValue", "CliValuePair" })
+        {
+            if ((elementName == "CliValuePair" && !preserveValuePairs)
+                || CliOptionDefinition.IsSnapshotElementType(propertyType, elementName))
+            {
+                continue;
+            }
+
+            if (collectionType == "List")
+            {
+                GenerateTypedSnapshotAdapter(sb, typePrefix, elementName);
+            }
+            else
+            {
+                GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType);
+            }
+        }
+    }
+
+    private static void GenerateReadOnlyTypedSnapshotAdapter(
+        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType)
+    {
+        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
+        var sourceType = propertyType.TrimEnd('?');
+        sb.AppendLine();
+        sb.AppendLine($$"""
+                private sealed class {{typePrefix}}{{elementName}}(
+                    {{sourceType}} source,
+                    global::System.Collections.Generic.IEnumerable<{{elementType}}> values)
+                    : {{sourceType}}, global::System.Collections.Generic.IEnumerable<{{elementType}}>
+                {
+                    private readonly {{elementType}}[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+                    global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
+                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => source.GetEnumerator();
+
+                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+                        ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+                    global::System.Collections.Generic.IEnumerator<{{elementType}}>
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
+                            ((global::System.Collections.Generic.IEnumerable<{{elementType}}>)_values).GetEnumerator();
+            """);
+        if (collectionType is "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
+        {
+            sb.AppendLine();
+            sb.AppendLine("        public int Count => source.Count;");
+        }
+
+        if (collectionType == "IReadOnlyList")
+        {
+            sb.AppendLine();
+            sb.AppendLine($"        public {declaredElement} this[int index] => source[index];");
+        }
+
+        if (collectionType == "IReadOnlySet")
+        {
+            sb.AppendLine();
+            sb.AppendLine($"        public bool Contains({declaredElement} item) => source.Contains(item);");
+            foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
+            {
+                sb.AppendLine();
+                sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => source.{method}(other);");
+            }
+        }
+
+        sb.AppendLine("    }");
+    }
+
+    private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)
+    {
+        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        sb.AppendLine();
+        sb.AppendLine($$"""
+                private sealed class {{typePrefix}}{{elementName}}(global::System.Collections.Generic.IEnumerable<{{elementType}}> values)
+                    : global::System.Collections.Generic.List<object>(global::System.Linq.Enumerable.Select(values, static pair => (object)pair)),
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>
+                {
+                    global::System.Collections.Generic.IEnumerator<{{elementType}}>
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator()
+                    {
+                        foreach (var value in this)
+                        {
+                            if (value is {{elementType}} pair)
+                            {
+                                yield return pair;
+                            }
+                        }
+                    }
+                }
+            """);
     }
 
     private static string GetPropertyAccessor(bool isRequired) =>

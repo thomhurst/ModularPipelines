@@ -3,10 +3,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.OptionsGenerator.Models;
 
 /// <summary>
-/// A command-level constraint requiring at least one generated option or operand.
+/// A presence constraint over generated options, operands, and nested branches.
 /// </summary>
 public sealed record CliRequiredAlternativeGroup
 {
+    /// <summary>
+    /// Whether the group must be present when its containing bundle is selected.
+    /// </summary>
+    public bool IsRequired { get; init; } = true;
+
+    /// <summary>
+    /// Whether members and nested groups are alternatives rather than one argument bundle.
+    /// </summary>
+    public bool IsChoice { get; init; } = true;
+
+    /// <summary>
+    /// Whether satisfying a complete usage form is sufficient even when another form is partially supplied.
+    /// </summary>
+    public bool IsUsageFormChoice { get; init; }
+
     /// <summary>
     /// Whether supplying more than one member is also invalid.
     /// </summary>
@@ -18,9 +33,15 @@ public sealed record CliRequiredAlternativeGroup
     public required IReadOnlyList<CliRequiredAlternativeMember> Members { get; init; }
 
     /// <summary>
+    /// Nested branches whose presence counts once in a containing choice.
+    /// </summary>
+    public IReadOnlyList<CliRequiredAlternativeGroup> Groups { get; init; } = [];
+
+    /// <summary>
     /// Generated property names participating in the choice.
     /// </summary>
-    public IReadOnlyList<string> PropertyNames => [.. Members.Select(static member => member.PropertyName)];
+    public IReadOnlyList<string> PropertyNames =>
+        [.. Members.Select(static member => member.PropertyName).Concat(Groups.SelectMany(static group => group.PropertyNames))];
 }
 
 /// <summary>
@@ -28,6 +49,11 @@ public sealed record CliRequiredAlternativeGroup
 /// </summary>
 public sealed record CliRequiredAlternativeMember
 {
+    /// <summary>
+    /// Whether this member must be present when its containing argument bundle is selected.
+    /// </summary>
+    public bool IsRequired { get; init; }
+
     /// <summary>
     /// Current generated property name.
     /// </summary>

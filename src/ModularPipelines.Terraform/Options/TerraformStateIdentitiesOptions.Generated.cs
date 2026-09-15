@@ -21,6 +21,31 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformStateIdentitiesOptions : TerraformOptions
 {
     /// <summary>
+    /// List the json format of the identities of resources in the Terraform state.
+    /// </summary>
+    /// <param name="Json"></param>
+    public TerraformStateIdentitiesOptions(
+        bool Json
+    )
+    {
+        if (!Json)
+        {
+            throw new global::System.ArgumentException(
+                "Required flag must be enabled to emit its switch.",
+                nameof(Json));
+        }
+        this.Json = Json;
+    }
+
+    public void Deconstruct(out bool Json)
+    {
+        Json = this.Json;
+    }
+
+    [CliFlag("-json")]
+    public bool Json { get; private init; }
+
+    /// <summary>
     /// Path to a Terraform state file to use to look up Terraform-managed resources. By default, Terraform will consult the state of the currently-selected workspace.
     /// </summary>
     [CliOption("-state", Format = OptionFormat.EqualsSeparated)]

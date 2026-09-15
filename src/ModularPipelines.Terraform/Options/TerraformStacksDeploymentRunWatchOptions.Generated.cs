@@ -15,12 +15,32 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Watch the progress of a deployment run in real-time.
 /// </summary>
-/// <param name="DeploymentRunId">The ID of the deployment run to watch (required).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-run", "watch")]
-public record TerraformStacksDeploymentRunWatchOptions(
-    [property: CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)] string DeploymentRunId
-) : TerraformOptions
+public record TerraformStacksDeploymentRunWatchOptions : TerraformOptions
 {
+    /// <summary>
+    /// Watch the progress of a deployment run in real-time.
+    /// </summary>
+    /// <param name="DeploymentRunId">The ID of the deployment run to watch (required).</param>
+    public TerraformStacksDeploymentRunWatchOptions(
+        string DeploymentRunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentRunId);
+        this.DeploymentRunId = DeploymentRunId;
+    }
+
+    public void Deconstruct(out string DeploymentRunId)
+    {
+        DeploymentRunId = this.DeploymentRunId;
+    }
+
+    /// <summary>
+    /// The ID of the deployment run to watch (required).
+    /// </summary>
+    [CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)]
+    public string DeploymentRunId { get; private init; }
+
 }

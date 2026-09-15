@@ -15,16 +15,33 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Import existing infrastructure into your Terraform state.
 /// </summary>
-/// <param name="Addr">The ADDR operand.</param>
-/// <param name="Id">The ID operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
-public record TerraformImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Addr,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Id
-) : TerraformOptions
+public record TerraformImportOptions : TerraformOptions
 {
+    /// <summary>
+    /// Import existing infrastructure into your Terraform state.
+    /// </summary>
+    /// <param name="Addr">The ADDR operand.</param>
+    /// <param name="Id">The ID operand.</param>
+    public TerraformImportOptions(
+        string Addr,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Addr);
+        this.Addr = Addr;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Addr, out string Id)
+    {
+        Addr = this.Addr;
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Path to a directory of Terraform configuration files to use to configure the provider. Defaults to pwd. If no config files are present, they must be provided via the input prompts or env vars.
     /// </summary>
@@ -66,5 +83,17 @@ public record TerraformImportOptions(
     /// </summary>
     [CliFlag("-ignore-remote-version")]
     public bool? IgnoreRemoteVersion { get; set; }
+
+    /// <summary>
+    /// The ADDR operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Addr { get; private init; }
+
+    /// <summary>
+    /// The ID operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Id { get; private init; }
 
 }

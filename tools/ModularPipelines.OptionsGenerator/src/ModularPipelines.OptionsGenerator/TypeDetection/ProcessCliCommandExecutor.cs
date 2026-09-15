@@ -61,6 +61,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         // Disable pagers for CLI tools - many CLIs use pagers by default which hang in non-interactive mode
         startInfo.Environment["AWS_PAGER"] = "";    // AWS CLI
         startInfo.Environment["GIT_PAGER"] = "";    // Git
+        startInfo.Environment["__CARGO_TEST_FORCE_HELP_TXT"] = "1"; // Cargo's embedded manual, without man/less/more
         startInfo.Environment["NO_COLOR"] = "1";    // Disable color output which can cause parsing issues
 
         using var launchStatus = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
