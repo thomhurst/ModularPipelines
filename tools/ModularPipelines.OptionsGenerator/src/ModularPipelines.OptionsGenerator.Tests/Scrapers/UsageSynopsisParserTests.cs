@@ -10,6 +10,179 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    [Arguments("(RESOURCE --parent=PARENT)")]
+    [Arguments("(RESOURCE --parent=PARENT [--optional=VALUE])")]
+    [Arguments("((RESOURCE --parent=PARENT) [--optional=VALUE])")]
+    [Arguments("((RESOURCE --parent=PARENT) : --selector=VALUE)")]
+    public async Task Required_Group_Preserves_Required_Options(string group)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {group}", ["tool", "run"]);
+        await Assert.That(result.RequiredOptionSwitches).IsEquivalentTo(["--parent"]);
+        await Assert.That(result.PositionalArguments.Single().IsRequired).IsTrue();
+    }
+
+    [Test]
+    public async Task Optional_Group_Does_Not_Discard_Conditional_Requirements()
+    {
+        var result = UsageSynopsisParser.Parse("Usage: tool run [RESOURCE --parent=PARENT]", ["tool", "run"]);
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.IsChoice).IsFalse();
+        await Assert.That(group.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Resource", "--parent"]);
+        await Assert.That(group.Members.All(member => member.IsRequired)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("(RESOURCE [CHILD --parent=PARENT])")]
+    [Arguments("[RESOURCE [CHILD --parent=PARENT]]")]
+    public async Task Nested_Optional_Bundles_Retain_Conditional_Requirements(string syntax)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {syntax}", ["tool", "run"]);
+        var outer = result.RequiredAlternativeGroups.Single();
+        var group = outer.Groups.Count > 0 ? outer.Groups.Single() : outer;
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.IsChoice).IsFalse();
+        await Assert.That(group.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Child", "--parent"]);
+        await Assert.That(group.Members.All(member => member.IsRequired)).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Optional_Bundle_Does_Not_Constrain_An_Alternate_Form(bool reverse)
+    {
+        string[] forms = ["tool run [RESOURCE --parent=PARENT]", "tool run RESOURCE"];
+        if (reverse)
+        {
+            Array.Reverse(forms);
+        }
+        var usage = UsageSynopsisParser.Parse("Usage: " + string.Join("\n       ", forms), ["tool", "run"]);
+        await Assert.That(usage.RequiredAlternativeGroups).IsEmpty();
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--parent", PropertyName = "Parent", CSharpType = "string?" }]);
+        await Assert.That(resolved.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("[RESOURCE --parent=PARENT]")]
+    [Arguments("[RESOURCE [CHILD --parent=PARENT]]")]
+    public async Task Common_Optional_Bundles_Survive_Alternate_Forms(string bundle)
+    {
+        var usage = UsageSynopsisParser.Parse(
+            $"Usage: tool run {bundle}\n       tool run {bundle} [--quiet]", ["tool", "run"]);
+        await Assert.That(usage.RequiredAlternativeGroups.Count).IsEqualTo(1);
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--parent", PropertyName = "Parent", CSharpType = "string?" },
+             new() { SwitchName = "--quiet", PropertyName = "Quiet", CSharpType = "bool?", IsFlag = true }]);
+        await Assert.That(resolved.RequiredAlternativeGroups.Count).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Optional_Switch_Activates_Its_Enclosing_Resource_Bundle()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [RESOURCE [--format=FORMAT]]", ["tool", "run"]);
+        var bundle = usage.RequiredAlternativeGroups.Single();
+        await Assert.That(bundle.IsRequired).IsFalse();
+        await Assert.That(bundle.Members.Single(member => member.PositionalPropertyName == "Resource").IsRequired).IsTrue();
+        await Assert.That(bundle.Members.Single(member => member.OptionSwitch == "--format").IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Optional_Flag_Bundle_Is_Resolved_After_Flag_Shapes_Are_Known()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run [--verbose RESOURCE]", ["tool", "run"]);
+        var result = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--verbose", PropertyName = "Verbose", CSharpType = "bool?", IsFlag = true }]);
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.IsChoice).IsFalse();
+        await Assert.That(group.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Resource", "--verbose"]);
+    }
+
+    [Test]
+    public async Task Nested_Required_Option_Choice_Does_Not_Require_Both_Options()
+    {
+        var result = UsageSynopsisParser.Parse("Usage: tool run (RESOURCE (--a=A | --b=B))", ["tool", "run"]);
+        await Assert.That(result.RequiredOptionSwitches).IsEmpty();
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsChoice).IsTrue();
+        await Assert.That(group.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--a", "--b"]);
+    }
+
+    [Test]
+    public async Task Optional_Bundle_Keeps_Nested_Choice_Conditional()
+    {
+        var result = UsageSynopsisParser.Parse("Usage: tool run [RESOURCE (--a=A | --b=B)]", ["tool", "run"]);
+        var bundle = result.RequiredAlternativeGroups.Single();
+        await Assert.That(bundle.IsRequired).IsFalse();
+        await Assert.That(bundle.IsChoice).IsFalse();
+        await Assert.That(bundle.Members.Single().PositionalPropertyName).IsEqualTo("Resource");
+        var choice = bundle.Groups.Single();
+        await Assert.That(choice.IsRequired).IsTrue();
+        await Assert.That(choice.IsChoice).IsTrue();
+        await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--a", "--b"]);
+    }
+
+    [Test]
+    public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded()
+    {
+        await Assert.That(() => UsageSynopsisParser.Parse(
+                "Usage: tool run ((--a=A --x=X) : --b=B)", ["tool", "run"]))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    [Arguments("[USER@]INSTANCE", "UserInstance", true, false)]
+    [Arguments("[[USER@]INSTANCE:]SRC", "UserInstanceSrc", true, false)]
+    [Arguments("[[[USER@]INSTANCE:]SRC ...]", "UserInstanceSrc", false, true)]
+    [Arguments("(cloudshell|localhost):SRC", "CloudshellLocalhostSrc", true, false)]
+    [Arguments("[(cloudshell|localhost):SRC ...]", "CloudshellLocalhostSrc", false, true)]
+    [Arguments("[-- ARGS ...]", "Args", false, true)]
+    [Arguments("(RESOURCE --parent=PARENT)", "Resource", true, false)]
+    public async Task Compound_And_Grouped_Operands_Retain_Their_Value_Contract(
+        string syntax, string name, bool required, bool variadic)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {syntax}", ["tool", "run"]);
+        var operand = result.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo(name);
+        await Assert.That(operand.IsRequired).IsEqualTo(required);
+        await Assert.That(operand.IsVariadic).IsEqualTo(variadic);
+        await Assert.That(result.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("[(--spark-main-class=CLASS | --spark-main-jar-file-uri=JAR) : --vpc-network-name=NETWORK | --vpc-sub-network-name=SUBNET]")]
+    [Arguments("[(--spark-main-class=CLASS | --spark-main-jar-file-uri=JAR) : --packages=[PACKAGES, ...] --vpc-network-name=NETWORK | --vpc-sub-network-name=SUBNET]")]
+    [Arguments("[(--spark-main-class=CLASS|--spark-main-jar-file-uri=JAR) : --vpc-network-name=NETWORK|--vpc-sub-network-name=SUBNET]")]
+    public async Task Option_Only_Colon_Groups_Do_Not_Create_Operands(string group)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run RESOURCE {group}", ["tool", "run"]);
+
+        var operand = result.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo("Resource");
+        await Assert.That(operand.IsRequired).IsTrue();
+        await Assert.That(result.UnparsedOperandTokens).IsEmpty();
+        await Assert.That(result.RequiredOptionSwitches).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("-- [(--a|--b) : --c|--d]", true)]
+    [Arguments("-- [(--a|--b) : --c|--d] [--e : --f]", true)]
+    [Arguments("[(--a|--b) : --c|--d]", false)]
+    public async Task Option_Only_Groups_Preserve_Pending_Option_Terminator(string prefix, bool prependTerminator)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {prefix} FILE", ["tool", "run"]);
+
+        var operand = result.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo("File");
+        await Assert.That(operand.PrependOptionTerminator).IsEqualTo(prependTerminator);
+        await Assert.That(result.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
     public async Task Repeated_Adapter_Operand_Names_Do_Not_Turn_Required_Slots_Into_Choices()
     {
         var usage = UsageSynopsisParser.Parse("""
@@ -41,6 +214,12 @@ public class UsageSynopsisParserTests
     [Arguments("[RESOURCE | ALIAS : --location=LOCATION]")]
     [Arguments("(SOURCE : DESTINATION | ALTERNATIVE)")]
     [Arguments("(RESOURCE : --location=LOCATION | --global)")]
+    [Arguments("((--input=INPUT | --other=OTHER) : TARGET | ALTERNATIVE)")]
+    [Arguments("((--input VALUE | --other=OTHER) : --network=NETWORK | --global)")]
+    [Arguments("((--input=INPUT | --other=OTHER) : --network=NETWORK | --global)")]
+    [Arguments("[--force|TARGET : --location=LOCATION]")]
+    [Arguments("[--force | TARGET : --location=LOCATION]")]
+    [Arguments("[TARGET|--force : --location=LOCATION]")]
     public async Task Rejects_Ambiguous_Alternatives_Across_Colon_Groups(string group)
     {
         await Assert.That(() => UsageSynopsisParser.Parse(

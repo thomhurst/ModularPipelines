@@ -611,6 +611,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var valueHint = argument.ValueHint ?? string.Empty;
         var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, argument.SwitchName);
         var repeatsSwitch = !isFlag && (DescriptionDeclaresRepeatedSwitch(argument.Description, argument.SwitchName)
+            || GroupRepeatedSwitchDescriptionPattern().IsMatch(argument.GroupDescription ?? string.Empty)
             || HelpOptionBlockMatches(helpText, argument.SwitchName,
                 block => DescriptionDeclaresRepeatedSwitch(block, argument.SwitchName)));
         var isDelimitedList = UsesCommaSeparatedList(
@@ -763,14 +764,14 @@ public partial class GcloudCliScraper : CliScraperBase
 
         return new CliArgumentDefinition
         {
-            SwitchName = match.Groups["name"].Value,
+            SwitchName = UsageSynopsisParser.GetOperandPropertyName(match.Groups["operand"].Value)!,
             IsPositional = true,
             ValueHint = line.Trim(),
             Indentation = GetIndentation(line),
         };
     }
 
-    [GeneratedRegex(@"^[ \t]+\[?(?<name>[A-Z][A-Z0-9_]*)(?:[ \t]+\[?\k<name>)?(?:[ \t]*\.\.\.)?\]*[ \t]*$")]
+    [GeneratedRegex(@"^[ \t]+\[?(?:--[ \t]+)?(?<operand>(?:(?:\[[^\s]+\]|\([^()\s]+\)):?)?(?<name>[A-Z][A-Z0-9_/-]*))(?:[ \t]+\[?\k<operand>)?(?:[ \t]*\.\.\.)?\]*[ \t]*$")]
     private static partial Regex ResourceOperandPattern();
 
     private IReadOnlyList<CliPositionalArgument> ParsePositionalArguments(
@@ -981,6 +982,10 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"(?:(?:this|the)\s+)?(?:(?:flag|argument|option)\s+)?"
         + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex RepeatedSwitchDescriptionPattern();
+
+    [GeneratedRegex(@"(?:^|[.!?]\s+)\s*(?:these|the following)\s+(?:flags|arguments|options)\s+"
+        + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex GroupRepeatedSwitchDescriptionPattern();
 
     [GeneratedRegex(@"(?:^|[.!?]\s+)\s*" + StatusPrefixPattern
         + @"(?:(?:to\s+[^.!?;\r\n]+,\s*)?(?:specify|supply|provide|use|pass|set|give)\s+"

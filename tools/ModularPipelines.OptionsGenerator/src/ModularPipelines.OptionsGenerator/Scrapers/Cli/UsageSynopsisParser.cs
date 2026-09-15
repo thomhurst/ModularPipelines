@@ -216,14 +216,23 @@ public static class UsageSynopsisParser
             var normalizedToken = TrimTrailingOperandPunctuation(token)
                 .TrimEnd('.', '…')
                 .Trim();
-            if (normalizedToken.StartsWith('[') || !IsWrapped(normalizedToken))
+            if (!IsWrapped(normalizedToken))
             {
+                continue;
+            }
+            if (normalizedToken.StartsWith('['))
+            {
+                if (ParseOptionalOperandBundle(normalizedToken, phase, options) is { } bundle)
+                {
+                    groups.Add(bundle);
+                }
                 continue;
             }
 
             var alternatives = SplitTopLevelAlternatives(TrimWrapper(normalizedToken));
             if (alternatives.Count <= 1)
             {
+                groups.AddRange(ParseInlineRequiredAlternativeGroups(Tokenize(TrimWrapper(normalizedToken)), phase, options));
                 continue;
             }
 
@@ -259,10 +268,48 @@ public static class UsageSynopsisParser
                 candidate.PositionalArguments,
                 candidate.UnparsedOperandTokens,
                 candidate.RequiredOptionSwitches))
-            .Concat(candidate.RequiredAlternativeGroups.SelectMany(static candidateGroup =>
+            .Concat(candidate.RequiredAlternativeGroups.Where(static group => group.IsRequired).SelectMany(static candidateGroup =>
                 candidateGroup.EnumerateMembers()))
             .Select(GetAlternativeMemberKey)
             .ToHashSet(StringComparer.Ordinal);
+
+    private static UsageRequiredAlternativeGroup? ParseOptionalOperandBundle(string token, CommandLinePhase phase, IReadOnlyList<CliOptionDefinition>? options)
+    {
+        var tokens = Tokenize(TrimWrapper(token));
+        // Colons denote resource selectors, whose requirements come from help metadata.
+        if (tokens.Contains(":") || tokens.Contains("|"))
+        {
+            return null;
+        }
+        var parsed = ParseOperandTokens(tokens, phase);
+        var operands = parsed.Arguments.Where(argument => IsPositionalSlot(argument, options)).ToArray();
+        var nestedGroups = ParseInlineRequiredAlternativeGroups(tokens, phase, options);
+        if (operands.Length == 0)
+        {
+            return null;
+        }
+        var nestedSwitches = nestedGroups.SelectMany(static group => group.EnumerateMembers())
+            .Select(static member => member.OptionSwitch).OfType<string>().ToHashSet(StringComparer.Ordinal);
+        var switches = tokens.SelectMany(GetOptionSwitches).Concat(parsed.RequiredOptionSwitches)
+            .Where(optionSwitch => !nestedSwitches.Contains(optionSwitch)).Distinct(StringComparer.Ordinal).ToArray();
+        if (switches.Length == 0 && nestedGroups.Count == 0)
+        {
+            return null;
+        }
+        return new UsageRequiredAlternativeGroup
+        {
+            IsRequired = false,
+            IsChoice = false,
+            Groups = nestedGroups,
+            Members = [.. operands.Select(argument => new UsageRequiredAlternativeMember
+            {
+                PositionalPropertyName = argument.PropertyName, IsRequired = argument.IsRequired,
+            }), .. switches.Select(optionSwitch => new UsageRequiredAlternativeMember
+            {
+                OptionSwitch = optionSwitch, IsRequired = parsed.RequiredOptionSwitches.Contains(optionSwitch, StringComparer.Ordinal),
+            })],
+        };
+    }
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetRequiredAlternativeGroups(
         UsageSynopsisParseResult selected,
@@ -272,11 +319,21 @@ public static class UsageSynopsisParser
         return
         [
             .. selected.RequiredAlternativeGroups.Where(group =>
-                candidateMemberKeys.All(keys =>
-                    group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))),
+                group.IsRequired
+                    ? candidateMemberKeys.All(keys => group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))
+                    : candidates.All(candidate => candidate.RequiredAlternativeGroups.Any(alternative =>
+                        HaveSameConstraint(group, alternative)))),
             .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
         ];
     }
+
+    // An optional constraint may apply globally only when every accepted form declares it.
+    private static bool HaveSameConstraint(UsageRequiredAlternativeGroup left, UsageRequiredAlternativeGroup right) =>
+        left.IsRequired == right.IsRequired
+        && left.IsChoice == right.IsChoice
+        && left.Members.ToHashSet().SetEquals(right.Members)
+        && left.Groups.Count == right.Groups.Count
+        && left.Groups.All(group => right.Groups.Any(alternative => HaveSameConstraint(group, alternative)));
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
         IReadOnlyList<UsageSynopsisParseResult> candidates,
@@ -545,13 +602,27 @@ public static class UsageSynopsisParser
                     operandToken,
                     arguments.Count,
                     operandPhase,
-                    out var nestedArguments))
+                    out var nestedArguments,
+                    out var nestedRequiredOptions))
             {
                 nestedArguments = PreserveOptionTerminatorOnNestedGroup(
                     nestedArguments,
                     groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand);
+                if (groupedBehindOptionTerminator && token.StartsWith('['))
+                {
+                    nestedArguments = [.. nestedArguments.Select(argument => argument with
+                    {
+                        IsRequired = false,
+                        CSharpType = GetCSharpType(false, argument.IsVariadic),
+                    })];
+                }
                 arguments.AddRange(nestedArguments);
-                prependOptionTerminatorToNextOperand = false;
+                requiredOptionSwitches.AddRange(nestedRequiredOptions);
+                if (nestedArguments.Count > 0)
+                {
+                    prependOptionTerminatorToNextOperand = false;
+                }
+
                 AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
 
                 continue;
@@ -561,6 +632,7 @@ public static class UsageSynopsisParser
                 operandToken,
                 operandPhase,
                 groupedBehindOptionTerminator,
+                groupedBehindOptionTerminator && token.StartsWith('['),
                 arguments,
                 unparsedTokens,
                 ref prependOptionTerminatorToNextOperand,
@@ -635,6 +707,7 @@ public static class UsageSynopsisParser
         string operandToken,
         CommandLinePhase operandPhase,
         bool groupedBehindOptionTerminator,
+        bool isOptionalGroup,
         List<CliPositionalArgument> arguments,
         List<string> unparsedTokens,
         ref bool prependOptionTerminatorToNextOperand,
@@ -658,6 +731,10 @@ public static class UsageSynopsisParser
             argument = argument with { PrependOptionTerminator = true };
         }
 
+        if (isOptionalGroup)
+        {
+            argument = argument with { IsRequired = false, CSharpType = GetCSharpType(false, argument.IsVariadic) };
+        }
         arguments.Add(argument);
         prependOptionTerminatorToNextOperand = false;
         associatedOptionSwitch = null;
@@ -777,7 +854,7 @@ public static class UsageSynopsisParser
                 && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options)))
             .Select(argument => (argument.PropertyName, IsPositionalSlot(argument, options)))
             .ToHashSet();
-        return usage.RequirednessCandidates.Select(candidate => candidate with
+        return [.. usage.RequirednessCandidates.Select(candidate => candidate with
         {
             PositionalArguments = [.. candidate.PositionalArguments.Where(argument =>
                     !omittedArguments.Contains((argument.PropertyName, IsPositionalSlot(argument, options))))
@@ -787,25 +864,14 @@ public static class UsageSynopsisParser
             RequiredAlternativeGroups = [.. ResolveInlineAlternativeGroups(candidate, options).Where(group =>
                 group.Members.All(member => member.PositionalPropertyName is not { } name
                     || !omittedArguments.Contains((name, true))))],
-        }).ToArray();
+        })];
     }
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> ResolveInlineAlternativeGroups(
         UsageSynopsisParseResult candidate,
-        IReadOnlyList<CliOptionDefinition> options)
-    {
-        if (candidate.RequiredAlternativeGroups.Count == 0)
-        {
-            return [];
-        }
-
-        // Recheck each inline branch with known option shapes. A presence-only flag
-        // followed by an operand is a conjunction, which a flat OR cannot represent.
-        var resolved = ParseInlineRequiredAlternativeGroups(
+        IReadOnlyList<CliOptionDefinition> options) =>
+        ParseInlineRequiredAlternativeGroups(
             Tokenize(candidate.Synopsis ?? ""), CommandLinePhase.EarlyOperand, options);
-        return [.. candidate.RequiredAlternativeGroups.Where(group =>
-            resolved.Any(resolvedGroup => resolvedGroup.Members.SequenceEqual(group.Members)))];
-    }
 
     private static IReadOnlyList<CliPositionalArgument> ProjectRequiredness(
         IReadOnlyList<CliPositionalArgument> arguments,
@@ -1149,6 +1215,9 @@ public static class UsageSynopsisParser
         return null;
     }
 
+    internal static string? GetOperandPropertyName(string token) =>
+        ParseOperand(token, 0, CommandLinePhase.EarlyOperand)?.PropertyName;
+
     private static CliPositionalArgument? ParseOperand(
         string token,
         int positionIndex,
@@ -1230,9 +1299,11 @@ public static class UsageSynopsisParser
         string token,
         int positionIndex,
         CommandLinePhase phase,
-        out IReadOnlyList<CliPositionalArgument> arguments)
+        out IReadOnlyList<CliPositionalArgument> arguments,
+        out IReadOnlyList<string> requiredOptionSwitches)
     {
         arguments = [];
+        requiredOptionSwitches = [];
         var normalizedToken = TrimTrailingOperandPunctuation(token);
         if (!IsWrapped(normalizedToken))
         {
@@ -1241,19 +1312,34 @@ public static class UsageSynopsisParser
 
         var content = TrimWrapper(normalizedToken).Trim();
         var nestedTokens = Tokenize(content);
+        if (normalizedToken.StartsWith('[')
+            && nestedTokens.Contains(":")
+            && ContainsOnlyInlineOptions(nestedTokens))
+        {
+            // Optional option choices can share selector flags without declaring operands.
+            return true;
+        }
+
         if (nestedTokens.Contains(":") && SplitTopLevelAlternatives(content).Count > 1)
         {
             throw new InvalidOperationException(
                 $"Usage synopsis has ambiguous alternatives in colon group '{normalizedToken}'.");
         }
 
+        if (nestedTokens.Contains(":") && IsRequiredUsageToken(normalizedToken) && ContainsOnlyInlineOptions(nestedTokens))
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has unsupported required option-only colon group '{normalizedToken}'.");
+        }
+
         if (TryParseColonSeparatedOperands(
-                nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments))
+                nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches))
         {
             return true;
         }
 
-        if (!content.Contains('[') || content.Contains('|'))
+        if ((!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
+            || content.Contains('|'))
         {
             return false;
         }
@@ -1263,24 +1349,55 @@ public static class UsageSynopsisParser
             return false;
         }
 
-        return TryParseOptionalNestedOperands(nestedTokens, positionIndex, phase, out arguments);
+        return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
     }
 
-    private static bool TryParseOptionalNestedOperands(
+    private static bool ContainsOnlyInlineOptions(IEnumerable<string> tokens)
+    {
+        var optionTokens = tokens.Where(static token => token is not (":" or "|")).ToArray();
+        return optionTokens.Length > 0 && optionTokens.All(static token => IsWrapped(token)
+            ? ContainsOnlyInlineOptions(Tokenize(TrimWrapper(token)))
+            : GetOptionSwitches(token).Count > 0);
+    }
+
+    private static bool TryParseNestedOperands(
         List<string> nestedTokens,
+        bool isRequiredGroup,
         int positionIndex,
         CommandLinePhase phase,
-        out IReadOnlyList<CliPositionalArgument> arguments)
+        out IReadOnlyList<CliPositionalArgument> arguments,
+        out IReadOnlyList<string> requiredOptionSwitches)
     {
         arguments = [];
+        requiredOptionSwitches = [];
+        var parsedRequiredOptions = new List<string>();
         var parsedArguments = new List<CliPositionalArgument>();
         string? associatedOptionSwitch = null;
         foreach (var nestedToken in nestedTokens)
         {
+            if (TryParseNestedOperandGroup(nestedToken, positionIndex + parsedArguments.Count, phase,
+                    out var nestedArguments, out var nestedRequiredOptions))
+            {
+                parsedArguments.AddRange(nestedArguments);
+                parsedRequiredOptions.AddRange(nestedRequiredOptions);
+                associatedOptionSwitch = null;
+                continue;
+            }
+
             var isOptionSwitch = TryGetOptionSwitch(nestedToken, out var optionSwitch);
             if (isOptionSwitch)
             {
                 associatedOptionSwitch = optionSwitch;
+            }
+            if (IsRequiredUsageToken(nestedToken)
+                && SplitTopLevelAlternatives(TrimWrapper(nestedToken)).Count <= 1)
+            {
+                parsedRequiredOptions.AddRange(GetOptionSwitches(nestedToken));
+            }
+
+            if (TryApplyStandaloneRepeat(nestedToken, parsedArguments))
+            {
+                continue;
             }
 
             if (IsNonOperandSyntax(nestedToken))
@@ -1304,14 +1421,17 @@ public static class UsageSynopsisParser
 
             parsedArguments.Add(argument with
             {
-                CSharpType = GetCSharpType(isRequired: false, argument.IsVariadic),
-                IsRequired = false,
                 AssociatedOptionSwitch = associatedOptionSwitch,
             });
             associatedOptionSwitch = null;
         }
 
-        arguments = parsedArguments;
+        arguments = [.. parsedArguments.Select(argument => argument with
+        {
+            IsRequired = isRequiredGroup && argument.IsRequired,
+            CSharpType = GetCSharpType(isRequiredGroup && argument.IsRequired, argument.IsVariadic),
+        })];
+        requiredOptionSwitches = isRequiredGroup ? parsedRequiredOptions : [];
         return true;
     }
 
@@ -1320,9 +1440,11 @@ public static class UsageSynopsisParser
         bool groupRequired,
         int positionIndex,
         CommandLinePhase phase,
-        out IReadOnlyList<CliPositionalArgument> arguments)
+        out IReadOnlyList<CliPositionalArgument> arguments,
+        out IReadOnlyList<string> requiredOptionSwitches)
     {
         arguments = [];
+        requiredOptionSwitches = [];
         var separator = tokens.IndexOf(":");
         if (separator <= 0)
         {
@@ -1337,7 +1459,9 @@ public static class UsageSynopsisParser
         var operandTokens = hasOnlySelectors
             ? tokens.Take(separator)
             : tokens.Where(static token => token != ":");
-        var groupArguments = ParseOperandTokens(operandTokens, phase).Arguments;
+        var parsed = ParseOperandTokens(operandTokens, phase);
+        requiredOptionSwitches = groupRequired ? parsed.RequiredOptionSwitches : [];
+        var groupArguments = parsed.Arguments;
         arguments = [.. groupArguments.Select((argument, index) => argument with
         {
             PositionIndex = positionIndex + index,
@@ -1350,16 +1474,32 @@ public static class UsageSynopsisParser
     private static string TrimTrailingOperandPunctuation(string token) =>
         token.Trim().TrimEnd(',', ';', ':');
 
-    private static bool HasRequiredSuffixOutsideOptionalPrefix(string token)
+    private static bool HasRequiredSuffixOutsideOptionalPrefix(string token) =>
+        token.StartsWith('[') && GetWrappedPrefixSuffix(token)?.Any(char.IsLetterOrDigit) == true;
+
+    private static string? GetWrappedPrefixSuffix(string token)
     {
-        if (!token.StartsWith('['))
+        if (token.Length == 0 || token[0] is not ('[' or '('))
         {
-            return false;
+            return null;
         }
 
-        var closingBracketIndex = token.IndexOf(']');
-        return closingBracketIndex >= 0
-               && token[(closingBracketIndex + 1)..].Any(char.IsLetterOrDigit);
+        var opening = token[0];
+        var closing = opening == '[' ? ']' : ')';
+        var depth = 0;
+        for (var index = 0; index < token.Length; index++)
+        {
+            if (token[index] == opening)
+            {
+                depth++;
+            }
+            else if (token[index] == closing && --depth == 0)
+            {
+                return token[(index + 1)..];
+            }
+        }
+
+        return null;
     }
 
     private static bool TrySelectRequiredCompoundPlaceholder(
@@ -1419,6 +1559,11 @@ public static class UsageSynopsisParser
 
     private static string SelectCanonicalAlternative(string content)
     {
+        if (content.StartsWith('(') && GetWrappedPrefixSuffix(content)?.StartsWith(':') == true)
+        {
+            return content;
+        }
+
         var alternatives = content.Split(
             '|',
             StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -1893,6 +2038,9 @@ public sealed record UsageSynopsisParseResult
 /// </summary>
 public sealed record UsageRequiredAlternativeGroup
 {
+    /// <summary>Whether this constraint requires the group to be supplied.</summary>
+    public bool IsRequired { get; init; } = true;
+
     /// <summary>
     /// Whether members and nested groups are alternatives rather than one required bundle.
     /// </summary>
@@ -1917,6 +2065,9 @@ public sealed record UsageRequiredAlternativeGroup
 /// </summary>
 public sealed record UsageRequiredAlternativeMember
 {
+    /// <summary>Whether this member is mandatory when its bundle is supplied.</summary>
+    public bool IsRequired { get; init; } = true;
+
     /// <summary>
     /// Option spelling when this member is supplied through a named option.
     /// </summary>
