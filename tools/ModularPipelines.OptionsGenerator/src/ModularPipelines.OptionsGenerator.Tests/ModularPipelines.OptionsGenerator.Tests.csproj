@@ -27,4 +27,19 @@
     <Content Include="Fixtures\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- Compile the production renderer directly; the generator already links its shared phase/arity enums. -->
+  <ItemGroup>
+    <Compile Include="../../../../src/ModularPipelines/Attributes/CliArgumentAttribute.cs" Link="Runtime/Attributes/CliArgumentAttribute.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Attributes/CliFlagAttribute.cs" Link="Runtime/Attributes/CliFlagAttribute.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Attributes/CliOptionAttribute.cs" Link="Runtime/Attributes/CliOptionAttribute.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Attributes/EnumValueAttribute.cs" Link="Runtime/Attributes/EnumValueAttribute.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Attributes/OptionFormat.cs" Link="Runtime/Attributes/OptionFormat.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Generated/PropertyCommandLinePart.cs" Link="Runtime/Generated/PropertyCommandLinePart.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Helpers/Internal/CommandArgumentBuilder.cs" Link="Runtime/Helpers/Internal/CommandArgumentBuilder.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Helpers/Internal/ICommandArgumentBuilder.cs" Link="Runtime/Helpers/Internal/ICommandArgumentBuilder.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Models/CliOptionValue.cs" Link="Runtime/Models/CliOptionValue.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Models/CliValuePair.cs" Link="Runtime/Models/CliValuePair.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Models/KeyValue.cs" Link="Runtime/Models/KeyValue.cs" />
+  </ItemGroup>
+
 </Project>

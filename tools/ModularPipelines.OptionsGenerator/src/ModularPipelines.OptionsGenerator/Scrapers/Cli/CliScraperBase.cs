@@ -1,7 +1,9 @@
 using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -16,9 +18,12 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
+    private static readonly IReadOnlySet<string> DefaultIgnoredOptionSwitches =
+        new[] { "--help" }.ToFrozenSet(StringComparer.Ordinal);
     private const int TabWidth = 8;
     private readonly CliScrapeProvenance _scrapeProvenance = new();
     private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
+    private IReadOnlyList<CliOptionDefinition> _unfilteredGlobalOptions = [];
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -127,6 +132,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Exact option switches and aliases excluded from generated options. Short switches are
+    /// tool-specific: for example, <c>-h</c> can mean hostname instead of help.
+    /// </summary>
+    protected virtual IReadOnlySet<string> IgnoredOptionSwitches => DefaultIgnoredOptionSwitches;
+
+    /// <summary>
     /// Returns whether tool-specific syntax proves an option is scalar despite repeatability prose
     /// elsewhere in the same help block.
     /// </summary>
@@ -153,7 +164,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// The validated union of scraped and supplemental global options.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
-        CliGlobalOptionMerger.Merge(GlobalOptions, SupplementalGlobalOptions);
+        CliGlobalOptionMerger.Merge(GlobalOptions, FilterIgnoredOptions(SupplementalGlobalOptions));
 
     /// <summary>
     /// Regex patterns to match against command descriptions for skipping.
@@ -402,7 +413,8 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (path.Length == 1)
         {
-            GlobalOptions = ParseGlobalOptions(helpText);
+            _unfilteredGlobalOptions = ParseGlobalOptions(helpText);
+            GlobalOptions = FilterIgnoredOptions(_unfilteredGlobalOptions);
         }
 
         if (ShouldSkipPath(path, helpText))
@@ -576,17 +588,21 @@ public abstract partial class CliScraperBase : ICliScraper
                 return null;
             }
 
-            ValidateOptionShapes(command, helpText);
-            ValidateArgumentGroups(command);
             usage = NormalizeUsageSynopsis(command, usage);
             usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(command.Options));
+            var requiredAlternatives = ResolveRequiredAlternativeGroups(command, usage);
+            usage = RemoveIgnoredOptionValues(usage, command.Options);
             command = command with
             {
                 UsageSynopsis = usage.Synopsis,
                 HasOperandTakingUsage = usage.HasOperandTokens,
                 UsagePositionalArguments = usage.PositionalArguments,
-                RequiredAlternativeGroups = ResolveRequiredAlternativeGroups(command, usage),
+                RequiredAlternativeGroups = requiredAlternatives,
             };
+            // Resolve choices against all parsed switches before pruning ignored alternatives.
+            command = ApplyIgnoredOptionPolicy(command);
+            ValidateOptionShapes(command, helpText);
+            ValidateArgumentGroups(command);
             command.ValidateOperandCoverage(
                 usage.HasOperandTokens,
                 usage.Synopsis,
@@ -697,7 +713,7 @@ public abstract partial class CliScraperBase : ICliScraper
             GenerateCommandFacade = GenerateCommandFacade,
             Commands = [],
             GlobalOptions = GlobalOptions,
-            SupplementalGlobalOptions = SupplementalGlobalOptions,
+            SupplementalGlobalOptions = FilterIgnoredOptions(SupplementalGlobalOptions),
             GlobalOptionsBeforeSubcommands = GlobalOptionsBeforeSubcommands,
             Errors = []
         };
@@ -710,6 +726,105 @@ public abstract partial class CliScraperBase : ICliScraper
     #endregion
 
     #region Help Text & Discovery
+
+    private bool IsIgnoredOption(CliOptionDefinition option) =>
+        option.GetSwitchNames().Any(IgnoredOptionSwitches.Contains);
+
+    private IReadOnlyList<CliOptionDefinition> FilterIgnoredOptions(IReadOnlyList<CliOptionDefinition> options) =>
+        options.Any(IsIgnoredOption) ? [.. options.Where(option => !IsIgnoredOption(option))] : options;
+
+    private UsageSynopsisParseResult RemoveIgnoredOptionValues(
+        UsageSynopsisParseResult usage, IReadOnlyList<CliOptionDefinition> options)
+    {
+        // Retain ignored global metadata for usage ownership without emitting it. A local
+        // definition takes precedence over inherited definitions of the same switch.
+        CliOptionDefinition[] parsedOptions = [.. options, .. _unfilteredGlobalOptions, .. SupplementalGlobalOptions];
+        if (!parsedOptions.Any(IsIgnoredOption))
+        {
+            return usage;
+        }
+
+        var arguments = new List<CliPositionalArgument>();
+        foreach (var argument in usage.PositionalArguments)
+        {
+            var owner = argument.AssociatedOptionSwitch is { } optionSwitch
+                ? CliOptionDefinition.FindIndexBySwitch(parsedOptions, optionSwitch)
+                : -1;
+            if (owner < 0 || !IsIgnoredOption(parsedOptions[owner]))
+            {
+                arguments.Add(argument);
+            }
+            else if (parsedOptions[owner].IsFlag)
+            {
+                // A token following a flag is an operand, not a value owned by that flag.
+                arguments.Add(argument with { AssociatedOptionSwitch = null });
+            }
+        }
+
+        return usage with
+        {
+            PositionalArguments = arguments,
+            HasOperandTokens = usage.HasOperandTokens && (arguments.Count > 0 || usage.UnparsedOperandTokens.Count > 0),
+        };
+    }
+
+    /// <summary>
+    /// Applies the shared option policy after parsing, preserving operand inference and discarding
+    /// metadata owned exclusively by ignored options.
+    /// </summary>
+    protected CliCommandDefinition ApplyIgnoredOptionPolicy(CliCommandDefinition command)
+    {
+        var options = FilterIgnoredOptions(command.Options);
+        if (ReferenceEquals(options, command.Options))
+        {
+            return command;
+        }
+
+        var ignoredOptions = command.Options.Where(IsIgnoredOption).ToArray();
+        var ignoredEnumNames = ignoredOptions.Where(option => option.EnumDefinition is not null)
+            .Select(option => option.EnumDefinition!.EnumName).ToHashSet(StringComparer.Ordinal);
+        ignoredEnumNames.ExceptWith(options.Where(option => option.EnumDefinition is not null)
+            .Select(option => option.EnumDefinition!.EnumName));
+        // Operands and explicitly typed options can refer to an enum without owning its definition.
+        ignoredEnumNames.ExceptWith(options.Select(option => option.CSharpType)
+            .Concat(command.PositionalArguments.Select(argument => argument.CSharpType))
+            .SelectMany(type => type.Split(['<', '>', '?', '[', ']', ',', '.', ' '], StringSplitOptions.RemoveEmptyEntries)));
+        var ignoredProperties = ignoredOptions.Select(option => option.PropertyName).ToHashSet(StringComparer.Ordinal);
+        ignoredProperties.ExceptWith(options.Select(option => option.PropertyName));
+        ignoredProperties.ExceptWith(command.PositionalArguments.Select(argument => argument.PropertyName));
+        var ignoredSwitches = ignoredOptions.SelectMany(option => option.GetSwitchNames()).ToHashSet(StringComparer.Ordinal);
+        ignoredSwitches.ExceptWith(options.SelectMany(option => option.GetSwitchNames()));
+
+        return command with
+        {
+            Options = options,
+            Enums = [.. command.Enums.Where(definition => !ignoredEnumNames.Contains(definition.EnumName))],
+            ArgumentGroups = FilterIgnoredArgumentGroups(command.ArgumentGroups, ignoredSwitches),
+            RequiredAlternativeGroups = FilterIgnoredRequiredAlternativeGroups(
+                command.RequiredAlternativeGroups, ignoredSwitches, ignoredProperties),
+        };
+    }
+
+    private static IReadOnlyList<CliRequiredAlternativeGroup> FilterIgnoredRequiredAlternativeGroups(
+        IReadOnlyList<CliRequiredAlternativeGroup> groups,
+        IReadOnlySet<string> ignoredSwitches,
+        IReadOnlySet<string> ignoredProperties) =>
+        [.. groups.Select(group => group with
+        {
+            Members = [.. group.Members.Where(member => member.OptionSwitch is { } optionSwitch
+                ? !ignoredSwitches.Contains(optionSwitch)
+                : member.PositionalArgumentPhase is not null || member.PositionalArgumentPositionIndex is not null
+                    || !ignoredProperties.Contains(member.PropertyName))],
+            Groups = FilterIgnoredRequiredAlternativeGroups(group.Groups, ignoredSwitches, ignoredProperties),
+        }).Where(group => group.Members.Count > 0 || group.Groups.Count > 0)];
+
+    private static IReadOnlyList<CliArgumentGroup> FilterIgnoredArgumentGroups(
+        IReadOnlyList<CliArgumentGroup> groups, IReadOnlySet<string> ignoredSwitches) =>
+        [.. groups.Select(group => group with
+        {
+            Arguments = [.. group.Arguments.Where(argument => !ignoredSwitches.Contains(argument.SwitchName))],
+            Groups = FilterIgnoredArgumentGroups(group.Groups, ignoredSwitches),
+        }).Where(group => group.Arguments.Count > 0 || group.Groups.Count > 0)];
 
     /// <summary>
     /// Gets help text for a command, using cache if available.
@@ -789,14 +904,15 @@ public abstract partial class CliScraperBase : ICliScraper
         string arguments,
         CancellationToken cancellationToken,
         string? workingDirectory = null,
-        bool preserveRawHelp = false)
+        bool preserveRawHelp = false,
+        CliHelpKind helpKind = CliHelpKind.Help)
     {
         var result = await Executor.ExecuteAsync(
             executablePath,
             arguments,
             cancellationToken,
             workingDirectory);
-        _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
+        _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp, helpKind);
         if (!result.Unavailable)
         {
             return result;
@@ -951,14 +1067,27 @@ public abstract partial class CliScraperBase : ICliScraper
             return command.RequiredAlternativeGroups;
         }
 
-        return
-        [
-            .. command.RequiredAlternativeGroups,
-            .. usage.RequiredAlternativeGroups
-                .Select(group => TryResolveRequiredAlternativeGroup(command, group))
-                .OfType<CliRequiredAlternativeGroup>(),
-        ];
+        var groups = command.RequiredAlternativeGroups.ToList();
+        foreach (var inferred in usage.RequiredAlternativeGroups
+                     .Select(group => TryResolveRequiredAlternativeGroup(command, group))
+                     .OfType<CliRequiredAlternativeGroup>())
+        {
+            var identities = GetAlternativeGroupIdentities(inferred).ToHashSet(StringComparer.Ordinal);
+            // A richer required help constraint already enforces presence over these members.
+            // Optional help constraints cannot replace a synopsis requirement.
+            if (inferred.IsUsageFormChoice
+                || !groups.Any(group => group.IsRequired && identities.SetEquals(GetAlternativeGroupIdentities(group))))
+            {
+                groups.Add(inferred);
+            }
+        }
+
+        return groups;
     }
+
+    private static IEnumerable<string> GetAlternativeGroupIdentities(CliRequiredAlternativeGroup group) =>
+        group.Members.Select(GetRequiredAlternativeIdentity)
+            .Concat(group.Groups.SelectMany(GetAlternativeGroupIdentities));
 
     private static CliRequiredAlternativeGroup? TryResolveRequiredAlternativeGroup(
         CliCommandDefinition command,
@@ -967,7 +1096,8 @@ public abstract partial class CliScraperBase : ICliScraper
         var members = group.Members
             .Select(member => TryResolveRequiredAlternativeMember(command, member))
             .ToArray();
-        if (members.Any(static member => member is null))
+        var groups = group.Groups.Select(nested => TryResolveRequiredAlternativeGroup(command, nested)).ToArray();
+        if (members.Any(static member => member is null) || groups.Any(static nested => nested is null))
         {
             // Synopsis inference can reference an inherited, global, or filtered switch.
             // Discard that inferred constraint without dropping the command itself.
@@ -976,9 +1106,12 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return new CliRequiredAlternativeGroup
         {
+            IsChoice = group.IsChoice,
+            IsUsageFormChoice = group.IsChoice && group.Groups.Count > 0,
             Members = [.. members
-                .Select(static member => member!)
+                .Select(member => member! with { IsRequired = !group.IsChoice })
                 .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
+            Groups = [.. groups.Select(static nested => nested!)],
         };
     }
 
@@ -1246,13 +1379,15 @@ public abstract partial class CliScraperBase : ICliScraper
     protected internal static bool HelpDeclaresRepeatableOption(
         string helpText,
         string switchName,
-        string description)
-    {
-        if (DescriptionDeclaresRepeatableOption(description))
-        {
-            return true;
-        }
+        string description) =>
+        DescriptionDeclaresRepeatableOption(description)
+        || HelpOptionBlockMatches(helpText, switchName, RepeatableValuePattern());
 
+    private protected static bool HelpOptionBlockMatches(string helpText, string switchName, Regex pattern) =>
+        HelpOptionBlockMatches(helpText, switchName, pattern.IsMatch);
+
+    private protected static bool HelpOptionBlockMatches(string helpText, string switchName, Func<string, bool> matches)
+    {
         var optionPattern = $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])";
         var lines = helpText.ReplaceLineEndings("\n").Split('\n');
 
@@ -1283,7 +1418,7 @@ public abstract partial class CliScraperBase : ICliScraper
             var optionMatch = Regex.Match(declaration, optionPattern, RegexOptions.IgnoreCase);
             if (optionMatch.Success
                 && (inlineDescriptionColumn is null || GetColumn(declaration, optionMatch.Index) < inlineDescriptionColumn)
-                && RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
+                && matches(string.Join('\n', lines, start, index - start + 1)))
             {
                 return true;
             }
@@ -1724,6 +1859,69 @@ public abstract partial class CliScraperBase : ICliScraper
     private static partial Regex WrappedLongOptionPrefixPattern();
 
     /// <summary>
+    /// Creates a typed option from a clap declaration and its parsed help block.
+    /// </summary>
+    protected static CliOptionDefinition CreateClapOption(
+        Match match,
+        string className,
+        string propertyName,
+        string switchName,
+        ClapOptionBlock block)
+    {
+        var shortForm = match.Groups["short"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var acceptsMultipleValues = match.Groups["multi"].Success
+                                    || IsRepeatableValueOption(block.Description, isFlag, isBoolean: false);
+        var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
+        var optionalValue = valueHint.StartsWith('[');
+        var enumDefinition = isFlag || optionalValue
+            ? null
+            : TryCreateOptionEnum(className, propertyName, switchName, block.PossibleValues);
+        var flagType = acceptsMultipleValues ? "int?" : "bool?";
+
+        return new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            ShortForm = match.Groups["long"].Success && !string.IsNullOrEmpty(shortForm) ? shortForm : null,
+            PropertyName = propertyName,
+            CSharpType = isFlag
+                ? flagType
+                : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
+            Description = GetOptionDescription(block, enumDefinition is not null),
+            IsFlag = isFlag,
+            ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = false,
+            IsNumeric = isFlag && acceptsMultipleValues,
+            ValueSeparator = attachedOptionalValue ? "=" : " ",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, block.Description)
+        };
+    }
+
+    private static string GetOptionDescription(ClapOptionBlock block, bool hasEnum)
+    {
+        if (hasEnum || block.PossibleValues.Count == 0)
+        {
+            return block.Description;
+        }
+
+        var choices = string.Join(", ", block.PossibleValues.Select(value =>
+            string.IsNullOrWhiteSpace(value.Description) ? value.Value : $"{value.Value}: {value.Description}"));
+        return $"{block.Description} [possible values: {choices}]".Trim();
+    }
+
+    /// <summary>
+    /// Matches an option declaration row: the switches, an optional value hint such as
+    /// <c>&lt;CPU&gt;...</c> or <c>[=&lt;COLOR&gt;]</c>, and an inline description when the
+    /// layout carries one after two or more spaces.
+    /// </summary>
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w)(?:,\s*(?<long>--[\w-]+))?|(?<long>--[\w-]+))(?:\s*(?<value><[^>]+>|\[[^\]]+\]))?(?<multi>\.\.\.)?(?:\s{2,}(?<desc>.*))?\s*$", RegexOptions.Multiline)]
+    protected static partial Regex ClapOptionDeclarationPattern();
+
+    /// <summary>
     /// Returns the paragraph clap-style help prints above its <c>Usage:</c> line, or
     /// <see langword="null"/> when the help opens with the usage block.
     /// </summary>
@@ -1768,6 +1966,8 @@ public abstract partial class CliScraperBase : ICliScraper
         int? descriptionColumn = null;
         var listingValues = false;
         var pendingTrailer = string.Empty;
+        var startsParagraph = false;
+        var lastProseIndex = -1;
         while (index + 1 < lines.Count)
         {
             var line = lines[index + 1];
@@ -1775,6 +1975,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 index++;
                 listingValues = false;
+                startsParagraph = true;
                 continue;
             }
 
@@ -1791,18 +1992,21 @@ public abstract partial class CliScraperBase : ICliScraper
             var text = line.Trim();
             if (TryReadClapTrailer(text, ref pendingTrailer, possibleValues, prose))
             {
+                startsParagraph = false;
                 continue;
             }
 
             if (text.Equals("Possible values:", StringComparison.OrdinalIgnoreCase))
             {
                 listingValues = true;
+                startsParagraph = false;
                 continue;
             }
 
             if (!listingValues)
             {
-                prose.Add(text);
+                AppendClapProse(prose, text, startsParagraph, ref lastProseIndex);
+                startsParagraph = false;
                 continue;
             }
 
@@ -1828,6 +2032,26 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
+    }
+
+    private static void AppendClapProse(List<string> prose, string text, bool startsParagraph, ref int lastProseIndex)
+    {
+        // Wrapped lines stay in the same sentence; blank lines separate prose
+        // paragraphs even when clap omits punctuation from the first paragraph.
+        // Metadata trailers are annotations, so punctuation belongs to the preceding prose.
+        if (startsParagraph && lastProseIndex >= 0 && !EndsWithSentencePunctuation(prose[lastProseIndex]))
+        {
+            prose[lastProseIndex] += ".";
+        }
+
+        lastProseIndex = prose.Count;
+        prose.Add(text);
+    }
+
+    private static bool EndsWithSentencePunctuation(string text)
+    {
+        var content = text.AsSpan().TrimEnd("\"'`’”)]}»›");
+        return !content.IsEmpty && ".!?:;。！？：；…؟۔।॥".Contains(content[^1]);
     }
 
     private static bool TryReadClapTrailer(

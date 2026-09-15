@@ -116,6 +116,7 @@
     <Project Path="test/ModularPipelines.OpenTelemetry.UnitTests/ModularPipelines.OpenTelemetry.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Packer.UnitTests/ModularPipelines.Packer.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Podman.UnitTests/ModularPipelines.Podman.UnitTests.csproj" />
+    <Project Path="test/ModularPipelines.ProcessTestHost/ModularPipelines.ProcessTestHost.csproj" />
     <Project Path="test/ModularPipelines.Pulumi.UnitTests/ModularPipelines.Pulumi.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Python.UnitTests/ModularPipelines.Python.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Rust.UnitTests/ModularPipelines.Rust.UnitTests.csproj" />

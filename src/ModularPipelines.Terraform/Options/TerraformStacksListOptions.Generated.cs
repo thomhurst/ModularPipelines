@@ -15,14 +15,34 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// List stacks for a given organization and/or project.
 /// </summary>
-/// <param name="OrganizationName">The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "list")]
-public record TerraformStacksListOptions(
-    [property: CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)] string OrganizationName
-) : TerraformOptions
+public record TerraformStacksListOptions : TerraformOptions
 {
+    /// <summary>
+    /// List stacks for a given organization and/or project.
+    /// </summary>
+    /// <param name="OrganizationName">The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)</param>
+    public TerraformStacksListOptions(
+        string OrganizationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationName);
+        this.OrganizationName = OrganizationName;
+    }
+
+    public void Deconstruct(out string OrganizationName)
+    {
+        OrganizationName = this.OrganizationName;
+    }
+
+    /// <summary>
+    /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)
+    /// </summary>
+    [CliOption("-organization-name", Format = OptionFormat.EqualsSeparated)]
+    public string OrganizationName { get; private init; }
+
     /// <summary>
     /// The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (optional)
     /// </summary>

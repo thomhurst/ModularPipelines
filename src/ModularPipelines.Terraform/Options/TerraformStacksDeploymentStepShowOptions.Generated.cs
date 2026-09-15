@@ -15,14 +15,34 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Show the details of a single deployment step, including its deployment steps.
 /// </summary>
-/// <param name="DeploymentStepId">The ID of the deployment step to show. (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-step", "show")]
-public record TerraformStacksDeploymentStepShowOptions(
-    [property: CliOption("-deployment-step-id", Format = OptionFormat.EqualsSeparated)] string DeploymentStepId
-) : TerraformOptions
+public record TerraformStacksDeploymentStepShowOptions : TerraformOptions
 {
+    /// <summary>
+    /// Show the details of a single deployment step, including its deployment steps.
+    /// </summary>
+    /// <param name="DeploymentStepId">The ID of the deployment step to show. (required)</param>
+    public TerraformStacksDeploymentStepShowOptions(
+        string DeploymentStepId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentStepId);
+        this.DeploymentStepId = DeploymentStepId;
+    }
+
+    public void Deconstruct(out string DeploymentStepId)
+    {
+        DeploymentStepId = this.DeploymentStepId;
+    }
+
+    /// <summary>
+    /// The ID of the deployment step to show. (required)
+    /// </summary>
+    [CliOption("-deployment-step-id", Format = OptionFormat.EqualsSeparated)]
+    public string DeploymentStepId { get; private init; }
+
     /// <summary>
     /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>

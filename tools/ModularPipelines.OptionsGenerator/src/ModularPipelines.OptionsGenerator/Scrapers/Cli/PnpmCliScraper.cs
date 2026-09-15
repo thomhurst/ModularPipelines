@@ -1,7 +1,7 @@
+using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
-using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -29,6 +29,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
+    private static readonly IReadOnlySet<string> PnpmIgnoredOptionSwitches =
+        new[] { "--help", "-h" }.ToFrozenSet(StringComparer.Ordinal);
+
     private static readonly string[] ExcludedChildCommands =
     [
         "pnpm audit signatures", "pnpm stage approve", "pnpm stage download",
@@ -42,6 +45,8 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     public override string TargetNamespace => "ModularPipelines.Node";
 
     public override string OutputDirectory => "src/ModularPipelines.Node";
+
+    protected override IReadOnlySet<string> IgnoredOptionSwitches => PnpmIgnoredOptionSwitches;
 
     public override CliToolDefinition CreateToolDefinition() =>
         base.CreateToolDefinition() with
@@ -281,7 +286,7 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
-            var match = PnpmOptionPattern().Match(line);
+            var match = ClapOptionDeclarationPattern().Match(line);
             if (!match.Success)
             {
                 continue;
@@ -301,71 +306,19 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
                     AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow));
 
             var propertyName = NormalizePropertyName(switchName);
-            if (switchName is "--help" or "-h"
-                || propertyName is null
+            if (propertyName is null
                 || !seenOptions.Add(switchName))
             {
                 continue;
             }
 
-            options.Add(CreateOption(match, className, propertyName, switchName, block));
+            options.Add(CreateClapOption(match, className, propertyName, switchName, block));
         }
 
         return options;
     }
 
-    private static CliOptionDefinition CreateOption(
-        Match match,
-        string className,
-        string propertyName,
-        string switchName,
-        ClapOptionBlock block)
-    {
-        var shortForm = match.Groups["short"].Value.Trim();
-        var valueHint = match.Groups["value"].Value.Trim();
-        var isFlag = string.IsNullOrEmpty(valueHint);
-        var acceptsMultipleValues = match.Groups["multi"].Success
-                                    || IsRepeatableValueOption(block.Description, isFlag, isBoolean: false);
-        var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
-        var optionalValue = valueHint.StartsWith('[');
-        var enumDefinition = isFlag || optionalValue
-            ? null
-            : TryCreateOptionEnum(className, propertyName, switchName, block.PossibleValues);
-
-        return new CliOptionDefinition
-        {
-            SwitchName = switchName,
-            ShortForm = match.Groups["long"].Success && !string.IsNullOrEmpty(shortForm) ? shortForm : null,
-            PropertyName = propertyName,
-            CSharpType = isFlag
-                ? "bool?"
-                : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
-            Description = GetOptionDescription(block, enumDefinition is not null),
-            IsFlag = isFlag,
-            ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
-            IsRequired = false,
-            AcceptsMultipleValues = acceptsMultipleValues,
-            IsKeyValue = false,
-            IsNumeric = false,
-            ValueSeparator = attachedOptionalValue ? "=" : " ",
-            EnumDefinition = enumDefinition,
-            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-        };
-    }
-
-    private static string GetOptionDescription(ClapOptionBlock block, bool hasEnum)
-    {
-        if (hasEnum || block.PossibleValues.Count == 0)
-        {
-            return block.Description;
-        }
-
-        var choices = string.Join(", ", block.PossibleValues.Select(value =>
-            string.IsNullOrWhiteSpace(value.Description) ? value.Value : $"{value.Value}: {value.Description}"));
-        return $"{block.Description} [possible values: {choices}]".Trim();
-    }
-
-    private static bool IsOptionRow(string line) => PnpmOptionPattern().IsMatch(line);
+    private static bool IsOptionRow(string line) => ClapOptionDeclarationPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
@@ -401,14 +354,6 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     /// </summary>
     [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
-
-    /// <summary>
-    /// Matches an option declaration row: the switches, an optional value hint such as
-    /// <c>&lt;CPU&gt;...</c> or <c>[=&lt;COLOR&gt;]</c>, and an inline description when the
-    /// layout carries one after two or more spaces.
-    /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w)(?:,\s*(?<long>--[\w-]+))?|(?<long>--[\w-]+))(?:\s*(?<value><[^>]+>|\[[^\]]+\]))?(?<multi>\.\.\.)?(?:\s{2,}(?<desc>.*))?\s*$", RegexOptions.Multiline)]
-    private static partial Regex PnpmOptionPattern();
 
     #endregion
 }

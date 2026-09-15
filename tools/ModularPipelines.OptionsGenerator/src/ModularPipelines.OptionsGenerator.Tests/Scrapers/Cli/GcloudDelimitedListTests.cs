@@ -57,12 +57,54 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("[VALUE,...]", "Values to include.", ",")]
     [Arguments("VALUES", "A comma-delimited list of values.", ",")]
     [Arguments("VALUES", "A comma separated list of values.", ",")]
+    [Arguments("VALUES", "At most one of these can be specified: Comma-separated list of values.", ",")]
+    [Arguments("VALUES", "Exactly one of these must be specified: Comma-separated list of values.", ",")]
+    [Arguments("VALUE", "Example output: Comma-separated list of values.", null)]
     [Arguments("VALUES", "The comma-separated list of values.", ",")]
+    [Arguments("TAGS", "A single tag or a comma-delimited list of tags.", ",")]
+    [Arguments("VALUES", "Accepts a single IP address or a comma-separated list of addresses.", ",")]
+    [Arguments("LOGS", "Filter entries from a particular set of logs. Must be a comma-separated list of log names.", ",")]
+    [Arguments("HEADERS", "This field can only be specified if logging is enabled. Contains a comma-separated list of HTTP request headers.", ",")]
+    [Arguments("VALUES", "The flag can be a comma-separated list of updatable fields.", ",")]
+    [Arguments("VALUE", "A single tag controls the comma-delimited list in --other.", null)]
+    [Arguments("VALUE", "The --other flag can be a comma-separated list of values.", null)]
+    [Arguments("VALUE", "The result contains a comma-separated list of values.", null)]
+    [Arguments("KEY=VALUE", "Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs.", ",")]
+    [Arguments("VALUES", "Selects values. Specifies a comma-delimited list of values.", ",")]
+    [Arguments("VALUES", "This option accepts a comma-separated list of values.", ",")]
+    [Arguments("VALUES", "Selects values. (BETA) The flag specifies a comma-separated list of values.", ",")]
+    [Arguments("VALUES", "Selects values. A comma-separated list of values.", ",")]
+    [Arguments("VALUE", "Selects a value. The --other flag accepts a comma-separated list of values.", null)]
+    [Arguments("VALUE", "Selects a value. When --other accepts a comma-separated list, use this value.", null)]
+    [Arguments("VALUE", "Selects a value. This option specifies the limit for a comma-separated list.", null)]
     [Arguments("VALUES", "(DEPRECATED) A comma-separated list of values.", ",")]
     [Arguments("VALUES", "(BETA) A comma-separated list of values.", ",")]
     [Arguments("VALUES", "(ALPHA) A comma-delimited list of values.", ",")]
     [Arguments("SIZE", "(DEPRECATED) When using a comma-separated list in --worker, set the batch size.", null)]
+    [Arguments("[VALUE,...]", "Can be repeated.", null)]
+    [Arguments("[VALUE,...]", "Maybe specified multiple times.", null)]
+    [Arguments("KEY_VERSION,[KEY_VERSION,...]", "A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to verify service account tokens. Maybe specified multiple times.", null)]
+    [Arguments("[VALUE,...]", "(DEPRECATED) Maybe specified multiple times.", null)]
+    [Arguments("[VALUE,...]", "This flag maybe supplied more than once.", null)]
+    [Arguments("[VALUE,...]", "MAYBE REPEATED.", null)]
+    [Arguments("[VALUE,...]", "Values to include. The --other flag maybe specified multiple times.", ",")]
+    [Arguments("[VALUE,...]", "Repeatable.", null)]
+    [Arguments("[VALUE,...]", "Repeat or comma-separate for multiple values.", null)]
+    [Arguments("[VALUE,...]", "May be provided one or more times.", null)]
+    [Arguments("[VALUE,...]", "Specify multiple times.", null)]
+    [Arguments("[VALUE,...]", "Multiples are supported by passing --values multiple times.", null)]
+    [Arguments("[VALUE,...]", "(BETA) May be supplied more than once.", null)]
+    [Arguments("[VALUE,...]", "Repeat to add more.", null)]
+    [Arguments("[VALUE,...]", "Values to include. Can be repeated.", null)]
     [Arguments("[VALUE,...]", "Values to include. This flag can be repeated.", null)]
+    [Arguments("[VALUE,...]", "(DEPRECATED) This flag can be repeated.", null)]
+    [Arguments("[VALUE,...]", "(ALPHA) This option may be specified multiple times.", null)]
+    [Arguments("[VALUE,...]", "(BETA) This is a repeated argument.", null)]
+    [Arguments("[VALUE,...]", "(DEPRECATED) (BETA) This flag can be repeated.", null)]
+    [Arguments("[VALUE,...]", "(deprecated) This flag can be repeated.", null)]
+    [Arguments("[VALUE,...]", "Values to include. (BETA) The option is repeatable.", null)]
+    [Arguments("[VALUE,...]", "(DEPRECATED) The --other flag can be repeated.", ",")]
+    [Arguments("[VALUE,...]", "(BETA) Values to include alongside a repeated argument.", ",")]
     [Arguments("[VALUE,...]", "This is a repeated argument that can be specified multiple times.", null)]
     [Arguments("[VALUE,...]", "This option may be specified multiple times.", null)]
     [Arguments("[VALUE,...]", "Values to include. This option accepts multiple values.", ",")]
@@ -75,6 +117,65 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUE", "Matches values that contain comma-separated text.", null)]
     [Arguments("[name=NAME,config=CONFIG]", "This flag can be repeated.", null)]
     [Arguments("KEY=VALUE", "This flag can be repeated.", null)]
+    [Arguments("[KEY=VALUE,...]", "A comma-separated list of KEY=VALUE pairs.", ",")]
+    [Arguments("KEY=VALUE", "A comma-separated list of KEY=VALUE pairs.", ",")]
+    [Arguments("[KEY=VALUE,...]", "Attribute mappings.", ",")]
+    [Arguments("[REVISION-NAME=PERCENTAGE,...]", "Traffic assignments.", ",")]
+    [Arguments("[TAG=PERCENTAGE,...]", "Traffic assignments.", ",")]
+    [Arguments("REVISION-NAME=PERCENTAGE,[REVISION-NAME=PERCENTAGE,...]", "Traffic assignments.", ",")]
+    [Arguments("[name=NAME,...]", "Structured fields.", null)]
+    [Arguments("[name=NAME,config=CONFIG,...]", "Structured fields.", null)]
+    [Arguments("[KEY=VALUE,...]", "This flag can be repeated.", null)]
+    [Arguments("[KEY=VALUE,...]", "Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times.", null)]
+    [Arguments("[KEY=VALUE,...]", "Specify this flag multiple times.", null)]
+    [Arguments("[KEY=VALUE,...]", "Supply the option more than once.", null)]
+    [Arguments("[VALUE,...]", "To add more items, use this argument multiple times.", null)]
+    [Arguments("[VALUE,...]", "Values to include. Specify the --other flag multiple times.", ",")]
+    [Arguments("[VALUE,...]", "Values to include. To add more items, specify --other multiple times.", ",")]
+    [Arguments("[name=NAME,config=CONFIG]", "A comma-separated list of fields.", null)]
+    [Arguments("VALUE", "Namespaces to ignore, separated by commas if multiple are supplied.", ",")]
+    [Arguments("VALUE", "One or more rule files (separated by commas if multiple).", ",")]
+    [Arguments("VALUE", "Path to a file containing values separated by commas.", null)]
+    [Arguments("VALUE", "Values for --other, separated by commas if multiple are supplied.", null)]
+    [Arguments("VALUE", "Path of a JSON/YAML file. Multiple scopes can be specified, separated by commas.", null)]
+    [Arguments("VALUE", "Configuration document. Nested fields accept names (separated by commas).", null)]
+    [Arguments("VALUE", "Values to include. This option accepts names, separated by commas.", ",")]
+    [Arguments("VALUE", "Values, seperated by commas if multiple are supplied.", ",")]
+    [Arguments("VALUE", "A string of user-to-service-account mappings. Mappings are separated by commas.", ",")]
+    [Arguments("VALUE", "(BETA) A string of labels. Labels are separated by commas.", ",")]
+    [Arguments("VALUE", "(DEPRECATED) (ALPHA) The string of labels. Labels are separated by commas.", ",")]
+    [Arguments("VALUE", "(BETA) Path to a file containing labels. Labels are separated by commas.", null)]
+    [Arguments("VALUE", "A list of databases to migrate. Provide databases as a comma separated list.", ",")]
+    [Arguments("VALUE", "(ALPHA) Supply names as a comma-separated list.", ",")]
+    [Arguments("VALUE", "Provide values for --other as a comma separated list.", null)]
+    [Arguments("VALUE", "Optional update mask to specify which fields to update. Use commas to separate masks.", ",")]
+    [Arguments("VALUE", "(BETA) Use commas to separate values.", ",")]
+    [Arguments("VALUE", "Use commas to delimit individual masks.", ",")]
+    [Arguments("VALUE", "Use commas to separate values for --other.", null)]
+    [Arguments("VALUE", "Path to a file. Use commas to separate fields in that file.", null)]
+    [Arguments("VALUE", "Apply a filter. Expects a comma-delimited string of project numbers.", ",")]
+    [Arguments("VALUE", "(ALPHA) A comma-separated string of names.", ",")]
+    [Arguments("VALUE", "Provide names as a comma-separated string.", ",")]
+    [Arguments("VALUE", "Path to a file whose fields contain a comma-separated string.", null)]
+    [Arguments("VALUE", "Use --other with a comma-delimited string of names.", null)]
+    [Arguments("VALUE", "String value should follow SQL syntax: comma separated list of fields.", ",")]
+    [Arguments("VALUE", "(ALPHA) This option must use SQL syntax: a comma-delimited list of names.", ",")]
+    [Arguments("VALUE", "The file uses SQL syntax: comma separated list of fields.", null)]
+    [Arguments("VALUE", "String value for --other should follow SQL syntax: comma separated list of fields.", null)]
+    [Arguments("VALUE", "This is a comma-separated list of fully qualified names.", ",")]
+    [Arguments("VALUE", "(BETA) This flag is a comma-delimited list of names.", ",")]
+    [Arguments("VALUE", "It is a comma-separated string of names.", ",")]
+    [Arguments("VALUE", "This field is a comma-separated list inside the config file.", null)]
+    [Arguments("VALUE", "This is a path to a file containing a comma-separated list.", null)]
+    [Arguments("VALUE", "A string of labels. Mappings are separated by commas.", null)]
+    [Arguments("VALUE", "Path to a file containing mappings. Mappings are separated by commas.", null)]
+    [Arguments("[VALUE,...]", "Specify the --values flag multiple times.", null)]
+    [Arguments("[VALUE,...]", "The --values flag can be repeated.", null)]
+    [Arguments("[VALUE,...]", "Specify the --values-other flag multiple times.", ",")]
+    [Arguments("FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", ",")]
+    [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]]", "Set pool flags.", ",")]
+    [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", null)]
+    [Arguments("FLAG=VALUE,[FLAG=VALUE,...]]", "Set pool flags.", null)]
     public async Task Gcloud_Distinguishes_Delimited_Lists_From_Repeated_Options(
         string hint, string description, string? separator)
     {
@@ -96,9 +197,39 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    public async Task Gcloud_Containing_Group_Does_Not_Make_A_Repeated_Option_Delimited()
+    public async Task Gcloud_Config_File_Contents_Do_Not_Change_File_Option_Shape()
     {
-        const string helpText = """
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "container-clusters-create-550.0.0.txt"));
+        var command = await CreateGcloudScraper().Parse(["gcloud", "container", "clusters", "create"], helpText);
+        var option = command!.Options.Single(option => option.SwitchName == "--autoprovisioning-config-file");
+
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        await Assert.That(option.CollectionSeparator).IsNull();
+
+        var scopes = command.Options.Single(option => option.SwitchName == "--autoprovisioning-scopes");
+        await Assert.That(scopes.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(scopes.CollectionSeparator).IsEqualTo(",");
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+        await Assert.That(generated).Contains("public string? AutoprovisioningConfigFile");
+        await Assert.That(generated).Contains("[CliOption(\"--autoprovisioning-config-file\", Format = OptionFormat.EqualsSeparated)]");
+    }
+
+    [Test]
+    [Arguments("Configure a comma-separated list of resources.")]
+    [Arguments("One of these flags can be repeated: --resource.")]
+    public async Task Gcloud_Containing_Group_Does_Not_Change_Sibling_Collection_Shapes(string groupDescription)
+    {
+        var helpText = $"""
             NAME
                 gcloud example update - update an example
 
@@ -106,26 +237,47 @@ public partial class NestedArgumentGroupParsingTests
                 gcloud example update
 
             FLAGS
-                 Configure a comma-separated list of resources.
+                 {groupDescription}
                    --resource=RESOURCE
                       This flag can be repeated.
+                   --label=LABEL
+                      The label to assign.
             """;
 
         var command = await CreateGcloudScraper().Parse(["gcloud", "example", "update"], helpText);
-        var option = command!.Options.Single();
+        var option = command!.Options.Single(option => option.SwitchName == "--resource");
 
         await Assert.That(option.AcceptsMultipleValues).IsTrue();
         await Assert.That(option.CollectionSeparator).IsNull();
+        var sibling = command.Options.Single(option => option.SwitchName == "--label");
+        await Assert.That(sibling.AcceptsMultipleValues).IsFalse();
+        await Assert.That(sibling.CSharpType).IsEqualTo("string?");
+        await Assert.That(sibling.CollectionSeparator).IsNull();
     }
 
     [Test]
     [Arguments("dns-response-policies-rules-update", "dns response-policies rules update", "--local-data", null)]
     [Arguments("artifacts-docker-images-scan", "artifacts docker images scan", "--additional-package-types", ",")]
+    [Arguments("compute-url-maps-invalidate-cdn-cache", "compute url-maps invalidate-cdn-cache", "--tags", ",")]
+    [Arguments("app-logs-read", "app logs read", "--logs", ",")]
+    [Arguments("artifacts-docker-upgrade-migrate", "artifacts docker upgrade migrate", "--projects", ",")]
+    [Arguments("sql-instances-patch", "sql instances patch", "--connection-pool-flags", ",")]
+    [Arguments("container-hub-policycontroller-enable", "container hub policycontroller enable", "--exemptable-namespaces", ",")]
+    [Arguments("container-hub-policycontroller-enable", "container hub policycontroller enable", "--monitoring", ",")]
+    [Arguments("compute-instances-create", "compute instances create", "--local-ssd", null, "550")]
+    [Arguments("dataproc-clusters-create", "dataproc clusters create", "--secure-multi-tenancy-user-mapping", ",")]
+    [Arguments("database-migration-migration-jobs-promote", "database-migration migration-jobs promote", "--databases-filter", ",")]
+    [Arguments("compute-interconnects-groups-update", "compute interconnects groups update", "--update-mask", ",")]
+    [Arguments("iam-workload-identity-pools-list-attestation-rules", "iam workload-identity-pools list-attestation-rules", "--container-id-filter", ",")]
+    [Arguments("scc-findings-list", "scc findings list", "--order-by", ",")]
+    [Arguments("datastream-streams-update", "datastream streams update", "--update-mask", ",")]
+    [Arguments("run-services-update-traffic", "run services update-traffic", "--to-revisions", ",")]
+    [Arguments("run-services-update-traffic", "run services update-traffic", "--to-tags", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
-        string fixture, string commandPath, string switchName, string? separator)
+        string fixture, string commandPath, string switchName, string? separator, string version = "550.0.0")
     {
         var helpText = await File.ReadAllTextAsync(Path.Combine(
-            AppContext.BaseDirectory, "Fixtures", "Gcloud", $"{fixture}-550.0.0.txt"));
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", $"{fixture}-{version}.txt"));
         var command = await CreateGcloudScraper().Parse(["gcloud", .. commandPath.Split(' ')], helpText);
         var option = command!.Options.Single(option => option.SwitchName == switchName);
 
@@ -149,6 +301,82 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    [Arguments("iam-workforce-pools-providers-scim-tenants-update", "iam workforce-pools providers scim-tenants update", "--claim-mapping", "IReadOnlyList<KeyValue>?", true)]
+    [Arguments("storage-folders-list", "storage folders list", "--additional-headers", "IEnumerable<string>?", false)]
+    public async Task Gcloud_Captured_Comma_Lists_Join_Entries(
+        string fixture, string commandPath, string switchName, string expectedType, bool isKeyValue)
+    {
+        var helpText = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", $"{fixture}-550.0.0.txt"));
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", .. commandPath.Split(' ')], helpText);
+        var mapping = command!.Options.Single(option => option.SwitchName == switchName);
+        await Assert.That(mapping.IsKeyValue).IsEqualTo(isKeyValue);
+        await Assert.That(mapping.AcceptsMultipleValues).IsTrue();
+        await Assert.That(mapping.CSharpType).IsEqualTo(expectedType);
+        await Assert.That(mapping.CollectionSeparator).IsEqualTo(",");
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+        await Assert.That(generated).Contains($"[CliOption(\"{switchName}\", Format = OptionFormat.EqualsSeparated, CollectionSeparator = \",\")]");
+    }
+
+    [Test]
+    public async Task Gcloud_Delimited_Enum_Allows_Multiple_Choices()
+    {
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "storage-diagnose.txt"));
+        var command = await CreateGcloudScraper().Parse(["gcloud", "storage", "diagnose"], helpText);
+        var option = command!.Options.Single(option => option.SwitchName == "--test-type");
+
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.CollectionSeparator).IsEqualTo(",");
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<GcloudTestType>?");
+        await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["DIRECT_CONNECTIVITY", "DOWNLOAD_THROUGHPUT", "LATENCY", "UPLOAD_THROUGHPUT"]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+
+        await Assert.That(generated).Contains("public IEnumerable<GcloudTestType>? TestType");
+        await Assert.That(generated).Contains("CliOption(\"--test-type\", Format = OptionFormat.EqualsSeparated, CollectionSeparator = \",\")");
+    }
+
+    [Test]
+    public async Task Gcloud_List_Hints_Respect_Repetition_In_The_Whole_Option_Block()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+            SYNOPSIS
+                gcloud example update
+            FLAGS
+                 --values=[VALUE,...]
+                    Values to include.
+                 This flag can be repeated to configure multiple values.
+
+                 --other=[VALUE,...]
+                    Other values to include.
+            """;
+        var command = await CreateGcloudScraper().Parse(["gcloud", "example", "update"], helpText);
+        var repeated = command!.Options.Single(option => option.SwitchName == "--values");
+        await Assert.That(repeated.AcceptsMultipleValues).IsTrue();
+        await Assert.That(repeated.CollectionSeparator).IsNull();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--other").CollectionSeparator).IsEqualTo(",");
+    }
+
+    [Test]
     public async Task Gcloud_Negated_Flag_Does_Not_Inherit_List_Serialization()
     {
         const string helpText = """
@@ -169,6 +397,34 @@ public partial class NestedArgumentGroupParsingTests
         await Assert.That(negative.IsFlag).IsTrue();
         await Assert.That(negative.AcceptsMultipleValues).IsFalse();
         await Assert.That(negative.CollectionSeparator).IsNull();
+        await Assert.That(negative.Description).IsEqualTo("Negates --values. Values to include. Use --no-values to disable selection.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--values").Description)
+            .Contains("Collection entries are joined with commas");
+    }
+
+    [Test]
+    [Arguments("Maybe specified multiple times.")]
+    [Arguments("Specify this flag multiple times.")]
+    [Arguments("This is a repeated argument.")]
+    public async Task Gcloud_Local_Repetition_Grammar_Preserves_Value_Collections(string description)
+    {
+        var helpText = $"""
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --values=VALUE
+                    {description}
+            """;
+
+        var command = await CreateGcloudScraper().Parse(["gcloud", "example", "update"], helpText);
+        var option = command!.Options.Single();
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.CollectionSeparator).IsNull();
     }
 
     [Test]
