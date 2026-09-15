@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpc-attribute")]
-public record AwsEc2ModifyVpcAttributeOptions : AwsOptions
+public record AwsEc2ModifyVpcAttributeOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--enable-dns-hostnames")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified attribute of the specified VPC. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcId">The ID of the VPC.</param>
+    public AwsEc2ModifyVpcAttributeOptions(
+        string VpcId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+    }
+
+    private AwsEc2ModifyVpcAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpcAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpcAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the VPC.
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
+    /// <summary>
+    /// Indicates whether the instances launched in the VPC get DNS host- names. If enabled, instances in the VPC get DNS hostnames; other- wise, they do not. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. You can only enable DNS hostnames if you've enabled DNS support. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--enable-dns-hostnames", NegatedName = "--no-enable-dns-hostnames")]
     public bool? EnableDnsHostnames { get; set; }
 
-    [CliFlag("--enable-dns-support")]
+    /// <summary>
+    /// Indicates whether the DNS resolution is supported for the VPC. If enabled, queries to the Amazon provided DNS server at the 169.254.169.253 IP address, or the reserved IP address at the base of the VPC network range "plus two" succeed. If disabled, the Amazon provided DNS service in the VPC that resolves public DNS hostnames to IP addresses is not enabled. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--enable-dns-support", NegatedName = "--no-enable-dns-support")]
     public bool? EnableDnsSupport { get; set; }
 
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
-    [CliFlag("--enable-network-address-usage-metrics")]
+    /// <summary>
+    /// dress-usage-metrics (structure) Indicates whether Network Address Usage metrics are enabled for your VPC. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--enable-network-address-usage-metrics", NegatedName = "--no-enable-network-address-usage-metrics")]
     public bool? EnableNetworkAddressUsageMetrics { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +84,22 @@ public record AwsEc2ModifyVpcAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

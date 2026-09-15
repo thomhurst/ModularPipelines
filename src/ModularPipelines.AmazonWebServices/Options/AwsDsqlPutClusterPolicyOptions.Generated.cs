@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dsql", "put-cluster-policy")]
-public record AwsDsqlPutClusterPolicyOptions : AwsOptions
+public record AwsDsqlPutClusterPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches a resource-based policy to a cluster. This policy defines ac- cess permissions and conditions for the cluster, allowing you to con- trol which principals can perform actions on the cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The ID of the cluster. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="Policy">The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions. Constraints: o min: 1 o max: 20480</param>
+    public AwsDsqlPutClusterPolicyOptions(
+        string Identifier,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsDsqlPutClusterPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsqlPutClusterPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsqlPutClusterPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the cluster. Constraints: o pattern: [a-z0-9]{26}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions. Constraints: o min: 1 o max: 20480
+    /// </summary>
     [CliOption("--policy")]
-    public string? Policy { get; set; }
+    public string? Policy { get; private init; }
 
-    [CliFlag("--bypass-policy-lockout-safety-check")]
+    /// <summary>
+    /// out-safety-check (boolean) A flag that allows you to bypass the policy lockout safety check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+    /// </summary>
+    [CliFlag("--bypass-policy-lockout-safety-check", NegatedName = "--no-bypass-policy-lockout-safety-check")]
     public bool? BypassPolicyLockoutSafetyCheck { get; set; }
 
     /// <summary>
@@ -49,5 +96,22 @@ public record AwsDsqlPutClusterPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

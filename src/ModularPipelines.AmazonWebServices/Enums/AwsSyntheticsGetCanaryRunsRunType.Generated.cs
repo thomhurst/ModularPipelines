@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --runtype.
+/// Allowed values for --run-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSyntheticsGetCanaryRunsRunType
 {
     [EnumValue("CANARY_RUN")]
-    CanaryRun = 1,
+    CanaryRun,
 
     [EnumValue("DRY_RUN")]
-    DryRun = 2
+    DryRun
 }

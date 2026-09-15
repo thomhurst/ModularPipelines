@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --multiregionconsistency.
+/// Allowed values for --multi-region-consistency.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbUpdateTableMultiRegionConsistency
 {
     [EnumValue("EVENTUAL")]
-    Eventual = 1,
+    Eventual,
 
     [EnumValue("STRONG")]
-    Strong = 2
+    Strong
 }

@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,34 +22,133 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "put-launch-action")]
-public record AwsDrsPutLaunchActionOptions : AwsOptions
+public record AwsDrsPutLaunchActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Puts a resource launch action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">Launch configuration template Id or Source Server Id Constraints: o pattern: (s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})</param>
+    /// <param name="ActionCode">Launch action code. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9-/:])+</param>
+    /// <param name="Order">Launch action order. Constraints: o min: 2 o max: 10000</param>
+    /// <param name="ActionId">Launch action Id. Constraints: o min: 1 o max: 64 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="Optional">Whether the launch will not be marked as failed if this action fails.</param>
+    /// <param name="Active">Whether the launch action is active.</param>
+    /// <param name="Name">Launch action name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][A-Za-z0-9 /_-]*</param>
+    /// <param name="ActionVersion">Launch action version. Constraints: o min: 1 o max: 10 o pattern: (\$DEFAULT|\$LATEST|[0-9]+)</param>
+    /// <param name="Category">Launch action category. Possible values: o MONITORING o VALIDATION o CONFIGURATION o SECURITY o OTHER</param>
+    /// <param name="Description">Launch action description. Constraints: o min: 0 o max: 1024 o pattern: [0-9a-zA-Z ():/.,'-_#*; ]*</param>
+    public AwsDrsPutLaunchActionOptions(
+        string ResourceId,
+        string ActionCode,
+        int Order,
+        string ActionId,
+        bool Optional,
+        bool Active,
+        string Name,
+        string ActionVersion,
+        AwsDrsPutLaunchActionCategory Category,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionCode);
+        this.ActionCode = ActionCode;
+        this.Order = Order;
+        global::System.ArgumentNullException.ThrowIfNull(ActionId);
+        this.ActionId = ActionId;
+        this.Optional = Optional;
+        this.Active = Active;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ActionVersion);
+        this.ActionVersion = ActionVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Category);
+        this.Category = Category;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsDrsPutLaunchActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsPutLaunchActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsPutLaunchActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Launch configuration template Id or Source Server Id Constraints: o pattern: (s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// Launch action code. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9-/:])+
+    /// </summary>
     [CliOption("--action-code")]
-    public string? ActionCode { get; set; }
+    public string? ActionCode { get; private init; }
 
+    /// <summary>
+    /// Launch action order. Constraints: o min: 2 o max: 10000
+    /// </summary>
     [CliOption("--order")]
-    public int? Order { get; set; }
+    public int? Order { get; private init; }
 
+    /// <summary>
+    /// Launch action Id. Constraints: o min: 1 o max: 64 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--action-id")]
-    public string? ActionId { get; set; }
+    public string? ActionId { get; private init; }
 
-    [CliFlag("--optional")]
-    public bool? Optional { get; set; }
+    /// <summary>
+    /// Whether the launch will not be marked as failed if this action fails.
+    /// </summary>
+    [CliFlag("--optional", NegatedName = "--no-optional")]
+    public bool? Optional { get; private init; }
 
-    [CliFlag("--active")]
-    public bool? Active { get; set; }
+    /// <summary>
+    /// Whether the launch action is active.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
+    public bool? Active { get; private init; }
 
+    /// <summary>
+    /// Launch action name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][A-Za-z0-9 /_-]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Launch action version. Constraints: o min: 1 o max: 10 o pattern: (\$DEFAULT|\$LATEST|[0-9]+)
+    /// </summary>
     [CliOption("--action-version")]
-    public string? ActionVersion { get; set; }
+    public string? ActionVersion { get; private init; }
 
+    /// <summary>
+    /// Launch action category. Possible values: o MONITORING o VALIDATION o CONFIGURATION o SECURITY o OTHER
+    /// </summary>
     [CliOption("--category")]
-    public string? Category { get; set; }
+    public AwsDrsPutLaunchActionCategory? Category { get; private init; }
+
+    /// <summary>
+    /// Launch action description. Constraints: o min: 0 o max: 1024 o pattern: [0-9a-zA-Z ():/.,'-_#*; ]*
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; private init; }
 
     /// <summary>
     /// Launch action parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (structure) Launch action parameter. value -&gt; (string) Value. Constraints: o min: 1 o max: 1011 o pattern: [A-Za-z0-9.-]+ type -&gt; (string) Type. Possible values: o SSM_STORE o DYNAMIC Shorthand Syntax: KeyName1={value=string,type=string},KeyName2={value=string,type=string} JSON Syntax: {"string": { "value": "string", "type": "SSM_STORE"|"DYNAMIC" } ...}
@@ -55,13 +156,27 @@ public record AwsDrsPutLaunchActionOptions : AwsOptions
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
-    [CliOption("--description")]
-    public string? Description { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

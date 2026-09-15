@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "update-application-version")]
-public record AwsElasticbeanstalkUpdateApplicationVersionOptions : AwsOptions
+public record AwsElasticbeanstalkUpdateApplicationVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the specified application version to have the specified proper- ties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application associated with this version. If no application is found with this name, UpdateApplication returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100</param>
+    /// <param name="VersionLabel">The name of the version to update. If no application version is found with this label, UpdateApplica- tion returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100</param>
+    public AwsElasticbeanstalkUpdateApplicationVersionOptions(
+        string ApplicationName,
+        string VersionLabel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(VersionLabel);
+        this.VersionLabel = VersionLabel;
+    }
+
+    private AwsElasticbeanstalkUpdateApplicationVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkUpdateApplicationVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkUpdateApplicationVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application associated with this version. If no application is found with this name, UpdateApplication returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// The name of the version to update. If no application version is found with this label, UpdateApplica- tion returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--version-label")]
-    public string? VersionLabel { get; set; }
+    public string? VersionLabel { get; private init; }
 
     /// <summary>
     /// A new description for this version. Constraints: o max: 200
@@ -38,5 +82,22 @@ public record AwsElasticbeanstalkUpdateApplicationVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

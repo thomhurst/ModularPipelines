@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "update-stream-warm-throughput")]
-public record AwsKinesisUpdateStreamWarmThroughputOptions : AwsOptions
+public record AwsKinesisUpdateStreamWarmThroughputOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the warm throughput configuration for the specified Amazon Ki- nesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this opera- tion to scale your stream to a specified throughput level before antic- ipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use t...
+    /// </summary>
+    /// <param name="WarmThroughputMiBps">The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be im- mediately available for write operations. Constraints: o min: 0</param>
+    public AwsKinesisUpdateStreamWarmThroughputOptions(
+        int WarmThroughputMiBps
+    )
+    {
+        this.WarmThroughputMiBps = WarmThroughputMiBps;
+    }
+
+    private AwsKinesisUpdateStreamWarmThroughputOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisUpdateStreamWarmThroughputOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisUpdateStreamWarmThroughputOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be im- mediately available for write operations. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--warm-throughput-mi-bps")]
+    public int? WarmThroughputMiBps { get; private init; }
+
     /// <summary>
     /// The ARN of the stream to be updated. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
@@ -39,13 +78,27 @@ public record AwsKinesisUpdateStreamWarmThroughputOptions : AwsOptions
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
-    [CliOption("--warm-throughput-mi-bps")]
-    public int? WarmThroughputMiBps { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

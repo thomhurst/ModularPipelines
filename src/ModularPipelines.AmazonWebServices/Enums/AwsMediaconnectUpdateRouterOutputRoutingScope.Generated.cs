@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --routingscope.
+/// Allowed values for --routing-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediaconnectUpdateRouterOutputRoutingScope
 {
-    [EnumValue("REGIONAL")]
-    Regional = 1,
-
     [EnumValue("GLOBAL")]
-    Global = 2
+    Global,
+
+    [EnumValue("REGIONAL")]
+    Regional
 }

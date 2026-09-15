@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "create-private-connection")]
-public record AwsDevopsAgentCreatePrivateConnectionOptions : AwsOptions
+public record AwsDevopsAgentCreatePrivateConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Private Connection to a target resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Unique name for this Private Connection within the account. Constraints: o min: 3 o max: 30 o pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
+    /// <param name="Mode">Private Connection mode configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serviceManaged, selfManaged. serviceManaged -&gt; (structure) Service manages the Resource Gateway lifecycle. hostAddress -&gt; (string) [required] IP address or DNS name of the target resource. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.:\-]+ vpcId -&gt; (string) [required] VPC to create the service-managed Resource Gateway in. Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17})) subnetIds -&gt; (list) [required] Subnets that the service-managed Resource Gateway will span. Constraints: o min: 1 o max: 20 (string) Subnet identifier. Constraints: o min: 15 o max: 24 o pattern: subnet-(([0-9a-z]{8})|([0-9a-z]{17})) securityGroupIds -&gt; (list) Security groups to attach to the service-managed Resource Gateway. If not specified, a default security group is cre- ated. Constraints: o min: 1 o max: 5 (string) Security group identifier. Constraints: o min: 11 o max: 20 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) ipAddressType -&gt; (string) IP address type of the service-managed Resource Gateway. Possible values: o IPV4 o IPV6 o DUAL_STACK ipv4AddressesPerEni -&gt; (integer) Number of IPv4 addresses in each ENI for the service-managed Resource Gateway. Constraints: o min: 1 o max: 62 portRanges -&gt; (list) TCP port ranges that a consumer can use to access the re- source. Constraints: o min: 1 o max: 11 (string) TCP port range expression (single port or range e.g. '443' or '8080-8090'). Valid port values are 1-65535, en- forced at runtime. Constraints: o min: 1 o pattern: ((\d{1,5}\-\d{1,5})|(\d+)) certificate -&gt; (string) Certificate for the Private Connection. Constraints: o min: 1 o max: 32768 dnsResolution -&gt; (string) DNS resolution mode for the resource gateway. Defaults to PUBLIC when not set. Possible values: o PUBLIC o IN_VPC selfManaged -&gt; (structure) Caller manages their own resource configuration. resourceConfigurationId -&gt; (string) [required] The ID or ARN of the resource configuration. Constraints: o min: 20 o max: 2048 o pattern: (arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}|rcfg-[0-9a-z]{17}) certificate -&gt; (string) Certificate for the Private Connection. Constraints: o min: 1 o max: 32768 Shorthand Syntax: serviceManaged={hostAddress=string,vpcId=string,subnetIds=[string,string],securityGroupIds=[string,string],ipAddressType=string,ipv4AddressesPerEni=integer,portRanges=[string,string],certificate=string,dnsResolution=string},selfManaged={resourceConfigurationId=string,certificate=string} JSON Syntax: { "serviceManaged": { "hostAddress": "string", "vpcId": "string", "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "ipAddressType": "IPV4"|"IPV6"|"DUAL_STACK", "ipv4AddressesPerEni": integer, "portRanges": ["string", ...], "certificate": "string", "dnsResolution": "PUBLIC"|"IN_VPC" }, "selfManaged": { "resourceConfigurationId": "string", "certificate": "string" } }</param>
+    public AwsDevopsAgentCreatePrivateConnectionOptions(
+        string Name,
+        string Mode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+    }
+
+    private AwsDevopsAgentCreatePrivateConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentCreatePrivateConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentCreatePrivateConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique name for this Private Connection within the account. Constraints: o min: 3 o max: 30 o pattern: [a-z0-9]([a-z0-9-]*[a-z0-9])?
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Private Connection mode configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serviceManaged, selfManaged. serviceManaged -&gt; (structure) Service manages the Resource Gateway lifecycle. hostAddress -&gt; (string) [required] IP address or DNS name of the target resource. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.:\-]+ vpcId -&gt; (string) [required] VPC to create the service-managed Resource Gateway in. Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17})) subnetIds -&gt; (list) [required] Subnets that the service-managed Resource Gateway will span. Constraints: o min: 1 o max: 20 (string) Subnet identifier. Constraints: o min: 15 o max: 24 o pattern: subnet-(([0-9a-z]{8})|([0-9a-z]{17})) securityGroupIds -&gt; (list) Security groups to attach to the service-managed Resource Gateway. If not specified, a default security group is cre- ated. Constraints: o min: 1 o max: 5 (string) Security group identifier. Constraints: o min: 11 o max: 20 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) ipAddressType -&gt; (string) IP address type of the service-managed Resource Gateway. Possible values: o IPV4 o IPV6 o DUAL_STACK ipv4AddressesPerEni -&gt; (integer) Number of IPv4 addresses in each ENI for the service-managed Resource Gateway. Constraints: o min: 1 o max: 62 portRanges -&gt; (list) TCP port ranges that a consumer can use to access the re- source. Constraints: o min: 1 o max: 11 (string) TCP port range expression (single port or range e.g. '443' or '8080-8090'). Valid port values are 1-65535, en- forced at runtime. Constraints: o min: 1 o pattern: ((\d{1,5}\-\d{1,5})|(\d+)) certificate -&gt; (string) Certificate for the Private Connection. Constraints: o min: 1 o max: 32768 dnsResolution -&gt; (string) DNS resolution mode for the resource gateway. Defaults to PUBLIC when not set. Possible values: o PUBLIC o IN_VPC selfManaged -&gt; (structure) Caller manages their own resource configuration. resourceConfigurationId -&gt; (string) [required] The ID or ARN of the resource configuration. Constraints: o min: 20 o max: 2048 o pattern: (arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}|rcfg-[0-9a-z]{17}) certificate -&gt; (string) Certificate for the Private Connection. Constraints: o min: 1 o max: 32768 Shorthand Syntax: serviceManaged={hostAddress=string,vpcId=string,subnetIds=[string,string],securityGroupIds=[string,string],ipAddressType=string,ipv4AddressesPerEni=integer,portRanges=[string,string],certificate=string,dnsResolution=string},selfManaged={resourceConfigurationId=string,certificate=string} JSON Syntax: { "serviceManaged": { "hostAddress": "string", "vpcId": "string", "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "ipAddressType": "IPV4"|"IPV6"|"DUAL_STACK", "ipv4AddressesPerEni": integer, "portRanges": ["string", ...], "certificate": "string", "dnsResolution": "PUBLIC"|"IN_VPC" }, "selfManaged": { "resourceConfigurationId": "string", "certificate": "string" } }
+    /// </summary>
     [CliOption("--mode")]
-    public string? Mode { get; set; }
+    public string? Mode { get; private init; }
 
     /// <summary>
     /// Tags to add to the Private Connection at creation time. key -&gt; (string) Tag key string. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) Tag value string. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,22 @@ public record AwsDevopsAgentCreatePrivateConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

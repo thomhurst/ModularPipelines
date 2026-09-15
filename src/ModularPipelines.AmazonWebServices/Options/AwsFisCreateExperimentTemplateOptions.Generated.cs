@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fis", "create-experiment-template")]
-public record AwsFisCreateExperimentTemplateOptions : AwsOptions
+public record AwsFisCreateExperimentTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an experiment template. An experiment template includes the following components: o Targets : A target can be a specific resource in your Amazon Web Ser- vices environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags. o Actions : The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment. o Stop conditions : If a stop condition i...
+    /// </summary>
+    /// <param name="Description">A description for the experiment template. Constraints: o max: 512 o pattern: [\s\S]+</param>
+    /// <param name="StopConditions">The stop conditions. (structure) Specifies a stop condition for an experiment template. source -&gt; (string) [required] The source for the stop condition. Specify aws:cloud- watch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition. Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch alarm. This is required if the source is a CloudWatch alarm. Constraints: o min: 20 o max: 2048 o pattern: [\s\S]+ Shorthand Syntax: source=string,value=string ... JSON Syntax: [ { "source": "string", "value": "string" } ... ]</param>
+    /// <param name="Actions">The actions for the experiment. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (structure) Specifies an action for an experiment template. For more information, see Actions in the Fault Injection Service User Guide . actionId -&gt; (string) [required] The ID of the action. The format of the action ID is: aws:service-name :action-type . Constraints: o max: 128 o pattern: [\S]+ description -&gt; (string) A description for the action. Constraints: o max: 512 o pattern: [\s\S]+ parameters -&gt; (map) The parameters for the action, if applicable. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o max: 1024 o pattern: [\S]+ targets -&gt; (map) The targets for the action. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ startAfter -&gt; (list) The name of the action that must be completed before the cur- rent action starts. Omit this parameter to run the action at the start of the experiment. (string) Constraints: o max: 64 o pattern: [\S]+ Shorthand Syntax: KeyName1={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]},KeyName2={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]} JSON Syntax: {"string": { "actionId": "string", "description": "string", "parameters": {"string": "string" ...}, "targets": {"string": "string" ...}, "startAfter": ["string", ...] } ...}</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf. Constraints: o min: 20 o max: 2048 o pattern: [\S]+</param>
+    public AwsFisCreateExperimentTemplateOptions(
+        string Description,
+        IEnumerable<string> StopConditions,
+        IReadOnlyList<KeyValue> Actions,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StopConditions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StopConditions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StopConditions));
+            }
+
+            StopConditions = materialized;
+        }
+        this.StopConditions = StopConditions;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsFisCreateExperimentTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFisCreateExperimentTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFisCreateExperimentTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A description for the experiment template. Constraints: o max: 512 o pattern: [\s\S]+
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; private init; }
+
+    /// <summary>
+    /// The stop conditions. (structure) Specifies a stop condition for an experiment template. source -&gt; (string) [required] The source for the stop condition. Specify aws:cloud- watch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition. Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch alarm. This is required if the source is a CloudWatch alarm. Constraints: o min: 20 o max: 2048 o pattern: [\s\S]+ Shorthand Syntax: source=string,value=string ... JSON Syntax: [ { "source": "string", "value": "string" } ... ]
+    /// </summary>
+    [CliOption("--stop-conditions", GroupValues = true)]
+    public IEnumerable<string>? StopConditions { get; private init; }
+
+    /// <summary>
+    /// The actions for the experiment. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (structure) Specifies an action for an experiment template. For more information, see Actions in the Fault Injection Service User Guide . actionId -&gt; (string) [required] The ID of the action. The format of the action ID is: aws:service-name :action-type . Constraints: o max: 128 o pattern: [\S]+ description -&gt; (string) A description for the action. Constraints: o max: 512 o pattern: [\s\S]+ parameters -&gt; (map) The parameters for the action, if applicable. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o max: 1024 o pattern: [\S]+ targets -&gt; (map) The targets for the action. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ startAfter -&gt; (list) The name of the action that must be completed before the cur- rent action starts. Omit this parameter to run the action at the start of the experiment. (string) Constraints: o max: 64 o pattern: [\S]+ Shorthand Syntax: KeyName1={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]},KeyName2={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]} JSON Syntax: {"string": { "actionId": "string", "description": "string", "parameters": {"string": "string" ...}, "targets": {"string": "string" ...}, "startAfter": ["string", ...] } ...}
+    /// </summary>
+    [CliOption("--actions", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Actions { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf. Constraints: o min: 20 o max: 2048 o pattern: [\S]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 1024 o pattern: [\S]+
     /// </summary>
@@ -30,23 +122,11 @@ public record AwsFisCreateExperimentTemplateOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--description")]
-    public string? Description { get; set; }
-
-    [CliOption("--stop-conditions", GroupValues = true)]
-    public IEnumerable<string>? StopConditions { get; set; }
-
     /// <summary>
     /// The targets for the experiment. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (structure) Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both ARNs and tags. For more information, see Targets in the Fault Injection Service User Guide . resourceType -&gt; (string) [required] The resource type. The resource type must be supported for the specified action. Constraints: o max: 128 o pattern: [\S]+ resourceArns -&gt; (list) The Amazon Resource Names (ARNs) of the resources. Constraints: o max: 5 (string) Constraints: o min: 20 o max: 2048 o pattern: [\S]+ resourceTags -&gt; (map) The tags for the target resources. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* filters -&gt; (list) The filters to apply to identify target resources using spe- cific attributes. (structure) Specifies a filter used for the target resource input in an experiment template. For more information, see Resource filters in the Fault Injection Service User Guide . path -&gt; (string) [required] The attribute path for the filter. Constraints: o max: 256 o pattern: [\S]+ values -&gt; (list) [required] The attribute values for the filter. (string) Constraints: o max: 128 o pattern: [\S]+ selectionMode -&gt; (string) [required] Scopes the identified resources to a specific count of the resources at random, or a percentage of the resources. All identified resources are included in the target. o ALL - Run the action on all identified targets. This is the default. o COUNT(n) - Run the action on the specified number of tar- gets, chosen from the identified targets at random. For ex- ample, COUNT(1) selects one of the targets. o PERCENT(n) - Run the action on the specified percentage of targets, chosen from the identified targets at random. For example, PERCENT(25) selects 25% of the targets. Constraints: o max: 64 o pattern: [\S]+ parameters -&gt; (map) The resource type parameters. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=+\-@]+$ JSON Syntax: {"string": { "resourceType": "string", "resourceArns": ["string", ...], "resourceTags": {"string": "string" ...}, "filters": [ { "path": "string", "values": ["string", ...] } ... ], "selectionMode": "string", "parameters": {"string": "string" ...} } ...}
     /// </summary>
     [CliOption("--targets", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Targets { get; set; }
-
-    [CliOption("--actions", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Actions { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// The tags to apply to the experiment template. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -77,5 +157,22 @@ public record AwsFisCreateExperimentTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

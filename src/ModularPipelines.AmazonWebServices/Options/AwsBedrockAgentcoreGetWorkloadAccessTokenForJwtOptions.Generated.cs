@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-workload-access-token-for-jwt")]
-public record AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions : AwsOptions
+public record AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workload-name")]
-    public string? WorkloadName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadName">The unique identifier for the registered workload. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+</param>
+    /// <param name="UserToken">The OAuth 2.0 token issued by the user's identity provider. Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+</param>
+    public AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions(
+        string WorkloadName,
+        string UserToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadName);
+        this.WorkloadName = WorkloadName;
+        global::System.ArgumentNullException.ThrowIfNull(UserToken);
+        this.UserToken = UserToken;
+    }
+
+    private AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the registered workload. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+
+    /// </summary>
+    [CliOption("--workload-name")]
+    public string? WorkloadName { get; private init; }
+
+    /// <summary>
+    /// The OAuth 2.0 token issued by the user's identity provider. Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+
+    /// </summary>
     [SecretValue]
     [CliOption("--user-token")]
-    public string? UserToken { get; set; }
+    public string? UserToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

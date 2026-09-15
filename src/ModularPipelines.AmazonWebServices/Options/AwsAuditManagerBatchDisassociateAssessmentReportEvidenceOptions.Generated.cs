@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "batch-disassociate-assessment-report-evidence")]
-public record AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions : AwsOptions
+public record AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a list of evidence from an assessment report in Audit Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="EvidenceFolderId">The identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="EvidenceIds">The list of evidence identifiers. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...</param>
+    public AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions(
+        string AssessmentId,
+        string EvidenceFolderId,
+        IEnumerable<string> EvidenceIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentId);
+        this.AssessmentId = AssessmentId;
+        global::System.ArgumentNullException.ThrowIfNull(EvidenceFolderId);
+        this.EvidenceFolderId = EvidenceFolderId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EvidenceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EvidenceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EvidenceIds));
+            }
+
+            EvidenceIds = materialized;
+        }
+        this.EvidenceIds = EvidenceIds;
+    }
+
+    private AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--assessment-id")]
-    public string? AssessmentId { get; set; }
+    public string? AssessmentId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--evidence-folder-id")]
-    public string? EvidenceFolderId { get; set; }
+    public string? EvidenceFolderId { get; private init; }
 
+    /// <summary>
+    /// The list of evidence identifiers. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--evidence-ids", GroupValues = true)]
-    public IEnumerable<string>? EvidenceIds { get; set; }
+    public IEnumerable<string>? EvidenceIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEventsListReplaysState
 {
-    [EnumValue("STARTING")]
-    Starting = 1,
-
-    [EnumValue("RUNNING")]
-    Running = 2,
+    [EnumValue("CANCELLED")]
+    Cancelled,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 3,
+    Cancelling,
 
     [EnumValue("COMPLETED")]
-    Completed = 4,
-
-    [EnumValue("CANCELLED")]
-    Cancelled = 5,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 6
+    Failed,
+
+    [EnumValue("RUNNING")]
+    Running,
+
+    [EnumValue("STARTING")]
+    Starting
 }

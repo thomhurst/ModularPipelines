@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-public-ip-dns-name-options")]
-public record AwsEc2ModifyPublicIpDnsNameOptionsOptions : AwsOptions
+public record AwsEc2ModifyPublicIpDnsNameOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modify public hostname options for a network interface. For more infor- mation, see EC2 instance hostnames, DNS names, and domains in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkInterfaceId">A network interface ID.</param>
+    /// <param name="HostnameType">The public hostname type. For more information, see EC2 instance hostnames, DNS names, and domains in the Amazon EC2 User Guide . o public-dual-stack-dns-name : A dual-stack public hostname for a network interface. Requests from within the VPC resolve to both the private IPv4 address and the IPv6 Global Unicast Address of the network interface. Requests from the internet resolve to both the public IPv4 and the IPv6 GUA address of the network interface. o public-ipv4-dns-name : An IPv4-enabled public hostname for a net- work interface. Requests from within the VPC resolve to the pri- vate primary IPv4 address of the network interface. Requests from the internet resolve to the public IPv4 address of the network in- terface. o public-ipv6-dns-name : An IPv6-enabled public hostname for a net- work interface. Requests from within the VPC or from the internet resolve to the IPv6 GUA of the network interface. Possible values: o public-dual-stack-dns-name o public-ipv4-dns-name o public-ipv6-dns-name</param>
+    public AwsEc2ModifyPublicIpDnsNameOptionsOptions(
+        string NetworkInterfaceId,
+        AwsEc2ModifyPublicIpDnsNameOptionsHostnameType HostnameType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
+        this.NetworkInterfaceId = NetworkInterfaceId;
+        global::System.ArgumentNullException.ThrowIfNull(HostnameType);
+        this.HostnameType = HostnameType;
+    }
+
+    private AwsEc2ModifyPublicIpDnsNameOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyPublicIpDnsNameOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyPublicIpDnsNameOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A network interface ID.
+    /// </summary>
     [CliOption("--network-interface-id")]
-    public string? NetworkInterfaceId { get; set; }
+    public string? NetworkInterfaceId { get; private init; }
 
+    /// <summary>
+    /// The public hostname type. For more information, see EC2 instance hostnames, DNS names, and domains in the Amazon EC2 User Guide . o public-dual-stack-dns-name : A dual-stack public hostname for a network interface. Requests from within the VPC resolve to both the private IPv4 address and the IPv6 Global Unicast Address of the network interface. Requests from the internet resolve to both the public IPv4 and the IPv6 GUA address of the network interface. o public-ipv4-dns-name : An IPv4-enabled public hostname for a net- work interface. Requests from within the VPC resolve to the pri- vate primary IPv4 address of the network interface. Requests from the internet resolve to the public IPv4 address of the network in- terface. o public-ipv6-dns-name : An IPv6-enabled public hostname for a net- work interface. Requests from within the VPC or from the internet resolve to the IPv6 GUA of the network interface. Possible values: o public-dual-stack-dns-name o public-ipv4-dns-name o public-ipv6-dns-name
+    /// </summary>
     [CliOption("--hostname-type")]
-    public string? HostnameType { get; set; }
+    public AwsEc2ModifyPublicIpDnsNameOptionsHostnameType? HostnameType { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +83,22 @@ public record AwsEc2ModifyPublicIpDnsNameOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

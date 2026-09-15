@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "search-place-index-for-position")]
-public record AwsLocationSearchPlaceIndexForPositionOptions : AwsOptions
+public record AwsLocationSearchPlaceIndexForPositionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-name")]
-    public string? IndexName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` ReverseGeocode /location/lat- est/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchN- earby /location/latest/APIReference/API_geoplaces_SearchN- earby.html`__ unless you require Grab data. o SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2)....
+    /// </summary>
+    /// <param name="IndexName">The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="Position">Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number rep- resents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longi- tude -123.1174 and latitude 49.2847 . Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    public AwsLocationSearchPlaceIndexForPositionOptions(
+        string IndexName,
+        IEnumerable<string> Position
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexName);
+        this.IndexName = IndexName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Position);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Position));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Position));
+            }
+
+            Position = materialized;
+        }
+        this.Position = Position;
+    }
+
+    private AwsLocationSearchPlaceIndexForPositionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationSearchPlaceIndexForPositionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationSearchPlaceIndexForPositionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--index-name")]
+    public string? IndexName { get; private init; }
+
+    /// <summary>
+    /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number rep- resents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longi- tude -123.1174 and latitude 49.2847 . Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// </summary>
     [CliOption("--position", GroupValues = true)]
-    public IEnumerable<string>? Position { get; set; }
+    public IEnumerable<string>? Position { get; private init; }
 
     /// <summary>
     /// An optional parameter. The maximum number of results returned per request. Default value: 50 Constraints: o min: 1 o max: 50
@@ -50,5 +105,22 @@ public record AwsLocationSearchPlaceIndexForPositionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "update-authorizer")]
-public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions
+public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Authorizer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    /// <param name="AuthorizerId">The authorizer identifier.</param>
+    public AwsApigatewayv2UpdateAuthorizerOptions(
+        string ApiId,
+        string AuthorizerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizerId);
+        this.AuthorizerId = AuthorizerId;
+    }
+
+    private AwsApigatewayv2UpdateAuthorizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2UpdateAuthorizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2UpdateAuthorizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The authorizer identifier.
+    /// </summary>
+    [CliOption("--authorizer-id")]
+    public string? AuthorizerId { get; private init; }
 
     /// <summary>
     /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to as- sume, use the role's Amazon Resource Name (ARN). To use re- source-based permissions on the Lambda function, don't specify this parameter.
@@ -32,9 +79,6 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions
     [SecretValue]
     [CliOption("--authorizer-credentials-arn")]
     public string? AuthorizerCredentialsArn { get; set; }
-
-    [CliOption("--authorizer-id")]
-    public string? AuthorizerId { get; set; }
 
     /// <summary>
     /// Specifies the format of the payload sent to an HTTP API Lambda au- thorizer. Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0. To learn more, see Working with AWS Lambda autho- rizers for HTTP APIs .
@@ -60,7 +104,10 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions
     [CliOption("--authorizer-uri")]
     public string? AuthorizerUri { get; set; }
 
-    [CliFlag("--enable-simple-responses")]
+    /// <summary>
+    /// Specifies whether a Lambda authorizer returns a response in a simple format. By default, a Lambda authorizer must return an IAM policy. If enabled, the Lambda authorizer can return a boolean value instead of an IAM policy. Supported only for HTTP APIs. To learn more, see Working with AWS Lambda authorizers for HTTP APIs
+    /// </summary>
+    [CliFlag("--enable-simple-responses", NegatedName = "--no-enable-simple-responses")]
     public bool? EnableSimpleResponses { get; set; }
 
     /// <summary>
@@ -92,5 +139,22 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

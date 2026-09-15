@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "list-insights-metric-data")]
-public record AwsCloudtrailListInsightsMetricDataOptions : AwsOptions
+public record AwsCloudtrailListInsightsMetricDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource , EventName , and InsightType parameters. If the InsightType is set to ApiErrorRateInsight , the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData . Each cutoff is inclusive. o Data points with a period of 60 seconds (1-minute) are available for 15 days. o Data points with a period of 300 seconds (5-minute) are avai...
+    /// </summary>
+    /// <param name="EventSource">The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com . Constraints: o max: 256 o pattern: ^[a-z0-9_-]+\.amazonaws\.com$</param>
+    /// <param name="EventName">The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded. Constraints: o max: 128 o pattern: ^[A-Za-z0-9_]+$</param>
+    /// <param name="InsightType">The type of CloudTrail Insights event, which is either ApiCall- RateInsight or ApiErrorRateInsight . The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateIn- sight Insights type analyzes management API calls that result in er- ror codes. Possible values: o ApiCallRateInsight o ApiErrorRateInsight</param>
+    public AwsCloudtrailListInsightsMetricDataOptions(
+        string EventSource,
+        string EventName,
+        AwsCloudtrailListInsightsMetricDataInsightType InsightType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventSource);
+        this.EventSource = EventSource;
+        global::System.ArgumentNullException.ThrowIfNull(EventName);
+        this.EventName = EventName;
+        global::System.ArgumentNullException.ThrowIfNull(InsightType);
+        this.InsightType = InsightType;
+    }
+
+    private AwsCloudtrailListInsightsMetricDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailListInsightsMetricDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailListInsightsMetricDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com . Constraints: o max: 256 o pattern: ^[a-z0-9_-]+\.amazonaws\.com$
+    /// </summary>
+    [CliOption("--event-source")]
+    public string? EventSource { get; private init; }
+
+    /// <summary>
+    /// The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded. Constraints: o max: 128 o pattern: ^[A-Za-z0-9_]+$
+    /// </summary>
+    [CliOption("--event-name")]
+    public string? EventName { get; private init; }
+
+    /// <summary>
+    /// The type of CloudTrail Insights event, which is either ApiCall- RateInsight or ApiErrorRateInsight . The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateIn- sight Insights type analyzes management API calls that result in er- ror codes. Possible values: o ApiCallRateInsight o ApiErrorRateInsight
+    /// </summary>
+    [CliOption("--insight-type")]
+    public AwsCloudtrailListInsightsMetricDataInsightType? InsightType { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data. This parameter should only be provided to fetch Insights metrics data generated on trails log- ging data events. This parameter is not required for Insights metric data generated on trails logging management events.
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
-
-    [CliOption("--event-source")]
-    public string? EventSource { get; set; }
-
-    [CliOption("--event-name")]
-    public string? EventName { get; set; }
-
-    [CliOption("--insight-type")]
-    public string? InsightType { get; set; }
 
     /// <summary>
     /// Conditionally required if the InsightType parameter is set to ApiEr- rorRateInsight . If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied . Constraints: o max: 128 o pattern: ^[\w\d\s_.,\-:\[\]]+$
@@ -86,5 +137,22 @@ public record AwsCloudtrailListInsightsMetricDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

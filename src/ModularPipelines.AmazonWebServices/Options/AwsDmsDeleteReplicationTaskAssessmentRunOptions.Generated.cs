@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "delete-replication-task-assessment-run")]
-public record AwsDmsDeleteReplicationTaskAssessmentRunOptions : AwsOptions
+public record AwsDmsDeleteReplicationTaskAssessmentRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this as- sessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationTaskAssessmentRunArn">Amazon Resource Name (ARN) of the premigration assessment run to be deleted.</param>
+    public AwsDmsDeleteReplicationTaskAssessmentRunOptions(
+        string ReplicationTaskAssessmentRunArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskAssessmentRunArn);
+        this.ReplicationTaskAssessmentRunArn = ReplicationTaskAssessmentRunArn;
+    }
+
+    private AwsDmsDeleteReplicationTaskAssessmentRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsDeleteReplicationTaskAssessmentRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsDeleteReplicationTaskAssessmentRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the premigration assessment run to be deleted.
+    /// </summary>
     [CliOption("--replication-task-assessment-run-arn")]
-    public string? ReplicationTaskAssessmentRunArn { get; set; }
+    public string? ReplicationTaskAssessmentRunArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-incidents", "create-response-plan")]
-public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
+public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a response plan that automates the initial response to inci- dents. A response plan engages contacts, starts chat channel collabora- tion, and initiates runbooks at the beginning of an incident. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IncidentTemplate">Details used to create an incident when using this response plan. dedupeString -&gt; (string) The string Incident Manager uses to prevent the same root cause from creating multiple incidents in the same account. A deduplication string is a term or phrase the system uses to check for duplicate incidents. If you specify a deduplication string, Incident Manager searches for open incidents that con- tain the same string in the dedupeString field when it creates the incident. If a duplicate is detected, Incident Manager dedu- plicates the newer incident into the existing incident. NOTE: By default, Incident Manager automatically deduplicates mul- tiple incidents created by the same Amazon CloudWatch alarm or Amazon EventBridge event. You don't have to enter your own deduplication string to prevent duplication for these re- source types. Constraints: o min: 0 o max: 1000 impact -&gt; (integer) [required] The impact of the incident on your customers and applications. Supported impact codes o 1 - Critical o 2 - High o 3 - Medium o 4 - Low o 5 - No Impact Constraints: o min: 1 o max: 5 incidentTags -&gt; (map) Tags to assign to the template. When the StartIncident API ac- tion is called, Incident Manager assigns the tags specified in the template to the incident. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ notificationTargets -&gt; (list) The Amazon SNS targets that are notified when updates are made to an incident. Constraints: o min: 0 o max: 10 (tagged union structure) The SNS targets that are notified when updates are made to an incident. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: snsTopicArn. snsTopicArn -&gt; (string) The Amazon Resource Name (ARN) of the SNS topic. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ summary -&gt; (string) The summary of the incident. The summary is a brief synopsis of what occurred, what's currently happening, and context. Constraints: o min: 0 o max: 8000 title -&gt; (string) [required] The title of the incident. Constraints: o min: 0 o max: 200 Shorthand Syntax: dedupeString=string,impact=integer,incidentTags={KeyName1=string,KeyName2=string},notificationTargets=[{snsTopicArn=string},{snsTopicArn=string}],summary=string,title=string JSON Syntax: { "dedupeString": "string", "impact": integer, "incidentTags": {"string": "string" ...}, "notificationTargets": [ { "snsTopicArn": "string" } ... ], "summary": "string", "title": "string" }</param>
+    /// <param name="Name">The short format name of the response plan. Can't include spaces. Constraints: o min: 1 o max: 200 o pattern: ^[a-zA-Z0-9-_]*$</param>
+    public AwsSsmIncidentsCreateResponsePlanOptions(
+        string IncidentTemplate,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IncidentTemplate);
+        this.IncidentTemplate = IncidentTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmIncidentsCreateResponsePlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmIncidentsCreateResponsePlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmIncidentsCreateResponsePlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Details used to create an incident when using this response plan. dedupeString -&gt; (string) The string Incident Manager uses to prevent the same root cause from creating multiple incidents in the same account. A deduplication string is a term or phrase the system uses to check for duplicate incidents. If you specify a deduplication string, Incident Manager searches for open incidents that con- tain the same string in the dedupeString field when it creates the incident. If a duplicate is detected, Incident Manager dedu- plicates the newer incident into the existing incident. NOTE: By default, Incident Manager automatically deduplicates mul- tiple incidents created by the same Amazon CloudWatch alarm or Amazon EventBridge event. You don't have to enter your own deduplication string to prevent duplication for these re- source types. Constraints: o min: 0 o max: 1000 impact -&gt; (integer) [required] The impact of the incident on your customers and applications. Supported impact codes o 1 - Critical o 2 - High o 3 - Medium o 4 - Low o 5 - No Impact Constraints: o min: 1 o max: 5 incidentTags -&gt; (map) Tags to assign to the template. When the StartIncident API ac- tion is called, Incident Manager assigns the tags specified in the template to the incident. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ notificationTargets -&gt; (list) The Amazon SNS targets that are notified when updates are made to an incident. Constraints: o min: 0 o max: 10 (tagged union structure) The SNS targets that are notified when updates are made to an incident. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: snsTopicArn. snsTopicArn -&gt; (string) The Amazon Resource Name (ARN) of the SNS topic. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ summary -&gt; (string) The summary of the incident. The summary is a brief synopsis of what occurred, what's currently happening, and context. Constraints: o min: 0 o max: 8000 title -&gt; (string) [required] The title of the incident. Constraints: o min: 0 o max: 200 Shorthand Syntax: dedupeString=string,impact=integer,incidentTags={KeyName1=string,KeyName2=string},notificationTargets=[{snsTopicArn=string},{snsTopicArn=string}],summary=string,title=string JSON Syntax: { "dedupeString": "string", "impact": integer, "incidentTags": {"string": "string" ...}, "notificationTargets": [ { "snsTopicArn": "string" } ... ], "summary": "string", "title": "string" }
+    /// </summary>
+    [CliOption("--incident-template")]
+    public string? IncidentTemplate { get; private init; }
+
+    /// <summary>
+    /// The short format name of the response plan. Can't include spaces. Constraints: o min: 1 o max: 200 o pattern: ^[a-zA-Z0-9-_]*$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The actions that the response plan starts at the beginning of an in- cident. Constraints: o min: 0 o max: 1 (tagged union structure) The action that starts at the beginning of an incident. The re- sponse plan defines the action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ssmAutomation. ssmAutomation -&gt; (structure) The Systems Manager automation document to start as the run- book at the beginning of the incident. documentName -&gt; (string) [required] The automation document's name. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$ documentVersion -&gt; (string) The automation document's version to use when running. Constraints: o min: 0 o max: 128 dynamicParameters -&gt; (map) The key-value pair to resolve dynamic parameter values when processing a Systems Manager Automation runbook. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (tagged union structure) The dynamic SSM parameter value. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: variable. variable -&gt; (string) Variable dynamic parameters. A parameter value is determined when an incident is created. Possible values: o INCIDENT_RECORD_ARN o INVOLVED_RESOURCES parameters -&gt; (map) The key-value pair parameters to use when running the au- tomation document. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (list) Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 512 roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that the au- tomation document will assume when running commands. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:iam::([0-9]{12})?:role/.+$ targetAccount -&gt; (string) The account that the automation document will be run in. This can be in either the management account or an appli- cation account. Possible values: o RESPONSE_PLAN_OWNER_ACCOUNT o IMPACTED_ACCOUNT JSON Syntax: [ { "ssmAutomation": { "documentName": "string", "documentVersion": "string", "dynamicParameters": {"string": { "variable": "INCIDENT_RECORD_ARN"|"INVOLVED_RESOURCES" } ...}, "parameters": {"string": ["string", ...] ...}, "roleArn": "string", "targetAccount": "RESPONSE_PLAN_OWNER_ACCOUNT"|"IMPACTED_ACCOUNT" } } ... ]
     /// </summary>
@@ -54,17 +104,11 @@ public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
     [CliOption("--engagements", GroupValues = true)]
     public IEnumerable<string>? Engagements { get; set; }
 
-    [CliOption("--incident-template")]
-    public string? IncidentTemplate { get; set; }
-
     /// <summary>
     /// Information about third-party services integrated into the response plan. Constraints: o min: 0 o max: 1 (tagged union structure) Information about third-party services integrated into a re- sponse plan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: pagerDutyConfiguration. pagerDutyConfiguration -&gt; (structure) Information about the PagerDuty service where the response plan creates an incident. name -&gt; (string) [required] The name of the PagerDuty configuration. Constraints: o min: 1 o max: 200 pagerDutyIncidentConfiguration -&gt; (structure) [required] Details about the PagerDuty service associated with the configuration. serviceId -&gt; (string) [required] The ID of the PagerDuty service that the response plan associates with an incident when it launches. Constraints: o min: 1 o max: 200 secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: o min: 1 o max: 512 Shorthand Syntax: pagerDutyConfiguration={name=string,pagerDutyIncidentConfiguration={serviceId=string},secretId=string} ... JSON Syntax: [ { "pagerDutyConfiguration": { "name": "string", "pagerDutyIncidentConfiguration": { "serviceId": "string" }, "secretId": "string" } } ... ]
     /// </summary>
     [CliOption("--integrations", GroupValues = true)]
     public IEnumerable<string>? Integrations { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// A list of tags that you are adding to the response plan. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -77,5 +121,22 @@ public record AwsSsmIncidentsCreateResponsePlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

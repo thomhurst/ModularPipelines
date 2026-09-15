@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTrustedadvisorListRecommendationsType
 {
-    [EnumValue("standard")]
-    Standard = 1,
-
     [EnumValue("priority")]
-    Priority = 2
+    Priority,
+
+    [EnumValue("standard")]
+    Standard
 }

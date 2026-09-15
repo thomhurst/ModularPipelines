@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "disassociate-ops-item-related-item")]
-public record AwsSsmDisassociateOpsItemRelatedItemOptions : AwsOptions
+public record AwsSsmDisassociateOpsItemRelatedItemOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--ops-item-id")]
-    public string? OpsItemId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the association between an OpsItem and a related item. For ex- ample, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OpsItemId">The ID of the OpsItem for which you want to delete an association between the OpsItem and a related item. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$</param>
+    /// <param name="AssociationId">The ID of the association for which you want to delete an associa- tion between the OpsItem and a related item.</param>
+    public AwsSsmDisassociateOpsItemRelatedItemOptions(
+        string OpsItemId,
+        string AssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpsItemId);
+        this.OpsItemId = OpsItemId;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+    }
+
+    private AwsSsmDisassociateOpsItemRelatedItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDisassociateOpsItemRelatedItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDisassociateOpsItemRelatedItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the OpsItem for which you want to delete an association between the OpsItem and a related item. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$
+    /// </summary>
+    [CliOption("--ops-item-id")]
+    public string? OpsItemId { get; private init; }
+
+    /// <summary>
+    /// The ID of the association for which you want to delete an associa- tion between the OpsItem and a related item.
+    /// </summary>
     [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
+    public string? AssociationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

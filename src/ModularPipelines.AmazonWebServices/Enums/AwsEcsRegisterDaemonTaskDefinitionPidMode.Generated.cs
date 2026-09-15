@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --pidmode.
+/// Allowed values for --pid-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsRegisterDaemonTaskDefinitionPidMode
 {
     [EnumValue("none")]
-    None = 1,
+    None,
 
     [EnumValue("shared")]
-    Shared = 2
+    Shared
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsConnectUpdateTestCaseStatus
 {
     [EnumValue("PUBLISHED")]
-    Published = 1,
+    Published,
 
     [EnumValue("SAVED")]
-    Saved = 2
+    Saved
 }

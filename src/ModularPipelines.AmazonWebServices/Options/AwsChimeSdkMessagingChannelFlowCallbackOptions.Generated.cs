@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "channel-flow-callback")]
-public record AwsChimeSdkMessagingChannelFlowCallbackOptions : AwsOptions
+public record AwsChimeSdkMessagingChannelFlowCallbackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Calls back Amazon Chime SDK messaging with a processing response mes- sage. This should be invoked from the processor Lambda. This is a de- veloper API. You can return one of the following processing responses: o Update message content or metadata o Deny a message o Make no changes to the message See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChannelMessage">Stores information about the processed message. MessageId -&gt; (string) [required] The message ID. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]* Content -&gt; (string) The message content. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more in- formation, refer to Processing responses from an AppInstanceBot in the Amazon Chime SDK Messaging Developer Guide . Constraints: o min: 1 o pattern: [\s\S]* Metadata -&gt; (string) The message metadata. Constraints: o min: 0 o max: 1024 o pattern: .* PushNotification -&gt; (structure) The push notification configuration of the message. Title -&gt; (string) The title of the push notification. Constraints: o min: 1 o max: 50 o pattern: .* Body -&gt; (string) The body of the push notification. Constraints: o min: 1 o max: 150 o pattern: [\s\S]* Type -&gt; (string) Enum value that indicates the type of the push notification for a message. DEFAULT : Normal mobile push notification. VOIP : VOIP mobile push notification. Possible values: o DEFAULT o VOIP MessageAttributes -&gt; (map) The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to Processing responses from an AppInstanceBot in the Amazon Chime SDK Messaging Developer Guide . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [\s\S]* value -&gt; (structure) A list of message attribute values. StringValues -&gt; (list) The strings in a message attribute value. (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* SubChannelId -&gt; (string) The ID of the SubChannel. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]* ContentType -&gt; (string) The content type of the call-back message. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and application/amz-chime-lex-error for failure responses. For more information, refer to Processing re- sponses from an AppInstanceBot in the Amazon Chime SDK Messaging Developer Guide . Constraints: o min: 0 o max: 45 o pattern: [\s\S]* JSON Syntax: { "MessageId": "string", "Content": "string", "Metadata": "string", "PushNotification": { "Title": "string", "Body": "string", "Type": "DEFAULT"|"VOIP" }, "MessageAttributes": {"string": { "StringValues": ["string", ...] } ...}, "SubChannelId": "string", "ContentType": "string" }</param>
+    public AwsChimeSdkMessagingChannelFlowCallbackOptions(
+        string ChannelArn,
+        string ChannelMessage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelMessage);
+        this.ChannelMessage = ChannelMessage;
+    }
+
+    private AwsChimeSdkMessagingChannelFlowCallbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingChannelFlowCallbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingChannelFlowCallbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--channel-arn")]
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// Stores information about the processed message. MessageId -&gt; (string) [required] The message ID. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]* Content -&gt; (string) The message content. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more in- formation, refer to Processing responses from an AppInstanceBot in the Amazon Chime SDK Messaging Developer Guide . Constraints: o min: 1 o pattern: [\s\S]* Metadata -&gt; (string) The message metadata. Constraints: o min: 0 o max: 1024 o pattern: .* PushNotification -&gt; (structure) The push notification configuration of the message. Title -&gt; (string) The title of the push notification. Constraints: o min: 1 o max: 50 o pattern: .* Body -&gt; (string) The body of the push notification. Constraints: o min: 1 o max: 150 o pattern: [\s\S]* Type -&gt; (string) Enum value that indicates the type of the push notification for a message. DEFAULT : Normal mobile push notification. VOIP : VOIP mobile push notification. Possible values: o DEFAULT o VOIP MessageAttributes -&gt; (map) The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to Processing responses from an AppInstanceBot in the Amazon Chime SDK Messaging Developer Guide . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [\s\S]* value -&gt; (structure) A list of message attribute values. StringValues -&gt; (list) The strings in a message attribute value. (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* SubChannelId -&gt; (string) The ID of the SubChannel. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]* ContentType -&gt; (string) The content type of the call-back message. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and application/amz-chime-lex-error for failure responses. For more information, refer to Processing re- sponses from an AppInstanceBot in the Amazon Chime SDK Messaging Developer Guide . Constraints: o min: 0 o max: 45 o pattern: [\s\S]* JSON Syntax: { "MessageId": "string", "Content": "string", "Metadata": "string", "PushNotification": { "Title": "string", "Body": "string", "Type": "DEFAULT"|"VOIP" }, "MessageAttributes": {"string": { "StringValues": ["string", ...] } ...}, "SubChannelId": "string", "ContentType": "string" }
+    /// </summary>
+    [CliOption("--channel-message")]
+    public string? ChannelMessage { get; private init; }
+
     /// <summary>
     /// The identifier passed to the processor by the service when invoked. Use the identifier to call back the service. Constraints: o min: 32 o max: 64
     /// </summary>
     [CliOption("--callback-id")]
     public string? CallbackId { get; set; }
 
-    [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
-
-    [CliFlag("--delete-resource")]
+    /// <summary>
+    /// When a processor determines that a message needs to be DENIED , pass this parameter with a value of true.
+    /// </summary>
+    [CliFlag("--delete-resource", NegatedName = "--no-delete-resource")]
     public bool? DeleteResource { get; set; }
-
-    [CliOption("--channel-message")]
-    public string? ChannelMessage { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

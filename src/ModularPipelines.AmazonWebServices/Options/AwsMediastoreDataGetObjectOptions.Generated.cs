@@ -21,13 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("mediastore-data", "get-object")]
 public record AwsMediastoreDataGetObjectOptions : AwsOptions
 {
+    /// <summary>
+    /// Downloads the object at the specified path. If the objects upload availability is set to streaming , AWS Elemental MediaStore downloads the object even if its still uploading the object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Path">The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path pre- mium\canada in the container movies , enter the path pre- mium/canada/mlaw.avi . Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada , the service creates a canada subfolder in the premium folder. You then have two subfold- ers, usa and canada , in the premium folder. There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a con- tainer, see the AWS Elemental MediaStore User Guide . The file name is the name that is assigned to the file that you up- load. The file can have the same name inside and outside of AWS Ele- mental MediaStore, or it can have the same name. The file name can include or omit an extension. Constraints: o min: 1 o max: 900 o pattern: (?:[A-Za-z0-9_\.\-\~]+/){0,10}[A-Za-z0-9_\.\-\~]+</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsMediastoreDataGetObjectOptions(
+        string Path,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Path, out string Outfile)
+    {
+        Path = this.Path;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path pre- mium\canada in the container movies , enter the path pre- mium/canada/mlaw.avi . Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada , the service creates a canada subfolder in the premium folder. You then have two subfold- ers, usa and canada , in the premium folder. There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a con- tainer, see the AWS Elemental MediaStore User Guide . The file name is the name that is assigned to the file that you up- load. The file can have the same name inside and outside of AWS Ele- mental MediaStore, or it can have the same name. The file name can include or omit an extension. Constraints: o min: 1 o max: 900 o pattern: (?:[A-Za-z0-9_\.\-\~]+/){0,10}[A-Za-z0-9_\.\-\~]+
+    /// </summary>
     [CliOption("--path")]
-    public string? Path { get; set; }
+    public string Path { get; private init; }
 
     /// <summary>
     /// The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35 . AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability. Constraints: o pattern: ^bytes=(?:\d+\-\d*|\d*\-\d+)$ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--range")]
     public string? Range { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

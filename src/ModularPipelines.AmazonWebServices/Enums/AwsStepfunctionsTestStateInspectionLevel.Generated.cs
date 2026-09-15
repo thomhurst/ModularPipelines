@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --inspectionlevel.
+/// Allowed values for --inspection-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStepfunctionsTestStateInspectionLevel
 {
-    [EnumValue("INFO")]
-    Info = 1,
-
     [EnumValue("DEBUG")]
-    Debug = 2,
+    Debug,
+
+    [EnumValue("INFO")]
+    Info,
 
     [EnumValue("TRACE")]
-    Trace = 3
+    Trace
 }

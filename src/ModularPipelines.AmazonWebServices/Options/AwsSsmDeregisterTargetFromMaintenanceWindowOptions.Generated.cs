@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "deregister-target-from-maintenance-window")]
-public record AwsSsmDeregisterTargetFromMaintenanceWindowOptions : AwsOptions
+public record AwsSsmDeregisterTargetFromMaintenanceWindowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes a target from a maintenance window. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WindowId">The ID of the maintenance window the target should be removed from. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowTargetId">The ID of the target definition to remove. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    public AwsSsmDeregisterTargetFromMaintenanceWindowOptions(
+        string WindowId,
+        string WindowTargetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WindowId);
+        this.WindowId = WindowId;
+        global::System.ArgumentNullException.ThrowIfNull(WindowTargetId);
+        this.WindowTargetId = WindowTargetId;
+    }
+
+    private AwsSsmDeregisterTargetFromMaintenanceWindowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDeregisterTargetFromMaintenanceWindowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDeregisterTargetFromMaintenanceWindowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the maintenance window the target should be removed from. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// </summary>
     [CliOption("--window-id")]
-    public string? WindowId { get; set; }
+    public string? WindowId { get; private init; }
 
+    /// <summary>
+    /// The ID of the target definition to remove. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--window-target-id")]
-    public string? WindowTargetId { get; set; }
+    public string? WindowTargetId { get; private init; }
 
-    [CliFlag("--safe")]
+    /// <summary>
+    /// The system checks if the target is being referenced by a task. If the target is being referenced, the system returns an error and doesn't deregister the target from the maintenance window.
+    /// </summary>
+    [CliFlag("--safe", NegatedName = "--no-safe")]
     public bool? Safe { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsSsmDeregisterTargetFromMaintenanceWindowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

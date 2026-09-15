@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --generationstatus.
+/// Allowed values for --generation-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCeListSavingsPlansPurchaseRecommendationGenerationGenerationStatus
 {
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 1,
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("PROCESSING")]
-    Processing = 2,
+    Processing,
 
-    [EnumValue("FAILED")]
-    Failed = 3
+    [EnumValue("SUCCEEDED")]
+    Succeeded
 }

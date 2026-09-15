@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-email-channel")]
-public record AwsPinpointUpdateEmailChannelOptions : AwsOptions
+public record AwsPinpointUpdateEmailChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables the email channel for an application or updates the status and settings of the email channel for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="EmailChannelRequest">Specifies the status and settings of the email channel for an appli- cation. ConfigurationSet -&gt; (string) The Amazon SES configuration set that you want to apply to mes- sages that you send through the channel. Enabled -&gt; (boolean) Specifies whether to enable the email channel for the applica- tion. FromAddress -&gt; (string) [required] The verified email address that you want to send email from when you send email through the channel. Identity -&gt; (string) [required] The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel. RoleArn -&gt; (string) The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-re- lated event data for the channel. OrchestrationSendingRoleArn -&gt; (string) The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES. Shorthand Syntax: ConfigurationSet=string,Enabled=boolean,FromAddress=string,Identity=string,RoleArn=string,OrchestrationSendingRoleArn=string JSON Syntax: { "ConfigurationSet": "string", "Enabled": true|false, "FromAddress": "string", "Identity": "string", "RoleArn": "string", "OrchestrationSendingRoleArn": "string" }</param>
+    public AwsPinpointUpdateEmailChannelOptions(
+        string ApplicationId,
+        string EmailChannelRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(EmailChannelRequest);
+        this.EmailChannelRequest = EmailChannelRequest;
+    }
+
+    private AwsPinpointUpdateEmailChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateEmailChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateEmailChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Specifies the status and settings of the email channel for an appli- cation. ConfigurationSet -&gt; (string) The Amazon SES configuration set that you want to apply to mes- sages that you send through the channel. Enabled -&gt; (boolean) Specifies whether to enable the email channel for the applica- tion. FromAddress -&gt; (string) [required] The verified email address that you want to send email from when you send email through the channel. Identity -&gt; (string) [required] The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel. RoleArn -&gt; (string) The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-re- lated event data for the channel. OrchestrationSendingRoleArn -&gt; (string) The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES. Shorthand Syntax: ConfigurationSet=string,Enabled=boolean,FromAddress=string,Identity=string,RoleArn=string,OrchestrationSendingRoleArn=string JSON Syntax: { "ConfigurationSet": "string", "Enabled": true|false, "FromAddress": "string", "Identity": "string", "RoleArn": "string", "OrchestrationSendingRoleArn": "string" }
+    /// </summary>
     [CliOption("--email-channel-request")]
-    public string? EmailChannelRequest { get; set; }
+    public string? EmailChannelRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

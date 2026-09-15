@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "create-predictor")]
-public record AwsForecastCreatePredictorOptions : AwsOptions
+public record AwsForecastCreatePredictorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation creates a legacy predictor that does not include all the predictor functionalities provided by Amazon Forecast. To create a predictor that is compatible with all aspects of Forecast, use CreateAutoPredictor . Creates an Amazon Forecast predictor. In the request, provide a dataset group and either specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If you specify an algorithm, you also can override algorithm-specific hyperpa- rameters. Amazon...
+    /// </summary>
+    /// <param name="PredictorName">A name for the predictor. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="ForecastHorizon">Specifies the number of time-steps that the model is trained to pre- dict. The forecast horizon is also called the prediction length. For example, if you configure a dataset for daily data collection (using the DataFrequency parameter of the CreateDataset operation) and set the forecast horizon to 10, the model returns predictions for 10 days. The maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length.</param>
+    /// <param name="InputDataConfig">Describes the dataset group that contains the data to use to train the predictor. DatasetGroupArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ SupplementaryFeatures -&gt; (list) An array of supplementary features. The only supported feature is a holiday calendar. Constraints: o min: 1 o max: 2 (structure) NOTE: This object belongs to the CreatePredictor operation. If you created your predictor with CreateAutoPredictor , see AdditionalDataset . Describes a supplementary feature of a dataset group. This object is part of the InputDataConfig object. Forecast sup- ports the Weather Index and Holidays built-in featurizations. Weather Index The Amazon Forecast Weather Index is a built-in featurization that incorporates historical and projected weather informa- tion into your model. The Weather Index supplements your datasets with over two years of historical weather data and up to 14 days of projected weather data. For more informa- tion, see Amazon Forecast Weather Index . Holidays Holidays is a built-in featurization that incorporates a fea- ture-engineered dataset of national holiday information into your model. It provides native support for the holiday calen- dars of 66 countries. To view the holiday calendars, refer to the Jollyday library. For more information, see Holidays Fea- turization . Name -&gt; (string) [required] The name of the feature. Valid values: "holiday" and "weather" . Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* Value -&gt; (string) [required] Weather Index To enable the Weather Index, set the value to "true" Holidays To enable Holidays, specify a country with one of the following two-letter country codes: o "AL" - ALBANIA o "AR" - ARGENTINA o "AT" - AUSTRIA o "AU" - AUSTRALIA o "BA" - BOSNIA HERZEGOVINA o "BE" - BELGIUM o "BG" - BULGARIA o "BO" - BOLIVIA o "BR" - BRAZIL o "BY" - BELARUS o "CA" - CANADA o "CL" - CHILE o "CO" - COLOMBIA o "CR" - COSTA RICA o "HR" - CROATIA o "CZ" - CZECH REPUBLIC o "DK" - DENMARK o "EC" - ECUADOR o "EE" - ESTONIA o "ET" - ETHIOPIA o "FI" - FINLAND o "FR" - FRANCE o "DE" - GERMANY o "GR" - GREECE o "HU" - HUNGARY o "IS" - ICELAND o "IN" - INDIA o "IE" - IRELAND o "IT" - ITALY o "JP" - JAPAN o "KZ" - KAZAKHSTAN o "KR" - KOREA o "LV" - LATVIA o "LI" - LIECHTENSTEIN o "LT" - LITHUANIA o "LU" - LUXEMBOURG o "MK" - MACEDONIA o "MT" - MALTA o "MX" - MEXICO o "MD" - MOLDOVA o "ME" - MONTENEGRO o "NL" - NETHERLANDS o "NZ" - NEW ZEALAND o "NI" - NICARAGUA o "NG" - NIGERIA o "NO" - NORWAY o "PA" - PANAMA o "PY" - PARAGUAY o "PE" - PERU o "PL" - POLAND o "PT" - PORTUGAL o "RO" - ROMANIA o "RU" - RUSSIA o "RS" - SERBIA o "SK" - SLOVAKIA o "SI" - SLOVENIA o "ZA" - SOUTH AFRICA o "ES" - SPAIN o "SE" - SWEDEN o "CH" - SWITZERLAND o "UA" - UKRAINE o "AE" - UNITED ARAB EMIRATES o "US" - UNITED STATES o "UK" - UNITED KINGDOM o "UY" - URUGUAY o "VE" - VENEZUELA Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_\-]+$ Shorthand Syntax: DatasetGroupArn=string,SupplementaryFeatures=[{Name=string,Value=string},{Name=string,Value=string}] JSON Syntax: { "DatasetGroupArn": "string", "SupplementaryFeatures": [ { "Name": "string", "Value": "string" } ... ] }</param>
+    /// <param name="FeaturizationConfig">The featurization configuration. ForecastFrequency -&gt; (string) [required] The frequency of predictions in a forecast. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a fre- quency of 60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are the following: o Minute - 1-59 o Hour - 1-23 o Day - 1-6 o Week - 1-4 o Month - 1-11 o Year - 1 Thus, if you want every other week forecasts, specify "2W". Or, if you want quarterly forecasts, you specify "3M". The frequency must be greater than or equal to the TAR- GET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the TARGET_TIME_SERIES dataset frequency. Constraints: o min: 1 o max: 5 o pattern: ^Y|M|W|D|H|30min|15min|10min|5min|1min$ ForecastDimensions -&gt; (list) An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor re- quest. All forecast dimensions specified in the RELATED_TIME_SE- RIES dataset must be specified in the CreatePredictor request. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* Featurizations -&gt; (list) An array of featurization (transformation) information for the fields of a dataset. Constraints: o min: 1 o max: 50 (structure) NOTE: This object belongs to the CreatePredictor operation. If you created your predictor with CreateAutoPredictor , see AttributeConfig . Provides featurization (transformation) information for a dataset field. This object is part of the FeaturizationCon- fig object. For example: { "AttributeName": "demand", FeaturizationPipeline [ { "FeaturizationMethodName": "filling", "FeaturizationMethodParameters": {"aggregation": "avg", "backfill": "nan"} } ] } AttributeName -&gt; (string) [required] The name of the schema attribute that specifies the data field to be featurized. Amazon Forecast supports the tar- get field of the TARGET_TIME_SERIES and the RE- LATED_TIME_SERIES datasets. For example, for the RETAIL domain, the target is demand , and for the CUSTOM domain, the target is target_value . For more information, see howitworks-missing-values . Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* FeaturizationPipeline -&gt; (list) An array of one FeaturizationMethod object that specifies the feature transformation method. Constraints: o min: 1 o max: 1 (structure) Provides information about the method that featurizes (transforms) a dataset field. The method is part of the FeaturizationPipeline of the Featurization ob- ject. The following is an example of how you specify a Fea- turizationMethod object. { "FeaturizationMethodName": "filling", "FeaturizationMethodParameters": {"aggregation": "sum", "middlefill": "zero", "backfill": "zero"} } FeaturizationMethodName -&gt; (string) [required] The name of the method. The "filling" method is the only supported method. Possible values: o filling FeaturizationMethodParameters -&gt; (map) The method parameters (key-value pairs), which are a map of override parameters. Specify these para- meters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold sig- nifies the default value. o aggregation : sum , avg , first , min , max o frontfill : none o middlefill : zero , nan (not a number), value , median , mean , min , max o backfill : zero , nan , value , median , mean , min , max The following list shows the parameters and their valid values for a Related Time Series featuriza- tion method (there are no defaults): o middlefill : zero , value , median , mean , min , max o backfill : zero , value , median , mean , min , max o futurefill : zero , value , median , mean , min , max To set a filling method to a specific value, set the fill parameter to value and define the value in a corresponding _value parameter. For example, to set backfilling to a value of 2, include the following: "backfill": "value" and "back- fill_value":"2" . Constraints: o min: 1 o max: 20 key -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\-\_\.\/\[\]\,\\]+$ value -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\-\_\.\/\[\]\,\"\\\s]+$ JSON Syntax: { "ForecastFrequency": "string", "ForecastDimensions": ["string", ...], "Featurizations": [ { "AttributeName": "string", "FeaturizationPipeline": [ { "FeaturizationMethodName": "filling", "FeaturizationMethodParameters": {"string": "string" ...} } ... ] } ... ] }</param>
+    public AwsForecastCreatePredictorOptions(
+        string PredictorName,
+        int ForecastHorizon,
+        string InputDataConfig,
+        string FeaturizationConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PredictorName);
+        this.PredictorName = PredictorName;
+        this.ForecastHorizon = ForecastHorizon;
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(FeaturizationConfig);
+        this.FeaturizationConfig = FeaturizationConfig;
+    }
+
+    private AwsForecastCreatePredictorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastCreatePredictorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastCreatePredictorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the predictor. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// </summary>
     [CliOption("--predictor-name")]
-    public string? PredictorName { get; set; }
+    public string? PredictorName { get; private init; }
+
+    /// <summary>
+    /// Specifies the number of time-steps that the model is trained to pre- dict. The forecast horizon is also called the prediction length. For example, if you configure a dataset for daily data collection (using the DataFrequency parameter of the CreateDataset operation) and set the forecast horizon to 10, the model returns predictions for 10 days. The maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length.
+    /// </summary>
+    [CliOption("--forecast-horizon")]
+    public int? ForecastHorizon { get; private init; }
+
+    /// <summary>
+    /// Describes the dataset group that contains the data to use to train the predictor. DatasetGroupArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ SupplementaryFeatures -&gt; (list) An array of supplementary features. The only supported feature is a holiday calendar. Constraints: o min: 1 o max: 2 (structure) NOTE: This object belongs to the CreatePredictor operation. If you created your predictor with CreateAutoPredictor , see AdditionalDataset . Describes a supplementary feature of a dataset group. This object is part of the InputDataConfig object. Forecast sup- ports the Weather Index and Holidays built-in featurizations. Weather Index The Amazon Forecast Weather Index is a built-in featurization that incorporates historical and projected weather informa- tion into your model. The Weather Index supplements your datasets with over two years of historical weather data and up to 14 days of projected weather data. For more informa- tion, see Amazon Forecast Weather Index . Holidays Holidays is a built-in featurization that incorporates a fea- ture-engineered dataset of national holiday information into your model. It provides native support for the holiday calen- dars of 66 countries. To view the holiday calendars, refer to the Jollyday library. For more information, see Holidays Fea- turization . Name -&gt; (string) [required] The name of the feature. Valid values: "holiday" and "weather" . Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* Value -&gt; (string) [required] Weather Index To enable the Weather Index, set the value to "true" Holidays To enable Holidays, specify a country with one of the following two-letter country codes: o "AL" - ALBANIA o "AR" - ARGENTINA o "AT" - AUSTRIA o "AU" - AUSTRALIA o "BA" - BOSNIA HERZEGOVINA o "BE" - BELGIUM o "BG" - BULGARIA o "BO" - BOLIVIA o "BR" - BRAZIL o "BY" - BELARUS o "CA" - CANADA o "CL" - CHILE o "CO" - COLOMBIA o "CR" - COSTA RICA o "HR" - CROATIA o "CZ" - CZECH REPUBLIC o "DK" - DENMARK o "EC" - ECUADOR o "EE" - ESTONIA o "ET" - ETHIOPIA o "FI" - FINLAND o "FR" - FRANCE o "DE" - GERMANY o "GR" - GREECE o "HU" - HUNGARY o "IS" - ICELAND o "IN" - INDIA o "IE" - IRELAND o "IT" - ITALY o "JP" - JAPAN o "KZ" - KAZAKHSTAN o "KR" - KOREA o "LV" - LATVIA o "LI" - LIECHTENSTEIN o "LT" - LITHUANIA o "LU" - LUXEMBOURG o "MK" - MACEDONIA o "MT" - MALTA o "MX" - MEXICO o "MD" - MOLDOVA o "ME" - MONTENEGRO o "NL" - NETHERLANDS o "NZ" - NEW ZEALAND o "NI" - NICARAGUA o "NG" - NIGERIA o "NO" - NORWAY o "PA" - PANAMA o "PY" - PARAGUAY o "PE" - PERU o "PL" - POLAND o "PT" - PORTUGAL o "RO" - ROMANIA o "RU" - RUSSIA o "RS" - SERBIA o "SK" - SLOVAKIA o "SI" - SLOVENIA o "ZA" - SOUTH AFRICA o "ES" - SPAIN o "SE" - SWEDEN o "CH" - SWITZERLAND o "UA" - UKRAINE o "AE" - UNITED ARAB EMIRATES o "US" - UNITED STATES o "UK" - UNITED KINGDOM o "UY" - URUGUAY o "VE" - VENEZUELA Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_\-]+$ Shorthand Syntax: DatasetGroupArn=string,SupplementaryFeatures=[{Name=string,Value=string},{Name=string,Value=string}] JSON Syntax: { "DatasetGroupArn": "string", "SupplementaryFeatures": [ { "Name": "string", "Value": "string" } ... ] }
+    /// </summary>
+    [CliOption("--input-data-config")]
+    public string? InputDataConfig { get; private init; }
+
+    /// <summary>
+    /// The featurization configuration. ForecastFrequency -&gt; (string) [required] The frequency of predictions in a forecast. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a fre- quency of 60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are the following: o Minute - 1-59 o Hour - 1-23 o Day - 1-6 o Week - 1-4 o Month - 1-11 o Year - 1 Thus, if you want every other week forecasts, specify "2W". Or, if you want quarterly forecasts, you specify "3M". The frequency must be greater than or equal to the TAR- GET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the TARGET_TIME_SERIES dataset frequency. Constraints: o min: 1 o max: 5 o pattern: ^Y|M|W|D|H|30min|15min|10min|5min|1min$ ForecastDimensions -&gt; (list) An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor re- quest. All forecast dimensions specified in the RELATED_TIME_SE- RIES dataset must be specified in the CreatePredictor request. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* Featurizations -&gt; (list) An array of featurization (transformation) information for the fields of a dataset. Constraints: o min: 1 o max: 50 (structure) NOTE: This object belongs to the CreatePredictor operation. If you created your predictor with CreateAutoPredictor , see AttributeConfig . Provides featurization (transformation) information for a dataset field. This object is part of the FeaturizationCon- fig object. For example: { "AttributeName": "demand", FeaturizationPipeline [ { "FeaturizationMethodName": "filling", "FeaturizationMethodParameters": {"aggregation": "avg", "backfill": "nan"} } ] } AttributeName -&gt; (string) [required] The name of the schema attribute that specifies the data field to be featurized. Amazon Forecast supports the tar- get field of the TARGET_TIME_SERIES and the RE- LATED_TIME_SERIES datasets. For example, for the RETAIL domain, the target is demand , and for the CUSTOM domain, the target is target_value . For more information, see howitworks-missing-values . Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* FeaturizationPipeline -&gt; (list) An array of one FeaturizationMethod object that specifies the feature transformation method. Constraints: o min: 1 o max: 1 (structure) Provides information about the method that featurizes (transforms) a dataset field. The method is part of the FeaturizationPipeline of the Featurization ob- ject. The following is an example of how you specify a Fea- turizationMethod object. { "FeaturizationMethodName": "filling", "FeaturizationMethodParameters": {"aggregation": "sum", "middlefill": "zero", "backfill": "zero"} } FeaturizationMethodName -&gt; (string) [required] The name of the method. The "filling" method is the only supported method. Possible values: o filling FeaturizationMethodParameters -&gt; (map) The method parameters (key-value pairs), which are a map of override parameters. Specify these para- meters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold sig- nifies the default value. o aggregation : sum , avg , first , min , max o frontfill : none o middlefill : zero , nan (not a number), value , median , mean , min , max o backfill : zero , nan , value , median , mean , min , max The following list shows the parameters and their valid values for a Related Time Series featuriza- tion method (there are no defaults): o middlefill : zero , value , median , mean , min , max o backfill : zero , value , median , mean , min , max o futurefill : zero , value , median , mean , min , max To set a filling method to a specific value, set the fill parameter to value and define the value in a corresponding _value parameter. For example, to set backfilling to a value of 2, include the following: "backfill": "value" and "back- fill_value":"2" . Constraints: o min: 1 o max: 20 key -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\-\_\.\/\[\]\,\\]+$ value -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\-\_\.\/\[\]\,\"\\\s]+$ JSON Syntax: { "ForecastFrequency": "string", "ForecastDimensions": ["string", ...], "Featurizations": [ { "AttributeName": "string", "FeaturizationPipeline": [ { "FeaturizationMethodName": "filling", "FeaturizationMethodParameters": {"string": "string" ...} } ... ] } ... ] }
+    /// </summary>
+    [CliOption("--featurization-config")]
+    public string? FeaturizationConfig { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true . Supported algorithms: o arn:aws:forecast:::algorithm/ARIMA o arn:aws:forecast:::algorithm/CNN-QR o arn:aws:forecast:::algorithm/Deep_AR_Plus o arn:aws:forecast:::algorithm/ETS o arn:aws:forecast:::algorithm/NPTS o arn:aws:forecast:::algorithm/Prophet Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
@@ -32,16 +98,16 @@ public record AwsForecastCreatePredictorOptions : AwsOptions
     [CliOption("--algorithm-arn")]
     public string? AlgorithmArn { get; set; }
 
-    [CliOption("--forecast-horizon")]
-    public int? ForecastHorizon { get; set; }
-
     /// <summary>
     /// Specifies the forecast types used to train a predictor. You can specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of 0.01 or higher. You can also specify the mean forecast with mean . The default value is ["0.10", "0.50", "0.9"] . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 2 o max: 4 o pattern: (^0?\.\d\d?$|^mean$) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--forecast-types", GroupValues = true)]
     public IEnumerable<string>? ForecastTypes { get; set; }
 
-    [CliFlag("--perform-auto-ml")]
+    /// <summary>
+    /// Whether to perform AutoML. When Amazon Forecast performs AutoML, it evaluates the algorithms it provides and chooses the best algorithm and configuration for your training dataset. The default value is false . In this case, you are required to spec- ify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML. This is a good option if you aren't sure which algorithm is suitable for your training data. In this case, PerformHPO must be false.
+    /// </summary>
+    [CliFlag("--perform-auto-ml", NegatedName = "--no-perform-auto-ml")]
     public bool? PerformAutoMl { get; set; }
 
     /// <summary>
@@ -50,7 +116,10 @@ public record AwsForecastCreatePredictorOptions : AwsOptions
     [CliOption("--auto-ml-override-strategy")]
     public AwsForecastCreatePredictorAutoMlOverrideStrategy? AutoMlOverrideStrategy { get; set; }
 
-    [CliFlag("--perform-hpo")]
+    /// <summary>
+    /// Whether to perform hyperparameter optimization (HPO). HPO finds op- timal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false . In this case, Amazon Forecast uses de- fault hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, option- ally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters partici- pate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and Perfor- mAutoML must be false. The following algorithms support HPO: o DeepAR+ o CNN-QR
+    /// </summary>
+    [CliFlag("--perform-hpo", NegatedName = "--no-perform-hpo")]
     public bool? PerformHpo { get; set; }
 
     /// <summary>
@@ -70,12 +139,6 @@ public record AwsForecastCreatePredictorOptions : AwsOptions
     /// </summary>
     [CliOption("--hpo-config")]
     public string? HpoConfig { get; set; }
-
-    [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
-
-    [CliOption("--featurization-config")]
-    public string? FeaturizationConfig { get; set; }
 
     /// <summary>
     /// An Key Management Service (KMS) key and the Identity and Access Man- agement (IAM) role that Amazon Forecast can assume to access the key. RoleArn -&gt; (string) [required] The ARN of the IAM role that Amazon Forecast can assume to ac- cess the KMS key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the KMS key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: RoleArn=string,KMSKeyArn=string JSON Syntax: { "RoleArn": "string", "KMSKeyArn": "string" }
@@ -100,5 +163,22 @@ public record AwsForecastCreatePredictorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

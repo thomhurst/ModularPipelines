@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --healthcheckprotocol.
+/// Allowed values for --health-check-protocol.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlobalacceleratorCreateEndpointGroupHealthCheckProtocol
 {
-    [EnumValue("TCP")]
-    Tcp = 1,
-
     [EnumValue("HTTP")]
-    Http = 2,
+    Http,
 
     [EnumValue("HTTPS")]
-    Https = 3
+    Https,
+
+    [EnumValue("TCP")]
+    Tcp
 }

@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2GetIpamResourceCidrsResourceType
 {
-    [EnumValue("vpc")]
-    Vpc = 1,
-
-    [EnumValue("subnet")]
-    Subnet = 2,
+    [EnumValue("anycast-ip-list")]
+    AnycastIpList,
 
     [EnumValue("eip")]
-    Eip = 3,
-
-    [EnumValue("public-ipv4-pool")]
-    PublicIpv4Pool = 4,
-
-    [EnumValue("ipv6-pool")]
-    Ipv6Pool = 5,
+    Eip,
 
     [EnumValue("eni")]
-    Eni = 6,
+    Eni,
 
-    [EnumValue("anycast-ip-list")]
-    AnycastIpList = 7
+    [EnumValue("ipv6-pool")]
+    Ipv6Pool,
+
+    [EnumValue("public-ipv4-pool")]
+    PublicIpv4Pool,
+
+    [EnumValue("subnet")]
+    Subnet,
+
+    [EnumValue("vpc")]
+    Vpc
 }

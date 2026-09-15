@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "get-data-source-introspection")]
-public record AwsAppsyncGetDataSourceIntrospectionOptions : AwsOptions
+public record AwsAppsyncGetDataSourceIntrospectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--introspection-id")]
-    public string? IntrospectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-models-sdl")]
+    /// <summary>
+    /// Retrieves the record of an existing introspection. If the retrieval is successful, the result of the instrospection will also be returned. If the retrieval fails the operation, an error message will be returned instead. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntrospectionId">The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.</param>
+    public AwsAppsyncGetDataSourceIntrospectionOptions(
+        string IntrospectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntrospectionId);
+        this.IntrospectionId = IntrospectionId;
+    }
+
+    private AwsAppsyncGetDataSourceIntrospectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncGetDataSourceIntrospectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncGetDataSourceIntrospectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
+    /// </summary>
+    [CliOption("--introspection-id")]
+    public string? IntrospectionId { get; private init; }
+
+    /// <summary>
+    /// A boolean flag that determines whether SDL should be generated for introspected types. If set to true , each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
+    /// </summary>
+    [CliFlag("--include-models-sdl", NegatedName = "--no-include-models-sdl")]
     public bool? IncludeModelsSdl { get; set; }
 
     /// <summary>
@@ -46,5 +86,22 @@ public record AwsAppsyncGetDataSourceIntrospectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

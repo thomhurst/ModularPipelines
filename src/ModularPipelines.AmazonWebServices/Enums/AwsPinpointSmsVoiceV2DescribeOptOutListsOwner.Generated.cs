@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPinpointSmsVoiceV2DescribeOptOutListsOwner
 {
     [EnumValue("SELF")]
-    Self = 1,
+    Self,
 
     [EnumValue("SHARED")]
-    Shared = 2
+    Shared
 }

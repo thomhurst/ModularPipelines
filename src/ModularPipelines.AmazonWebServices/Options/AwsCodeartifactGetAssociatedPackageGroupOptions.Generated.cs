@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "get-associated-package-group")]
-public record AwsCodeartifactGetAssociatedPackageGroupOptions : AwsOptions
+public record AwsCodeartifactGetAssociatedPackageGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repos- itory in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package be- fore that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and ...
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the package from which to get the associated package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Format">The format of the package from which to get the associated package group. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
+    /// <param name="Package">The package from which to get the associated package group. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    public AwsCodeartifactGetAssociatedPackageGroupOptions(
+        string Domain,
+        AwsCodeartifactGetAssociatedPackageGroupFormat Format,
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    private AwsCodeartifactGetAssociatedPackageGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactGetAssociatedPackageGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactGetAssociatedPackageGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the package from which to get the associated package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The format of the package from which to get the associated package group. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// </summary>
+    [CliOption("--format")]
+    public AwsCodeartifactGetAssociatedPackageGroupFormat? Format { get; private init; }
+
+    /// <summary>
+    /// The package from which to get the associated package group. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// </summary>
+    [CliOption("--package")]
+    public string? Package { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
@@ -30,22 +88,33 @@ public record AwsCodeartifactGetAssociatedPackageGroupOptions : AwsOptions
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CliOption("--format")]
-    public string? Format { get; set; }
-
     /// <summary>
     /// The namespace of the package from which to get the associated pack- age group. The package component that specifies its namespace de- pends on its type. For example: NOTE: The namespace is required when getting associated package groups from packages of the following formats: o Maven o Swift o generic o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CliOption("--package")]
-    public string? Package { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-bulk-import-job")]
-public record AwsIotsitewiseCreateBulkImportJobOptions : AwsOptions
+public record AwsIotsitewiseCreateBulkImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide . WARNING: Before you create a bulk import job that ingests data into time se- ries outside of a workspace, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to config- ure storage settings, see PutStorageConfiguration . This requirement doesn't apply to bulk import jobs that ingest dat...
+    /// </summary>
+    /// <param name="JobName">The unique name that helps identify the job request. Constraints: o min: 1 o max: 256 o pattern: ^[\p{L}\p{N}\p{Zs}._:/-]+$</param>
+    /// <param name="JobRoleArn">The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$</param>
+    /// <param name="Files">The files in the specified Amazon S3 bucket that contain your data. You can specify up to 100 files for each bulk import job. Each file supports the following size limits: o Parquet files Up to 256 MiB. o Other file formats Up to 5 GiB. (structure) The file in Amazon S3 where your data is saved. bucket -&gt; (string) [required] The name of the Amazon S3 bucket from which data is imported. Constraints: o min: 3 o max: 63 key -&gt; (string) [required] The key of the Amazon S3 object that contains your data. Each object has a key that is a unique identifier. Each object has exactly one key. versionId -&gt; (string) The version ID to identify a specific version of the Amazon S3 object that contains your data. alias -&gt; (string) The alias associated with the file's time series. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ startTime -&gt; (structure) The nanosecond-precision start time for the file data. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 fileFormat -&gt; (structure) The file format of the data in S3. csv -&gt; (structure) The file is in .CSV format. columnNames -&gt; (list) [required] The column names specified in the .csv file. (string) Possible values: o ALIAS o ASSET_ID o PROPERTY_ID o DATA_TYPE o TIMESTAMP_SECONDS o TIMESTAMP_NANO_OFFSET o QUALITY o VALUE parquet -&gt; (structure) The file is in parquet format. mp4 -&gt; (structure) The MP4 format configuration. annotation -&gt; (structure) The annotation format configuration. JSON Syntax: [ { "bucket": "string", "key": "string", "versionId": "string", "alias": "string", "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "fileFormat": { "csv": { "columnNames": ["ALIAS"|"ASSET_ID"|"PROPERTY_ID"|"DATA_TYPE"|"TIMESTAMP_SECONDS"|"TIMESTAMP_NANO_OFFSET"|"QUALITY"|"VALUE", ...] }, "parquet": { }, "mp4": { }, "annotation": { } } } ... ]</param>
+    /// <param name="ErrorReportLocation">The Amazon S3 destination where errors associated with the job cre- ation request are saved. bucket -&gt; (string) [required] The name of the Amazon S3 bucket to which errors associated with the bulk import job are sent. Constraints: o min: 3 o max: 63 prefix -&gt; (string) [required] Amazon S3 uses the prefix as a folder name to organize data in the bucket. Each Amazon S3 object has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/). For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide . Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }</param>
+    public AwsIotsitewiseCreateBulkImportJobOptions(
+        string JobName,
+        string JobRoleArn,
+        IEnumerable<string> Files,
+        string ErrorReportLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(JobRoleArn);
+        this.JobRoleArn = JobRoleArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Files);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Files));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Files));
+            }
+
+            Files = materialized;
+        }
+        this.Files = Files;
+        global::System.ArgumentNullException.ThrowIfNull(ErrorReportLocation);
+        this.ErrorReportLocation = ErrorReportLocation;
+    }
+
+    private AwsIotsitewiseCreateBulkImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateBulkImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateBulkImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name that helps identify the job request. Constraints: o min: 1 o max: 256 o pattern: ^[\p{L}\p{N}\p{Zs}._:/-]+$
+    /// </summary>
     [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    public string? JobName { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$
+    /// </summary>
     [CliOption("--job-role-arn")]
-    public string? JobRoleArn { get; set; }
+    public string? JobRoleArn { get; private init; }
 
+    /// <summary>
+    /// The files in the specified Amazon S3 bucket that contain your data. You can specify up to 100 files for each bulk import job. Each file supports the following size limits: o Parquet files Up to 256 MiB. o Other file formats Up to 5 GiB. (structure) The file in Amazon S3 where your data is saved. bucket -&gt; (string) [required] The name of the Amazon S3 bucket from which data is imported. Constraints: o min: 3 o max: 63 key -&gt; (string) [required] The key of the Amazon S3 object that contains your data. Each object has a key that is a unique identifier. Each object has exactly one key. versionId -&gt; (string) The version ID to identify a specific version of the Amazon S3 object that contains your data. alias -&gt; (string) The alias associated with the file's time series. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ startTime -&gt; (structure) The nanosecond-precision start time for the file data. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 fileFormat -&gt; (structure) The file format of the data in S3. csv -&gt; (structure) The file is in .CSV format. columnNames -&gt; (list) [required] The column names specified in the .csv file. (string) Possible values: o ALIAS o ASSET_ID o PROPERTY_ID o DATA_TYPE o TIMESTAMP_SECONDS o TIMESTAMP_NANO_OFFSET o QUALITY o VALUE parquet -&gt; (structure) The file is in parquet format. mp4 -&gt; (structure) The MP4 format configuration. annotation -&gt; (structure) The annotation format configuration. JSON Syntax: [ { "bucket": "string", "key": "string", "versionId": "string", "alias": "string", "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "fileFormat": { "csv": { "columnNames": ["ALIAS"|"ASSET_ID"|"PROPERTY_ID"|"DATA_TYPE"|"TIMESTAMP_SECONDS"|"TIMESTAMP_NANO_OFFSET"|"QUALITY"|"VALUE", ...] }, "parquet": { }, "mp4": { }, "annotation": { } } } ... ]
+    /// </summary>
     [CliOption("--files", GroupValues = true)]
-    public IEnumerable<string>? Files { get; set; }
+    public IEnumerable<string>? Files { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 destination where errors associated with the job cre- ation request are saved. bucket -&gt; (string) [required] The name of the Amazon S3 bucket to which errors associated with the bulk import job are sent. Constraints: o min: 3 o max: 63 prefix -&gt; (string) [required] Amazon S3 uses the prefix as a folder name to organize data in the bucket. Each Amazon S3 object has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/). For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide . Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }
+    /// </summary>
     [CliOption("--error-report-location")]
-    public string? ErrorReportLocation { get; set; }
+    public string? ErrorReportLocation { get; private init; }
 
     /// <summary>
     /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3. fileFormat -&gt; (structure) The file format of the data in S3. csv -&gt; (structure) The file is in .CSV format. columnNames -&gt; (list) [required] The column names specified in the .csv file. (string) Possible values: o ALIAS o ASSET_ID o PROPERTY_ID o DATA_TYPE o TIMESTAMP_SECONDS o TIMESTAMP_NANO_OFFSET o QUALITY o VALUE parquet -&gt; (structure) The file is in parquet format. mp4 -&gt; (structure) The MP4 format configuration. annotation -&gt; (structure) The annotation format configuration. JSON Syntax: { "fileFormat": { "csv": { "columnNames": ["ALIAS"|"ASSET_ID"|"PROPERTY_ID"|"DATA_TYPE"|"TIMESTAMP_SECONDS"|"TIMESTAMP_NANO_OFFSET"|"QUALITY"|"VALUE", ...] }, "parquet": { }, "mp4": { }, "annotation": { } } }
@@ -39,10 +108,16 @@ public record AwsIotsitewiseCreateBulkImportJobOptions : AwsOptions
     [CliOption("--job-configuration")]
     public string? JobConfiguration { get; set; }
 
-    [CliFlag("--adaptive-ingestion")]
+    /// <summary>
+    /// If set to true, ingest new data into IoT SiteWise storage. Measure- ments with notifications, metrics and transforms are computed. If set to false, historical data is ingested into IoT SiteWise as is.
+    /// </summary>
+    [CliFlag("--adaptive-ingestion", NegatedName = "--no-adaptive-ingestion")]
     public bool? AdaptiveIngestion { get; set; }
 
-    [CliFlag("--delete-files-after-import")]
+    /// <summary>
+    /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
+    /// </summary>
+    [CliFlag("--delete-files-after-import", NegatedName = "--no-delete-files-after-import")]
     public bool? DeleteFilesAfterImport { get; set; }
 
     /// <summary>
@@ -62,5 +137,22 @@ public record AwsIotsitewiseCreateBulkImportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

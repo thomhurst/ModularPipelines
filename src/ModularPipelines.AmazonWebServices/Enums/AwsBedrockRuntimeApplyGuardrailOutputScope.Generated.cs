@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputscope.
+/// Allowed values for --output-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockRuntimeApplyGuardrailOutputScope
 {
-    [EnumValue("INTERVENTIONS")]
-    Interventions = 1,
-
     [EnumValue("FULL")]
-    Full = 2
+    Full,
+
+    [EnumValue("INTERVENTIONS")]
+    Interventions
 }

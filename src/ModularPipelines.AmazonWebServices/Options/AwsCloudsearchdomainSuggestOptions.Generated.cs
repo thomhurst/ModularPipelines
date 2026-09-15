@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudsearchdomain", "suggest")]
-public record AwsCloudsearchdomainSuggestOptions : AwsOptions
+public record AwsCloudsearchdomainSuggestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users fin- ish typing. In Amazon CloudSearch, suggestions are based on the con- tents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match. For more information ab...
+    /// </summary>
+    /// <param name="Suggester">Specifies the name of the suggester to use to find suggested matches.</param>
+    /// <param name="SuggestQuery">Specifies the string for which you want to get suggestions.</param>
+    public AwsCloudsearchdomainSuggestOptions(
+        string Suggester,
+        string SuggestQuery
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Suggester);
+        this.Suggester = Suggester;
+        global::System.ArgumentNullException.ThrowIfNull(SuggestQuery);
+        this.SuggestQuery = SuggestQuery;
+    }
+
+    private AwsCloudsearchdomainSuggestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudsearchdomainSuggestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudsearchdomainSuggestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the suggester to use to find suggested matches.
+    /// </summary>
     [CliOption("--suggester")]
-    public string? Suggester { get; set; }
+    public string? Suggester { get; private init; }
+
+    /// <summary>
+    /// Specifies the string for which you want to get suggestions.
+    /// </summary>
+    [CliOption("--suggest-query")]
+    public string? SuggestQuery { get; private init; }
 
     /// <summary>
     /// Specifies the maximum number of suggestions to return.
@@ -30,13 +77,27 @@ public record AwsCloudsearchdomainSuggestOptions : AwsOptions
     [CliOption("--size")]
     public int? Size { get; set; }
 
-    [CliOption("--suggest-query")]
-    public string? SuggestQuery { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

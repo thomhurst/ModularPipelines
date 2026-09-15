@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-code-interpreter")]
-public record AwsBedrockAgentcoreControlCreateCodeInterpreterOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreateCodeInterpreterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a custom code interpreter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the code interpreter. The name must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="NetworkConfiguration">The network configuration for the code interpreter. This configura- tion specifies the network mode for the code interpreter. networkMode -&gt; (string) [required] The network mode for the code interpreter. This field specifies how the code interpreter connects to the network. Possible values: o PUBLIC o SANDBOX o VPC vpcConfig -&gt; (structure) The VPC configuration for the code interpreter. This configura- tion is required when the network mode is set to VPC . securityGroups -&gt; (list) [required] The security groups associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: sg-[0-9a-zA-Z]{8,17} subnets -&gt; (list) [required] The subnets associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: subnet-[0-9a-zA-Z]{8,17} requireServiceS3Endpoint -&gt; (boolean) NOTE: This field applies only to Agent Runtimes. It is not ap- plicable to Browsers or Code Interpreters. Controls whether a service-managed Amazon S3 gateway endpoint is provisioned in the VPC network topology for the agent run- time. This gateway is used by Amazon Bedrock AgentCore Run- time to download code and container images during agent startup. Starting May 5, 2026, Amazon Bedrock AgentCore Runtime is gradually rolling out a change to how network isolation is configured for VPC mode agents. Agent runtimes created on or after this rollout will no longer include the service-managed Amazon S3 gateway. Instead, all network access, including to Amazon S3, is governed exclusively by your VPC configuration. This field cannot be set on agent runtimes created after the rollout. Passing this field in an UpdateAgentRuntime request for these agent runtimes returns a ValidationException . Agent runtimes created before the rollout are not affected and continue to operate with the service-managed Amazon S3 gateway. To enforce full VPC network isolation on these ex- isting agent runtimes, set this field to false via the Up- dateAgentRuntime API. Before opting out, ensure your VPC pro- vides the Amazon S3 access required for agent startup. If this field is not specified or is set to true , the ser- vice-managed Amazon S3 gateway remains provisioned. This field is only supported in the UpdateAgentRuntime API for pre-rollout agent runtimes. Passing this field in a Cre- ateAgentRuntime request returns a ValidationException . Shorthand Syntax: networkMode=string,vpcConfig={securityGroups=[string,string],subnets=[string,string],requireServiceS3Endpoint=boolean} JSON Syntax: { "networkMode": "PUBLIC"|"SANDBOX"|"VPC", "vpcConfig": { "securityGroups": ["string", ...], "subnets": ["string", ...], "requireServiceS3Endpoint": true|false } }</param>
+    public AwsBedrockAgentcoreControlCreateCodeInterpreterOptions(
+        string Name,
+        string NetworkConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkConfiguration);
+        this.NetworkConfiguration = NetworkConfiguration;
+    }
+
+    private AwsBedrockAgentcoreControlCreateCodeInterpreterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreateCodeInterpreterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreateCodeInterpreterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the code interpreter. The name must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The network configuration for the code interpreter. This configura- tion specifies the network mode for the code interpreter. networkMode -&gt; (string) [required] The network mode for the code interpreter. This field specifies how the code interpreter connects to the network. Possible values: o PUBLIC o SANDBOX o VPC vpcConfig -&gt; (structure) The VPC configuration for the code interpreter. This configura- tion is required when the network mode is set to VPC . securityGroups -&gt; (list) [required] The security groups associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: sg-[0-9a-zA-Z]{8,17} subnets -&gt; (list) [required] The subnets associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: subnet-[0-9a-zA-Z]{8,17} requireServiceS3Endpoint -&gt; (boolean) NOTE: This field applies only to Agent Runtimes. It is not ap- plicable to Browsers or Code Interpreters. Controls whether a service-managed Amazon S3 gateway endpoint is provisioned in the VPC network topology for the agent run- time. This gateway is used by Amazon Bedrock AgentCore Run- time to download code and container images during agent startup. Starting May 5, 2026, Amazon Bedrock AgentCore Runtime is gradually rolling out a change to how network isolation is configured for VPC mode agents. Agent runtimes created on or after this rollout will no longer include the service-managed Amazon S3 gateway. Instead, all network access, including to Amazon S3, is governed exclusively by your VPC configuration. This field cannot be set on agent runtimes created after the rollout. Passing this field in an UpdateAgentRuntime request for these agent runtimes returns a ValidationException . Agent runtimes created before the rollout are not affected and continue to operate with the service-managed Amazon S3 gateway. To enforce full VPC network isolation on these ex- isting agent runtimes, set this field to false via the Up- dateAgentRuntime API. Before opting out, ensure your VPC pro- vides the Amazon S3 access required for agent startup. If this field is not specified or is set to true , the ser- vice-managed Amazon S3 gateway remains provisioned. This field is only supported in the UpdateAgentRuntime API for pre-rollout agent runtimes. Passing this field in a Cre- ateAgentRuntime request returns a ValidationException . Shorthand Syntax: networkMode=string,vpcConfig={securityGroups=[string,string],subnets=[string,string],requireServiceS3Endpoint=boolean} JSON Syntax: { "networkMode": "PUBLIC"|"SANDBOX"|"VPC", "vpcConfig": { "securityGroups": ["string", ...], "subnets": ["string", ...], "requireServiceS3Endpoint": true|false } }
+    /// </summary>
+    [CliOption("--network-configuration")]
+    public string? NetworkConfiguration { get; private init; }
 
     /// <summary>
     /// The description of the code interpreter. Constraints: o min: 1 o max: 4096
@@ -37,9 +84,6 @@ public record AwsBedrockAgentcoreControlCreateCodeInterpreterOptions : AwsOption
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
-
-    [CliOption("--network-configuration")]
-    public string? NetworkConfiguration { get; set; }
 
     /// <summary>
     /// A list of certificates to install in the code interpreter. Constraints: o min: 1 o max: 200 (structure) A certificate to install in the browser or code interpreter. location -&gt; (tagged union structure) [required] The location of the certificate. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: secretsManager. secretsManager -&gt; (structure) The Amazon Web Services Secrets Manager location of the certificate. secretArn -&gt; (string) [required] The ARN of the Amazon Web Services Secrets Manager se- cret containing the certificate. Constraints: o pattern: arn:aws(-[a-z-]+)?:secretsman- ager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@-]+ Shorthand Syntax: location={secretsManager={secretArn=string}} ... JSON Syntax: [ { "location": { "secretsManager": { "secretArn": "string" } } } ... ]
@@ -71,5 +115,22 @@ public record AwsBedrockAgentcoreControlCreateCodeInterpreterOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

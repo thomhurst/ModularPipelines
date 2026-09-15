@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "update-cross-account-attachment")]
-public record AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions : AwsOptions
+public record AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a cross-account attachment to add or remove principals or re- sources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the per- mission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AttachmentArn">The Amazon Resource Name (ARN) of the cross-account attachment to update. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions(
+        string AttachmentArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentArn);
+        this.AttachmentArn = AttachmentArn;
+    }
+
+    private AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the cross-account attachment to update. Constraints: o max: 255
+    /// </summary>
     [CliOption("--attachment-arn")]
-    public string? AttachmentArn { get; set; }
+    public string? AttachmentArn { get; private init; }
 
     /// <summary>
     /// The name of the cross-account attachment. Constraints: o max: 64 o pattern: [\S\s]+
@@ -59,5 +96,22 @@ public record AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

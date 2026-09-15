@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "start-job")]
-public record AwsLocationStartJobOptions : AwsOptions
+public record AwsLocationStartJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// StartJob starts a new asynchronous bulk processing job. You specify the input data location in Amazon S3, the action to perform, and the output location where results are written. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Action">The action to perform on the input data. Possible values: o ValidateAddress</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. NOTE: The IAM role must be created in the same Amazon Web Services ac- count where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide .</param>
+    /// <param name="InputOptions">Configuration for input data location and format. NOTE: Input files have a limitation of 10gb per file, and 1gb per Par- quet row-group within the file. Location -&gt; (string) [required] S3 ARN or URI where input files are stored. NOTE: The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?) Format -&gt; (string) [required] Input data format. Currently only Parquet is supported. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Possible values: o Parquet Shorthand Syntax: Location=string,Format=string JSON Syntax: { "Location": "string", "Format": "Parquet" }</param>
+    /// <param name="OutputOptions">Configuration for output data location and format. Format -&gt; (string) [required] Output data format. Currently only "Parquet" is supported. Possible values: o Parquet Location -&gt; (string) [required] S3 ARN or URI where output files will be written. NOTE: The Amazon S3 bucket must exist in the same Amazon Web Ser- vices region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/) Shorthand Syntax: Format=string,Location=string JSON Syntax: { "Format": "Parquet", "Location": "string" }</param>
+    public AwsLocationStartJobOptions(
+        AwsLocationStartJobAction Action,
+        string ExecutionRoleArn,
+        string InputOptions,
+        string OutputOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(InputOptions);
+        this.InputOptions = InputOptions;
+        global::System.ArgumentNullException.ThrowIfNull(OutputOptions);
+        this.OutputOptions = OutputOptions;
+    }
+
+    private AwsLocationStartJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationStartJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationStartJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The action to perform on the input data. Possible values: o ValidateAddress
+    /// </summary>
+    [CliOption("--action")]
+    public AwsLocationStartJobAction? Action { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. NOTE: The IAM role must be created in the same Amazon Web Services ac- count where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide .
+    /// </summary>
+    [CliOption("--execution-role-arn")]
+    public string? ExecutionRoleArn { get; private init; }
+
+    /// <summary>
+    /// Configuration for input data location and format. NOTE: Input files have a limitation of 10gb per file, and 1gb per Par- quet row-group within the file. Location -&gt; (string) [required] S3 ARN or URI where input files are stored. NOTE: The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?) Format -&gt; (string) [required] Input data format. Currently only Parquet is supported. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Possible values: o Parquet Shorthand Syntax: Location=string,Format=string JSON Syntax: { "Location": "string", "Format": "Parquet" }
+    /// </summary>
+    [CliOption("--input-options")]
+    public string? InputOptions { get; private init; }
+
+    /// <summary>
+    /// Configuration for output data location and format. Format -&gt; (string) [required] Output data format. Currently only "Parquet" is supported. Possible values: o Parquet Location -&gt; (string) [required] S3 ARN or URI where output files will be written. NOTE: The Amazon S3 bucket must exist in the same Amazon Web Ser- vices region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/) Shorthand Syntax: Format=string,Location=string JSON Syntax: { "Format": "Parquet", "Location": "string" }
+    /// </summary>
+    [CliOption("--output-options")]
+    public string? OutputOptions { get; private init; }
+
     /// <summary>
     /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
     /// </summary>
@@ -30,29 +101,17 @@ public record AwsLocationStartJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--action")]
-    public string? Action { get; set; }
-
     /// <summary>
     /// Additional parameters that can be requested for each result. ValidateAddress -&gt; (structure) Options specific to address validation jobs. AdditionalFeatures -&gt; (list) A list of optional additional parameters that can be re- quested for each result. Values: o Position - Return the position coordinates of the address if available. o CountrySpecificAttributes - Return additional information about the address specific to the country of origin. Constraints: o min: 1 o max: 2 (string) Possible values: o Position o CountrySpecificAttributes Shorthand Syntax: ValidateAddress={AdditionalFeatures=[string,string]} JSON Syntax: { "ValidateAddress": { "AdditionalFeatures": ["Position"|"CountrySpecificAttributes", ...] } }
     /// </summary>
     [CliOption("--action-options")]
     public string? ActionOptions { get; set; }
 
-    [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
-
-    [CliOption("--input-options")]
-    public string? InputOptions { get; set; }
-
     /// <summary>
     /// An optional name for the job resource. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--output-options")]
-    public string? OutputOptions { get; set; }
 
     /// <summary>
     /// Tags and corresponding values to be associated with the job. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -65,5 +124,22 @@ public record AwsLocationStartJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

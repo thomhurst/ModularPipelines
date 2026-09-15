@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account-access", "create-entitlement")]
-public record AwsAccountAccessCreateEntitlementOptions : AwsOptions
+public record AwsAccountAccessCreateEntitlementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an entitlement (assignment) in account access manager. An enti- tlement (assignment) grants a principal (IAM Identity Center user or group) permission to assume a specified IAM role in an Amazon Web Ser- vices account. This operation is idempotent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationArn">Specifies the ARN of the application to create the entitlement for. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
+    /// <param name="Entitlement">Specifies the entitlement configuration, including the principal and the IAM role to grant access to. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: principalRole. principalRole -&gt; (structure) The principal-to-role mapping for the entitlement. principal -&gt; (tagged union structure) [required] The principal (user or group) that is granted access to as- sume the IAM role. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal (user or group). NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Cen- ter. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Cen- ter. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) [required] The ARN of the IAM role that the principal can assume. Constraints: o pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string" } }</param>
+    public AwsAccountAccessCreateEntitlementOptions(
+        string ApplicationArn,
+        string Entitlement
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Entitlement);
+        this.Entitlement = Entitlement;
+    }
+
+    private AwsAccountAccessCreateEntitlementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccountAccessCreateEntitlementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccountAccessCreateEntitlementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the application to create the entitlement for. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--application-arn")]
+    public string? ApplicationArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the entitlement configuration, including the principal and the IAM role to grant access to. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: principalRole. principalRole -&gt; (structure) The principal-to-role mapping for the entitlement. principal -&gt; (tagged union structure) [required] The principal (user or group) that is granted access to as- sume the IAM role. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal (user or group). NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Cen- ter. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Cen- ter. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) [required] The ARN of the IAM role that the principal can assume. Constraints: o pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string" } }
+    /// </summary>
     [CliOption("--entitlement")]
-    public string? Entitlement { get; set; }
+    public string? Entitlement { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

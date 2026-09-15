@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer-automation", "update-enrollment-configuration")]
-public record AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions : AwsOptions
+public record AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates your accounts Compute Optimizer Automation enrollment configu- ration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Status">The desired enrollment status. o Active - Enables the Automation feature for your account. o Inactive - Disables the Automation feature for your account and stops all of your automation rules. If you opt in again later, all rules will be inactive, and you must enable the rules you want to run. You must wait at least 24 hours after opting out to opt in again. NOTE: The Pending and Failed options cannot be used to update the en- rollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, your account must be disassociated from your organizations management account before you can dis- able Automation. Contact your administrator to make this change. Possible values: o Active o Inactive o Pending o Failed</param>
+    public AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions(
+        AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The desired enrollment status. o Active - Enables the Automation feature for your account. o Inactive - Disables the Automation feature for your account and stops all of your automation rules. If you opt in again later, all rules will be inactive, and you must enable the rules you want to run. You must wait at least 24 hours after opting out to opt in again. NOTE: The Pending and Failed options cannot be used to update the en- rollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, your account must be disassociated from your organizations management account before you can dis- able Automation. Contact your administrator to make this change. Possible values: o Active o Inactive o Pending o Failed
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationStatus? Status { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
@@ -37,5 +75,22 @@ public record AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

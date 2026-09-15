@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --memberstatus.
+/// Allowed values for --member-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsListCollaborationsMemberStatus
 {
-    [EnumValue("INVITED")]
-    Invited = 1,
-
     [EnumValue("ACTIVE")]
-    Active = 2
+    Active,
+
+    [EnumValue("INVITED")]
+    Invited
 }

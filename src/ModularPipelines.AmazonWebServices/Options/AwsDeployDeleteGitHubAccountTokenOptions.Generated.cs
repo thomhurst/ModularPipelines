@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -25,7 +24,6 @@ public record AwsDeployDeleteGitHubAccountTokenOptions : AwsOptions
     /// <summary>
     /// The name of the GitHub account connection to delete.
     /// </summary>
-    [SecretValue]
     [CliOption("--token-name")]
     public string? TokenName { get; set; }
 

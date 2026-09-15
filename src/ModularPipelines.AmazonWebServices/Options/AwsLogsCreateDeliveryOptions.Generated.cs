@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "create-delivery")]
-public record AwsLogsCreateDeliveryOptions : AwsOptions
+public record AwsLogsCreateDeliveryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--delivery-source-name")]
-    public string? DeliverySourceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a delivery . A delivery is a connection between a logical de- livery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Sup- ported [V2 Permissions] in the table at Enabling logging from Amazon Web Services services. A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, a delivery stream in Fireho...
+    /// </summary>
+    /// <param name="DeliverySourceName">The name of the delivery source to use for this delivery. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="DeliveryDestinationArn">The ARN of the delivery destination to use for this delivery.</param>
+    public AwsLogsCreateDeliveryOptions(
+        string DeliverySourceName,
+        string DeliveryDestinationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliverySourceName);
+        this.DeliverySourceName = DeliverySourceName;
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryDestinationArn);
+        this.DeliveryDestinationArn = DeliveryDestinationArn;
+    }
+
+    private AwsLogsCreateDeliveryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsCreateDeliveryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsCreateDeliveryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the delivery source to use for this delivery. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// </summary>
+    [CliOption("--delivery-source-name")]
+    public string? DeliverySourceName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the delivery destination to use for this delivery.
+    /// </summary>
     [CliOption("--delivery-destination-arn")]
-    public string? DeliveryDestinationArn { get; set; }
+    public string? DeliveryDestinationArn { get; private init; }
 
     /// <summary>
     /// The list of record fields to be delivered to the destination, in or- der. If the delivery's log source has mandatory fields, they must be included in this list. Constraints: o min: 0 o max: 128 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
@@ -57,5 +101,22 @@ public record AwsLogsCreateDeliveryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

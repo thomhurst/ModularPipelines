@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,26 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "create-link-routing-rule")]
-public record AwsRtbfabricCreateLinkRoutingRuleOptions : AwsOptions
+public record AwsRtbfabricCreateLinkRoutingRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority num- bers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LinkId">The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}</param>
+    /// <param name="Priority">The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Conditions">The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set. hostHeader -&gt; (string) The exact host header value to match. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9._~-]+ hostHeaderWildcard -&gt; (string) A wildcard pattern for host header matching (for example, *.ex- ample.com ). Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9._~*-]+ pathPrefix -&gt; (string) The path prefix to match. The request path must start with this value. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* pathExact -&gt; (string) The exact path to match. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* queryStringEquals -&gt; (structure) A query string key-value pair that must be present and match ex- actly. key -&gt; (string) [required] The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ value -&gt; (string) [required] The value of the query string parameter to match. Must con- tain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ queryStringExists -&gt; (string) A query string key that must be present in the request (any value is accepted). Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ Shorthand Syntax: hostHeader=string,hostHeaderWildcard=string,pathPrefix=string,pathExact=string,queryStringEquals={key=string,value=string},queryStringExists=string JSON Syntax: { "hostHeader": "string", "hostHeaderWildcard": "string", "pathPrefix": "string", "pathExact": "string", "queryStringEquals": { "key": "string", "value": "string" }, "queryStringExists": "string" }</param>
+    public AwsRtbfabricCreateLinkRoutingRuleOptions(
+        string GatewayId,
+        string LinkId,
+        int Priority,
+        string Conditions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(LinkId);
+        this.LinkId = LinkId;
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(Conditions);
+        this.Conditions = Conditions;
+    }
+
+    private AwsRtbfabricCreateLinkRoutingRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricCreateLinkRoutingRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricCreateLinkRoutingRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--link-id")]
+    public string? LinkId { get; private init; }
+
+    /// <summary>
+    /// The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [CliOption("--priority")]
+    public int? Priority { get; private init; }
+
+    /// <summary>
+    /// The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set. hostHeader -&gt; (string) The exact host header value to match. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9._~-]+ hostHeaderWildcard -&gt; (string) A wildcard pattern for host header matching (for example, *.ex- ample.com ). Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9._~*-]+ pathPrefix -&gt; (string) The path prefix to match. The request path must start with this value. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* pathExact -&gt; (string) The exact path to match. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* queryStringEquals -&gt; (structure) A query string key-value pair that must be present and match ex- actly. key -&gt; (string) [required] The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ value -&gt; (string) [required] The value of the query string parameter to match. Must con- tain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ queryStringExists -&gt; (string) A query string key that must be present in the request (any value is accepted). Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ Shorthand Syntax: hostHeader=string,hostHeaderWildcard=string,pathPrefix=string,pathExact=string,queryStringEquals={key=string,value=string},queryStringExists=string JSON Syntax: { "hostHeader": "string", "hostHeaderWildcard": "string", "pathPrefix": "string", "pathExact": "string", "queryStringEquals": { "key": "string", "value": "string" }, "queryStringExists": "string" }
+    /// </summary>
+    [CliOption("--conditions")]
+    public string? Conditions { get; private init; }
+
+    /// <summary>
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
-
-    [CliOption("--link-id")]
-    public string? LinkId { get; set; }
-
-    [CliOption("--priority")]
-    public int? Priority { get; set; }
-
-    [CliOption("--conditions")]
-    public string? Conditions { get; set; }
 
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: o min: 0 o max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +110,22 @@ public record AwsRtbfabricCreateLinkRoutingRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2DescribeAddressesAttributeAttribute
 {
     [EnumValue("domain-name")]
-    DomainName = 1
+    DomainName,
+
+    [EnumValue("o")]
+    O
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "list-file-transfer-results")]
-public record AwsTransferListFileTransferResultsOptions : AwsOptions
+public record AwsTransferListFileTransferResultsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer op- eration. You specify the file transfer by providing its ConnectorId and its TransferId . NOTE: File transfer results are available up to 7 days after an operation has been requested. See also: AWS API Documentation list-file-transfer-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can...
+    /// </summary>
+    /// <param name="ConnectorId">A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
+    /// <param name="TransferId">A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 1 o max: 512 o pattern: [0-9a-zA-Z./-]+</param>
+    public AwsTransferListFileTransferResultsOptions(
+        string ConnectorId,
+        string TransferId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(TransferId);
+        this.TransferId = TransferId;
+    }
+
+    private AwsTransferListFileTransferResultsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferListFileTransferResultsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferListFileTransferResultsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--connector-id")]
+    public string? ConnectorId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 1 o max: 512 o pattern: [0-9a-zA-Z./-]+
+    /// </summary>
     [CliOption("--transfer-id")]
-    public string? TransferId { get; set; }
+    public string? TransferId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsTransferListFileTransferResultsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

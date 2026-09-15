@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "get-container-log")]
-public record AwsLightsailGetContainerLogOptions : AwsOptions
+public record AwsLightsailGetContainerLogOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-name")]
-    public string? ServiceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the log events of a container of your Amazon Lightsail con- tainer service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified con- tainer are merged from all nodes on your container service. NOTE: Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General Reference . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceName">The name of the container service for which to get a container log. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="ContainerName">The name of the container that is either running or previously ran on the container service for which to return a log.</param>
+    public AwsLightsailGetContainerLogOptions(
+        string ServiceName,
+        string ContainerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+    }
+
+    private AwsLightsailGetContainerLogOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailGetContainerLogOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailGetContainerLogOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container service for which to get a container log. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// </summary>
+    [CliOption("--service-name")]
+    public string? ServiceName { get; private init; }
+
+    /// <summary>
+    /// The name of the container that is either running or previously ran on the container service for which to return a log.
+    /// </summary>
     [CliOption("--container-name")]
-    public string? ContainerName { get; set; }
+    public string? ContainerName { get; private init; }
 
     /// <summary>
     /// The start of the time interval for which to get log data. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
@@ -58,5 +102,22 @@ public record AwsLightsailGetContainerLogOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

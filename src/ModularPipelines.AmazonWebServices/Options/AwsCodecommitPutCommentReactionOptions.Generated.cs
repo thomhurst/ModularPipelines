@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "put-comment-reaction")]
-public record AwsCodecommitPutCommentReactionOptions : AwsOptions
+public record AwsCodecommitPutCommentReactionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--comment-id")]
-    public string? CommentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a re- action for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CommentId">The ID of the comment to which you want to add or update a reaction.</param>
+    /// <param name="ReactionValue">The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in Code- Commit, see the CodeCommit User Guide .</param>
+    public AwsCodecommitPutCommentReactionOptions(
+        string CommentId,
+        string ReactionValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommentId);
+        this.CommentId = CommentId;
+        global::System.ArgumentNullException.ThrowIfNull(ReactionValue);
+        this.ReactionValue = ReactionValue;
+    }
+
+    private AwsCodecommitPutCommentReactionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitPutCommentReactionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitPutCommentReactionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the comment to which you want to add or update a reaction.
+    /// </summary>
+    [CliOption("--comment-id")]
+    public string? CommentId { get; private init; }
+
+    /// <summary>
+    /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in Code- Commit, see the CodeCommit User Guide .
+    /// </summary>
     [CliOption("--reaction-value")]
-    public string? ReactionValue { get; set; }
+    public string? ReactionValue { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

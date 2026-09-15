@@ -11,20 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --passthroughbehavior.
+/// Allowed values for --passthrough-behavior.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayv2CreateIntegrationPassthroughBehavior
 {
+    [EnumValue("NEVER")]
+    Never,
+
     [EnumValue("WHEN_NO_MATCH")]
-    WhenNoMatch = 0,
+    WhenNoMatch,
 
     [EnumValue("WHEN_NO_TEMPLATES")]
-    WhenNoTemplates = 1,
-
-    [EnumValue("and")]
-    And = 2,
-
-    [EnumValue("NEVER")]
-    Never = 3
+    WhenNoTemplates
 }

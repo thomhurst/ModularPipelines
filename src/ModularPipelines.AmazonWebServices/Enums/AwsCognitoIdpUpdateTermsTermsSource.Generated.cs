@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --termssource.
+/// Allowed values for --terms-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCognitoIdpUpdateTermsTermsSource
 {
     [EnumValue("LINK")]
-    Link = 1
+    Link,
+
+    [EnumValue("o")]
+    O
 }

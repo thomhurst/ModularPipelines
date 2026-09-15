@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "delete-v2-logging-level")]
-public record AwsIotDeleteV2LoggingLevelOptions : AwsOptions
+public record AwsIotDeleteV2LoggingLevelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-type")]
-    public string? TargetType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a logging level. Requires permission to access the DeleteV2LoggingLevel action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetType">The type of resource for which you are configuring logging. Must be THING_Group . Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID</param>
+    /// <param name="TargetName">The name of the resource for which you are configuring logging.</param>
+    public AwsIotDeleteV2LoggingLevelOptions(
+        AwsIotDeleteV2LoggingLevelTargetType TargetType,
+        string TargetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetType);
+        this.TargetType = TargetType;
+        global::System.ArgumentNullException.ThrowIfNull(TargetName);
+        this.TargetName = TargetName;
+    }
+
+    private AwsIotDeleteV2LoggingLevelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDeleteV2LoggingLevelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDeleteV2LoggingLevelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of resource for which you are configuring logging. Must be THING_Group . Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID
+    /// </summary>
+    [CliOption("--target-type")]
+    public AwsIotDeleteV2LoggingLevelTargetType? TargetType { get; private init; }
+
+    /// <summary>
+    /// The name of the resource for which you are configuring logging.
+    /// </summary>
     [CliOption("--target-name")]
-    public string? TargetName { get; set; }
+    public string? TargetName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

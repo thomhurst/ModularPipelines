@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "search-metrics")]
-public record AwsConnectSearchMetricsOptions : AwsOptions
+public record AwsConnectSearchMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation search-metrics is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respon...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectSearchMetricsOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectSearchMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSearchMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSearchMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// Filters to be applied to search results. TagFilter -&gt; (structure) An object that can be used to specify tag conditions inside the SearchFilter . This accepts an OR of AND (List of List) input where: o The top level list specifies conditions that need to be ap- plied with OR operator. o The inner list specifies conditions that need to be applied with AND operator. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (list) (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. TagCondition -&gt; (structure) A leaf node condition which can be used to specify a tag con- dition. TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. JSON Syntax: { "TagFilter": { "OrConditions": [ [ { "TagKey": "string", "TagValue": "string" } ... ] ... ], "AndConditions": [ { "TagKey": "string", "TagValue": "string" } ... ], "TagCondition": { "TagKey": "string", "TagValue": "string" } } }
@@ -61,5 +98,22 @@ public record AwsConnectSearchMetricsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

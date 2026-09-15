@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "register-ca-certificate")]
-public record AwsIotRegisterCaCertificateOptions : AwsOptions
+public record AwsIotRegisterCaCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Ama- zon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CaCertificate">The CA certificate. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*</param>
+    public AwsIotRegisterCaCertificateOptions(
+        string CaCertificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaCertificate);
+        this.CaCertificate = CaCertificate;
+    }
+
+    private AwsIotRegisterCaCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotRegisterCaCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotRegisterCaCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The CA certificate. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--ca-certificate")]
-    public string? CaCertificate { get; set; }
+    public string? CaCertificate { get; private init; }
 
     /// <summary>
     /// The private key verification certificate. If certificateMode is SNI_ONLY , the verificationCertificate field must be empty. If cer- tificateMode is DEFAULT or not provided, the verificationCertificate field must not be empty. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
@@ -31,10 +68,16 @@ public record AwsIotRegisterCaCertificateOptions : AwsOptions
     [CliOption("--verification-certificate")]
     public string? VerificationCertificate { get; set; }
 
-    [CliFlag("--set-as-active")]
+    /// <summary>
+    /// A boolean value that specifies if the CA certificate is set to ac- tive. Valid values: ACTIVE | INACTIVE
+    /// </summary>
+    [CliFlag("--set-as-active", NegatedName = "--no-set-as-active")]
     public bool? SetAsActive { get; set; }
 
-    [CliFlag("--allow-auto-registration")]
+    /// <summary>
+    /// Allows this CA certificate to be used for auto registration of de- vice certificates.
+    /// </summary>
+    [CliFlag("--allow-auto-registration", NegatedName = "--no-allow-auto-registration")]
     public bool? AllowAutoRegistration { get; set; }
 
     /// <summary>
@@ -60,5 +103,22 @@ public record AwsIotRegisterCaCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

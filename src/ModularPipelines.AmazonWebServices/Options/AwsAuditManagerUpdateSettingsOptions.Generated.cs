@@ -45,7 +45,10 @@ public record AwsAuditManagerUpdateSettingsOptions : AwsOptions
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CliFlag("--evidence-finder-enabled")]
+    /// <summary>
+    /// Specifies whether the evidence finder feature is enabled. Change this attribute to enable or disable evidence finder. WARNING: When you use this attribute to disable evidence finder, Audit Manager deletes the event data store thats used to query your evidence data. As a result, you cant re-enable evidence finder and use the feature again. Your only alternative is to deregister and then re-register Audit Manager.
+    /// </summary>
+    [CliFlag("--evidence-finder-enabled", NegatedName = "--no-evidence-finder-enabled")]
     public bool? EvidenceFinderEnabled { get; set; }
 
     /// <summary>

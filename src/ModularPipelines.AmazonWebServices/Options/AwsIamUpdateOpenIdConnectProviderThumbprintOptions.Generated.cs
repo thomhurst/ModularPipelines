@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "update-open-id-connect-provider-thumbprint")]
-public record AwsIamUpdateOpenIdConnectProviderThumbprintOptions : AwsOptions
+public record AwsIamUpdateOpenIdConnectProviderThumbprintOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--open-id-connect-provider-arn")]
-    public string? OpenIdConnectProviderArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the ex- isting list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specif...
+    /// </summary>
+    /// <param name="OpenIdConnectProviderArn">The Amazon Resource Name (ARN) of the IAM OIDC provider resource ob- ject for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders opera- tion. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ThumbprintList">A list of certificate thumbprints that are associated with the spec- ified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider . (string) Contains a thumbprint for an identity provider's server certifi- cate. The identity provider's server certificate thumbprint is the hex-encoded SHA-1 hash value of the self-signed X.509 certifi- cate. This thumbprint is used by the domain where the OpenID Connect provider makes its keys available. The thumbprint is al- ways a 40-character string. Constraints: o min: 40 o max: 40 Syntax: "string" "string" ...</param>
+    public AwsIamUpdateOpenIdConnectProviderThumbprintOptions(
+        string OpenIdConnectProviderArn,
+        IEnumerable<string> ThumbprintList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpenIdConnectProviderArn);
+        this.OpenIdConnectProviderArn = OpenIdConnectProviderArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ThumbprintList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ThumbprintList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ThumbprintList));
+            }
+
+            ThumbprintList = materialized;
+        }
+        this.ThumbprintList = ThumbprintList;
+    }
+
+    private AwsIamUpdateOpenIdConnectProviderThumbprintOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamUpdateOpenIdConnectProviderThumbprintOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamUpdateOpenIdConnectProviderThumbprintOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource ob- ject for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders opera- tion. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--open-id-connect-provider-arn")]
+    public string? OpenIdConnectProviderArn { get; private init; }
+
+    /// <summary>
+    /// A list of certificate thumbprints that are associated with the spec- ified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider . (string) Contains a thumbprint for an identity provider's server certifi- cate. The identity provider's server certificate thumbprint is the hex-encoded SHA-1 hash value of the self-signed X.509 certifi- cate. This thumbprint is used by the domain where the OpenID Connect provider makes its keys available. The thumbprint is al- ways a 40-character string. Constraints: o min: 40 o max: 40 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--thumbprint-list", GroupValues = true)]
-    public IEnumerable<string>? ThumbprintList { get; set; }
+    public IEnumerable<string>? ThumbprintList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

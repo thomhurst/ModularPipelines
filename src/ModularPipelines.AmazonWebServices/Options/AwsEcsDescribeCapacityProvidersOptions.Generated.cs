@@ -43,6 +43,7 @@ public record AwsEcsDescribeCapacityProvidersOptions : AwsOptions
     /// <summary>
     /// The maximum number of account setting results returned by De- scribeCapacityProviders in paginated output. When this parameter is used, DescribeCapacityProviders only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another De- scribeCapacityProviders request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then DescribeCapacityProviders returns up to 10 results and a next- Token value if applicable.
     /// </summary>
+    [SecretValue]
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 

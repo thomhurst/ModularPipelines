@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "copy-serverless-cache-snapshot")]
-public record AwsElasticacheCopyServerlessCacheSnapshotOptions : AwsOptions
+public record AwsElasticacheCopyServerlessCacheSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-serverless-cache-snapshot-name")]
-    public string? SourceServerlessCacheSnapshotName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a copy of an existing serverless caches snapshot. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerlessCacheSnapshotName">The identifier of the existing serverless caches snapshot to be copied. Available for Valkey, Redis OSS and Serverless Memcached only.</param>
+    /// <param name="TargetServerlessCacheSnapshotName">The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only. This value is stored as a lowercase string.</param>
+    public AwsElasticacheCopyServerlessCacheSnapshotOptions(
+        string SourceServerlessCacheSnapshotName,
+        string TargetServerlessCacheSnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerlessCacheSnapshotName);
+        this.SourceServerlessCacheSnapshotName = SourceServerlessCacheSnapshotName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetServerlessCacheSnapshotName);
+        this.TargetServerlessCacheSnapshotName = TargetServerlessCacheSnapshotName;
+    }
+
+    private AwsElasticacheCopyServerlessCacheSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCopyServerlessCacheSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCopyServerlessCacheSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the existing serverless caches snapshot to be copied. Available for Valkey, Redis OSS and Serverless Memcached only.
+    /// </summary>
+    [CliOption("--source-serverless-cache-snapshot-name")]
+    public string? SourceServerlessCacheSnapshotName { get; private init; }
+
+    /// <summary>
+    /// The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only. This value is stored as a lowercase string.
+    /// </summary>
     [CliOption("--target-serverless-cache-snapshot-name")]
-    public string? TargetServerlessCacheSnapshotName { get; set; }
+    public string? TargetServerlessCacheSnapshotName { get; private init; }
 
     /// <summary>
     /// The identifier of the KMS key used to encrypt the target snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -44,5 +88,22 @@ public record AwsElasticacheCopyServerlessCacheSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

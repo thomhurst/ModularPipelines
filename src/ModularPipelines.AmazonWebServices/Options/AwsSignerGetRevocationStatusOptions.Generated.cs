@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,119 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signer", "get-revocation-status")]
-public record AwsSignerGetRevocationStatusOptions : AwsOptions
+public record AwsSignerGetRevocationStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the revocation status of one or more of the signing profile, signing job, and signing certificate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SignatureTimestamp">The timestamp of the signature that validates the profile or job.</param>
+    /// <param name="PlatformId">The ID of a signing platform.</param>
+    /// <param name="ProfileVersionArn">The version of a signing profile. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="JobArn">The ARN of a signing job. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="CertificateHashes">A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the parent CA) combined with a parent CA TBS hash (signed by the parent CAs CA). Root certificates are defined as their own CA. The following example shows how to calculate a hash for this parame- ter using OpenSSL commands: openssl asn1parse -in childCert.pem -strparse 4 -out child- Cert.tbs openssl sha384 &lt; childCert.tbs -binary &gt; childCertTbsHash openssl asn1parse -in parentCert.pem -strparse 4 -out par- entCert.tbs openssl sha384 &lt; parentCert.tbs -binary &gt; parentCertTbsHash xxd -p childCertTbsHash &gt; certificateHash.hex xxd -p parentCertTb- sHash &gt;&gt; certificateHash.hex cat certificateHash.hex | tr -d '\n' (string) Syntax: "string" "string" ...</param>
+    public AwsSignerGetRevocationStatusOptions(
+        string SignatureTimestamp,
+        string PlatformId,
+        string ProfileVersionArn,
+        string JobArn,
+        IEnumerable<string> CertificateHashes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SignatureTimestamp);
+        this.SignatureTimestamp = SignatureTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(PlatformId);
+        this.PlatformId = PlatformId;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileVersionArn);
+        this.ProfileVersionArn = ProfileVersionArn;
+        global::System.ArgumentNullException.ThrowIfNull(JobArn);
+        this.JobArn = JobArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CertificateHashes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CertificateHashes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CertificateHashes));
+            }
+
+            CertificateHashes = materialized;
+        }
+        this.CertificateHashes = CertificateHashes;
+    }
+
+    private AwsSignerGetRevocationStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSignerGetRevocationStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSignerGetRevocationStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The timestamp of the signature that validates the profile or job.
+    /// </summary>
     [CliOption("--signature-timestamp")]
-    public string? SignatureTimestamp { get; set; }
+    public string? SignatureTimestamp { get; private init; }
 
+    /// <summary>
+    /// The ID of a signing platform.
+    /// </summary>
     [CliOption("--platform-id")]
-    public string? PlatformId { get; set; }
+    public string? PlatformId { get; private init; }
 
+    /// <summary>
+    /// The version of a signing profile. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--profile-version-arn")]
-    public string? ProfileVersionArn { get; set; }
+    public string? ProfileVersionArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of a signing job. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--job-arn")]
-    public string? JobArn { get; set; }
+    public string? JobArn { get; private init; }
 
+    /// <summary>
+    /// A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the parent CA) combined with a parent CA TBS hash (signed by the parent CAs CA). Root certificates are defined as their own CA. The following example shows how to calculate a hash for this parame- ter using OpenSSL commands: openssl asn1parse -in childCert.pem -strparse 4 -out child- Cert.tbs openssl sha384 &lt; childCert.tbs -binary &gt; childCertTbsHash openssl asn1parse -in parentCert.pem -strparse 4 -out par- entCert.tbs openssl sha384 &lt; parentCert.tbs -binary &gt; parentCertTbsHash xxd -p childCertTbsHash &gt; certificateHash.hex xxd -p parentCertTb- sHash &gt;&gt; certificateHash.hex cat certificateHash.hex | tr -d '\n' (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--certificate-hashes", GroupValues = true)]
-    public IEnumerable<string>? CertificateHashes { get; set; }
+    public IEnumerable<string>? CertificateHashes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

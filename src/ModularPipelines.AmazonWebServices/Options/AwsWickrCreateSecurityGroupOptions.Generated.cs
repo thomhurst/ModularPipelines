@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "create-security-group")]
-public record AwsWickrCreateSecurityGroupOptions : AwsOptions
+public record AwsWickrCreateSecurityGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and se- curity settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network where the security group will be cre- ated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="Name">The name for the new security group. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="SecurityGroupSettings">The configuration settings for the security group, including permis- sions, federation settings, and feature controls. lockoutThreshold -&gt; (integer) The number of failed password attempts before a user account is locked out. permittedNetworks -&gt; (list) A list of network IDs that are permitted for local federation when federation mode is set to restricted. (string) Constraints: o min: 8 o max: 8 o pattern: [0-9]{8} enableGuestFederation -&gt; (boolean) Guest users let you work with people outside your organization that only have limited access to Wickr. Only valid when federa- tionMode is set to Global. globalFederation -&gt; (boolean) Allow users to securely federate with all Amazon Web Services Wickr networks and Amazon Web Services Enterprise networks. federationMode -&gt; (integer) The local federation mode. Values: 0 (none), 1 (federated - all networks), 2 (restricted - only permitted networks). enableRestrictedGlobalFederation -&gt; (boolean) Enables restricted global federation to limit communication to specific permitted networks only. Requires globalFederation to be enabled. permittedWickrAwsNetworks -&gt; (list) A list of permitted Amazon Web Services Wickr networks for re- stricted global federation. (structure) Identifies a Amazon Web Services Wickr network by region and network ID, used for configuring permitted networks for global federation. region -&gt; (string) [required] The Amazon Web Services region identifier where the net- work is hosted (e.g., 'us-east-1'). Constraints: o pattern: [\S\s]* networkId -&gt; (string) [required] The network ID of the Wickr Amazon Web Services network. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8} permittedWickrEnterpriseNetworks -&gt; (list) A list of permitted Wickr Enterprise networks for restricted global federation. (structure) Identifies a Wickr enterprise network that is permitted for global federation, allowing users to communicate with members of the specified network. domain -&gt; (string) [required] The domain identifier for the permitted Wickr enterprise network. Constraints: o pattern: [\S\s]* networkId -&gt; (string) [required] The network ID of the permitted Wickr enterprise network. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8} Shorthand Syntax: lockoutThreshold=integer,permittedNetworks=string,string,enableGuestFederation=boolean,globalFederation=boolean,federationMode=integer,enableRestrictedGlobalFederation=boolean,permittedWickrAwsNetworks=[{region=string,networkId=string},{region=string,networkId=string}],permittedWickrEnterpriseNetworks=[{domain=string,networkId=string},{domain=string,networkId=string}] JSON Syntax: { "lockoutThreshold": integer, "permittedNetworks": ["string", ...], "enableGuestFederation": true|false, "globalFederation": true|false, "federationMode": integer, "enableRestrictedGlobalFederation": true|false, "permittedWickrAwsNetworks": [ { "region": "string", "networkId": "string" } ... ], "permittedWickrEnterpriseNetworks": [ { "domain": "string", "networkId": "string" } ... ] }</param>
+    public AwsWickrCreateSecurityGroupOptions(
+        string NetworkId,
+        string Name,
+        string SecurityGroupSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SecurityGroupSettings);
+        this.SecurityGroupSettings = SecurityGroupSettings;
+    }
+
+    private AwsWickrCreateSecurityGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrCreateSecurityGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrCreateSecurityGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network where the security group will be cre- ated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
     [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    public string? NetworkId { get; private init; }
 
+    /// <summary>
+    /// The name for the new security group. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The configuration settings for the security group, including permis- sions, federation settings, and feature controls. lockoutThreshold -&gt; (integer) The number of failed password attempts before a user account is locked out. permittedNetworks -&gt; (list) A list of network IDs that are permitted for local federation when federation mode is set to restricted. (string) Constraints: o min: 8 o max: 8 o pattern: [0-9]{8} enableGuestFederation -&gt; (boolean) Guest users let you work with people outside your organization that only have limited access to Wickr. Only valid when federa- tionMode is set to Global. globalFederation -&gt; (boolean) Allow users to securely federate with all Amazon Web Services Wickr networks and Amazon Web Services Enterprise networks. federationMode -&gt; (integer) The local federation mode. Values: 0 (none), 1 (federated - all networks), 2 (restricted - only permitted networks). enableRestrictedGlobalFederation -&gt; (boolean) Enables restricted global federation to limit communication to specific permitted networks only. Requires globalFederation to be enabled. permittedWickrAwsNetworks -&gt; (list) A list of permitted Amazon Web Services Wickr networks for re- stricted global federation. (structure) Identifies a Amazon Web Services Wickr network by region and network ID, used for configuring permitted networks for global federation. region -&gt; (string) [required] The Amazon Web Services region identifier where the net- work is hosted (e.g., 'us-east-1'). Constraints: o pattern: [\S\s]* networkId -&gt; (string) [required] The network ID of the Wickr Amazon Web Services network. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8} permittedWickrEnterpriseNetworks -&gt; (list) A list of permitted Wickr Enterprise networks for restricted global federation. (structure) Identifies a Wickr enterprise network that is permitted for global federation, allowing users to communicate with members of the specified network. domain -&gt; (string) [required] The domain identifier for the permitted Wickr enterprise network. Constraints: o pattern: [\S\s]* networkId -&gt; (string) [required] The network ID of the permitted Wickr enterprise network. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8} Shorthand Syntax: lockoutThreshold=integer,permittedNetworks=string,string,enableGuestFederation=boolean,globalFederation=boolean,federationMode=integer,enableRestrictedGlobalFederation=boolean,permittedWickrAwsNetworks=[{region=string,networkId=string},{region=string,networkId=string}],permittedWickrEnterpriseNetworks=[{domain=string,networkId=string},{domain=string,networkId=string}] JSON Syntax: { "lockoutThreshold": integer, "permittedNetworks": ["string", ...], "enableGuestFederation": true|false, "globalFederation": true|false, "federationMode": integer, "enableRestrictedGlobalFederation": true|false, "permittedWickrAwsNetworks": [ { "region": "string", "networkId": "string" } ... ], "permittedWickrEnterpriseNetworks": [ { "domain": "string", "networkId": "string" } ... ] }
+    /// </summary>
     [CliOption("--security-group-settings")]
-    public string? SecurityGroupSettings { get; set; }
+    public string? SecurityGroupSettings { get; private init; }
 
     /// <summary>
     /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
@@ -43,5 +94,22 @@ public record AwsWickrCreateSecurityGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

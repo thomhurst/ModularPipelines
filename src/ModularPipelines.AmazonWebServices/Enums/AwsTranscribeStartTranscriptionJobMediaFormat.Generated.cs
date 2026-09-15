@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --mediaformat.
+/// Allowed values for --media-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTranscribeStartTranscriptionJobMediaFormat
 {
-    [EnumValue("mp3")]
-    Mp3 = 1,
-
-    [EnumValue("mp4")]
-    Mp4 = 2,
-
-    [EnumValue("wav")]
-    Wav = 3,
+    [EnumValue("amr")]
+    Amr,
 
     [EnumValue("flac")]
-    Flac = 4,
-
-    [EnumValue("ogg")]
-    Ogg = 5,
-
-    [EnumValue("amr")]
-    Amr = 6,
-
-    [EnumValue("webm")]
-    Webm = 7,
+    Flac,
 
     [EnumValue("m4a")]
-    M4a = 8
+    M4A,
+
+    [EnumValue("mp3")]
+    Mp3,
+
+    [EnumValue("mp4")]
+    Mp4,
+
+    [EnumValue("ogg")]
+    Ogg,
+
+    [EnumValue("wav")]
+    Wav,
+
+    [EnumValue("webm")]
+    Webm
 }

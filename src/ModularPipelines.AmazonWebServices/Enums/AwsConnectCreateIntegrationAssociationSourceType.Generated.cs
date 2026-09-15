@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectCreateIntegrationAssociationSourceType
 {
+    [EnumValue("CASES")]
+    Cases,
+
     [EnumValue("SALESFORCE")]
-    Salesforce = 1,
+    Salesforce,
 
     [EnumValue("ZENDESK")]
-    Zendesk = 2,
-
-    [EnumValue("CASES")]
-    Cases = 3
+    Zendesk
 }

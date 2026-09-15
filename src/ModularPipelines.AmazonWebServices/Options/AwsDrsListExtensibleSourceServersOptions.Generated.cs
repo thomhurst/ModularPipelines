@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "list-extensible-source-servers")]
-public record AwsDrsListExtensibleSourceServersOptions : AwsOptions
+public record AwsDrsListExtensibleSourceServersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of source servers on a staging account that are extensi- ble, which means that: a. The source server is not already extended into this Account. b. The source server on the Account were reading from is not an extension of another source server. See also: AWS API Documentation list-extensible-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ...
+    /// </summary>
+    /// <param name="StagingAccountId">The Id of the staging Account to retrieve extensible source servers from. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*</param>
+    public AwsDrsListExtensibleSourceServersOptions(
+        string StagingAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StagingAccountId);
+        this.StagingAccountId = StagingAccountId;
+    }
+
+    private AwsDrsListExtensibleSourceServersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsListExtensibleSourceServersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsListExtensibleSourceServersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Id of the staging Account to retrieve extensible source servers from. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// </summary>
     [CliOption("--staging-account-id")]
-    public string? StagingAccountId { get; set; }
+    public string? StagingAccountId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsDrsListExtensibleSourceServersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

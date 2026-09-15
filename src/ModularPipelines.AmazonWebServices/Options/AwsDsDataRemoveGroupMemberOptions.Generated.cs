@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds-data", "remove-group-member")]
-public record AwsDsDataRemoveGroupMemberOptions : AwsOptions
+public record AwsDsDataRemoveGroupMemberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes a member from a group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the mem- ber. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="GroupName">The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    /// <param name="MemberName">The SAMAccountName of the user, group, or computer to remove from the group. Constraints: o min: 1 o max: 63 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    public AwsDsDataRemoveGroupMemberOptions(
+        string DirectoryId,
+        string GroupName,
+        string MemberName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+        global::System.ArgumentNullException.ThrowIfNull(MemberName);
+        this.MemberName = MemberName;
+    }
+
+    private AwsDsDataRemoveGroupMemberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDataRemoveGroupMemberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDataRemoveGroupMemberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ID) of the directory that's associated with the mem- ber. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// </summary>
+    [CliOption("--group-name")]
+    public string? GroupName { get; private init; }
+
+    /// <summary>
+    /// The SAMAccountName of the user, group, or computer to remove from the group. Constraints: o min: 1 o max: 63 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// </summary>
+    [CliOption("--member-name")]
+    public string? MemberName { get; private init; }
+
     /// <summary>
     /// A unique and case-sensitive identifier that you provide to make sure the idempotency of the request, so multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it completes. After 8 hours, any request with the same client token is treated as a new request. If the request succeeds, any fu- ture uses of that token will be idempotent for another 8 hours. If you submit a request with the same client token but change one of the other parameters within the 8-hour idempotency window, Directory Service Data returns an ConflictException . NOTE: This parameter is optional when using the CLI or SDK. Constraints: o min: 1 o max: 128 o pattern: ^[\x00-\x7F]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
-
-    [CliOption("--group-name")]
-    public string? GroupName { get; set; }
-
-    [CliOption("--member-name")]
-    public string? MemberName { get; set; }
 
     /// <summary>
     /// The domain name that's associated with the group member. This para- meter defaults to the Managed Microsoft AD domain. NOTE: This parameter is optional and case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
@@ -49,5 +100,22 @@ public record AwsDsDataRemoveGroupMemberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

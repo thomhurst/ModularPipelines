@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-stream")]
-public record AwsIotCreateStreamOptions : AwsOptions
+public record AwsIotCreateStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files as- sociated with a stream. Requires permission to access the CreateStream action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StreamId">The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Files">The files to stream. Constraints: o min: 1 o max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]</param>
+    /// <param name="RoleArn">An IAM role that allows the IoT service principal to access your S3 files. Constraints: o min: 20 o max: 2048</param>
+    public AwsIotCreateStreamOptions(
+        string StreamId,
+        IEnumerable<string> Files,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamId);
+        this.StreamId = StreamId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Files);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Files));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Files));
+            }
+
+            Files = materialized;
+        }
+        this.Files = Files;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsIotCreateStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--stream-id")]
-    public string? StreamId { get; set; }
+    public string? StreamId { get; private init; }
+
+    /// <summary>
+    /// The files to stream. Constraints: o min: 1 o max: 50 (structure) Represents a file to stream. fileId -&gt; (integer) The file ID. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the file in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: fileId=integer,s3Location={bucket=string,key=string,version=string} ... JSON Syntax: [ { "fileId": integer, "s3Location": { "bucket": "string", "key": "string", "version": "string" } } ... ]
+    /// </summary>
+    [CliOption("--files", GroupValues = true)]
+    public IEnumerable<string>? Files { get; private init; }
+
+    /// <summary>
+    /// An IAM role that allows the IoT service principal to access your S3 files. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A description of the stream. Constraints: o max: 2028 o pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--files", GroupValues = true)]
-    public IEnumerable<string>? Files { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// Metadata which can be used to manage streams. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -47,5 +109,22 @@ public record AwsIotCreateStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

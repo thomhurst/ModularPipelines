@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-snapshot-block-public-access")]
-public record AwsEc2EnableSnapshotBlockPublicAccessOptions : AwsOptions
+public record AwsEc2EnableSnapshotBlockPublicAccessOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--state")]
-    public string? State { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Enables or modifies the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you enable block public access for snapshots in a Region, users can no longer request public sharing for snapshots in that Region. Snapshots that are already publicly shared are either treated as private or they remain publicly shared, depending on the State that you specify. WARNING: Enabling block public access for snapshots in block all sharing mode does n...
+    /// </summary>
+    /// <param name="State">The mode in which to enable block public access for snapshots for the Region. Specify one of the following values: o block-all-sharing - Prevents all public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. Additionally, snapshots that are already pub- licly shared are treated as private and they are no longer pub- licly available. o block-new-sharing - Prevents only new public sharing of snapshots in the Region. Users in the account will no longer be able to re- quest new public sharing. However, snapshots that are already pub- licly shared, remain publicly available. unblocked is not a valid value for EnableSnapshotBlockPublicAc- cess . Possible values: o block-all-sharing o block-new-sharing o unblocked</param>
+    public AwsEc2EnableSnapshotBlockPublicAccessOptions(
+        AwsEc2EnableSnapshotBlockPublicAccessState State
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+    }
+
+    private AwsEc2EnableSnapshotBlockPublicAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableSnapshotBlockPublicAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableSnapshotBlockPublicAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The mode in which to enable block public access for snapshots for the Region. Specify one of the following values: o block-all-sharing - Prevents all public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. Additionally, snapshots that are already pub- licly shared are treated as private and they are no longer pub- licly available. o block-new-sharing - Prevents only new public sharing of snapshots in the Region. Users in the account will no longer be able to re- quest new public sharing. However, snapshots that are already pub- licly shared, remain publicly available. unblocked is not a valid value for EnableSnapshotBlockPublicAc- cess . Possible values: o block-all-sharing o block-new-sharing o unblocked
+    /// </summary>
+    [CliOption("--state")]
+    public AwsEc2EnableSnapshotBlockPublicAccessState? State { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +73,22 @@ public record AwsEc2EnableSnapshotBlockPublicAccessOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

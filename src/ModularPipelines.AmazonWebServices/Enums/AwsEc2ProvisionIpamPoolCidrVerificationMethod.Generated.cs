@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --verificationmethod.
+/// Allowed values for --verification-method.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ProvisionIpamPoolCidrVerificationMethod
 {
-    [EnumValue("remarks-x509")]
-    RemarksX509 = 1,
-
     [EnumValue("dns-token")]
-    DnsToken = 2
+    DnsToken,
+
+    [EnumValue("remarks-x509")]
+    RemarksX509
 }

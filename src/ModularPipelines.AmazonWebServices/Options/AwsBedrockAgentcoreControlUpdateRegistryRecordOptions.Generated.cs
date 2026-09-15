@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "update-registry-record")]
-public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions
+public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--registry-id")]
-    public string? RegistryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing registry record. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryId">The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="RecordId">The identifier of the registry record to update. You can specify ei- ther the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
+    public AwsBedrockAgentcoreControlUpdateRegistryRecordOptions(
+        string RegistryId,
+        string RecordId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryId);
+        this.RegistryId = RegistryId;
+        global::System.ArgumentNullException.ThrowIfNull(RecordId);
+        this.RecordId = RecordId;
+    }
+
+    private AwsBedrockAgentcoreControlUpdateRegistryRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateRegistryRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateRegistryRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// </summary>
+    [CliOption("--registry-id")]
+    public string? RegistryId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the registry record to update. You can specify ei- ther the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
+    /// </summary>
     [CliOption("--record-id")]
-    public string? RecordId { get; set; }
+    public string? RecordId { get; private init; }
 
     /// <summary>
     /// The updated name for the registry record. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9_\-\.\/]*
@@ -70,7 +114,10 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions
     [CliOption("--synchronization-configuration")]
     public string? SynchronizationConfiguration { get; set; }
 
-    [CliFlag("--trigger-synchronization")]
+    /// <summary>
+    /// Whether to trigger synchronization using the stored or provided con- figuration. When set to true , the service will synchronize the record metadata from the configured external source.
+    /// </summary>
+    [CliFlag("--trigger-synchronization", NegatedName = "--no-trigger-synchronization")]
     public bool? TriggerSynchronization { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -78,5 +125,22 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --analyticsengine.
+/// Allowed values for --analytics-engine.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsCreateCollaborationAnalyticsEngine
 {
-    [EnumValue("SPARK")]
-    Spark = 1,
-
     [EnumValue("CLEAN_ROOMS_SQL")]
-    CleanRoomsSql = 2
+    CleanRoomsSql,
+
+    [EnumValue("SPARK")]
+    Spark
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modelregistrationmode.
+/// Allowed values for --model-registration-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerUpdateMlflowAppModelRegistrationMode
 {
-    [EnumValue("AutoModelRegistrationEnabled")]
-    AutoModelRegistrationEnabled = 1,
-
     [EnumValue("AutoModelRegistrationDisabled")]
-    AutoModelRegistrationDisabled = 2
+    AutoModelRegistrationDisabled,
+
+    [EnumValue("AutoModelRegistrationEnabled")]
+    AutoModelRegistrationEnabled
 }

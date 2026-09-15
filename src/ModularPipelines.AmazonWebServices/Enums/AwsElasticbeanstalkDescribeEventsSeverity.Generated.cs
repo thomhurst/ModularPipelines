@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticbeanstalkDescribeEventsSeverity
 {
-    [EnumValue("TRACE")]
-    Trace = 1,
-
     [EnumValue("DEBUG")]
-    Debug = 2,
-
-    [EnumValue("INFO")]
-    Info = 3,
-
-    [EnumValue("WARN")]
-    Warn = 4,
+    Debug,
 
     [EnumValue("ERROR")]
-    Error = 5,
+    Error,
 
     [EnumValue("FATAL")]
-    Fatal = 6
+    Fatal,
+
+    [EnumValue("INFO")]
+    Info,
+
+    [EnumValue("TRACE")]
+    Trace,
+
+    [EnumValue("WARN")]
+    Warn
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-monitoring-alert")]
-public record AwsSagemakerUpdateMonitoringAlertOptions : AwsOptions
+public record AwsSagemakerUpdateMonitoringAlertOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the parameters of a model monitor alert. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MonitoringScheduleName">The name of a monitoring schedule. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="MonitoringAlertName">The name of a monitoring alert. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DatapointsToAlert">Within EvaluationPeriod , how many execution failures will raise an alert. Constraints: o min: 1 o max: 100</param>
+    /// <param name="EvaluationPeriod">The number of most recent monitoring executions to consider when evaluating alert status. Constraints: o min: 1 o max: 100</param>
+    public AwsSagemakerUpdateMonitoringAlertOptions(
+        string MonitoringScheduleName,
+        string MonitoringAlertName,
+        int DatapointsToAlert,
+        int EvaluationPeriod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitoringScheduleName);
+        this.MonitoringScheduleName = MonitoringScheduleName;
+        global::System.ArgumentNullException.ThrowIfNull(MonitoringAlertName);
+        this.MonitoringAlertName = MonitoringAlertName;
+        this.DatapointsToAlert = DatapointsToAlert;
+        this.EvaluationPeriod = EvaluationPeriod;
+    }
+
+    private AwsSagemakerUpdateMonitoringAlertOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateMonitoringAlertOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateMonitoringAlertOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a monitoring schedule. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--monitoring-schedule-name")]
-    public string? MonitoringScheduleName { get; set; }
+    public string? MonitoringScheduleName { get; private init; }
 
+    /// <summary>
+    /// The name of a monitoring alert. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--monitoring-alert-name")]
-    public string? MonitoringAlertName { get; set; }
+    public string? MonitoringAlertName { get; private init; }
 
+    /// <summary>
+    /// Within EvaluationPeriod , how many execution failures will raise an alert. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--datapoints-to-alert")]
-    public int? DatapointsToAlert { get; set; }
+    public int? DatapointsToAlert { get; private init; }
 
+    /// <summary>
+    /// The number of most recent monitoring executions to consider when evaluating alert status. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--evaluation-period")]
-    public int? EvaluationPeriod { get; set; }
+    public int? EvaluationPeriod { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

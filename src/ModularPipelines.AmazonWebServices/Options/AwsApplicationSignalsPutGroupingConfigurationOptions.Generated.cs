@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "put-grouping-configuration")]
-public record AwsApplicationSignalsPutGroupingConfigurationOptions : AwsOptions
+public record AwsApplicationSignalsPutGroupingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that deter- mine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping at- tributes can then be used to organize and filter services in the Appli- cation Signals console and APIs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupingAttributeDefinitions">An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value. (structure) A structure that defines how services should be grouped based on specific attributes. This includes the friendly name for the grouping, the source keys to derive values from, and an optional default value. GroupingName -&gt; (string) [required] The friendly name for this grouping attribute, such as Busi- nessUnit or Environment . This name is used to identify the grouping in the console and APIs. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* GroupingSourceKeys -&gt; (list) An array of source keys used to derive the grouping attribute value from telemetry data, Amazon Web Services tags, or other sources. For example, ["business_unit", "team"] would look for values in those fields. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* DefaultGroupingValue -&gt; (string) The default value to use for this grouping attribute when no value can be derived from the source keys. This ensures all services have a grouping value even if the source data is missing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* Shorthand Syntax: GroupingName=string,GroupingSourceKeys=string,string,DefaultGroupingValue=string ... JSON Syntax: [ { "GroupingName": "string", "GroupingSourceKeys": ["string", ...], "DefaultGroupingValue": "string" } ... ]</param>
+    public AwsApplicationSignalsPutGroupingConfigurationOptions(
+        IEnumerable<string> GroupingAttributeDefinitions
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(GroupingAttributeDefinitions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(GroupingAttributeDefinitions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(GroupingAttributeDefinitions));
+            }
+
+            GroupingAttributeDefinitions = materialized;
+        }
+        this.GroupingAttributeDefinitions = GroupingAttributeDefinitions;
+    }
+
+    private AwsApplicationSignalsPutGroupingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsPutGroupingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsPutGroupingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value. (structure) A structure that defines how services should be grouped based on specific attributes. This includes the friendly name for the grouping, the source keys to derive values from, and an optional default value. GroupingName -&gt; (string) [required] The friendly name for this grouping attribute, such as Busi- nessUnit or Environment . This name is used to identify the grouping in the console and APIs. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* GroupingSourceKeys -&gt; (list) An array of source keys used to derive the grouping attribute value from telemetry data, Amazon Web Services tags, or other sources. For example, ["business_unit", "team"] would look for values in those fields. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* DefaultGroupingValue -&gt; (string) The default value to use for this grouping attribute when no value can be derived from the source keys. This ensures all services have a grouping value even if the source data is missing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* Shorthand Syntax: GroupingName=string,GroupingSourceKeys=string,string,DefaultGroupingValue=string ... JSON Syntax: [ { "GroupingName": "string", "GroupingSourceKeys": ["string", ...], "DefaultGroupingValue": "string" } ... ]
+    /// </summary>
     [CliOption("--grouping-attribute-definitions", GroupValues = true)]
-    public IEnumerable<string>? GroupingAttributeDefinitions { get; set; }
+    public IEnumerable<string>? GroupingAttributeDefinitions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

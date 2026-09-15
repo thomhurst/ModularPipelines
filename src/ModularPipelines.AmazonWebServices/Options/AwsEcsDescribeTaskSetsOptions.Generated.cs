@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "describe-task-sets")]
-public record AwsEcsDescribeTaskSetsOptions : AwsOptions
+public record AwsEcsDescribeTaskSetsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster")]
-    public string? Cluster { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes the task sets in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.</param>
+    /// <param name="Service">The short name or full Amazon Resource Name (ARN) of the service that the task sets exist in.</param>
+    public AwsEcsDescribeTaskSetsOptions(
+        string Cluster,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    private AwsEcsDescribeTaskSetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDescribeTaskSetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDescribeTaskSetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
+    /// </summary>
+    [CliOption("--cluster")]
+    public string? Cluster { get; private init; }
+
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the service that the task sets exist in.
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
     /// <summary>
     /// The ID or full Amazon Resource Name (ARN) of task sets to describe. (string) Syntax: "string" "string" ...
@@ -44,5 +88,22 @@ public record AwsEcsDescribeTaskSetsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

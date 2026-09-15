@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "add-application-input")]
-public record AwsKinesisanalyticsv2AddApplicationInputOptions : AwsOptions
+public record AwsKinesisanalyticsv2AddApplicationInputOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a streaming source to your SQL-based Kinesis Data Analytics appli- cation. You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see CreateApplication . Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version. See al...
+    /// </summary>
+    /// <param name="ApplicationName">The name of your existing application to which you want to add the streaming source. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The current version of your application. You must provide the Appli- cationVersionID or the ConditionalToken .You can use the De- scribeApplication operation to find the current application version. Constraints: o min: 1 o max: 999999999</param>
+    /// <param name="Input">The Input to add. NamePrefix -&gt; (string) [required] The name prefix to use when creating an in-application stream. Suppose that you specify a prefix "MyInApplicationStream ." Ki- nesis Data Analytics then creates one or more (as per the Input- Parallelism count you specified) in-application streams with the names "MyInApplicationStream_001 ," "MyInApplicationStream_002 ," and so on. Constraints: o min: 1 o max: 32 o pattern: [^-\s&lt;&gt;&amp;]* InputProcessingConfiguration -&gt; (structure) The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLamb- daProcessor . InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your applica- tion code. ResourceARN -&gt; (string) [required] The ARN of the Amazon Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* KinesisStreamsInput -&gt; (structure) If the streaming source is an Amazon Kinesis data stream, iden- tifies the stream's Amazon Resource Name (ARN). ResourceARN -&gt; (string) [required] The ARN of the input Kinesis data stream to read. Constraints: o min: 1 o max: 2048 o pattern: arn:.* KinesisFirehoseInput -&gt; (structure) If the streaming source is an Amazon Kinesis Data Firehose de- livery stream, identifies the delivery stream's ARN. ResourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the delivery stream. Constraints: o min: 1 o max: 2048 o pattern: arn:.* InputParallelism -&gt; (structure) Describes the number of in-application streams to create. Count -&gt; (integer) The number of in-application streams to create. Constraints: o min: 1 o max: 64 InputSchema -&gt; (structure) [required] Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source. RecordFormat -&gt; (structure) [required] Specifies the format of the records on the streaming source. RecordFormatType -&gt; (string) [required] The type of record format. Possible values: o JSON o CSV MappingParameters -&gt; (structure) When you configure application input at the time of cre- ating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delim- iter) on the streaming source. JSONMappingParameters -&gt; (structure) Provides additional mapping information when JSON is the record format on the streaming source. RecordRowPath -&gt; (string) [required] The path to the top-level parent that contains the records. Constraints: o min: 1 o max: 65535 o pattern: ^(?=^\$)(?=^\S+$).*$ CSVMappingParameters -&gt; (structure) Provides additional mapping information when the record format uses delimiters (for example, CSV). RecordRowDelimiter -&gt; (string) [required] The row delimiter. For example, in a CSV format, 'n' is the typical row delimiter. Constraints: o min: 1 o max: 1024 RecordColumnDelimiter -&gt; (string) [required] The column delimiter. For example, in a CSV for- mat, a comma (",") is the typical column delim- iter. Constraints: o min: 1 o max: 1024 RecordEncoding -&gt; (string) Specifies the encoding of the records in the streaming source. For example, UTF-8. Constraints: o min: 5 o max: 5 o pattern: UTF-8 RecordColumns -&gt; (list) [required] A list of RecordColumn objects. Constraints: o min: 1 o max: 1000 (structure) For a SQL-based Kinesis Data Analytics application, de- scribes the mapping of each data element in the streaming source to the corresponding column in the in-application stream. Also used to describe the format of the reference data source. Name -&gt; (string) [required] The name of the column that is created in the in-ap- plication input stream or reference table. Constraints: o min: 1 o max: 256 o pattern: [^-\s&lt;&gt;&amp;]* Mapping -&gt; (string) A reference to the data element in the streaming input or the reference data source. Constraints: o min: 0 o max: 65535 SqlType -&gt; (string) [required] The type of column created in the in-application input stream or reference table. Constraints: o min: 1 o max: 100 JSON Syntax: { "NamePrefix": "string", "InputProcessingConfiguration": { "InputLambdaProcessor": { "ResourceARN": "string" } }, "KinesisStreamsInput": { "ResourceARN": "string" }, "KinesisFirehoseInput": { "ResourceARN": "string" }, "InputParallelism": { "Count": integer }, "InputSchema": { "RecordFormat": { "RecordFormatType": "JSON"|"CSV", "MappingParameters": { "JSONMappingParameters": { "RecordRowPath": "string" }, "CSVMappingParameters": { "RecordRowDelimiter": "string", "RecordColumnDelimiter": "string" } } }, "RecordEncoding": "string", "RecordColumns": [ { "Name": "string", "Mapping": "string", "SqlType": "string" } ... ] } }</param>
+    public AwsKinesisanalyticsv2AddApplicationInputOptions(
+        string ApplicationName,
+        int CurrentApplicationVersionId,
+        string Input
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        this.CurrentApplicationVersionId = CurrentApplicationVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(Input);
+        this.Input = Input;
+    }
+
+    private AwsKinesisanalyticsv2AddApplicationInputOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationInputOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationInputOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your existing application to which you want to add the streaming source. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
+    /// <summary>
+    /// The current version of your application. You must provide the Appli- cationVersionID or the ConditionalToken .You can use the De- scribeApplication operation to find the current application version. Constraints: o min: 1 o max: 999999999
+    /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; set; }
+    public int? CurrentApplicationVersionId { get; private init; }
 
+    /// <summary>
+    /// The Input to add. NamePrefix -&gt; (string) [required] The name prefix to use when creating an in-application stream. Suppose that you specify a prefix "MyInApplicationStream ." Ki- nesis Data Analytics then creates one or more (as per the Input- Parallelism count you specified) in-application streams with the names "MyInApplicationStream_001 ," "MyInApplicationStream_002 ," and so on. Constraints: o min: 1 o max: 32 o pattern: [^-\s&lt;&gt;&amp;]* InputProcessingConfiguration -&gt; (structure) The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLamb- daProcessor . InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your applica- tion code. ResourceARN -&gt; (string) [required] The ARN of the Amazon Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* KinesisStreamsInput -&gt; (structure) If the streaming source is an Amazon Kinesis data stream, iden- tifies the stream's Amazon Resource Name (ARN). ResourceARN -&gt; (string) [required] The ARN of the input Kinesis data stream to read. Constraints: o min: 1 o max: 2048 o pattern: arn:.* KinesisFirehoseInput -&gt; (structure) If the streaming source is an Amazon Kinesis Data Firehose de- livery stream, identifies the delivery stream's ARN. ResourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the delivery stream. Constraints: o min: 1 o max: 2048 o pattern: arn:.* InputParallelism -&gt; (structure) Describes the number of in-application streams to create. Count -&gt; (integer) The number of in-application streams to create. Constraints: o min: 1 o max: 64 InputSchema -&gt; (structure) [required] Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source. RecordFormat -&gt; (structure) [required] Specifies the format of the records on the streaming source. RecordFormatType -&gt; (string) [required] The type of record format. Possible values: o JSON o CSV MappingParameters -&gt; (structure) When you configure application input at the time of cre- ating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delim- iter) on the streaming source. JSONMappingParameters -&gt; (structure) Provides additional mapping information when JSON is the record format on the streaming source. RecordRowPath -&gt; (string) [required] The path to the top-level parent that contains the records. Constraints: o min: 1 o max: 65535 o pattern: ^(?=^\$)(?=^\S+$).*$ CSVMappingParameters -&gt; (structure) Provides additional mapping information when the record format uses delimiters (for example, CSV). RecordRowDelimiter -&gt; (string) [required] The row delimiter. For example, in a CSV format, 'n' is the typical row delimiter. Constraints: o min: 1 o max: 1024 RecordColumnDelimiter -&gt; (string) [required] The column delimiter. For example, in a CSV for- mat, a comma (",") is the typical column delim- iter. Constraints: o min: 1 o max: 1024 RecordEncoding -&gt; (string) Specifies the encoding of the records in the streaming source. For example, UTF-8. Constraints: o min: 5 o max: 5 o pattern: UTF-8 RecordColumns -&gt; (list) [required] A list of RecordColumn objects. Constraints: o min: 1 o max: 1000 (structure) For a SQL-based Kinesis Data Analytics application, de- scribes the mapping of each data element in the streaming source to the corresponding column in the in-application stream. Also used to describe the format of the reference data source. Name -&gt; (string) [required] The name of the column that is created in the in-ap- plication input stream or reference table. Constraints: o min: 1 o max: 256 o pattern: [^-\s&lt;&gt;&amp;]* Mapping -&gt; (string) A reference to the data element in the streaming input or the reference data source. Constraints: o min: 0 o max: 65535 SqlType -&gt; (string) [required] The type of column created in the in-application input stream or reference table. Constraints: o min: 1 o max: 100 JSON Syntax: { "NamePrefix": "string", "InputProcessingConfiguration": { "InputLambdaProcessor": { "ResourceARN": "string" } }, "KinesisStreamsInput": { "ResourceARN": "string" }, "KinesisFirehoseInput": { "ResourceARN": "string" }, "InputParallelism": { "Count": integer }, "InputSchema": { "RecordFormat": { "RecordFormatType": "JSON"|"CSV", "MappingParameters": { "JSONMappingParameters": { "RecordRowPath": "string" }, "CSVMappingParameters": { "RecordRowDelimiter": "string", "RecordColumnDelimiter": "string" } } }, "RecordEncoding": "string", "RecordColumns": [ { "Name": "string", "Mapping": "string", "SqlType": "string" } ... ] } }
+    /// </summary>
     [CliOption("--input")]
-    public string? Input { get; set; }
+    public string? Input { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

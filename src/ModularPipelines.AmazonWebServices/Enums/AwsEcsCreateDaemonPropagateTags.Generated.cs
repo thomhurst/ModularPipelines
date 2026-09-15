@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --propagatetags.
+/// Allowed values for --propagate-tags.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsCreateDaemonPropagateTags
 {
     [EnumValue("DAEMON")]
-    Daemon = 1,
+    Daemon,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

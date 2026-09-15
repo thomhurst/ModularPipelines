@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-id-format")]
-public record AwsEc2ModifyIdFormatOptions : AwsOptions
+public record AwsEc2ModifyIdFormatOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource")]
-    public string? Resource { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--use-long-ids")]
-    public bool? UseLongIds { get; set; }
+    /// <summary>
+    /// Modifies the ID format for the specified resource on a per-Region ba- sis. You can specify that resources should receive longer IDs (17-char- acter IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | ...
+    /// </summary>
+    /// <param name="Resource">The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | internet-gateway | net- work-acl | network-acl-association | network-interface | network-in- terface-attachment | prefix-list | route-table | route-table-associ- ation | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-con- nection | vpn-connection | vpn-gateway . Alternatively, use the all-current option to include all resource types that are currently within their opt-in period for longer IDs.</param>
+    /// <param name="UseLongIds">Indicate whether the resource should use longer IDs (17-character IDs).</param>
+    public AwsEc2ModifyIdFormatOptions(
+        string Resource,
+        bool UseLongIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        this.UseLongIds = UseLongIds;
+    }
+
+    private AwsEc2ModifyIdFormatOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyIdFormatOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyIdFormatOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | internet-gateway | net- work-acl | network-acl-association | network-interface | network-in- terface-attachment | prefix-list | route-table | route-table-associ- ation | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-con- nection | vpn-connection | vpn-gateway . Alternatively, use the all-current option to include all resource types that are currently within their opt-in period for longer IDs.
+    /// </summary>
+    [CliOption("--resource")]
+    public string? Resource { get; private init; }
+
+    /// <summary>
+    /// Indicate whether the resource should use longer IDs (17-character IDs).
+    /// </summary>
+    [CliFlag("--use-long-ids", NegatedName = "--no-use-long-ids")]
+    public bool? UseLongIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --projectstage.
+/// Allowed values for --project-stage.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockDataAutomationGetDataAutomationProjectProjectStage
 {
     [EnumValue("DEVELOPMENT")]
-    Development = 1,
+    Development,
 
     [EnumValue("LIVE")]
-    Live = 2
+    Live
 }

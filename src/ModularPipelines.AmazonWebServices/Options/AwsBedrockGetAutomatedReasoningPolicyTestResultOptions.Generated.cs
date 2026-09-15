@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "get-automated-reasoning-policy-test-result")]
-public record AwsBedrockGetAutomatedReasoningPolicyTestResultOptions : AwsOptions
+public record AwsBedrockGetAutomatedReasoningPolicyTestResultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="BuildWorkflowId">The build workflow identifier. The build workflow must display a COMPLETED status to get results. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}</param>
+    /// <param name="TestCaseId">The unique identifier of the test for which to retrieve results. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}</param>
+    public AwsBedrockGetAutomatedReasoningPolicyTestResultOptions(
+        string PolicyArn,
+        string BuildWorkflowId,
+        string TestCaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(BuildWorkflowId);
+        this.BuildWorkflowId = BuildWorkflowId;
+        global::System.ArgumentNullException.ThrowIfNull(TestCaseId);
+        this.TestCaseId = TestCaseId;
+    }
+
+    private AwsBedrockGetAutomatedReasoningPolicyTestResultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockGetAutomatedReasoningPolicyTestResultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockGetAutomatedReasoningPolicyTestResultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// </summary>
     [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    public string? PolicyArn { get; private init; }
 
+    /// <summary>
+    /// The build workflow identifier. The build workflow must display a COMPLETED status to get results. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}
+    /// </summary>
     [CliOption("--build-workflow-id")]
-    public string? BuildWorkflowId { get; set; }
+    public string? BuildWorkflowId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the test for which to retrieve results. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}
+    /// </summary>
     [CliOption("--test-case-id")]
-    public string? TestCaseId { get; set; }
+    public string? TestCaseId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

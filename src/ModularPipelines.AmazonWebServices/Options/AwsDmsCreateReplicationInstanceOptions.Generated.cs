@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "create-replication-instance")]
-public record AwsDmsCreateReplicationInstanceOptions : AwsOptions
+public record AwsDmsCreateReplicationInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate per- missions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Per- missions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default...
+    /// </summary>
+    /// <param name="ReplicationInstanceIdentifier">The replication instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain 1-63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: myrepinstance</param>
+    /// <param name="ReplicationInstanceClass">The compute and memory capacity of the replication instance as de- fined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the avail- able replication instance classes, see `Choosing the right DMS replication instance &lt;https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html &gt;`__ ; and, Selecting the best size for a replication instance . Constraints: o max: 30</param>
+    public AwsDmsCreateReplicationInstanceOptions(
+        string ReplicationInstanceIdentifier,
+        string ReplicationInstanceClass
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceIdentifier);
+        this.ReplicationInstanceIdentifier = ReplicationInstanceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceClass);
+        this.ReplicationInstanceClass = ReplicationInstanceClass;
+    }
+
+    private AwsDmsCreateReplicationInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsCreateReplicationInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsCreateReplicationInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain 1-63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: myrepinstance
+    /// </summary>
     [CliOption("--replication-instance-identifier")]
-    public string? ReplicationInstanceIdentifier { get; set; }
+    public string? ReplicationInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The compute and memory capacity of the replication instance as de- fined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large" . For more information on the settings and capacities for the avail- able replication instance classes, see `Choosing the right DMS replication instance &lt;https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html &gt;`__ ; and, Selecting the best size for a replication instance . Constraints: o max: 30
+    /// </summary>
+    [CliOption("--replication-instance-class")]
+    public string? ReplicationInstanceClass { get; private init; }
 
     /// <summary>
     /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
-
-    [CliOption("--replication-instance-class")]
-    public string? ReplicationInstanceClass { get; set; }
 
     /// <summary>
     /// Specifies the VPC security group to be used with the replication in- stance. The VPC security group must work with the VPC containing the replication instance. (string) Syntax: "string" "string" ...
@@ -57,7 +101,10 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parame- ter is set to true .
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -66,7 +113,10 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// A value that indicates whether minor engine upgrades are applied au- tomatically to the replication instance during the maintenance win- dow. This parameter defaults to true . Default: true
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -81,7 +131,10 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -113,5 +166,22 @@ public record AwsDmsCreateReplicationInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

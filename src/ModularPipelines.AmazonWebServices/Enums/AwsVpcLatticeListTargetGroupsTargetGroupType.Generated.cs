@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetgrouptype.
+/// Allowed values for --target-group-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsVpcLatticeListTargetGroupsTargetGroupType
 {
-    [EnumValue("IP")]
-    Ip = 1,
-
-    [EnumValue("LAMBDA")]
-    Lambda = 2,
+    [EnumValue("ALB")]
+    Alb,
 
     [EnumValue("INSTANCE")]
-    Instance = 3,
+    Instance,
 
-    [EnumValue("ALB")]
-    Alb = 4
+    [EnumValue("IP")]
+    Ip,
+
+    [EnumValue("LAMBDA")]
+    Lambda
 }

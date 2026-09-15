@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,18 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhubstrategy", "update-application-component-config")]
-public record AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions : AwsOptions
+public record AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of an application component. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationComponentId">The ID of the application component. The ID is unique within an AWS account. Constraints: o min: 0 o max: 44 o pattern: [0-9a-zA-Z-]+</param>
+    public AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions(
+        string ApplicationComponentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationComponentId);
+        this.ApplicationComponentId = ApplicationComponentId;
+    }
+
+    private AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application component. The ID is unique within an AWS account. Constraints: o min: 0 o max: 44 o pattern: [0-9a-zA-Z-]+
+    /// </summary>
+    [CliOption("--application-component-id")]
+    public string? ApplicationComponentId { get; private init; }
+
     /// <summary>
     /// The type of known component. Possible values: o DotNetFramework o Java o SQLServer o IIS o Oracle o Other o Tomcat o JBoss o Spring o Mongo DB o DB2 o Maria DB o MySQL o Sybase o PostgreSQLServer o Cassandra o IBM WebSphere o Oracle WebLogic o Visual Basic o Unknown o DotnetCore o Dotnet
     /// </summary>
     [CliOption("--app-type")]
     public string? AppType { get; set; }
 
-    [CliOption("--application-component-id")]
-    public string? ApplicationComponentId { get; set; }
-
-    [CliFlag("--configure-only")]
+    /// <summary>
+    /// Update the configuration request of an application component. If it is set to true, the source code and/or database credentials are up- dated. If it is set to false, the source code and/or database cre- dentials are updated and an analysis is initiated.
+    /// </summary>
+    [CliFlag("--configure-only", NegatedName = "--no-configure-only")]
     public bool? ConfigureOnly { get; set; }
 
     /// <summary>
@@ -65,5 +105,22 @@ public record AwsMigrationhubstrategyUpdateApplicationComponentConfigOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

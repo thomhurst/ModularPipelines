@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "put-package-origin-configuration")]
-public record AwsCodeartifactPutPackageOriginConfigurationOptions : AwsOptions
+public record AwsCodeartifactPutPackageOriginConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see Editing package origin controls in the CodeArtifact User Guide . PutPackageOriginConfiguration can b...
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the repository that contains the package. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The name of the repository that contains the package. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">A format that specifies the type of the package to be updated. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
+    /// <param name="Package">The name of the package to be updated. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    /// <param name="Restrictions">A PackageOriginRestrictions object that contains information about the upstream and publish package origin restrictions. The upstream restriction determines if new package versions can be ingested or retained from external connections or upstream repositories. The publish restriction determines if new package versions can be pub- lished directly to the repository. You must include both the desired upstream and publish restrictions. publish -&gt; (string) [required] The package origin configuration that determines if new versions of the package can be published directly to the repository. Possible values: o ALLOW o BLOCK upstream -&gt; (string) [required] The package origin configuration that determines if new versions of the package can be added to the repository from an external connection or upstream source. Possible values: o ALLOW o BLOCK Shorthand Syntax: publish=string,upstream=string JSON Syntax: { "publish": "ALLOW"|"BLOCK", "upstream": "ALLOW"|"BLOCK" }</param>
+    public AwsCodeartifactPutPackageOriginConfigurationOptions(
+        string Domain,
+        string Repository,
+        AwsCodeartifactPutPackageOriginConfigurationFormat Format,
+        string Package,
+        string Restrictions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+        global::System.ArgumentNullException.ThrowIfNull(Restrictions);
+        this.Restrictions = Restrictions;
+    }
+
+    private AwsCodeartifactPutPackageOriginConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactPutPackageOriginConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactPutPackageOriginConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the repository that contains the package. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The name of the repository that contains the package. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// </summary>
+    [CliOption("--repository")]
+    public string? Repository { get; private init; }
+
+    /// <summary>
+    /// A format that specifies the type of the package to be updated. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// </summary>
+    [CliOption("--format")]
+    public AwsCodeartifactPutPackageOriginConfigurationFormat? Format { get; private init; }
+
+    /// <summary>
+    /// The name of the package to be updated. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// </summary>
+    [CliOption("--package")]
+    public string? Package { get; private init; }
+
+    /// <summary>
+    /// A PackageOriginRestrictions object that contains information about the upstream and publish package origin restrictions. The upstream restriction determines if new package versions can be ingested or retained from external connections or upstream repositories. The publish restriction determines if new package versions can be pub- lished directly to the repository. You must include both the desired upstream and publish restrictions. publish -&gt; (string) [required] The package origin configuration that determines if new versions of the package can be published directly to the repository. Possible values: o ALLOW o BLOCK upstream -&gt; (string) [required] The package origin configuration that determines if new versions of the package can be added to the repository from an external connection or upstream source. Possible values: o ALLOW o BLOCK Shorthand Syntax: publish=string,upstream=string JSON Syntax: { "publish": "ALLOW"|"BLOCK", "upstream": "ALLOW"|"BLOCK" }
+    /// </summary>
+    [CliOption("--restrictions")]
+    public string? Restrictions { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
@@ -30,28 +108,33 @@ public record AwsCodeartifactPutPackageOriginConfigurationOptions : AwsOptions
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CliOption("--repository")]
-    public string? Repository { get; set; }
-
-    [CliOption("--format")]
-    public string? Format { get; set; }
-
     /// <summary>
     /// The namespace of the package to be updated. The package component that specifies its namespace depends on its type. For example: o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CliOption("--package")]
-    public string? Package { get; set; }
-
-    [CliOption("--restrictions")]
-    public string? Restrictions { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

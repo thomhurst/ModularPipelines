@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsApplicationInsightsListProblemsVisibility
 {
     [EnumValue("IGNORED")]
-    Ignored = 1,
+    Ignored,
 
     [EnumValue("VISIBLE")]
-    Visible = 2
+    Visible
 }

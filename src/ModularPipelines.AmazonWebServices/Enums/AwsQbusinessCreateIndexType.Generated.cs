@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQbusinessCreateIndexType
 {
     [EnumValue("ENTERPRISE")]
-    Enterprise = 1,
+    Enterprise,
 
     [EnumValue("STARTER")]
-    Starter = 2
+    Starter
 }

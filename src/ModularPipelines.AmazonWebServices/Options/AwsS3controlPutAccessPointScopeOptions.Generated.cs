@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "put-access-point-scope")]
-public record AwsS3controlPutAccessPointScopeOptions : AwsOptions
+public record AwsS3controlPutAccessPointScopeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. NOTE: You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses . See also: ...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the access point with scope that you want to create or replace. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the access point with the scope that you want to create or replace. Constraints: o min: 3 o max: 255</param>
+    /// <param name="Scope">Object prefixes, API operations, or a combination of both. Prefixes -&gt; (list) You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. (string) Permissions -&gt; (list) You can include one or more API operations as permissions. (string) Possible values: o GetObject o GetObjectAttributes o ListMultipartUploadParts o ListBucket o ListBucketMultipartUploads o PutObject o DeleteObject o AbortMultipartUpload Shorthand Syntax: Prefixes=string,string,Permissions=string,string JSON Syntax: { "Prefixes": ["string", ...], "Permissions": ["GetObject"|"GetObjectAttributes"|"ListMultipartUploadParts"|"ListBucket"|"ListBucketMultipartUploads"|"PutObject"|"DeleteObject"|"AbortMultipartUpload", ...] }</param>
+    public AwsS3controlPutAccessPointScopeOptions(
+        string AccountId,
+        string Name,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    private AwsS3controlPutAccessPointScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlPutAccessPointScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlPutAccessPointScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID that owns the access point with scope that you want to create or replace. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The name of the access point with the scope that you want to create or replace. Constraints: o min: 3 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Object prefixes, API operations, or a combination of both. Prefixes -&gt; (list) You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. (string) Permissions -&gt; (list) You can include one or more API operations as permissions. (string) Possible values: o GetObject o GetObjectAttributes o ListMultipartUploadParts o ListBucket o ListBucketMultipartUploads o PutObject o DeleteObject o AbortMultipartUpload Shorthand Syntax: Prefixes=string,string,Permissions=string,string JSON Syntax: { "Prefixes": ["string", ...], "Permissions": ["GetObject"|"GetObjectAttributes"|"ListMultipartUploadParts"|"ListBucket"|"ListBucketMultipartUploads"|"PutObject"|"DeleteObject"|"AbortMultipartUpload", ...] }
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public string? Scope { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

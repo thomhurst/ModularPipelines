@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "list-metadata-transfer-jobs")]
-public record AwsIottwinmakerListMetadataTransferJobsOptions : AwsOptions
+public record AwsIottwinmakerListMetadataTransferJobsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-type")]
-    public string? SourceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the metadata transfer jobs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceType">The metadata transfer job's source type. Possible values: o s3 o iotsitewise o iottwinmaker</param>
+    /// <param name="DestinationType">The metadata transfer job's destination type. Possible values: o s3 o iotsitewise o iottwinmaker</param>
+    public AwsIottwinmakerListMetadataTransferJobsOptions(
+        AwsIottwinmakerListMetadataTransferJobsSourceType SourceType,
+        AwsIottwinmakerListMetadataTransferJobsDestinationType DestinationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceType);
+        this.SourceType = SourceType;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationType);
+        this.DestinationType = DestinationType;
+    }
+
+    private AwsIottwinmakerListMetadataTransferJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerListMetadataTransferJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerListMetadataTransferJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The metadata transfer job's source type. Possible values: o s3 o iotsitewise o iottwinmaker
+    /// </summary>
+    [CliOption("--source-type")]
+    public AwsIottwinmakerListMetadataTransferJobsSourceType? SourceType { get; private init; }
+
+    /// <summary>
+    /// The metadata transfer job's destination type. Possible values: o s3 o iotsitewise o iottwinmaker
+    /// </summary>
     [CliOption("--destination-type")]
-    public string? DestinationType { get; set; }
+    public AwsIottwinmakerListMetadataTransferJobsDestinationType? DestinationType { get; private init; }
 
     /// <summary>
     /// An object that filters metadata transfer jobs. (tagged union structure) The ListMetadataTransferJobs filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workspaceId, state. workspaceId -&gt; (string) The workspace Id. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ state -&gt; (string) The filter state. Possible values: o VALIDATING o PENDING o RUNNING o CANCELLING o ERROR o COMPLETED o CANCELLED Shorthand Syntax: workspaceId=string,state=string ... JSON Syntax: [ { "workspaceId": "string", "state": "VALIDATING"|"PENDING"|"RUNNING"|"CANCELLING"|"ERROR"|"COMPLETED"|"CANCELLED" } ... ]
@@ -52,5 +97,22 @@ public record AwsIottwinmakerListMetadataTransferJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

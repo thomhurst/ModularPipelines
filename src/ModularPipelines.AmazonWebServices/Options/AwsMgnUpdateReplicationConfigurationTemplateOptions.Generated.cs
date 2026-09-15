@@ -11,20 +11,57 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates multiple ReplicationConfigurationTemplates by ID. See also: AWS API Documentation
+/// Updates a ReplicationConfigurationTemplate by ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "update-replication-configuration-template")]
-public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
+public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a ReplicationConfigurationTemplate by ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationConfigurationTemplateId">Update replication configuration template template ID request. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}</param>
+    public AwsMgnUpdateReplicationConfigurationTemplateOptions(
+        string ReplicationConfigurationTemplateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationConfigurationTemplateId);
+        this.ReplicationConfigurationTemplateId = ReplicationConfigurationTemplateId;
+    }
+
+    private AwsMgnUpdateReplicationConfigurationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnUpdateReplicationConfigurationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnUpdateReplicationConfigurationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Update replication configuration template template ID request. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--replication-configuration-template-id")]
-    public string? ReplicationConfigurationTemplateId { get; set; }
+    public string? ReplicationConfigurationTemplateId { get; private init; }
 
     /// <summary>
     /// Update replication configuration template ARN request. Constraints: o min: 20 o max: 2048
@@ -38,7 +75,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
-    [CliFlag("--associate-default-security-group")]
+    /// <summary>
+    /// rity-group (boolean) Update replication configuration template associate default Applica- tion Migration Service Security group request.
+    /// </summary>
+    [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
@@ -53,7 +93,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
-    [CliFlag("--use-dedicated-replication-server")]
+    /// <summary>
+    /// tion-server (boolean) Update replication configuration template use dedicated Replication Server request.
+    /// </summary>
+    [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
@@ -86,7 +129,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public AwsMgnUpdateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    /// <summary>
+    /// Update replication configuration template create Public IP request.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
@@ -95,7 +141,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
-    [CliFlag("--use-fips-endpoint")]
+    /// <summary>
+    /// Update replication configuration template use Fips Endpoint request.
+    /// </summary>
+    [CliFlag("--use-fips-endpoint", NegatedName = "--no-use-fips-endpoint")]
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
@@ -104,7 +153,10 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--internet-protocol")]
     public AwsMgnUpdateReplicationConfigurationTemplateInternetProtocol? InternetProtocol { get; set; }
 
-    [CliFlag("--store-snapshot-on-local-zone")]
+    /// <summary>
+    /// Update replication configuration template store snapshot on local zone request.
+    /// </summary>
+    [CliFlag("--store-snapshot-on-local-zone", NegatedName = "--no-store-snapshot-on-local-zone")]
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>
@@ -118,5 +170,22 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

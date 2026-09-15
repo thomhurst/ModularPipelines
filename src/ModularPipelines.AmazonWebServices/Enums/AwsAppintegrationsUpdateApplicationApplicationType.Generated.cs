@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --applicationtype.
+/// Allowed values for --application-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppintegrationsUpdateApplicationApplicationType
 {
-    [EnumValue("STANDARD")]
-    Standard = 1,
+    [EnumValue("MCP_SERVER")]
+    McpServer,
 
     [EnumValue("SERVICE")]
-    Service = 2,
+    Service,
 
-    [EnumValue("MCP_SERVER")]
-    McpServer = 3
+    [EnumValue("STANDARD")]
+    Standard
 }

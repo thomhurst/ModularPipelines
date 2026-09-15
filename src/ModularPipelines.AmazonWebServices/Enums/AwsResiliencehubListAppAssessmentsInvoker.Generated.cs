@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubListAppAssessmentsInvoker
 {
-    [EnumValue("User")]
-    User = 1,
-
     [EnumValue("System")]
-    System = 2
+    System,
+
+    [EnumValue("User")]
+    User
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "describe-change-set")]
-public record AwsCloudformationDescribeChangeSetOptions : AwsOptions
+public record AwsCloudformationDescribeChangeSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the inputs for the change set and a list of changes that Cloud- Formation will make if you execute the change set. For more informa- tion, see Update CloudFormation stacks using change sets in the Cloud- Formation User Guide . See also: AWS API Documentation describe-change-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the ...
+    /// </summary>
+    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
+    public AwsCloudformationDescribeChangeSetOptions(
+        string ChangeSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChangeSetName);
+        this.ChangeSetName = ChangeSetName;
+    }
+
+    private AwsCloudformationDescribeChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationDescribeChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationDescribeChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// </summary>
     [CliOption("--change-set-name")]
-    public string? ChangeSetName { get; set; }
+    public string? ChangeSetName { get; private init; }
 
     /// <summary>
     /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
@@ -31,7 +68,10 @@ public record AwsCloudformationDescribeChangeSetOptions : AwsOptions
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
-    [CliFlag("--include-property-values")]
+    /// <summary>
+    /// If true , the returned changes include detailed changes in the prop- erty values.
+    /// </summary>
+    [CliFlag("--include-property-values", NegatedName = "--no-include-property-values")]
     public bool? IncludePropertyValues { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +92,22 @@ public record AwsCloudformationDescribeChangeSetOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

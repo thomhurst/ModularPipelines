@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "post-time-series-data-points")]
-public record AwsDatazonePostTimeSeriesDataPointsOptions : AwsOptions
+public record AwsDatazonePostTimeSeriesDataPointsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Posts time series data points to Amazon DataZone for the specified as- set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which you want to post time series data points. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of the asset for which you want to post time series data points. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset for which you want to post data points. Possible values: o ASSET o LISTING</param>
+    /// <param name="Forms">The forms that contain the data points that you want to post. (structure) The time series data points form. formName -&gt; (string) [required] The name of the time series data points form. Constraints: o min: 1 o max: 128 typeIdentifier -&gt; (string) [required] The ID of the type of the time series data points form. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision type of the time series data points form. Constraints: o min: 1 o max: 64 timestamp -&gt; (timestamp) [required] The timestamp of the time series data points form. content -&gt; (string) The content of the time series data points form. Constraints: o min: 0 o max: 500000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,timestamp=timestamp,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "timestamp": timestamp, "content": "string" } ... ]</param>
+    public AwsDatazonePostTimeSeriesDataPointsOptions(
+        string DomainIdentifier,
+        string EntityIdentifier,
+        AwsDatazonePostTimeSeriesDataPointsEntityType EntityType,
+        IEnumerable<string> Forms
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Forms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Forms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Forms));
+            }
+
+            Forms = materialized;
+        }
+        this.Forms = Forms;
+    }
+
+    private AwsDatazonePostTimeSeriesDataPointsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazonePostTimeSeriesDataPointsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazonePostTimeSeriesDataPointsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which you want to post time series data points. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID of the asset for which you want to post time series data points. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the asset for which you want to post data points. Possible values: o ASSET o LISTING
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsDatazonePostTimeSeriesDataPointsEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// The forms that contain the data points that you want to post. (structure) The time series data points form. formName -&gt; (string) [required] The name of the time series data points form. Constraints: o min: 1 o max: 128 typeIdentifier -&gt; (string) [required] The ID of the type of the time series data points form. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision type of the time series data points form. Constraints: o min: 1 o max: 64 timestamp -&gt; (timestamp) [required] The timestamp of the time series data points form. content -&gt; (string) The content of the time series data points form. Constraints: o min: 0 o max: 500000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,timestamp=timestamp,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "timestamp": timestamp, "content": "string" } ... ]
+    /// </summary>
     [CliOption("--forms", GroupValues = true)]
-    public IEnumerable<string>? Forms { get; set; }
+    public IEnumerable<string>? Forms { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
@@ -46,5 +116,22 @@ public record AwsDatazonePostTimeSeriesDataPointsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

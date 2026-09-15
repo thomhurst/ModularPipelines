@@ -11,14 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortkey.
+/// Allowed values for --sort-key.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIamGetOrganizationsAccessReportSortKey
 {
+    [EnumValue("LAST_AUTHENTICATED_TIME_ASCENDING")]
+    LastAuthenticatedTimeAscending,
+
+    [EnumValue("LAST_AUTHENTICATED_TIME_DESCENDING")]
+    LastAuthenticatedTimeDescending,
+
     [EnumValue("SERVICE_NAMESPACE_ASCENDING")]
-    ServiceNamespaceAscending = 1,
+    ServiceNamespaceAscending,
 
     [EnumValue("SERVICE_NAMESPACE_DESCENDING")]
-    ServiceNamespaceDescending = 2
+    ServiceNamespaceDescending
 }

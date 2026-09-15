@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -25,7 +26,7 @@ public record AwsDocdbDescribeEventCategoriesOptions : AwsOptions
     /// The type of source that is generating the events. Valid values: db-instance , db-parameter-group , db-security-group
     /// </summary>
     [CliOption("--source-type")]
-    public string? SourceType { get; set; }
+    public AwsDocdbDescribeEventCategoriesSourceType? SourceType { get; set; }
 
     /// <summary>
     /// This parameter is not currently supported. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of re- sources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]

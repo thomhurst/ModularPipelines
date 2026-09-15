@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-guru", "list-insights")]
-public record AwsDevopsGuruListInsightsOptions : AwsOptions
+public record AwsDevopsGuruListInsightsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time and status (ON- GOING , CLOSED , or ANY ). See also: AWS API Documentation list-insights is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mus...
+    /// </summary>
+    /// <param name="StatusFilter">A filter used to filter the returned insights by their status. You can specify one status filter. Ongoing -&gt; (structure) A ListInsightsAnyStatusFilter that specifies ongoing insights that are either REACTIVE or PROACTIVE . Type -&gt; (string) [required] Use to filter for either REACTIVE or PROACTIVE insights. Possible values: o REACTIVE o PROACTIVE Closed -&gt; (structure) A ListInsightsClosedStatusFilter that specifies closed insights that are either REACTIVE or PROACTIVE . Type -&gt; (string) [required] Use to filter for either REACTIVE or PROACTIVE insights. Possible values: o REACTIVE o PROACTIVE EndTimeRange -&gt; (structure) [required] A time range used to specify when the behavior of the fil- tered insights ended. FromTime -&gt; (timestamp) The earliest end time in the time range. ToTime -&gt; (timestamp) The latest end time in the time range. Any -&gt; (structure) A ListInsightsAnyStatusFilter that specifies insights of any status that are either REACTIVE or PROACTIVE . Type -&gt; (string) [required] Use to filter for either REACTIVE or PROACTIVE insights. Possible values: o REACTIVE o PROACTIVE StartTimeRange -&gt; (structure) [required] A time range used to specify when the behavior of the fil- tered insights started. FromTime -&gt; (timestamp) The start time of the time range. ToTime -&gt; (timestamp) The end time of the time range. Shorthand Syntax: Ongoing={Type=string},Closed={Type=string,EndTimeRange={FromTime=timestamp,ToTime=timestamp}},Any={Type=string,StartTimeRange={FromTime=timestamp,ToTime=timestamp}} JSON Syntax: { "Ongoing": { "Type": "REACTIVE"|"PROACTIVE" }, "Closed": { "Type": "REACTIVE"|"PROACTIVE", "EndTimeRange": { "FromTime": timestamp, "ToTime": timestamp } }, "Any": { "Type": "REACTIVE"|"PROACTIVE", "StartTimeRange": { "FromTime": timestamp, "ToTime": timestamp } } }</param>
+    public AwsDevopsGuruListInsightsOptions(
+        string StatusFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StatusFilter);
+        this.StatusFilter = StatusFilter;
+    }
+
+    private AwsDevopsGuruListInsightsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsGuruListInsightsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsGuruListInsightsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A filter used to filter the returned insights by their status. You can specify one status filter. Ongoing -&gt; (structure) A ListInsightsAnyStatusFilter that specifies ongoing insights that are either REACTIVE or PROACTIVE . Type -&gt; (string) [required] Use to filter for either REACTIVE or PROACTIVE insights. Possible values: o REACTIVE o PROACTIVE Closed -&gt; (structure) A ListInsightsClosedStatusFilter that specifies closed insights that are either REACTIVE or PROACTIVE . Type -&gt; (string) [required] Use to filter for either REACTIVE or PROACTIVE insights. Possible values: o REACTIVE o PROACTIVE EndTimeRange -&gt; (structure) [required] A time range used to specify when the behavior of the fil- tered insights ended. FromTime -&gt; (timestamp) The earliest end time in the time range. ToTime -&gt; (timestamp) The latest end time in the time range. Any -&gt; (structure) A ListInsightsAnyStatusFilter that specifies insights of any status that are either REACTIVE or PROACTIVE . Type -&gt; (string) [required] Use to filter for either REACTIVE or PROACTIVE insights. Possible values: o REACTIVE o PROACTIVE StartTimeRange -&gt; (structure) [required] A time range used to specify when the behavior of the fil- tered insights started. FromTime -&gt; (timestamp) The start time of the time range. ToTime -&gt; (timestamp) The end time of the time range. Shorthand Syntax: Ongoing={Type=string},Closed={Type=string,EndTimeRange={FromTime=timestamp,ToTime=timestamp}},Any={Type=string,StartTimeRange={FromTime=timestamp,ToTime=timestamp}} JSON Syntax: { "Ongoing": { "Type": "REACTIVE"|"PROACTIVE" }, "Closed": { "Type": "REACTIVE"|"PROACTIVE", "EndTimeRange": { "FromTime": timestamp, "ToTime": timestamp } }, "Any": { "Type": "REACTIVE"|"PROACTIVE", "StartTimeRange": { "FromTime": timestamp, "ToTime": timestamp } } }
+    /// </summary>
     [CliOption("--status-filter")]
-    public string? StatusFilter { get; set; }
+    public string? StatusFilter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsDevopsGuruListInsightsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

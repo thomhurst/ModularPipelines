@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "search-contacts")]
-public record AwsConnectSearchContactsOptions : AwsOptions
+public record AwsConnectSearchContactsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches contacts in an Connect Customer instance. See also: AWS API Documentation search-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contacts
+    /// </summary>
+    /// <param name="InstanceId">The identifier of Connect Customer instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="TimeRange">Time range that you want to search results. Type -&gt; (string) [required] The type of timestamp to search. Possible values: o INITIATION_TIMESTAMP o SCHEDULED_TIMESTAMP o CONNECTED_TO_AGENT_TIMESTAMP o DISCONNECT_TIMESTAMP o ENQUEUE_TIMESTAMP StartTime -&gt; (timestamp) [required] The start time of the time range. EndTime -&gt; (timestamp) [required] The end time of the time range. Shorthand Syntax: Type=string,StartTime=timestamp,EndTime=timestamp JSON Syntax: { "Type": "INITIATION_TIMESTAMP"|"SCHEDULED_TIMESTAMP"|"CONNECTED_TO_AGENT_TIMESTAMP"|"DISCONNECT_TIMESTAMP"|"ENQUEUE_TIMESTAMP", "StartTime": timestamp, "EndTime": timestamp }</param>
+    public AwsConnectSearchContactsOptions(
+        string InstanceId,
+        string TimeRange
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(TimeRange);
+        this.TimeRange = TimeRange;
+    }
+
+    private AwsConnectSearchContactsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSearchContactsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSearchContactsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of Connect Customer instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// Time range that you want to search results. Type -&gt; (string) [required] The type of timestamp to search. Possible values: o INITIATION_TIMESTAMP o SCHEDULED_TIMESTAMP o CONNECTED_TO_AGENT_TIMESTAMP o DISCONNECT_TIMESTAMP o ENQUEUE_TIMESTAMP StartTime -&gt; (timestamp) [required] The start time of the time range. EndTime -&gt; (timestamp) [required] The end time of the time range. Shorthand Syntax: Type=string,StartTime=timestamp,EndTime=timestamp JSON Syntax: { "Type": "INITIATION_TIMESTAMP"|"SCHEDULED_TIMESTAMP"|"CONNECTED_TO_AGENT_TIMESTAMP"|"DISCONNECT_TIMESTAMP"|"ENQUEUE_TIMESTAMP", "StartTime": timestamp, "EndTime": timestamp }
+    /// </summary>
     [CliOption("--time-range")]
-    public string? TimeRange { get; set; }
+    public string? TimeRange { get; private init; }
 
     /// <summary>
     /// The search criteria to be used to return contacts. Name -&gt; (structure) Name of the contact. SearchText -&gt; (list) [required] The words or phrases used to match the contact name. Constraints: o min: 0 o max: 100 (string) Constraints: o max: 128 MatchType -&gt; (string) [required] The match type combining name search criteria using multiple search texts in a name criteria. Possible values: o MATCH_ALL o MATCH_ANY o MATCH_EXACT o MATCH_NONE AgentIds -&gt; (list) The identifiers of agents who handled the contacts. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 256 AgentHierarchyGroups -&gt; (structure) The agent hierarchy groups of the agent at the time of handling the contact. L1Ids -&gt; (list) The identifiers for level 1 hierarchy groups. Constraints: o min: 0 o max: 10 (string) L2Ids -&gt; (list) The identifiers for level 2 hierarchy groups. Constraints: o min: 0 o max: 10 (string) L3Ids -&gt; (list) The identifiers for level 3 hierarchy groups. Constraints: o min: 0 o max: 10 (string) L4Ids -&gt; (list) The identifiers for level 4 hierarchy groups. Constraints: o min: 0 o max: 10 (string) L5Ids -&gt; (list) The identifiers for level 5 hierarchy groups. Constraints: o min: 0 o max: 10 (string) Channels -&gt; (list) The list of channels associated with contacts. (string) Possible values: o VOICE o CHAT o TASK o EMAIL ContactAnalysis -&gt; (structure) Search criteria based on analysis outputs from Connect Customer Contact Lens. Transcript -&gt; (structure) Search criteria based on transcript analyzed by Connect Cus- tomer Contact Lens. Criteria -&gt; (list) [required] The list of search criteria based on Contact Lens conver- sational analytics transcript. Constraints: o min: 0 o max: 6 (structure) A structure that defines search criteria base on words or phrases, participants in the Contact Lens conversa- tional analytics transcript. ParticipantRole -&gt; (string) [required] The participant role in a transcript Possible values: o AGENT o CUSTOMER o SYSTEM o CUSTOM_BOT o SUPERVISOR SearchText -&gt; (list) [required] The words or phrases used to search within a tran- script. Constraints: o min: 0 o max: 100 (string) Constraints: o max: 128 MatchType -&gt; (string) [required] The match type combining search criteria using multiple search texts in a transcript criteria. Possible values: o MATCH_ALL o MATCH_ANY o MATCH_EXACT o MATCH_NONE MatchType -&gt; (string) The match type combining search criteria using multiple transcript criteria. Possible values: o MATCH_ALL o MATCH_ANY o MATCH_EXACT o MATCH_NONE InitiationMethods -&gt; (list) The list of initiation methods associated with contacts. (string) Possible values: o INBOUND o OUTBOUND o TRANSFER o QUEUE_TRANSFER o CALLBACK o API o DISCONNECT o MONITOR o EXTERNAL_OUTBOUND o WEBRTC_API o AGENT_REPLY o FLOW QueueIds -&gt; (list) The list of queue IDs associated with contacts. Constraints: o min: 0 o max: 100 (string) RoutingCriteria -&gt; (structure) Routing criteria for the contact. Steps -&gt; (list) The list of Routing criteria steps of the contact routing. (structure) Routing criteria of the contact to match on. AgentCriteria -&gt; (structure) Agent matching the routing step of the routing crite- ria AgentIds -&gt; (list) The identifiers of agents used in preferred agents matching. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 256 MatchType -&gt; (string) The match type combining multiple agent criteria steps. Possible values: o MATCH_ALL o MATCH_ANY o MATCH_EXACT o MATCH_NONE AdditionalTimeRange -&gt; (structure) Additional TimeRange used to filter contacts. Criteria -&gt; (list) [required] List of criteria of the time range to additionally filter on. (structure) The criteria of the time range to additionally filter on. TimeRange -&gt; (structure) A structure of time range that you want to search re- sults. Type -&gt; (string) [required] The type of timestamp to search. Possible values: o INITIATION_TIMESTAMP o SCHEDULED_TIMESTAMP o CONNECTED_TO_AGENT_TIMESTAMP o DISCONNECT_TIMESTAMP o ENQUEUE_TIMESTAMP StartTime -&gt; (timestamp) [required] The start time of the time range. EndTime -&gt; (timestamp) [required] The end time of the time range. TimestampCondition -&gt; (structure) List of the timestamp conditions. Type -&gt; (string) [required] Type of the timestamps to use for the filter. Possible values: o INITIATION_TIMESTAMP o SCHEDULED_TIMESTAMP o CONNECTED_TO_AGENT_TIMESTAMP o DISCONNECT_TIMESTAMP o ENQUEUE_TIMESTAMP ConditionType -&gt; (string) [required] Condition of the timestamp on the contact. Possible values: o NOT_EXISTS MatchType -&gt; (string) [required] The match type combining multiple time range filters. Possible values: o MATCH_ALL o MATCH_ANY o MATCH_EXACT o MATCH_NONE SearchableContactAttributes -&gt; (structure) The search criteria based on user-defined contact attributes that have been configured for contact search. For more informa- tion, see Search by custom contact attributes in the Connect Customer Administrator Guide . WARNING: To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API re- quest. For more information, see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions Actions defined by Connect Customer. Criteria -&gt; (list) [required] The list of criteria based on user-defined contact attributes that are configured for contact search. Constraints: o min: 0 o max: 15 (structure) The search criteria based on user-defined contact at- tribute key and values to search on. Key -&gt; (string) [required] The key containing a searchable user-defined contact attribute. Constraints: o min: 1 o max: 100 Values -&gt; (list) [required] The list of values to search for within a user-defined contact attribute. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 0 o max: 100 MatchType -&gt; (string) The match type combining search criteria using multiple searchable contact attributes. Possible values: o MATCH_ALL o MATCH_ANY o MATCH_EXACT o MATCH_NONE SearchableSegmentAttributes -&gt; (structure) The search criteria based on searchable segment attributes of a contact. Criteria -&gt; (list) [required] The list of criteria based on searchable segment attributes. Constraints: o min: 1 o max: 15 (structure) The search criteria based on searchable segment attribute key and values to search on. Key -&gt; (string) [required] The key containing a searchable segment attribute. Constraints: o min: 1 o max: 64 Values -&gt; (list) [required] The list of values to search for within a searchable segment attribute. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 0 o max: 128 MatchType -&gt; (string) The match type combining search criteria using multiple searchable segment attributes. Possible values: o MATCH_ALL o MATCH_ANY o MATCH_EXACT o MATCH_NONE ActiveRegions -&gt; (list) The list of active regions for contacts in ACGR instances. (string) Constraints: o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? ContactTags -&gt; (structure) An object that can be used to specify Tag conditions inside the SearchFilter . This accepts an OR of AND (List of List) input where: o Top level list specifies conditions that need to be applied with OR operator o Inner list specifies conditions that need to be applied with AND operator. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (list) (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. TagCondition -&gt; (structure) A leaf node condition which can be used to specify a tag con- dition. TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. AiAgents -&gt; (structure) AI Agent search criteria definitions. Criteria -&gt; (list) The list of criteria based on AI Agent metadata. Constraints: o min: 0 o max: 1 (structure) The search criteria based on AI Agents metadata. Id -&gt; (string) ID of the AI Agent that was involved in the contact. Constraints: o min: 0 o max: 128 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} VersionNumber -&gt; (integer) Version of the AI agent that was involved in the con- tact. ID is required if VersionNumber is passed. AiAgentEscalated -&gt; (boolean) A boolean flag indicating whether the contact ini- tially handled by this AI agent was escalated to a hu- man agent. AiUseCase -&gt; (string) The use case or scenario for which the AI agent is in- volved in the contact. Possible values: o AgentAssistance o SelfService JSON Syntax: { "Name": { "SearchText": ["string", ...], "MatchType": "MATCH_ALL"|"MATCH_ANY"|"MATCH_EXACT"|"MATCH_NONE" }, "AgentIds": ["string", ...], "AgentHierarchyGroups": { "L1Ids": ["string", ...], "L2Ids": ["string", ...], "L3Ids": ["string", ...], "L4Ids": ["string", ...], "L5Ids": ["string", ...] }, "Channels": ["VOICE"|"CHAT"|"TASK"|"EMAIL", ...], "ContactAnalysis": { "Transcript": { "Criteria": [ { "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "SearchText": ["string", ...], "MatchType": "MATCH_ALL"|"MATCH_ANY"|"MATCH_EXACT"|"MATCH_NONE" } ... ], "MatchType": "MATCH_ALL"|"MATCH_ANY"|"MATCH_EXACT"|"MATCH_NONE" } }, "InitiationMethods": ["INBOUND"|"OUTBOUND"|"TRANSFER"|"QUEUE_TRANSFER"|"CALLBACK"|"API"|"DISCONNECT"|"MONITOR"|"EXTERNAL_OUTBOUND"|"WEBRTC_API"|"AGENT_REPLY"|"FLOW", ...], "QueueIds": ["string", ...], "RoutingCriteria": { "Steps": [ { "AgentCriteria": { "AgentIds": ["string", ...], "MatchType": "MATCH_ALL"|"MATCH_ANY"|"MATCH_EXACT"|"MATCH_NONE" } } ... ] }, "AdditionalTimeRange": { "Criteria": [ { "TimeRange": { "Type": "INITIATION_TIMESTAMP"|"SCHEDULED_TIMESTAMP"|"CONNECTED_TO_AGENT_TIMESTAMP"|"DISCONNECT_TIMESTAMP"|"ENQUEUE_TIMESTAMP", "StartTime": timestamp, "EndTime": timestamp }, "TimestampCondition": { "Type": "INITIATION_TIMESTAMP"|"SCHEDULED_TIMESTAMP"|"CONNECTED_TO_AGENT_TIMESTAMP"|"DISCONNECT_TIMESTAMP"|"ENQUEUE_TIMESTAMP", "ConditionType": "NOT_EXISTS" } } ... ], "MatchType": "MATCH_ALL"|"MATCH_ANY"|"MATCH_EXACT"|"MATCH_NONE" }, "SearchableContactAttributes": { "Criteria": [ { "Key": "string", "Values": ["string", ...] } ... ], "MatchType": "MATCH_ALL"|"MATCH_ANY"|"MATCH_EXACT"|"MATCH_NONE" }, "SearchableSegmentAttributes": { "Criteria": [ { "Key": "string", "Values": ["string", ...] } ... ], "MatchType": "MATCH_ALL"|"MATCH_ANY"|"MATCH_EXACT"|"MATCH_NONE" }, "ActiveRegions": ["string", ...], "ContactTags": { "OrConditions": [ [ { "TagKey": "string", "TagValue": "string" } ... ] ... ], "AndConditions": [ { "TagKey": "string", "TagValue": "string" } ... ], "TagCondition": { "TagKey": "string", "TagValue": "string" } }, "AiAgents": { "Criteria": [ { "Id": "string", "VersionNumber": integer, "AiAgentEscalated": true|false, "AiUseCase": "AgentAssistance"|"SelfService" } ... ] } }
@@ -64,5 +108,22 @@ public record AwsConnectSearchContactsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,69 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "cancel-trace-retrieval")]
-public record AwsXrayCancelTraceRetrievalOptions : AwsOptions
+public record AwsXrayCancelTraceRetrievalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken . A successful cancellation will re- turn an HTTP 200 response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RetrievalToken">Retrieval token. Constraints: o min: 0 o max: 1020</param>
+    public AwsXrayCancelTraceRetrievalOptions(
+        string RetrievalToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RetrievalToken);
+        this.RetrievalToken = RetrievalToken;
+    }
+
+    private AwsXrayCancelTraceRetrievalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayCancelTraceRetrievalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayCancelTraceRetrievalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Retrieval token. Constraints: o min: 0 o max: 1020
+    /// </summary>
     [SecretValue]
     [CliOption("--retrieval-token")]
-    public string? RetrievalToken { get; set; }
+    public string? RetrievalToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "create-dataset-group")]
-public record AwsForecastCreateDataSetGroupOptions : AwsOptions
+public record AwsForecastCreateDataSetGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--dataset-group-name")]
-    public string? DataSetGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a dataset group, which holds a collection of related datasets. You can add datasets to the dataset group when you create the dataset group, or later by using the UpdateDatasetGroup operation. After creating a dataset group and adding datasets, you use the dataset group when you create a predictor. For more information, see Dataset groups . To get a list of all your datasets groups, use the ListDatasetGroups operation. NOTE: The Status of a dataset group must be ACTIVE before you can use ...
+    /// </summary>
+    /// <param name="DataSetGroupName">A name for the dataset group. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="Domain">The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Do- main parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires that item_id , timestamp , and demand fields are present in your data. For more information, see Dataset groups . Possible values: o RETAIL o CUSTOM o INVENTORY_PLANNING o EC2_CAPACITY o WORK_FORCE o WEB_TRAFFIC o METRICS</param>
+    public AwsForecastCreateDataSetGroupOptions(
+        string DataSetGroupName,
+        AwsForecastCreateDataSetGroupDomain Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetGroupName);
+        this.DataSetGroupName = DataSetGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    private AwsForecastCreateDataSetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastCreateDataSetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastCreateDataSetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the dataset group. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// </summary>
+    [CliOption("--dataset-group-name")]
+    public string? DataSetGroupName { get; private init; }
+
+    /// <summary>
+    /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Do- main parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires that item_id , timestamp , and demand fields are present in your data. For more information, see Dataset groups . Possible values: o RETAIL o CUSTOM o INVENTORY_PLANNING o EC2_CAPACITY o WORK_FORCE o WEB_TRAFFIC o METRICS
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public AwsForecastCreateDataSetGroupDomain? Domain { get; private init; }
 
     /// <summary>
     /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group. (string) Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
@@ -44,5 +89,22 @@ public record AwsForecastCreateDataSetGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

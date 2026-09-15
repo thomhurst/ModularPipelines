@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "update-interruptible-capacity-reservation-allocation")]
-public record AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions : AwsOptions
+public record AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--capacity-reservation-id")]
-    public string? CapacityReservationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the number of instances allocated to an interruptible reserva- tion, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityReservationId">The ID of the source Capacity Reservation containing the interrupt- ible allocation to modify.</param>
+    public AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions(
+        string CapacityReservationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationId);
+        this.CapacityReservationId = CapacityReservationId;
+    }
+
+    private AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the source Capacity Reservation containing the interrupt- ible allocation to modify.
+    /// </summary>
+    [CliOption("--capacity-reservation-id")]
+    public string? CapacityReservationId { get; private init; }
+
+    /// <summary>
+    /// The new number of instances to allocate. Enter a higher number to add more capacity to share, or a lower number to reclaim capacity to your source Capacity Reservation.
+    /// </summary>
     [CliOption("--target-instance-count")]
     public int? TargetInstanceCount { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Specifies the updated behavior for the interruptible Capacity Reser- vation when you reduce its allocation to zero instances. Specify re- tain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Spec- ify default to cancel the interruptible Capacity Reservation and re- turn the capacity to your source Capacity Reservation. Possible values: o retain o default
+    /// </summary>
+    [CliOption("--zero-size-preference")]
+    public AwsEc2UpdateInterruptibleCapacityReservationAllocationZeroSizePreference? ZeroSizePreference { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

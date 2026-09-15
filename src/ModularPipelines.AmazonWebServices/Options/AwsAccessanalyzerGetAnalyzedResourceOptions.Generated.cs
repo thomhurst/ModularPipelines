@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "get-analyzed-resource")]
-public record AwsAccessanalyzerGetAnalyzedResourceOptions : AwsOptions
+public record AwsAccessanalyzerGetAnalyzedResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--analyzer-arn")]
-    public string? AnalyzerArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves information about a resource that was analyzed. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnalyzerArn">The ARN of the analyzer to retrieve information from. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="ResourceArn">The ARN of the resource to retrieve information about. Constraints: o pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
+    public AwsAccessanalyzerGetAnalyzedResourceOptions(
+        string AnalyzerArn,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnalyzerArn);
+        this.AnalyzerArn = AnalyzerArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsAccessanalyzerGetAnalyzedResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerGetAnalyzedResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerGetAnalyzedResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the analyzer to retrieve information from. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// </summary>
+    [CliOption("--analyzer-arn")]
+    public string? AnalyzerArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the resource to retrieve information about. Constraints: o pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

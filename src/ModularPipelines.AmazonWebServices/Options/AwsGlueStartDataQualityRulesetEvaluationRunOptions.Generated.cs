@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "start-data-quality-ruleset-evaluation-run")]
-public record AwsGlueStartDataQualityRulesetEvaluationRunOptions : AwsOptions
+public record AwsGlueStartDataQualityRulesetEvaluationRunOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-source")]
-    public string? DataSource { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSource">The data source (Glue table) associated with this run. GlueTable -&gt; (structure) An Glue table. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* DataQualityGlueTable -&gt; (structure) An Glue table for Data Quality Operations. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PreProcessingQuery -&gt; (string) SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation. Constraints: o min: 0 o max: 51200 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: GlueTable={DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string}},DataQualityGlueTable={DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string},PreProcessingQuery=string} JSON Syntax: { "GlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...} }, "DataQualityGlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...}, "PreProcessingQuery": "string" } }</param>
+    /// <param name="Role">An IAM role supplied to encrypt the results of the run.</param>
+    /// <param name="RulesetNames">A list of ruleset names. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
+    public AwsGlueStartDataQualityRulesetEvaluationRunOptions(
+        string DataSource,
+        string Role,
+        IEnumerable<string> RulesetNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RulesetNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RulesetNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RulesetNames));
+            }
+
+            RulesetNames = materialized;
+        }
+        this.RulesetNames = RulesetNames;
+    }
+
+    private AwsGlueStartDataQualityRulesetEvaluationRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueStartDataQualityRulesetEvaluationRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueStartDataQualityRulesetEvaluationRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data source (Glue table) associated with this run. GlueTable -&gt; (structure) An Glue table. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* DataQualityGlueTable -&gt; (structure) An Glue table for Data Quality Operations. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PreProcessingQuery -&gt; (string) SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation. Constraints: o min: 0 o max: 51200 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: GlueTable={DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string}},DataQualityGlueTable={DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string},PreProcessingQuery=string} JSON Syntax: { "GlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...} }, "DataQualityGlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...}, "PreProcessingQuery": "string" } }
+    /// </summary>
+    [CliOption("--data-source")]
+    public string? DataSource { get; private init; }
+
+    /// <summary>
+    /// An IAM role supplied to encrypt the results of the run.
+    /// </summary>
     [CliOption("--role")]
-    public string? Role { get; set; }
+    public string? Role { get; private init; }
+
+    /// <summary>
+    /// A list of ruleset names. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--ruleset-names", GroupValues = true)]
+    public IEnumerable<string>? RulesetNames { get; private init; }
 
     /// <summary>
     /// The number of G.1X workers to be used in the run. The default is 5.
@@ -54,9 +119,6 @@ public record AwsGlueStartDataQualityRulesetEvaluationRunOptions : AwsOptions
     [CliOption("--additional-run-options")]
     public string? AdditionalRunOptions { get; set; }
 
-    [CliOption("--ruleset-names", GroupValues = true)]
-    public IEnumerable<string>? RulesetNames { get; set; }
-
     /// <summary>
     /// A map of reference strings to additional data sources you can spec- ify for an evaluation run. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) A data source (an Glue table) for which you want data quality results. GlueTable -&gt; (structure) An Glue table. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side parti- tion pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* DataQualityGlueTable -&gt; (structure) An Glue table for Data Quality Operations. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side parti- tion pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PreProcessingQuery -&gt; (string) SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation. Constraints: o min: 0 o max: 51200 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* JSON Syntax: {"string": { "GlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...} }, "DataQualityGlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...}, "PreProcessingQuery": "string" } } ...}
     /// </summary>
@@ -68,5 +130,22 @@ public record AwsGlueStartDataQualityRulesetEvaluationRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

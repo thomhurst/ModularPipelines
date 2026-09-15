@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --analysismethod.
+/// Allowed values for --analysis-method.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsUpdateConfiguredTableAnalysisMethod
 {
-    [EnumValue("DIRECT_QUERY")]
-    DirectQuery = 1,
-
     [EnumValue("DIRECT_JOB")]
-    DirectJob = 2,
+    DirectJob,
+
+    [EnumValue("DIRECT_QUERY")]
+    DirectQuery,
 
     [EnumValue("MULTIPLE")]
-    Multiple = 3
+    Multiple
 }

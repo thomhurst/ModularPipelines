@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resolverendpointtype.
+/// Allowed values for --resolver-endpoint-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53resolverCreateResolverEndpointResolverEndpointType
 {
-    [EnumValue("IPV6")]
-    Ipv6 = 1,
+    [EnumValue("DUALSTACK")]
+    Dualstack,
 
     [EnumValue("IPV4")]
-    Ipv4 = 2,
+    Ipv4,
 
-    [EnumValue("DUALSTACK")]
-    Dualstack = 3
+    [EnumValue("IPV6")]
+    Ipv6
 }

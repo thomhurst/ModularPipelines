@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "create-configuration-set")]
-public record AwsSesv2CreateConfigurationSetOptions : AwsOptions
+public record AwsSesv2CreateConfigurationSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set. The name can contain up to 64 al- phanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.</param>
+    public AwsSesv2CreateConfigurationSetOptions(
+        string ConfigurationSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+    }
+
+    private AwsSesv2CreateConfigurationSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2CreateConfigurationSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2CreateConfigurationSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set. The name can contain up to 64 al- phanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
+    /// </summary>
     [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
     /// An object that defines the open and click tracking options for emails that you send using the configuration set. CustomRedirectDomain -&gt; (string) [required] The domain to use for tracking open and click events. HttpsPolicy -&gt; (string) The https policy to use for tracking open and click events. Possible values: o REQUIRE o REQUIRE_OPEN_ONLY o OPTIONAL Shorthand Syntax: CustomRedirectDomain=string,HttpsPolicy=string JSON Syntax: { "CustomRedirectDomain": "string", "HttpsPolicy": "REQUIRE"|"REQUIRE_OPEN_ONLY"|"OPTIONAL" }
@@ -72,10 +109,33 @@ public record AwsSesv2CreateConfigurationSetOptions : AwsOptions
     [CliOption("--archiving-options")]
     public string? ArchivingOptions { get; set; }
 
+    /// <summary>
+    /// The message security options to apply to the configuration set, such as the signing scheme used for messages that you send with the con- figuration set. SigningScheme -&gt; (tagged union structure) The signing scheme that Amazon SES API v2 applies to messages sent with the configuration set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DefaultScheme, SmimeScheme. DefaultScheme -&gt; (structure) Use the default signing behavior. When you select this op- tion, Amazon SES API v2 doesn't add an S/MIME signature to messages sent with the configuration set. SmimeScheme -&gt; (structure) Sign messages sent with the configuration set using S/MIME. For signing to apply, the email identity used to send a mes- sage must have an active S/MIME certificate association. SignatureFormat -&gt; (string) The format of the S/MIME signature that Amazon SES API v2 applies to messages. Possible values: o DETACHED Shorthand Syntax: SigningScheme={DefaultScheme={},SmimeScheme={SignatureFormat=string}} JSON Syntax: { "SigningScheme": { "DefaultScheme": { }, "SmimeScheme": { "SignatureFormat": "DETACHED" } } }
+    /// </summary>
+    [CliOption("--message-security-options")]
+    public string? MessageSecurityOptions { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --storagetier.
+/// Allowed values for --storage-tier.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifySnapshotTierStorageTier
 {
     [EnumValue("archive")]
-    Archive = 1
+    Archive,
+
+    [EnumValue("o")]
+    O
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --insufficientdatahealthstatus.
+/// Allowed values for --insufficient-data-health-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53UpdateHealthCheckInsufficientDataHealthStatus
 {
     [EnumValue("Healthy")]
-    Healthy = 1,
-
-    [EnumValue("Unhealthy")]
-    Unhealthy = 2,
+    Healthy,
 
     [EnumValue("LastKnownStatus")]
-    LastKnownStatus = 3
+    LastKnownStatus,
+
+    [EnumValue("Unhealthy")]
+    Unhealthy
 }

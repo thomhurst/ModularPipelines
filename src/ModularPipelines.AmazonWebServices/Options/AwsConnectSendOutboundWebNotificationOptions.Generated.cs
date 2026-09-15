@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,106 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "send-outbound-web-notification")]
-public record AwsConnectSendOutboundWebNotificationOptions : AwsOptions
+public record AwsConnectSendOutboundWebNotificationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends an outbound web notification to a customer's web browser for out- bound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns . NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="BrowserId">A unique identifier for the customer's web browser instance to which the notification is being sent. Constraints: o min: 1 o max: 36</param>
+    /// <param name="SessionId">A unique identifier for the customer's web session to which the no- tification is being sent. Constraints: o min: 1 o max: 36</param>
+    /// <param name="ExpiresAt">The timestamp, in Unix epoch time format, at which the web notifica- tion expires. After this time, the notification is no longer deliv- ered to the customer's browser.</param>
+    /// <param name="Source">The source of the web notification. A SourceCampaign object identi- fies the campaign and outbound request that triggered this notifica- tion. SourceCampaign -&gt; (structure) [required] Information about the campaign that triggered the web notifica- tion, including the campaign identifier and outbound request identifier. CampaignId -&gt; (string) A unique identifier for a campaign. Constraints: o min: 1 o max: 100 OutboundRequestId -&gt; (string) A unique identifier for a each request part of same campaign. Constraints: o min: 36 o max: 36 Shorthand Syntax: SourceCampaign={CampaignId=string,OutboundRequestId=string} JSON Syntax: { "SourceCampaign": { "CampaignId": "string", "OutboundRequestId": "string" } }</param>
+    /// <param name="Destination">The destination for the web notification, specifying the communica- tion widget that delivers the notification and the customer profile of the recipient. WidgetId -&gt; (string) [required] The identifier of the communication widget that delivers the no- tification to the customer's browser. Constraints: o min: 1 o max: 36 ProfileId -&gt; (string) [required] The identifier of the customer profile associated with the browser session that should receive the notification. Constraints: o min: 1 o max: 32 Shorthand Syntax: WidgetId=string,ProfileId=string JSON Syntax: { "WidgetId": "string", "ProfileId": "string" }</param>
+    /// <param name="Content">The content of the web notification, including the notification type, the view to render, and any optional attributes used to popu- late it. Type -&gt; (string) [required] The type of web notification to send. Possible values: o WIDGET_VIEW o WIDGET_ACTION ViewArn -&gt; (string) The Amazon Resource Name (ARN) of the view to render for the no- tification. Constraints: o min: 1 o max: 500 Attributes -&gt; (structure) Optional attributes used to populate the notification content, such as recommender configuration for personalized content. RecommenderConfig -&gt; (structure) Configuration for the recommender used to generate personal- ized recommendations for the notification content. DomainName -&gt; (string) [required] The name of the Amazon Personalize domain that hosts the recommender. Constraints: o min: 1 o max: 64 RecommenderName -&gt; (string) [required] The name of the recommender used to generate the recom- mendations. Constraints: o min: 1 o max: 64 Context -&gt; (map) A map of contextual key-value pairs supplied to the rec- ommender to influence the recommendations returned. key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 255 JSON Syntax: { "Type": "WIDGET_VIEW"|"WIDGET_ACTION", "ViewArn": "string", "Attributes": { "RecommenderConfig": { "DomainName": "string", "RecommenderName": "string", "Context": {"string": "string" ...} } } }</param>
+    public AwsConnectSendOutboundWebNotificationOptions(
+        string InstanceId,
+        string BrowserId,
+        string SessionId,
+        string ExpiresAt,
+        string Source,
+        string Destination,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(BrowserId);
+        this.BrowserId = BrowserId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(ExpiresAt);
+        this.ExpiresAt = ExpiresAt;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsConnectSendOutboundWebNotificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSendOutboundWebNotificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSendOutboundWebNotificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the customer's web browser instance to which the notification is being sent. Constraints: o min: 1 o max: 36
+    /// </summary>
+    [CliOption("--browser-id")]
+    public string? BrowserId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the customer's web session to which the no- tification is being sent. Constraints: o min: 1 o max: 36
+    /// </summary>
+    [CliOption("--session-id")]
+    public string? SessionId { get; private init; }
+
+    /// <summary>
+    /// The timestamp, in Unix epoch time format, at which the web notifica- tion expires. After this time, the notification is no longer deliv- ered to the customer's browser.
+    /// </summary>
+    [CliOption("--expires-at")]
+    public string? ExpiresAt { get; private init; }
+
+    /// <summary>
+    /// The source of the web notification. A SourceCampaign object identi- fies the campaign and outbound request that triggered this notifica- tion. SourceCampaign -&gt; (structure) [required] Information about the campaign that triggered the web notifica- tion, including the campaign identifier and outbound request identifier. CampaignId -&gt; (string) A unique identifier for a campaign. Constraints: o min: 1 o max: 100 OutboundRequestId -&gt; (string) A unique identifier for a each request part of same campaign. Constraints: o min: 36 o max: 36 Shorthand Syntax: SourceCampaign={CampaignId=string,OutboundRequestId=string} JSON Syntax: { "SourceCampaign": { "CampaignId": "string", "OutboundRequestId": "string" } }
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// The destination for the web notification, specifying the communica- tion widget that delivers the notification and the customer profile of the recipient. WidgetId -&gt; (string) [required] The identifier of the communication widget that delivers the no- tification to the customer's browser. Constraints: o min: 1 o max: 36 ProfileId -&gt; (string) [required] The identifier of the customer profile associated with the browser session that should receive the notification. Constraints: o min: 1 o max: 32 Shorthand Syntax: WidgetId=string,ProfileId=string JSON Syntax: { "WidgetId": "string", "ProfileId": "string" }
+    /// </summary>
+    [CliOption("--destination")]
+    public string? Destination { get; private init; }
+
+    /// <summary>
+    /// The content of the web notification, including the notification type, the view to render, and any optional attributes used to popu- late it. Type -&gt; (string) [required] The type of web notification to send. Possible values: o WIDGET_VIEW o WIDGET_ACTION ViewArn -&gt; (string) The Amazon Resource Name (ARN) of the view to render for the no- tification. Constraints: o min: 1 o max: 500 Attributes -&gt; (structure) Optional attributes used to populate the notification content, such as recommender configuration for personalized content. RecommenderConfig -&gt; (structure) Configuration for the recommender used to generate personal- ized recommendations for the notification content. DomainName -&gt; (string) [required] The name of the Amazon Personalize domain that hosts the recommender. Constraints: o min: 1 o max: 64 RecommenderName -&gt; (string) [required] The name of the recommender used to generate the recom- mendations. Constraints: o min: 1 o max: 64 Context -&gt; (map) A map of contextual key-value pairs supplied to the rec- ommender to influence the recommendations returned. key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 255 JSON Syntax: { "Type": "WIDGET_VIEW"|"WIDGET_ACTION", "ViewArn": "string", "Attributes": { "RecommenderConfig": { "DomainName": "string", "RecommenderName": "string", "Context": {"string": "string" ...} } } }
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -32,28 +129,27 @@ public record AwsConnectSendOutboundWebNotificationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--browser-id")]
-    public string? BrowserId { get; set; }
-
-    [CliOption("--session-id")]
-    public string? SessionId { get; set; }
-
-    [CliOption("--expires-at")]
-    public string? ExpiresAt { get; set; }
-
-    [CliOption("--source")]
-    public string? Source { get; set; }
-
-    [CliOption("--destination")]
-    public string? Destination { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis-video-archived-media", "get-images")]
-public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions
+public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// </summary>
+    /// <param name="ImageSelectorType">The origin of the Server or Producer timestamps to use to generate the images. Possible values: o PRODUCER_TIMESTAMP o SERVER_TIMESTAMP</param>
+    /// <param name="StartTimestamp">The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.</param>
+    /// <param name="EndTimestamp">The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp , you will receive an IllegalArgu- mentException .</param>
+    /// <param name="Format">The format that will be used to encode the image. Possible values: o JPEG o PNG</param>
+    public AwsKinesisVideoArchivedMediaGetImagesOptions(
+        AwsKinesisVideoArchivedMediaGetImagesImageSelectorType ImageSelectorType,
+        string StartTimestamp,
+        string EndTimestamp,
+        AwsKinesisVideoArchivedMediaGetImagesFormat Format
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageSelectorType);
+        this.ImageSelectorType = ImageSelectorType;
+        global::System.ArgumentNullException.ThrowIfNull(StartTimestamp);
+        this.StartTimestamp = StartTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(EndTimestamp);
+        this.EndTimestamp = EndTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+    }
+
+    private AwsKinesisVideoArchivedMediaGetImagesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisVideoArchivedMediaGetImagesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisVideoArchivedMediaGetImagesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The origin of the Server or Producer timestamps to use to generate the images. Possible values: o PRODUCER_TIMESTAMP o SERVER_TIMESTAMP
+    /// </summary>
+    [CliOption("--image-selector-type")]
+    public AwsKinesisVideoArchivedMediaGetImagesImageSelectorType? ImageSelectorType { get; private init; }
+
+    /// <summary>
+    /// The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
+    /// </summary>
+    [CliOption("--start-timestamp")]
+    public string? StartTimestamp { get; private init; }
+
+    /// <summary>
+    /// The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp , you will receive an IllegalArgu- mentException .
+    /// </summary>
+    [CliOption("--end-timestamp")]
+    public string? EndTimestamp { get; private init; }
+
+    /// <summary>
+    /// The format that will be used to encode the image. Possible values: o JPEG o PNG
+    /// </summary>
+    [CliOption("--format")]
+    public AwsKinesisVideoArchivedMediaGetImagesFormat? Format { get; private init; }
+
     /// <summary>
     /// The name of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
@@ -35,23 +106,11 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CliOption("--image-selector-type")]
-    public string? ImageSelectorType { get; set; }
-
-    [CliOption("--start-timestamp")]
-    public string? StartTimestamp { get; set; }
-
-    [CliOption("--end-timestamp")]
-    public string? EndTimestamp { get; set; }
-
     /// <summary>
     /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 200 ms (5 images per second). If the timestamp range is less than the sampling interval, the image from the startTimestamp will be re- turned if available.
     /// </summary>
     [CliOption("--sampling-interval")]
     public int? SamplingInterval { get; set; }
-
-    [CliOption("--format")]
-    public string? Format { get; set; }
 
     /// <summary>
     /// The list of a key-value pair structure that contains extra parame- ters that can be applied when the image is generated. The FormatCon- fig key is the JPEGQuality , which indicates the JPEG quality key to be used to generate the image. The FormatConfig value accepts ints from 1 to 100. If the value is 1, the image will be generated with less quality and the best compression. If the value is 100, the im- age will be generated with the best quality and less compression. If no value is provided, the default value of the JPEGQuality key will be set to 80. Constraints: o min: 1 o max: 1 key -&gt; (string) Possible values: o JPEGQuality value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z_0-9]+ Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: JPEGQuality JSON Syntax: {"JPEGQuality": "string" ...}
@@ -95,5 +154,22 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

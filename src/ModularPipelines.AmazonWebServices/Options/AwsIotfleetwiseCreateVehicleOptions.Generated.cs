@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotfleetwise", "create-vehicle")]
-public record AwsIotfleetwiseCreateVehicleOptions : AwsOptions
+public record AwsIotfleetwiseCreateVehicleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a vehicle, which is an instance of a vehicle model (model mani- fest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VehicleName">The unique ID of the vehicle to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="ModelManifestArn">The Amazon Resource Name ARN of a vehicle model.</param>
+    /// <param name="DecoderManifestArn">The ARN of a decoder manifest.</param>
+    public AwsIotfleetwiseCreateVehicleOptions(
+        string VehicleName,
+        string ModelManifestArn,
+        string DecoderManifestArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VehicleName);
+        this.VehicleName = VehicleName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelManifestArn);
+        this.ModelManifestArn = ModelManifestArn;
+        global::System.ArgumentNullException.ThrowIfNull(DecoderManifestArn);
+        this.DecoderManifestArn = DecoderManifestArn;
+    }
+
+    private AwsIotfleetwiseCreateVehicleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotfleetwiseCreateVehicleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotfleetwiseCreateVehicleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the vehicle to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// </summary>
     [CliOption("--vehicle-name")]
-    public string? VehicleName { get; set; }
+    public string? VehicleName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name ARN of a vehicle model.
+    /// </summary>
     [CliOption("--model-manifest-arn")]
-    public string? ModelManifestArn { get; set; }
+    public string? ModelManifestArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of a decoder manifest.
+    /// </summary>
     [CliOption("--decoder-manifest-arn")]
-    public string? DecoderManifestArn { get; set; }
+    public string? DecoderManifestArn { get; private init; }
 
     /// <summary>
     /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" To use attributes with Campaigns or State Templates, you must in- clude them using the request parameters dataExtraDimensions and/or metadataExtraDimensions (for state templates only) when creating your campaign/state template. key -&gt; (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.-]+ value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -61,5 +112,22 @@ public record AwsIotfleetwiseCreateVehicleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

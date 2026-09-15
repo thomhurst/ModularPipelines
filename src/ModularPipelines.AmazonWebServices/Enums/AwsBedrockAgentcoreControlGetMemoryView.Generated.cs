@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockAgentcoreControlGetMemoryView
 {
     [EnumValue("full")]
-    Full = 1,
+    Full,
 
     [EnumValue("without_decryption")]
-    WithoutDecryption = 2
+    WithoutDecryption
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("supportauthz", "get-support-permit")]
-public record AwsSupportauthzGetSupportPermitOptions : AwsOptions
+public record AwsSupportauthzGetSupportPermitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the details of a support permit by its ARN or name. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SupportPermitIdentifier">The ARN or name of the support permit to retrieve. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/-]{1,512}</param>
+    public AwsSupportauthzGetSupportPermitOptions(
+        string SupportPermitIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SupportPermitIdentifier);
+        this.SupportPermitIdentifier = SupportPermitIdentifier;
+    }
+
+    private AwsSupportauthzGetSupportPermitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportauthzGetSupportPermitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportauthzGetSupportPermitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the support permit to retrieve. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/-]{1,512}
+    /// </summary>
     [CliOption("--support-permit-identifier")]
-    public string? SupportPermitIdentifier { get; set; }
+    public string? SupportPermitIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

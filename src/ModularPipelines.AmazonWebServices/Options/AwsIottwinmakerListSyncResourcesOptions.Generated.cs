@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "list-sync-resources")]
-public record AwsIottwinmakerListSyncResourcesOptions : AwsOptions
+public record AwsIottwinmakerListSyncResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the sync resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace that contains the sync job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="SyncSource">The sync source. NOTE: Currently the only supported syncSource is SITEWISE . Constraints: o pattern: [a-zA-Z_0-9]+</param>
+    public AwsIottwinmakerListSyncResourcesOptions(
+        string WorkspaceId,
+        string SyncSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(SyncSource);
+        this.SyncSource = SyncSource;
+    }
+
+    private AwsIottwinmakerListSyncResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerListSyncResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerListSyncResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace that contains the sync job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// The sync source. NOTE: Currently the only supported syncSource is SITEWISE . Constraints: o pattern: [a-zA-Z_0-9]+
+    /// </summary>
     [CliOption("--sync-source")]
-    public string? SyncSource { get; set; }
+    public string? SyncSource { get; private init; }
 
     /// <summary>
     /// A list of objects that filter the request. The following filter combinations are supported: o Filter with state o Filter with ResourceType and ResourceId o Filter with ResourceType and ExternalId (tagged union structure) The sync resource filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: state, resourceType, resourceId, externalId. state -&gt; (string) The sync resource filter's state. Possible values: o INITIALIZING o PROCESSING o DELETED o IN_SYNC o ERROR resourceType -&gt; (string) The sync resource filter resource type Possible values: o ENTITY o COMPONENT_TYPE resourceId -&gt; (string) The sync resource filter resource ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ externalId -&gt; (string) The external ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ Shorthand Syntax: state=string,resourceType=string,resourceId=string,externalId=string ... JSON Syntax: [ { "state": "INITIALIZING"|"PROCESSING"|"DELETED"|"IN_SYNC"|"ERROR", "resourceType": "ENTITY"|"COMPONENT_TYPE", "resourceId": "string", "externalId": "string" } ... ]
@@ -52,5 +96,22 @@ public record AwsIottwinmakerListSyncResourcesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

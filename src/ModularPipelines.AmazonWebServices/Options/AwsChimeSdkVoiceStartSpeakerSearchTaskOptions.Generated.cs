@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "start-speaker-search-task")]
-public record AwsChimeSdkVoiceStartSpeakerSearchTaskOptions : AwsOptions
+public record AwsChimeSdkVoiceStartSpeakerSearchTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="TransactionId">The transaction ID of the call being analyzed. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileDomainId">The ID of the voice profile domain that will store the voice pro- file. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceStartSpeakerSearchTaskOptions(
+        string VoiceConnectorId,
+        string TransactionId,
+        string VoiceProfileDomainId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorId);
+        this.VoiceConnectorId = VoiceConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(TransactionId);
+        this.TransactionId = TransactionId;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceProfileDomainId);
+        this.VoiceProfileDomainId = VoiceProfileDomainId;
+    }
+
+    private AwsChimeSdkVoiceStartSpeakerSearchTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceStartSpeakerSearchTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceStartSpeakerSearchTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// </summary>
     [CliOption("--voice-connector-id")]
-    public string? VoiceConnectorId { get; set; }
+    public string? VoiceConnectorId { get; private init; }
 
+    /// <summary>
+    /// The transaction ID of the call being analyzed. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--transaction-id")]
-    public string? TransactionId { get; set; }
+    public string? TransactionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the voice profile domain that will store the voice pro- file. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--voice-profile-domain-id")]
-    public string? VoiceProfileDomainId { get; set; }
+    public string? VoiceProfileDomainId { get; private init; }
 
     /// <summary>
     /// The unique identifier for the client request. Use a different token for different speaker search tasks. Constraints: o pattern: ^[-_a-zA-Z0-9]*${2,64}$
@@ -50,5 +101,22 @@ public record AwsChimeSdkVoiceStartSpeakerSearchTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

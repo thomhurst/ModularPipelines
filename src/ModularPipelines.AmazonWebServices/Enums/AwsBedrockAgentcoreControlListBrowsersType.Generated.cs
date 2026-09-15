@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlListBrowsersType
 {
-    [EnumValue("SYSTEM")]
-    System = 1,
-
     [EnumValue("CUSTOM")]
-    Custom = 2
+    Custom,
+
+    [EnumValue("SYSTEM")]
+    System
 }

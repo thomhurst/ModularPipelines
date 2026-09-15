@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-table-optimizer")]
-public record AwsGlueCreateTableOptimizerOptions : AwsOptions
+public record AwsGlueCreateTableOptimizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new table optimizer for a specific function. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CatalogId">The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The name of the database in the catalog in which the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Type">The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion</param>
+    /// <param name="TableOptimizerConfiguration">A TableOptimizerConfiguration object representing the configuration of a table optimizer. roleArn -&gt; (string) A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf. Constraints: o min: 20 o max: 2048 enabled -&gt; (boolean) Whether table optimization is enabled. vpcConfiguration -&gt; (tagged union structure) A TableOptimizerVpcConfiguration object representing the VPC configuration for a table optimizer. This configuration is necessary to perform optimization on ta- bles that are in a customer VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: glueConnectionName. glueConnectionName -&gt; (string) The name of the Glue connection used for the VPC for the ta- ble optimizer. Constraints: o min: 1 compactionConfiguration -&gt; (structure) The configuration for a compaction optimizer. This configuration defines how data files in your table will be compacted to im- prove query performance and reduce storage costs. icebergConfiguration -&gt; (structure) The configuration for an Iceberg compaction optimizer. strategy -&gt; (string) The strategy to use for compaction. Valid values are: o binpack : Combines small files into larger files, typi- cally targeting sizes over 100MB, while applying any pending deletes. This is the recommended compaction strategy for most use cases. o sort : Organizes data based on specified columns which are sorted hierarchically during compaction, improving query performance for filtered operations. This strat- egy is recommended when your queries frequently filter on specific columns. To use this strategy, you must first define a sort order in your Iceberg table proper- ties using the sort_order table property. o z-order : Optimizes data organization by blending mul- tiple attributes into a single scalar value that can be used for sorting, allowing efficient querying across multiple dimensions. This strategy is recommended when you need to query data across multiple dimensions si- multaneously. To use this strategy, you must first de- fine a sort order in your Iceberg table properties us- ing the sort_order table property. If an input is not provided, the default value 'binpack' will be used. Possible values: o binpack o sort o z-order minInputFiles -&gt; (integer) The minimum number of data files that must be present in a partition before compaction will actually compact files. This parameter helps control when compaction is triggered, preventing unnecessary compaction operations on partitions with few files. If an input is not pro- vided, the default value 100 will be used. deleteFileThreshold -&gt; (integer) The minimum number of deletes that must be present in a data file to make it eligible for compaction. This para- meter helps optimize compaction by focusing on files that contain a significant number of delete operations, which can improve query performance by removing deleted records. If an input is not provided, the default value 1 will be used. retentionConfiguration -&gt; (structure) The configuration for a snapshot retention optimizer. icebergConfiguration -&gt; (structure) The configuration for an Iceberg snapshot retention opti- mizer. snapshotRetentionPeriodInDays -&gt; (integer) The number of days to retain the Iceberg snapshots. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 5 will be used. numberOfSnapshotsToRetain -&gt; (integer) The number of Iceberg snapshots to retain within the re- tention period. If an input is not provided, the corre- sponding Iceberg table configuration field will be used or if not present, the default value 1 will be used. cleanExpiredFiles -&gt; (boolean) If set to false, snapshots are only deleted from table metadata, and the underlying data and metadata files are not deleted. runRateInHours -&gt; (integer) The interval in hours between retention job runs. This parameter controls how frequently the retention optimizer will run to clean up expired snapshots. The value must be between 3 and 168 hours (7 days). If an input is not pro- vided, the default value 24 will be used. orphanFileDeletionConfiguration -&gt; (structure) The configuration for an orphan file deletion optimizer. icebergConfiguration -&gt; (structure) The configuration for an Iceberg orphan file deletion opti- mizer. orphanFileRetentionPeriodInDays -&gt; (integer) The number of days that orphan files should be retained before file deletion. If an input is not provided, the default value 3 will be used. location -&gt; (string) Specifies a directory in which to look for files (de- faults to the table's location). You may choose a sub-di- rectory rather than the top-level table location. runRateInHours -&gt; (integer) The interval in hours between orphan file deletion job runs. This parameter controls how frequently the orphan file deletion optimizer will run to clean up orphan files. The value must be between 3 and 168 hours (7 days). If an input is not provided, the default value 24 will be used. Shorthand Syntax: roleArn=string,enabled=boolean,vpcConfiguration={glueConnectionName=string},compactionConfiguration={icebergConfiguration={strategy=string,minInputFiles=integer,deleteFileThreshold=integer}},retentionConfiguration={icebergConfiguration={snapshotRetentionPeriodInDays=integer,numberOfSnapshotsToRetain=integer,cleanExpiredFiles=boolean,runRateInHours=integer}},orphanFileDeletionConfiguration={icebergConfiguration={orphanFileRetentionPeriodInDays=integer,location=string,runRateInHours=integer}} JSON Syntax: { "roleArn": "string", "enabled": true|false, "vpcConfiguration": { "glueConnectionName": "string" }, "compactionConfiguration": { "icebergConfiguration": { "strategy": "binpack"|"sort"|"z-order", "minInputFiles": integer, "deleteFileThreshold": integer } }, "retentionConfiguration": { "icebergConfiguration": { "snapshotRetentionPeriodInDays": integer, "numberOfSnapshotsToRetain": integer, "cleanExpiredFiles": true|false, "runRateInHours": integer } }, "orphanFileDeletionConfiguration": { "icebergConfiguration": { "orphanFileRetentionPeriodInDays": integer, "location": "string", "runRateInHours": integer } } }</param>
+    public AwsGlueCreateTableOptimizerOptions(
+        string CatalogId,
+        string DatabaseName,
+        string TableName,
+        AwsGlueCreateTableOptimizerType Type,
+        string TableOptimizerConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CatalogId);
+        this.CatalogId = CatalogId;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(TableOptimizerConfiguration);
+        this.TableOptimizerConfiguration = TableOptimizerConfiguration;
+    }
+
+    private AwsGlueCreateTableOptimizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateTableOptimizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateTableOptimizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--catalog-id")]
-    public string? CatalogId { get; set; }
+    public string? CatalogId { get; private init; }
 
+    /// <summary>
+    /// The name of the database in the catalog in which the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
+    /// <summary>
+    /// The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsGlueCreateTableOptimizerType? Type { get; private init; }
 
+    /// <summary>
+    /// A TableOptimizerConfiguration object representing the configuration of a table optimizer. roleArn -&gt; (string) A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf. Constraints: o min: 20 o max: 2048 enabled -&gt; (boolean) Whether table optimization is enabled. vpcConfiguration -&gt; (tagged union structure) A TableOptimizerVpcConfiguration object representing the VPC configuration for a table optimizer. This configuration is necessary to perform optimization on ta- bles that are in a customer VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: glueConnectionName. glueConnectionName -&gt; (string) The name of the Glue connection used for the VPC for the ta- ble optimizer. Constraints: o min: 1 compactionConfiguration -&gt; (structure) The configuration for a compaction optimizer. This configuration defines how data files in your table will be compacted to im- prove query performance and reduce storage costs. icebergConfiguration -&gt; (structure) The configuration for an Iceberg compaction optimizer. strategy -&gt; (string) The strategy to use for compaction. Valid values are: o binpack : Combines small files into larger files, typi- cally targeting sizes over 100MB, while applying any pending deletes. This is the recommended compaction strategy for most use cases. o sort : Organizes data based on specified columns which are sorted hierarchically during compaction, improving query performance for filtered operations. This strat- egy is recommended when your queries frequently filter on specific columns. To use this strategy, you must first define a sort order in your Iceberg table proper- ties using the sort_order table property. o z-order : Optimizes data organization by blending mul- tiple attributes into a single scalar value that can be used for sorting, allowing efficient querying across multiple dimensions. This strategy is recommended when you need to query data across multiple dimensions si- multaneously. To use this strategy, you must first de- fine a sort order in your Iceberg table properties us- ing the sort_order table property. If an input is not provided, the default value 'binpack' will be used. Possible values: o binpack o sort o z-order minInputFiles -&gt; (integer) The minimum number of data files that must be present in a partition before compaction will actually compact files. This parameter helps control when compaction is triggered, preventing unnecessary compaction operations on partitions with few files. If an input is not pro- vided, the default value 100 will be used. deleteFileThreshold -&gt; (integer) The minimum number of deletes that must be present in a data file to make it eligible for compaction. This para- meter helps optimize compaction by focusing on files that contain a significant number of delete operations, which can improve query performance by removing deleted records. If an input is not provided, the default value 1 will be used. retentionConfiguration -&gt; (structure) The configuration for a snapshot retention optimizer. icebergConfiguration -&gt; (structure) The configuration for an Iceberg snapshot retention opti- mizer. snapshotRetentionPeriodInDays -&gt; (integer) The number of days to retain the Iceberg snapshots. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 5 will be used. numberOfSnapshotsToRetain -&gt; (integer) The number of Iceberg snapshots to retain within the re- tention period. If an input is not provided, the corre- sponding Iceberg table configuration field will be used or if not present, the default value 1 will be used. cleanExpiredFiles -&gt; (boolean) If set to false, snapshots are only deleted from table metadata, and the underlying data and metadata files are not deleted. runRateInHours -&gt; (integer) The interval in hours between retention job runs. This parameter controls how frequently the retention optimizer will run to clean up expired snapshots. The value must be between 3 and 168 hours (7 days). If an input is not pro- vided, the default value 24 will be used. orphanFileDeletionConfiguration -&gt; (structure) The configuration for an orphan file deletion optimizer. icebergConfiguration -&gt; (structure) The configuration for an Iceberg orphan file deletion opti- mizer. orphanFileRetentionPeriodInDays -&gt; (integer) The number of days that orphan files should be retained before file deletion. If an input is not provided, the default value 3 will be used. location -&gt; (string) Specifies a directory in which to look for files (de- faults to the table's location). You may choose a sub-di- rectory rather than the top-level table location. runRateInHours -&gt; (integer) The interval in hours between orphan file deletion job runs. This parameter controls how frequently the orphan file deletion optimizer will run to clean up orphan files. The value must be between 3 and 168 hours (7 days). If an input is not provided, the default value 24 will be used. Shorthand Syntax: roleArn=string,enabled=boolean,vpcConfiguration={glueConnectionName=string},compactionConfiguration={icebergConfiguration={strategy=string,minInputFiles=integer,deleteFileThreshold=integer}},retentionConfiguration={icebergConfiguration={snapshotRetentionPeriodInDays=integer,numberOfSnapshotsToRetain=integer,cleanExpiredFiles=boolean,runRateInHours=integer}},orphanFileDeletionConfiguration={icebergConfiguration={orphanFileRetentionPeriodInDays=integer,location=string,runRateInHours=integer}} JSON Syntax: { "roleArn": "string", "enabled": true|false, "vpcConfiguration": { "glueConnectionName": "string" }, "compactionConfiguration": { "icebergConfiguration": { "strategy": "binpack"|"sort"|"z-order", "minInputFiles": integer, "deleteFileThreshold": integer } }, "retentionConfiguration": { "icebergConfiguration": { "snapshotRetentionPeriodInDays": integer, "numberOfSnapshotsToRetain": integer, "cleanExpiredFiles": true|false, "runRateInHours": integer } }, "orphanFileDeletionConfiguration": { "icebergConfiguration": { "orphanFileRetentionPeriodInDays": integer, "location": "string", "runRateInHours": integer } } }
+    /// </summary>
     [CliOption("--table-optimizer-configuration")]
-    public string? TableOptimizerConfiguration { get; set; }
+    public string? TableOptimizerConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

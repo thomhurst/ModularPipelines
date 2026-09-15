@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pcs", "update-compute-node-group")]
-public record AwsPcsUpdateComputeNodeGroupOptions : AwsOptions
+public record AwsPcsUpdateComputeNodeGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster of the compute node group. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    /// <param name="ComputeNodeGroupIdentifier">The name or ID of the compute node group. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})</param>
+    public AwsPcsUpdateComputeNodeGroupOptions(
+        string ClusterIdentifier,
+        string ComputeNodeGroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ComputeNodeGroupIdentifier);
+        this.ComputeNodeGroupIdentifier = ComputeNodeGroupIdentifier;
+    }
+
+    private AwsPcsUpdateComputeNodeGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcsUpdateComputeNodeGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcsUpdateComputeNodeGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ID of the cluster of the compute node group. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// </summary>
+    [CliOption("--cluster-identifier")]
+    public string? ClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name or ID of the compute node group. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})
+    /// </summary>
     [CliOption("--compute-node-group-identifier")]
-    public string? ComputeNodeGroupIdentifier { get; set; }
+    public string? ComputeNodeGroupIdentifier { get; private init; }
 
     /// <summary>
     /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch in- stances. If not provided, PCS uses the AMI ID specified in the cus- tom launch template. Constraints: o pattern: ami-[a-z0-9]+
@@ -72,7 +116,7 @@ public record AwsPcsUpdateComputeNodeGroupOptions : AwsOptions
     public string? IamInstanceProfileArn { get; set; }
 
     /// <summary>
-    /// Additional options related to the Slurm scheduler. scaleDownIdleTimeInSeconds -&gt; (integer) The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later. Constraints: o min: -1 o max: 10000000 slurmCustomSettings -&gt; (list) Additional Slurm-specific configuration that directly maps to Slurm settings. (structure) Additional settings that directly map to Slurm settings. WARNING: PCS supports a subset of Slurm settings. For more infor- mation, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Slurm settings. Shorthand Syntax: scaleDownIdleTimeInSeconds=integer,slurmCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}] JSON Syntax: { "scaleDownIdleTimeInSeconds": integer, "slurmCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ] }
+    /// Additional options related to the Slurm scheduler. scaleDownIdleTimeInSeconds -&gt; (integer) The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later. Constraints: o min: -1 o max: 10000000 slurmCustomSettings -&gt; (list) Additional Slurm-specific configuration that directly maps to Slurm settings. (structure) Additional settings that directly map to Slurm settings. WARNING: PCS supports a subset of Slurm settings. For more infor- mation, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Slurm settings. gresCustomSettings -&gt; (list) The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type. (map) A single Slurm gres.conf record, expressed as a map of gres.conf attribute names to their values. For example, {"Name": "gpu", "Type": "a100", "File": "/dev/nvidia[0-7]"} or {"AutoDetect": "nvml"} . PCS adds the NodeName= prefix for the compute node group. WARNING: PCS supports a subset of gres.conf settings. For more in- formation, see Configuring custom GRES settings in PCS in the PCS User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: scaleDownIdleTimeInSeconds=integer,slurmCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}],gresCustomSettings=[{KeyName1=string,KeyName2=string},{KeyName1=string,KeyName2=string}] JSON Syntax: { "scaleDownIdleTimeInSeconds": integer, "slurmCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ], "gresCustomSettings": [ {"string": "string" ...} ... ] }
     /// </summary>
     [CliOption("--slurm-configuration")]
     public string? SlurmConfiguration { get; set; }
@@ -95,5 +139,22 @@ public record AwsPcsUpdateComputeNodeGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --permissionmodel.
+/// Allowed values for --permission-model.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationUpdateStackSetPermissionModel
 {
-    [EnumValue("SERVICE_MANAGED")]
-    ServiceManaged = 1,
-
     [EnumValue("SELF_MANAGED")]
-    SelfManaged = 2
+    SelfManaged,
+
+    [EnumValue("SERVICE_MANAGED")]
+    ServiceManaged
 }

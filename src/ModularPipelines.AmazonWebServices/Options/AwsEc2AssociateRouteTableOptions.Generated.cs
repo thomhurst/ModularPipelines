@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "associate-route-table")]
-public record AwsEc2AssociateRouteTableOptions : AwsOptions
+public record AwsEc2AssociateRouteTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a subnet in your VPC or an internet gateway or virtual pri- vate gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed ac- cording to the routes in the route table. The action returns an associ- ation ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon VPC User Guide . See also: AWS API...
+    /// </summary>
+    /// <param name="RouteTableId">The ID of the route table.</param>
+    public AwsEc2AssociateRouteTableOptions(
+        string RouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteTableId);
+        this.RouteTableId = RouteTableId;
+    }
+
+    private AwsEc2AssociateRouteTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssociateRouteTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssociateRouteTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route table.
+    /// </summary>
+    [CliOption("--route-table-id")]
+    public string? RouteTableId { get; private init; }
+
     /// <summary>
     /// The ID of the internet gateway or virtual private gateway.
     /// </summary>
@@ -33,7 +73,10 @@ public record AwsEc2AssociateRouteTableOptions : AwsOptions
     [CliOption("--public-ipv4-pool")]
     public string? PublicIpv4Pool { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -42,13 +85,27 @@ public record AwsEc2AssociateRouteTableOptions : AwsOptions
     [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CliOption("--route-table-id")]
-    public string? RouteTableId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

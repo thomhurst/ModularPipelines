@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --exportformat.
+/// Allowed values for --export-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbExportTableToPointInTimeExportFormat
 {
     [EnumValue("DYNAMODB_JSON")]
-    DynamodbJson = 1,
+    DynamodbJson,
 
     [EnumValue("ION")]
-    Ion = 2
+    Ion
 }

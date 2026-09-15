@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --quotarequestedatlevel.
+/// Allowed values for --quota-requested-at-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsServiceQuotasListRequestedServiceQuotaChangeHistoryQuotaRequestedAtLevel
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
-
-    [EnumValue("RESOURCE")]
-    Resource = 2,
+    Account,
 
     [EnumValue("ALL")]
-    All = 3
+    All,
+
+    [EnumValue("RESOURCE")]
+    Resource
 }

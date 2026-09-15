@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --nodeprovisioningmode.
+/// Allowed values for --node-provisioning-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerUpdateClusterNodeProvisioningMode
 {
     [EnumValue("Continuous")]
-    Continuous = 1
+    Continuous,
+
+    [EnumValue("o")]
+    O
 }

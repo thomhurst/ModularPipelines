@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,34 +21,137 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("budgets", "create-budget-action")]
-public record AwsBudgetsCreateBudgetActionOptions : AwsOptions
+public record AwsBudgetsCreateBudgetActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a budget action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="BudgetName">A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="NotificationType">The type of a notification. It must be ACTUAL or FORECASTED. Possible values: o ACTUAL o FORECASTED</param>
+    /// <param name="ActionType">The type of action. This defines the type of tasks that can be car- ried out by this action. This field also determines the format for definition. Possible values: o APPLY_IAM_POLICY o APPLY_SCP_POLICY o RUN_SSM_DOCUMENTS</param>
+    /// <param name="ActionThreshold">The trigger threshold of the action. ActionThresholdValue -&gt; (double) [required] The threshold of a notification. Constraints: o min: 0 o max: 15000000000000 ActionThresholdType -&gt; (string) [required] The type of threshold for a notification. Possible values: o PERCENTAGE o ABSOLUTE_VALUE Shorthand Syntax: ActionThresholdValue=double,ActionThresholdType=string JSON Syntax: { "ActionThresholdValue": double, "ActionThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE" }</param>
+    /// <param name="Definition">Specifies all of the type-specific parameters. IamActionDefinition -&gt; (structure) The Identity and Access Management (IAM) action definition de- tails. PolicyArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the policy to be attached. Constraints: o min: 25 o max: 684 o pattern: ^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::(\d{12}|aws):pol- icy(\u002F[\u0021-\u007F]+\u002F|\u002F)[\w+=,.@-]+$ Roles -&gt; (list) A list of roles to be attached. There must be at least one role. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 576 o pattern: ^([\u0021-\u007F]+\u002F)?[\w+=,.@-]+$ Groups -&gt; (list) A list of groups to be attached. There must be at least one group. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 640 o pattern: ^([\u0021-\u007F]+\u002F)?[\w+=,.@-]+$ Users -&gt; (list) A list of users to be attached. There must be at least one user. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 576 o pattern: ^([\u0021-\u007F]+\u002F)?[\w+=,.@-]+$ ScpActionDefinition -&gt; (structure) The service control policies (SCPs) action definition details. PolicyId -&gt; (string) [required] The policy ID attached. Constraints: o min: 10 o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$ TargetIds -&gt; (list) [required] A list of target IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 12 o max: 68 o pattern: ^(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)|(\d{12}) SsmActionDefinition -&gt; (structure) The Amazon Web Services Systems Manager (SSM) action definition details. ActionSubType -&gt; (string) [required] The action subType. Possible values: o STOP_EC2_INSTANCES o STOP_RDS_INSTANCES Region -&gt; (string) [required] The Region to run the SSM document. Constraints: o min: 9 o max: 20 o pattern: ^\w{2,4}-\w+(-\w+)?-\d$ InstanceIds -&gt; (list) [required] The EC2 and RDS instance IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 63 o pattern: ^i-(\w{8}|\w{17})$|^[a-zA-Z]([\w-]{0,61}\w)?$ Shorthand Syntax: IamActionDefinition={PolicyArn=string,Roles=[string,string],Groups=[string,string],Users=[string,string]},ScpActionDefinition={PolicyId=string,TargetIds=[string,string]},SsmActionDefinition={ActionSubType=string,Region=string,InstanceIds=[string,string]} JSON Syntax: { "IamActionDefinition": { "PolicyArn": "string", "Roles": ["string", ...], "Groups": ["string", ...], "Users": ["string", ...] }, "ScpActionDefinition": { "PolicyId": "string", "TargetIds": ["string", ...] }, "SsmActionDefinition": { "ActionSubType": "STOP_EC2_INSTANCES"|"STOP_RDS_INSTANCES", "Region": "string", "InstanceIds": ["string", ...] } }</param>
+    /// <param name="ExecutionRoleArn">The role passed for action execution and reversion. Roles and ac- tions must be in the same account. Constraints: o min: 32 o max: 618 o pattern: ^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\d{12}:role(\u002F[\u0021-\u007F]+\u002F|\u002F)[\w+=,.@-]+$</param>
+    /// <param name="ApprovalModel">This specifies if the action needs manual or automatic approval. Possible values: o AUTOMATIC o MANUAL</param>
+    /// <param name="Subscribers">A list of subscribers. Constraints: o min: 1 o max: 11 (structure) The subscriber to a budget notification. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: o A subscriptionType of EMAIL o An address of example@example.com SubscriptionType -&gt; (string) [required] The type of notification that Amazon Web Services sends to a subscriber. Possible values: o SNS o EMAIL Address -&gt; (string) [required] The address that Amazon Web Services sends budget notifica- tions to, either an SNS topic or an email. When you create a subscriber, the value of Address can't con- tain line breaks. Constraints: o min: 1 o max: 2147483647 o pattern: (.*[\n\r\t\f\ ]?)* Shorthand Syntax: SubscriptionType=string,Address=string ... JSON Syntax: [ { "SubscriptionType": "SNS"|"EMAIL", "Address": "string" } ... ]</param>
+    public AwsBudgetsCreateBudgetActionOptions(
+        string AccountId,
+        string BudgetName,
+        AwsBudgetsCreateBudgetActionNotificationType NotificationType,
+        AwsBudgetsCreateBudgetActionActionType ActionType,
+        string ActionThreshold,
+        string Definition,
+        string ExecutionRoleArn,
+        AwsBudgetsCreateBudgetActionApprovalModel ApprovalModel,
+        IEnumerable<string> Subscribers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(BudgetName);
+        this.BudgetName = BudgetName;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationType);
+        this.NotificationType = NotificationType;
+        global::System.ArgumentNullException.ThrowIfNull(ActionType);
+        this.ActionType = ActionType;
+        global::System.ArgumentNullException.ThrowIfNull(ActionThreshold);
+        this.ActionThreshold = ActionThreshold;
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalModel);
+        this.ApprovalModel = ApprovalModel;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Subscribers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Subscribers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Subscribers));
+            }
+
+            Subscribers = materialized;
+        }
+        this.Subscribers = Subscribers;
+    }
+
+    private AwsBudgetsCreateBudgetActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBudgetsCreateBudgetActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBudgetsCreateBudgetActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// </summary>
     [CliOption("--budget-name")]
-    public string? BudgetName { get; set; }
+    public string? BudgetName { get; private init; }
 
+    /// <summary>
+    /// The type of a notification. It must be ACTUAL or FORECASTED. Possible values: o ACTUAL o FORECASTED
+    /// </summary>
     [CliOption("--notification-type")]
-    public string? NotificationType { get; set; }
+    public AwsBudgetsCreateBudgetActionNotificationType? NotificationType { get; private init; }
 
+    /// <summary>
+    /// The type of action. This defines the type of tasks that can be car- ried out by this action. This field also determines the format for definition. Possible values: o APPLY_IAM_POLICY o APPLY_SCP_POLICY o RUN_SSM_DOCUMENTS
+    /// </summary>
     [CliOption("--action-type")]
-    public string? ActionType { get; set; }
+    public AwsBudgetsCreateBudgetActionActionType? ActionType { get; private init; }
 
+    /// <summary>
+    /// The trigger threshold of the action. ActionThresholdValue -&gt; (double) [required] The threshold of a notification. Constraints: o min: 0 o max: 15000000000000 ActionThresholdType -&gt; (string) [required] The type of threshold for a notification. Possible values: o PERCENTAGE o ABSOLUTE_VALUE Shorthand Syntax: ActionThresholdValue=double,ActionThresholdType=string JSON Syntax: { "ActionThresholdValue": double, "ActionThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE" }
+    /// </summary>
     [CliOption("--action-threshold")]
-    public string? ActionThreshold { get; set; }
+    public string? ActionThreshold { get; private init; }
 
+    /// <summary>
+    /// Specifies all of the type-specific parameters. IamActionDefinition -&gt; (structure) The Identity and Access Management (IAM) action definition de- tails. PolicyArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the policy to be attached. Constraints: o min: 25 o max: 684 o pattern: ^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::(\d{12}|aws):pol- icy(\u002F[\u0021-\u007F]+\u002F|\u002F)[\w+=,.@-]+$ Roles -&gt; (list) A list of roles to be attached. There must be at least one role. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 576 o pattern: ^([\u0021-\u007F]+\u002F)?[\w+=,.@-]+$ Groups -&gt; (list) A list of groups to be attached. There must be at least one group. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 640 o pattern: ^([\u0021-\u007F]+\u002F)?[\w+=,.@-]+$ Users -&gt; (list) A list of users to be attached. There must be at least one user. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 576 o pattern: ^([\u0021-\u007F]+\u002F)?[\w+=,.@-]+$ ScpActionDefinition -&gt; (structure) The service control policies (SCPs) action definition details. PolicyId -&gt; (string) [required] The policy ID attached. Constraints: o min: 10 o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$ TargetIds -&gt; (list) [required] A list of target IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 12 o max: 68 o pattern: ^(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)|(\d{12}) SsmActionDefinition -&gt; (structure) The Amazon Web Services Systems Manager (SSM) action definition details. ActionSubType -&gt; (string) [required] The action subType. Possible values: o STOP_EC2_INSTANCES o STOP_RDS_INSTANCES Region -&gt; (string) [required] The Region to run the SSM document. Constraints: o min: 9 o max: 20 o pattern: ^\w{2,4}-\w+(-\w+)?-\d$ InstanceIds -&gt; (list) [required] The EC2 and RDS instance IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 63 o pattern: ^i-(\w{8}|\w{17})$|^[a-zA-Z]([\w-]{0,61}\w)?$ Shorthand Syntax: IamActionDefinition={PolicyArn=string,Roles=[string,string],Groups=[string,string],Users=[string,string]},ScpActionDefinition={PolicyId=string,TargetIds=[string,string]},SsmActionDefinition={ActionSubType=string,Region=string,InstanceIds=[string,string]} JSON Syntax: { "IamActionDefinition": { "PolicyArn": "string", "Roles": ["string", ...], "Groups": ["string", ...], "Users": ["string", ...] }, "ScpActionDefinition": { "PolicyId": "string", "TargetIds": ["string", ...] }, "SsmActionDefinition": { "ActionSubType": "STOP_EC2_INSTANCES"|"STOP_RDS_INSTANCES", "Region": "string", "InstanceIds": ["string", ...] } }
+    /// </summary>
     [CliOption("--definition")]
-    public string? Definition { get; set; }
+    public string? Definition { get; private init; }
 
+    /// <summary>
+    /// The role passed for action execution and reversion. Roles and ac- tions must be in the same account. Constraints: o min: 32 o max: 618 o pattern: ^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\d{12}:role(\u002F[\u0021-\u007F]+\u002F|\u002F)[\w+=,.@-]+$
+    /// </summary>
     [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
+    public string? ExecutionRoleArn { get; private init; }
 
+    /// <summary>
+    /// This specifies if the action needs manual or automatic approval. Possible values: o AUTOMATIC o MANUAL
+    /// </summary>
     [CliOption("--approval-model")]
-    public string? ApprovalModel { get; set; }
+    public AwsBudgetsCreateBudgetActionApprovalModel? ApprovalModel { get; private init; }
 
+    /// <summary>
+    /// A list of subscribers. Constraints: o min: 1 o max: 11 (structure) The subscriber to a budget notification. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: o A subscriptionType of EMAIL o An address of example@example.com SubscriptionType -&gt; (string) [required] The type of notification that Amazon Web Services sends to a subscriber. Possible values: o SNS o EMAIL Address -&gt; (string) [required] The address that Amazon Web Services sends budget notifica- tions to, either an SNS topic or an email. When you create a subscriber, the value of Address can't con- tain line breaks. Constraints: o min: 1 o max: 2147483647 o pattern: (.*[\n\r\t\f\ ]?)* Shorthand Syntax: SubscriptionType=string,Address=string ... JSON Syntax: [ { "SubscriptionType": "SNS"|"EMAIL", "Address": "string" } ... ]
+    /// </summary>
     [CliOption("--subscribers", GroupValues = true)]
-    public IEnumerable<string>? Subscribers { get; set; }
+    public IEnumerable<string>? Subscribers { get; private init; }
 
     /// <summary>
     /// An optional list of tags to associate with the specified budget ac- tion. Each tag consists of a key and a value, and each key must be unique for the resource. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. Key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value that's associated with the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -59,5 +164,22 @@ public record AwsBudgetsCreateBudgetActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

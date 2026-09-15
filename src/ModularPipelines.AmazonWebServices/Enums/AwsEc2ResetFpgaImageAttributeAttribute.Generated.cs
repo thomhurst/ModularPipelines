@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ResetFpgaImageAttributeAttribute
 {
     [EnumValue("loadPermission")]
-    LoadPermission = 1
+    LoadPermission,
+
+    [EnumValue("o")]
+    O
 }

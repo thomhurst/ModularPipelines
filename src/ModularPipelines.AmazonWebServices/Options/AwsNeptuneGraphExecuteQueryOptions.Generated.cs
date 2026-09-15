@@ -23,14 +23,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("neptune-graph", "execute-query")]
 public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
 {
+    /// <summary>
+    /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: o neptune-graph:ReadDataViaQuery o neptune-graph:WriteDataViaQuery o neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
+    /// </summary>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="QueryString">The query string to be executed.</param>
+    /// <param name="Language">The query language the query is written in. Currently only open- Cypher is supported. Possible values: o OPEN_CYPHER</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsNeptuneGraphExecuteQueryOptions(
+        string GraphIdentifier,
+        string QueryString,
+        AwsNeptuneGraphExecuteQueryLanguage Language,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphIdentifier);
+        this.GraphIdentifier = GraphIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string GraphIdentifier, out string QueryString, out AwsNeptuneGraphExecuteQueryLanguage Language, out string Outfile)
+    {
+        GraphIdentifier = this.GraphIdentifier;
+        QueryString = this.QueryString;
+        Language = this.Language;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// </summary>
     [CliOption("--graph-identifier")]
-    public string? GraphIdentifier { get; set; }
+    public string GraphIdentifier { get; private init; }
 
+    /// <summary>
+    /// The query string to be executed.
+    /// </summary>
     [CliOption("--query-string")]
-    public string? QueryString { get; set; }
+    public string QueryString { get; private init; }
 
+    /// <summary>
+    /// The query language the query is written in. Currently only open- Cypher is supported. Possible values: o OPEN_CYPHER
+    /// </summary>
     [CliOption("--language")]
-    public string? Language { get; set; }
+    public AwsNeptuneGraphExecuteQueryLanguage Language { get; private init; }
 
     /// <summary>
     /// The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional) key -&gt; (string) value -&gt; (document) JSON Syntax: {"string": {...} ...}
@@ -55,5 +96,11 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     /// </summary>
     [CliOption("--query-timeout-milliseconds")]
     public int? QueryTimeoutMilliseconds { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

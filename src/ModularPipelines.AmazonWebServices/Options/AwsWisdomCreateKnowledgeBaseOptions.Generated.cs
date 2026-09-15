@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wisdom", "create-knowledge-base")]
-public record AwsWisdomCreateKnowledgeBaseOptions : AwsOptions
+public record AwsWisdomCreateKnowledgeBaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a knowledge base. NOTE: When using this API, you cannot reuse Amazon AppIntegrations DataIn- tegrations with external knowledge bases such as Salesforce and Ser- viceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowl- edge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following: o Call DeleteKnowledgeBase . o Call DeleteDataIntegration . o Call CreateDataInte...
+    /// </summary>
+    /// <param name="KnowledgeBaseType">The type of knowledge base. Only CUSTOM knowledge bases allow you to upload your own content. EXTERNAL knowledge bases support integra- tions with third-party systems whose content is synchronized auto- matically. Possible values: o EXTERNAL o CUSTOM o QUICK_RESPONSES</param>
+    /// <param name="Name">The name of the knowledge base. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\s_.,-]+</param>
+    public AwsWisdomCreateKnowledgeBaseOptions(
+        AwsWisdomCreateKnowledgeBaseKnowledgeBaseType KnowledgeBaseType,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseType);
+        this.KnowledgeBaseType = KnowledgeBaseType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsWisdomCreateKnowledgeBaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWisdomCreateKnowledgeBaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWisdomCreateKnowledgeBaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of knowledge base. Only CUSTOM knowledge bases allow you to upload your own content. EXTERNAL knowledge bases support integra- tions with third-party systems whose content is synchronized auto- matically. Possible values: o EXTERNAL o CUSTOM o QUICK_RESPONSES
+    /// </summary>
+    [CliOption("--knowledge-base-type")]
+    public AwsWisdomCreateKnowledgeBaseKnowledgeBaseType? KnowledgeBaseType { get; private init; }
+
+    /// <summary>
+    /// The name of the knowledge base. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\s_.,-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
     /// </summary>
@@ -35,12 +86,6 @@ public record AwsWisdomCreateKnowledgeBaseOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--knowledge-base-type")]
-    public string? KnowledgeBaseType { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// Information about how to render the content. templateUri -&gt; (string) A URI template containing exactly one variable in ${variable- Name} format. This can only be set for EXTERNAL knowledge bases. For Salesforce, ServiceNow, and Zendesk, the variable must be one of the following: o Salesforce: Id , ArticleNumber , VersionNumber , Title , Pub- lishStatus , or IsDeleted o ServiceNow: number , short_description , sys_mod_count , work- flow_state , or active o Zendesk: id , title , updated_at , or draft The variable is replaced with the actual value for a piece of content when calling GetContent . Constraints: o min: 1 o max: 4096 Shorthand Syntax: templateUri=string JSON Syntax: { "templateUri": "string" }
@@ -71,5 +116,22 @@ public record AwsWisdomCreateKnowledgeBaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

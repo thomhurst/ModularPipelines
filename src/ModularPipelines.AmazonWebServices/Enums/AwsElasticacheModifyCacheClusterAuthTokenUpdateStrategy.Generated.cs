@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authtokenupdatestrategy.
+/// Allowed values for --auth-token-update-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheModifyCacheClusterAuthTokenUpdateStrategy
 {
-    [EnumValue("SET")]
-    Set = 1,
+    [EnumValue("DELETE")]
+    Delete,
 
     [EnumValue("ROTATE")]
-    Rotate = 2,
+    Rotate,
 
-    [EnumValue("DELETE")]
-    Delete = 3
+    [EnumValue("SET")]
+    Set
 }

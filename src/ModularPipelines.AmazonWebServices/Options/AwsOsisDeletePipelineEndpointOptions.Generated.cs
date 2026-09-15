@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("osis", "delete-pipeline-endpoint")]
-public record AwsOsisDeletePipelineEndpointOptions : AwsOptions
+public record AwsOsisDeletePipelineEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a VPC endpoint for an OpenSearch Ingestion pipeline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointId">The unique identifier of the pipeline endpoint to delete. Constraints: o min: 3 o max: 512 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$</param>
+    public AwsOsisDeletePipelineEndpointOptions(
+        string EndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointId);
+        this.EndpointId = EndpointId;
+    }
+
+    private AwsOsisDeletePipelineEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOsisDeletePipelineEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOsisDeletePipelineEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the pipeline endpoint to delete. Constraints: o min: 3 o max: 512 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$
+    /// </summary>
     [CliOption("--endpoint-id")]
-    public string? EndpointId { get; set; }
+    public string? EndpointId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

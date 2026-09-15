@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ingestiontype.
+/// Allowed values for --ingestion-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightCreateIngestionIngestionType
 {
-    [EnumValue("INCREMENTAL_REFRESH")]
-    IncrementalRefresh = 1,
-
     [EnumValue("FULL_REFRESH")]
-    FullRefresh = 2
+    FullRefresh,
+
+    [EnumValue("INCREMENTAL_REFRESH")]
+    IncrementalRefresh
 }

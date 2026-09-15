@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "update-indexing-rule")]
-public record AwsXrayUpdateIndexingRuleOptions : AwsOptions
+public record AwsXrayUpdateIndexingRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies an indexing rules configuration. Indexing rules are used for determining the sampling rate for spans in- dexed from CloudWatch Logs. For more information, see Transaction Search . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Name of the indexing rule to be updated.</param>
+    /// <param name="Rule">Rule configuration to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Probabilistic. Probabilistic -&gt; (structure) Indexing rule configuration that is used to probabilistically sample traceIds. DesiredSamplingPercentage -&gt; (double) [required] Configured sampling percentage of traceIds. Note that sam- pling can be subject to limits to ensure completeness of data. Shorthand Syntax: Probabilistic={DesiredSamplingPercentage=double} JSON Syntax: { "Probabilistic": { "DesiredSamplingPercentage": double } }</param>
+    public AwsXrayUpdateIndexingRuleOptions(
+        string Name,
+        string Rule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+    }
+
+    private AwsXrayUpdateIndexingRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayUpdateIndexingRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayUpdateIndexingRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the indexing rule to be updated.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Rule configuration to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Probabilistic. Probabilistic -&gt; (structure) Indexing rule configuration that is used to probabilistically sample traceIds. DesiredSamplingPercentage -&gt; (double) [required] Configured sampling percentage of traceIds. Note that sam- pling can be subject to limits to ensure completeness of data. Shorthand Syntax: Probabilistic={DesiredSamplingPercentage=double} JSON Syntax: { "Probabilistic": { "DesiredSamplingPercentage": double } }
+    /// </summary>
     [CliOption("--rule")]
-    public string? Rule { get; set; }
+    public string? Rule { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

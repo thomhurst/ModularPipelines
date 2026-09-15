@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,31 +21,130 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-benefits", "amend-benefit-application")]
-public record AwsPartnercentralBenefitsAmendBenefitApplicationOptions : AwsOptions
+public record AwsPartnercentralBenefitsAmendBenefitApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies an existing benefit application by applying amendments to spe- cific fields while maintaining revision control. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the amendment request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="Revision">The current revision number of the benefit application to ensure op- timistic concurrency control.</param>
+    /// <param name="Identifier">The unique identifier of the benefit application to be amended. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="AmendmentReason">A descriptive reason explaining why the benefit application is being amended. Constraints: o min: 0 o max: 1000</param>
+    /// <param name="Amendments">A list of specific field amendments to apply to the benefit applica- tion. (structure) Represents a specific change to be made to a benefit application field. FieldPath -&gt; (string) [required] The JSON path or field identifier specifying which field in the benefit application to modify. NewValue -&gt; (string) [required] The new value to set for the specified field in the benefit application. Shorthand Syntax: FieldPath=string,NewValue=string ... JSON Syntax: [ { "FieldPath": "string", "NewValue": "string" } ... ]</param>
+    public AwsPartnercentralBenefitsAmendBenefitApplicationOptions(
+        string Catalog,
+        string ClientToken,
+        string Revision,
+        string Identifier,
+        string AmendmentReason,
+        IEnumerable<string> Amendments
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(AmendmentReason);
+        this.AmendmentReason = AmendmentReason;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Amendments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Amendments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Amendments));
+            }
+
+            Amendments = materialized;
+        }
+        this.Amendments = Amendments;
+    }
+
+    private AwsPartnercentralBenefitsAmendBenefitApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralBenefitsAmendBenefitApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralBenefitsAmendBenefitApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// A unique, case-sensitive identifier to ensure idempotent processing of the amendment request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]{1,64}
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
 
+    /// <summary>
+    /// The current revision number of the benefit application to ensure op- timistic concurrency control.
+    /// </summary>
     [CliOption("--revision")]
-    public string? Revision { get; set; }
+    public string? Revision { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the benefit application to be amended. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// A descriptive reason explaining why the benefit application is being amended. Constraints: o min: 0 o max: 1000
+    /// </summary>
     [CliOption("--amendment-reason")]
-    public string? AmendmentReason { get; set; }
+    public string? AmendmentReason { get; private init; }
 
+    /// <summary>
+    /// A list of specific field amendments to apply to the benefit applica- tion. (structure) Represents a specific change to be made to a benefit application field. FieldPath -&gt; (string) [required] The JSON path or field identifier specifying which field in the benefit application to modify. NewValue -&gt; (string) [required] The new value to set for the specified field in the benefit application. Shorthand Syntax: FieldPath=string,NewValue=string ... JSON Syntax: [ { "FieldPath": "string", "NewValue": "string" } ... ]
+    /// </summary>
     [CliOption("--amendments", GroupValues = true)]
-    public IEnumerable<string>? Amendments { get; set; }
+    public IEnumerable<string>? Amendments { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

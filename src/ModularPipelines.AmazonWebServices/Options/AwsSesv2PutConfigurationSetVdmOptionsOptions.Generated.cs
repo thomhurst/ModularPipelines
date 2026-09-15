@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-configuration-set-vdm-options")]
-public record AwsSesv2PutConfigurationSetVdmOptionsOptions : AwsOptions
+public record AwsSesv2PutConfigurationSetVdmOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set.</param>
+    public AwsSesv2PutConfigurationSetVdmOptionsOptions(
+        string ConfigurationSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+    }
+
+    private AwsSesv2PutConfigurationSetVdmOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutConfigurationSetVdmOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutConfigurationSetVdmOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set.
+    /// </summary>
     [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
     /// The VDM options to apply to the configuration set. DashboardOptions -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collec- tion. Can be one of the following: o ENABLED Amazon SES enables engagement metrics for the con- figuration set. o DISABLED Amazon SES disables engagement metrics for the configuration set. Possible values: o ENABLED o DISABLED GuardianOptions -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: o ENABLED Amazon SES enables optimized shared delivery for the configuration set. o DISABLED Amazon SES disables optimized shared delivery for the configuration set. Possible values: o ENABLED o DISABLED Shorthand Syntax: DashboardOptions={EngagementMetrics=string},GuardianOptions={OptimizedSharedDelivery=string} JSON Syntax: { "DashboardOptions": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianOptions": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }
@@ -35,5 +72,22 @@ public record AwsSesv2PutConfigurationSetVdmOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

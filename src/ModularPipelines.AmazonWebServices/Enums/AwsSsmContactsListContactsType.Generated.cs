@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmContactsListContactsType
 {
-    [EnumValue("PERSONAL")]
-    Personal = 1,
-
     [EnumValue("ESCALATION")]
-    Escalation = 2,
+    Escalation,
 
     [EnumValue("ONCALL_SCHEDULE")]
-    OncallSchedule = 3
+    OncallSchedule,
+
+    [EnumValue("PERSONAL")]
+    Personal
 }

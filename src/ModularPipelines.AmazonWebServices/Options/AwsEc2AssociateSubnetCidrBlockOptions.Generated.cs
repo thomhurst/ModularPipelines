@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "associate-subnet-cidr-block")]
-public record AwsEc2AssociateSubnetCidrBlockOptions : AwsOptions
+public record AwsEc2AssociateSubnetCidrBlockOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a CIDR block with your subnet. You can only associate a sin- gle IPv6 CIDR block with your subnet. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubnetId">The ID of your subnet.</param>
+    public AwsEc2AssociateSubnetCidrBlockOptions(
+        string SubnetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+    }
+
+    private AwsEc2AssociateSubnetCidrBlockOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssociateSubnetCidrBlockOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssociateSubnetCidrBlockOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of your subnet.
+    /// </summary>
+    [CliOption("--subnet-id")]
+    public string? SubnetId { get; private init; }
+
     /// <summary>
     /// An IPv6 IPAM pool ID.
     /// </summary>
@@ -33,9 +73,6 @@ public record AwsEc2AssociateSubnetCidrBlockOptions : AwsOptions
     [CliOption("--ipv6-netmask-length")]
     public int? Ipv6NetmaskLength { get; set; }
 
-    [CliOption("--subnet-id")]
-    public string? SubnetId { get; set; }
-
     /// <summary>
     /// The IPv6 CIDR block for your subnet.
     /// </summary>
@@ -47,5 +84,22 @@ public record AwsEc2AssociateSubnetCidrBlockOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

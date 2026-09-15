@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "associate-iam-instance-profile")]
-public record AwsEc2AssociateIamInstanceProfileOptions : AwsOptions
+public record AwsEc2AssociateIamInstanceProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--iam-instance-profile")]
-    public string? IamInstanceProfile { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an in- stance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IamInstanceProfile">The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN) of the instance profile. Name -&gt; (string) The name of the instance profile. Shorthand Syntax: Arn=string,Name=string JSON Syntax: { "Arn": "string", "Name": "string" }</param>
+    /// <param name="InstanceId">The ID of the instance.</param>
+    public AwsEc2AssociateIamInstanceProfileOptions(
+        string IamInstanceProfile,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamInstanceProfile);
+        this.IamInstanceProfile = IamInstanceProfile;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2AssociateIamInstanceProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssociateIamInstanceProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssociateIamInstanceProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN) of the instance profile. Name -&gt; (string) The name of the instance profile. Shorthand Syntax: Arn=string,Name=string JSON Syntax: { "Arn": "string", "Name": "string" }
+    /// </summary>
+    [CliOption("--iam-instance-profile")]
+    public string? IamInstanceProfile { get; private init; }
+
+    /// <summary>
+    /// The ID of the instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

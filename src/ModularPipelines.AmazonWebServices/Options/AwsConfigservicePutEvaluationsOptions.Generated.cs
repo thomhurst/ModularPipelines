@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-evaluations")]
-public record AwsConfigservicePutEvaluationsOptions : AwsOptions
+public record AwsConfigservicePutEvaluationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used by an Lambda function to deliver evaluation results to Config. This operation is required in every Lambda function that is invoked by an Config rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResultToken">An encrypted token that associates an evaluation with an Config rule. Identifies the rule and the event that triggered the evalua- tion.</param>
+    public AwsConfigservicePutEvaluationsOptions(
+        string ResultToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResultToken);
+        this.ResultToken = ResultToken;
+    }
+
+    private AwsConfigservicePutEvaluationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutEvaluationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutEvaluationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An encrypted token that associates an evaluation with an Config rule. Identifies the rule and the event that triggered the evalua- tion.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--result-token")]
+    public string? ResultToken { get; private init; }
+
     /// <summary>
     /// The assessments that the Lambda function performs. Each evaluation identifies an Amazon Web Services resource and indicates whether it complies with the Config rule that invokes the Lambda function. Constraints: o min: 0 o max: 100 (structure) Identifies an Amazon Web Services resource and indicates whether it complies with the Config rule that it was evaluated against. ComplianceResourceType -&gt; (string) [required] The type of Amazon Web Services resource that was evaluated. Constraints: o min: 1 o max: 256 ComplianceResourceId -&gt; (string) [required] The ID of the Amazon Web Services resource that was evalu- ated. Constraints: o min: 1 o max: 768 ComplianceType -&gt; (string) [required] Indicates whether the Amazon Web Services resource complies with the Config rule that it was evaluated against. For the Evaluation data type, Config supports only the COM- PLIANT , NON_COMPLIANT , and NOT_APPLICABLE values. Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an Lambda function for a custom Config rule cannot pass an INSUFFICIENT_DATA value to Config. Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Annotation -&gt; (string) Supplementary information about how the evaluation determined the compliance. Constraints: o min: 1 o max: 256 OrderingTimestamp -&gt; (timestamp) [required] The time of the event in Config that triggered the evalua- tion. For event-based evaluations, the time indicates when Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when Config triggered the evaluation at the frequency that you specified (for example, every 24 hours). Shorthand Syntax: ComplianceResourceType=string,ComplianceResourceId=string,ComplianceType=string,Annotation=string,OrderingTimestamp=timestamp ... JSON Syntax: [ { "ComplianceResourceType": "string", "ComplianceResourceId": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "Annotation": "string", "OrderingTimestamp": timestamp } ... ]
     /// </summary>
     [CliOption("--evaluations", GroupValues = true)]
     public IEnumerable<string>? Evaluations { get; set; }
 
-    [SecretValue]
-    [CliOption("--result-token")]
-    public string? ResultToken { get; set; }
-
-    [CliFlag("--test-mode")]
+    /// <summary>
+    /// Use this parameter to specify a test run for PutEvaluations . You can verify whether your Lambda function will deliver evaluation re- sults to Config. No updates occur to your existing evaluations, and evaluation results are not sent to Config. NOTE: When TestMode is true , PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null.
+    /// </summary>
+    [CliFlag("--test-mode", NegatedName = "--no-test-mode")]
     public bool? TestMode { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -40,5 +80,22 @@ public record AwsConfigservicePutEvaluationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

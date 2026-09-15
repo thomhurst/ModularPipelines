@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "create-schedule")]
-public record AwsDatabrewCreateScheduleOptions : AwsOptions
+public record AwsDatabrewCreateScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CronExpression">The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Devel- oper Guide . Constraints: o min: 1 o max: 512</param>
+    /// <param name="Name">A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 255</param>
+    public AwsDatabrewCreateScheduleOptions(
+        string CronExpression,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CronExpression);
+        this.CronExpression = CronExpression;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsDatabrewCreateScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewCreateScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewCreateScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Devel- oper Guide . Constraints: o min: 1 o max: 512
+    /// </summary>
+    [CliOption("--cron-expression")]
+    public string? CronExpression { get; private init; }
+
+    /// <summary>
+    /// A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The name or names of one or more jobs to be run. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 240 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-names", GroupValues = true)]
     public IEnumerable<string>? JobNames { get; set; }
-
-    [CliOption("--cron-expression")]
-    public string? CronExpression { get; set; }
 
     /// <summary>
     /// Metadata tags to apply to this schedule. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -37,13 +84,27 @@ public record AwsDatabrewCreateScheduleOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -34,15 +35,22 @@ public record AwsApigatewayCreateApiKeyOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether the ApiKey can be used by callers.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
-    [CliFlag("--generate-distinct-id")]
+    /// <summary>
+    /// Specifies whether (true ) or not (false ) the key identifier is dis- tinct from the created API key value. This parameter is deprecated and should not be used.
+    /// </summary>
+    [CliFlag("--generate-distinct-id", NegatedName = "--no-generate-distinct-id")]
     public bool? GenerateDistinctId { get; set; }
 
     /// <summary>
     /// Specifies a value of the API key.
     /// </summary>
+    [SecretValue]
     [CliOption("--value")]
     public string? Value { get; set; }
 

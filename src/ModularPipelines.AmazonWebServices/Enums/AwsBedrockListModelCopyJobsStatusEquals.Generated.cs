@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusequals.
+/// Allowed values for --status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListModelCopyJobsStatusEquals
 {
-    [EnumValue("InProgress")]
-    InProgress = 1,
-
     [EnumValue("Completed")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("Failed")]
-    Failed = 3
+    Failed,
+
+    [EnumValue("InProgress")]
+    InProgress
 }

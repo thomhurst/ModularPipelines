@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "put-image-tag-mutability")]
-public record AwsEcrPutImageTagMutabilityOptions : AwsOptions
+public record AwsEcrPutImageTagMutabilityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the image tag mutability settings for the specified repository. For more information, see Image tag mutability in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository in which to update the image tag mutabil- ity settings. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageTagMutability">The tag mutability setting for the repository. If MUTABLE is speci- fied, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will pre- vent them from being overwritten. Possible values: o MUTABLE o IMMUTABLE o IMMUTABLE_WITH_EXCLUSION o MUTABLE_WITH_EXCLUSION</param>
+    public AwsEcrPutImageTagMutabilityOptions(
+        string RepositoryName,
+        AwsEcrPutImageTagMutabilityImageTagMutability ImageTagMutability
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(ImageTagMutability);
+        this.ImageTagMutability = ImageTagMutability;
+    }
+
+    private AwsEcrPutImageTagMutabilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPutImageTagMutabilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPutImageTagMutabilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository in which to update the image tag mutabil- ity settings. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The tag mutability setting for the repository. If MUTABLE is speci- fied, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will pre- vent them from being overwritten. Possible values: o MUTABLE o IMMUTABLE o IMMUTABLE_WITH_EXCLUSION o MUTABLE_WITH_EXCLUSION
+    /// </summary>
+    [CliOption("--image-tag-mutability")]
+    public AwsEcrPutImageTagMutabilityImageTagMutability? ImageTagMutability { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
-
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
-    [CliOption("--image-tag-mutability")]
-    public string? ImageTagMutability { get; set; }
 
     /// <summary>
     /// A list of filters that specify which image tags should be excluded from the image tag mutability setting being applied. Constraints: o min: 1 o max: 5 (structure) A filter that specifies which image tags should be excluded from the repository's image tag mutability setting. filterType -&gt; (string) [required] The type of filter to apply for excluding image tags from mu- tability settings. Possible values: o WILDCARD filter -&gt; (string) [required] The filter value used to match image tags for exclusion from mutability settings. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._*-]{1,128}$ Shorthand Syntax: filterType=string,filter=string ... JSON Syntax: [ { "filterType": "WILDCARD", "filter": "string" } ... ]
@@ -44,5 +89,22 @@ public record AwsEcrPutImageTagMutabilityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

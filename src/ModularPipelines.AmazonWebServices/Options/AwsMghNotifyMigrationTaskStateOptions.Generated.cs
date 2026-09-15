@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgh", "notify-migration-task-state")]
-public record AwsMghNotifyMigrationTaskStateOptions : AwsOptions
+public record AwsMghNotifyMigrationTaskStateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Notifies Migration Hub of the current status, progress, or other detail regarding a migration task. This API has the following traits: o Migration tools will call the NotifyMigrationTaskState API to share the latest progress and status. o MigrationTaskName is used for addressing updates to the correct tar- get. o ProgressUpdateStream is used for access control and to provide a namespace for each migration tool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
+    /// <param name="Task">Information about the task's progress and status. Status -&gt; (string) [required] Status of the task - Not Started, In-Progress, Complete. Possible values: o NOT_STARTED o IN_PROGRESS o FAILED o COMPLETED StatusDetail -&gt; (string) Details of task status as notified by a migration tool. A tool might use this field to provide clarifying information about the status that is unique to that tool or that explains an error state. Constraints: o min: 0 o max: 2500 o pattern: ^.{0,2500}$ ProgressPercent -&gt; (integer) Indication of the percentage completion of the task. Constraints: o min: 0 o max: 100 Shorthand Syntax: Status=string,StatusDetail=string,ProgressPercent=integer JSON Syntax: { "Status": "NOT_STARTED"|"IN_PROGRESS"|"FAILED"|"COMPLETED", "StatusDetail": "string", "ProgressPercent": integer }</param>
+    /// <param name="UpdateDateTime">The timestamp when the task was gathered.</param>
+    /// <param name="NextUpdateSeconds">Number of seconds after the UpdateDateTime within which the Migra- tion Hub can expect an update. If Migration Hub does not receive an update within the specified interval, then the migration task will be considered stale. Constraints: o min: 0</param>
+    public AwsMghNotifyMigrationTaskStateOptions(
+        string ProgressUpdateStream,
+        string MigrationTaskName,
+        string Task,
+        string UpdateDateTime,
+        int NextUpdateSeconds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProgressUpdateStream);
+        this.ProgressUpdateStream = ProgressUpdateStream;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationTaskName);
+        this.MigrationTaskName = MigrationTaskName;
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateDateTime);
+        this.UpdateDateTime = UpdateDateTime;
+        this.NextUpdateSeconds = NextUpdateSeconds;
+    }
+
+    private AwsMghNotifyMigrationTaskStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMghNotifyMigrationTaskStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMghNotifyMigrationTaskStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// </summary>
     [CliOption("--progress-update-stream")]
-    public string? ProgressUpdateStream { get; set; }
+    public string? ProgressUpdateStream { get; private init; }
 
+    /// <summary>
+    /// Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// </summary>
     [CliOption("--migration-task-name")]
-    public string? MigrationTaskName { get; set; }
+    public string? MigrationTaskName { get; private init; }
 
+    /// <summary>
+    /// Information about the task's progress and status. Status -&gt; (string) [required] Status of the task - Not Started, In-Progress, Complete. Possible values: o NOT_STARTED o IN_PROGRESS o FAILED o COMPLETED StatusDetail -&gt; (string) Details of task status as notified by a migration tool. A tool might use this field to provide clarifying information about the status that is unique to that tool or that explains an error state. Constraints: o min: 0 o max: 2500 o pattern: ^.{0,2500}$ ProgressPercent -&gt; (integer) Indication of the percentage completion of the task. Constraints: o min: 0 o max: 100 Shorthand Syntax: Status=string,StatusDetail=string,ProgressPercent=integer JSON Syntax: { "Status": "NOT_STARTED"|"IN_PROGRESS"|"FAILED"|"COMPLETED", "StatusDetail": "string", "ProgressPercent": integer }
+    /// </summary>
     [CliOption("--task")]
-    public string? Task { get; set; }
+    public string? Task { get; private init; }
 
+    /// <summary>
+    /// The timestamp when the task was gathered.
+    /// </summary>
     [CliOption("--update-date-time")]
-    public string? UpdateDateTime { get; set; }
+    public string? UpdateDateTime { get; private init; }
 
+    /// <summary>
+    /// Number of seconds after the UpdateDateTime within which the Migra- tion Hub can expect an update. If Migration Hub does not receive an update within the specified interval, then the migration task will be considered stale. Constraints: o min: 0
+    /// </summary>
     [CliOption("--next-update-seconds")]
-    public int? NextUpdateSeconds { get; set; }
+    public int? NextUpdateSeconds { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +111,22 @@ public record AwsMghNotifyMigrationTaskStateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "start-analysis-log-export")]
-public record AwsCleanroomsStartAnalysisLogExportOptions : AwsOptions
+public record AwsCleanroomsStartAnalysisLogExportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an export of the Apache Spark logs for a protected query to an Amazon S3 bucket that you own. Use the exported logs to diagnose a query that failed or that ran more slowly than you expected. Clean Rooms exports a redacted copy of the Spark logs instead of the raw logs. Analyze the exported logs with the tooling of your choice, such as Spark History Server. For details about what the exported logs contain, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs-co...
+    /// </summary>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisId">The unique identifier of the protected query that you want to export the analysis logs for. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisType">The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported. Possible values: o PROTECTED_QUERY</param>
+    /// <param name="ResultConfiguration">The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow. outputConfiguration -&gt; (structure) [required] The configuration for analysis log export results. s3 -&gt; (structure) [required] Required configuration for an analysis log export with an s3 output type. bucket -&gt; (string) [required] The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export. Constraints: o min: 0 o max: 512 o pattern: [\w!.=*/-]* Shorthand Syntax: outputConfiguration={s3={bucket=string,keyPrefix=string}} JSON Syntax: { "outputConfiguration": { "s3": { "bucket": "string", "keyPrefix": "string" } } }</param>
+    public AwsCleanroomsStartAnalysisLogExportOptions(
+        string MembershipIdentifier,
+        string AnalysisId,
+        AwsCleanroomsStartAnalysisLogExportAnalysisType AnalysisType,
+        string ResultConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisId);
+        this.AnalysisId = AnalysisId;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisType);
+        this.AnalysisType = AnalysisType;
+        global::System.ArgumentNullException.ThrowIfNull(ResultConfiguration);
+        this.ResultConfiguration = ResultConfiguration;
+    }
+
+    private AwsCleanroomsStartAnalysisLogExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsStartAnalysisLogExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsStartAnalysisLogExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the protected query that you want to export the analysis logs for. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--analysis-id")]
-    public string? AnalysisId { get; set; }
+    public string? AnalysisId { get; private init; }
 
+    /// <summary>
+    /// The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported. Possible values: o PROTECTED_QUERY
+    /// </summary>
     [CliOption("--analysis-type")]
-    public string? AnalysisType { get; set; }
+    public AwsCleanroomsStartAnalysisLogExportAnalysisType? AnalysisType { get; private init; }
 
+    /// <summary>
+    /// The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow. outputConfiguration -&gt; (structure) [required] The configuration for analysis log export results. s3 -&gt; (structure) [required] Required configuration for an analysis log export with an s3 output type. bucket -&gt; (string) [required] The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export. Constraints: o min: 0 o max: 512 o pattern: [\w!.=*/-]* Shorthand Syntax: outputConfiguration={s3={bucket=string,keyPrefix=string}} JSON Syntax: { "outputConfiguration": { "s3": { "bucket": "string", "keyPrefix": "string" } } }
+    /// </summary>
     [CliOption("--result-configuration")]
-    public string? ResultConfiguration { get; set; }
+    public string? ResultConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

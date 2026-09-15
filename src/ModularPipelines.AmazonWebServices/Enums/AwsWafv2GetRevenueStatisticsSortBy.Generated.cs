@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafv2GetRevenueStatisticsSortBy
 {
-    [EnumValue("REVENUE")]
-    Revenue = 1,
+    [EnumValue("NAME")]
+    Name,
 
     [EnumValue("PERCENTAGE")]
-    Percentage = 2,
+    Percentage,
 
-    [EnumValue("NAME")]
-    Name = 3
+    [EnumValue("REVENUE")]
+    Revenue
 }

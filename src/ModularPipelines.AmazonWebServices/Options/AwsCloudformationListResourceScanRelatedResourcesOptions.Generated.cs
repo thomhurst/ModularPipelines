@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "list-resource-scan-related-resources")]
-public record AwsCloudformationListResourceScanRelatedResourcesOptions : AwsOptions
+public record AwsCloudformationListResourceScanRelatedResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-scan-id")]
-    public string? ResourceScanId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-related-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --...
+    /// </summary>
+    /// <param name="ResourceScanId">The Amazon Resource Name (ARN) of the resource scan.</param>
+    /// <param name="Resources">The list of resources for which you want to get the related re- sources. Up to 100 resources can be provided. (structure) Identifies a scanned resource. This is used with the ListRe- sourceScanRelatedResources API action. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection In the CloudFormation User Guide . Constraints: o min: 1 o max: 256 ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are speci- fied in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For exam- ple, for a AWS::DynamoDB::Table resource, the primary identi- fiers is TableName so the key-value pair could be "Table- Name": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Inter- face (CLI) User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ResourceType=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]</param>
+    public AwsCloudformationListResourceScanRelatedResourcesOptions(
+        string ResourceScanId,
+        IEnumerable<string> Resources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceScanId);
+        this.ResourceScanId = ResourceScanId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Resources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Resources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Resources));
+            }
+
+            Resources = materialized;
+        }
+        this.Resources = Resources;
+    }
+
+    private AwsCloudformationListResourceScanRelatedResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationListResourceScanRelatedResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationListResourceScanRelatedResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource scan.
+    /// </summary>
+    [CliOption("--resource-scan-id")]
+    public string? ResourceScanId { get; private init; }
+
+    /// <summary>
+    /// The list of resources for which you want to get the related re- sources. Up to 100 resources can be provided. (structure) Identifies a scanned resource. This is used with the ListRe- sourceScanRelatedResources API action. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection In the CloudFormation User Guide . Constraints: o min: 1 o max: 256 ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are speci- fied in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For exam- ple, for a AWS::DynamoDB::Table resource, the primary identi- fiers is TableName so the key-value pair could be "Table- Name": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Inter- face (CLI) User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ResourceType=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]
+    /// </summary>
     [CliOption("--resources", GroupValues = true)]
-    public IEnumerable<string>? Resources { get; set; }
+    public IEnumerable<string>? Resources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +107,22 @@ public record AwsCloudformationListResourceScanRelatedResourcesOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

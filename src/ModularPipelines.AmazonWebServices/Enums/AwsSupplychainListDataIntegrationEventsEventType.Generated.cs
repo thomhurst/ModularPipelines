@@ -11,11 +11,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --eventtype.
+/// Allowed values for --event-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSupplychainListDataIntegrationEventsEventType
 {
-    [EnumValue("scn")]
-    Scn = 1
+    [EnumValue("scn.data.dataset")]
+    ScnDataDataset,
+
+    [EnumValue("scn.data.forecast")]
+    ScnDataForecast,
+
+    [EnumValue("scn.data.inboundorder")]
+    ScnDataInboundorder,
+
+    [EnumValue("scn.data.inboundorderline")]
+    ScnDataInboundorderline,
+
+    [EnumValue("scn.data.inboundorderlineschedule")]
+    ScnDataInboundorderlineschedule,
+
+    [EnumValue("scn.data.inventorylevel")]
+    ScnDataInventorylevel,
+
+    [EnumValue("scn.data.outboundorderline")]
+    ScnDataOutboundorderline,
+
+    [EnumValue("scn.data.outboundshipment")]
+    ScnDataOutboundshipment,
+
+    [EnumValue("scn.data.processheader")]
+    ScnDataProcessheader,
+
+    [EnumValue("scn.data.processoperation")]
+    ScnDataProcessoperation,
+
+    [EnumValue("scn.data.processproduct")]
+    ScnDataProcessproduct,
+
+    [EnumValue("scn.data.reservation")]
+    ScnDataReservation,
+
+    [EnumValue("scn.data.shipment")]
+    ScnDataShipment,
+
+    [EnumValue("scn.data.shipmentstop")]
+    ScnDataShipmentstop,
+
+    [EnumValue("scn.data.shipmentstoporder")]
+    ScnDataShipmentstoporder,
+
+    [EnumValue("scn.data.supplyplan")]
+    ScnDataSupplyplan
 }

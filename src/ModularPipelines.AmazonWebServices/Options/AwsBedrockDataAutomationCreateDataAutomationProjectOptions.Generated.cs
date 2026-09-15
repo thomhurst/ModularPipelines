@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation", "create-data-automation-project")]
-public record AwsBedrockDataAutomationCreateDataAutomationProjectOptions : AwsOptions
+public record AwsBedrockDataAutomationCreateDataAutomationProjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Bedrock Data Automation Project See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectName">Name of the DataAutomationProject Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="StandardOutputConfiguration">Standard output configuration document -&gt; (structure) Standard Output Configuration of Document extraction -&gt; (structure) Standard Extraction Configuration of Document granularity -&gt; (structure) [required] Granularity of Document Extraction types -&gt; (list) List of Document Extraction Granularity Type (string) Possible values: o DOCUMENT o PAGE o ELEMENT o WORD o LINE boundingBox -&gt; (structure) [required] Bounding Box Configuration of Document Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Document state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED outputFormat -&gt; (structure) Output Format of Document textFormat -&gt; (structure) [required] Text Format of Document Output types -&gt; (list) List of Document Output Text Format Type (string) Possible values: o PLAIN_TEXT o MARKDOWN o HTML o CSV additionalFileFormat -&gt; (structure) [required] Additional File Format of Document Output state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED image -&gt; (structure) Standard Output Configuration of Image extraction -&gt; (structure) Standard Extraction Configuration of Image category -&gt; (structure) [required] Category of Image Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Image Extraction Category (string) Possible values: o CONTENT_MODERATION o TEXT_DETECTION o LOGOS boundingBox -&gt; (structure) [required] Bounding Box Configuration of Image Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Image state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Image Standard Generative Field Type (string) Possible values: o IMAGE_SUMMARY o IAB video -&gt; (structure) Standard Output Configuration of Video extraction -&gt; (structure) Standard Extraction Configuration of Video category -&gt; (structure) [required] Category of Video Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Video Extraction Category Type (string) Possible values: o CONTENT_MODERATION o TEXT_DETECTION o TRANSCRIPT o LOGOS boundingBox -&gt; (structure) [required] Bounding Box Configuration of Video Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Video state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Video Standard Generative Field Type (string) Possible values: o VIDEO_SUMMARY o IAB o CHAPTER_SUMMARY audio -&gt; (structure) Standard Output Configuration of Audio extraction -&gt; (structure) Standard Extraction Configuration of Audio category -&gt; (structure) [required] Category of Audio Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Audio Extraction Category Type (string) Possible values: o AUDIO_CONTENT_MODERATION o TRANSCRIPT o TOPIC_CONTENT_MODERATION typeConfiguration -&gt; (structure) Configuration for different audio extraction category types transcript -&gt; (structure) Configuration for transcript related features speakerLabeling -&gt; (structure) Speaker labeling configuration state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED channelLabeling -&gt; (structure) Channel labeling configuration state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Audio state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Audio Standard Generative Field Type (string) Possible values: o AUDIO_SUMMARY o IAB o TOPIC_SUMMARY JSON Syntax: { "document": { "extraction": { "granularity": { "types": ["DOCUMENT"|"PAGE"|"ELEMENT"|"WORD"|"LINE", ...] }, "boundingBox": { "state": "ENABLED"|"DISABLED" } }, "generativeField": { "state": "ENABLED"|"DISABLED" }, "outputFormat": { "textFormat": { "types": ["PLAIN_TEXT"|"MARKDOWN"|"HTML"|"CSV", ...] }, "additionalFileFormat": { "state": "ENABLED"|"DISABLED" } } }, "image": { "extraction": { "category": { "state": "ENABLED"|"DISABLED", "types": ["CONTENT_MODERATION"|"TEXT_DETECTION"|"LOGOS", ...] }, "boundingBox": { "state": "ENABLED"|"DISABLED" } }, "generativeField": { "state": "ENABLED"|"DISABLED", "types": ["IMAGE_SUMMARY"|"IAB", ...] } }, "video": { "extraction": { "category": { "state": "ENABLED"|"DISABLED", "types": ["CONTENT_MODERATION"|"TEXT_DETECTION"|"TRANSCRIPT"|"LOGOS", ...] }, "boundingBox": { "state": "ENABLED"|"DISABLED" } }, "generativeField": { "state": "ENABLED"|"DISABLED", "types": ["VIDEO_SUMMARY"|"IAB"|"CHAPTER_SUMMARY", ...] } }, "audio": { "extraction": { "category": { "state": "ENABLED"|"DISABLED", "types": ["AUDIO_CONTENT_MODERATION"|"TRANSCRIPT"|"TOPIC_CONTENT_MODERATION", ...], "typeConfiguration": { "transcript": { "speakerLabeling": { "state": "ENABLED"|"DISABLED" }, "channelLabeling": { "state": "ENABLED"|"DISABLED" } } } } }, "generativeField": { "state": "ENABLED"|"DISABLED", "types": ["AUDIO_SUMMARY"|"IAB"|"TOPIC_SUMMARY", ...] } } }</param>
+    public AwsBedrockDataAutomationCreateDataAutomationProjectOptions(
+        string ProjectName,
+        string StandardOutputConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+        global::System.ArgumentNullException.ThrowIfNull(StandardOutputConfiguration);
+        this.StandardOutputConfiguration = StandardOutputConfiguration;
+    }
+
+    private AwsBedrockDataAutomationCreateDataAutomationProjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationCreateDataAutomationProjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationCreateDataAutomationProjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the DataAutomationProject Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--project-name")]
-    public string? ProjectName { get; set; }
+    public string? ProjectName { get; private init; }
+
+    /// <summary>
+    /// Standard output configuration document -&gt; (structure) Standard Output Configuration of Document extraction -&gt; (structure) Standard Extraction Configuration of Document granularity -&gt; (structure) [required] Granularity of Document Extraction types -&gt; (list) List of Document Extraction Granularity Type (string) Possible values: o DOCUMENT o PAGE o ELEMENT o WORD o LINE boundingBox -&gt; (structure) [required] Bounding Box Configuration of Document Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Document state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED outputFormat -&gt; (structure) Output Format of Document textFormat -&gt; (structure) [required] Text Format of Document Output types -&gt; (list) List of Document Output Text Format Type (string) Possible values: o PLAIN_TEXT o MARKDOWN o HTML o CSV additionalFileFormat -&gt; (structure) [required] Additional File Format of Document Output state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED image -&gt; (structure) Standard Output Configuration of Image extraction -&gt; (structure) Standard Extraction Configuration of Image category -&gt; (structure) [required] Category of Image Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Image Extraction Category (string) Possible values: o CONTENT_MODERATION o TEXT_DETECTION o LOGOS boundingBox -&gt; (structure) [required] Bounding Box Configuration of Image Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Image state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Image Standard Generative Field Type (string) Possible values: o IMAGE_SUMMARY o IAB video -&gt; (structure) Standard Output Configuration of Video extraction -&gt; (structure) Standard Extraction Configuration of Video category -&gt; (structure) [required] Category of Video Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Video Extraction Category Type (string) Possible values: o CONTENT_MODERATION o TEXT_DETECTION o TRANSCRIPT o LOGOS boundingBox -&gt; (structure) [required] Bounding Box Configuration of Video Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Video state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Video Standard Generative Field Type (string) Possible values: o VIDEO_SUMMARY o IAB o CHAPTER_SUMMARY audio -&gt; (structure) Standard Output Configuration of Audio extraction -&gt; (structure) Standard Extraction Configuration of Audio category -&gt; (structure) [required] Category of Audio Extraction state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Audio Extraction Category Type (string) Possible values: o AUDIO_CONTENT_MODERATION o TRANSCRIPT o TOPIC_CONTENT_MODERATION typeConfiguration -&gt; (structure) Configuration for different audio extraction category types transcript -&gt; (structure) Configuration for transcript related features speakerLabeling -&gt; (structure) Speaker labeling configuration state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED channelLabeling -&gt; (structure) Channel labeling configuration state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED generativeField -&gt; (structure) Standard Generative Field Configuration of Audio state -&gt; (string) [required] State Possible values: o ENABLED o DISABLED types -&gt; (list) List of Audio Standard Generative Field Type (string) Possible values: o AUDIO_SUMMARY o IAB o TOPIC_SUMMARY JSON Syntax: { "document": { "extraction": { "granularity": { "types": ["DOCUMENT"|"PAGE"|"ELEMENT"|"WORD"|"LINE", ...] }, "boundingBox": { "state": "ENABLED"|"DISABLED" } }, "generativeField": { "state": "ENABLED"|"DISABLED" }, "outputFormat": { "textFormat": { "types": ["PLAIN_TEXT"|"MARKDOWN"|"HTML"|"CSV", ...] }, "additionalFileFormat": { "state": "ENABLED"|"DISABLED" } } }, "image": { "extraction": { "category": { "state": "ENABLED"|"DISABLED", "types": ["CONTENT_MODERATION"|"TEXT_DETECTION"|"LOGOS", ...] }, "boundingBox": { "state": "ENABLED"|"DISABLED" } }, "generativeField": { "state": "ENABLED"|"DISABLED", "types": ["IMAGE_SUMMARY"|"IAB", ...] } }, "video": { "extraction": { "category": { "state": "ENABLED"|"DISABLED", "types": ["CONTENT_MODERATION"|"TEXT_DETECTION"|"TRANSCRIPT"|"LOGOS", ...] }, "boundingBox": { "state": "ENABLED"|"DISABLED" } }, "generativeField": { "state": "ENABLED"|"DISABLED", "types": ["VIDEO_SUMMARY"|"IAB"|"CHAPTER_SUMMARY", ...] } }, "audio": { "extraction": { "category": { "state": "ENABLED"|"DISABLED", "types": ["AUDIO_CONTENT_MODERATION"|"TRANSCRIPT"|"TOPIC_CONTENT_MODERATION", ...], "typeConfiguration": { "transcript": { "speakerLabeling": { "state": "ENABLED"|"DISABLED" }, "channelLabeling": { "state": "ENABLED"|"DISABLED" } } } } }, "generativeField": { "state": "ENABLED"|"DISABLED", "types": ["AUDIO_SUMMARY"|"IAB"|"TOPIC_SUMMARY", ...] } } }
+    /// </summary>
+    [CliOption("--standard-output-configuration")]
+    public string? StandardOutputConfiguration { get; private init; }
 
     /// <summary>
     /// Description of the DataAutomationProject Constraints: o min: 0 o max: 300
@@ -43,9 +90,6 @@ public record AwsBedrockDataAutomationCreateDataAutomationProjectOptions : AwsOp
     /// </summary>
     [CliOption("--project-type")]
     public AwsBedrockDataAutomationCreateDataAutomationProjectProjectType? ProjectType { get; set; }
-
-    [CliOption("--standard-output-configuration")]
-    public string? StandardOutputConfiguration { get; set; }
 
     /// <summary>
     /// Custom output configuration blueprints -&gt; (list) List of Blueprint Item (structure) Blueprint Item blueprintArn -&gt; (string) [required] ARN of a Blueprint Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) blueprintVersion -&gt; (string) Blueprint Version Constraints: o min: 1 o max: 128 o pattern: [0-9]* blueprintStage -&gt; (string) Stage of the Blueprint Possible values: o DEVELOPMENT o LIVE document -&gt; (structure) Custom Configuration of Document fallbackBlueprints -&gt; (list) List of Fallback Blueprint Items Constraints: o min: 0 o max: 1 (structure) Blueprint Item blueprintArn -&gt; (string) [required] ARN of a Blueprint Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) blueprintVersion -&gt; (string) Blueprint Version Constraints: o min: 1 o max: 128 o pattern: [0-9]* blueprintStage -&gt; (string) Stage of the Blueprint Possible values: o DEVELOPMENT o LIVE JSON Syntax: { "blueprints": [ { "blueprintArn": "string", "blueprintVersion": "string", "blueprintStage": "DEVELOPMENT"|"LIVE" } ... ], "document": { "fallbackBlueprints": [ { "blueprintArn": "string", "blueprintVersion": "string", "blueprintStage": "DEVELOPMENT"|"LIVE" } ... ] } }
@@ -89,5 +133,22 @@ public record AwsBedrockDataAutomationCreateDataAutomationProjectOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

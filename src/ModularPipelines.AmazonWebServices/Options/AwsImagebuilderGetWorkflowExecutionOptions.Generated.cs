@@ -10,24 +10,78 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get the runtime information that was logged for a specific runtime in- stance of the workflow. See also: AWS API Documentation
+/// Retrieves runtime information for a specific runtime instance of the workflow. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "get-workflow-execution")]
-public record AwsImagebuilderGetWorkflowExecutionOptions : AwsOptions
+public record AwsImagebuilderGetWorkflowExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves runtime information for a specific runtime instance of the workflow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkflowExecutionId">Use the unique identifier for a runtime instance of the workflow to get runtime details. Constraints: o pattern: ^wf-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
+    public AwsImagebuilderGetWorkflowExecutionOptions(
+        string WorkflowExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowExecutionId);
+        this.WorkflowExecutionId = WorkflowExecutionId;
+    }
+
+    private AwsImagebuilderGetWorkflowExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderGetWorkflowExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderGetWorkflowExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Use the unique identifier for a runtime instance of the workflow to get runtime details. Constraints: o pattern: ^wf-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--workflow-execution-id")]
-    public string? WorkflowExecutionId { get; set; }
+    public string? WorkflowExecutionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

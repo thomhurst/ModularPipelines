@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "describe-entity")]
-public record AwsGlueDescribeEntityOptions : AwsOptions
+public record AwsGlueDescribeEntityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected en- tity. The response includes all the fields which make up the entity. See also: AWS API Documentation describe-entity is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
+    /// </summary>
+    /// <param name="ConnectionName">The name of the connection that contains the connection type creden- tials. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="EntityName">The name of the entity that you want to describe from the connection type.</param>
+    public AwsGlueDescribeEntityOptions(
+        string ConnectionName,
+        string EntityName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(EntityName);
+        this.EntityName = EntityName;
+    }
+
+    private AwsGlueDescribeEntityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueDescribeEntityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueDescribeEntityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the connection that contains the connection type creden- tials. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--connection-name")]
-    public string? ConnectionName { get; set; }
+    public string? ConnectionName { get; private init; }
+
+    /// <summary>
+    /// The name of the entity that you want to describe from the connection type.
+    /// </summary>
+    [CliOption("--entity-name")]
+    public string? EntityName { get; private init; }
 
     /// <summary>
     /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the cata- log ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
-
-    [CliOption("--entity-name")]
-    public string? EntityName { get; set; }
 
     /// <summary>
     /// The version of the API used for the data store. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9.-]*
@@ -58,5 +102,22 @@ public record AwsGlueDescribeEntityOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

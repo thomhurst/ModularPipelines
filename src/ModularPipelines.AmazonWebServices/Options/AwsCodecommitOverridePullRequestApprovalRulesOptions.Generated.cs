@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "override-pull-request-approval-rules")]
-public record AwsCodecommitOverridePullRequestApprovalRulesOptions : AwsOptions
+public record AwsCodecommitOverridePullRequestApprovalRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets aside (overrides) all approval rule requirements for a specified pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID of the pull request for which you want to override all approval rule requirements. To get this information, use GetPullRequest .</param>
+    /// <param name="RevisionId">The system-generated ID of the most recent revision of the pull re- quest. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use Get- PullRequest.</param>
+    /// <param name="OverrideStatus">Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply ap- proval rule requirements (REVOKE). REVOKE status is not stored. Possible values: o OVERRIDE o REVOKE</param>
+    public AwsCodecommitOverridePullRequestApprovalRulesOptions(
+        string PullRequestId,
+        string RevisionId,
+        AwsCodecommitOverridePullRequestApprovalRulesOverrideStatus OverrideStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+        global::System.ArgumentNullException.ThrowIfNull(OverrideStatus);
+        this.OverrideStatus = OverrideStatus;
+    }
+
+    private AwsCodecommitOverridePullRequestApprovalRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitOverridePullRequestApprovalRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitOverridePullRequestApprovalRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the pull request for which you want to override all approval rule requirements. To get this information, use GetPullRequest .
+    /// </summary>
     [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    public string? PullRequestId { get; private init; }
 
+    /// <summary>
+    /// The system-generated ID of the most recent revision of the pull re- quest. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use Get- PullRequest.
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
+    /// <summary>
+    /// Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply ap- proval rule requirements (REVOKE). REVOKE status is not stored. Possible values: o OVERRIDE o REVOKE
+    /// </summary>
     [CliOption("--override-status")]
-    public string? OverrideStatus { get; set; }
+    public AwsCodecommitOverridePullRequestApprovalRulesOverrideStatus? OverrideStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

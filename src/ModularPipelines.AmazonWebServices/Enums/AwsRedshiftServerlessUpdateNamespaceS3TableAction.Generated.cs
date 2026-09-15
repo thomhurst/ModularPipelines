@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --s3tableaction.
+/// Allowed values for --s3-table-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftServerlessUpdateNamespaceS3TableAction
 {
-    [EnumValue("Enable")]
-    Enable = 1,
-
     [EnumValue("Disable")]
-    Disable = 2
+    Disable,
+
+    [EnumValue("Enable")]
+    Enable
 }

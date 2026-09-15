@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-backup-selection")]
-public record AwsBackupCreateBackupSelectionOptions : AwsOptions
+public record AwsBackupCreateBackupSelectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--backup-plan-id")]
-    public string? BackupPlanId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a JSON document that specifies a set of resources to assign to a backup plan. For examples, see Assigning resources programmatically . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupPlanId">The ID of the backup plan.</param>
+    /// <param name="BackupSelection">The body of a request to assign a set of resources to a backup plan. SelectionName -&gt; (string) [required] The display name of a resource selection document. Must contain 1 to 50 alphanumeric or '-_.' characters. Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ IamRoleArn -&gt; (string) [required] The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access . Resources -&gt; (list) The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wild- cards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic). NOTE: When using wildcards in ARN patterns for backup selections, the asterisk (*) must appear at the end of the ARN string (prefix pattern). For example, arn:aws:s3:::my-bucket-* is valid, but arn:aws:s3:::*-logs is not supported. (string) ListOfTags -&gt; (list) The conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Condi- tionKey": "backup", "ConditionValue": "daily"} . ListOfTags supports only StringEquals . Condition operators are case sensitive. If you specify multiple conditions, the resources much match any of the conditions (OR logic). (structure) Contains an array of triplets made up of a condition type (such as StringEquals ), a key, and a value. Used to filter resources using their tags and assign them to a backup plan. Case sensitive. ConditionType -&gt; (string) [required] An operation applied to a key-value pair used to assign resources to your backup plan. Condition only supports StringEquals . For more flexible assignment options, in- cluding StringLike and the ability to exclude resources from your backup plan, use Conditions (with an "s" on the end) for your ` BackupSelection https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BackupSelection.html`__ . Possible values: o STRINGEQUALS ConditionKey -&gt; (string) [required] The key in a key-value pair. For example, in the tag De- partment: Accounting , Department is the key. ConditionValue -&gt; (string) [required] The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. NotResources -&gt; (list) The Amazon Resource Names (ARNs) of the resources to exclude from a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to exclude many resources from a backup plan, con- sider a different resource selection strategy, such as assigning only one or a few resource types or refining your resource se- lection using tags. (string) Conditions -&gt; (structure) The conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Condi- tionKey": "aws:ResourceTag/backup", "ConditionValue": "daily" } . Conditions supports StringEquals , StringLike , StringNotE- quals , and StringNotLike . Condition operators are case sen- sitive. If you specify multiple conditions, the resources much match all conditions (AND logic). StringEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching." (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. StringNotEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching." (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. StringLike -&gt; (list) Filters the values of your tagged resources for matching tag values with the use of a wildcard character (*) anywhere in the string. For example, "prod*" or "rod" matches the tag value "production". (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. StringNotLike -&gt; (list) Filters the values of your tagged resources for non-matching tag values with the use of a wildcard character (*) anywhere in the string. (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. JSON Syntax: { "SelectionName": "string", "IamRoleArn": "string", "Resources": ["string", ...], "ListOfTags": [ { "ConditionType": "STRINGEQUALS", "ConditionKey": "string", "ConditionValue": "string" } ... ], "NotResources": ["string", ...], "Conditions": { "StringEquals": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ], "StringNotEquals": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ], "StringLike": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ], "StringNotLike": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ] } }</param>
+    public AwsBackupCreateBackupSelectionOptions(
+        string BackupPlanId,
+        string BackupSelection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlanId);
+        this.BackupPlanId = BackupPlanId;
+        global::System.ArgumentNullException.ThrowIfNull(BackupSelection);
+        this.BackupSelection = BackupSelection;
+    }
+
+    private AwsBackupCreateBackupSelectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateBackupSelectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateBackupSelectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the backup plan.
+    /// </summary>
+    [CliOption("--backup-plan-id")]
+    public string? BackupPlanId { get; private init; }
+
+    /// <summary>
+    /// The body of a request to assign a set of resources to a backup plan. SelectionName -&gt; (string) [required] The display name of a resource selection document. Must contain 1 to 50 alphanumeric or '-_.' characters. Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ IamRoleArn -&gt; (string) [required] The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access . Resources -&gt; (list) The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wild- cards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic). NOTE: When using wildcards in ARN patterns for backup selections, the asterisk (*) must appear at the end of the ARN string (prefix pattern). For example, arn:aws:s3:::my-bucket-* is valid, but arn:aws:s3:::*-logs is not supported. (string) ListOfTags -&gt; (list) The conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Condi- tionKey": "backup", "ConditionValue": "daily"} . ListOfTags supports only StringEquals . Condition operators are case sensitive. If you specify multiple conditions, the resources much match any of the conditions (OR logic). (structure) Contains an array of triplets made up of a condition type (such as StringEquals ), a key, and a value. Used to filter resources using their tags and assign them to a backup plan. Case sensitive. ConditionType -&gt; (string) [required] An operation applied to a key-value pair used to assign resources to your backup plan. Condition only supports StringEquals . For more flexible assignment options, in- cluding StringLike and the ability to exclude resources from your backup plan, use Conditions (with an "s" on the end) for your ` BackupSelection https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BackupSelection.html`__ . Possible values: o STRINGEQUALS ConditionKey -&gt; (string) [required] The key in a key-value pair. For example, in the tag De- partment: Accounting , Department is the key. ConditionValue -&gt; (string) [required] The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. NotResources -&gt; (list) The Amazon Resource Names (ARNs) of the resources to exclude from a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to exclude many resources from a backup plan, con- sider a different resource selection strategy, such as assigning only one or a few resource types or refining your resource se- lection using tags. (string) Conditions -&gt; (structure) The conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Condi- tionKey": "aws:ResourceTag/backup", "ConditionValue": "daily" } . Conditions supports StringEquals , StringLike , StringNotE- quals , and StringNotLike . Condition operators are case sen- sitive. If you specify multiple conditions, the resources much match all conditions (AND logic). StringEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching." (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. StringNotEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching." (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. StringLike -&gt; (list) Filters the values of your tagged resources for matching tag values with the use of a wildcard character (*) anywhere in the string. For example, "prod*" or "rod" matches the tag value "production". (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. StringNotLike -&gt; (list) Filters the values of your tagged resources for non-matching tag values with the use of a wildcard character (*) anywhere in the string. (structure) Includes information about tags you define to assign tagged resources to a backup plan. Include the prefix aws:ResourceTag in your tags. For ex- ample, "aws:ResourceTag/TagKey1": "Value1" . ConditionKey -&gt; (string) The key in a key-value pair. For example, in the tag Department: Accounting , Department is the key. ConditionValue -&gt; (string) The value in a key-value pair. For example, in the tag Department: Accounting , Accounting is the value. JSON Syntax: { "SelectionName": "string", "IamRoleArn": "string", "Resources": ["string", ...], "ListOfTags": [ { "ConditionType": "STRINGEQUALS", "ConditionKey": "string", "ConditionValue": "string" } ... ], "NotResources": ["string", ...], "Conditions": { "StringEquals": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ], "StringNotEquals": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ], "StringLike": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ], "StringNotLike": [ { "ConditionKey": "string", "ConditionValue": "string" } ... ] } }
+    /// </summary>
     [CliOption("--backup-selection")]
-    public string? BackupSelection { get; set; }
+    public string? BackupSelection { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and allows failed re- quests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
@@ -38,5 +82,22 @@ public record AwsBackupCreateBackupSelectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "update-repository-creation-template")]
-public record AwsEcrUpdateRepositoryCreationTemplateOptions : AwsOptions
+public record AwsEcrUpdateRepositoryCreationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing repository creation template. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Prefix">The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this tem- plate applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . This includes a repository named prod/team1 as well as a repository named prod/repository1 . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the pre- fix. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    public AwsEcrUpdateRepositoryCreationTemplateOptions(
+        string Prefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Prefix);
+        this.Prefix = Prefix;
+    }
+
+    private AwsEcrUpdateRepositoryCreationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrUpdateRepositoryCreationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrUpdateRepositoryCreationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this tem- plate applied. For example, a prefix of prod would apply to all repositories beginning with prod/ . This includes a repository named prod/team1 as well as a repository named prod/repository1 . To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the pre- fix. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// </summary>
     [CliOption("--prefix")]
-    public string? Prefix { get; set; }
+    public string? Prefix { get; private init; }
 
     /// <summary>
     /// A description for the repository creation template. Constraints: o max: 256
@@ -84,5 +121,22 @@ public record AwsEcrUpdateRepositoryCreationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

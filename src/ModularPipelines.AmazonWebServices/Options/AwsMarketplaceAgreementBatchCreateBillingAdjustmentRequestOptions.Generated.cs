@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "batch-create-billing-adjustment-request")]
-public record AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions : AwsOptions
+public record AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows sellers (proposers) to submit billing adjustment requests for one or more invoices within an agreement. Each entry in the batch spec- ifies an invoice and the adjustment amount. The operation returns suc- cessfully created adjustment request IDs and any errors for entries that failed to process. NOTE: Each entry requires a unique clientToken for idempotency. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BillingAdjustmentRequestEntries">A list of billing adjustment request entries. Each entry specifies the invoice and adjustment details. (structure) An individual entry in a batch billing adjustment request, spec- ifying the invoice and adjustment details. agreementId -&gt; (string) [required] The unique identifier of the agreement associated with the invoice. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ originalInvoiceId -&gt; (string) [required] The identifier of the original invoice to adjust. Constraints: o min: 1 o max: 255 adjustmentAmount -&gt; (string) [required] The adjustment amount as a string representation of a decimal number in the currency of the invoice. Constraints: o pattern: [0-9]*(\.[0-9]{0,8})? currencyCode -&gt; (string) [required] The 3-letter ISO 4217 currency code for the adjustment amount. Must match the currency code of the offer associated with the agreement (e.g., USD ). Constraints: o min: 3 o max: 3 o pattern: [A-Z]+ adjustmentReasonCode -&gt; (string) [required] The reason code for the billing adjustment. Possible values: o INCORRECT_TERMS_ACCEPTED o INCORRECT_METERING o TEST_ENVIRONMENT_CHARGES o ALTERNATIVE_PROCUREMENT_CHANNEL o UNINTENDED_RENEWAL o BUYER_DISSATISFACTION o OTHER description -&gt; (string) An optional detailed description of the adjustment reason. Constraints: o min: 1 o max: 500 clientToken -&gt; (string) [required] A unique, case-sensitive identifier that you provide to en- sure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+ Shorthand Syntax: agreementId=string,originalInvoiceId=string,adjustmentAmount=string,currencyCode=string,adjustmentReasonCode=string,description=string,clientToken=string ... JSON Syntax: [ { "agreementId": "string", "originalInvoiceId": "string", "adjustmentAmount": "string", "currencyCode": "string", "adjustmentReasonCode": "INCORRECT_TERMS_ACCEPTED"|"INCORRECT_METERING"|"TEST_ENVIRONMENT_CHARGES"|"ALTERNATIVE_PROCUREMENT_CHANNEL"|"UNINTENDED_RENEWAL"|"BUYER_DISSATISFACTION"|"OTHER", "description": "string", "clientToken": "string" } ... ]</param>
+    public AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions(
+        IEnumerable<string> BillingAdjustmentRequestEntries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(BillingAdjustmentRequestEntries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(BillingAdjustmentRequestEntries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(BillingAdjustmentRequestEntries));
+            }
+
+            BillingAdjustmentRequestEntries = materialized;
+        }
+        this.BillingAdjustmentRequestEntries = BillingAdjustmentRequestEntries;
+    }
+
+    private AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementBatchCreateBillingAdjustmentRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of billing adjustment request entries. Each entry specifies the invoice and adjustment details. (structure) An individual entry in a batch billing adjustment request, spec- ifying the invoice and adjustment details. agreementId -&gt; (string) [required] The unique identifier of the agreement associated with the invoice. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ originalInvoiceId -&gt; (string) [required] The identifier of the original invoice to adjust. Constraints: o min: 1 o max: 255 adjustmentAmount -&gt; (string) [required] The adjustment amount as a string representation of a decimal number in the currency of the invoice. Constraints: o pattern: [0-9]*(\.[0-9]{0,8})? currencyCode -&gt; (string) [required] The 3-letter ISO 4217 currency code for the adjustment amount. Must match the currency code of the offer associated with the agreement (e.g., USD ). Constraints: o min: 3 o max: 3 o pattern: [A-Z]+ adjustmentReasonCode -&gt; (string) [required] The reason code for the billing adjustment. Possible values: o INCORRECT_TERMS_ACCEPTED o INCORRECT_METERING o TEST_ENVIRONMENT_CHARGES o ALTERNATIVE_PROCUREMENT_CHANNEL o UNINTENDED_RENEWAL o BUYER_DISSATISFACTION o OTHER description -&gt; (string) An optional detailed description of the adjustment reason. Constraints: o min: 1 o max: 500 clientToken -&gt; (string) [required] A unique, case-sensitive identifier that you provide to en- sure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+ Shorthand Syntax: agreementId=string,originalInvoiceId=string,adjustmentAmount=string,currencyCode=string,adjustmentReasonCode=string,description=string,clientToken=string ... JSON Syntax: [ { "agreementId": "string", "originalInvoiceId": "string", "adjustmentAmount": "string", "currencyCode": "string", "adjustmentReasonCode": "INCORRECT_TERMS_ACCEPTED"|"INCORRECT_METERING"|"TEST_ENVIRONMENT_CHARGES"|"ALTERNATIVE_PROCUREMENT_CHANNEL"|"UNINTENDED_RENEWAL"|"BUYER_DISSATISFACTION"|"OTHER", "description": "string", "clientToken": "string" } ... ]
+    /// </summary>
     [CliOption("--billing-adjustment-request-entries", GroupValues = true)]
-    public IEnumerable<string>? BillingAdjustmentRequestEntries { get; set; }
+    public IEnumerable<string>? BillingAdjustmentRequestEntries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "send-chat-integration-event")]
-public record AwsConnectSendChatIntegrationEventOptions : AwsOptions
+public record AwsConnectSendChatIntegrationEventOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-id")]
-    public string? SourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Processes chat integration events from Amazon Web Services or external integrations to Connect Customer. A chat integration event includes: o SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat o ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created be- fore handling...
+    /// </summary>
+    /// <param name="SourceId">External identifier of chat customer participant, used in part to uniquely identify a chat. For SMS, this is the E164 phone number of the chat customer participant. Constraints: o min: 1 o max: 255</param>
+    /// <param name="DestinationId">Chat system identifier, used in part to uniquely identify chat. This is associated with the Connect Customer instance and flow to be used to start chats. For Server Migration Service, this is the phone num- ber destination of inbound Server Migration Service messages repre- sented by an Amazon Web Services End User Messaging phone number ARN. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Event">Chat integration event payload Type -&gt; (string) [required] Type of chat integration event. Possible values: o DISCONNECT o MESSAGE o EVENT ContentType -&gt; (string) Type of content. This is required when Type is MESSAGE or EVENT . o For allowed message content types, see the ContentType parame- ter in the SendMessage topic in the Connect Customer Partici- pant Service API Reference . o For allowed event content types, see the ContentType parameter in the SendEvent topic in the Connect Customer Participant Service API Reference . Constraints: o min: 1 o max: 100 Content -&gt; (string) Content of the message or event. This is required when Type is MESSAGE and for certain ContentTypes when Type is EVENT . o For allowed message content, see the Content parameter in the SendMessage topic in the Connect Customer Participant Service API Reference . o For allowed event content, see the Content parameter in the SendEvent topic in the Connect Customer Participant Service API Reference . Constraints: o min: 1 o max: 16384 Shorthand Syntax: Type=string,ContentType=string,Content=string JSON Syntax: { "Type": "DISCONNECT"|"MESSAGE"|"EVENT", "ContentType": "string", "Content": "string" }</param>
+    public AwsConnectSendChatIntegrationEventOptions(
+        string SourceId,
+        string DestinationId,
+        string Event
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceId);
+        this.SourceId = SourceId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationId);
+        this.DestinationId = DestinationId;
+        global::System.ArgumentNullException.ThrowIfNull(Event);
+        this.Event = Event;
+    }
+
+    private AwsConnectSendChatIntegrationEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSendChatIntegrationEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSendChatIntegrationEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// External identifier of chat customer participant, used in part to uniquely identify a chat. For SMS, this is the E164 phone number of the chat customer participant. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--source-id")]
+    public string? SourceId { get; private init; }
+
+    /// <summary>
+    /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Connect Customer instance and flow to be used to start chats. For Server Migration Service, this is the phone num- ber destination of inbound Server Migration Service messages repre- sented by an Amazon Web Services End User Messaging phone number ARN. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--destination-id")]
-    public string? DestinationId { get; set; }
+    public string? DestinationId { get; private init; }
+
+    /// <summary>
+    /// Chat integration event payload Type -&gt; (string) [required] Type of chat integration event. Possible values: o DISCONNECT o MESSAGE o EVENT ContentType -&gt; (string) Type of content. This is required when Type is MESSAGE or EVENT . o For allowed message content types, see the ContentType parame- ter in the SendMessage topic in the Connect Customer Partici- pant Service API Reference . o For allowed event content types, see the ContentType parameter in the SendEvent topic in the Connect Customer Participant Service API Reference . Constraints: o min: 1 o max: 100 Content -&gt; (string) Content of the message or event. This is required when Type is MESSAGE and for certain ContentTypes when Type is EVENT . o For allowed message content, see the Content parameter in the SendMessage topic in the Connect Customer Participant Service API Reference . o For allowed event content, see the Content parameter in the SendEvent topic in the Connect Customer Participant Service API Reference . Constraints: o min: 1 o max: 16384 Shorthand Syntax: Type=string,ContentType=string,Content=string JSON Syntax: { "Type": "DISCONNECT"|"MESSAGE"|"EVENT", "ContentType": "string", "Content": "string" }
+    /// </summary>
+    [CliOption("--event")]
+    public string? Event { get; private init; }
 
     /// <summary>
     /// Classification of a channel. This is used in part to uniquely iden- tify chat. Valid value: ["connect:sms", connect:"WhatsApp"] Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--subtype")]
     public string? Subtype { get; set; }
-
-    [CliOption("--event")]
-    public string? Event { get; set; }
 
     /// <summary>
     /// Contact properties to apply when starting a new chat. If the inte- gration event is handled with an existing chat, this is ignored. SupportedMessagingContentTypes -&gt; (list) The supported chat message content types. Supported types are text/plain , text/markdown , application/json , applica- tion/vnd.amazonaws.connect.message.interactive , and applica- tion/vnd.amazonaws.connect.message.interactive.response . Content types must always contain text/plain . You can then put any other supported type in the list. For example, all the fol- lowing lists are valid because they contain text/plain : [text/plain, text/markdown, application/json] , [text/markdown, text/plain] , [text/plain, application/json, applica- tion/vnd.amazonaws.connect.message.interactive.response] . (string) Constraints: o min: 1 o max: 100 ParticipantDetails -&gt; (structure) The details of the participant, including their display name. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Attributes -&gt; (map) A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 StreamingConfiguration -&gt; (structure) The streaming configuration, such as the Amazon SNS streaming endpoint. StreamingEndpointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming end- point that is used to publish real-time message streaming for chat conversations. Constraints: o min: 1 o max: 350 Shorthand Syntax: SupportedMessagingContentTypes=string,string,ParticipantDetails={DisplayName=string},Attributes={KeyName1=string,KeyName2=string},StreamingConfiguration={StreamingEndpointArn=string} JSON Syntax: { "SupportedMessagingContentTypes": ["string", ...], "ParticipantDetails": { "DisplayName": "string" }, "Attributes": {"string": "string" ...}, "StreamingConfiguration": { "StreamingEndpointArn": "string" } }
@@ -47,5 +98,22 @@ public record AwsConnectSendChatIntegrationEventOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

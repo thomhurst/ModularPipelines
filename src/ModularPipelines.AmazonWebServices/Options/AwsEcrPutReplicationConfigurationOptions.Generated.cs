@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "put-replication-configuration")]
-public record AwsEcrPutReplicationConfigurationOptions : AwsOptions
+public record AwsEcrPutReplicationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplica- tionConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using service-linked roles for Amazon ECR in the Amazon Elastic Con- tainer Registry User Guide . For more information on the custom role for replicatio...
+    /// </summary>
+    /// <param name="ReplicationConfiguration">An object representing the replication configuration for a registry. rules -&gt; (list) [required] An array of objects representing the replication destinations and repository filters for a replication configuration. Constraints: o min: 0 o max: 25 (structure) An array of objects representing the replication destinations and repository filters for a replication configuration. destinations -&gt; (list) [required] An array of objects representing the destination for a replication rule. Constraints: o min: 0 o max: 100 (structure) An array of objects representing the destination for a replication rule. region -&gt; (string) [required] The Region to replicate to. Constraints: o min: 2 o max: 25 o pattern: [0-9a-z-]{2,25} registryId -&gt; (string) [required] The Amazon Web Services account ID of the Amazon ECR private registry to replicate to. When config- uring cross-Region replication within your own registry, specify your own account ID. Constraints: o pattern: [0-9]{12} repositoryFilters -&gt; (list) An array of objects representing the filters for a repli- cation rule. Specifying a repository filter for a repli- cation rule provides a method for controlling which repositories in a private registry are replicated. Constraints: o min: 1 o max: 100 (structure) The filter settings used with image replication. Spec- ifying a repository filter to a replication rule pro- vides a method for controlling which repositories in a private registry are replicated. If no filters are added, the contents of all repositories are repli- cated. filter -&gt; (string) [required] The repository filter details. When the PRE- FIX_MATCH filter type is specified, this value is required and should be the repository name prefix to configure replication for. Constraints: o min: 2 o max: 256 o pattern: ^(?:[a-z0-9]+(?:[._-][a-z0-9]*)*/)*[a-z0-9]*(?:[._-][a-z0-9]*)*$ filterType -&gt; (string) [required] The repository filter type. The only supported value is PREFIX_MATCH , which is a repository name prefix specified with the filter parameter. Possible values: o PREFIX_MATCH JSON Syntax: { "rules": [ { "destinations": [ { "region": "string", "registryId": "string" } ... ], "repositoryFilters": [ { "filter": "string", "filterType": "PREFIX_MATCH" } ... ] } ... ] }</param>
+    public AwsEcrPutReplicationConfigurationOptions(
+        string ReplicationConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationConfiguration);
+        this.ReplicationConfiguration = ReplicationConfiguration;
+    }
+
+    private AwsEcrPutReplicationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPutReplicationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPutReplicationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An object representing the replication configuration for a registry. rules -&gt; (list) [required] An array of objects representing the replication destinations and repository filters for a replication configuration. Constraints: o min: 0 o max: 25 (structure) An array of objects representing the replication destinations and repository filters for a replication configuration. destinations -&gt; (list) [required] An array of objects representing the destination for a replication rule. Constraints: o min: 0 o max: 100 (structure) An array of objects representing the destination for a replication rule. region -&gt; (string) [required] The Region to replicate to. Constraints: o min: 2 o max: 25 o pattern: [0-9a-z-]{2,25} registryId -&gt; (string) [required] The Amazon Web Services account ID of the Amazon ECR private registry to replicate to. When config- uring cross-Region replication within your own registry, specify your own account ID. Constraints: o pattern: [0-9]{12} repositoryFilters -&gt; (list) An array of objects representing the filters for a repli- cation rule. Specifying a repository filter for a repli- cation rule provides a method for controlling which repositories in a private registry are replicated. Constraints: o min: 1 o max: 100 (structure) The filter settings used with image replication. Spec- ifying a repository filter to a replication rule pro- vides a method for controlling which repositories in a private registry are replicated. If no filters are added, the contents of all repositories are repli- cated. filter -&gt; (string) [required] The repository filter details. When the PRE- FIX_MATCH filter type is specified, this value is required and should be the repository name prefix to configure replication for. Constraints: o min: 2 o max: 256 o pattern: ^(?:[a-z0-9]+(?:[._-][a-z0-9]*)*/)*[a-z0-9]*(?:[._-][a-z0-9]*)*$ filterType -&gt; (string) [required] The repository filter type. The only supported value is PREFIX_MATCH , which is a repository name prefix specified with the filter parameter. Possible values: o PREFIX_MATCH JSON Syntax: { "rules": [ { "destinations": [ { "region": "string", "registryId": "string" } ... ], "repositoryFilters": [ { "filter": "string", "filterType": "PREFIX_MATCH" } ... ] } ... ] }
+    /// </summary>
     [CliOption("--replication-configuration")]
-    public string? ReplicationConfiguration { get; set; }
+    public string? ReplicationConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

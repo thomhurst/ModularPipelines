@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --endpointtype.
+/// Allowed values for --endpoint-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTransferUpdateServerEndpointType
 {
     [EnumValue("PUBLIC")]
-    Public = 1,
+    Public,
 
     [EnumValue("VPC")]
-    Vpc = 2,
+    Vpc,
 
     [EnumValue("VPC_ENDPOINT")]
-    VpcEndpoint = 3
+    VpcEndpoint
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationmethod.
+/// Allowed values for --authentication-method.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotdeviceadvisorGetEndpointAuthenticationMethod
 {
-    [EnumValue("X509ClientCertificate")]
-    X509ClientCertificate = 1,
-
     [EnumValue("SignatureVersion4")]
-    SignatureVersion4 = 2
+    SignatureVersion4,
+
+    [EnumValue("X509ClientCertificate")]
+    X509ClientCertificate
 }

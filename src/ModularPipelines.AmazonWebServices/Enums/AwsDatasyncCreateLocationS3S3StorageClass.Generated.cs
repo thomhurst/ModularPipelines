@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --s3storageclass.
+/// Allowed values for --s3-storage-class.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatasyncCreateLocationS3S3StorageClass
 {
-    [EnumValue("STANDARD")]
-    Standard = 1,
-
-    [EnumValue("STANDARD_IA")]
-    StandardIa = 2,
-
-    [EnumValue("ONEZONE_IA")]
-    OnezoneIa = 3,
-
-    [EnumValue("INTELLIGENT_TIERING")]
-    IntelligentTiering = 4,
+    [EnumValue("DEEP_ARCHIVE")]
+    DeepArchive,
 
     [EnumValue("GLACIER")]
-    Glacier = 5,
-
-    [EnumValue("DEEP_ARCHIVE")]
-    DeepArchive = 6,
-
-    [EnumValue("OUTPOSTS")]
-    Outposts = 7,
+    Glacier,
 
     [EnumValue("GLACIER_INSTANT_RETRIEVAL")]
-    GlacierInstantRetrieval = 8
+    GlacierInstantRetrieval,
+
+    [EnumValue("INTELLIGENT_TIERING")]
+    IntelligentTiering,
+
+    [EnumValue("ONEZONE_IA")]
+    OnezoneIa,
+
+    [EnumValue("OUTPOSTS")]
+    Outposts,
+
+    [EnumValue("STANDARD")]
+    Standard,
+
+    [EnumValue("STANDARD_IA")]
+    StandardIa
 }

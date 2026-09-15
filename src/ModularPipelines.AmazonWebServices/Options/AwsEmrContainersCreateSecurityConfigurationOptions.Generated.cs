@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-containers", "create-security-configuration")]
-public record AwsEmrContainersCreateSecurityConfigurationOptions : AwsOptions
+public record AwsEmrContainersCreateSecurityConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use secu- rity configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the security configuration. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="SecurityConfigurationData">Security configuration input for the request. authorizationConfiguration -&gt; (structure) Authorization-related configuration input for the security con- figuration. lakeFormationConfiguration -&gt; (structure) Lake Formation related configuration inputs for the security configuration. authorizedSessionTagValue -&gt; (string) The session tag to authorize Amazon EMR on EKS for API calls to Lake Formation. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9 ]+ secureNamespaceInfo -&gt; (structure) The namespace input of the system job. clusterId -&gt; (string) The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* namespace -&gt; (string) The namespace of the Amazon EKS cluster where the sys- tem jobs run. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? queryEngineRoleArn -&gt; (string) The query engine IAM role ARN that is tied to the secure Spark job. The QueryEngine role assumes the JobExecution- Role to execute all the Lake Formation calls. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ encryptionConfiguration -&gt; (structure) Encryption-related configuration input for the security con- figuration. inTransitEncryptionConfiguration -&gt; (structure) In-transit encryption-related input for the security con- figuration. tlsCertificateConfiguration -&gt; (structure) TLS certificate-related configuration input for the security configuration. certificateProviderType -&gt; (string) The TLS certificate type. Acceptable values: PEM or Custom . Possible values: o PEM publicCertificateSecretArn -&gt; (string) Secrets Manager ARN that contains the public TLS certificate contents, used for communication be- tween the user job and the system job. Constraints: o min: 3 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):secretsman- ager:.+:(\d{12}):secret:[0-9a-zA-Z/_+=.@-]+$ privateCertificateSecretArn -&gt; (string) Secrets Manager ARN that contains the private TLS certificate contents, used for communication be- tween the user job and the system job. Constraints: o min: 3 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):secretsman- ager:.+:(\d{12}):secret:[0-9a-zA-Z/_+=.@-]+$ authenticationConfiguration -&gt; (structure) Authentication-related configuration input for the security con- figuration. identityCenterConfiguration -&gt; (structure) The IAM Identity Center configuration to use for authentica- tion. enableIdentityCenter -&gt; (boolean) Specifies whether Identity Center is enabled for the se- curity configuration. identityCenterApplicationAssignmentRequired -&gt; (boolean) Specifies whether user assignment is required for the Identity Center application. identityCenterInstanceARN -&gt; (string) The Amazon Resource Name (ARN) of the Identity Center in- stance. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws[a-zA-Z0-9-]*):sso:::in- stance/ssoins-[0-9a-zA-Z/\\-_]+ emrIdentityCenterApplicationARN -&gt; (string) The Amazon Resource Name (ARN) of the Amazon EMR Identity Center application. Constraints: o pattern: ^arn:(aws[a-zA-Z0-9-]*):sso:::applica- tion/ssoins-[0-9a-zA-Z/\\-_]+/apl-[0-9a-zA-Z/\\-_]+ iamConfiguration -&gt; (structure) The IAM configuration to use for authentication. systemRole -&gt; (string) The Amazon Resource Name (ARN) of the system role used by the security configuration. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ JSON Syntax: { "authorizationConfiguration": { "lakeFormationConfiguration": { "authorizedSessionTagValue": "string", "secureNamespaceInfo": { "clusterId": "string", "namespace": "string" }, "queryEngineRoleArn": "string" }, "encryptionConfiguration": { "inTransitEncryptionConfiguration": { "tlsCertificateConfiguration": { "certificateProviderType": "PEM", "publicCertificateSecretArn": "string", "privateCertificateSecretArn": "string" } } } }, "authenticationConfiguration": { "identityCenterConfiguration": { "enableIdentityCenter": true|false, "identityCenterApplicationAssignmentRequired": true|false, "identityCenterInstanceARN": "string", "emrIdentityCenterApplicationARN": "string" }, "iamConfiguration": { "systemRole": "string" } } }</param>
+    public AwsEmrContainersCreateSecurityConfigurationOptions(
+        string Name,
+        string SecurityConfigurationData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SecurityConfigurationData);
+        this.SecurityConfigurationData = SecurityConfigurationData;
+    }
+
+    private AwsEmrContainersCreateSecurityConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrContainersCreateSecurityConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrContainersCreateSecurityConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the security configuration. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Security configuration input for the request. authorizationConfiguration -&gt; (structure) Authorization-related configuration input for the security con- figuration. lakeFormationConfiguration -&gt; (structure) Lake Formation related configuration inputs for the security configuration. authorizedSessionTagValue -&gt; (string) The session tag to authorize Amazon EMR on EKS for API calls to Lake Formation. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9 ]+ secureNamespaceInfo -&gt; (structure) The namespace input of the system job. clusterId -&gt; (string) The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* namespace -&gt; (string) The namespace of the Amazon EKS cluster where the sys- tem jobs run. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? queryEngineRoleArn -&gt; (string) The query engine IAM role ARN that is tied to the secure Spark job. The QueryEngine role assumes the JobExecution- Role to execute all the Lake Formation calls. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ encryptionConfiguration -&gt; (structure) Encryption-related configuration input for the security con- figuration. inTransitEncryptionConfiguration -&gt; (structure) In-transit encryption-related input for the security con- figuration. tlsCertificateConfiguration -&gt; (structure) TLS certificate-related configuration input for the security configuration. certificateProviderType -&gt; (string) The TLS certificate type. Acceptable values: PEM or Custom . Possible values: o PEM publicCertificateSecretArn -&gt; (string) Secrets Manager ARN that contains the public TLS certificate contents, used for communication be- tween the user job and the system job. Constraints: o min: 3 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):secretsman- ager:.+:(\d{12}):secret:[0-9a-zA-Z/_+=.@-]+$ privateCertificateSecretArn -&gt; (string) Secrets Manager ARN that contains the private TLS certificate contents, used for communication be- tween the user job and the system job. Constraints: o min: 3 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):secretsman- ager:.+:(\d{12}):secret:[0-9a-zA-Z/_+=.@-]+$ authenticationConfiguration -&gt; (structure) Authentication-related configuration input for the security con- figuration. identityCenterConfiguration -&gt; (structure) The IAM Identity Center configuration to use for authentica- tion. enableIdentityCenter -&gt; (boolean) Specifies whether Identity Center is enabled for the se- curity configuration. identityCenterApplicationAssignmentRequired -&gt; (boolean) Specifies whether user assignment is required for the Identity Center application. identityCenterInstanceARN -&gt; (string) The Amazon Resource Name (ARN) of the Identity Center in- stance. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws[a-zA-Z0-9-]*):sso:::in- stance/ssoins-[0-9a-zA-Z/\\-_]+ emrIdentityCenterApplicationARN -&gt; (string) The Amazon Resource Name (ARN) of the Amazon EMR Identity Center application. Constraints: o pattern: ^arn:(aws[a-zA-Z0-9-]*):sso:::applica- tion/ssoins-[0-9a-zA-Z/\\-_]+/apl-[0-9a-zA-Z/\\-_]+ iamConfiguration -&gt; (structure) The IAM configuration to use for authentication. systemRole -&gt; (string) The Amazon Resource Name (ARN) of the system role used by the security configuration. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ JSON Syntax: { "authorizationConfiguration": { "lakeFormationConfiguration": { "authorizedSessionTagValue": "string", "secureNamespaceInfo": { "clusterId": "string", "namespace": "string" }, "queryEngineRoleArn": "string" }, "encryptionConfiguration": { "inTransitEncryptionConfiguration": { "tlsCertificateConfiguration": { "certificateProviderType": "PEM", "publicCertificateSecretArn": "string", "privateCertificateSecretArn": "string" } } } }, "authenticationConfiguration": { "identityCenterConfiguration": { "enableIdentityCenter": true|false, "identityCenterApplicationAssignmentRequired": true|false, "identityCenterInstanceARN": "string", "emrIdentityCenterApplicationARN": "string" }, "iamConfiguration": { "systemRole": "string" } } }
+    /// </summary>
+    [CliOption("--security-configuration-data")]
+    public string? SecurityConfigurationData { get; private init; }
+
     /// <summary>
     /// The client idempotency token to use when creating the security con- figuration. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
     /// </summary>
@@ -30,17 +80,11 @@ public record AwsEmrContainersCreateSecurityConfigurationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The container provider associated with the security configuration. type -&gt; (string) [required] The type of the container provider. Amazon EKS is the only sup- ported type as of now. Possible values: o EKS id -&gt; (string) [required] The ID of the container cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* info -&gt; (tagged union structure) The information about the container cluster. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksInfo. eksInfo -&gt; (structure) The information about the Amazon EKS cluster. namespace -&gt; (string) The namespaces of the Amazon EKS cluster. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? nodeLabel -&gt; (string) The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$ Shorthand Syntax: type=string,id=string,info={eksInfo={namespace=string,nodeLabel=string}} JSON Syntax: { "type": "EKS", "id": "string", "info": { "eksInfo": { "namespace": "string", "nodeLabel": "string" } } }
     /// </summary>
     [CliOption("--container-provider")]
     public string? ContainerProvider { get; set; }
-
-    [CliOption("--security-configuration-data")]
-    public string? SecurityConfigurationData { get; set; }
 
     /// <summary>
     /// The tags to add to the security configuration. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +97,22 @@ public record AwsEmrContainersCreateSecurityConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

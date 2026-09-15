@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplifybackend", "create-backend-storage")]
-public record AwsAmplifybackendCreateBackendStorageOptions : AwsOptions
+public record AwsAmplifybackendCreateBackendStorageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a backend storage resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The app ID.</param>
+    /// <param name="BackendEnvironmentName">The name of the backend environment.</param>
+    /// <param name="ResourceConfig">The resource configuration for creating backend storage. BucketName -&gt; (string) The name of the S3 bucket. Permissions -&gt; (structure) [required] The authorization configuration for the storage S3 bucket. Authenticated -&gt; (list) [required] Lists all authenticated user read, write, and delete permis- sions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE UnAuthenticated -&gt; (list) Lists all unauthenticated user read, write, and delete per- missions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE ServiceName -&gt; (string) [required] The name of the storage service. Possible values: o S3 Shorthand Syntax: BucketName=string,Permissions={Authenticated=[string,string],UnAuthenticated=[string,string]},ServiceName=string JSON Syntax: { "BucketName": "string", "Permissions": { "Authenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...], "UnAuthenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...] }, "ServiceName": "S3" }</param>
+    /// <param name="ResourceName">The name of the storage resource.</param>
+    public AwsAmplifybackendCreateBackendStorageOptions(
+        string AppId,
+        string BackendEnvironmentName,
+        string ResourceConfig,
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(BackendEnvironmentName);
+        this.BackendEnvironmentName = BackendEnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfig);
+        this.ResourceConfig = ResourceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    private AwsAmplifybackendCreateBackendStorageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifybackendCreateBackendStorageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifybackendCreateBackendStorageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The app ID.
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The name of the backend environment.
+    /// </summary>
     [CliOption("--backend-environment-name")]
-    public string? BackendEnvironmentName { get; set; }
+    public string? BackendEnvironmentName { get; private init; }
 
+    /// <summary>
+    /// The resource configuration for creating backend storage. BucketName -&gt; (string) The name of the S3 bucket. Permissions -&gt; (structure) [required] The authorization configuration for the storage S3 bucket. Authenticated -&gt; (list) [required] Lists all authenticated user read, write, and delete permis- sions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE UnAuthenticated -&gt; (list) Lists all unauthenticated user read, write, and delete per- missions for your S3 bucket. (string) Possible values: o READ o CREATE_AND_UPDATE o DELETE ServiceName -&gt; (string) [required] The name of the storage service. Possible values: o S3 Shorthand Syntax: BucketName=string,Permissions={Authenticated=[string,string],UnAuthenticated=[string,string]},ServiceName=string JSON Syntax: { "BucketName": "string", "Permissions": { "Authenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...], "UnAuthenticated": ["READ"|"CREATE_AND_UPDATE"|"DELETE", ...] }, "ServiceName": "S3" }
+    /// </summary>
     [CliOption("--resource-config")]
-    public string? ResourceConfig { get; set; }
+    public string? ResourceConfig { get; private init; }
 
+    /// <summary>
+    /// The name of the storage resource.
+    /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    public string? ResourceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

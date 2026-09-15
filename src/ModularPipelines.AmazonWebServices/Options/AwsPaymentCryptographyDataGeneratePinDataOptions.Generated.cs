@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography-data", "generate-pin-data")]
-public record AwsPaymentCryptographyDataGeneratePinDataOptions : AwsOptions
+public record AwsPaymentCryptographyDataGeneratePinDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates pin-related data such as PIN, PIN Verification Value (PVV), PIN Block, and PIN Offset during new card issuance or reissuance. For more information, see Generate PIN data in the Amazon Web Services Pay- ment Cryptography User Guide . PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography. This operation generates PIN, PVV, or PIN Offset and then encrypts it using Pin Encryption Key (PEK) to create an En- cryptedPinBlock for transmission from Amazon We...
+    /// </summary>
+    /// <param name="GenerationKeyIdentifier">The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="EncryptionKeyIdentifier">The keyARN of the PEK that Amazon Web Services Payment Cryptography uses to encrypt the PIN Block. For ECDH, it is the keyARN of the asymmetric ECC key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="GenerationAttributes">The attributes and values to use for PIN, PVV, or PIN Offset genera- tion. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VisaPin, VisaPinVerificationValue, Ibm3624PinOffset, Ibm3624NaturalPin, Ibm3624RandomPin, Ibm3624PinFromOffset. VisaPin -&gt; (structure) Parameters that are required to generate or verify Visa PIN. PinVerificationKeyIndex -&gt; (integer) [required] The value for PIN verification index. It is used in the Visa PIN algorithm to calculate the PVV (PIN Verification Value). Constraints: o min: 0 o max: 6 VisaPinVerificationValue -&gt; (structure) Parameters that are required to generate or verify Visa PIN Ver- ification Value (PVV). EncryptedPinBlock -&gt; (string) [required] The encrypted PIN block data to verify. Constraints: o min: 16 o max: 32 o pattern: [0-9a-fA-F]+ PinVerificationKeyIndex -&gt; (integer) [required] The value for PIN verification index. It is used in the Visa PIN algorithm to calculate the PVV (PIN Verification Value). Constraints: o min: 0 o max: 6 Ibm3624PinOffset -&gt; (structure) Parameters that are required to generate or verify Ibm3624 PIN offset PIN. EncryptedPinBlock -&gt; (string) [required] The encrypted PIN block data. According to ISO 9564 standard, a PIN Block is an encoded representation of a payment card Personal Account Number (PAN) and the cardholder Personal Identification Number (PIN). Constraints: o min: 16 o max: 32 o pattern: [0-9a-fA-F]+ DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ Ibm3624NaturalPin -&gt; (structure) Parameters that are required to generate or verify Ibm3624 nat- ural PIN. DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ Ibm3624RandomPin -&gt; (structure) Parameters that are required to generate or verify Ibm3624 ran- dom PIN. DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ Ibm3624PinFromOffset -&gt; (structure) Parameters that are required to generate or verify Ibm3624 PIN from offset PIN. DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ PinOffset -&gt; (string) [required] The PIN offset value. Constraints: o min: 4 o max: 12 o pattern: [0-9]+ Shorthand Syntax: VisaPin={PinVerificationKeyIndex=integer},VisaPinVerificationValue={EncryptedPinBlock=string,PinVerificationKeyIndex=integer},Ibm3624PinOffset={EncryptedPinBlock=string,DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string},Ibm3624NaturalPin={DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string},Ibm3624RandomPin={DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string},Ibm3624PinFromOffset={DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string,PinOffset=string} JSON Syntax: { "VisaPin": { "PinVerificationKeyIndex": integer }, "VisaPinVerificationValue": { "EncryptedPinBlock": "string", "PinVerificationKeyIndex": integer }, "Ibm3624PinOffset": { "EncryptedPinBlock": "string", "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string" }, "Ibm3624NaturalPin": { "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string" }, "Ibm3624RandomPin": { "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string" }, "Ibm3624PinFromOffset": { "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string", "PinOffset": "string" } }</param>
+    /// <param name="PinBlockFormat">The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0 , ISO_Format_3 and ISO_Format_4 . The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES en- cryption. Possible values: o ISO_FORMAT_0 o ISO_FORMAT_1 o ISO_FORMAT_3 o ISO_FORMAT_4</param>
+    public AwsPaymentCryptographyDataGeneratePinDataOptions(
+        string GenerationKeyIdentifier,
+        string EncryptionKeyIdentifier,
+        string GenerationAttributes,
+        AwsPaymentCryptographyDataGeneratePinDataPinBlockFormat PinBlockFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GenerationKeyIdentifier);
+        this.GenerationKeyIdentifier = GenerationKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionKeyIdentifier);
+        this.EncryptionKeyIdentifier = EncryptionKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(GenerationAttributes);
+        this.GenerationAttributes = GenerationAttributes;
+        global::System.ArgumentNullException.ThrowIfNull(PinBlockFormat);
+        this.PinBlockFormat = PinBlockFormat;
+    }
+
+    private AwsPaymentCryptographyDataGeneratePinDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDataGeneratePinDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDataGeneratePinDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--generation-key-identifier")]
-    public string? GenerationKeyIdentifier { get; set; }
+    public string? GenerationKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses to encrypt the PIN Block. For ECDH, it is the keyARN of the asymmetric ECC key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--encryption-key-identifier")]
-    public string? EncryptionKeyIdentifier { get; set; }
+    public string? EncryptionKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The attributes and values to use for PIN, PVV, or PIN Offset genera- tion. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VisaPin, VisaPinVerificationValue, Ibm3624PinOffset, Ibm3624NaturalPin, Ibm3624RandomPin, Ibm3624PinFromOffset. VisaPin -&gt; (structure) Parameters that are required to generate or verify Visa PIN. PinVerificationKeyIndex -&gt; (integer) [required] The value for PIN verification index. It is used in the Visa PIN algorithm to calculate the PVV (PIN Verification Value). Constraints: o min: 0 o max: 6 VisaPinVerificationValue -&gt; (structure) Parameters that are required to generate or verify Visa PIN Ver- ification Value (PVV). EncryptedPinBlock -&gt; (string) [required] The encrypted PIN block data to verify. Constraints: o min: 16 o max: 32 o pattern: [0-9a-fA-F]+ PinVerificationKeyIndex -&gt; (integer) [required] The value for PIN verification index. It is used in the Visa PIN algorithm to calculate the PVV (PIN Verification Value). Constraints: o min: 0 o max: 6 Ibm3624PinOffset -&gt; (structure) Parameters that are required to generate or verify Ibm3624 PIN offset PIN. EncryptedPinBlock -&gt; (string) [required] The encrypted PIN block data. According to ISO 9564 standard, a PIN Block is an encoded representation of a payment card Personal Account Number (PAN) and the cardholder Personal Identification Number (PIN). Constraints: o min: 16 o max: 32 o pattern: [0-9a-fA-F]+ DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ Ibm3624NaturalPin -&gt; (structure) Parameters that are required to generate or verify Ibm3624 nat- ural PIN. DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ Ibm3624RandomPin -&gt; (structure) Parameters that are required to generate or verify Ibm3624 ran- dom PIN. DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ Ibm3624PinFromOffset -&gt; (structure) Parameters that are required to generate or verify Ibm3624 PIN from offset PIN. DecimalizationTable -&gt; (string) [required] The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate re- sult from hexadecimal characters to decimal. Constraints: o min: 16 o max: 16 o pattern: [0-9]+ PinValidationDataPadCharacter -&gt; (string) [required] The padding character for validation data. Constraints: o min: 1 o max: 1 o pattern: [0-9A-F]+ PinValidationData -&gt; (string) [required] The unique data for cardholder identification. Constraints: o min: 4 o max: 16 o pattern: [0-9]+ PinOffset -&gt; (string) [required] The PIN offset value. Constraints: o min: 4 o max: 12 o pattern: [0-9]+ Shorthand Syntax: VisaPin={PinVerificationKeyIndex=integer},VisaPinVerificationValue={EncryptedPinBlock=string,PinVerificationKeyIndex=integer},Ibm3624PinOffset={EncryptedPinBlock=string,DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string},Ibm3624NaturalPin={DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string},Ibm3624RandomPin={DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string},Ibm3624PinFromOffset={DecimalizationTable=string,PinValidationDataPadCharacter=string,PinValidationData=string,PinOffset=string} JSON Syntax: { "VisaPin": { "PinVerificationKeyIndex": integer }, "VisaPinVerificationValue": { "EncryptedPinBlock": "string", "PinVerificationKeyIndex": integer }, "Ibm3624PinOffset": { "EncryptedPinBlock": "string", "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string" }, "Ibm3624NaturalPin": { "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string" }, "Ibm3624RandomPin": { "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string" }, "Ibm3624PinFromOffset": { "DecimalizationTable": "string", "PinValidationDataPadCharacter": "string", "PinValidationData": "string", "PinOffset": "string" } }
+    /// </summary>
     [CliOption("--generation-attributes")]
-    public string? GenerationAttributes { get; set; }
+    public string? GenerationAttributes { get; private init; }
+
+    /// <summary>
+    /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0 , ISO_Format_3 and ISO_Format_4 . The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES en- cryption. Possible values: o ISO_FORMAT_0 o ISO_FORMAT_1 o ISO_FORMAT_3 o ISO_FORMAT_4
+    /// </summary>
+    [CliOption("--pin-block-format")]
+    public AwsPaymentCryptographyDataGeneratePinDataPinBlockFormat? PinBlockFormat { get; private init; }
 
     /// <summary>
     /// The length of PIN under generation. Constraints: o min: 4 o max: 12
@@ -42,9 +104,6 @@ public record AwsPaymentCryptographyDataGeneratePinDataOptions : AwsOptions
     [CliOption("--primary-account-number")]
     public string? PrimaryAccountNumber { get; set; }
 
-    [CliOption("--pin-block-format")]
-    public string? PinBlockFormat { get; set; }
-
     /// <summary>
     /// Parameter information of a WrappedKeyBlock for encryption key ex- change. WrappedKeyMaterial -&gt; (tagged union structure) [required] Parameter information of a WrappedKeyBlock for encryption key exchange. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Tr31KeyBlock, DiffieHellmanSymmet- ricKey. Tr31KeyBlock -&gt; (string) The TR-31 wrapped key block. Constraints: o min: 56 o max: 9984 o pattern: [0-9a-zA-Z]+ DiffieHellmanSymmetricKey -&gt; (structure) The parameter information for deriving a ECDH shared key. CertificateAuthorityPublicKeyIdentifier -&gt; (string) [re- quired] The keyArn of the certificate that signed the client's PublicKeyCertificate . Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ PublicKeyCertificate -&gt; (string) [required] The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation. Constraints: o min: 1 o max: 32768 o pattern: [^\[;\]&lt;&gt;]+ KeyAlgorithm -&gt; (string) [required] The key algorithm of the derived ECDH key. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 KeyDerivationFunction -&gt; (string) [required] The key derivation function to use for deriving a key us- ing ECDH. Possible values: o NIST_SP800 o ANSI_X963 KeyDerivationHashAlgorithm -&gt; (string) [required] The hash type to use for deriving a key using ECDH. Possible values: o SHA_256 o SHA_384 o SHA_512 SharedInformation -&gt; (string) [required] A byte string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes, and re-using shared information for multiple ECDH key de- rivations is not recommended. Constraints: o min: 2 o max: 2048 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+ KeyCheckValueAlgorithm -&gt; (string) The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result. Possible values: o CMAC o ANSI_X9_24 o HMAC o SHA_1 Shorthand Syntax: WrappedKeyMaterial={Tr31KeyBlock=string,DiffieHellmanSymmetricKey={CertificateAuthorityPublicKeyIdentifier=string,PublicKeyCertificate=string,KeyAlgorithm=string,KeyDerivationFunction=string,KeyDerivationHashAlgorithm=string,SharedInformation=string}},KeyCheckValueAlgorithm=string JSON Syntax: { "WrappedKeyMaterial": { "Tr31KeyBlock": "string", "DiffieHellmanSymmetricKey": { "CertificateAuthorityPublicKeyIdentifier": "string", "PublicKeyCertificate": "string", "KeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224", "KeyDerivationFunction": "NIST_SP800"|"ANSI_X963", "KeyDerivationHashAlgorithm": "SHA_256"|"SHA_384"|"SHA_512", "SharedInformation": "string" } }, "KeyCheckValueAlgorithm": "CMAC"|"ANSI_X9_24"|"HMAC"|"SHA_1" }
     /// </summary>
@@ -56,5 +115,22 @@ public record AwsPaymentCryptographyDataGeneratePinDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

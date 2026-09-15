@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "detach-volume")]
-public record AwsStoragegatewayDetachVolumeOptions : AwsOptions
+public record AwsStoragegatewayDetachVolumeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--volume-arn")]
-    public string? VolumeArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-detach")]
+    /// <summary>
+    /// Disconnects a volume from an iSCSI connection and then detaches the volume from the specified gateway. Detaching and attaching a volume en- ables you to recover your data from one gateway to a different gateway without creating a snapshot. It also makes it easier to move your vol- umes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance. This operation is only supported in the volume gateway type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VolumeArn">The Amazon Resource Name (ARN) of the volume to detach from the gateway. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)</param>
+    public AwsStoragegatewayDetachVolumeOptions(
+        string VolumeArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeArn);
+        this.VolumeArn = VolumeArn;
+    }
+
+    private AwsStoragegatewayDetachVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayDetachVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayDetachVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the volume to detach from the gateway. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
+    /// </summary>
+    [CliOption("--volume-arn")]
+    public string? VolumeArn { get; private init; }
+
+    /// <summary>
+    /// Set to true to forcibly remove the iSCSI connection of the target volume and detach the volume. The default is false . If this value is set to false , you must manually disconnect the iSCSI connection from the target volume. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--force-detach", NegatedName = "--no-force-detach")]
     public bool? ForceDetach { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsStoragegatewayDetachVolumeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

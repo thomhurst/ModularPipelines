@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -25,7 +24,6 @@ public record AwsBedrockAgentcoreControlGetTokenVaultOptions : AwsOptions
     /// <summary>
     /// The unique identifier of the token vault to retrieve. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+
     /// </summary>
-    [SecretValue]
     [CliOption("--token-vault-id")]
     public string? TokenVaultId { get; set; }
 

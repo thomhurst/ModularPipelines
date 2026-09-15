@@ -22,6 +22,34 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisVideoMediaGetMediaOptions : AwsOptions
 {
     /// <summary>
+    /// Use this API to retrieve media content from a Kinesis video stream. In the request, you identify the stream name or stream Amazon Resource Name (ARN), and the starting chunk. Kinesis Video Streams then returns a stream of chunks in order by fragment number. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMedia requests to this endpoint using the --endpoint-url parameter . When you put media data (fragments) on a stream, Kinesis Video Streams stores each inc...
+    /// </summary>
+    /// <param name="StartSelector">Identifies the starting chunk to get from the specified stream. StartSelectorType -&gt; (string) [required] Identifies the fragment on the Kinesis video stream where you want to start getting the data from. o NOW - Start with the latest chunk on the stream. o EARLIEST - Start with earliest available chunk on the stream. o FRAGMENT_NUMBER - Start with the chunk after a specific frag- ment. You must also specify the AfterFragmentNumber parameter. o PRODUCER_TIMESTAMP or SERVER_TIMESTAMP - Start with the chunk containing a fragment with the specified producer or server timestamp. You specify the timestamp by adding StartTimestamp . o CONTINUATION_TOKEN - Read using the specified continuation to- ken. NOTE: If you choose the NOW, EARLIEST, or CONTINUATION_TOKEN as the startSelectorType , you don't provide any additional informa- tion in the startSelector . Possible values: o FRAGMENT_NUMBER o SERVER_TIMESTAMP o PRODUCER_TIMESTAMP o NOW o EARLIEST o CONTINUATION_TOKEN AfterFragmentNumber -&gt; (string) Specifies the fragment number from where you want the GetMedia API to start returning the fragments. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ StartTimestamp -&gt; (timestamp) A timestamp value. This value is required if you choose the PRO- DUCER_TIMESTAMP or the SERVER_TIMESTAMP as the startSelectorType . The GetMedia API then starts with the chunk containing the fragment that has the specified timestamp. ContinuationToken -&gt; (string) Continuation token that Kinesis Video Streams returned in the previous GetMedia response. The GetMedia API then starts with the chunk identified by the continuation token. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9_\.\-]+$ Shorthand Syntax: StartSelectorType=string,AfterFragmentNumber=string,StartTimestamp=timestamp,ContinuationToken=string JSON Syntax: { "StartSelectorType": "FRAGMENT_NUMBER"|"SERVER_TIMESTAMP"|"PRODUCER_TIMESTAMP"|"NOW"|"EARLIEST"|"CONTINUATION_TOKEN", "AfterFragmentNumber": "string", "StartTimestamp": timestamp, "ContinuationToken": "string" } outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsKinesisVideoMediaGetMediaOptions(
+        string StartSelector,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartSelector);
+        this.StartSelector = StartSelector;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string StartSelector, out string Outfile)
+    {
+        StartSelector = this.StartSelector;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Identifies the starting chunk to get from the specified stream. StartSelectorType -&gt; (string) [required] Identifies the fragment on the Kinesis video stream where you want to start getting the data from. o NOW - Start with the latest chunk on the stream. o EARLIEST - Start with earliest available chunk on the stream. o FRAGMENT_NUMBER - Start with the chunk after a specific frag- ment. You must also specify the AfterFragmentNumber parameter. o PRODUCER_TIMESTAMP or SERVER_TIMESTAMP - Start with the chunk containing a fragment with the specified producer or server timestamp. You specify the timestamp by adding StartTimestamp . o CONTINUATION_TOKEN - Read using the specified continuation to- ken. NOTE: If you choose the NOW, EARLIEST, or CONTINUATION_TOKEN as the startSelectorType , you don't provide any additional informa- tion in the startSelector . Possible values: o FRAGMENT_NUMBER o SERVER_TIMESTAMP o PRODUCER_TIMESTAMP o NOW o EARLIEST o CONTINUATION_TOKEN AfterFragmentNumber -&gt; (string) Specifies the fragment number from where you want the GetMedia API to start returning the fragments. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ StartTimestamp -&gt; (timestamp) A timestamp value. This value is required if you choose the PRO- DUCER_TIMESTAMP or the SERVER_TIMESTAMP as the startSelectorType . The GetMedia API then starts with the chunk containing the fragment that has the specified timestamp. ContinuationToken -&gt; (string) Continuation token that Kinesis Video Streams returned in the previous GetMedia response. The GetMedia API then starts with the chunk identified by the continuation token. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9_\.\-]+$ Shorthand Syntax: StartSelectorType=string,AfterFragmentNumber=string,StartTimestamp=timestamp,ContinuationToken=string JSON Syntax: { "StartSelectorType": "FRAGMENT_NUMBER"|"SERVER_TIMESTAMP"|"PRODUCER_TIMESTAMP"|"NOW"|"EARLIEST"|"CONTINUATION_TOKEN", "AfterFragmentNumber": "string", "StartTimestamp": timestamp, "ContinuationToken": "string" } outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--start-selector")]
+    public string StartSelector { get; private init; }
+
+    /// <summary>
     /// The Kinesis video stream name from where you want to get the media content. If you don't specify the streamName , you must specify the streamARN . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
@@ -33,7 +61,10 @@ public record AwsKinesisVideoMediaGetMediaOptions : AwsOptions
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CliOption("--start-selector")]
-    public string? StartSelector { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

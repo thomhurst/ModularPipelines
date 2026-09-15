@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "attach-disk")]
-public record AwsLightsailAttachDiskOptions : AwsOptions
+public record AwsLightsailAttachDiskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches a block storage disk to a running or stopped Lightsail in- stance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DiskName">The unique Lightsail disk name (my-disk ). Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the Lightsail instance where you want to utilize the storage disk. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="DiskPath">The disk path to expose to the instance (/dev/xvdf ). Constraints: o pattern: .*\S.*</param>
+    public AwsLightsailAttachDiskOptions(
+        string DiskName,
+        string InstanceName,
+        string DiskPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskName);
+        this.DiskName = DiskName;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+        global::System.ArgumentNullException.ThrowIfNull(DiskPath);
+        this.DiskPath = DiskPath;
+    }
+
+    private AwsLightsailAttachDiskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailAttachDiskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailAttachDiskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique Lightsail disk name (my-disk ). Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--disk-name")]
-    public string? DiskName { get; set; }
+    public string? DiskName { get; private init; }
 
+    /// <summary>
+    /// The name of the Lightsail instance where you want to utilize the storage disk. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--instance-name")]
-    public string? InstanceName { get; set; }
+    public string? InstanceName { get; private init; }
 
+    /// <summary>
+    /// The disk path to expose to the instance (/dev/xvdf ). Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--disk-path")]
-    public string? DiskPath { get; set; }
+    public string? DiskPath { get; private init; }
 
-    [CliFlag("--auto-mounting")]
+    /// <summary>
+    /// A Boolean value used to determine the automatic mounting of a stor- age volume to a virtual computer. The default value is False . WARNING: This value only applies to Lightsail for Research resources.
+    /// </summary>
+    [CliFlag("--auto-mounting", NegatedName = "--no-auto-mounting")]
     public bool? AutoMounting { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +92,22 @@ public record AwsLightsailAttachDiskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recentlyactive.
+/// Allowed values for --recently-active.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudwatchListMetricsRecentlyActive
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("PT3H")]
-    Pt3H = 1
+    Pt3H
 }

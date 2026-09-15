@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --taskdefinitiontype.
+/// Allowed values for --task-definition-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotwirelessListWirelessGatewayTaskDefinitionsTaskDefinitionType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("UPDATE")]
-    Update = 1
+    Update
 }

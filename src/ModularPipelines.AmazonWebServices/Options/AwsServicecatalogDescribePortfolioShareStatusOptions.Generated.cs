@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,69 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "describe-portfolio-share-status")]
-public record AwsServicecatalogDescribePortfolioShareStatusOptions : AwsOptions
+public record AwsServicecatalogDescribePortfolioShareStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PortfolioShareToken">The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogDescribePortfolioShareStatusOptions(
+        string PortfolioShareToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortfolioShareToken);
+        this.PortfolioShareToken = PortfolioShareToken;
+    }
+
+    private AwsServicecatalogDescribePortfolioShareStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogDescribePortfolioShareStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogDescribePortfolioShareStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [SecretValue]
     [CliOption("--portfolio-share-token")]
-    public string? PortfolioShareToken { get; set; }
+    public string? PortfolioShareToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --intransitencryption.
+/// Allowed values for --in-transit-encryption.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatasyncUpdateLocationEfsInTransitEncryption
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("TLS1_2")]
-    Tls1_2 = 2
+    Tls12
 }

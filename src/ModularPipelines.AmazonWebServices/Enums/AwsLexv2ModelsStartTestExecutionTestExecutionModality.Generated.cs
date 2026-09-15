@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --testexecutionmodality.
+/// Allowed values for --test-execution-modality.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLexv2ModelsStartTestExecutionTestExecutionModality
 {
-    [EnumValue("Text")]
-    Text = 1,
-
     [EnumValue("Audio")]
-    Audio = 2
+    Audio,
+
+    [EnumValue("Text")]
+    Text
 }

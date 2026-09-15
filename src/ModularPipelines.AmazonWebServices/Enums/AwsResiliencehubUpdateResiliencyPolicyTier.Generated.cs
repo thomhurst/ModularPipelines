@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubUpdateResiliencyPolicyTier
 {
-    [EnumValue("MissionCritical")]
-    MissionCritical = 1,
+    [EnumValue("CoreServices")]
+    CoreServices,
 
     [EnumValue("Critical")]
-    Critical = 2,
+    Critical,
 
     [EnumValue("Important")]
-    Important = 3,
+    Important,
 
-    [EnumValue("CoreServices")]
-    CoreServices = 4,
+    [EnumValue("MissionCritical")]
+    MissionCritical,
 
     [EnumValue("NonCritical")]
-    NonCritical = 5,
+    NonCritical,
 
     [EnumValue("NotApplicable")]
-    NotApplicable = 6
+    NotApplicable
 }

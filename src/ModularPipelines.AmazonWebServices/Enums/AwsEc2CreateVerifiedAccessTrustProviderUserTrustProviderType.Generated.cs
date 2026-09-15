@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --usertrustprovidertype.
+/// Allowed values for --user-trust-provider-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateVerifiedAccessTrustProviderUserTrustProviderType
 {
     [EnumValue("iam-identity-center")]
-    IamIdentityCenter = 1,
+    IamIdentityCenter,
 
     [EnumValue("oidc")]
-    Oidc = 2
+    Oidc
 }

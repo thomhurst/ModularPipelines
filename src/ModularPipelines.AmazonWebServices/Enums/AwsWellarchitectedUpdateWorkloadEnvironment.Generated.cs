@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedUpdateWorkloadEnvironment
 {
-    [EnumValue("PRODUCTION")]
-    Production = 1,
-
     [EnumValue("PREPRODUCTION")]
-    Preproduction = 2
+    Preproduction,
+
+    [EnumValue("PRODUCTION")]
+    Production
 }

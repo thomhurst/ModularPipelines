@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --healthstatus.
+/// Allowed values for --health-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsServicediscoveryDiscoverInstancesHealthStatus
 {
-    [EnumValue("HEALTHY")]
-    Healthy = 1,
-
-    [EnumValue("UNHEALTHY")]
-    Unhealthy = 2,
-
     [EnumValue("ALL")]
-    All = 3,
+    All,
+
+    [EnumValue("HEALTHY")]
+    Healthy,
 
     [EnumValue("HEALTHY_OR_ELSE_ALL")]
-    HealthyOrElseAll = 4
+    HealthyOrElseAll,
+
+    [EnumValue("UNHEALTHY")]
+    Unhealthy
 }

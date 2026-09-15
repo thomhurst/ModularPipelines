@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,38 +23,123 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "create-ai-prompt")]
-public record AwsQconnectCreateAiPromptOptions : AwsOptions
+public record AwsQconnectCreateAiPromptOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Q in Connect AI Prompt. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="Name">The name of the AI Prompt. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*</param>
+    /// <param name="Type">The type of this AI Prompt. Possible values: o ANSWER_GENERATION o INTENT_LABELING_GENERATION o QUERY_REFORMULATION o SELF_SERVICE_PRE_PROCESSING o SELF_SERVICE_ANSWER_GENERATION o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o EMAIL_QUERY_REFORMULATION o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION</param>
+    /// <param name="TemplateConfiguration">The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfigura- tion. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full tex- tual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }</param>
+    /// <param name="VisibilityStatus">The visibility status of the AI Prompt. Possible values: o SAVED o PUBLISHED</param>
+    /// <param name="TemplateType">The type of the prompt template for this AI Prompt. Possible values: o TEXT</param>
+    /// <param name="ModelId">The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ApiFormat">The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS NOTE: The values ANTHROPIC_CLAUDE_MESSAGES | AN- THROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated. Possible values: o ANTHROPIC_CLAUDE_MESSAGES o ANTHROPIC_CLAUDE_TEXT_COMPLETIONS o MESSAGES o TEXT_COMPLETIONS</param>
+    public AwsQconnectCreateAiPromptOptions(
+        string AssistantId,
+        string Name,
+        AwsQconnectCreateAiPromptType Type,
+        string TemplateConfiguration,
+        AwsQconnectCreateAiPromptVisibilityStatus VisibilityStatus,
+        AwsQconnectCreateAiPromptTemplateType TemplateType,
+        string ModelId,
+        AwsQconnectCreateAiPromptApiFormat ApiFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssistantId);
+        this.AssistantId = AssistantId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateConfiguration);
+        this.TemplateConfiguration = TemplateConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(VisibilityStatus);
+        this.VisibilityStatus = VisibilityStatus;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateType);
+        this.TemplateType = TemplateType;
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+        global::System.ArgumentNullException.ThrowIfNull(ApiFormat);
+        this.ApiFormat = ApiFormat;
+    }
+
+    private AwsQconnectCreateAiPromptOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectCreateAiPromptOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectCreateAiPromptOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
+    [CliOption("--assistant-id")]
+    public string? AssistantId { get; private init; }
+
+    /// <summary>
+    /// The name of the AI Prompt. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of this AI Prompt. Possible values: o ANSWER_GENERATION o INTENT_LABELING_GENERATION o QUERY_REFORMULATION o SELF_SERVICE_PRE_PROCESSING o SELF_SERVICE_ANSWER_GENERATION o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o EMAIL_QUERY_REFORMULATION o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION
+    /// </summary>
+    [CliOption("--type")]
+    public AwsQconnectCreateAiPromptType? Type { get; private init; }
+
+    /// <summary>
+    /// The configuration of the prompt template for this AI Prompt. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: textFullAIPromptEditTemplateConfigura- tion. textFullAIPromptEditTemplateConfiguration -&gt; (structure) The configuration for a prompt template that supports full tex- tual prompt configuration using a YAML prompt. text -&gt; (string) [required] The YAML text for the AI Prompt template. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: textFullAIPromptEditTemplateConfiguration={text=string} JSON Syntax: { "textFullAIPromptEditTemplateConfiguration": { "text": "string" } }
+    /// </summary>
+    [CliOption("--template-configuration")]
+    public string? TemplateConfiguration { get; private init; }
+
+    /// <summary>
+    /// The visibility status of the AI Prompt. Possible values: o SAVED o PUBLISHED
+    /// </summary>
+    [CliOption("--visibility-status")]
+    public AwsQconnectCreateAiPromptVisibilityStatus? VisibilityStatus { get; private init; }
+
+    /// <summary>
+    /// The type of the prompt template for this AI Prompt. Possible values: o TEXT
+    /// </summary>
+    [CliOption("--template-type")]
+    public AwsQconnectCreateAiPromptTemplateType? TemplateType { get; private init; }
+
+    /// <summary>
+    /// The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--model-id")]
+    public string? ModelId { get; private init; }
+
+    /// <summary>
+    /// The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS NOTE: The values ANTHROPIC_CLAUDE_MESSAGES | AN- THROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated. Possible values: o ANTHROPIC_CLAUDE_MESSAGES o ANTHROPIC_CLAUDE_TEXT_COMPLETIONS o MESSAGES o TEXT_COMPLETIONS
+    /// </summary>
+    [CliOption("--api-format")]
+    public AwsQconnectCreateAiPromptApiFormat? ApiFormat { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs .. Constraints: o min: 1 o max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--assistant-id")]
-    public string? AssistantId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
-    [CliOption("--template-configuration")]
-    public string? TemplateConfiguration { get; set; }
-
-    [CliOption("--visibility-status")]
-    public string? VisibilityStatus { get; set; }
-
-    [CliOption("--template-type")]
-    public string? TemplateType { get; set; }
-
-    [CliOption("--model-id")]
-    public string? ModelId { get; set; }
-
-    [CliOption("--api-format")]
-    public string? ApiFormat { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -77,5 +164,22 @@ public record AwsQconnectCreateAiPromptOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

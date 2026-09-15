@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "send-bonus")]
-public record AwsMturkSendBonusOptions : AwsOptions
+public record AwsMturkSendBonusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The SendBonus operation issues a payment of money from your account to a Worker. This payment happens separately from the reward you pay to the Worker when you approve the Worker's assignment. The SendBonus op- eration requires the Worker's ID and the assignment ID as parameters to initiate payment of the bonus. You must include a message that explains the reason for the bonus payment, as the Worker may not be expecting the payment. Amazon Mechanical Turk collects a fee for bonus payments, simil...
+    /// </summary>
+    /// <param name="WorkerId">The ID of the Worker being paid the bonus. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="BonusAmount">The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. Constraints: o pattern: ^[0-9]+(\.)?[0-9]{0,2}$</param>
+    /// <param name="AssignmentId">The ID of the assignment for which this bonus is paid. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="Reason">A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.</param>
+    public AwsMturkSendBonusOptions(
+        string WorkerId,
+        string BonusAmount,
+        string AssignmentId,
+        string Reason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerId);
+        this.WorkerId = WorkerId;
+        global::System.ArgumentNullException.ThrowIfNull(BonusAmount);
+        this.BonusAmount = BonusAmount;
+        global::System.ArgumentNullException.ThrowIfNull(AssignmentId);
+        this.AssignmentId = AssignmentId;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+    }
+
+    private AwsMturkSendBonusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkSendBonusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkSendBonusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Worker being paid the bonus. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// </summary>
     [CliOption("--worker-id")]
-    public string? WorkerId { get; set; }
+    public string? WorkerId { get; private init; }
 
+    /// <summary>
+    /// The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. Constraints: o pattern: ^[0-9]+(\.)?[0-9]{0,2}$
+    /// </summary>
     [CliOption("--bonus-amount")]
-    public string? BonusAmount { get; set; }
+    public string? BonusAmount { get; private init; }
 
+    /// <summary>
+    /// The ID of the assignment for which this bonus is paid. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--assignment-id")]
-    public string? AssignmentId { get; set; }
+    public string? AssignmentId { get; private init; }
 
+    /// <summary>
+    /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
+    /// </summary>
     [CliOption("--reason")]
-    public string? Reason { get; set; }
+    public string? Reason { get; private init; }
 
     /// <summary>
     /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, sub- sequent calls will return an error with a message containing the re- quest ID. Constraints: o min: 1 o max: 64
@@ -46,5 +104,22 @@ public record AwsMturkSendBonusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

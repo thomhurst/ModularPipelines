@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-availability-zone-group")]
-public record AwsEc2ModifyAvailabilityZoneGroupOptions : AwsOptions
+public record AwsEc2ModifyAvailabilityZoneGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the opt-in status of the specified zone group for your account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupName">The name of the Availability Zone group, Local Zone group, or Wave- length Zone group.</param>
+    /// <param name="OptInStatus">Indicates whether to opt in to the zone group. The only valid value is opted-in . You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group. Possible values: o opted-in o not-opted-in</param>
+    public AwsEc2ModifyAvailabilityZoneGroupOptions(
+        string GroupName,
+        AwsEc2ModifyAvailabilityZoneGroupOptInStatus OptInStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+        global::System.ArgumentNullException.ThrowIfNull(OptInStatus);
+        this.OptInStatus = OptInStatus;
+    }
+
+    private AwsEc2ModifyAvailabilityZoneGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyAvailabilityZoneGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyAvailabilityZoneGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Availability Zone group, Local Zone group, or Wave- length Zone group.
+    /// </summary>
     [CliOption("--group-name")]
-    public string? GroupName { get; set; }
+    public string? GroupName { get; private init; }
 
+    /// <summary>
+    /// Indicates whether to opt in to the zone group. The only valid value is opted-in . You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group. Possible values: o opted-in o not-opted-in
+    /// </summary>
     [CliOption("--opt-in-status")]
-    public string? OptInStatus { get; set; }
+    public AwsEc2ModifyAvailabilityZoneGroupOptInStatus? OptInStatus { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +83,22 @@ public record AwsEc2ModifyAvailabilityZoneGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

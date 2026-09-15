@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "update-container-association")]
-public record AwsNetworkFirewallUpdateContainerAssociationOptions : AwsOptions
+public record AwsNetworkFirewallUpdateContainerAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the monitoring configurations and description of a container association. You can't change the container type after creation. Pro- vide an update token to enable optimistic concurrency control. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The container type. This value must match the existing type and can't be changed. Valid values: o ECS - Amazon Elastic Container Service o EKS - Amazon Elastic Kubernetes Service Possible values: o ECS o EKS</param>
+    /// <param name="ContainerMonitoringConfigurations">The updated monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters. (structure) Contains the monitoring configuration for a single cluster in a container association. Specifies the cluster ARN and optional attribute filters to narrow which containers are tracked. ClusterArn -&gt; (string) [required] The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* AttributeFilters -&gt; (list) Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes la- bels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). (structure) A key-value filter pair used in container association monitoring configurations to narrow which containers are tracked. Key -&gt; (string) [required] The attribute key to filter on. Constraints: o min: 1 o max: 256 o pattern: \S+ Value -&gt; (string) [required] The attribute value to match. Constraints: o min: 1 o max: 256 o pattern: \S+ Shorthand Syntax: ClusterArn=string,AttributeFilters=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ClusterArn": "string", "AttributeFilters": [ { "Key": "string", "Value": "string" } ... ] } ... ]</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the container association. The to- ken marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    public AwsNetworkFirewallUpdateContainerAssociationOptions(
+        string Type,
+        IEnumerable<string> ContainerMonitoringConfigurations,
+        string UpdateToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ContainerMonitoringConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ContainerMonitoringConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ContainerMonitoringConfigurations));
+            }
+
+            ContainerMonitoringConfigurations = materialized;
+        }
+        this.ContainerMonitoringConfigurations = ContainerMonitoringConfigurations;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateToken);
+        this.UpdateToken = UpdateToken;
+    }
+
+    private AwsNetworkFirewallUpdateContainerAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallUpdateContainerAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallUpdateContainerAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The container type. This value must match the existing type and can't be changed. Valid values: o ECS - Amazon Elastic Container Service o EKS - Amazon Elastic Kubernetes Service Possible values: o ECS o EKS
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; private init; }
+
+    /// <summary>
+    /// The updated monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters. (structure) Contains the monitoring configuration for a single cluster in a container association. Specifies the cluster ARN and optional attribute filters to narrow which containers are tracked. ClusterArn -&gt; (string) [required] The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* AttributeFilters -&gt; (list) Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes la- bels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). (structure) A key-value filter pair used in container association monitoring configurations to narrow which containers are tracked. Key -&gt; (string) [required] The attribute key to filter on. Constraints: o min: 1 o max: 256 o pattern: \S+ Value -&gt; (string) [required] The attribute value to match. Constraints: o min: 1 o max: 256 o pattern: \S+ Shorthand Syntax: ClusterArn=string,AttributeFilters=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ClusterArn": "string", "AttributeFilters": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--container-monitoring-configurations", GroupValues = true)]
+    public IEnumerable<string>? ContainerMonitoringConfigurations { get; private init; }
+
+    /// <summary>
+    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the container association. The to- ken marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// </summary>
+    [SecretValue]
+    [CliOption("--update-token")]
+    public string? UpdateToken { get; private init; }
+
     /// <summary>
     /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
@@ -40,26 +112,33 @@ public record AwsNetworkFirewallUpdateContainerAssociationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
-    [CliOption("--container-monitoring-configurations", GroupValues = true)]
-    public IEnumerable<string>? ContainerMonitoringConfigurations { get; set; }
-
     /// <summary>
     /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [SecretValue]
-    [CliOption("--update-token")]
-    public string? UpdateToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

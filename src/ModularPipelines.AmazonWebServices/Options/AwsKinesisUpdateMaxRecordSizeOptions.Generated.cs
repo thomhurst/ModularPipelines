@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "update-max-record-size")]
-public record AwsKinesisUpdateMaxRecordSizeOptions : AwsOptions
+public record AwsKinesisUpdateMaxRecordSizeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This allows you to update the MaxRecordSize of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MaxRecordSizeInKiB">The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message. Constraints: o min: 1024 o max: 10240</param>
+    public AwsKinesisUpdateMaxRecordSizeOptions(
+        int MaxRecordSizeInKiB
+    )
+    {
+        this.MaxRecordSizeInKiB = MaxRecordSizeInKiB;
+    }
+
+    private AwsKinesisUpdateMaxRecordSizeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisUpdateMaxRecordSizeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisUpdateMaxRecordSizeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message. Constraints: o min: 1024 o max: 10240
+    /// </summary>
+    [CliOption("--max-record-size-in-ki-b")]
+    public int? MaxRecordSizeInKiB { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
@@ -33,13 +72,27 @@ public record AwsKinesisUpdateMaxRecordSizeOptions : AwsOptions
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
-    [CliOption("--max-record-size-in-ki-b")]
-    public int? MaxRecordSizeInKiB { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

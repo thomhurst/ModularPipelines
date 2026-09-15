@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --computeplatform.
+/// Allowed values for --compute-platform.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodeguruprofilerCreateProfilingGroupComputePlatform
 {
-    [EnumValue("Default")]
-    Default = 1,
-
     [EnumValue("AWSLambda")]
-    AwsLambda = 2
+    AwsLambda,
+
+    [EnumValue("Default")]
+    Default
 }

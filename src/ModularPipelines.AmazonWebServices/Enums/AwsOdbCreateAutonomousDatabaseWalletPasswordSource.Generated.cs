@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --passwordsource.
+/// Allowed values for --password-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbCreateAutonomousDatabaseWalletPasswordSource
 {
-    [EnumValue("CUSTOMER_MANAGED_AWS_SECRET")]
-    CustomerManagedAwsSecret = 1,
-
     [EnumValue("API_REQUEST_PARAMETER")]
-    ApiRequestParameter = 2
+    ApiRequestParameter,
+
+    [EnumValue("CUSTOMER_MANAGED_AWS_SECRET")]
+    CustomerManagedAwsSecret
 }

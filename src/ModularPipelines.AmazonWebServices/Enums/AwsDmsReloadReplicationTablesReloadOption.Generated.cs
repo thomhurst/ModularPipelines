@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --reloadoption.
+/// Allowed values for --reload-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDmsReloadReplicationTablesReloadOption
 {
     [EnumValue("data-reload")]
-    DataReload = 1,
+    DataReload,
 
     [EnumValue("validate-only")]
-    ValidateOnly = 2
+    ValidateOnly
 }

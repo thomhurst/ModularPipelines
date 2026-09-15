@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,26 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "create-kx-scaling-group")]
-public record AwsFinspaceCreateKxScalingGroupOptions : AwsOptions
+public record AwsFinspaceCreateKxScalingGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new scaling group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to cre- ate the scaling group. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="ScalingGroupName">A unique identifier for the kdb scaling group. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="HostType">The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values: o kx.sg.large The host type with a configuration of 16 GiB memory and 2 vCPUs. o kx.sg.xlarge The host type with a configuration of 32 GiB memory and 4 vCPUs. o kx.sg.2xlarge The host type with a configuration of 64 GiB memory and 8 vCPUs. o kx.sg.4xlarge The host type with a configuration of 108 GiB mem- ory and 16 vCPUs. o kx.sg.8xlarge The host type with a configuration of 216 GiB mem- ory and 32 vCPUs. o kx.sg.16xlarge The host type with a configuration of 432 GiB mem- ory and 64 vCPUs. o kx.sg.32xlarge The host type with a configuration of 864 GiB mem- ory and 128 vCPUs. o kx.sg1.16xlarge The host type with a configuration of 1949 GiB memory and 64 vCPUs. o kx.sg1.24xlarge The host type with a configuration of 2948 GiB memory and 96 vCPUs. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._]+</param>
+    /// <param name="AvailabilityZoneId">The identifier of the availability zones. Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$</param>
+    public AwsFinspaceCreateKxScalingGroupOptions(
+        string EnvironmentId,
+        string ScalingGroupName,
+        string HostType,
+        string AvailabilityZoneId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ScalingGroupName);
+        this.ScalingGroupName = ScalingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(HostType);
+        this.HostType = HostType;
+        global::System.ArgumentNullException.ThrowIfNull(AvailabilityZoneId);
+        this.AvailabilityZoneId = AvailabilityZoneId;
+    }
+
+    private AwsFinspaceCreateKxScalingGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceCreateKxScalingGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceCreateKxScalingGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment, where you want to cre- ate the scaling group. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the kdb scaling group. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
+    [CliOption("--scaling-group-name")]
+    public string? ScalingGroupName { get; private init; }
+
+    /// <summary>
+    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values: o kx.sg.large The host type with a configuration of 16 GiB memory and 2 vCPUs. o kx.sg.xlarge The host type with a configuration of 32 GiB memory and 4 vCPUs. o kx.sg.2xlarge The host type with a configuration of 64 GiB memory and 8 vCPUs. o kx.sg.4xlarge The host type with a configuration of 108 GiB mem- ory and 16 vCPUs. o kx.sg.8xlarge The host type with a configuration of 216 GiB mem- ory and 32 vCPUs. o kx.sg.16xlarge The host type with a configuration of 432 GiB mem- ory and 64 vCPUs. o kx.sg.32xlarge The host type with a configuration of 864 GiB mem- ory and 128 vCPUs. o kx.sg1.16xlarge The host type with a configuration of 1949 GiB memory and 64 vCPUs. o kx.sg1.24xlarge The host type with a configuration of 2948 GiB memory and 96 vCPUs. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._]+
+    /// </summary>
+    [CliOption("--host-type")]
+    public string? HostType { get; private init; }
+
+    /// <summary>
+    /// The identifier of the availability zones. Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
+    [CliOption("--availability-zone-id")]
+    public string? AvailabilityZoneId { get; private init; }
+
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliOption("--scaling-group-name")]
-    public string? ScalingGroupName { get; set; }
-
-    [CliOption("--host-type")]
-    public string? HostType { get; set; }
-
-    [CliOption("--availability-zone-id")]
-    public string? AvailabilityZoneId { get; set; }
 
     /// <summary>
     /// A list of key-value pairs to label the scaling group. You can add up to 50 tags to a scaling group. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +111,22 @@ public record AwsFinspaceCreateKxScalingGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

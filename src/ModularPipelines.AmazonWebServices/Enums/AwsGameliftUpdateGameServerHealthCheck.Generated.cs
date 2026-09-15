@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --healthcheck.
+/// Allowed values for --health-check.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftUpdateGameServerHealthCheck
 {
     [EnumValue("HEALTHY")]
-    Healthy = 1
+    Healthy,
+
+    [EnumValue("o")]
+    O
 }

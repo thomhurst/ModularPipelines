@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,94 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "associate-principal-with-portfolio")]
-public record AwsServicecatalogAssociatePrincipalWithPortfolioOptions : AwsOptions
+public record AwsServicecatalogAssociatePrincipalWithPortfolioOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID , PrincipalARN , and PrincipalType parameters are re- quired. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN . NOTE: When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared...
+    /// </summary>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PrincipalArn">The ARN of the principal (user, role, or group). If the Principal- Type is IAM , the supported value is a fully defined IAM Amazon Re- source Name (ARN) . If the PrincipalType is IAM_PATTERN , the sup- ported value is an IAM ARN without an AccountID in the following format: arn:partition:iam:::resource-type/resource-id The ARN resource-id can be either: o A fully formed resource-id. For example, arn:aws:iam:::role/re- source-name or arn:aws:iam:::role/resource-path/resource-name o A wildcard ARN. The wildcard ARN accepts IAM_PATTERN values with a "*" or "?" in the resource-id segment of the ARN. For example arn:partition:service:::resource-type/resource-path/resource-name . The new symbols are exclusive to the resource-path and re- source-name and cannot replace the resource-type or other ARN val- ues. The ARN path and principal name allow unlimited wildcard characters. Examples of an acceptable wildcard ARN: o arn:aws:iam:::role/ResourceName_* o arn:aws:iam:::role/ * / ResourceName_ ? System Message: WARNING/2 (&lt;string&gt;:, line 166) Inline emphasis start-string without end-string. Examples of an unacceptable wildcard ARN: o arn:aws:iam::: * /ResourceName System Message: WARNING/2 (&lt;string&gt;:, line 176) Inline emphasis start-string without end-string. You can associate multiple IAM_PATTERN s even if the account has no principal with that name. The "?" wildcard character matches zero or one of any character. This is similar to ".?" in regular regex context. The "*" wildcard character matches any number of any characters. This is similar to ".*" in regular regex context. In the IAM Principal ARN format (arn:partition:iam:::re- source-type/resource-path/resource-name ), valid resource-type val- ues include user/ , group/ , or role/ . The "?" and "*" characters are allowed only after the resource-type in the resource-id segment. You can use special characters anywhere within the resource-id. The "*" character also matches the "/" character, allowing paths to be formed within the resource-id. For example, arn:aws:iam:::role/**** / ResourceName_ ?* matches both arn:aws:iam:::role/pathA/pathB/ResourceName_1 and arn:aws:iam:::role/pathA/ResourceName_1 . Constraints: o min: 1 o max: 1000</param>
+    /// <param name="PrincipalType">The principal type. The supported value is IAM if you use a fully defined Amazon Resource Name (ARN), or IAM_PATTERN if you use an ARN with no accountID , with or without wildcard characters. Possible values: o IAM o IAM_PATTERN</param>
+    public AwsServicecatalogAssociatePrincipalWithPortfolioOptions(
+        string PortfolioId,
+        string PrincipalArn,
+        AwsServicecatalogAssociatePrincipalWithPortfolioPrincipalType PrincipalType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortfolioId);
+        this.PortfolioId = PortfolioId;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
+        this.PrincipalArn = PrincipalArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
+        this.PrincipalType = PrincipalType;
+    }
+
+    private AwsServicecatalogAssociatePrincipalWithPortfolioOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogAssociatePrincipalWithPortfolioOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogAssociatePrincipalWithPortfolioOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--portfolio-id")]
+    public string? PortfolioId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the principal (user, role, or group). If the Principal- Type is IAM , the supported value is a fully defined IAM Amazon Re- source Name (ARN) . If the PrincipalType is IAM_PATTERN , the sup- ported value is an IAM ARN without an AccountID in the following format: arn:partition:iam:::resource-type/resource-id The ARN resource-id can be either: o A fully formed resource-id. For example, arn:aws:iam:::role/re- source-name or arn:aws:iam:::role/resource-path/resource-name o A wildcard ARN. The wildcard ARN accepts IAM_PATTERN values with a "*" or "?" in the resource-id segment of the ARN. For example arn:partition:service:::resource-type/resource-path/resource-name . The new symbols are exclusive to the resource-path and re- source-name and cannot replace the resource-type or other ARN val- ues. The ARN path and principal name allow unlimited wildcard characters. Examples of an acceptable wildcard ARN: o arn:aws:iam:::role/ResourceName_* o arn:aws:iam:::role/ * / ResourceName_ ? System Message: WARNING/2 (&lt;string&gt;:, line 166) Inline emphasis start-string without end-string. Examples of an unacceptable wildcard ARN: o arn:aws:iam::: * /ResourceName System Message: WARNING/2 (&lt;string&gt;:, line 176) Inline emphasis start-string without end-string. You can associate multiple IAM_PATTERN s even if the account has no principal with that name. The "?" wildcard character matches zero or one of any character. This is similar to ".?" in regular regex context. The "*" wildcard character matches any number of any characters. This is similar to ".*" in regular regex context. In the IAM Principal ARN format (arn:partition:iam:::re- source-type/resource-path/resource-name ), valid resource-type val- ues include user/ , group/ , or role/ . The "?" and "*" characters are allowed only after the resource-type in the resource-id segment. You can use special characters anywhere within the resource-id. The "*" character also matches the "/" character, allowing paths to be formed within the resource-id. For example, arn:aws:iam:::role/**** / ResourceName_ ?* matches both arn:aws:iam:::role/pathA/pathB/ResourceName_1 and arn:aws:iam:::role/pathA/ResourceName_1 . Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [CliOption("--principal-arn")]
+    public string? PrincipalArn { get; private init; }
+
+    /// <summary>
+    /// The principal type. The supported value is IAM if you use a fully defined Amazon Resource Name (ARN), or IAM_PATTERN if you use an ARN with no accountID , with or without wildcard characters. Possible values: o IAM o IAM_PATTERN
+    /// </summary>
+    [CliOption("--principal-type")]
+    public AwsServicecatalogAssociatePrincipalWithPortfolioPrincipalType? PrincipalType { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CliOption("--portfolio-id")]
-    public string? PortfolioId { get; set; }
-
-    [CliOption("--principal-arn")]
-    public string? PrincipalArn { get; set; }
-
-    [CliOption("--principal-type")]
-    public string? PrincipalType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectiontype.
+/// Allowed values for --connection-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloud9CreateEnvironmentEc2ConnectionType
 {
     [EnumValue("CONNECT_SSH")]
-    ConnectSsh = 1,
+    ConnectSsh,
 
     [EnumValue("CONNECT_SSM")]
-    ConnectSsm = 2
+    ConnectSsm
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-identity", "merge-developer-identities")]
-public record AwsCognitoIdentityMergeDeveloperIdentitiesOptions : AwsOptions
+public record AwsCognitoIdentityMergeDeveloperIdentitiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Merges two users having different IdentityId s, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier ) with the IdentityId of the DestinationUserIdentifier . Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, bu...
+    /// </summary>
+    /// <param name="SourceUserIdentifier">User identifier for the source user. The value should be a Develope- rUserIdentifier . Constraints: o min: 1 o max: 1024</param>
+    /// <param name="DestinationUserIdentifier">User identifier for the destination user. The value should be a De- veloperUserIdentifier . Constraints: o min: 1 o max: 1024</param>
+    /// <param name="DeveloperProviderName">The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName , you can use letters as well as period (.), underscore (_), and dash (-). Constraints: o min: 1 o max: 128 o pattern: [\w._-]+</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    public AwsCognitoIdentityMergeDeveloperIdentitiesOptions(
+        string SourceUserIdentifier,
+        string DestinationUserIdentifier,
+        string DeveloperProviderName,
+        string IdentityPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceUserIdentifier);
+        this.SourceUserIdentifier = SourceUserIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationUserIdentifier);
+        this.DestinationUserIdentifier = DestinationUserIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DeveloperProviderName);
+        this.DeveloperProviderName = DeveloperProviderName;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+    }
+
+    private AwsCognitoIdentityMergeDeveloperIdentitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdentityMergeDeveloperIdentitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdentityMergeDeveloperIdentitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// User identifier for the source user. The value should be a Develope- rUserIdentifier . Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--source-user-identifier")]
-    public string? SourceUserIdentifier { get; set; }
+    public string? SourceUserIdentifier { get; private init; }
 
+    /// <summary>
+    /// User identifier for the destination user. The value should be a De- veloperUserIdentifier . Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--destination-user-identifier")]
-    public string? DestinationUserIdentifier { get; set; }
+    public string? DestinationUserIdentifier { get; private init; }
 
+    /// <summary>
+    /// The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName , you can use letters as well as period (.), underscore (_), and dash (-). Constraints: o min: 1 o max: 128 o pattern: [\w._-]+
+    /// </summary>
     [CliOption("--developer-provider-name")]
-    public string? DeveloperProviderName { get; set; }
+    public string? DeveloperProviderName { get; private init; }
 
+    /// <summary>
+    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
     [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
+    public string? IdentityPoolId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "start-report-job")]
-public record AwsBackupStartReportJobOptions : AwsOptions
+public record AwsBackupStartReportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an on-demand report job for the specified report plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReportPlanName">The unique name of a report plan. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*</param>
+    public AwsBackupStartReportJobOptions(
+        string ReportPlanName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportPlanName);
+        this.ReportPlanName = ReportPlanName;
+    }
+
+    private AwsBackupStartReportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupStartReportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupStartReportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of a report plan. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--report-plan-name")]
-    public string? ReportPlanName { get; set; }
+    public string? ReportPlanName { get; private init; }
 
     /// <summary>
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartReportJobInput . Retrying a suc- cessful request with the same idempotency token results in a success message with no action taken.
@@ -37,5 +74,22 @@ public record AwsBackupStartReportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

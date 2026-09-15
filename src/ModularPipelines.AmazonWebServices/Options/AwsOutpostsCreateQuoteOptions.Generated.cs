@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "create-quote")]
-public record AwsOutpostsCreateQuoteOptions : AwsOptions
+public record AwsOutpostsCreateQuoteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a quote for an Outpost. A quote provides pricing and configura- tion options based on the requested capacity. You can optionally asso- ciate the quote with an existing Outpost or create a standalone quote by specifying only the country code and requested capacities. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CountryCode">The country code for the Outpost site location. Constraints: o min: 2 o max: 2 o pattern: ^[A-Z]{2}$</param>
+    /// <param name="RequestedCapacities">The capacity requirements for the quote. Each entry specifies a ca- pacity type (such as Amazon EC2), the unit, and the quantity. For Amazon EC2, the quantity is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, the quantity is the total desired end-state capacity of the Outpost. Constraints: o max: 2000 (structure) A capacity requirement for a quote. Specifies the type of capac- ity, the unit, and the quantity. QuoteCapacityType -&gt; (string) The type of capacity. Valid values are EC2 , EBS , and S3 . Possible values: o EC2 o EBS o S3 Unit -&gt; (string) The unit of measurement for the capacity. For Amazon EC2, this is the instance type (for example, c5.24xlarge ). For Amazon EBS and Amazon S3, this is the storage unit (for exam- ple, TiB for tebibytes). Constraints: o min: 1 o max: 1000 o pattern: ^[\S \n]+$ Quantity -&gt; (float) The quantity of the specified capacity unit. For Amazon EC2, this is the number of additional instances to add to the Out- post. For Amazon EBS and Amazon S3, this is the total desired end-state capacity of the Outpost. Shorthand Syntax: QuoteCapacityType=string,Unit=string,Quantity=float ... JSON Syntax: [ { "QuoteCapacityType": "EC2"|"EBS"|"S3", "Unit": "string", "Quantity": float } ... ]</param>
+    public AwsOutpostsCreateQuoteOptions(
+        string CountryCode,
+        IEnumerable<string> RequestedCapacities
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CountryCode);
+        this.CountryCode = CountryCode;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RequestedCapacities);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RequestedCapacities));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RequestedCapacities));
+            }
+
+            RequestedCapacities = materialized;
+        }
+        this.RequestedCapacities = RequestedCapacities;
+    }
+
+    private AwsOutpostsCreateQuoteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsCreateQuoteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsCreateQuoteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The country code for the Outpost site location. Constraints: o min: 2 o max: 2 o pattern: ^[A-Z]{2}$
+    /// </summary>
+    [CliOption("--country-code")]
+    public string? CountryCode { get; private init; }
+
+    /// <summary>
+    /// The capacity requirements for the quote. Each entry specifies a ca- pacity type (such as Amazon EC2), the unit, and the quantity. For Amazon EC2, the quantity is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, the quantity is the total desired end-state capacity of the Outpost. Constraints: o max: 2000 (structure) A capacity requirement for a quote. Specifies the type of capac- ity, the unit, and the quantity. QuoteCapacityType -&gt; (string) The type of capacity. Valid values are EC2 , EBS , and S3 . Possible values: o EC2 o EBS o S3 Unit -&gt; (string) The unit of measurement for the capacity. For Amazon EC2, this is the instance type (for example, c5.24xlarge ). For Amazon EBS and Amazon S3, this is the storage unit (for exam- ple, TiB for tebibytes). Constraints: o min: 1 o max: 1000 o pattern: ^[\S \n]+$ Quantity -&gt; (float) The quantity of the specified capacity unit. For Amazon EC2, this is the number of additional instances to add to the Out- post. For Amazon EBS and Amazon S3, this is the total desired end-state capacity of the Outpost. Shorthand Syntax: QuoteCapacityType=string,Unit=string,Quantity=float ... JSON Syntax: [ { "QuoteCapacityType": "EC2"|"EBS"|"S3", "Unit": "string", "Quantity": float } ... ]
+    /// </summary>
+    [CliOption("--requested-capacities", GroupValues = true)]
+    public IEnumerable<string>? RequestedCapacities { get; private init; }
+
     /// <summary>
     /// The ID or ARN of the Outpost to associate with the quote. If not specified, the quote is created without an Outpost association. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; set; }
 
-    [CliOption("--country-code")]
-    public string? CountryCode { get; set; }
-
-    [CliOption("--requested-capacities", GroupValues = true)]
-    public IEnumerable<string>? RequestedCapacities { get; set; }
-
     /// <summary>
-    /// The physical constraints for the quote, such as maximum number of racks, maximum power draw per rack, or maximum weight per rack. Constraints: o max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , and RACK_MAX_WEIGHT_LBS . Possible values: o RACK_MAXIMUM o RACK_MAX_POWER_KVA o RACK_MAX_WEIGHT_LBS Value -&gt; (string) The value of the constraint. Constraints: o min: 1 o max: 2048 o pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS", "Value": "string" } ... ]
+    /// The physical constraints for the quote, such as maximum number of racks, maximum power draw per rack, or maximum weight per rack. Constraints: o max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , RACK_MAX_WEIGHT_LBS , and RACK_SPACE_CONSTRAINED . Possible values: o RACK_MAXIMUM o RACK_MAX_POWER_KVA o RACK_MAX_WEIGHT_LBS o RACK_SPACE_CONSTRAINED Value -&gt; (string) The value of the constraint. Constraints: o min: 1 o max: 2048 o pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS"|"RACK_SPACE_CONSTRAINED", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--requested-constraints", GroupValues = true)]
     public IEnumerable<string>? RequestedConstraints { get; set; }
@@ -62,5 +117,22 @@ public record AwsOutpostsCreateQuoteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

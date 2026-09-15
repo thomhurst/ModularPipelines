@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --synccompliance.
+/// Allowed values for --sync-compliance.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmCreateAssociationSyncCompliance
 {
     [EnumValue("AUTO")]
-    Auto = 1,
+    Auto,
 
     [EnumValue("MANUAL")]
-    Manual = 2
+    Manual
 }

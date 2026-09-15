@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-channel", "create-program-management-account")]
-public record AwsPartnercentralChannelCreateProgramManagementAccountOptions : AwsOptions
+public record AwsPartnercentralChannelCreateProgramManagementAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new program management account for managing partner relation- ships. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier for the program management account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
+    /// <param name="Program">The program type for the management account. Possible values: o SOLUTION_PROVIDER o DISTRIBUTION o DISTRIBUTION_SELLER</param>
+    /// <param name="DisplayName">A human-readable name for the program management account. Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]*</param>
+    /// <param name="AccountId">The AWS account ID to associate with the program management account. Constraints: o min: 12 o max: 12 o pattern: [0-9]*</param>
+    public AwsPartnercentralChannelCreateProgramManagementAccountOptions(
+        string Catalog,
+        AwsPartnercentralChannelCreateProgramManagementAccountProgram Program,
+        string DisplayName,
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Program);
+        this.Program = Program;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsPartnercentralChannelCreateProgramManagementAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralChannelCreateProgramManagementAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralChannelCreateProgramManagementAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier for the program management account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The program type for the management account. Possible values: o SOLUTION_PROVIDER o DISTRIBUTION o DISTRIBUTION_SELLER
+    /// </summary>
     [CliOption("--program")]
-    public string? Program { get; set; }
+    public AwsPartnercentralChannelCreateProgramManagementAccountProgram? Program { get; private init; }
 
+    /// <summary>
+    /// A human-readable name for the program management account. Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]*
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
 
+    /// <summary>
+    /// The AWS account ID to associate with the program management account. Constraints: o min: 12 o max: 12 o pattern: [0-9]*
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64 o pattern: [!-~]*
@@ -52,5 +111,22 @@ public record AwsPartnercentralChannelCreateProgramManagementAccountOptions : Aw
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

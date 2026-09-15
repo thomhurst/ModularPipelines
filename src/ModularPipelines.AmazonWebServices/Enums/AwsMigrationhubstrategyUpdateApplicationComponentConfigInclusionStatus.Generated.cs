@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --inclusionstatus.
+/// Allowed values for --inclusion-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhubstrategyUpdateApplicationComponentConfigInclusionStatus
 {
     [EnumValue("excludeFromAssessment")]
-    ExcludeFromAssessment = 1,
+    ExcludeFromAssessment,
 
     [EnumValue("includeInAssessment")]
-    IncludeInAssessment = 2
+    IncludeInAssessment
 }

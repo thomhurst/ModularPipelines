@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "create-workspaces-pool")]
-public record AwsWorkspacesCreateWorkspacesPoolOptions : AwsOptions
+public record AwsWorkspacesCreateWorkspacesPoolOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Creates a pool of WorkSpaces. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PoolName">The name of the pool. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$</param>
+    /// <param name="Description">The pool description. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="BundleId">The identifier of the bundle for the pool. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$</param>
+    /// <param name="DirectoryId">The identifier of the directory for the pool. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="Capacity">The user capacity of the pool. DesiredUserSessions -&gt; (integer) [required] The desired number of user sessions for the WorkSpaces in the pool. Constraints: o min: 0 Shorthand Syntax: DesiredUserSessions=integer JSON Syntax: { "DesiredUserSessions": integer }</param>
+    public AwsWorkspacesCreateWorkspacesPoolOptions(
+        string PoolName,
+        string Description,
+        string BundleId,
+        string DirectoryId,
+        string Capacity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(BundleId);
+        this.BundleId = BundleId;
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(Capacity);
+        this.Capacity = Capacity;
+    }
+
+    private AwsWorkspacesCreateWorkspacesPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesCreateWorkspacesPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesCreateWorkspacesPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the pool. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$
+    /// </summary>
     [CliOption("--pool-name")]
-    public string? PoolName { get; set; }
+    public string? PoolName { get; private init; }
 
+    /// <summary>
+    /// The pool description. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
+    /// <summary>
+    /// The identifier of the bundle for the pool. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$
+    /// </summary>
     [CliOption("--bundle-id")]
-    public string? BundleId { get; set; }
+    public string? BundleId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the directory for the pool. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
+    /// <summary>
+    /// The user capacity of the pool. DesiredUserSessions -&gt; (integer) [required] The desired number of user sessions for the WorkSpaces in the pool. Constraints: o min: 0 Shorthand Syntax: DesiredUserSessions=integer JSON Syntax: { "DesiredUserSessions": integer }
+    /// </summary>
     [CliOption("--capacity")]
-    public string? Capacity { get; set; }
+    public string? Capacity { get; private init; }
 
     /// <summary>
     /// The tags for the pool. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -66,5 +131,22 @@ public record AwsWorkspacesCreateWorkspacesPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

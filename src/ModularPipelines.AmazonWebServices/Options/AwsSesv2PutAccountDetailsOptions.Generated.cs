@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-account-details")]
-public record AwsSesv2PutAccountDetailsOptions : AwsOptions
+public record AwsSesv2PutAccountDetailsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--mail-type")]
-    public string? MailType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update your Amazon SES account details. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MailType">The type of email your account will send. Possible values: o MARKETING o TRANSACTIONAL</param>
+    /// <param name="WebsiteUrl">The URL of your website. This information helps us better understand the type of content that you plan to send. Constraints: o min: 1 o max: 1000 o pattern: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?</param>
+    public AwsSesv2PutAccountDetailsOptions(
+        AwsSesv2PutAccountDetailsMailType MailType,
+        string WebsiteUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MailType);
+        this.MailType = MailType;
+        global::System.ArgumentNullException.ThrowIfNull(WebsiteUrl);
+        this.WebsiteUrl = WebsiteUrl;
+    }
+
+    private AwsSesv2PutAccountDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutAccountDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutAccountDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of email your account will send. Possible values: o MARKETING o TRANSACTIONAL
+    /// </summary>
+    [CliOption("--mail-type")]
+    public AwsSesv2PutAccountDetailsMailType? MailType { get; private init; }
+
+    /// <summary>
+    /// The URL of your website. This information helps us better understand the type of content that you plan to send. Constraints: o min: 1 o max: 1000 o pattern: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+    /// </summary>
     [CliOption("--website-url")]
-    public string? WebsiteUrl { get; set; }
+    public string? WebsiteUrl { get; private init; }
 
     /// <summary>
     /// The language you would prefer to be contacted with. Possible values: o EN o JA
@@ -46,7 +90,10 @@ public record AwsSesv2PutAccountDetailsOptions : AwsOptions
     [CliOption("--additional-contact-email-addresses", GroupValues = true)]
     public IEnumerable<string>? AdditionalContactEmailAddresses { get; set; }
 
-    [CliFlag("--production-access-enabled")]
+    /// <summary>
+    /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false , then your account is in the sandbox . When your account is in the sandbox, you can only send email to verified identities. If the value is true , then your account has production access. When your account has production access, you can send email to any ad- dress. The sending quota and maximum sending rate for your account vary based on your specific use case.
+    /// </summary>
+    [CliFlag("--production-access-enabled", NegatedName = "--no-production-access-enabled")]
     public bool? ProductionAccessEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -54,5 +101,22 @@ public record AwsSesv2PutAccountDetailsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "start-query")]
-public record AwsLogsStartQueryOptions : AwsOptions
+public record AwsLogsStartQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a query of one or more log groups or data sources using Cloud- Watch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see CloudWatch Logs Insights Query Syntax . After you run a query using StartQuery , the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery retu...
+    /// </summary>
+    /// <param name="StartTime">The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0</param>
+    /// <param name="EndTime">The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0</param>
+    /// <param name="QueryString">The query string to use. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 0 o max: 10000</param>
+    public AwsLogsStartQueryOptions(
+        int StartTime,
+        int EndTime,
+        string QueryString
+    )
+    {
+        this.StartTime = StartTime;
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsLogsStartQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsStartQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsStartQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0
+    /// </summary>
+    [CliOption("--start-time")]
+    public int? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0
+    /// </summary>
+    [CliOption("--end-time")]
+    public int? EndTime { get; private init; }
+
+    /// <summary>
+    /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax . Constraints: o min: 0 o max: 10000
+    /// </summary>
+    [CliOption("--query-string")]
+    public string? QueryString { get; private init; }
+
     /// <summary>
     /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more in- formation about the query languages that CloudWatch Logs supports, see Supported query languages . Possible values: o CWLI o SQL o PPL
     /// </summary>
@@ -46,15 +104,6 @@ public record AwsLogsStartQueryOptions : AwsOptions
     [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
-    [CliOption("--start-time")]
-    public int? StartTime { get; set; }
-
-    [CliOption("--end-time")]
-    public int? EndTime { get; set; }
-
-    [CliOption("--query-string")]
-    public string? QueryString { get; set; }
-
     /// <summary>
     /// The maximum number of log events to return from the query. The maxi- mum limit is 100,000. The maximum events returned in a single Get- QueryResults API call is 10,000 log events per request. You can re- trieve up to 100,000 log event results from a query by paginating with the nextToken . 100,000 limit is only supported for Logs In- sights QL and is currently not supported for PPL and SQL query lan- guages. Constraints: o min: 1 o max: 100000
     /// </summary>
@@ -66,5 +115,22 @@ public record AwsLogsStartQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

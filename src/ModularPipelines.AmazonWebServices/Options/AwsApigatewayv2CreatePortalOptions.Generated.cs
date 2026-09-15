@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-portal")]
-public record AwsApigatewayv2CreatePortalOptions : AwsOptions
+public record AwsApigatewayv2CreatePortalOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--authorization")]
-    public string? Authorization { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Authorization">The authentication configuration for the portal. CognitoConfig -&gt; (structure) The Amazon Cognito configuration. AppClientId -&gt; (string) [required] The app client ID. Constraints: o min: 1 o max: 256 UserPoolArn -&gt; (string) [required] The user pool ARN. Constraints: o min: 20 o max: 2048 UserPoolDomain -&gt; (string) [required] The user pool domain. Constraints: o min: 20 o max: 2048 None -&gt; (structure) Provide no authorization for your portal. This makes your portal publicly accesible on the web. Shorthand Syntax: CognitoConfig={AppClientId=string,UserPoolArn=string,UserPoolDomain=string},None={} JSON Syntax: { "CognitoConfig": { "AppClientId": "string", "UserPoolArn": "string", "UserPoolDomain": "string" }, "None": { } }</param>
+    /// <param name="EndpointConfiguration">The domain configuration for the portal. Use a default domain pro- vided by API Gateway or provide a fully-qualified domain name that you own. AcmManaged -&gt; (structure) Represents a domain name and certificate for a portal. CertificateArn -&gt; (string) [required] The certificate ARN. Constraints: o min: 10 o max: 2048 DomainName -&gt; (string) [required] The domain name. Constraints: o min: 3 o max: 256 None -&gt; (structure) Use the default portal domain name that is generated and managed by API Gateway. Shorthand Syntax: AcmManaged={CertificateArn=string,DomainName=string},None={} JSON Syntax: { "AcmManaged": { "CertificateArn": "string", "DomainName": "string" }, "None": { } }</param>
+    /// <param name="PortalContent">The content of the portal. Description -&gt; (string) A description of the portal. Constraints: o min: 0 o max: 1024 DisplayName -&gt; (string) [required] The display name for the portal. Constraints: o min: 3 o max: 255 Theme -&gt; (structure) [required] The theme for the portal. CustomColors -&gt; (structure) [required] Defines custom color values. AccentColor -&gt; (string) [required] Represents the accent color. Constraints: o min: 1 o max: 16 BackgroundColor -&gt; (string) [required] Represents the background color. Constraints: o min: 1 o max: 16 ErrorValidationColor -&gt; (string) [required] The errorValidationColor. Constraints: o min: 1 o max: 16 HeaderColor -&gt; (string) [required] Represents the header color. Constraints: o min: 1 o max: 16 NavigationColor -&gt; (string) [required] Represents the navigation color. Constraints: o min: 1 o max: 16 TextColor -&gt; (string) [required] Represents the text color. Constraints: o min: 1 o max: 16 LogoLastUploaded -&gt; (timestamp) The timestamp when the logo was last uploaded. Shorthand Syntax: Description=string,DisplayName=string,Theme={CustomColors={AccentColor=string,BackgroundColor=string,ErrorValidationColor=string,HeaderColor=string,NavigationColor=string,TextColor=string},LogoLastUploaded=timestamp} JSON Syntax: { "Description": "string", "DisplayName": "string", "Theme": { "CustomColors": { "AccentColor": "string", "BackgroundColor": "string", "ErrorValidationColor": "string", "HeaderColor": "string", "NavigationColor": "string", "TextColor": "string" }, "LogoLastUploaded": timestamp } }</param>
+    public AwsApigatewayv2CreatePortalOptions(
+        string Authorization,
+        string EndpointConfiguration,
+        string PortalContent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Authorization);
+        this.Authorization = Authorization;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointConfiguration);
+        this.EndpointConfiguration = EndpointConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(PortalContent);
+        this.PortalContent = PortalContent;
+    }
+
+    private AwsApigatewayv2CreatePortalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreatePortalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreatePortalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The authentication configuration for the portal. CognitoConfig -&gt; (structure) The Amazon Cognito configuration. AppClientId -&gt; (string) [required] The app client ID. Constraints: o min: 1 o max: 256 UserPoolArn -&gt; (string) [required] The user pool ARN. Constraints: o min: 20 o max: 2048 UserPoolDomain -&gt; (string) [required] The user pool domain. Constraints: o min: 20 o max: 2048 None -&gt; (structure) Provide no authorization for your portal. This makes your portal publicly accesible on the web. Shorthand Syntax: CognitoConfig={AppClientId=string,UserPoolArn=string,UserPoolDomain=string},None={} JSON Syntax: { "CognitoConfig": { "AppClientId": "string", "UserPoolArn": "string", "UserPoolDomain": "string" }, "None": { } }
+    /// </summary>
+    [CliOption("--authorization")]
+    public string? Authorization { get; private init; }
+
+    /// <summary>
+    /// The domain configuration for the portal. Use a default domain pro- vided by API Gateway or provide a fully-qualified domain name that you own. AcmManaged -&gt; (structure) Represents a domain name and certificate for a portal. CertificateArn -&gt; (string) [required] The certificate ARN. Constraints: o min: 10 o max: 2048 DomainName -&gt; (string) [required] The domain name. Constraints: o min: 3 o max: 256 None -&gt; (structure) Use the default portal domain name that is generated and managed by API Gateway. Shorthand Syntax: AcmManaged={CertificateArn=string,DomainName=string},None={} JSON Syntax: { "AcmManaged": { "CertificateArn": "string", "DomainName": "string" }, "None": { } }
+    /// </summary>
     [CliOption("--endpoint-configuration")]
-    public string? EndpointConfiguration { get; set; }
+    public string? EndpointConfiguration { get; private init; }
+
+    /// <summary>
+    /// The content of the portal. Description -&gt; (string) A description of the portal. Constraints: o min: 0 o max: 1024 DisplayName -&gt; (string) [required] The display name for the portal. Constraints: o min: 3 o max: 255 Theme -&gt; (structure) [required] The theme for the portal. CustomColors -&gt; (structure) [required] Defines custom color values. AccentColor -&gt; (string) [required] Represents the accent color. Constraints: o min: 1 o max: 16 BackgroundColor -&gt; (string) [required] Represents the background color. Constraints: o min: 1 o max: 16 ErrorValidationColor -&gt; (string) [required] The errorValidationColor. Constraints: o min: 1 o max: 16 HeaderColor -&gt; (string) [required] Represents the header color. Constraints: o min: 1 o max: 16 NavigationColor -&gt; (string) [required] Represents the navigation color. Constraints: o min: 1 o max: 16 TextColor -&gt; (string) [required] Represents the text color. Constraints: o min: 1 o max: 16 LogoLastUploaded -&gt; (timestamp) The timestamp when the logo was last uploaded. Shorthand Syntax: Description=string,DisplayName=string,Theme={CustomColors={AccentColor=string,BackgroundColor=string,ErrorValidationColor=string,HeaderColor=string,NavigationColor=string,TextColor=string},LogoLastUploaded=timestamp} JSON Syntax: { "Description": "string", "DisplayName": "string", "Theme": { "CustomColors": { "AccentColor": "string", "BackgroundColor": "string", "ErrorValidationColor": "string", "HeaderColor": "string", "NavigationColor": "string", "TextColor": "string" }, "LogoLastUploaded": timestamp } }
+    /// </summary>
+    [CliOption("--portal-content")]
+    public string? PortalContent { get; private init; }
 
     /// <summary>
     /// The ARNs of the portal products included in the portal. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
@@ -39,9 +93,6 @@ public record AwsApigatewayv2CreatePortalOptions : AwsOptions
     /// </summary>
     [CliOption("--logo-uri")]
     public string? LogoUri { get; set; }
-
-    [CliOption("--portal-content")]
-    public string? PortalContent { get; set; }
 
     /// <summary>
     /// The name of the Amazon CloudWatch RUM app monitor for the portal. Constraints: o min: 0 o max: 255
@@ -60,5 +111,22 @@ public record AwsApigatewayv2CreatePortalOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

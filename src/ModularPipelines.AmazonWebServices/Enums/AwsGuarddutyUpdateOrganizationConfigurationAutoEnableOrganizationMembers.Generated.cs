@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --autoenableorganizationmembers.
+/// Allowed values for --auto-enable-organization-members.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGuarddutyUpdateOrganizationConfigurationAutoEnableOrganizationMembers
 {
-    [EnumValue("NEW")]
-    New = 1,
-
     [EnumValue("ALL")]
-    All = 2,
+    All,
+
+    [EnumValue("NEW")]
+    New,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --compliancetype.
+/// Allowed values for --compliance-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleComplianceType
 {
     [EnumValue("COMPLIANT")]
-    Compliant = 1,
-
-    [EnumValue("NON_COMPLIANT")]
-    NonCompliant = 2,
-
-    [EnumValue("NOT_APPLICABLE")]
-    NotApplicable = 3,
+    Compliant,
 
     [EnumValue("INSUFFICIENT_DATA")]
-    InsufficientData = 4
+    InsufficientData,
+
+    [EnumValue("NON_COMPLIANT")]
+    NonCompliant,
+
+    [EnumValue("NOT_APPLICABLE")]
+    NotApplicable
 }

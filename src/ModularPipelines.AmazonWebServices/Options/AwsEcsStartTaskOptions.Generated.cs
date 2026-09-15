@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,20 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "start-task")]
-public record AwsEcsStartTaskOptions : AwsOptions
+public record AwsEcsStartTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a new task from the specified task definition on the specified container instance or instances. NOTE: On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. NOTE: Amazon Elastic Inference (EI) is no longer available to customers. Alternatively, you can use``RunTask`` to place tasks for you. For more information, see Scheduli...
+    /// </summary>
+    /// <param name="ContainerInstances">The container instance IDs or full ARN entries for the container in- stances where you would like to place your task. You can specify up to 10 container instances. (string) Syntax: "string" "string" ...</param>
+    /// <param name="TaskDefinition">The family and revision (family:revision ) or full ARN of the task definition to start. If a revision isn't specified, the latest AC- TIVE revision is used.</param>
+    public AwsEcsStartTaskOptions(
+        IEnumerable<string> ContainerInstances,
+        string TaskDefinition
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ContainerInstances);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ContainerInstances));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ContainerInstances));
+            }
+
+            ContainerInstances = materialized;
+        }
+        this.ContainerInstances = ContainerInstances;
+        global::System.ArgumentNullException.ThrowIfNull(TaskDefinition);
+        this.TaskDefinition = TaskDefinition;
+    }
+
+    private AwsEcsStartTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsStartTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsStartTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The container instance IDs or full ARN entries for the container in- stances where you would like to place your task. You can specify up to 10 container instances. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--container-instances", GroupValues = true)]
+    public IEnumerable<string>? ContainerInstances { get; private init; }
+
+    /// <summary>
+    /// The family and revision (family:revision ) or full ARN of the task definition to start. If a revision isn't specified, the latest AC- TIVE revision is used.
+    /// </summary>
+    [CliOption("--task-definition")]
+    public string? TaskDefinition { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster where to start your task. If you do not specify a cluster, the de- fault cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--container-instances", GroupValues = true)]
-    public IEnumerable<string>? ContainerInstances { get; set; }
-
-    [CliFlag("--enable-ecs-managed-tags")]
+    /// <summary>
+    /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see Tagging Your Amazon ECS Resources in the Ama- zon Elastic Container Service Developer Guide .
+    /// </summary>
+    [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
 
+    /// <summary>
+    /// Whether or not the execute command functionality is turned on for the task. If true , this turns on the execute command functionality on all containers in the task.
+    /// </summary>
     [CliFlag("--enable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 
@@ -79,9 +143,6 @@ public record AwsEcsStartTaskOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--task-definition")]
-    public string? TaskDefinition { get; set; }
-
     /// <summary>
     /// The details of the volume that was configuredAtLaunch . You can con- figure the size, volumeType, IOPS, throughput, snapshot and encryp- tion in TaskManagedEBSVolumeConfiguration . The name of the volume must match the name from the task definition. (structure) Configuration settings for the task volume that was configure- dAtLaunch that weren't set during RegisterTaskDef . name -&gt; (string) [required] The name of the volume. This value must match the volume name from the Volume object in the task definition. managedEBSVolume -&gt; (structure) The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task. The Amazon EBS volumes are visible in your account in the Amazon EC2 console once they are created. encrypted -&gt; (boolean) Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false , the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the CreateVolume API in the Amazon EC2 API Reference . kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key is specified using this para- meter, it overrides Amazon EBS default encryption or any KMS key that you specified for cluster-level managed storage encryption. This parameter maps 1:1 with the KmsKeyId parameter of the CreateVolume API in the Amazon EC2 API Reference . For more information about encrypting Amazon EBS volumes attached to a task, see Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks . WARNING: Amazon Web Services authenticates the Amazon Web Ser- vices Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but even- tually fails. volumeType -&gt; (string) The volume type. This parameter maps 1:1 with the Volume- Type parameter of the CreateVolume API in the Amazon EC2 API Reference . For more information, see Amazon EBS vol- ume types in the Amazon EC2 User Guide . The following are the supported volume types. o General Purpose SSD: gp2 | gp3 System Message: WARNING/2 (&lt;string&gt;:, line 1012) Inline substitution_reference start-string without end-string. o Provisioned IOPS SSD: io1 | io2 System Message: WARNING/2 (&lt;string&gt;:, line 1014) Inline substitution_reference start-string without end-string. o Throughput Optimized HDD: st1 o Cold HDD: sc1 o Magnetic: standard NOTE: The magnetic volume type is not supported on Fargate. sizeInGiB -&gt; (integer) The size of the volume in GiB. You must specify either a volume size or a snapshot ID. If you specify a snapshot ID, the snapshot size is used for the volume size by de- fault. You can optionally specify a volume size greater than or equal to the snapshot size. This parameter maps 1:1 with the Size parameter of the CreateVolume API in the Amazon EC2 API Reference . The following are the supported volume size values for each volume type. o gp2 and gp3 : 1-16,384 o io1 and io2 : 4-16,384 o st1 and sc1 : 125-16,384 o standard : 1-1,024 snapshotId -&gt; (string) The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot ID or a volume size. This parameter maps 1:1 with the SnapshotId parameter of the CreateVolume API in the Amazon EC2 API Reference . volumeInitializationRate -&gt; (integer) The rate, in MiB/s, at which data is fetched from a snap- shot of an existing Amazon EBS volume to create a new volume for attachment to the task. This property can be specified only if you specify a snapshotId . For more in- formation, see Initialize Amazon EBS volumes in the Ama- zon EBS User Guide . iops -&gt; (integer) The number of I/O operations per second (IOPS). For gp3 , io1 , and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type. o gp3 : 3,000 - 16,000 IOPS o io1 : 100 - 64,000 IOPS o io2 : 100 - 256,000 IOPS This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS . This parame- ter is not supported for st1 , sc1 , or standard volume types. This parameter maps 1:1 with the Iops parameter of the CreateVolume API in the Amazon EC2 API Reference . throughput -&gt; (integer) The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the CreateVolume API in the Amazon EC2 API Reference . WARNING: This parameter is only supported for the gp3 volume type. tagSpecifications -&gt; (list) The tags to apply to the volume. Amazon ECS applies ser- vice-managed tags by default. This parameter maps 1:1 with the TagSpecifications.N parameter of the CreateVolume API in the Amazon EC2 API Reference . (structure) The tag specifications of an Amazon EBS volume. resourceType -&gt; (string) [required] The type of volume resource. Possible values: o volume tags -&gt; (list) The tags applied to this Amazon EBS volume. Ama- zonECSCreated and AmazonECSManaged are reserved tags that can't be used. Constraints: o min: 0 o max: 50 (structure) The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define them. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50 o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8 o Maximum value length - 256 Unicode characters in UTF-8 o If your tagging schema is used across multi- ple services and resources, remember that other services may have restrictions on al- lowed characters. Generally allowed charac- ters are: letters, numbers, and spaces repre- sentable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case-sensitive. o Do not use aws: , AWS: , or any upper or low- ercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) propagateTags -&gt; (string) Determines whether to propagate the tags from the task definition to the Amazon EBS volume. Tags can only propagate to a SERVICE specified in Ser- viceVolumeConfiguration . If no value is speci- fied, the tags aren't propagated. Possible values: o TASK_DEFINITION o SERVICE o NONE roleArn -&gt; (string) [required] The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfra- structureRolePolicyForVolumes IAM policy with this role. For more information, see Amazon ECS infrastructure IAM role in the Amazon ECS Developer Guide . terminationPolicy -&gt; (structure) The termination policy for the volume when the task ex- its. This provides a way to control whether Amazon ECS terminates the Amazon EBS volume when the task stops. deleteOnTermination -&gt; (boolean) [required] Indicates whether the volume should be deleted on when the task stops. If a value of true is specified, Ama- zon ECS deletes the Amazon EBS volume on your behalf when the task goes into the STOPPED state. If no value is specified, the default value is true is used. When set to false , Amazon ECS leaves the volume in your account. filesystemType -&gt; (string) The Linux filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snap- shot was created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are ext3 , ext4 , and xfs . If no value is specified, the xfs filesystem type is used by default. Possible values: o ext3 o ext4 o xfs o ntfs JSON Syntax: [ { "name": "string", "managedEBSVolume": { "encrypted": true|false, "kmsKeyId": "string", "volumeType": "string", "sizeInGiB": integer, "snapshotId": "string", "volumeInitializationRate": integer, "iops": integer, "throughput": integer, "tagSpecifications": [ { "resourceType": "volume", "tags": [ { "key": "string", "value": "string" } ... ], "propagateTags": "TASK_DEFINITION"|"SERVICE"|"NONE" } ... ], "roleArn": "string", "terminationPolicy": { "deleteOnTermination": true|false }, "filesystemType": "ext3"|"ext4"|"xfs"|"ntfs" } } ... ]
     /// </summary>
@@ -93,5 +154,22 @@ public record AwsEcsStartTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

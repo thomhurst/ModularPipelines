@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --iteratortype.
+/// Allowed values for --iterator-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNeptunedataGetSparqlStreamIteratorType
 {
-    [EnumValue("AT_SEQUENCE_NUMBER")]
-    AtSequenceNumber = 1,
-
     [EnumValue("AFTER_SEQUENCE_NUMBER")]
-    AfterSequenceNumber = 2,
+    AfterSequenceNumber,
 
-    [EnumValue("TRIM_HORIZON")]
-    TrimHorizon = 3,
+    [EnumValue("AT_SEQUENCE_NUMBER")]
+    AtSequenceNumber,
 
     [EnumValue("LATEST")]
-    Latest = 4
+    Latest,
+
+    [EnumValue("TRIM_HORIZON")]
+    TrimHorizon
 }

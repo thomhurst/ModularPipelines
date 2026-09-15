@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --auditpolicystate.
+/// Allowed values for --audit-policy-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsModifyActivityStreamAuditPolicyState
 {
     [EnumValue("locked")]
-    Locked = 1,
+    Locked,
 
     [EnumValue("unlocked")]
-    Unlocked = 2
+    Unlocked
 }

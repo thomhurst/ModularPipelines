@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "create-registration")]
-public record AwsPinpointSmsVoiceV2CreateRegistrationOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2CreateRegistrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new registration based on the RegistrationType field. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistrationType">The type of registration form to create. The list of Registra- tionTypes can be found using the DescribeRegistrationTypeDefini- tions action. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+</param>
+    public AwsPinpointSmsVoiceV2CreateRegistrationOptions(
+        string RegistrationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistrationType);
+        this.RegistrationType = RegistrationType;
+    }
+
+    private AwsPinpointSmsVoiceV2CreateRegistrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateRegistrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateRegistrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of registration form to create. The list of Registra- tionTypes can be found using the DescribeRegistrationTypeDefini- tions action. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+
+    /// </summary>
     [CliOption("--registration-type")]
-    public string? RegistrationType { get; set; }
+    public string? RegistrationType { get; private init; }
 
     /// <summary>
     /// An array of tags (key and value pairs) to associate with the regis- tration. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -43,5 +80,22 @@ public record AwsPinpointSmsVoiceV2CreateRegistrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

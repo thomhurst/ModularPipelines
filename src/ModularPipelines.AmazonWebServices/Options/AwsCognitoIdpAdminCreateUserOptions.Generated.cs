@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "admin-create-user")]
-public record AwsCognitoIdpAdminCreateUserOptions : AwsOptions
+public record AwsCognitoIdpAdminCreateUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new user in the specified user pool. If MessageAction isn't set, the default is to send a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary pass- word. Alternatively, you can call AdminCreateUser with SUPPRESS for the Mes- sageAction parameter, and Amazon Cognito won't send any email. In either...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to create a user. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Username">The value that you want to set as the username sign-in attribute. The following conditions apply to the username parameter. o The username can't be a duplicate of another username in the same user pool. o You can't change the value of a username after you create it. o You can only provide a value if usernames are a valid sign-in at- tribute for your user pool. If your user pool only supports phone numbers or email addresses as sign-in attributes, Amazon Cognito automatically generates a username value. For more information, see Customizing sign-in attributes . Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    public AwsCognitoIdpAdminCreateUserOptions(
+        string UserPoolId,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    private AwsCognitoIdpAdminCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpAdminCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpAdminCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to create a user. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The value that you want to set as the username sign-in attribute. The following conditions apply to the username parameter. o The username can't be a duplicate of another username in the same user pool. o You can't change the value of a username after you create it. o You can only provide a value if usernames are a valid sign-in at- tribute for your user pool. If your user pool only supports phone numbers or email addresses as sign-in attributes, Amazon Cognito automatically generates a username value. For more information, see Customizing sign-in attributes . Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// </summary>
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public string? Username { get; private init; }
 
     /// <summary>
     /// An array of name-value pairs that contain user attributes and at- tribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username . How- ever, any attributes that you specify as required (when creating a user pool or in the Attributes tab of the console) either you should supply (in your call to AdminCreateUser ) or the user should supply (when they sign up in response to your welcome message). For custom attributes, you must prepend the custom: prefix to the attribute name. To send a message inviting the user to sign up, you must specify the user's email address or phone number. You can do this in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. You must also provide an email address or phone number when you ex- pect the user to do passwordless sign-in with an email or SMS OTP. These attributes must be provided when passwordless options are the only available, or when you don't submit a TemporaryPassword . In your AdminCreateUser request, you can set the email_verified and phone_number_verified attributes to true . The following conditions apply: email The email address where you want the user to receive their confirma- tion code and username. You must provide a value for email when you want to set email_verified to true , or if you set EMAIL in the De- siredDeliveryMediums parameter. phone_number The phone number where you want the user to receive their confirma- tion code and username. You must provide a value for phone_number when you want to set phone_number_verified to true , or if you set SMS in the DesiredDeliveryMediums parameter. (structure) The name and value of a user attribute. Name -&gt; (string) [required] The name of the attribute, for example email or custom:de- partment . In some older user pools, the regex pattern for acceptable values of this parameter is [\p{L}\p{M}\p{S}\p{N}\p{P}]+ . Older pools will eventually be updated to use the new pat- tern. Affected user pools are those created before May 2024 in US East (N. Virginia), US East (Ohio), US West (N. Cali- fornia), US West (Oregon), Asia Pacific (Mumbai), Asia Pa- cific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singa- pore), Asia Pacific (Sydney), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), Middle East (Bahrain), and South America (So Paulo). Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Value -&gt; (string) The value of the attribute. Constraints: o max: 2048 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
@@ -49,7 +93,10 @@ public record AwsCognitoIdpAdminCreateUserOptions : AwsOptions
     [CliOption("--temporary-password")]
     public string? TemporaryPassword { get; set; }
 
-    [CliFlag("--force-alias-creation")]
+    /// <summary>
+    /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True . Otherwise, it is ignored. If this parameter is set to True and the phone number or email ad- dress specified in the UserAttributes parameter already exists as an alias with a different user, this request migrates the alias from the previous user to the newly-created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False , the API throws an AliasExistsEx- ception error if the alias already exists. The default value is False .
+    /// </summary>
+    [CliFlag("--force-alias-creation", NegatedName = "--no-force-alias-creation")]
     public bool? ForceAliasCreation { get; set; }
 
     /// <summary>
@@ -75,5 +122,22 @@ public record AwsCognitoIdpAdminCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

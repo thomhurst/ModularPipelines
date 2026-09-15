@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --volumetype.
+/// Allowed values for --volume-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFinspaceListKxVolumesVolumeType
 {
     [EnumValue("NAS_1")]
-    Nas_1 = 1
+    Nas1,
+
+    [EnumValue("o")]
+    O
 }

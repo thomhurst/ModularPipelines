@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --iotendpointtype.
+/// Allowed values for --iot-endpoint-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGreengrassv2GetComponentVersionArtifactIotEndpointType
 {
     [EnumValue("fips")]
-    Fips = 1,
+    Fips,
 
     [EnumValue("standard")]
-    Standard = 2
+    Standard
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrass", "create-subscription-definition-version")]
-public record AwsGreengrassCreateSubscriptionDefinitionVersionOptions : AwsOptions
+public record AwsGreengrassCreateSubscriptionDefinitionVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a version of a subscription definition which has already been defined. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubscriptionDefinitionId"></param>
+    public AwsGreengrassCreateSubscriptionDefinitionVersionOptions(
+        string SubscriptionDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionDefinitionId);
+        this.SubscriptionDefinitionId = SubscriptionDefinitionId;
+    }
+
+    private AwsGreengrassCreateSubscriptionDefinitionVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassCreateSubscriptionDefinitionVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassCreateSubscriptionDefinitionVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--subscription-definition-id")]
+    public string? SubscriptionDefinitionId { get; private init; }
+
     [SecretValue]
     [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
-
-    [CliOption("--subscription-definition-id")]
-    public string? SubscriptionDefinitionId { get; set; }
 
     [CliOption("--subscriptions", GroupValues = true)]
     public IEnumerable<string>? Subscriptions { get; set; }
@@ -37,5 +71,22 @@ public record AwsGreengrassCreateSubscriptionDefinitionVersionOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

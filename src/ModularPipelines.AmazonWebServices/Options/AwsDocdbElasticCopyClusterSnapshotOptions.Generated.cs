@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,9 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb-elastic", "copy-cluster-snapshot")]
-public record AwsDocdbElasticCopyClusterSnapshotOptions : AwsOptions
+public record AwsDocdbElasticCopyClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--copy-tags")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies a snapshot of an elastic cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SnapshotArn">The Amazon Resource Name (ARN) identifier of the elastic cluster snapshot.</param>
+    /// <param name="TargetSnapshotName">The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: elastic-cluster-snapshot-5 Constraints: o min: 1 o max: 63</param>
+    public AwsDocdbElasticCopyClusterSnapshotOptions(
+        string SnapshotArn,
+        string TargetSnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotArn);
+        this.SnapshotArn = SnapshotArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetSnapshotName);
+        this.TargetSnapshotName = TargetSnapshotName;
+    }
+
+    private AwsDocdbElasticCopyClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbElasticCopyClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbElasticCopyClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) identifier of the elastic cluster snapshot.
+    /// </summary>
+    [CliOption("--snapshot-arn")]
+    public string? SnapshotArn { get; private init; }
+
+    /// <summary>
+    /// The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: elastic-cluster-snapshot-5 Constraints: o min: 1 o max: 63
+    /// </summary>
+    [CliOption("--target-snapshot-name")]
+    public string? TargetSnapshotName { get; private init; }
+
+    /// <summary>
+    /// Set to true to copy all tags from the source cluster snapshot to the target elastic cluster snapshot. The default is false .
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -31,22 +84,33 @@ public record AwsDocdbElasticCopyClusterSnapshotOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliOption("--snapshot-arn")]
-    public string? SnapshotArn { get; set; }
-
     /// <summary>
     /// The tags to be assigned to the elastic cluster snapshot. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--target-snapshot-name")]
-    public string? TargetSnapshotName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --httpendpoint.
+/// Allowed values for --http-endpoint.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyInstanceMetadataDefaultsHttpEndpoint
 {
     [EnumValue("disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("enabled")]
-    Enabled = 2,
+    Enabled,
 
     [EnumValue("no-preference")]
-    NoPreference = 3
+    NoPreference
 }

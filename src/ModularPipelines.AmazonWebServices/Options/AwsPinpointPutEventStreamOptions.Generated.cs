@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "put-event-stream")]
-public record AwsPinpointPutEventStreamOptions : AwsOptions
+public record AwsPinpointPutEventStreamOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new event stream for an application or updates the settings of an existing event stream for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="WriteEventStream">Specifies the Amazon Resource Name (ARN) of an event stream to pub- lish events to and the AWS Identity and Access Management (IAM) role to use when publishing those events. DestinationStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kine- sis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name RoleArn -&gt; (string) [required] The AWS Identity and Access Management (IAM) role that autho- rizes Amazon Pinpoint to publish event data to the stream in your AWS account. Shorthand Syntax: DestinationStreamArn=string,RoleArn=string JSON Syntax: { "DestinationStreamArn": "string", "RoleArn": "string" }</param>
+    public AwsPinpointPutEventStreamOptions(
+        string ApplicationId,
+        string WriteEventStream
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(WriteEventStream);
+        this.WriteEventStream = WriteEventStream;
+    }
+
+    private AwsPinpointPutEventStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointPutEventStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointPutEventStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of an event stream to pub- lish events to and the AWS Identity and Access Management (IAM) role to use when publishing those events. DestinationStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kine- sis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name RoleArn -&gt; (string) [required] The AWS Identity and Access Management (IAM) role that autho- rizes Amazon Pinpoint to publish event data to the stream in your AWS account. Shorthand Syntax: DestinationStreamArn=string,RoleArn=string JSON Syntax: { "DestinationStreamArn": "string", "RoleArn": "string" }
+    /// </summary>
     [CliOption("--write-event-stream")]
-    public string? WriteEventStream { get; set; }
+    public string? WriteEventStream { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

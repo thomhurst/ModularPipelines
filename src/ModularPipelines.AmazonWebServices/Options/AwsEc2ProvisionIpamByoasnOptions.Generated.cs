@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,94 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "provision-ipam-byoasn")]
-public record AwsEc2ProvisionIpamByoasnOptions : AwsOptions
+public record AwsEc2ProvisionIpamByoasnOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more in- formation, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamId">An IPAM ID.</param>
+    /// <param name="Asn">A public 2-byte or 4-byte ASN.</param>
+    /// <param name="AsnAuthorizationContext">An ASN authorization context. Message -&gt; (string) [required] The authorization context's message. Signature -&gt; (string) [required] The authorization context's signature. Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }</param>
+    public AwsEc2ProvisionIpamByoasnOptions(
+        string IpamId,
+        string Asn,
+        string AsnAuthorizationContext
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamId);
+        this.IpamId = IpamId;
+        global::System.ArgumentNullException.ThrowIfNull(Asn);
+        this.Asn = Asn;
+        global::System.ArgumentNullException.ThrowIfNull(AsnAuthorizationContext);
+        this.AsnAuthorizationContext = AsnAuthorizationContext;
+    }
+
+    private AwsEc2ProvisionIpamByoasnOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ProvisionIpamByoasnOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ProvisionIpamByoasnOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An IPAM ID.
+    /// </summary>
     [CliOption("--ipam-id")]
-    public string? IpamId { get; set; }
+    public string? IpamId { get; private init; }
 
+    /// <summary>
+    /// A public 2-byte or 4-byte ASN.
+    /// </summary>
     [CliOption("--asn")]
-    public string? Asn { get; set; }
+    public string? Asn { get; private init; }
 
+    /// <summary>
+    /// An ASN authorization context. Message -&gt; (string) [required] The authorization context's message. Signature -&gt; (string) [required] The authorization context's signature. Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }
+    /// </summary>
     [CliOption("--asn-authorization-context")]
-    public string? AsnAuthorizationContext { get; set; }
+    public string? AsnAuthorizationContext { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

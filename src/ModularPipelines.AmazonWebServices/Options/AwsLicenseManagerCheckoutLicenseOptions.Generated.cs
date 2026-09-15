@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +22,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "checkout-license")]
-public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions
+public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Checks out the specified license. NOTE: If the account that created the license is the same that is perform- ing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProductSku">Product SKU.</param>
+    /// <param name="CheckoutType">Checkout type. Possible values: o PROVISIONAL o PERPETUAL</param>
+    /// <param name="KeyFingerprint">Key fingerprint identifying the license.</param>
+    /// <param name="Entitlements">License entitlements. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+</param>
+    public AwsLicenseManagerCheckoutLicenseOptions(
+        string ProductSku,
+        AwsLicenseManagerCheckoutLicenseCheckoutType CheckoutType,
+        string KeyFingerprint,
+        IEnumerable<string> Entitlements,
+        string ClientToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductSku);
+        this.ProductSku = ProductSku;
+        global::System.ArgumentNullException.ThrowIfNull(CheckoutType);
+        this.CheckoutType = CheckoutType;
+        global::System.ArgumentNullException.ThrowIfNull(KeyFingerprint);
+        this.KeyFingerprint = KeyFingerprint;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entitlements);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entitlements));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entitlements));
+            }
+
+            Entitlements = materialized;
+        }
+        this.Entitlements = Entitlements;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+    }
+
+    private AwsLicenseManagerCheckoutLicenseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerCheckoutLicenseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerCheckoutLicenseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Product SKU.
+    /// </summary>
     [CliOption("--product-sku")]
-    public string? ProductSku { get; set; }
+    public string? ProductSku { get; private init; }
 
+    /// <summary>
+    /// Checkout type. Possible values: o PROVISIONAL o PERPETUAL
+    /// </summary>
     [CliOption("--checkout-type")]
-    public string? CheckoutType { get; set; }
+    public AwsLicenseManagerCheckoutLicenseCheckoutType? CheckoutType { get; private init; }
 
+    /// <summary>
+    /// Key fingerprint identifying the license.
+    /// </summary>
     [CliOption("--key-fingerprint")]
-    public string? KeyFingerprint { get; set; }
+    public string? KeyFingerprint { get; private init; }
 
+    /// <summary>
+    /// License entitlements. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]
+    /// </summary>
     [CliOption("--entitlements", GroupValues = true)]
-    public IEnumerable<string>? Entitlements { get; set; }
+    public IEnumerable<string>? Entitlements { get; private init; }
 
+    /// <summary>
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
 
     /// <summary>
     /// License beneficiary.
@@ -55,5 +132,22 @@ public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

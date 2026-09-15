@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueUpdateSourceControlFromJobProvider
 {
-    [EnumValue("GITHUB")]
-    Github = 0,
-
     [EnumValue("AWS_CODE_COMMIT")]
-    AwsCodeCommit = 1,
-
-    [EnumValue("GITLAB")]
-    Gitlab = 2,
+    AwsCodeCommit,
 
     [EnumValue("BITBUCKET")]
-    Bitbucket = 3
+    Bitbucket,
+
+    [EnumValue("GITHUB")]
+    Github,
+
+    [EnumValue("GITLAB")]
+    Gitlab
 }

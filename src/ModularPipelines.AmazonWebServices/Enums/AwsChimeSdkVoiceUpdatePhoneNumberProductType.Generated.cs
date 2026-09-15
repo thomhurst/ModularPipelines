@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --producttype.
+/// Allowed values for --product-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceUpdatePhoneNumberProductType
 {
-    [EnumValue("VoiceConnector")]
-    VoiceConnector = 1,
-
     [EnumValue("SipMediaApplicationDialIn")]
-    SipMediaApplicationDialIn = 2
+    SipMediaApplicationDialIn,
+
+    [EnumValue("VoiceConnector")]
+    VoiceConnector
 }

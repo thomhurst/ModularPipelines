@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "update-pool")]
-public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pool-id")]
-    public string? PoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--two-way-enabled")]
+    /// <summary>
+    /// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWay- ChannelArn , enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PoolId">The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*</param>
+    public AwsPinpointSmsVoiceV2UpdatePoolOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    private AwsPinpointSmsVoiceV2UpdatePoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdatePoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdatePoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string? PoolId { get; private init; }
+
+    /// <summary>
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    /// </summary>
+    [CliFlag("--two-way-enabled", NegatedName = "--no-two-way-enabled")]
     public bool? TwoWayEnabled { get; set; }
 
     /// <summary>
@@ -39,7 +79,10 @@ public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions
     [CliOption("--two-way-channel-role")]
     public string? TwoWayChannelRole { get; set; }
 
-    [CliFlag("--self-managed-opt-outs-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to false and an end recip- ient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// </summary>
+    [CliFlag("--self-managed-opt-outs-enabled", NegatedName = "--no-self-managed-opt-outs-enabled")]
     public bool? SelfManagedOptOutsEnabled { get; set; }
 
     /// <summary>
@@ -48,10 +91,16 @@ public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }
 
-    [CliFlag("--shared-routes-enabled")]
+    /// <summary>
+    /// Indicates whether shared routes are enabled for the pool.
+    /// </summary>
+    [CliFlag("--shared-routes-enabled", NegatedName = "--no-shared-routes-enabled")]
     public bool? SharedRoutesEnabled { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// When set to true the pool can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -59,5 +108,22 @@ public record AwsPinpointSmsVoiceV2UpdatePoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

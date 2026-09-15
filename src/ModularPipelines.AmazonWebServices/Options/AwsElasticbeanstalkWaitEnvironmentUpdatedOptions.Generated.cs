@@ -46,7 +46,10 @@ public record AwsElasticbeanstalkWaitEnvironmentUpdatedOptions : AwsOptions
     [CliOption("--environment-names", GroupValues = true)]
     public IEnumerable<string>? EnvironmentNames { get; set; }
 
-    [CliFlag("--include-deleted")]
+    /// <summary>
+    /// Indicates whether to include deleted environments: true : Environments that have been deleted after IncludedDelet- edBackTo are displayed. false : Do not include deleted environments.
+    /// </summary>
+    [CliFlag("--include-deleted", NegatedName = "--no-include-deleted")]
     public bool? IncludeDeleted { get; set; }
 
     /// <summary>

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListCompilationJobsSortBy
 {
-    [EnumValue("Name")]
-    Name = 1,
-
     [EnumValue("CreationTime")]
-    CreationTime = 2,
+    CreationTime,
+
+    [EnumValue("Name")]
+    Name,
 
     [EnumValue("Status")]
-    Status = 3
+    Status
 }

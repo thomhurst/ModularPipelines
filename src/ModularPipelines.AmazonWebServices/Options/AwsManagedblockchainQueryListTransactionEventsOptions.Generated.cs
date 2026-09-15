@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain-query", "list-transaction-events")]
-public record AwsManagedblockchainQueryListTransactionEventsOptions : AwsOptions
+public record AwsManagedblockchainQueryListTransactionEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all the transaction events for a transaction NOTE: This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached finality . See also: AWS API Documentation list-transaction-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
+    /// </summary>
+    /// <param name="Network">The blockchain network where the transaction events occurred. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET</param>
+    public AwsManagedblockchainQueryListTransactionEventsOptions(
+        AwsManagedblockchainQueryListTransactionEventsNetwork Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    private AwsManagedblockchainQueryListTransactionEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainQueryListTransactionEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainQueryListTransactionEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The blockchain network where the transaction events occurred. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET
+    /// </summary>
+    [CliOption("--network")]
+    public AwsManagedblockchainQueryListTransactionEventsNetwork? Network { get; private init; }
+
     /// <summary>
     /// The hash of a transaction. It is generated when a transaction is created. Constraints: o pattern: (0x[A-Fa-f0-9]{64}|[A-Fa-f0-9]{64})
     /// </summary>
@@ -33,9 +74,6 @@ public record AwsManagedblockchainQueryListTransactionEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
-
-    [CliOption("--network")]
-    public string? Network { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +99,22 @@ public record AwsManagedblockchainQueryListTransactionEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --actionstatus.
+/// Allowed values for --action-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListAuditMitigationActionsExecutionsActionStatus
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    [EnumValue("CANCELED")]
+    Canceled,
 
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
-    [EnumValue("CANCELED")]
-    Canceled = 4,
-
-    [EnumValue("SKIPPED")]
-    Skipped = 5,
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
 
     [EnumValue("PENDING")]
-    Pending = 6
+    Pending,
+
+    [EnumValue("SKIPPED")]
+    Skipped
 }

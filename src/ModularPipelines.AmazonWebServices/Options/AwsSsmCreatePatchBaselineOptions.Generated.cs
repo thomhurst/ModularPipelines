@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-patch-baseline")]
-public record AwsSsmCreatePatchBaselineOptions : AwsOptions
+public record AwsSsmCreatePatchBaselineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a patch baseline. NOTE: For information about valid key-value pairs in PatchFilters for each supported operating system type, see PatchFilter . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the patch baseline. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    public AwsSsmCreatePatchBaselineOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmCreatePatchBaselineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreatePatchBaselineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreatePatchBaselineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the patch baseline. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// Defines the operating system the patch baseline applies to. The de- fault value is WINDOWS . Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
-    public string? OperatingSystem { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    public AwsSsmCreatePatchBaselineOperatingSystem? OperatingSystem { get; set; }
 
     /// <summary>
     /// A set of global filters used to include patches in the baseline. WARNING: The GlobalFilters parameter can be configured only by using the CLI or an Amazon Web Services SDK. It can't be configured from the Patch Manager console, and its value isn't displayed in the console. PatchFilters -&gt; (list) [required] The set of patch filters that make up the group. Constraints: o min: 0 o max: 4 (structure) Defines which patches should be included in a patch baseline. A patch filter consists of a key and a set of values. The filter key is a patch property. For example, the available filter keys for WINDOWS are PATCH_SET , PRODUCT , PROD- UCT_FAMILY , CLASSIFICATION , and MSRC_SEVERITY . The filter values define a matching criterion for the patch property indicated by the key. For example, if the filter key is PRODUCT and the filter values are ["Office 2013", "Office 2016"] , then the filter accepts all patches where product name is either "Office 2013" or "Office 2016". The filter values can be exact values for the patch property given as a key, or a wildcard (*), which matches all values. You can view lists of valid values for the patch properties by running the DescribePatchProperties command. For informa- tion about which patch properties can be used with each major operating system, see DescribePatchProperties . Key -&gt; (string) [required] The key for the filter. Run the DescribePatchProperties command to view lists of valid keys for each operating system type. Possible values: o ARCH o ADVISORY_ID o BUGZILLA_ID o PATCH_SET o PRODUCT o PRODUCT_FAMILY o CLASSIFICATION o CVE_ID o EPOCH o MSRC_SEVERITY o NAME o PATCH_ID o SECTION o PRIORITY o REPOSITORY o RELEASE o SEVERITY o SECURITY o VERSION Values -&gt; (list) [required] The value for the filter key. Run the DescribePatchProperties command to view lists of valid values for each key based on operating system type. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 64 JSON Syntax: { "PatchFilters": [ { "Key": "ARCH"|"ADVISORY_ID"|"BUGZILLA_ID"|"PATCH_SET"|"PRODUCT"|"PRODUCT_FAMILY"|"CLASSIFICATION"|"CVE_ID"|"EPOCH"|"MSRC_SEVERITY"|"NAME"|"PATCH_ID"|"SECTION"|"PRIORITY"|"REPOSITORY"|"RELEASE"|"SEVERITY"|"SECURITY"|"VERSION", "Values": ["string", ...] } ... ] }
@@ -56,7 +93,10 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
     [CliOption("--approved-patches-compliance-level")]
     public AwsSsmCreatePatchBaselineApprovedPatchesComplianceLevel? ApprovedPatchesComplianceLevel { get; set; }
 
-    [CliFlag("--approved-patches-enable-non-security")]
+    /// <summary>
+    /// able-non-security (boolean) Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false . Applies to Linux managed nodes only.
+    /// </summary>
+    [CliFlag("--approved-patches-enable-non-security", NegatedName = "--no-approved-patches-enable-non-security")]
     public bool? ApprovedPatchesEnableNonSecurity { get; set; }
 
     /// <summary>
@@ -107,5 +147,22 @@ public record AwsSsmCreatePatchBaselineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

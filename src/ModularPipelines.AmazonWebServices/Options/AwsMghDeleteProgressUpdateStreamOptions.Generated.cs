@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgh", "delete-progress-update-stream")]
-public record AwsMghDeleteProgressUpdateStreamOptions : AwsOptions
+public record AwsMghDeleteProgressUpdateStreamOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--progress-update-stream-name")]
-    public string? ProgressUpdateStreamName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits: o The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call). o The call will return, and a background process will asynchronously delete the stream and all of its resources (tasks, associated re- sources, resource attributes, created artifacts). o If the stream takes ...
+    /// </summary>
+    /// <param name="ProgressUpdateStreamName">The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    public AwsMghDeleteProgressUpdateStreamOptions(
+        string ProgressUpdateStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProgressUpdateStreamName);
+        this.ProgressUpdateStreamName = ProgressUpdateStreamName;
+    }
+
+    private AwsMghDeleteProgressUpdateStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMghDeleteProgressUpdateStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMghDeleteProgressUpdateStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// </summary>
+    [CliOption("--progress-update-stream-name")]
+    public string? ProgressUpdateStreamName { get; private init; }
+
+    /// <summary>
+    /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsMghDeleteProgressUpdateStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,14 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "record-handler-progress")]
-public record AwsCloudformationRecordHandlerProgressOptions : AwsOptions
+public record AwsCloudformationRecordHandlerProgressOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Reports progress of a resource handler to CloudFormation. Reserved for use by the CloudFormation CLI . Don't use this API in your code. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BearerToken">Reserved for use by the CloudFormation CLI . Constraints: o min: 1 o max: 128</param>
+    /// <param name="OperationStatus">Reserved for use by the CloudFormation CLI . Possible values: o PENDING o IN_PROGRESS o SUCCESS o FAILED</param>
+    public AwsCloudformationRecordHandlerProgressOptions(
+        string BearerToken,
+        AwsCloudformationRecordHandlerProgressOperationStatus OperationStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BearerToken);
+        this.BearerToken = BearerToken;
+        global::System.ArgumentNullException.ThrowIfNull(OperationStatus);
+        this.OperationStatus = OperationStatus;
+    }
+
+    private AwsCloudformationRecordHandlerProgressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationRecordHandlerProgressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationRecordHandlerProgressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Reserved for use by the CloudFormation CLI . Constraints: o min: 1 o max: 128
+    /// </summary>
     [SecretValue]
     [CliOption("--bearer-token")]
-    public string? BearerToken { get; set; }
+    public string? BearerToken { get; private init; }
 
+    /// <summary>
+    /// Reserved for use by the CloudFormation CLI . Possible values: o PENDING o IN_PROGRESS o SUCCESS o FAILED
+    /// </summary>
     [CliOption("--operation-status")]
-    public string? OperationStatus { get; set; }
+    public AwsCloudformationRecordHandlerProgressOperationStatus? OperationStatus { get; private init; }
 
     /// <summary>
     /// Reserved for use by the CloudFormation CLI . Possible values: o PENDING o IN_PROGRESS o SUCCESS o FAILED
@@ -46,7 +90,7 @@ public record AwsCloudformationRecordHandlerProgressOptions : AwsOptions
     /// Reserved for use by the CloudFormation CLI . Possible values: o NotUpdatable o InvalidRequest o AccessDenied o InvalidCredentials o AlreadyExists o NotFound o ResourceConflict o Throttling o ServiceLimitExceeded o NotStabilized o GeneralServiceException o ServiceInternalError o NetworkFailure o InternalFailure o InvalidTypeConfiguration o HandlerInternalFailure o NonCompliant o Unknown o UnsupportedTarget
     /// </summary>
     [CliOption("--error-code")]
-    public string? ErrorCode { get; set; }
+    public AwsCloudformationRecordHandlerProgressErrorCode? ErrorCode { get; set; }
 
     /// <summary>
     /// Reserved for use by the CloudFormation CLI . Constraints: o min: 1 o max: 16384
@@ -66,5 +110,22 @@ public record AwsCloudformationRecordHandlerProgressOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

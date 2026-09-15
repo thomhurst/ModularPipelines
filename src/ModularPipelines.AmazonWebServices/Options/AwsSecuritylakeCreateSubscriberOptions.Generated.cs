@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,28 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "create-subscriber")]
-public record AwsSecuritylakeCreateSubscriberOptions : AwsOptions
+public record AwsSecuritylakeCreateSubscriberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Sources">The supported Amazon Web Services services from which logs and events are collected. Security Lake supports log and event collec- tion for natively supported Amazon Web Services services. (tagged union structure) The supported source types from which logs and events are col- lected in Amazon Security Lake. For a list of supported Amazon Web Services services, see the Amazon Security Lake User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsLogSource, customLogSource. awsLogSource -&gt; (structure) Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more in- formation, see the Amazon Security Lake User Guide . sourceName -&gt; (string) The name for a Amazon Web Services source. This must be a Regionally unique value. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. This must be a Regionally unique value. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ customLogSource -&gt; (structure) Amazon Security Lake supports custom source types. For more information, see the Amazon Security Lake User Guide . attributes -&gt; (structure) The attributes of a third-party custom source. crawlerArn -&gt; (string) The ARN of the Glue crawler. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ databaseArn -&gt; (string) The ARN of the Glue database where results are writ- ten, such as: arn:aws:daylight:us-east-1::data- base/sometable/* . Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ tableArn -&gt; (string) The ARN of the Glue table. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ provider -&gt; (structure) The details of the log provider for a third-party custom source. location -&gt; (string) The location of the partition in the Amazon S3 bucket for Security Lake. Constraints: o min: 0 o max: 1024 o pattern: ^s3[an]?://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^/].*)+$ roleArn -&gt; (string) The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Secu- rity Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ sourceName -&gt; (string) The name for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$ sourceVersion -&gt; (string) The version for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z0-9\-\.\_]*$ Shorthand Syntax: awsLogSource={sourceName=string,sourceVersion=string},customLogSource={attributes={crawlerArn=string,databaseArn=string,tableArn=string},provider={location=string,roleArn=string},sourceName=string,sourceVersion=string} ... JSON Syntax: [ { "awsLogSource": { "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" }, "customLogSource": { "attributes": { "crawlerArn": "string", "databaseArn": "string", "tableArn": "string" }, "provider": { "location": "string", "roleArn": "string" }, "sourceName": "string", "sourceVersion": "string" } } ... ]</param>
+    /// <param name="SubscriberIdentity">The Amazon Web Services identity used to access your data. externalId -&gt; (string) [required] The external ID used to establish trust relationship with the Amazon Web Services identity. Constraints: o min: 2 o max: 1224 o pattern: ^[\w+=,.@:\/-]*$ principal -&gt; (string) [required] The Amazon Web Services identity principal. Constraints: o pattern: ^([0-9]{12}|[a-z0-9\.\-]*\.(amazonaws|amazon)\.com)$ Shorthand Syntax: externalId=string,principal=string JSON Syntax: { "externalId": "string", "principal": "string" }</param>
+    /// <param name="SubscriberName">The name of your Security Lake subscriber account. Constraints: o min: 0 o max: 64</param>
+    public AwsSecuritylakeCreateSubscriberOptions(
+        IEnumerable<string> Sources,
+        string SubscriberIdentity,
+        string SubscriberName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriberIdentity);
+        this.SubscriberIdentity = SubscriberIdentity;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriberName);
+        this.SubscriberName = SubscriberName;
+    }
+
+    private AwsSecuritylakeCreateSubscriberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeCreateSubscriberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeCreateSubscriberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The supported Amazon Web Services services from which logs and events are collected. Security Lake supports log and event collec- tion for natively supported Amazon Web Services services. (tagged union structure) The supported source types from which logs and events are col- lected in Amazon Security Lake. For a list of supported Amazon Web Services services, see the Amazon Security Lake User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsLogSource, customLogSource. awsLogSource -&gt; (structure) Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more in- formation, see the Amazon Security Lake User Guide . sourceName -&gt; (string) The name for a Amazon Web Services source. This must be a Regionally unique value. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. This must be a Regionally unique value. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ customLogSource -&gt; (structure) Amazon Security Lake supports custom source types. For more information, see the Amazon Security Lake User Guide . attributes -&gt; (structure) The attributes of a third-party custom source. crawlerArn -&gt; (string) The ARN of the Glue crawler. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ databaseArn -&gt; (string) The ARN of the Glue database where results are writ- ten, such as: arn:aws:daylight:us-east-1::data- base/sometable/* . Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ tableArn -&gt; (string) The ARN of the Glue table. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ provider -&gt; (structure) The details of the log provider for a third-party custom source. location -&gt; (string) The location of the partition in the Amazon S3 bucket for Security Lake. Constraints: o min: 0 o max: 1024 o pattern: ^s3[an]?://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^/].*)+$ roleArn -&gt; (string) The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Secu- rity Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ sourceName -&gt; (string) The name for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$ sourceVersion -&gt; (string) The version for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z0-9\-\.\_]*$ Shorthand Syntax: awsLogSource={sourceName=string,sourceVersion=string},customLogSource={attributes={crawlerArn=string,databaseArn=string,tableArn=string},provider={location=string,roleArn=string},sourceName=string,sourceVersion=string} ... JSON Syntax: [ { "awsLogSource": { "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" }, "customLogSource": { "attributes": { "crawlerArn": "string", "databaseArn": "string", "tableArn": "string" }, "provider": { "location": "string", "roleArn": "string" }, "sourceName": "string", "sourceVersion": "string" } } ... ]
+    /// </summary>
+    [CliOption("--sources", GroupValues = true)]
+    public IEnumerable<string>? Sources { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services identity used to access your data. externalId -&gt; (string) [required] The external ID used to establish trust relationship with the Amazon Web Services identity. Constraints: o min: 2 o max: 1224 o pattern: ^[\w+=,.@:\/-]*$ principal -&gt; (string) [required] The Amazon Web Services identity principal. Constraints: o pattern: ^([0-9]{12}|[a-z0-9\.\-]*\.(amazonaws|amazon)\.com)$ Shorthand Syntax: externalId=string,principal=string JSON Syntax: { "externalId": "string", "principal": "string" }
+    /// </summary>
+    [CliOption("--subscriber-identity")]
+    public string? SubscriberIdentity { get; private init; }
+
+    /// <summary>
+    /// The name of your Security Lake subscriber account. Constraints: o min: 0 o max: 64
+    /// </summary>
+    [CliOption("--subscriber-name")]
+    public string? SubscriberName { get; private init; }
+
     /// <summary>
     /// The Amazon S3 or Lake Formation access type. (string) Possible values: o LAKEFORMATION o S3 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--access-types", GroupValues = true)]
     public IEnumerable<string>? AccessTypes { get; set; }
 
-    [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
-
     /// <summary>
     /// The description for your subscriber account in Security Lake. Constraints: o pattern: ^[\\\w\s\-_:/,.@=+]*$
     /// </summary>
     [CliOption("--subscriber-description")]
     public string? SubscriberDescription { get; set; }
-
-    [CliOption("--subscriber-identity")]
-    public string? SubscriberIdentity { get; set; }
-
-    [CliOption("--subscriber-name")]
-    public string? SubscriberName { get; set; }
 
     /// <summary>
     /// An array of objects, one for each tag to associate with the sub- scriber. For each tag, you must specify both a tag key and a tag value. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 50 (structure) A tag is a label that you can define and associate with Amazon Web Services resources, including certain types of Amazon Secu- rity Lake resources. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environ- ment, or other criteria. You can associate tags with the follow- ing types of Security Lake resources: subscribers, and the data lake configuration for your Amazon Web Services account in indi- vidual Amazon Web Services Regions. A resource can have up to 50 tags. Each tag consists of a re- quired tag key and an associated tag value . A tag key is a gen- eral label that acts as a category for a more specific tag value. Each tag key must be unique and it can have only one tag value. A tag value acts as a descriptor for a tag key. Tag keys and values are case sensitive. They can contain letters, num- bers, spaces, or the following symbols: _ . : / = + @ - For more information, see Tagging Amazon Security Lake resources in the Amazon Security Lake User Guide . key -&gt; (string) [required] The name of the tag. This is a general label that acts as a category for a more specific tag value (value ). Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value thats associated with the specified tag key (key ). This value acts as a descriptor for the tag key. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -53,5 +115,22 @@ public record AwsSecuritylakeCreateSubscriberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

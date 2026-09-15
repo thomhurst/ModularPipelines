@@ -16,36 +16,36 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupListBackupJobSummariesState
 {
-    [EnumValue("CREATED")]
-    Created = 1,
-
-    [EnumValue("PENDING")]
-    Pending = 2,
-
-    [EnumValue("RUNNING")]
-    Running = 3,
+    [EnumValue("ABORTED")]
+    Aborted,
 
     [EnumValue("ABORTING")]
-    Aborting = 4,
-
-    [EnumValue("ABORTED")]
-    Aborted = 5,
-
-    [EnumValue("COMPLETED")]
-    Completed = 6,
-
-    [EnumValue("FAILED")]
-    Failed = 7,
-
-    [EnumValue("EXPIRED")]
-    Expired = 8,
-
-    [EnumValue("PARTIAL")]
-    Partial = 9,
+    Aborting,
 
     [EnumValue("AGGREGATE_ALL")]
-    AggregateAll = 10,
+    AggregateAll,
 
     [EnumValue("ANY")]
-    Any = 11
+    Any,
+
+    [EnumValue("COMPLETED")]
+    Completed,
+
+    [EnumValue("CREATED")]
+    Created,
+
+    [EnumValue("EXPIRED")]
+    Expired,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("PARTIAL")]
+    Partial,
+
+    [EnumValue("PENDING")]
+    Pending,
+
+    [EnumValue("RUNNING")]
+    Running
 }

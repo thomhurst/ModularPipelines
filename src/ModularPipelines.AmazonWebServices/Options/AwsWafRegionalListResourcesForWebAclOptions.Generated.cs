@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf-regional", "list-resources-for-web-acl")]
-public record AwsWafRegionalListResourcesForWebAclOptions : AwsOptions
+public record AwsWafRegionalListResourcesForWebAclOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic Regional documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of resources associated with the specified web ACL. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WebAclId">The unique identifier (ID) of the web ACL for which to list the as- sociated resources. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    public AwsWafRegionalListResourcesForWebAclOptions(
+        string WebAclId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebAclId);
+        this.WebAclId = WebAclId;
+    }
+
+    private AwsWafRegionalListResourcesForWebAclOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafRegionalListResourcesForWebAclOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafRegionalListResourcesForWebAclOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (ID) of the web ACL for which to list the as- sociated resources. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--web-acl-id")]
-    public string? WebAclId { get; set; }
+    public string? WebAclId { get; private init; }
 
     /// <summary>
     /// The type of resource to list, either an application load balancer or Amazon API Gateway. Possible values: o APPLICATION_LOAD_BALANCER o API_GATEWAY
@@ -36,5 +73,22 @@ public record AwsWafRegionalListResourcesForWebAclOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

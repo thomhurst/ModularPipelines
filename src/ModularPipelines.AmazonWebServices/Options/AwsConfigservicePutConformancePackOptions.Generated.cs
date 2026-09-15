@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-conformance-pack")]
-public record AwsConfigservicePutConformancePackOptions : AwsOptions
+public record AwsConfigservicePutConformancePackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a conformance pack. A conformance pack is a collec- tion of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many confor- mance packs you can have per account, see ` Service Limits https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html`__ in the Config Developer Guide . WARNING: When you use PutConformancePack to deploy conformance packs in your account, the operation can create Config ru...
+    /// </summary>
+    /// <param name="ConformancePackName">The unique name of the conformance pack you want to deploy. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    public AwsConfigservicePutConformancePackOptions(
+        string ConformancePackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConformancePackName);
+        this.ConformancePackName = ConformancePackName;
+    }
+
+    private AwsConfigservicePutConformancePackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutConformancePackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutConformancePackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the conformance pack you want to deploy. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--conformance-pack-name")]
-    public string? ConformancePackName { get; set; }
+    public string? ConformancePackName { get; private init; }
 
     /// <summary>
     /// The location of the file containing the template body (s3://bucket- name/prefix ). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. NOTE: You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed. Constraints: o min: 1 o max: 1024 o pattern: s3://.*
@@ -71,5 +108,22 @@ public record AwsConfigservicePutConformancePackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

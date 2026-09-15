@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deletionprotectioncheck.
+/// Allowed values for --deletion-protection-check.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppConfigDeleteConfigurationProfileDeletionProtectionCheck
 {
     [EnumValue("ACCOUNT_DEFAULT")]
-    AccountDefault = 1,
+    AccountDefault,
 
     [EnumValue("APPLY")]
-    Apply = 2,
+    Apply,
 
     [EnumValue("BYPASS")]
-    Bypass = 3
+    Bypass
 }

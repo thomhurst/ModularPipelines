@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "create-sbom-export")]
-public record AwsInspector2CreateSbomExportOptions : AwsOptions
+public record AwsInspector2CreateSbomExportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a software bill of materials (SBOM) report. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReportFormat">The output format for the software bill of materials (SBOM) report. Possible values: o CYCLONEDX_1_4 o SPDX_2_3</param>
+    /// <param name="S3Destination">Contains details of the Amazon S3 bucket and KMS key used to export findings. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket to export findings to. keyPrefix -&gt; (string) The prefix that the findings will be written under. kmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt data when exporting find- ings. Shorthand Syntax: bucketName=string,keyPrefix=string,kmsKeyArn=string JSON Syntax: { "bucketName": "string", "keyPrefix": "string", "kmsKeyArn": "string" }</param>
+    public AwsInspector2CreateSbomExportOptions(
+        AwsInspector2CreateSbomExportReportFormat ReportFormat,
+        string S3Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportFormat);
+        this.ReportFormat = ReportFormat;
+        global::System.ArgumentNullException.ThrowIfNull(S3Destination);
+        this.S3Destination = S3Destination;
+    }
+
+    private AwsInspector2CreateSbomExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2CreateSbomExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2CreateSbomExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The output format for the software bill of materials (SBOM) report. Possible values: o CYCLONEDX_1_4 o SPDX_2_3
+    /// </summary>
+    [CliOption("--report-format")]
+    public AwsInspector2CreateSbomExportReportFormat? ReportFormat { get; private init; }
+
+    /// <summary>
+    /// Contains details of the Amazon S3 bucket and KMS key used to export findings. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket to export findings to. keyPrefix -&gt; (string) The prefix that the findings will be written under. kmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt data when exporting find- ings. Shorthand Syntax: bucketName=string,keyPrefix=string,kmsKeyArn=string JSON Syntax: { "bucketName": "string", "keyPrefix": "string", "kmsKeyArn": "string" }
+    /// </summary>
+    [CliOption("--s3-destination")]
+    public string? S3Destination { get; private init; }
+
     /// <summary>
     /// The resource filter criteria for the software bill of materials (SBOM) report. accountId -&gt; (list) The account IDs used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 resourceId -&gt; (list) The resource IDs used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 resourceType -&gt; (list) The resource types used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 ecrRepositoryName -&gt; (list) The ECR repository names used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 lambdaFunctionName -&gt; (list) The Amazon Web Services Lambda function name used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 ecrImageTags -&gt; (list) The ECR image tags used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 ec2InstanceTags -&gt; (list) The EC2 instance tags used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource map filter for a software bill of material report. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS key -&gt; (string) [required] The filter's key. Constraints: o min: 1 value -&gt; (string) The filter's value. Constraints: o min: 1 lambdaFunctionTags -&gt; (list) The Amazon Web Services Lambda function tags used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource map filter for a software bill of material report. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS key -&gt; (string) [required] The filter's key. Constraints: o min: 1 value -&gt; (string) The filter's value. Constraints: o min: 1 cloudProvider -&gt; (list) The cloud providers used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudProviderAccountId -&gt; (list) The cloud provider account IDs used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudProviderOrgId -&gt; (list) The cloud provider organization IDs used as resource filter cri- teria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudProviderRegion -&gt; (list) The cloud provider regions used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudVmInstanceTags -&gt; (list) The cloud VM instance tags used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource map filter for a software bill of material report. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS key -&gt; (string) [required] The filter's key. Constraints: o min: 1 value -&gt; (string) The filter's value. Constraints: o min: 1 cloudContainerImageTags -&gt; (list) The cloud container image tags used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudContainerRepositoryName -&gt; (list) The cloud container repository names used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudContainerRegistryName -&gt; (list) The cloud container registry names used as resource filter cri- teria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudServerlessFunctionName -&gt; (list) The cloud serverless function names used as resource filter cri- teria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudServerlessFunctionRuntime -&gt; (list) The cloud serverless function runtimes used as resource filter criteria. Constraints: o min: 1 o max: 10 (structure) A resource string filter for a software bill of materials re- port. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS o NOT_EQUALS value -&gt; (string) [required] The filter's value. Constraints: o min: 1 o max: 1024 cloudServerlessFunctionTags -&gt; (list) The cloud serverless function tags used as resource filter cri- teria. Constraints: o min: 1 o max: 10 (structure) A resource map filter for a software bill of material report. comparison -&gt; (string) [required] The filter's comparison. Possible values: o EQUALS key -&gt; (string) [required] The filter's key. Constraints: o min: 1 value -&gt; (string) The filter's value. Constraints: o min: 1 Shorthand Syntax: accountId=[{comparison=string,value=string},{comparison=string,value=string}],resourceId=[{comparison=string,value=string},{comparison=string,value=string}],resourceType=[{comparison=string,value=string},{comparison=string,value=string}],ecrRepositoryName=[{comparison=string,value=string},{comparison=string,value=string}],lambdaFunctionName=[{comparison=string,value=string},{comparison=string,value=string}],ecrImageTags=[{comparison=string,value=string},{comparison=string,value=string}],ec2InstanceTags=[{comparison=string,key=string,value=string},{comparison=string,key=string,value=string}],lambdaFunctionTags=[{comparison=string,key=string,value=string},{comparison=string,key=string,value=string}],cloudProvider=[{comparison=string,value=string},{comparison=string,value=string}],cloudProviderAccountId=[{comparison=string,value=string},{comparison=string,value=string}],cloudProviderOrgId=[{comparison=string,value=string},{comparison=string,value=string}],cloudProviderRegion=[{comparison=string,value=string},{comparison=string,value=string}],cloudVmInstanceTags=[{comparison=string,key=string,value=string},{comparison=string,key=string,value=string}],cloudContainerImageTags=[{comparison=string,value=string},{comparison=string,value=string}],cloudContainerRepositoryName=[{comparison=string,value=string},{comparison=string,value=string}],cloudContainerRegistryName=[{comparison=string,value=string},{comparison=string,value=string}],cloudServerlessFunctionName=[{comparison=string,value=string},{comparison=string,value=string}],cloudServerlessFunctionRuntime=[{comparison=string,value=string},{comparison=string,value=string}],cloudServerlessFunctionTags=[{comparison=string,key=string,value=string},{comparison=string,key=string,value=string}] JSON Syntax: { "accountId": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "resourceId": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "resourceType": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "ecrRepositoryName": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "lambdaFunctionName": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "ecrImageTags": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "ec2InstanceTags": [ { "comparison": "EQUALS", "key": "string", "value": "string" } ... ], "lambdaFunctionTags": [ { "comparison": "EQUALS", "key": "string", "value": "string" } ... ], "cloudProvider": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudProviderAccountId": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudProviderOrgId": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudProviderRegion": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudVmInstanceTags": [ { "comparison": "EQUALS", "key": "string", "value": "string" } ... ], "cloudContainerImageTags": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudContainerRepositoryName": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudContainerRegistryName": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudServerlessFunctionName": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudServerlessFunctionRuntime": [ { "comparison": "EQUALS"|"NOT_EQUALS", "value": "string" } ... ], "cloudServerlessFunctionTags": [ { "comparison": "EQUALS", "key": "string", "value": "string" } ... ] }
     /// </summary>
     [CliOption("--resource-filter-criteria")]
     public string? ResourceFilterCriteria { get; set; }
 
-    [CliOption("--report-format")]
-    public string? ReportFormat { get; set; }
-
-    [CliOption("--s3-destination")]
-    public string? S3Destination { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

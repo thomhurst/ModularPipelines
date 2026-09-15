@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "delete-activity-type")]
-public record AwsSwfDeleteActivityTypeOptions : AwsOptions
+public record AwsSwfDeleteActivityTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified activity type . Note: Prior to deletion, activity types must first be deprecated . After an activity type has been deleted, you cannot schedule new activ- ities of that type. Activities that started before the type was deleted will continue to run. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to a...
+    /// </summary>
+    /// <param name="Domain">The name of the domain in which the activity type is registered. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ActivityType">The activity type to delete. name -&gt; (string) [required] The name of this activity. NOTE: The combination of activity type name and version must be unique within a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of this activity. NOTE: The combination of activity type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }</param>
+    public AwsSwfDeleteActivityTypeOptions(
+        string Domain,
+        string ActivityType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(ActivityType);
+        this.ActivityType = ActivityType;
+    }
+
+    private AwsSwfDeleteActivityTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfDeleteActivityTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfDeleteActivityTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain in which the activity type is registered. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The activity type to delete. name -&gt; (string) [required] The name of this activity. NOTE: The combination of activity type name and version must be unique within a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of this activity. NOTE: The combination of activity type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
+    /// </summary>
     [CliOption("--activity-type")]
-    public string? ActivityType { get; set; }
+    public string? ActivityType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

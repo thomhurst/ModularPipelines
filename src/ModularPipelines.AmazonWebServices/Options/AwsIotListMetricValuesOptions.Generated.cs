@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-metric-values")]
-public record AwsIotListMetricValuesOptions : AwsOptions
+public record AwsIotListMetricValuesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--thing-name")]
-    public string? ThingName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the values reported for an IoT Device Defender metric (de- vice-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period. See also: AWS API Documentation list-metric-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
+    /// </summary>
+    /// <param name="ThingName">The name of the thing for which security profile metric values are returned. Constraints: o min: 1 o max: 128</param>
+    /// <param name="MetricName">The name of the security profile metric for which values are re- turned.</param>
+    /// <param name="StartTime">The start of the time period for which metric values are returned.</param>
+    /// <param name="EndTime">The end of the time period for which metric values are returned.</param>
+    public AwsIotListMetricValuesOptions(
+        string ThingName,
+        string MetricName,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThingName);
+        this.ThingName = ThingName;
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsIotListMetricValuesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListMetricValuesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListMetricValuesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the thing for which security profile metric values are returned. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--thing-name")]
+    public string? ThingName { get; private init; }
+
+    /// <summary>
+    /// The name of the security profile metric for which values are re- turned.
+    /// </summary>
     [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
+    public string? MetricName { get; private init; }
+
+    /// <summary>
+    /// The start of the time period for which metric values are returned.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end of the time period for which metric values are returned.
+    /// </summary>
+    [CliOption("--end-time")]
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// The dimension name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
@@ -40,12 +104,6 @@ public record AwsIotListMetricValuesOptions : AwsOptions
     /// </summary>
     [CliOption("--dimension-value-operator")]
     public AwsIotListMetricValuesDimensionValueOperator? DimensionValueOperator { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
-    [CliOption("--end-time")]
-    public string? EndTime { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -71,5 +129,22 @@ public record AwsIotListMetricValuesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

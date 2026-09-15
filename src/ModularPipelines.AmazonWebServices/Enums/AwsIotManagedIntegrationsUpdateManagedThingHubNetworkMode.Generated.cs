@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --hubnetworkmode.
+/// Allowed values for --hub-network-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsUpdateManagedThingHubNetworkMode
 {
-    [EnumValue("STANDARD")]
-    Standard = 1,
-
     [EnumValue("NETWORK_WIDE_EXCLUSION")]
-    NetworkWideExclusion = 2
+    NetworkWideExclusion,
+
+    [EnumValue("STANDARD")]
+    Standard
 }

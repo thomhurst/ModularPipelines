@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "list-application-assignments-for-principal")]
-public record AwsSsoAdminListApplicationAssignmentsForPrincipalOptions : AwsOptions
+public record AwsSsoAdminListApplicationAssignmentsForPrincipalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organi- zation instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account. See also: AWS API Documentation list-application-assignments-for-principal is a ...
+    /// </summary>
+    /// <param name="InstanceArn">Specifies the instance of IAM Identity Center that contains princi- pal and applications. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PrincipalId">Specifies the unique identifier of the principal for which you want to retrieve its assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="PrincipalType">Specifies the type of the principal for which you want to retrieve its assignments. Possible values: o USER o GROUP</param>
+    public AwsSsoAdminListApplicationAssignmentsForPrincipalOptions(
+        string InstanceArn,
+        string PrincipalId,
+        AwsSsoAdminListApplicationAssignmentsForPrincipalPrincipalType PrincipalType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
+        this.PrincipalType = PrincipalType;
+    }
+
+    private AwsSsoAdminListApplicationAssignmentsForPrincipalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminListApplicationAssignmentsForPrincipalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminListApplicationAssignmentsForPrincipalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the instance of IAM Identity Center that contains princi- pal and applications. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the unique identifier of the principal for which you want to retrieve its assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// </summary>
     [CliOption("--principal-id")]
-    public string? PrincipalId { get; set; }
+    public string? PrincipalId { get; private init; }
 
+    /// <summary>
+    /// Specifies the type of the principal for which you want to retrieve its assignments. Possible values: o USER o GROUP
+    /// </summary>
     [CliOption("--principal-type")]
-    public string? PrincipalType { get; set; }
+    public AwsSsoAdminListApplicationAssignmentsForPrincipalPrincipalType? PrincipalType { get; private init; }
 
     /// <summary>
     /// Filters the output to include only assignments associated with the application that has the specified ARN. ApplicationArn -&gt; (string) The ARN of an application. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16} Shorthand Syntax: ApplicationArn=string JSON Syntax: { "ApplicationArn": "string" }
@@ -61,5 +113,22 @@ public record AwsSsoAdminListApplicationAssignmentsForPrincipalOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

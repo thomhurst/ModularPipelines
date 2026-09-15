@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recoverymode.
+/// Allowed values for --recovery-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDrsUpdateLaunchConfigurationTemplateRecoveryMode
 {
     [EnumValue("FAST")]
-    Fast = 1,
+    Fast,
 
     [EnumValue("OPTIMAL")]
-    Optimal = 2
+    Optimal
 }

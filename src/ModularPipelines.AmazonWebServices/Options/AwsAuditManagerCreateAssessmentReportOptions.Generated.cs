@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "create-assessment-report")]
-public record AwsAuditManagerCreateAssessmentReportOptions : AwsOptions
+public record AwsAuditManagerCreateAssessmentReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an assessment report for the specified assessment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the new assessment report. Constraints: o min: 1 o max: 300 o pattern: ^[a-zA-Z0-9-_\.]+$</param>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    public AwsAuditManagerCreateAssessmentReportOptions(
+        string Name,
+        string AssessmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentId);
+        this.AssessmentId = AssessmentId;
+    }
+
+    private AwsAuditManagerCreateAssessmentReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerCreateAssessmentReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerCreateAssessmentReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new assessment report. Constraints: o min: 1 o max: 300 o pattern: ^[a-zA-Z0-9-_\.]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
+    [CliOption("--assessment-id")]
+    public string? AssessmentId { get; private init; }
 
     /// <summary>
     /// The description of the assessment report. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--assessment-id")]
-    public string? AssessmentId { get; set; }
 
     /// <summary>
     /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment re- port from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not in- clude any assessment evidence that was manually added to a report using the console , or associated with a report using the API . To use this parameter, the enablementStatus of evidence finder must be ENABLED . For examples and help resolving queryStatement validation excep- tions, see Troubleshooting evidence finder issues in the Audit Man- ager User Guide. Constraints: o min: 1 o max: 10000 o pattern: (?s).*
@@ -44,5 +88,22 @@ public record AwsAuditManagerCreateAssessmentReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

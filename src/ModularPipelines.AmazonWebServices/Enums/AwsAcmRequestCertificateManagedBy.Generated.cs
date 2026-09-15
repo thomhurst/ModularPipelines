@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --managedby.
+/// Allowed values for --managed-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmRequestCertificateManagedBy
 {
     [EnumValue("CLOUDFRONT")]
-    Cloudfront = 1
+    Cloudfront,
+
+    [EnumValue("o")]
+    O
 }

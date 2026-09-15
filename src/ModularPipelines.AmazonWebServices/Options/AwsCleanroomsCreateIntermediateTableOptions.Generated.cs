@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-intermediate-table")]
-public record AwsCleanroomsCreateIntermediateTableOptions : AwsOptions
+public record AwsCleanroomsCreateIntermediateTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the ta- ble with results, use PopulateIntermediateTable . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership where the intermediate table is created. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">The display name for the intermediate table. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="PopulationAnalysisConfiguration">The configuration that defines the analysis used to populate the in- termediate table. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sqlParameters. sqlParameters -&gt; (structure) The SQL parameters for the population analysis, including the query string or analysis template ARN. queryString -&gt; (string) The SQL query string used to populate the intermediate table. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ Shorthand Syntax: sqlParameters={queryString=string,analysisTemplateArn=string} JSON Syntax: { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string" } }</param>
+    public AwsCleanroomsCreateIntermediateTableOptions(
+        string MembershipIdentifier,
+        string Name,
+        string PopulationAnalysisConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PopulationAnalysisConfiguration);
+        this.PopulationAnalysisConfiguration = PopulationAnalysisConfiguration;
+    }
+
+    private AwsCleanroomsCreateIntermediateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateIntermediateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateIntermediateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the membership where the intermediate table is created. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--membership-identifier")]
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// The display name for the intermediate table. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration that defines the analysis used to populate the in- termediate table. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sqlParameters. sqlParameters -&gt; (structure) The SQL parameters for the population analysis, including the query string or analysis template ARN. queryString -&gt; (string) The SQL query string used to populate the intermediate table. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ Shorthand Syntax: sqlParameters={queryString=string,analysisTemplateArn=string} JSON Syntax: { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string" } }
+    /// </summary>
+    [CliOption("--population-analysis-configuration")]
+    public string? PopulationAnalysisConfiguration { get; private init; }
 
     /// <summary>
     /// A description of the intermediate table. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--population-analysis-configuration")]
-    public string? PopulationAnalysisConfiguration { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the customer-managed KMS key used to encrypt the intermediate table data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:kms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:key/[a-zA-Z0-9-]+
@@ -60,5 +111,22 @@ public record AwsCleanroomsCreateIntermediateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

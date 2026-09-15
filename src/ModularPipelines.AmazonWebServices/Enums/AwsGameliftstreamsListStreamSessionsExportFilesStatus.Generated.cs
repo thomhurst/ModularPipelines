@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --exportfilesstatus.
+/// Allowed values for --export-files-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftstreamsListStreamSessionsExportFilesStatus
 {
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 1,
-
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
     [EnumValue("PENDING")]
-    Pending = 3
+    Pending,
+
+    [EnumValue("SUCCEEDED")]
+    Succeeded
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "create-kx-changeset")]
-public record AwsFinspaceCreateKxChangeSetOptions : AwsOptions
+public record AwsFinspaceCreateKxChangeSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier of the kdb environment. Constraints: o min: 1 o max: 32 o pattern: .*\S.*</param>
+    /// <param name="DatabaseName">The name of the kdb database. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="ChangeRequests">A list of change request objects that are run in order. A change re- quest object consists of changeType , s3Path , and dbPath . A changeType can have the following values: o PUT Adds or updates files in a database. o DELETE Deletes files in a database. All the change requests require a mandatory dbPath attribute that defines the path within the database directory. All database paths must start with a leading / and end with a trailing /. The s3Path attribute defines the s3 source file path and is required for a PUT change type. The s3path must end with a trailing / if it is a direc- tory and must end without a trailing / if it is a file. Here are few examples of how you can use the change request object: o This request adds a single sym file at database root location. { "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"} o This request adds files in the given s3Path under the 2020.01.02 partition of the database. { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"} o This request adds files in the given s3Path under the taq table partition of the database. [ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "db- Path":"/2020.01.02/taq/"}] o This request deletes the 2020.01.02 partition of the database. [{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ] o The DELETE request allows you to delete the existing files under the 2020.01.02 partition of the database, and the PUT request adds a new taq table under it. [ {"changeType": "DELETE", "db- Path":"/2020.01.02/"}, {"changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "db- Path":"/2020.01.02/taq/"}] Constraints: o min: 1 o max: 32 (structure) A list of change request objects. changeType -&gt; (string) [required] Defines the type of change request. A changeType can have the following values: o PUT Adds or updates files in a database. o DELETE Deletes files in a database. Possible values: o PUT o DELETE s3Path -&gt; (string) Defines the S3 path of the source file that is required to add or update files in a database. Constraints: o min: 9 o max: 1093 o pattern: ^s3:\/\/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]\/([^\/]+\/)*[^\/]*$ dbPath -&gt; (string) [required] Defines the path within the database directory. Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ Shorthand Syntax: changeType=string,s3Path=string,dbPath=string ... JSON Syntax: [ { "changeType": "PUT"|"DELETE", "s3Path": "string", "dbPath": "string" } ... ]</param>
+    public AwsFinspaceCreateKxChangeSetOptions(
+        string EnvironmentId,
+        string DatabaseName,
+        IEnumerable<string> ChangeRequests
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ChangeRequests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ChangeRequests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ChangeRequests));
+            }
+
+            ChangeRequests = materialized;
+        }
+        this.ChangeRequests = ChangeRequests;
+    }
+
+    private AwsFinspaceCreateKxChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceCreateKxChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceCreateKxChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier of the kdb environment. Constraints: o min: 1 o max: 32 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// The name of the kdb database. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// A list of change request objects that are run in order. A change re- quest object consists of changeType , s3Path , and dbPath . A changeType can have the following values: o PUT Adds or updates files in a database. o DELETE Deletes files in a database. All the change requests require a mandatory dbPath attribute that defines the path within the database directory. All database paths must start with a leading / and end with a trailing /. The s3Path attribute defines the s3 source file path and is required for a PUT change type. The s3path must end with a trailing / if it is a direc- tory and must end without a trailing / if it is a file. Here are few examples of how you can use the change request object: o This request adds a single sym file at database root location. { "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"} o This request adds files in the given s3Path under the 2020.01.02 partition of the database. { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"} o This request adds files in the given s3Path under the taq table partition of the database. [ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "db- Path":"/2020.01.02/taq/"}] o This request deletes the 2020.01.02 partition of the database. [{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ] o The DELETE request allows you to delete the existing files under the 2020.01.02 partition of the database, and the PUT request adds a new taq table under it. [ {"changeType": "DELETE", "db- Path":"/2020.01.02/"}, {"changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "db- Path":"/2020.01.02/taq/"}] Constraints: o min: 1 o max: 32 (structure) A list of change request objects. changeType -&gt; (string) [required] Defines the type of change request. A changeType can have the following values: o PUT Adds or updates files in a database. o DELETE Deletes files in a database. Possible values: o PUT o DELETE s3Path -&gt; (string) Defines the S3 path of the source file that is required to add or update files in a database. Constraints: o min: 9 o max: 1093 o pattern: ^s3:\/\/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]\/([^\/]+\/)*[^\/]*$ dbPath -&gt; (string) [required] Defines the path within the database directory. Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ Shorthand Syntax: changeType=string,s3Path=string,dbPath=string ... JSON Syntax: [ { "changeType": "PUT"|"DELETE", "s3Path": "string", "dbPath": "string" } ... ]
+    /// </summary>
     [CliOption("--change-requests", GroupValues = true)]
-    public IEnumerable<string>? ChangeRequests { get; set; }
+    public IEnumerable<string>? ChangeRequests { get; private init; }
 
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -43,5 +105,22 @@ public record AwsFinspaceCreateKxChangeSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

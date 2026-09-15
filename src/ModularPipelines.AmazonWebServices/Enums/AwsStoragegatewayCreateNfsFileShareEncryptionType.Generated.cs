@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --encryptiontype.
+/// Allowed values for --encryption-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStoragegatewayCreateNfsFileShareEncryptionType
 {
-    [EnumValue("SseS3")]
-    SseS3 = 1,
+    [EnumValue("DsseKms")]
+    DsseKms,
 
     [EnumValue("SseKms")]
-    SseKms = 2,
+    SseKms,
 
-    [EnumValue("DsseKms")]
-    DsseKms = 3
+    [EnumValue("SseS3")]
+    SseS3
 }

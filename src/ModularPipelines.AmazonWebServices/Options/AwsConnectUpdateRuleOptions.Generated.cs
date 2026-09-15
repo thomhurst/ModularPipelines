@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +21,135 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-rule")]
-public record AwsConnectUpdateRuleOptions : AwsOptions
+public record AwsConnectUpdateRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a rule for the specified Connect Customer instance. Use the Rules Function language to code conditions for the rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleId">A unique identifier for the rule. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of the rule. You can change the name only if Trig- gerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="Function">The conditions of the rule.</param>
+    /// <param name="Actions">A list of actions to be run when the rule is triggered. (structure) Information about the action to be performed when a rule is triggered. ActionType -&gt; (string) [required] The type of action that creates a rule. Possible values: o CREATE_TASK o ASSIGN_CONTACT_CATEGORY o GENERATE_EVENTBRIDGE_EVENT o SEND_NOTIFICATION o CREATE_CASE o UPDATE_CASE o ASSIGN_SLA o END_ASSOCIATED_TASKS o SUBMIT_AUTO_EVALUATION o EXTRACT_INFORMATION TaskAction -&gt; (structure) Information about the task action. This field is required if TriggerEventSource is one of the following values: OnZendesk- TicketCreate | OnZendeskTicketStatusUpdate | OnSalesforce- CaseCreate Name -&gt; (string) [required] The name. Supports variable injection. For more informa- tion, see JSONPath reference in the Connect Customer Ad- ministrators Guide . Constraints: o min: 1 o max: 512 Description -&gt; (string) The description. Supports variable injection. For more information, see JSONPath reference in the Connect Cus- tomer Administrators Guide . Constraints: o min: 0 o max: 4096 ContactFlowId -&gt; (string) [required] The identifier of the flow. Constraints: o max: 500 References -&gt; (map) Information about the reference when the referenceType is URL . Otherwise, null. (Supports variable injection in the Value field.) key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to com- plete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch timestamp. Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: o AVAILABLE o DELETED o APPROVED o REJECTED o PROCESSING o FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: o min: 20 o max: 256 o pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not suc- cessfully created. Constraints: o min: 0 o max: 100 EventBridgeAction -&gt; (structure) Information about the EventBridge action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnReal- TimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | On- ContactEvaluationSubmit | OnMetricDataUpdate Name -&gt; (string) [required] The name. Constraints: o min: 1 o max: 100 AssignContactCategoryAction -&gt; (structure) Information about the contact category action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnReal- TimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | On- SalesforceCaseCreate SendNotificationAction -&gt; (structure) Information about the send notification action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnReal- TimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | On- ContactEvaluationSubmit | OnMetricDataUpdate DeliveryMethod -&gt; (string) [required] Notification delivery method. Possible values: o EMAIL Subject -&gt; (string) The subject of the email if the delivery method is EMAIL . Supports variable injection. For more information, see JSONPath reference in the Connect Customer Administrators Guide . Constraints: o min: 1 o max: 200 Content -&gt; (string) [required] Notification content. Supports variable injection. For more information, see JSONPath reference in the Connect Customer Administrators Guide . Constraints: o min: 1 o max: 1024 ContentType -&gt; (string) [required] Content type format. Possible values: o PLAIN_TEXT Recipient -&gt; (structure) [required] Notification recipient. UserTags -&gt; (map) The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Connect Customer users with the specified tags will be notified. key -&gt; (string) value -&gt; (string) UserIds -&gt; (list) A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for On- ContactEvaluationSubmit event source. (string) Exclusion -&gt; (structure) Recipients to exclude from notification. UserTags -&gt; (map) The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Connect Customer users with the specified tags will be notified. key -&gt; (string) value -&gt; (string) UserIds -&gt; (list) A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for On- ContactEvaluationSubmit event source. (string) CreateCaseAction -&gt; (structure) Information about the create case action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnPostChatAnalysisAvailable . Fields -&gt; (list) [required] An array of objects with Field ID and Value data. (structure) Object for case field values. Id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Value -&gt; (structure) [required] Union of potential field value types. BooleanValue -&gt; (boolean) A Boolean number value type. DoubleValue -&gt; (double) A Double number value type. EmptyValue -&gt; (structure) An empty value. StringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 500 TemplateId -&gt; (string) [required] A unique identifier of a template. Constraints: o min: 1 o max: 500 UpdateCaseAction -&gt; (structure) Information about the update case action. Supported only for TriggerEventSource values: OnCaseCreate | OnCaseUpdate . Fields -&gt; (list) [required] An array of objects with Field ID and Value data. (structure) Object for case field values. Id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Value -&gt; (structure) [required] Union of potential field value types. BooleanValue -&gt; (boolean) A Boolean number value type. DoubleValue -&gt; (double) A Double number value type. EmptyValue -&gt; (structure) An empty value. StringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 500 AssignSlaAction -&gt; (structure) Information about the assign SLA action. SlaAssignmentType -&gt; (string) [required] Type of SLA assignment. Possible values: o CASES CaseSlaConfiguration -&gt; (structure) The SLA configuration for Case SLA Assignment. Name -&gt; (string) [required] Name of an SLA. Constraints: o min: 1 o max: 500 o pattern: ^.*[\S]$ Type -&gt; (string) [required] Type of SLA for Case SlaAssignmentType. Possible values: o CaseField FieldId -&gt; (string) Unique identifier of a Case field. Constraints: o min: 1 o max: 500 TargetFieldValues -&gt; (list) Represents a list of target field values for the fiel- dId specified in CaseSlaConfiguration. The SLA is con- sidered met if any one of these target field values matches the actual field value. Constraints: o max: 1 (structure) Object to store union of Field values. BooleanValue -&gt; (boolean) A Boolean number value type. DoubleValue -&gt; (double) A Double number value type. EmptyValue -&gt; (structure) An empty value. StringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 500 TargetSlaMinutes -&gt; (long) [required] Target duration in minutes within which an SLA should be completed. Constraints: o min: 1 o max: 1051200 EndAssociatedTasksAction -&gt; (structure) Information about the end associated tasks action. Supported only for TriggerEventSource values: OnCaseUpdate . SubmitAutoEvaluationAction -&gt; (structure) Information about the submit automated evaluation action. EvaluationFormId -&gt; (string) [required] The identifier of the auto-evaluation enabled form. Constraints: o min: 1 o max: 256 ExtractInformationAction -&gt; (structure) Information about the extract information action. RulesExtractionDefinitions -&gt; (list) [required] The list of extraction definition identifiers that spec- ify what data to extract. (structure) An identifier that references an extraction definition resource. Identifier -&gt; (string) [required] The identifier of the extraction definition. Constraints: o min: 1 o max: 256 JSON Syntax: [ { "ActionType": "CREATE_TASK"|"ASSIGN_CONTACT_CATEGORY"|"GENERATE_EVENTBRIDGE_EVENT"|"SEND_NOTIFICATION"|"CREATE_CASE"|"UPDATE_CASE"|"ASSIGN_SLA"|"END_ASSOCIATED_TASKS"|"SUBMIT_AUTO_EVALUATION"|"EXTRACT_INFORMATION", "TaskAction": { "Name": "string", "Description": "string", "ContactFlowId": "string", "References": {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...} }, "EventBridgeAction": { "Name": "string" }, "AssignContactCategoryAction": { }, "SendNotificationAction": { "DeliveryMethod": "EMAIL", "Subject": "string", "Content": "string", "ContentType": "PLAIN_TEXT", "Recipient": { "UserTags": {"string": "string" ...}, "UserIds": ["string", ...] }, "Exclusion": { "UserTags": {"string": "string" ...}, "UserIds": ["string", ...] } }, "CreateCaseAction": { "Fields": [ { "Id": "string", "Value": { "BooleanValue": true|false, "DoubleValue": double, "EmptyValue": { }, "StringValue": "string" } } ... ], "TemplateId": "string" }, "UpdateCaseAction": { "Fields": [ { "Id": "string", "Value": { "BooleanValue": true|false, "DoubleValue": double, "EmptyValue": { }, "StringValue": "string" } } ... ] }, "AssignSlaAction": { "SlaAssignmentType": "CASES", "CaseSlaConfiguration": { "Name": "string", "Type": "CaseField", "FieldId": "string", "TargetFieldValues": [ { "BooleanValue": true|false, "DoubleValue": double, "EmptyValue": { }, "StringValue": "string" } ... ], "TargetSlaMinutes": long } }, "EndAssociatedTasksAction": { }, "SubmitAutoEvaluationAction": { "EvaluationFormId": "string" }, "ExtractInformationAction": { "RulesExtractionDefinitions": [ { "Identifier": "string" } ... ] } } ... ]</param>
+    /// <param name="PublishStatus">The publish status of the rule. Possible values: o DRAFT o PUBLISHED</param>
+    public AwsConnectUpdateRuleOptions(
+        string RuleId,
+        string InstanceId,
+        string Name,
+        string Function,
+        IEnumerable<string> Actions,
+        AwsConnectUpdateRulePublishStatus PublishStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleId);
+        this.RuleId = RuleId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Function);
+        this.Function = Function;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        global::System.ArgumentNullException.ThrowIfNull(PublishStatus);
+        this.PublishStatus = PublishStatus;
+    }
+
+    private AwsConnectUpdateRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the rule. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--rule-id")]
-    public string? RuleId { get; set; }
+    public string? RuleId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The name of the rule. You can change the name only if Trig- gerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The conditions of the rule.
+    /// </summary>
     [CliOption("--function")]
-    public string? Function { get; set; }
+    public string? Function { get; private init; }
 
+    /// <summary>
+    /// A list of actions to be run when the rule is triggered. (structure) Information about the action to be performed when a rule is triggered. ActionType -&gt; (string) [required] The type of action that creates a rule. Possible values: o CREATE_TASK o ASSIGN_CONTACT_CATEGORY o GENERATE_EVENTBRIDGE_EVENT o SEND_NOTIFICATION o CREATE_CASE o UPDATE_CASE o ASSIGN_SLA o END_ASSOCIATED_TASKS o SUBMIT_AUTO_EVALUATION o EXTRACT_INFORMATION TaskAction -&gt; (structure) Information about the task action. This field is required if TriggerEventSource is one of the following values: OnZendesk- TicketCreate | OnZendeskTicketStatusUpdate | OnSalesforce- CaseCreate Name -&gt; (string) [required] The name. Supports variable injection. For more informa- tion, see JSONPath reference in the Connect Customer Ad- ministrators Guide . Constraints: o min: 1 o max: 512 Description -&gt; (string) The description. Supports variable injection. For more information, see JSONPath reference in the Connect Cus- tomer Administrators Guide . Constraints: o min: 0 o max: 4096 ContactFlowId -&gt; (string) [required] The identifier of the flow. Constraints: o max: 500 References -&gt; (map) Information about the reference when the referenceType is URL . Otherwise, null. (Supports variable injection in the Value field.) key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to com- plete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch timestamp. Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: o AVAILABLE o DELETED o APPROVED o REJECTED o PROCESSING o FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: o min: 20 o max: 256 o pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not suc- cessfully created. Constraints: o min: 0 o max: 100 EventBridgeAction -&gt; (structure) Information about the EventBridge action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnReal- TimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | On- ContactEvaluationSubmit | OnMetricDataUpdate Name -&gt; (string) [required] The name. Constraints: o min: 1 o max: 100 AssignContactCategoryAction -&gt; (structure) Information about the contact category action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnReal- TimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | On- SalesforceCaseCreate SendNotificationAction -&gt; (structure) Information about the send notification action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnReal- TimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | On- ContactEvaluationSubmit | OnMetricDataUpdate DeliveryMethod -&gt; (string) [required] Notification delivery method. Possible values: o EMAIL Subject -&gt; (string) The subject of the email if the delivery method is EMAIL . Supports variable injection. For more information, see JSONPath reference in the Connect Customer Administrators Guide . Constraints: o min: 1 o max: 200 Content -&gt; (string) [required] Notification content. Supports variable injection. For more information, see JSONPath reference in the Connect Customer Administrators Guide . Constraints: o min: 1 o max: 1024 ContentType -&gt; (string) [required] Content type format. Possible values: o PLAIN_TEXT Recipient -&gt; (structure) [required] Notification recipient. UserTags -&gt; (map) The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Connect Customer users with the specified tags will be notified. key -&gt; (string) value -&gt; (string) UserIds -&gt; (list) A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for On- ContactEvaluationSubmit event source. (string) Exclusion -&gt; (structure) Recipients to exclude from notification. UserTags -&gt; (map) The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Connect Customer users with the specified tags will be notified. key -&gt; (string) value -&gt; (string) UserIds -&gt; (list) A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for On- ContactEvaluationSubmit event source. (string) CreateCaseAction -&gt; (structure) Information about the create case action. Supported only for TriggerEventSource values: OnPostCall- AnalysisAvailable | OnPostChatAnalysisAvailable . Fields -&gt; (list) [required] An array of objects with Field ID and Value data. (structure) Object for case field values. Id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Value -&gt; (structure) [required] Union of potential field value types. BooleanValue -&gt; (boolean) A Boolean number value type. DoubleValue -&gt; (double) A Double number value type. EmptyValue -&gt; (structure) An empty value. StringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 500 TemplateId -&gt; (string) [required] A unique identifier of a template. Constraints: o min: 1 o max: 500 UpdateCaseAction -&gt; (structure) Information about the update case action. Supported only for TriggerEventSource values: OnCaseCreate | OnCaseUpdate . Fields -&gt; (list) [required] An array of objects with Field ID and Value data. (structure) Object for case field values. Id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Value -&gt; (structure) [required] Union of potential field value types. BooleanValue -&gt; (boolean) A Boolean number value type. DoubleValue -&gt; (double) A Double number value type. EmptyValue -&gt; (structure) An empty value. StringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 500 AssignSlaAction -&gt; (structure) Information about the assign SLA action. SlaAssignmentType -&gt; (string) [required] Type of SLA assignment. Possible values: o CASES CaseSlaConfiguration -&gt; (structure) The SLA configuration for Case SLA Assignment. Name -&gt; (string) [required] Name of an SLA. Constraints: o min: 1 o max: 500 o pattern: ^.*[\S]$ Type -&gt; (string) [required] Type of SLA for Case SlaAssignmentType. Possible values: o CaseField FieldId -&gt; (string) Unique identifier of a Case field. Constraints: o min: 1 o max: 500 TargetFieldValues -&gt; (list) Represents a list of target field values for the fiel- dId specified in CaseSlaConfiguration. The SLA is con- sidered met if any one of these target field values matches the actual field value. Constraints: o max: 1 (structure) Object to store union of Field values. BooleanValue -&gt; (boolean) A Boolean number value type. DoubleValue -&gt; (double) A Double number value type. EmptyValue -&gt; (structure) An empty value. StringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 500 TargetSlaMinutes -&gt; (long) [required] Target duration in minutes within which an SLA should be completed. Constraints: o min: 1 o max: 1051200 EndAssociatedTasksAction -&gt; (structure) Information about the end associated tasks action. Supported only for TriggerEventSource values: OnCaseUpdate . SubmitAutoEvaluationAction -&gt; (structure) Information about the submit automated evaluation action. EvaluationFormId -&gt; (string) [required] The identifier of the auto-evaluation enabled form. Constraints: o min: 1 o max: 256 ExtractInformationAction -&gt; (structure) Information about the extract information action. RulesExtractionDefinitions -&gt; (list) [required] The list of extraction definition identifiers that spec- ify what data to extract. (structure) An identifier that references an extraction definition resource. Identifier -&gt; (string) [required] The identifier of the extraction definition. Constraints: o min: 1 o max: 256 JSON Syntax: [ { "ActionType": "CREATE_TASK"|"ASSIGN_CONTACT_CATEGORY"|"GENERATE_EVENTBRIDGE_EVENT"|"SEND_NOTIFICATION"|"CREATE_CASE"|"UPDATE_CASE"|"ASSIGN_SLA"|"END_ASSOCIATED_TASKS"|"SUBMIT_AUTO_EVALUATION"|"EXTRACT_INFORMATION", "TaskAction": { "Name": "string", "Description": "string", "ContactFlowId": "string", "References": {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...} }, "EventBridgeAction": { "Name": "string" }, "AssignContactCategoryAction": { }, "SendNotificationAction": { "DeliveryMethod": "EMAIL", "Subject": "string", "Content": "string", "ContentType": "PLAIN_TEXT", "Recipient": { "UserTags": {"string": "string" ...}, "UserIds": ["string", ...] }, "Exclusion": { "UserTags": {"string": "string" ...}, "UserIds": ["string", ...] } }, "CreateCaseAction": { "Fields": [ { "Id": "string", "Value": { "BooleanValue": true|false, "DoubleValue": double, "EmptyValue": { }, "StringValue": "string" } } ... ], "TemplateId": "string" }, "UpdateCaseAction": { "Fields": [ { "Id": "string", "Value": { "BooleanValue": true|false, "DoubleValue": double, "EmptyValue": { }, "StringValue": "string" } } ... ] }, "AssignSlaAction": { "SlaAssignmentType": "CASES", "CaseSlaConfiguration": { "Name": "string", "Type": "CaseField", "FieldId": "string", "TargetFieldValues": [ { "BooleanValue": true|false, "DoubleValue": double, "EmptyValue": { }, "StringValue": "string" } ... ], "TargetSlaMinutes": long } }, "EndAssociatedTasksAction": { }, "SubmitAutoEvaluationAction": { "EvaluationFormId": "string" }, "ExtractInformationAction": { "RulesExtractionDefinitions": [ { "Identifier": "string" } ... ] } } ... ]
+    /// </summary>
     [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
+    public IEnumerable<string>? Actions { get; private init; }
 
+    /// <summary>
+    /// The publish status of the rule. Possible values: o DRAFT o PUBLISHED
+    /// </summary>
     [CliOption("--publish-status")]
-    public string? PublishStatus { get; set; }
+    public AwsConnectUpdateRulePublishStatus? PublishStatus { get; private init; }
+
+    /// <summary>
+    /// The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based on the resource's attrib- utes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules. AndConditions -&gt; (list) A list of conditions that the rule evaluates together using AND logic. All conditions must be met for the event to be evaluated by the rule. (structure) A single pre-evaluation filter condition. Specifies a re- source type, filter type, key, value, and operator to match against a resource attribute. ResourceType -&gt; (string) [required] The type of resource to filter on. Valid values: CONTACT . Possible values: o CONTACT FilterType -&gt; (string) [required] The type of filter to apply. Valid values: TAG . Possible values: o TAG FilterKey -&gt; (string) [required] The key of the attribute to filter on. For tag filters, this is the tag key. FilterValue -&gt; (string) [required] The value to match against. For tag filters, this is the tag value. Operator -&gt; (string) [required] The comparison operator for the filter condition. Valid values: EQUALS . Possible values: o EQUALS Shorthand Syntax: AndConditions=[{ResourceType=string,FilterType=string,FilterKey=string,FilterValue=string,Operator=string},{ResourceType=string,FilterType=string,FilterKey=string,FilterValue=string,Operator=string}] JSON Syntax: { "AndConditions": [ { "ResourceType": "CONTACT", "FilterType": "TAG", "FilterKey": "string", "FilterValue": "string", "Operator": "EQUALS" } ... ] }
+    /// </summary>
+    [CliOption("--pre-evaluation-filters")]
+    public string? PreEvaluationFilters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

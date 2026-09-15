@@ -21,10 +21,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("datazone", "get-lineage-event")]
 public record AwsDatazoneGetLineageEventOptions : AwsOptions
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    /// <summary>
+    /// Describes the lineage event. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the lineage event. Constraints: o pattern: [a-z0-9]{14} outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsDatazoneGetLineageEventOptions(
+        string DomainIdentifier,
+        string Identifier,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string DomainIdentifier, out string Identifier, out string Outfile)
+    {
+        DomainIdentifier = this.DomainIdentifier;
+        Identifier = this.Identifier;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The ID of the domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the lineage event. Constraints: o pattern: [a-z0-9]{14} outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string Identifier { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

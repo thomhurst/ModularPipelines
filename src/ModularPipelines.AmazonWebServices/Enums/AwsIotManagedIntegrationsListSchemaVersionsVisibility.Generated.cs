@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsListSchemaVersionsVisibility
 {
-    [EnumValue("PUBLIC")]
-    Public = 1,
-
     [EnumValue("PRIVATE")]
-    Private = 2
+    Private,
+
+    [EnumValue("PUBLIC")]
+    Public
 }

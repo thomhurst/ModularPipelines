@@ -23,6 +23,23 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDdbSelectOptions : AwsOptions
 {
     /// <summary>
+    /// select searches a table or index. Under the hood, this operation will use query if --key-condition is specified, or scan otherwise. Only yaml output is supported for this operation.
+    /// </summary>
+    /// <param name="TableName">The &lt;table-name&gt; operand.</param>
+    public AwsDdbSelectOptions(
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out string TableName)
+    {
+        TableName = this.TableName;
+    }
+
+    /// <summary>
     /// The name of a secondary index to scan. This index can be any local secondary index or global secondary index.
     /// </summary>
     [CliOption("--index-name")]
@@ -52,10 +69,16 @@ public record AwsDdbSelectOptions : AwsOptions
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
-    [CliFlag("--consistent-read")]
+    /// <summary>
+    /// Determines the read consistency model: If set to --consistent-read , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads. Strongly consistent reads are not supported on global secondary indexes. If you query a global secondary index with --consistent-read , you will receive a ValidationException .
+    /// </summary>
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
-    [CliFlag("--return-consumed-capacity")]
+    /// <summary>
+    /// Will include the aggregate ConsumedCapacity for the operation. If --index-name is also specified, then the ConsumedCapacity for each table and secondary index that was accessed will be returned.
+    /// </summary>
+    [CliFlag("--return-consumed-capacity", NegatedName = "--no-return-consumed-capacity")]
     public bool? ReturnConsumedCapacity { get; set; }
 
     /// <summary>
@@ -76,5 +99,11 @@ public record AwsDdbSelectOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The &lt;table-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TableName { get; private init; }
 
 }

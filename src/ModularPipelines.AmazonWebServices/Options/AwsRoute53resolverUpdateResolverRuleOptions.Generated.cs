@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "update-resolver-rule")]
-public record AwsRoute53resolverUpdateResolverRuleOptions : AwsOptions
+public record AwsRoute53resolverUpdateResolverRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resolver-rule-id")]
-    public string? ResolverRuleId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates settings for a specified Resolver rule. ResolverRuleId is re- quired, and all other parameters are optional. If you don't specify a parameter, it retains its current value. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to update. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Config">The new settings for the Resolver rule. Name -&gt; (string) The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+) TargetIps -&gt; (list) For DNS queries that originate in your VPC, the new IP addresses that you want to route outbound DNS queries to. Constraints: o min: 1 (structure) In a CreateResolverRule request, an array of the IPs that you want to forward DNS queries to. Ip -&gt; (string) One IPv4 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 36 Port -&gt; (integer) The port at Ip that you want to forward DNS queries to. Constraints: o min: 0 o max: 65535 Ipv6 -&gt; (string) One IPv6 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 39 Protocol -&gt; (string) The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Resolver rule. Possible values: o DoH o Do53 o DoH-FIPS ServerNameIndication -&gt; (string) The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Pro- tocol of the TargetAddress is DoH . Constraints: o min: 0 o max: 255 ResolverEndpointId -&gt; (string) The ID of the new outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps . Constraints: o min: 1 o max: 64 Shorthand Syntax: Name=string,TargetIps=[{Ip=string,Port=integer,Ipv6=string,Protocol=string,ServerNameIndication=string},{Ip=string,Port=integer,Ipv6=string,Protocol=string,ServerNameIndication=string}],ResolverEndpointId=string JSON Syntax: { "Name": "string", "TargetIps": [ { "Ip": "string", "Port": integer, "Ipv6": "string", "Protocol": "DoH"|"Do53"|"DoH-FIPS", "ServerNameIndication": "string" } ... ], "ResolverEndpointId": "string" }</param>
+    public AwsRoute53resolverUpdateResolverRuleOptions(
+        string ResolverRuleId,
+        string Config
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolverRuleId);
+        this.ResolverRuleId = ResolverRuleId;
+        global::System.ArgumentNullException.ThrowIfNull(Config);
+        this.Config = Config;
+    }
+
+    private AwsRoute53resolverUpdateResolverRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverUpdateResolverRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverUpdateResolverRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Resolver rule that you want to update. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--resolver-rule-id")]
+    public string? ResolverRuleId { get; private init; }
+
+    /// <summary>
+    /// The new settings for the Resolver rule. Name -&gt; (string) The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+) TargetIps -&gt; (list) For DNS queries that originate in your VPC, the new IP addresses that you want to route outbound DNS queries to. Constraints: o min: 1 (structure) In a CreateResolverRule request, an array of the IPs that you want to forward DNS queries to. Ip -&gt; (string) One IPv4 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 36 Port -&gt; (integer) The port at Ip that you want to forward DNS queries to. Constraints: o min: 0 o max: 65535 Ipv6 -&gt; (string) One IPv6 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 39 Protocol -&gt; (string) The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Resolver rule. Possible values: o DoH o Do53 o DoH-FIPS ServerNameIndication -&gt; (string) The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Pro- tocol of the TargetAddress is DoH . Constraints: o min: 0 o max: 255 ResolverEndpointId -&gt; (string) The ID of the new outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps . Constraints: o min: 1 o max: 64 Shorthand Syntax: Name=string,TargetIps=[{Ip=string,Port=integer,Ipv6=string,Protocol=string,ServerNameIndication=string},{Ip=string,Port=integer,Ipv6=string,Protocol=string,ServerNameIndication=string}],ResolverEndpointId=string JSON Syntax: { "Name": "string", "TargetIps": [ { "Ip": "string", "Port": integer, "Ipv6": "string", "Protocol": "DoH"|"Do53"|"DoH-FIPS", "ServerNameIndication": "string" } ... ], "ResolverEndpointId": "string" }
+    /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public string? Config { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

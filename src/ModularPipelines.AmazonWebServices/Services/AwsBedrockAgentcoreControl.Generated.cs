@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddDataSetExamplesAsync(
-        AwsBedrockAgentcoreControlAddDataSetExamplesOptions? options = null,
+        AwsBedrockAgentcoreControlAddDataSetExamplesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlAddDataSetExamplesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchPutGatewayRateLimitsAsync(
-        AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions? options = null,
+        AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAgentRuntimeEndpointAsync(
-        AwsBedrockAgentcoreControlCreateAgentRuntimeEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlCreateAgentRuntimeEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateAgentRuntimeEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates an Amazon Bedrock AgentCore Runtime. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAgentRuntimeAsync(
+        AwsBedrockAgentcoreControlCreateAgentRuntimeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +110,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateApiKeyCredentialProviderAsync(
-        AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +125,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBrowserAsync(
-        AwsBedrockAgentcoreControlCreateBrowserOptions? options = null,
+        AwsBedrockAgentcoreControlCreateBrowserOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateBrowserOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +140,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBrowserProfileAsync(
-        AwsBedrockAgentcoreControlCreateBrowserProfileOptions? options = null,
+        AwsBedrockAgentcoreControlCreateBrowserProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateBrowserProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +155,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCapacityProviderAsync(
-        AwsBedrockAgentcoreControlCreateCapacityProviderOptions? options = null,
+        AwsBedrockAgentcoreControlCreateCapacityProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateCapacityProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +170,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCodeInterpreterAsync(
-        AwsBedrockAgentcoreControlCreateCodeInterpreterOptions? options = null,
+        AwsBedrockAgentcoreControlCreateCodeInterpreterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateCodeInterpreterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +185,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationBundleAsync(
-        AwsBedrockAgentcoreControlCreateConfigurationBundleOptions? options = null,
+        AwsBedrockAgentcoreControlCreateConfigurationBundleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateConfigurationBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a new consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateConsentPortalAsync(
+        AwsBedrockAgentcoreControlCreateConsentPortalOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +215,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataSetAsync(
-        AwsBedrockAgentcoreControlCreateDataSetOptions? options = null,
+        AwsBedrockAgentcoreControlCreateDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +230,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataSetVersionAsync(
-        AwsBedrockAgentcoreControlCreateDataSetVersionOptions? options = null,
+        AwsBedrockAgentcoreControlCreateDataSetVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateDataSetVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +245,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEvaluatorAsync(
-        AwsBedrockAgentcoreControlCreateEvaluatorOptions? options = null,
+        AwsBedrockAgentcoreControlCreateEvaluatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateEvaluatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an in- tegration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateGatewayAsync(
+        AwsBedrockAgentcoreControlCreateGatewayOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +275,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGatewayRateLimitAsync(
-        AwsBedrockAgentcoreControlCreateGatewayRateLimitOptions? options = null,
+        AwsBedrockAgentcoreControlCreateGatewayRateLimitOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateGatewayRateLimitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +290,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGatewayRuleAsync(
-        AwsBedrockAgentcoreControlCreateGatewayRuleOptions? options = null,
+        AwsBedrockAgentcoreControlCreateGatewayRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateGatewayRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,11 +305,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGatewayTargetAsync(
-        AwsBedrockAgentcoreControlCreateGatewayTargetOptions? options = null,
+        AwsBedrockAgentcoreControlCreateGatewayTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateGatewayTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +320,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateHarnessEndpointAsync(
-        AwsBedrockAgentcoreControlCreateHarnessEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlCreateHarnessEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateHarnessEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Operation to create a harness. See also: AWS API Documentation create-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateHarnessAsync(
+        AwsBedrockAgentcoreControlCreateHarnessOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +350,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMemoryAsync(
-        AwsBedrockAgentcoreControlCreateMemoryOptions? options = null,
+        AwsBedrockAgentcoreControlCreateMemoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateMemoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +365,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateOauth2CredentialProviderAsync(
-        AwsBedrockAgentcoreControlCreateOauth2CredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlCreateOauth2CredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateOauth2CredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +380,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateOnlineEvaluationConfigAsync(
-        AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions? options = null,
+        AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +395,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePaymentConnectorAsync(
-        AwsBedrockAgentcoreControlCreatePaymentConnectorOptions? options = null,
+        AwsBedrockAgentcoreControlCreatePaymentConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreatePaymentConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +410,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePaymentCredentialProviderAsync(
-        AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a new payment manager in your Amazon Web Services account. A payment manager serves as the top-level resource for managing payment processing capabilities, including payment connectors that integrate with supported payment providers. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreatePaymentManagerAsync(
+        AwsBedrockAgentcoreControlCreatePaymentManagerOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,26 +440,41 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePolicyEngineAsync(
-        AwsBedrockAgentcoreControlCreatePolicyEngineOptions? options = null,
+        AwsBedrockAgentcoreControlCreatePolicyEngineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreatePolicyEngineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensur- ing agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's ...
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using Cedar or Dogwood, you can define fine-grained poli- cies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePolicyAsync(
-        AwsBedrockAgentcoreControlCreatePolicyOptions? options = null,
+        AwsBedrockAgentcoreControlCreatePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreatePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a new registry in your Amazon Web Services account. A registry serves as a centralized catalog for organizing and managing registry records, including MCP servers, A2A agents, agent skills, and custom resource types. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateRegistryAsync(
+        AwsBedrockAgentcoreControlCreateRegistryOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +485,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRegistryRecordAsync(
-        AwsBedrockAgentcoreControlCreateRegistryRecordOptions? options = null,
+        AwsBedrockAgentcoreControlCreateRegistryRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateRegistryRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +500,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWorkloadIdentityAsync(
-        AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions? options = null,
+        AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +515,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAgentRuntimeEndpointAsync(
-        AwsBedrockAgentcoreControlDeleteAgentRuntimeEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteAgentRuntimeEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteAgentRuntimeEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +530,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAgentRuntimeAsync(
-        AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +545,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApiKeyCredentialProviderAsync(
-        AwsBedrockAgentcoreControlDeleteApiKeyCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteApiKeyCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteApiKeyCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +560,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBrowserAsync(
-        AwsBedrockAgentcoreControlDeleteBrowserOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteBrowserOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteBrowserOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +575,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBrowserProfileAsync(
-        AwsBedrockAgentcoreControlDeleteBrowserProfileOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteBrowserProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteBrowserProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,11 +590,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCapacityProviderAsync(
-        AwsBedrockAgentcoreControlDeleteCapacityProviderOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteCapacityProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteCapacityProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -515,11 +605,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCodeInterpreterAsync(
-        AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +620,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationBundleAsync(
-        AwsBedrockAgentcoreControlDeleteConfigurationBundleOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteConfigurationBundleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteConfigurationBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes a consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteConsentPortalAsync(
+        AwsBedrockAgentcoreControlDeleteConsentPortalOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -545,11 +650,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDataSetExamplesAsync(
-        AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +665,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDataSetAsync(
-        AwsBedrockAgentcoreControlDeleteDataSetOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -575,11 +680,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEvaluatorAsync(
-        AwsBedrockAgentcoreControlDeleteEvaluatorOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteEvaluatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteEvaluatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -590,11 +695,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGatewayAsync(
-        AwsBedrockAgentcoreControlDeleteGatewayOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +710,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGatewayRateLimitAsync(
-        AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -620,11 +725,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGatewayRuleAsync(
-        AwsBedrockAgentcoreControlDeleteGatewayRuleOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteGatewayRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteGatewayRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -635,11 +740,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGatewayTargetAsync(
-        AwsBedrockAgentcoreControlDeleteGatewayTargetOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteGatewayTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteGatewayTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -650,11 +755,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteHarnessEndpointAsync(
-        AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -665,11 +770,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteHarnessAsync(
-        AwsBedrockAgentcoreControlDeleteHarnessOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteHarnessOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteHarnessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +785,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMemoryAsync(
-        AwsBedrockAgentcoreControlDeleteMemoryOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteMemoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteMemoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -695,11 +800,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteOauth2CredentialProviderAsync(
-        AwsBedrockAgentcoreControlDeleteOauth2CredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteOauth2CredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteOauth2CredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -710,11 +815,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteOnlineEvaluationConfigAsync(
-        AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,11 +830,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePaymentConnectorAsync(
-        AwsBedrockAgentcoreControlDeletePaymentConnectorOptions? options = null,
+        AwsBedrockAgentcoreControlDeletePaymentConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeletePaymentConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +845,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePaymentCredentialProviderAsync(
-        AwsBedrockAgentcoreControlDeletePaymentCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlDeletePaymentCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeletePaymentCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +860,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePaymentManagerAsync(
-        AwsBedrockAgentcoreControlDeletePaymentManagerOptions? options = null,
+        AwsBedrockAgentcoreControlDeletePaymentManagerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeletePaymentManagerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +875,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePolicyEngineAsync(
-        AwsBedrockAgentcoreControlDeletePolicyEngineOptions? options = null,
+        AwsBedrockAgentcoreControlDeletePolicyEngineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeletePolicyEngineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +890,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePolicyAsync(
-        AwsBedrockAgentcoreControlDeletePolicyOptions? options = null,
+        AwsBedrockAgentcoreControlDeletePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeletePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +905,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRegistryAsync(
-        AwsBedrockAgentcoreControlDeleteRegistryOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteRegistryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteRegistryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +920,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRegistryRecordAsync(
-        AwsBedrockAgentcoreControlDeleteRegistryRecordOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteRegistryRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteRegistryRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +935,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourcePolicyAsync(
-        AwsBedrockAgentcoreControlDeleteResourcePolicyOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -845,11 +950,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWorkloadIdentityAsync(
-        AwsBedrockAgentcoreControlDeleteWorkloadIdentityOptions? options = null,
+        AwsBedrockAgentcoreControlDeleteWorkloadIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlDeleteWorkloadIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +965,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAgentRuntimeEndpointAsync(
-        AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +980,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAgentRuntimeAsync(
-        AwsBedrockAgentcoreControlGetAgentRuntimeOptions? options = null,
+        AwsBedrockAgentcoreControlGetAgentRuntimeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetAgentRuntimeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +995,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetApiKeyCredentialProviderAsync(
-        AwsBedrockAgentcoreControlGetApiKeyCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlGetApiKeyCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetApiKeyCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +1010,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBrowserAsync(
-        AwsBedrockAgentcoreControlGetBrowserOptions? options = null,
+        AwsBedrockAgentcoreControlGetBrowserOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetBrowserOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +1025,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBrowserProfileAsync(
-        AwsBedrockAgentcoreControlGetBrowserProfileOptions? options = null,
+        AwsBedrockAgentcoreControlGetBrowserProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetBrowserProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +1040,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCapacityProviderAsync(
-        AwsBedrockAgentcoreControlGetCapacityProviderOptions? options = null,
+        AwsBedrockAgentcoreControlGetCapacityProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetCapacityProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -950,11 +1055,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCodeInterpreterAsync(
-        AwsBedrockAgentcoreControlGetCodeInterpreterOptions? options = null,
+        AwsBedrockAgentcoreControlGetCodeInterpreterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetCodeInterpreterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -965,11 +1070,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationBundleAsync(
-        AwsBedrockAgentcoreControlGetConfigurationBundleOptions? options = null,
+        AwsBedrockAgentcoreControlGetConfigurationBundleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetConfigurationBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +1085,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationBundleVersionAsync(
-        AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions? options = null,
+        AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about a consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetConsentPortalAsync(
+        AwsBedrockAgentcoreControlGetConsentPortalOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +1115,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDataSetAsync(
-        AwsBedrockAgentcoreControlGetDataSetOptions? options = null,
+        AwsBedrockAgentcoreControlGetDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1130,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEvaluatorAsync(
-        AwsBedrockAgentcoreControlGetEvaluatorOptions? options = null,
+        AwsBedrockAgentcoreControlGetEvaluatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetEvaluatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1025,11 +1145,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGatewayAsync(
-        AwsBedrockAgentcoreControlGetGatewayOptions? options = null,
+        AwsBedrockAgentcoreControlGetGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1040,11 +1160,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGatewayRateLimitAsync(
-        AwsBedrockAgentcoreControlGetGatewayRateLimitOptions? options = null,
+        AwsBedrockAgentcoreControlGetGatewayRateLimitOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetGatewayRateLimitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1175,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGatewayRuleAsync(
-        AwsBedrockAgentcoreControlGetGatewayRuleOptions? options = null,
+        AwsBedrockAgentcoreControlGetGatewayRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetGatewayRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1190,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGatewayTargetAsync(
-        AwsBedrockAgentcoreControlGetGatewayTargetOptions? options = null,
+        AwsBedrockAgentcoreControlGetGatewayTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetGatewayTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1205,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHarnessEndpointAsync(
-        AwsBedrockAgentcoreControlGetHarnessEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlGetHarnessEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetHarnessEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1100,11 +1220,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHarnessAsync(
-        AwsBedrockAgentcoreControlGetHarnessOptions? options = null,
+        AwsBedrockAgentcoreControlGetHarnessOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetHarnessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1235,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMemoryAsync(
-        AwsBedrockAgentcoreControlGetMemoryOptions? options = null,
+        AwsBedrockAgentcoreControlGetMemoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetMemoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1250,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetOauth2CredentialProviderAsync(
-        AwsBedrockAgentcoreControlGetOauth2CredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlGetOauth2CredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetOauth2CredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1145,11 +1265,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetOnlineEvaluationConfigAsync(
-        AwsBedrockAgentcoreControlGetOnlineEvaluationConfigOptions? options = null,
+        AwsBedrockAgentcoreControlGetOnlineEvaluationConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetOnlineEvaluationConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1160,11 +1280,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPaymentConnectorAsync(
-        AwsBedrockAgentcoreControlGetPaymentConnectorOptions? options = null,
+        AwsBedrockAgentcoreControlGetPaymentConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPaymentConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1175,11 +1295,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPaymentCredentialProviderAsync(
-        AwsBedrockAgentcoreControlGetPaymentCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlGetPaymentCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPaymentCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1190,11 +1310,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPaymentManagerAsync(
-        AwsBedrockAgentcoreControlGetPaymentManagerOptions? options = null,
+        AwsBedrockAgentcoreControlGetPaymentManagerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPaymentManagerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1205,11 +1325,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyEngineAsync(
-        AwsBedrockAgentcoreControlGetPolicyEngineOptions? options = null,
+        AwsBedrockAgentcoreControlGetPolicyEngineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPolicyEngineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1220,26 +1340,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyEngineSummaryAsync(
-        AwsBedrockAgentcoreControlGetPolicyEngineSummaryOptions? options = null,
+        AwsBedrockAgentcoreControlGetPolicyEngineSummaryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPolicyEngineSummaryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies. See also: AWS API Documentation
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered transla- tion, enabling non-technical users to create policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyGenerationAsync(
-        AwsBedrockAgentcoreControlGetPolicyGenerationOptions? options = null,
+        AwsBedrockAgentcoreControlGetPolicyGenerationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPolicyGenerationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1250,11 +1370,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyGenerationSummaryAsync(
-        AwsBedrockAgentcoreControlGetPolicyGenerationSummaryOptions? options = null,
+        AwsBedrockAgentcoreControlGetPolicyGenerationSummaryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPolicyGenerationSummaryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1265,11 +1385,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicyAsync(
-        AwsBedrockAgentcoreControlGetPolicyOptions? options = null,
+        AwsBedrockAgentcoreControlGetPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1280,11 +1400,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPolicySummaryAsync(
-        AwsBedrockAgentcoreControlGetPolicySummaryOptions? options = null,
+        AwsBedrockAgentcoreControlGetPolicySummaryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetPolicySummaryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1295,11 +1415,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRegistryAsync(
-        AwsBedrockAgentcoreControlGetRegistryOptions? options = null,
+        AwsBedrockAgentcoreControlGetRegistryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetRegistryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1310,11 +1430,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRegistryRecordAsync(
-        AwsBedrockAgentcoreControlGetRegistryRecordOptions? options = null,
+        AwsBedrockAgentcoreControlGetRegistryRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetRegistryRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1325,11 +1445,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourcePolicyAsync(
-        AwsBedrockAgentcoreControlGetResourcePolicyOptions? options = null,
+        AwsBedrockAgentcoreControlGetResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1344,7 +1464,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetTokenVaultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetTokenVaultOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1355,11 +1475,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWorkloadIdentityAsync(
-        AwsBedrockAgentcoreControlGetWorkloadIdentityOptions? options = null,
+        AwsBedrockAgentcoreControlGetWorkloadIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlGetWorkloadIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1370,11 +1490,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAgentRuntimeEndpointsAsync(
-        AwsBedrockAgentcoreControlListAgentRuntimeEndpointsOptions? options = null,
+        AwsBedrockAgentcoreControlListAgentRuntimeEndpointsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListAgentRuntimeEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1389,7 +1509,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListAgentRuntimesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListAgentRuntimesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1400,11 +1520,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAgentRuntimeVersionsByCapacityProviderAsync(
-        AwsBedrockAgentcoreControlListAgentRuntimeVersionsByCapacityProviderOptions? options = null,
+        AwsBedrockAgentcoreControlListAgentRuntimeVersionsByCapacityProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListAgentRuntimeVersionsByCapacityProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1415,11 +1535,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAgentRuntimeVersionsAsync(
-        AwsBedrockAgentcoreControlListAgentRuntimeVersionsOptions? options = null,
+        AwsBedrockAgentcoreControlListAgentRuntimeVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListAgentRuntimeVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1434,7 +1554,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListApiKeyCredentialProvidersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListApiKeyCredentialProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1449,7 +1569,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListBrowserProfilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListBrowserProfilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1464,7 +1584,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListBrowsersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListBrowsersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1479,7 +1599,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListCapacityProvidersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListCapacityProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1494,7 +1614,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListCodeInterpretersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListCodeInterpretersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1509,7 +1629,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConfigurationBundlesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConfigurationBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1520,11 +1640,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListConfigurationBundleVersionsAsync(
-        AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions? options = null,
+        AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all of the consent portals in your account. See also: AWS API Documentation list-consent-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: consentPortals
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListConsentPortalsAsync(
+        AwsBedrockAgentcoreControlListConsentPortalsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConsentPortalsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1535,11 +1670,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataSetExamplesAsync(
-        AwsBedrockAgentcoreControlListDataSetExamplesOptions? options = null,
+        AwsBedrockAgentcoreControlListDataSetExamplesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDataSetExamplesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1554,7 +1689,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDatasetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDatasetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1565,11 +1700,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataSetVersionsAsync(
-        AwsBedrockAgentcoreControlListDataSetVersionsOptions? options = null,
+        AwsBedrockAgentcoreControlListDataSetVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDataSetVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1584,7 +1719,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListEvaluatorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListEvaluatorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1595,11 +1730,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListGatewayRateLimitsAsync(
-        AwsBedrockAgentcoreControlListGatewayRateLimitsOptions? options = null,
+        AwsBedrockAgentcoreControlListGatewayRateLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewayRateLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1610,11 +1745,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListGatewayRulesAsync(
-        AwsBedrockAgentcoreControlListGatewayRulesOptions? options = null,
+        AwsBedrockAgentcoreControlListGatewayRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewayRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1629,7 +1764,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1640,11 +1775,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListGatewayTargetsAsync(
-        AwsBedrockAgentcoreControlListGatewayTargetsOptions? options = null,
+        AwsBedrockAgentcoreControlListGatewayTargetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewayTargetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1655,11 +1790,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListHarnessEndpointsAsync(
-        AwsBedrockAgentcoreControlListHarnessEndpointsOptions? options = null,
+        AwsBedrockAgentcoreControlListHarnessEndpointsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListHarnessEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1674,7 +1809,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListHarnessesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListHarnessesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1685,11 +1820,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListHarnessVersionsAsync(
-        AwsBedrockAgentcoreControlListHarnessVersionsOptions? options = null,
+        AwsBedrockAgentcoreControlListHarnessVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListHarnessVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1704,7 +1839,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListMemoriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListMemoriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1719,7 +1854,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListOauth2CredentialProvidersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListOauth2CredentialProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1734,7 +1869,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListOnlineEvaluationConfigsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListOnlineEvaluationConfigsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1745,11 +1880,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPaymentConnectorsAsync(
-        AwsBedrockAgentcoreControlListPaymentConnectorsOptions? options = null,
+        AwsBedrockAgentcoreControlListPaymentConnectorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPaymentConnectorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1764,7 +1899,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPaymentCredentialProvidersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPaymentCredentialProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1779,7 +1914,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPaymentManagersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPaymentManagersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1790,11 +1925,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPoliciesAsync(
-        AwsBedrockAgentcoreControlListPoliciesOptions? options = null,
+        AwsBedrockAgentcoreControlListPoliciesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1809,7 +1944,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEnginesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEnginesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1824,22 +1959,22 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEngineSummariesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEngineSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-pow- ered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPolicyGenerationAssetsAsync(
-        AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions? options = null,
+        AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1850,11 +1985,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPolicyGenerationsAsync(
-        AwsBedrockAgentcoreControlListPolicyGenerationsOptions? options = null,
+        AwsBedrockAgentcoreControlListPolicyGenerationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyGenerationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1865,11 +2000,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPolicyGenerationSummariesAsync(
-        AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions? options = null,
+        AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1880,11 +2015,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPolicySummariesAsync(
-        AwsBedrockAgentcoreControlListPolicySummariesOptions? options = null,
+        AwsBedrockAgentcoreControlListPolicySummariesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicySummariesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1899,7 +2034,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListRegistriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListRegistriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1910,11 +2045,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRegistryRecordsAsync(
-        AwsBedrockAgentcoreControlListRegistryRecordsOptions? options = null,
+        AwsBedrockAgentcoreControlListRegistryRecordsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListRegistryRecordsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1925,11 +2060,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsBedrockAgentcoreControlListTagsForResourceOptions? options = null,
+        AwsBedrockAgentcoreControlListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1944,7 +2079,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListWorkloadIdentitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListWorkloadIdentitiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1955,11 +2090,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutResourcePolicyAsync(
-        AwsBedrockAgentcoreControlPutResourcePolicyOptions? options = null,
+        AwsBedrockAgentcoreControlPutResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlPutResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1970,26 +2105,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetTokenVaultCmkAsync(
-        AwsBedrockAgentcoreControlSetTokenVaultCmkOptions? options = null,
+        AwsBedrockAgentcoreControlSetTokenVaultCmkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlSetTokenVaultCmkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Initiates the AI-powered generation of Cedar policies from natural lan- guage descriptions within the AgentCore Policy system. This feature en- ables both technical and non-technical users to create policies by de- scribing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated polic...
+    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Gener- ated polic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartPolicyGenerationAsync(
-        AwsBedrockAgentcoreControlStartPolicyGenerationOptions? options = null,
+        AwsBedrockAgentcoreControlStartPolicyGenerationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlStartPolicyGenerationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2000,11 +2135,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SubmitRegistryRecordForApprovalAsync(
-        AwsBedrockAgentcoreControlSubmitRegistryRecordForApprovalOptions? options = null,
+        AwsBedrockAgentcoreControlSubmitRegistryRecordForApprovalOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlSubmitRegistryRecordForApprovalOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2015,11 +2150,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SynchronizeGatewayTargetsAsync(
-        AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions? options = null,
+        AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2030,11 +2165,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsBedrockAgentcoreControlTagResourceOptions? options = null,
+        AwsBedrockAgentcoreControlTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2045,11 +2180,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsBedrockAgentcoreControlUntagResourceOptions? options = null,
+        AwsBedrockAgentcoreControlUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2060,11 +2195,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAgentRuntimeEndpointAsync(
-        AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing Amazon Secure Agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAgentRuntimeAsync(
+        AwsBedrockAgentcoreControlUpdateAgentRuntimeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2075,11 +2225,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateApiKeyCredentialProviderAsync(
-        AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2090,11 +2240,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCapacityProviderAsync(
-        AwsBedrockAgentcoreControlUpdateCapacityProviderOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateCapacityProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateCapacityProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2105,11 +2255,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConfigurationBundleAsync(
-        AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateConsentPortalAsync(
+        AwsBedrockAgentcoreControlUpdateConsentPortalOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2120,11 +2285,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDataSetExamplesAsync(
-        AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2135,11 +2300,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDataSetAsync(
-        AwsBedrockAgentcoreControlUpdateDataSetOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2150,11 +2315,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateEvaluatorAsync(
-        AwsBedrockAgentcoreControlUpdateEvaluatorOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateEvaluatorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateEvaluatorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateGatewayAsync(
+        AwsBedrockAgentcoreControlUpdateGatewayOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2165,11 +2345,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGatewayRateLimitAsync(
-        AwsBedrockAgentcoreControlUpdateGatewayRateLimitOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateGatewayRateLimitOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateGatewayRateLimitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2180,11 +2360,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGatewayRuleAsync(
-        AwsBedrockAgentcoreControlUpdateGatewayRuleOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateGatewayRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateGatewayRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2195,11 +2375,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGatewayTargetAsync(
-        AwsBedrockAgentcoreControlUpdateGatewayTargetOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateGatewayTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateGatewayTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2210,11 +2390,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateHarnessEndpointAsync(
-        AwsBedrockAgentcoreControlUpdateHarnessEndpointOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateHarnessEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateHarnessEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Operation to update a harness. See also: AWS API Documentation update-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateHarnessAsync(
+        AwsBedrockAgentcoreControlUpdateHarnessOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2225,11 +2420,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMemoryAsync(
-        AwsBedrockAgentcoreControlUpdateMemoryOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateMemoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateMemoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2240,11 +2435,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOauth2CredentialProviderAsync(
-        AwsBedrockAgentcoreControlUpdateOauth2CredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateOauth2CredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateOauth2CredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2255,11 +2450,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOnlineEvaluationConfigAsync(
-        AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2270,11 +2465,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePaymentConnectorAsync(
-        AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions? options = null,
+        AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2285,11 +2480,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePaymentCredentialProviderAsync(
-        AwsBedrockAgentcoreControlUpdatePaymentCredentialProviderOptions? options = null,
+        AwsBedrockAgentcoreControlUpdatePaymentCredentialProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdatePaymentCredentialProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing payment manager. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdatePaymentManagerAsync(
+        AwsBedrockAgentcoreControlUpdatePaymentManagerOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2300,11 +2510,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePolicyEngineAsync(
-        AwsBedrockAgentcoreControlUpdatePolicyEngineOptions? options = null,
+        AwsBedrockAgentcoreControlUpdatePolicyEngineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdatePolicyEngineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2315,11 +2525,26 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePolicyAsync(
-        AwsBedrockAgentcoreControlUpdatePolicyOptions? options = null,
+        AwsBedrockAgentcoreControlUpdatePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdatePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing registry. This operation uses PATCH semantics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateRegistryAsync(
+        AwsBedrockAgentcoreControlUpdateRegistryOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2330,11 +2555,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRegistryRecordAsync(
-        AwsBedrockAgentcoreControlUpdateRegistryRecordOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateRegistryRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateRegistryRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2345,11 +2570,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRegistryRecordStatusAsync(
-        AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2360,11 +2585,11 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWorkloadIdentityAsync(
-        AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions? options = null,
+        AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

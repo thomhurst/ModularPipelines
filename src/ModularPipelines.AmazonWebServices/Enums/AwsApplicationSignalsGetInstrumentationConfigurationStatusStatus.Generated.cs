@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApplicationSignalsGetInstrumentationConfigurationStatusStatus
 {
-    [EnumValue("READY")]
-    Ready = 1,
-
-    [EnumValue("ERROR")]
-    Error = 2,
-
     [EnumValue("ACTIVE")]
-    Active = 3,
+    Active,
 
     [EnumValue("DISABLED")]
-    Disabled = 4
+    Disabled,
+
+    [EnumValue("ERROR")]
+    Error,
+
+    [EnumValue("READY")]
+    Ready
 }

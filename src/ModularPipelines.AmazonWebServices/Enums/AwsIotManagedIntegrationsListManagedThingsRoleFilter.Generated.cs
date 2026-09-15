@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --rolefilter.
+/// Allowed values for --role-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsListManagedThingsRoleFilter
 {
     [EnumValue("CONTROLLER")]
-    Controller = 1,
+    Controller,
 
     [EnumValue("DEVICE")]
-    Device = 2
+    Device
 }

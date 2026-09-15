@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "associate-trial-component")]
-public record AwsSagemakerAssociateTrialComponentOptions : AwsOptions
+public record AwsSagemakerAssociateTrialComponentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--trial-component-name")]
-    public string? TrialComponentName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a trial component with a trial. A trial component can be as- sociated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrialComponentName">The name of the component to associated with the trial. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="TrialName">The name of the trial to associate with. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    public AwsSagemakerAssociateTrialComponentOptions(
+        string TrialComponentName,
+        string TrialName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrialComponentName);
+        this.TrialComponentName = TrialComponentName;
+        global::System.ArgumentNullException.ThrowIfNull(TrialName);
+        this.TrialName = TrialName;
+    }
+
+    private AwsSagemakerAssociateTrialComponentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerAssociateTrialComponentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerAssociateTrialComponentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the component to associated with the trial. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// </summary>
+    [CliOption("--trial-component-name")]
+    public string? TrialComponentName { get; private init; }
+
+    /// <summary>
+    /// The name of the trial to associate with. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// </summary>
     [CliOption("--trial-name")]
-    public string? TrialName { get; set; }
+    public string? TrialName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

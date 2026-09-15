@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "list-iterable-forms")]
-public record AwsGlueListIterableFormsOptions : AwsOptions
+public record AwsGlueListIterableFormsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--asset-identifier")]
-    public string? AssetIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the items in an iterable form on an asset in Glue Data Catalog. For example, lists the columns of a table asset. See also: AWS API Documentation list-iterable-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
+    /// </summary>
+    /// <param name="AssetIdentifier">The unique identifier of the asset. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="IterableFormName">The name of the iterable form to list items from. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$</param>
+    public AwsGlueListIterableFormsOptions(
+        string AssetIdentifier,
+        string IterableFormName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetIdentifier);
+        this.AssetIdentifier = AssetIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(IterableFormName);
+        this.IterableFormName = IterableFormName;
+    }
+
+    private AwsGlueListIterableFormsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueListIterableFormsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueListIterableFormsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the asset. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// </summary>
+    [CliOption("--asset-identifier")]
+    public string? AssetIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the iterable form to list items from. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
+    /// </summary>
     [CliOption("--iterable-form-name")]
-    public string? IterableFormName { get; set; }
+    public string? IterableFormName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsGlueListIterableFormsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

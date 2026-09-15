@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-cloud-formation-stack")]
-public record AwsLightsailCreateCloudFormationStackOptions : AwsOptions
+public record AwsLightsailCreateCloudFormationStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AWS CloudFormation stack, which creates a new Amazon EC2 in- stance from an exported Amazon Lightsail snapshot. This operation re- sults in a CloudFormation stack record that can be used to track the AWS CloudFormation stack created. Use the get cloud formation stack records operation to get a list of the CloudFormation stacks created. WARNING: Wait until after your new Amazon EC2 instance is created before run- ning the create cloud formation stack operation again with the same expor...
+    /// </summary>
+    /// <param name="Instances">An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array. (structure) Describes the Amazon Elastic Compute Cloud instance and related resources to be created using the create cloud formation stack operation. sourceName -&gt; (string) [required] The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack. Constraints: o pattern: \w[\w\-]*\w instanceType -&gt; (string) [required] The instance type (t2.micro ) to use for the new Amazon EC2 instance. Constraints: o pattern: .*\S.* portInfoSource -&gt; (string) [required] The port configuration to use for the new Amazon EC2 in- stance. The following configuration options are available: o DEFAULT - Use the default firewall settings from the Light- sail instance blueprint. If this is specified, then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2. o INSTANCE - Use the configured firewall settings from the source Lightsail instance. If this is specified, the new instance that is created in Amazon EC2 will be configured to match the configuration of the source Lightsail in- stance. For example, if the source instance is configured for dual-stack (IPv4 and IPv6), then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2. If the source instance is configured for IPv4 only, then only IPv4 will be configured for the new instance that is created in Amazon EC2. o NONE - Use the default Amazon EC2 security group. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2. o CLOSED - All ports closed. If this is specified, then only IPv4 will be configured for the new instance that is cre- ated in Amazon EC2. NOTE: If you configured lightsail-connect as a cidrListAliases on your instance, or if you chose to allow the Lightsail browser-based SSH or RDP clients to connect to your in- stance, that configuration is not carried over to your new Amazon EC2 instance. Possible values: o DEFAULT o INSTANCE o NONE o CLOSED userData -&gt; (string) A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . availabilityZone -&gt; (string) [required] The Availability Zone for the new Amazon EC2 instance. Shorthand Syntax: sourceName=string,instanceType=string,portInfoSource=string,userData=string,availabilityZone=string ... JSON Syntax: [ { "sourceName": "string", "instanceType": "string", "portInfoSource": "DEFAULT"|"INSTANCE"|"NONE"|"CLOSED", "userData": "string", "availabilityZone": "string" } ... ]</param>
+    public AwsLightsailCreateCloudFormationStackOptions(
+        IEnumerable<string> Instances
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Instances);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Instances));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Instances));
+            }
+
+            Instances = materialized;
+        }
+        this.Instances = Instances;
+    }
+
+    private AwsLightsailCreateCloudFormationStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateCloudFormationStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateCloudFormationStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array. (structure) Describes the Amazon Elastic Compute Cloud instance and related resources to be created using the create cloud formation stack operation. sourceName -&gt; (string) [required] The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack. Constraints: o pattern: \w[\w\-]*\w instanceType -&gt; (string) [required] The instance type (t2.micro ) to use for the new Amazon EC2 instance. Constraints: o pattern: .*\S.* portInfoSource -&gt; (string) [required] The port configuration to use for the new Amazon EC2 in- stance. The following configuration options are available: o DEFAULT - Use the default firewall settings from the Light- sail instance blueprint. If this is specified, then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2. o INSTANCE - Use the configured firewall settings from the source Lightsail instance. If this is specified, the new instance that is created in Amazon EC2 will be configured to match the configuration of the source Lightsail in- stance. For example, if the source instance is configured for dual-stack (IPv4 and IPv6), then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2. If the source instance is configured for IPv4 only, then only IPv4 will be configured for the new instance that is created in Amazon EC2. o NONE - Use the default Amazon EC2 security group. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2. o CLOSED - All ports closed. If this is specified, then only IPv4 will be configured for the new instance that is cre- ated in Amazon EC2. NOTE: If you configured lightsail-connect as a cidrListAliases on your instance, or if you chose to allow the Lightsail browser-based SSH or RDP clients to connect to your in- stance, that configuration is not carried over to your new Amazon EC2 instance. Possible values: o DEFAULT o INSTANCE o NONE o CLOSED userData -&gt; (string) A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . availabilityZone -&gt; (string) [required] The Availability Zone for the new Amazon EC2 instance. Shorthand Syntax: sourceName=string,instanceType=string,portInfoSource=string,userData=string,availabilityZone=string ... JSON Syntax: [ { "sourceName": "string", "instanceType": "string", "portInfoSource": "DEFAULT"|"INSTANCE"|"NONE"|"CLOSED", "userData": "string", "availabilityZone": "string" } ... ]
+    /// </summary>
     [CliOption("--instances", GroupValues = true)]
-    public IEnumerable<string>? Instances { get; set; }
+    public IEnumerable<string>? Instances { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

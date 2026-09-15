@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "describe-instance-types")]
 public record AwsEc2DescribeInstanceTypesOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -37,7 +40,10 @@ public record AwsEc2DescribeInstanceTypesOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--include-unsupported-in-region")]
+    /// <summary>
+    /// If true , the response includes instance types that are not sup- ported in the current Region, in addition to the supported types. Default: false .
+    /// </summary>
+    [CliFlag("--include-unsupported-in-region", NegatedName = "--no-include-unsupported-in-region")]
     public bool? IncludeUnsupportedInRegion { get; set; }
 
     [CliOption("--cli-input-json")]

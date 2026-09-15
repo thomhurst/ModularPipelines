@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "put-account-configuration")]
-public record AwsAcmPutAccountConfigurationOptions : AwsOptions
+public record AwsAcmPutAccountConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or modifies account-level configurations in ACM. The supported configuration option is DaysBeforeExpiry . This option specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdempotencyToken">Customer-chosen string used to distinguish between calls to PutAc- countConfiguration . Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unex- pired idempotency token, ACM treats it as the same request and re- turns the original result. If you change the idempotency token for each call, ACM treats each call as a new request. Constraints: o min: 1 o max: 32 o pattern: \w+</param>
+    public AwsAcmPutAccountConfigurationOptions(
+        string IdempotencyToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdempotencyToken);
+        this.IdempotencyToken = IdempotencyToken;
+    }
+
+    private AwsAcmPutAccountConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmPutAccountConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmPutAccountConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Customer-chosen string used to distinguish between calls to PutAc- countConfiguration . Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unex- pired idempotency token, ACM treats it as the same request and re- turns the original result. If you change the idempotency token for each call, ACM treats each call as a new request. Constraints: o min: 1 o max: 32 o pattern: \w+
+    /// </summary>
+    [SecretValue]
+    [CliOption("--idempotency-token")]
+    public string? IdempotencyToken { get; private init; }
+
     /// <summary>
     /// Specifies expiration events associated with an account. DaysBeforeExpiry -&gt; (integer) Specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before cer- tificate expiration. Constraints: o min: 1 Shorthand Syntax: DaysBeforeExpiry=integer JSON Syntax: { "DaysBeforeExpiry": integer }
     /// </summary>
     [CliOption("--expiry-events")]
     public string? ExpiryEvents { get; set; }
 
-    [SecretValue]
-    [CliOption("--idempotency-token")]
-    public string? IdempotencyToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

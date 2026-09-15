@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "get-parameters-for-import")]
-public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions
+public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedK- eyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import to- ken and wrapping key certificate must be in place and operational be- fore calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service ac- count. T...
+    /// </summary>
+    /// <param name="KeyMaterialType">The method to use for key material import. Import token is only re- quired for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK ) and RSA WrappedK- eyCryptogram (KEY_CRYPTOGRAM ). Import token is not required for TR-31, root public key cerificate or trusted public key certificate. Possible values: o TR34_KEY_BLOCK o TR31_KEY_BLOCK o ROOT_PUBLIC_KEY_CERTIFICATE o TRUSTED_PUBLIC_KEY_CERTIFICATE o KEY_CRYPTOGRAM</param>
+    /// <param name="WrappingKeyAlgorithm">The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 Wrapped- KeyBlock import. Additionally, RSA_2048 , RSA_3072 , RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521</param>
+    public AwsPaymentCryptographyGetParametersForImportOptions(
+        AwsPaymentCryptographyGetParametersForImportKeyMaterialType KeyMaterialType,
+        AwsPaymentCryptographyGetParametersForImportWrappingKeyAlgorithm WrappingKeyAlgorithm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyMaterialType);
+        this.KeyMaterialType = KeyMaterialType;
+        global::System.ArgumentNullException.ThrowIfNull(WrappingKeyAlgorithm);
+        this.WrappingKeyAlgorithm = WrappingKeyAlgorithm;
+    }
+
+    private AwsPaymentCryptographyGetParametersForImportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyGetParametersForImportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyGetParametersForImportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The method to use for key material import. Import token is only re- quired for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK ) and RSA WrappedK- eyCryptogram (KEY_CRYPTOGRAM ). Import token is not required for TR-31, root public key cerificate or trusted public key certificate. Possible values: o TR34_KEY_BLOCK o TR31_KEY_BLOCK o ROOT_PUBLIC_KEY_CERTIFICATE o TRUSTED_PUBLIC_KEY_CERTIFICATE o KEY_CRYPTOGRAM
+    /// </summary>
     [CliOption("--key-material-type")]
-    public string? KeyMaterialType { get; set; }
+    public AwsPaymentCryptographyGetParametersForImportKeyMaterialType? KeyMaterialType { get; private init; }
 
+    /// <summary>
+    /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 Wrapped- KeyBlock import. Additionally, RSA_2048 , RSA_3072 , RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521
+    /// </summary>
     [CliOption("--wrapping-key-algorithm")]
-    public string? WrappingKeyAlgorithm { get; set; }
+    public AwsPaymentCryptographyGetParametersForImportWrappingKeyAlgorithm? WrappingKeyAlgorithm { get; private init; }
 
-    [CliFlag("--reuse-last-generated-token")]
+    /// <summary>
+    /// Specifies whether to reuse the existing import token and wrapping key certificate. If set to true and a valid import token exists for the same key material type and wrapping key algorithm with at least 7 days of remaining validity, the existing token and wrapping key certificate are returned. Otherwise, a new import token and wrapping key certificate are generated. The default value is false , which generates a new import token and wrapping key certificate on every call.
+    /// </summary>
+    [CliFlag("--reuse-last-generated-token", NegatedName = "--no-reuse-last-generated-token")]
     public bool? ReuseLastGeneratedToken { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +83,22 @@ public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

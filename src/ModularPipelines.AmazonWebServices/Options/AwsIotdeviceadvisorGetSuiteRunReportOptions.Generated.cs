@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotdeviceadvisor", "get-suite-run-report")]
-public record AwsIotdeviceadvisorGetSuiteRunReportOptions : AwsOptions
+public record AwsIotdeviceadvisorGetSuiteRunReportOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--suite-definition-id")]
-    public string? SuiteDefinitionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the GetSuiteRunReport action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SuiteDefinitionId">Suite definition ID of the test suite. Constraints: o min: 12 o max: 36</param>
+    /// <param name="SuiteRunId">Suite run ID of the test suite run. Constraints: o min: 12 o max: 36</param>
+    public AwsIotdeviceadvisorGetSuiteRunReportOptions(
+        string SuiteDefinitionId,
+        string SuiteRunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SuiteDefinitionId);
+        this.SuiteDefinitionId = SuiteDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(SuiteRunId);
+        this.SuiteRunId = SuiteRunId;
+    }
+
+    private AwsIotdeviceadvisorGetSuiteRunReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotdeviceadvisorGetSuiteRunReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotdeviceadvisorGetSuiteRunReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Suite definition ID of the test suite. Constraints: o min: 12 o max: 36
+    /// </summary>
+    [CliOption("--suite-definition-id")]
+    public string? SuiteDefinitionId { get; private init; }
+
+    /// <summary>
+    /// Suite run ID of the test suite run. Constraints: o min: 12 o max: 36
+    /// </summary>
     [CliOption("--suite-run-id")]
-    public string? SuiteRunId { get; set; }
+    public string? SuiteRunId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

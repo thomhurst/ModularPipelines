@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation", "copy-blueprint-stage")]
-public record AwsBedrockDataAutomationCopyBlueprintStageOptions : AwsOptions
+public record AwsBedrockDataAutomationCopyBlueprintStageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies a Blueprint from one stage to another See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BlueprintArn">Blueprint to be copied Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
+    /// <param name="SourceStage">Source stage to copy from Possible values: o DEVELOPMENT o LIVE</param>
+    /// <param name="TargetStage">Target stage to copy to Possible values: o DEVELOPMENT o LIVE</param>
+    public AwsBedrockDataAutomationCopyBlueprintStageOptions(
+        string BlueprintArn,
+        AwsBedrockDataAutomationCopyBlueprintStageSourceStage SourceStage,
+        AwsBedrockDataAutomationCopyBlueprintStageTargetStage TargetStage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlueprintArn);
+        this.BlueprintArn = BlueprintArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceStage);
+        this.SourceStage = SourceStage;
+        global::System.ArgumentNullException.ThrowIfNull(TargetStage);
+        this.TargetStage = TargetStage;
+    }
+
+    private AwsBedrockDataAutomationCopyBlueprintStageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationCopyBlueprintStageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationCopyBlueprintStageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Blueprint to be copied Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
+    /// </summary>
     [CliOption("--blueprint-arn")]
-    public string? BlueprintArn { get; set; }
+    public string? BlueprintArn { get; private init; }
 
+    /// <summary>
+    /// Source stage to copy from Possible values: o DEVELOPMENT o LIVE
+    /// </summary>
     [CliOption("--source-stage")]
-    public string? SourceStage { get; set; }
+    public AwsBedrockDataAutomationCopyBlueprintStageSourceStage? SourceStage { get; private init; }
 
+    /// <summary>
+    /// Target stage to copy to Possible values: o DEVELOPMENT o LIVE
+    /// </summary>
     [CliOption("--target-stage")]
-    public string? TargetStage { get; set; }
+    public AwsBedrockDataAutomationCopyBlueprintStageTargetStage? TargetStage { get; private init; }
 
     /// <summary>
     /// Client token for idempotency Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -43,5 +95,22 @@ public record AwsBedrockDataAutomationCopyBlueprintStageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

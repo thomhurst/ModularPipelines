@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-ipam-prefix-list-resolver")]
-public record AwsEc2CreateIpamPrefixListResolverOptions : AwsOptions
+public record AwsEc2CreateIpamPrefixListResolverOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an IPAM prefix list resolver. An IPAM prefix list resolver is a component that manages the synchro- nization between IPAM's CIDR selection rules and customer-managed pre- fix lists. It automates connectivity configurations by selecting CIDRs from IPAM's database based on your business logic and synchronizing them with prefix lists used in resources such as VPC route tables and security groups. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with I...
+    /// </summary>
+    /// <param name="IpamId">The ID of the IPAM that will serve as the source of the IP address database for CIDR selection. The IPAM must be in the Advanced tier to use this feature.</param>
+    /// <param name="AddressFamily">The address family for the IPAM prefix list resolver. Valid values are ipv4 and ipv6 . You must create separate resolvers for IPv4 and IPv6 CIDRs as they cannot be mixed in the same resolver. Possible values: o ipv4 o ipv6</param>
+    public AwsEc2CreateIpamPrefixListResolverOptions(
+        string IpamId,
+        AwsEc2CreateIpamPrefixListResolverAddressFamily AddressFamily
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamId);
+        this.IpamId = IpamId;
+        global::System.ArgumentNullException.ThrowIfNull(AddressFamily);
+        this.AddressFamily = AddressFamily;
+    }
+
+    private AwsEc2CreateIpamPrefixListResolverOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateIpamPrefixListResolverOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateIpamPrefixListResolverOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM that will serve as the source of the IP address database for CIDR selection. The IPAM must be in the Advanced tier to use this feature.
+    /// </summary>
     [CliOption("--ipam-id")]
-    public string? IpamId { get; set; }
+    public string? IpamId { get; private init; }
+
+    /// <summary>
+    /// The address family for the IPAM prefix list resolver. Valid values are ipv4 and ipv6 . You must create separate resolvers for IPv4 and IPv6 CIDRs as they cannot be mixed in the same resolver. Possible values: o ipv4 o ipv6
+    /// </summary>
+    [CliOption("--address-family")]
+    public AwsEc2CreateIpamPrefixListResolverAddressFamily? AddressFamily { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// A description for the IPAM prefix list resolver to help you identify its purpose and configuration.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--address-family")]
-    public string? AddressFamily { get; set; }
 
     /// <summary>
     /// The CIDR selection rules for the resolver. CIDR selection rules define the business logic for selecting CIDRs from IPAM. If a CIDR matches any of the rules, it will be included. If a rule has multiple conditions, the CIDR has to match every con- dition of that rule. You can create a prefix list resolver without any CIDR selection rules, but it will generate empty versions (con- taining no CIDRs) until you add rules. (structure) Describes a CIDR selection rule to include in a request. This is used when creating or modifying resolver rules. CIDR selection rules define the business logic for selecting CIDRs from IPAM. If a CIDR matches any of the rules, it will be included. If a rule has multiple conditions, the CIDR has to match every condition of that rule. You can create a prefix list resolver without any CIDR selection rules, but it will generate empty versions (containing no CIDRs) until you add rules. There are three rule types. Only 2 of the 3 rule types support conditions - IPAM pool CIDR and Scope resource CIDR . Static CIDR rules cannot have conditions. o Static CIDR : A fixed list of CIDRs that do not change (like a manual list replicated across Regions) o IPAM pool CIDR : CIDRs from specific IPAM pools (like all CIDRs from your IPAM production pool) If you choose this op- tion, choose the following: o IPAM scope : Select the IPAM scope to search for resources o Conditions: o Property o IPAM pool ID : Select an IPAM pool that contains the re- sources o CIDR (like 10.24.34.0/23) o Operation : Equals/Not equals o Value : The value on which to match the condition o Scope resource CIDR : CIDRs from Amazon Web Services resources like VPCs, subnets, EIPs within an IPAM scope If you choose this option, choose the following: o IPAM scope : Select the IPAM scope to search for resources o Resource type : Select a resource, like a VPC or subnet. o Conditions : o Property : o Resource ID: The unique ID of a resource (like vpc-1234567890abcdef0) o Resource owner (like 111122223333) o Resource region (like us-east-1) o Resource tag (like key: name, value: dev-vpc-1) o CIDR (like 10.24.34.0/23) o Operation : Equals/Not equals o Value : The value on which to match the condition RuleType -&gt; (string) [required] The type of CIDR selection rule. Valid values include include for selecting CIDRs that match the conditions, and exclude for excluding CIDRs that match the conditions. Possible values: o static-cidr o ipam-resource-cidr o ipam-pool-cidr StaticCidr -&gt; (string) A fixed list of CIDRs that do not change (like a manual list replicated across Regions). IpamScopeId -&gt; (string) The ID of the IPAM scope from which to select CIDRs. This de- termines whether to select from public or private IP address space. ResourceType -&gt; (string) For rules of type ipam-resource-cidr , this is the resource type. Possible values: o vpc o subnet o eip o public-ipv4-pool o ipv6-pool o eni o anycast-ip-list Conditions -&gt; (list) The conditions that determine which CIDRs are selected by this rule. Conditions specify criteria such as resource type, tags, account IDs, and Regions. (structure) Describes a condition used when creating or modifying re- solver rules. CIDR selection rules define the business logic for se- lecting CIDRs from IPAM. If a CIDR matches any of the rules, it will be included. If a rule has multiple condi- tions, the CIDR has to match every condition of that rule. You can create a prefix list resolver without any CIDR selection rules, but it will generate empty versions (containing no CIDRs) until you add rules. There are three rule types. Only 2 of the 3 rule types support conditions - IPAM pool CIDR and Scope resource CIDR . Static CIDR rules cannot have conditions. o Static CIDR : A fixed list of CIDRs that do not change (like a manual list replicated across Regions) o IPAM pool CIDR : CIDRs from specific IPAM pools (like all CIDRs from your IPAM production pool) If you choose this option, choose the following: o IPAM scope : Select the IPAM scope to search for re- sources o Conditions: o Property o IPAM pool ID : Select an IPAM pool that contains the resources o CIDR (like 10.24.34.0/23) o Operation : Equals/Not equals o Value : The value on which to match the condition o Scope resource CIDR : CIDRs from Amazon Web Services resources like VPCs, subnets, EIPs within an IPAM scope If you choose this option, choose the following: o IPAM scope : Select the IPAM scope to search for re- sources o Resource type : Select a resource, like a VPC or sub- net. o Conditions : o Property : o Resource ID: The unique ID of a resource (like vpc-1234567890abcdef0) o Resource owner (like 111122223333) o Resource region (like us-east-1) o Resource tag (like key: name, value: dev-vpc-1) o CIDR (like 10.24.34.0/23) o Operation : Equals/Not equals o Value : The value on which to match the condition Operation -&gt; (string) [required] The operation to perform when evaluating this condi- tion. Possible values: o equals o not-equals o subnet-of IpamPoolId -&gt; (string) The ID of the IPAM pool to match against. This condi- tion selects CIDRs that belong to the specified IPAM pool. ResourceId -&gt; (string) The ID of the Amazon Web Services resource to match against. This condition selects CIDRs associated with the specified resource. ResourceOwner -&gt; (string) The Amazon Web Services account ID that owns the re- sources to match against. This condition selects CIDRs from resources owned by the specified account. ResourceRegion -&gt; (string) The Amazon Web Services Region where the resources are located. This condition selects CIDRs from resources in the specified Region. ResourceTag -&gt; (structure) A tag key-value pair to match against. This condition selects CIDRs from resources that have the specified tag. Key -&gt; (string) The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value. Value -&gt; (string) The value for the tag. Cidr -&gt; (string) A CIDR block to match against. This condition selects CIDRs that fall within or match the specified CIDR range. JSON Syntax: [ { "RuleType": "static-cidr"|"ipam-resource-cidr"|"ipam-pool-cidr", "StaticCidr": "string", "IpamScopeId": "string", "ResourceType": "vpc"|"subnet"|"eip"|"public-ipv4-pool"|"ipv6-pool"|"eni"|"anycast-ip-list", "Conditions": [ { "Operation": "equals"|"not-equals"|"subnet-of", "IpamPoolId": "string", "ResourceId": "string", "ResourceOwner": "string", "ResourceRegion": "string", "ResourceTag": { "Key": "string", "Value": "string" }, "Cidr": "string" } ... ] } ... ]
@@ -61,5 +109,22 @@ public record AwsEc2CreateIpamPrefixListResolverOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

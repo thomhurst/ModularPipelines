@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --listresponsescope.
+/// Allowed values for --list-response-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseListStateTemplatesListResponseScope
 {
     [EnumValue("METADATA_ONLY")]
-    MetadataOnly = 1
+    MetadataOnly,
+
+    [EnumValue("o")]
+    O
 }

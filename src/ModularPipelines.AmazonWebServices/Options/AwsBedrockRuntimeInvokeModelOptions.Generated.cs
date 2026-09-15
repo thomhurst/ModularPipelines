@@ -23,6 +23,34 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBedrockRuntimeInvokeModelOptions : AwsOptions
 {
     /// <summary>
+    /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide . This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and be...
+    /// </summary>
+    /// <param name="ModelId">The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use: o If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide. o If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Re- gions and models for cross-region inference in the Amazon Bedrock User Guide. o If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provi- sioned Throughput in the Amazon Bedrock User Guide. o If you use a custom model, specify the ARN of the custom model de- ployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide. o If you use an imported model , specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Ama- zon Bedrock console. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:im- ported-model/[a-z0-9]{12})|([0-9]{12}:provi- sioned-model/[a-z0-9]{12})|([0-9]{12}:custom-model-deploy- ment/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-in- ference-pro- file)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sage- maker:[a-z0-9-]+:[0-9]{12}:end- point/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):(de- fault-)?prompt-router/[a-zA-Z0-9-:.]+$)</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsBedrockRuntimeInvokeModelOptions(
+        string ModelId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ModelId, out string Outfile)
+    {
+        ModelId = this.ModelId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use: o If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide. o If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Re- gions and models for cross-region inference in the Amazon Bedrock User Guide. o If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provi- sioned Throughput in the Amazon Bedrock User Guide. o If you use a custom model, specify the ARN of the custom model de- ployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide. o If you use an imported model , specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Ama- zon Bedrock console. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:im- ported-model/[a-z0-9]{12})|([0-9]{12}:provi- sioned-model/[a-z0-9]{12})|([0-9]{12}:custom-model-deploy- ment/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-in- ference-pro- file)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sage- maker:[a-z0-9-]+:[0-9]{12}:end- point/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):(de- fault-)?prompt-router/[a-zA-Z0-9-:.]+$)
+    /// </summary>
+    [CliOption("--model-id")]
+    public string ModelId { get; private init; }
+
+    /// <summary>
     /// The prompt and inference parameters in the format specified in the contentType in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters . For more informa- tion, see Run inference in the Bedrock User Guide. Constraints: o min: 0 o max: 25000000
     /// </summary>
     [CliOption("--body")]
@@ -39,9 +67,6 @@ public record AwsBedrockRuntimeInvokeModelOptions : AwsOptions
     /// </summary>
     [CliOption("--accept")]
     public string? Accept { get; set; }
-
-    [CliOption("--model-id")]
-    public string? ModelId { get; set; }
 
     /// <summary>
     /// Specifies whether to enable or disable the Bedrock trace. If en- abled, you can see the full Bedrock trace. Possible values: o ENABLED o DISABLED o ENABLED_FULL
@@ -78,5 +103,11 @@ public record AwsBedrockRuntimeInvokeModelOptions : AwsOptions
     /// </summary>
     [CliOption("--request-metadata")]
     public string? RequestMetadata { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

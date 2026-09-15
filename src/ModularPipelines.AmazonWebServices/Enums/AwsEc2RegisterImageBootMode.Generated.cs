@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --bootmode.
+/// Allowed values for --boot-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2RegisterImageBootMode
 {
     [EnumValue("legacy-bios")]
-    LegacyBios = 1,
+    LegacyBios,
 
     [EnumValue("uefi")]
-    Uefi = 2,
+    Uefi,
 
     [EnumValue("uefi-preferred")]
-    UefiPreferred = 3
+    UefiPreferred
 }

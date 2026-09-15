@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-verified-access-endpoint")]
-public record AwsEc2DeleteVerifiedAccessEndpointOptions : AwsOptions
+public record AwsEc2DeleteVerifiedAccessEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete an Amazon Web Services Verified Access endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VerifiedAccessEndpointId">The ID of the Verified Access endpoint.</param>
+    public AwsEc2DeleteVerifiedAccessEndpointOptions(
+        string VerifiedAccessEndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerifiedAccessEndpointId);
+        this.VerifiedAccessEndpointId = VerifiedAccessEndpointId;
+    }
+
+    private AwsEc2DeleteVerifiedAccessEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteVerifiedAccessEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteVerifiedAccessEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Verified Access endpoint.
+    /// </summary>
     [CliOption("--verified-access-endpoint-id")]
-    public string? VerifiedAccessEndpointId { get; set; }
+    public string? VerifiedAccessEndpointId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive token that you provide to ensure idempo- tency of your modification request. For more information, see Ensuring idempotency .
@@ -32,7 +69,10 @@ public record AwsEc2DeleteVerifiedAccessEndpointOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -40,5 +80,22 @@ public record AwsEc2DeleteVerifiedAccessEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

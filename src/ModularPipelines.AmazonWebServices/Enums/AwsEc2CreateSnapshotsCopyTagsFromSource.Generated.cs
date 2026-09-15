@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --copytagsfromsource.
+/// Allowed values for --copy-tags-from-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateSnapshotsCopyTagsFromSource
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("volume")]
-    Volume = 1
+    Volume
 }

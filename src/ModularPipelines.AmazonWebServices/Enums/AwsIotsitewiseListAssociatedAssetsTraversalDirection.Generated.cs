@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --traversaldirection.
+/// Allowed values for --traversal-direction.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListAssociatedAssetsTraversalDirection
 {
-    [EnumValue("PARENT")]
-    Parent = 1,
-
     [EnumValue("CHILD")]
-    Child = 2
+    Child,
+
+    [EnumValue("PARENT")]
+    Parent
 }

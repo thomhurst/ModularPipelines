@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-incidents", "update-response-plan")]
-public record AwsSsmIncidentsUpdateResponsePlanOptions : AwsOptions
+public record AwsSsmIncidentsUpdateResponsePlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified response plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the response plan. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    public AwsSsmIncidentsUpdateResponsePlanOptions(
+        string Arn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsSsmIncidentsUpdateResponsePlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmIncidentsUpdateResponsePlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmIncidentsUpdateResponsePlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the response plan. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
     /// <summary>
     /// The actions that this response plan takes at the beginning of an in- cident. Constraints: o min: 0 o max: 1 (tagged union structure) The action that starts at the beginning of an incident. The re- sponse plan defines the action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ssmAutomation. ssmAutomation -&gt; (structure) The Systems Manager automation document to start as the run- book at the beginning of the incident. documentName -&gt; (string) [required] The automation document's name. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$ documentVersion -&gt; (string) The automation document's version to use when running. Constraints: o min: 0 o max: 128 dynamicParameters -&gt; (map) The key-value pair to resolve dynamic parameter values when processing a Systems Manager Automation runbook. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (tagged union structure) The dynamic SSM parameter value. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: variable. variable -&gt; (string) Variable dynamic parameters. A parameter value is determined when an incident is created. Possible values: o INCIDENT_RECORD_ARN o INVOLVED_RESOURCES parameters -&gt; (map) The key-value pair parameters to use when running the au- tomation document. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 50 value -&gt; (list) Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 512 roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that the au- tomation document will assume when running commands. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:iam::([0-9]{12})?:role/.+$ targetAccount -&gt; (string) The account that the automation document will be run in. This can be in either the management account or an appli- cation account. Possible values: o RESPONSE_PLAN_OWNER_ACCOUNT o IMPACTED_ACCOUNT JSON Syntax: [ { "ssmAutomation": { "documentName": "string", "documentVersion": "string", "dynamicParameters": {"string": { "variable": "INCIDENT_RECORD_ARN"|"INVOLVED_RESOURCES" } ...}, "parameters": {"string": ["string", ...] ...}, "roleArn": "string", "targetAccount": "RESPONSE_PLAN_OWNER_ACCOUNT"|"IMPACTED_ACCOUNT" } } ... ]
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
-
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
 
     /// <summary>
     /// The Chatbot chat channel used for collaboration during an incident. Use the empty structure to remove the chat channel from the response plan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: chatbotSns, empty. chatbotSns -&gt; (list) The Amazon SNS targets that Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel by using the Amazon SNS topics. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 1000 empty -&gt; (structure) Used to remove the chat channel from an incident record or re- sponse plan. Shorthand Syntax: chatbotSns=string,string,empty={} JSON Syntax: { "chatbotSns": ["string", ...], "empty": { } }
@@ -104,5 +141,22 @@ public record AwsSsmIncidentsUpdateResponsePlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

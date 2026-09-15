@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dimensionvalueoperator.
+/// Allowed values for --dimension-value-operator.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListMetricValuesDimensionValueOperator
 {
     [EnumValue("IN")]
-    In = 1,
+    In,
 
     [EnumValue("NOT_IN")]
-    NotIn = 2
+    NotIn
 }

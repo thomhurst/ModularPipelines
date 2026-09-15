@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-mfa-device")]
-public record AwsIamGetMfaDeviceOptions : AwsOptions
+public record AwsIamGetMfaDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about an MFA device for a specified user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SerialNumber">Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs . Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+</param>
+    public AwsIamGetMfaDeviceOptions(
+        string SerialNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SerialNumber);
+        this.SerialNumber = SerialNumber;
+    }
+
+    private AwsIamGetMfaDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetMfaDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetMfaDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs . Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+
+    /// </summary>
     [CliOption("--serial-number")]
-    public string? SerialNumber { get; set; }
+    public string? SerialNumber { get; private init; }
 
     /// <summary>
     /// The friendly name identifying the user. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
@@ -35,5 +72,22 @@ public record AwsIamGetMfaDeviceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

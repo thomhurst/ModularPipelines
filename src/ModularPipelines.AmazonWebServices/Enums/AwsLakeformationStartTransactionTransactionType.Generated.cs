@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --transactiontype.
+/// Allowed values for --transaction-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLakeformationStartTransactionTransactionType
 {
     [EnumValue("READ_AND_WRITE")]
-    ReadAndWrite = 1,
+    ReadAndWrite,
 
     [EnumValue("READ_ONLY")]
-    ReadOnly = 2
+    ReadOnly
 }

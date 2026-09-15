@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --consistencylevel.
+/// Allowed values for --consistency-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsClouddirectoryListObjectPoliciesConsistencyLevel
 {
-    [EnumValue("SERIALIZABLE")]
-    Serializable = 1,
-
     [EnumValue("EVENTUAL")]
-    Eventual = 2
+    Eventual,
+
+    [EnumValue("SERIALIZABLE")]
+    Serializable
 }

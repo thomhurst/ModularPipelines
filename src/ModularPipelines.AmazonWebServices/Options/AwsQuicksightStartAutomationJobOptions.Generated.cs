@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "start-automation-job")]
-public record AwsQuicksightStartAutomationJobOptions : AwsOptions
+public record AwsQuicksightStartAutomationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a new job for a specified automation. The job runs the automa- tion with the provided input payload. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the automa- tion. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AutomationGroupId">The ID of the automation group that contains the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
+    /// <param name="AutomationId">The ID of the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
+    public AwsQuicksightStartAutomationJobOptions(
+        string AwsAccountId,
+        string AutomationGroupId,
+        string AutomationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AutomationGroupId);
+        this.AutomationGroupId = AutomationGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(AutomationId);
+        this.AutomationId = AutomationId;
+    }
+
+    private AwsQuicksightStartAutomationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightStartAutomationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightStartAutomationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the automa- tion. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the automation group that contains the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--automation-group-id")]
-    public string? AutomationGroupId { get; set; }
+    public string? AutomationGroupId { get; private init; }
 
+    /// <summary>
+    /// The ID of the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--automation-id")]
-    public string? AutomationId { get; set; }
+    public string? AutomationId { get; private init; }
 
     /// <summary>
     /// The input payload for the automation job, provided as a JSON string. Constraints: o min: 1 o max: 7000000 o pattern: [\s\S]*[{\[].*[}\]]\s*
@@ -41,5 +92,22 @@ public record AwsQuicksightStartAutomationJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

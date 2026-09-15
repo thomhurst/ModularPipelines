@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authtype.
+/// Allowed values for --auth-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDocdbElasticUpdateClusterAuthType
 {
     [EnumValue("PLAIN_TEXT")]
-    PlainText = 1,
+    PlainText,
 
     [EnumValue("SECRET_ARN")]
-    SecretArn = 2
+    SecretArn
 }

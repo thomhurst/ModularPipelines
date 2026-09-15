@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "move-replication-task")]
-public record AwsDmsMoveReplicationTaskOptions : AwsOptions
+public record AwsDmsMoveReplicationTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-task-arn")]
-    public string? ReplicationTaskArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later DMS version as the current replication instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationTaskArn">The Amazon Resource Name (ARN) of the task that you want to move.</param>
+    /// <param name="TargetReplicationInstanceArn">The ARN of the replication instance where you want to move the task to.</param>
+    public AwsDmsMoveReplicationTaskOptions(
+        string ReplicationTaskArn,
+        string TargetReplicationInstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskArn);
+        this.ReplicationTaskArn = ReplicationTaskArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetReplicationInstanceArn);
+        this.TargetReplicationInstanceArn = TargetReplicationInstanceArn;
+    }
+
+    private AwsDmsMoveReplicationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsMoveReplicationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsMoveReplicationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the task that you want to move.
+    /// </summary>
+    [CliOption("--replication-task-arn")]
+    public string? ReplicationTaskArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the replication instance where you want to move the task to.
+    /// </summary>
     [CliOption("--target-replication-instance-arn")]
-    public string? TargetReplicationInstanceArn { get; set; }
+    public string? TargetReplicationInstanceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

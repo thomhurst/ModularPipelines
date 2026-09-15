@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "update-event-action")]
-public record AwsDataexchangeUpdateEventActionOptions : AwsOptions
+public record AwsDataexchangeUpdateEventActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation updates the event action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventActionId">The unique identifier for the event action.</param>
+    public AwsDataexchangeUpdateEventActionOptions(
+        string EventActionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventActionId);
+        this.EventActionId = EventActionId;
+    }
+
+    private AwsDataexchangeUpdateEventActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeUpdateEventActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeUpdateEventActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the event action.
+    /// </summary>
+    [CliOption("--event-action-id")]
+    public string? EventActionId { get; private init; }
+
     /// <summary>
     /// What occurs after a certain event. ExportRevisionToS3 -&gt; (structure) Details for the export revision to Amazon S3 action. Encryption -&gt; (structure) Encryption configuration for the auto export job. KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This para- meter is required if you choose aws:kms as an encryption type. Type -&gt; (string) [required] The type of server side encryption used for encrypting the objects in Amazon S3. Possible values: o aws:kms o AES256 RevisionDestination -&gt; (structure) [required] A revision destination is the Amazon S3 bucket folder desti- nation to where the export will be sent. Bucket -&gt; (string) [required] The Amazon S3 bucket that is the destination for the event action. KeyPattern -&gt; (string) A string representing the pattern for generated names of the individual assets in the revision. For more informa- tion about key patterns, see Key patterns when exporting revisions . Shorthand Syntax: ExportRevisionToS3={Encryption={KmsKeyArn=string,Type=string},RevisionDestination={Bucket=string,KeyPattern=string}} JSON Syntax: { "ExportRevisionToS3": { "Encryption": { "KmsKeyArn": "string", "Type": "aws:kms"|"AES256" }, "RevisionDestination": { "Bucket": "string", "KeyPattern": "string" } } }
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CliOption("--event-action-id")]
-    public string? EventActionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

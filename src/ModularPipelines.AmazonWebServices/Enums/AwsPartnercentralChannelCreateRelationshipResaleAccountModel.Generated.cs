@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resaleaccountmodel.
+/// Allowed values for --resale-account-model.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPartnercentralChannelCreateRelationshipResaleAccountModel
 {
     [EnumValue("DISTRIBUTOR")]
-    Distributor = 1,
+    Distributor,
 
     [EnumValue("END_CUSTOMER")]
-    EndCustomer = 2,
+    EndCustomer,
 
     [EnumValue("SOLUTION_PROVIDER")]
-    SolutionProvider = 3
+    SolutionProvider
 }

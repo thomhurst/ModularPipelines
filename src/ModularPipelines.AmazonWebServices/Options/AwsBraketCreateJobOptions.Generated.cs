@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("braket", "create-job")]
-public record AwsBraketCreateJobOptions : AwsOptions
+public record AwsBraketCreateJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Braket hybrid job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AlgorithmSpecification">Definition of the Amazon Braket job to be created. Specifies the container image the job uses and information about the Python scripts used for entry and training. scriptModeConfig -&gt; (structure) Configures the paths to the Python scripts used for entry and training. entryPoint -&gt; (string) [required] The entry point in the algorithm scripts from where the exe- cution begins in the hybrid job. s3Uri -&gt; (string) [required] The URI that specifies the S3 path to the algorithm scripts used by an Amazon Braket hybrid job. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) compressionType -&gt; (string) The type of compression used to store the algorithm scripts in Amazon S3 storage. Possible values: o NONE o GZIP containerImage -&gt; (structure) The container image used to create an Amazon Braket hybrid job. uri -&gt; (string) [required] The URI locating the container image. Constraints: o min: 1 o max: 255 o pattern: \d{10,14}\.dkr\.ecr.[a-z0-9-]+\.amazon- aws\.com\/.+(@sha256)?:.+ Shorthand Syntax: scriptModeConfig={entryPoint=string,s3Uri=string,compressionType=string},containerImage={uri=string} JSON Syntax: { "scriptModeConfig": { "entryPoint": "string", "s3Uri": "string", "compressionType": "NONE"|"GZIP" }, "containerImage": { "uri": "string" } }</param>
+    /// <param name="OutputDataConfig">The path to the S3 location where you want to store hybrid job arti- facts and the encryption key used to store them. kmsKeyId -&gt; (string) The AWS Key Management Service (AWS KMS) key that Amazon Braket uses to encrypt the hybrid job training artifacts at rest using Amazon S3 server-side encryption. Constraints: o min: 1 o max: 2048 s3Path -&gt; (string) [required] Identifies the S3 path where you want Amazon Braket to store the hybrid job training artifacts. For example, s3://bucket-name/key-name-prefix . Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: kmsKeyId=string,s3Path=string JSON Syntax: { "kmsKeyId": "string", "s3Path": "string" }</param>
+    /// <param name="JobName">The name of the Amazon Braket hybrid job. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,50}</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user re- sources, run an Amazon Braket job container on behalf of user, and output results and hybrid job details to the users' s3 buckets. Constraints: o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="InstanceConfig">Configuration of the resource instances to use while running the hy- brid job on Amazon Braket. instanceType -&gt; (string) [required] Configures the type of resource instances to use while running an Amazon Braket hybrid job. Possible values: o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.m5.large o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5n.xlarge o ml.c5n.2xlarge o ml.c5n.4xlarge o ml.c5n.9xlarge o ml.c5n.18xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge o ml.p4d.24xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge volumeSizeInGb -&gt; (integer) [required] The size of the storage volume, in GB, to provision. Constraints: o min: 1 instanceCount -&gt; (integer) Configures the number of resource instances to use while running an Amazon Braket hybrid job on Amazon Braket. The default value is 1. Constraints: o min: 1 Shorthand Syntax: instanceType=string,volumeSizeInGb=integer,instanceCount=integer JSON Syntax: { "instanceType": "ml.t3.large"|"ml.t3.xlarge"|"ml.t3.2xlarge"|"ml.m4.xlarge"|"ml.m4.2xlarge"|"ml.m4.4xlarge"|"ml.m4.10xlarge"|"ml.m4.16xlarge"|"ml.m5.large"|"ml.m5.xlarge"|"ml.m5.2xlarge"|"ml.m5.4xlarge"|"ml.m5.12xlarge"|"ml.m5.24xlarge"|"ml.c4.xlarge"|"ml.c4.2xlarge"|"ml.c4.4xlarge"|"ml.c4.8xlarge"|"ml.c5.xlarge"|"ml.c5.2xlarge"|"ml.c5.4xlarge"|"ml.c5.9xlarge"|"ml.c5.18xlarge"|"ml.c5n.xlarge"|"ml.c5n.2xlarge"|"ml.c5n.4xlarge"|"ml.c5n.9xlarge"|"ml.c5n.18xlarge"|"ml.p2.xlarge"|"ml.p2.8xlarge"|"ml.p2.16xlarge"|"ml.p3.2xlarge"|"ml.p3.8xlarge"|"ml.p3.16xlarge"|"ml.p3dn.24xlarge"|"ml.p4d.24xlarge"|"ml.g4dn.xlarge"|"ml.g4dn.2xlarge"|"ml.g4dn.4xlarge"|"ml.g4dn.8xlarge"|"ml.g4dn.12xlarge"|"ml.g4dn.16xlarge"|"ml.g6.xlarge"|"ml.g6.2xlarge"|"ml.g6.4xlarge"|"ml.g6.8xlarge"|"ml.g6.12xlarge"|"ml.g6.16xlarge"|"ml.g6.24xlarge"|"ml.g6.48xlarge"|"ml.g6e.xlarge"|"ml.g6e.2xlarge"|"ml.g6e.4xlarge"|"ml.g6e.8xlarge"|"ml.g6e.12xlarge"|"ml.g6e.16xlarge"|"ml.g6e.24xlarge"|"ml.g6e.48xlarge", "volumeSizeInGb": integer, "instanceCount": integer }</param>
+    /// <param name="DeviceConfig">The quantum processing unit (QPU) or simulator used to create an Amazon Braket hybrid job. device -&gt; (string) [required] The primary device ARN used to create and run an Amazon Braket hybrid job. Constraints: o min: 1 o max: 256 Shorthand Syntax: device=string JSON Syntax: { "device": "string" }</param>
+    public AwsBraketCreateJobOptions(
+        string AlgorithmSpecification,
+        string OutputDataConfig,
+        string JobName,
+        string RoleArn,
+        string InstanceConfig,
+        string DeviceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlgorithmSpecification);
+        this.AlgorithmSpecification = AlgorithmSpecification;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceConfig);
+        this.InstanceConfig = InstanceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceConfig);
+        this.DeviceConfig = DeviceConfig;
+    }
+
+    private AwsBraketCreateJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBraketCreateJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBraketCreateJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Definition of the Amazon Braket job to be created. Specifies the container image the job uses and information about the Python scripts used for entry and training. scriptModeConfig -&gt; (structure) Configures the paths to the Python scripts used for entry and training. entryPoint -&gt; (string) [required] The entry point in the algorithm scripts from where the exe- cution begins in the hybrid job. s3Uri -&gt; (string) [required] The URI that specifies the S3 path to the algorithm scripts used by an Amazon Braket hybrid job. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) compressionType -&gt; (string) The type of compression used to store the algorithm scripts in Amazon S3 storage. Possible values: o NONE o GZIP containerImage -&gt; (structure) The container image used to create an Amazon Braket hybrid job. uri -&gt; (string) [required] The URI locating the container image. Constraints: o min: 1 o max: 255 o pattern: \d{10,14}\.dkr\.ecr.[a-z0-9-]+\.amazon- aws\.com\/.+(@sha256)?:.+ Shorthand Syntax: scriptModeConfig={entryPoint=string,s3Uri=string,compressionType=string},containerImage={uri=string} JSON Syntax: { "scriptModeConfig": { "entryPoint": "string", "s3Uri": "string", "compressionType": "NONE"|"GZIP" }, "containerImage": { "uri": "string" } }
+    /// </summary>
+    [CliOption("--algorithm-specification")]
+    public string? AlgorithmSpecification { get; private init; }
+
+    /// <summary>
+    /// The path to the S3 location where you want to store hybrid job arti- facts and the encryption key used to store them. kmsKeyId -&gt; (string) The AWS Key Management Service (AWS KMS) key that Amazon Braket uses to encrypt the hybrid job training artifacts at rest using Amazon S3 server-side encryption. Constraints: o min: 1 o max: 2048 s3Path -&gt; (string) [required] Identifies the S3 path where you want Amazon Braket to store the hybrid job training artifacts. For example, s3://bucket-name/key-name-prefix . Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: kmsKeyId=string,s3Path=string JSON Syntax: { "kmsKeyId": "string", "s3Path": "string" }
+    /// </summary>
+    [CliOption("--output-data-config")]
+    public string? OutputDataConfig { get; private init; }
+
+    /// <summary>
+    /// The name of the Amazon Braket hybrid job. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,50}
+    /// </summary>
+    [CliOption("--job-name")]
+    public string? JobName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user re- sources, run an Amazon Braket job container on behalf of user, and output results and hybrid job details to the users' s3 buckets. Constraints: o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// Configuration of the resource instances to use while running the hy- brid job on Amazon Braket. instanceType -&gt; (string) [required] Configures the type of resource instances to use while running an Amazon Braket hybrid job. Possible values: o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.m5.large o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5n.xlarge o ml.c5n.2xlarge o ml.c5n.4xlarge o ml.c5n.9xlarge o ml.c5n.18xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge o ml.p4d.24xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge volumeSizeInGb -&gt; (integer) [required] The size of the storage volume, in GB, to provision. Constraints: o min: 1 instanceCount -&gt; (integer) Configures the number of resource instances to use while running an Amazon Braket hybrid job on Amazon Braket. The default value is 1. Constraints: o min: 1 Shorthand Syntax: instanceType=string,volumeSizeInGb=integer,instanceCount=integer JSON Syntax: { "instanceType": "ml.t3.large"|"ml.t3.xlarge"|"ml.t3.2xlarge"|"ml.m4.xlarge"|"ml.m4.2xlarge"|"ml.m4.4xlarge"|"ml.m4.10xlarge"|"ml.m4.16xlarge"|"ml.m5.large"|"ml.m5.xlarge"|"ml.m5.2xlarge"|"ml.m5.4xlarge"|"ml.m5.12xlarge"|"ml.m5.24xlarge"|"ml.c4.xlarge"|"ml.c4.2xlarge"|"ml.c4.4xlarge"|"ml.c4.8xlarge"|"ml.c5.xlarge"|"ml.c5.2xlarge"|"ml.c5.4xlarge"|"ml.c5.9xlarge"|"ml.c5.18xlarge"|"ml.c5n.xlarge"|"ml.c5n.2xlarge"|"ml.c5n.4xlarge"|"ml.c5n.9xlarge"|"ml.c5n.18xlarge"|"ml.p2.xlarge"|"ml.p2.8xlarge"|"ml.p2.16xlarge"|"ml.p3.2xlarge"|"ml.p3.8xlarge"|"ml.p3.16xlarge"|"ml.p3dn.24xlarge"|"ml.p4d.24xlarge"|"ml.g4dn.xlarge"|"ml.g4dn.2xlarge"|"ml.g4dn.4xlarge"|"ml.g4dn.8xlarge"|"ml.g4dn.12xlarge"|"ml.g4dn.16xlarge"|"ml.g6.xlarge"|"ml.g6.2xlarge"|"ml.g6.4xlarge"|"ml.g6.8xlarge"|"ml.g6.12xlarge"|"ml.g6.16xlarge"|"ml.g6.24xlarge"|"ml.g6.48xlarge"|"ml.g6e.xlarge"|"ml.g6e.2xlarge"|"ml.g6e.4xlarge"|"ml.g6e.8xlarge"|"ml.g6e.12xlarge"|"ml.g6e.16xlarge"|"ml.g6e.24xlarge"|"ml.g6e.48xlarge", "volumeSizeInGb": integer, "instanceCount": integer }
+    /// </summary>
+    [CliOption("--instance-config")]
+    public string? InstanceConfig { get; private init; }
+
+    /// <summary>
+    /// The quantum processing unit (QPU) or simulator used to create an Amazon Braket hybrid job. device -&gt; (string) [required] The primary device ARN used to create and run an Amazon Braket hybrid job. Constraints: o min: 1 o max: 256 Shorthand Syntax: device=string JSON Syntax: { "device": "string" }
+    /// </summary>
+    [CliOption("--device-config")]
+    public string? DeviceConfig { get; private init; }
+
     /// <summary>
     /// The client token associated with this request that guarantees that the request is idempotent. Constraints: o min: 1 o max: 64
     /// </summary>
@@ -30,17 +120,11 @@ public record AwsBraketCreateJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--algorithm-specification")]
-    public string? AlgorithmSpecification { get; set; }
-
     /// <summary>
     /// A list of parameters that specify the name and type of input data and where it is located. Constraints: o min: 0 o max: 20 (structure) A list of parameters that specify the input channels, type of input data, and where it is located. channelName -&gt; (string) [required] A named input source that an Amazon Braket hybrid job can consume. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\.\-_]+ contentType -&gt; (string) The MIME type of the data. Constraints: o min: 1 o max: 256 dataSource -&gt; (structure) [required] The location of the input data. s3DataSource -&gt; (structure) [required] Amazon S3 path of the input data used by the hybrid job. s3Uri -&gt; (string) [required] Depending on the value specified for the S3DataType , identifies either a key name prefix or a manifest that locates the S3 data source. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: channelName=string,contentType=string,dataSource={s3DataSource={s3Uri=string}} ... JSON Syntax: [ { "channelName": "string", "contentType": "string", "dataSource": { "s3DataSource": { "s3Uri": "string" } } } ... ]
     /// </summary>
     [CliOption("--input-data-config", GroupValues = true)]
     public IEnumerable<string>? InputDataConfig { get; set; }
-
-    [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
 
     /// <summary>
     /// Information about the output locations for hybrid job checkpoint data. localPath -&gt; (string) (Optional) The local directory where checkpoint data is stored. The default directory is /opt/braket/checkpoints/ . Constraints: o min: 1 o max: 4096 s3Uri -&gt; (string) [required] Identifies the S3 path where you want Amazon Braket to store checkpoint data. For example, s3://bucket-name/key-name-prefix . Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: localPath=string,s3Uri=string JSON Syntax: { "localPath": "string", "s3Uri": "string" }
@@ -48,29 +132,17 @@ public record AwsBraketCreateJobOptions : AwsOptions
     [CliOption("--checkpoint-config")]
     public string? CheckpointConfig { get; set; }
 
-    [CliOption("--job-name")]
-    public string? JobName { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     /// <summary>
     /// The user-defined criteria that specifies when a hybrid job stops running. maxRuntimeInSeconds -&gt; (integer) The maximum length of time, in seconds, that an Amazon Braket hybrid job can run. Constraints: o min: 1 o max: 432000 Shorthand Syntax: maxRuntimeInSeconds=integer JSON Syntax: { "maxRuntimeInSeconds": integer }
     /// </summary>
     [CliOption("--stopping-condition")]
     public string? StoppingCondition { get; set; }
 
-    [CliOption("--instance-config")]
-    public string? InstanceConfig { get; set; }
-
     /// <summary>
     /// Algorithm-specific parameters used by an Amazon Braket hybrid job that influence the quality of the training job. The values are set with a map of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of the hyperparameter. WARNING: Do not include any security-sensitive information including ac- count access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are re- sponsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensi- tive information included in the request hyperparameter variable or plain text fields. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 value -&gt; (string) Constraints: o min: 1 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--hyper-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? HyperParameters { get; set; }
-
-    [CliOption("--device-config")]
-    public string? DeviceConfig { get; set; }
 
     /// <summary>
     /// Tags to be added to the hybrid job you're creating. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -89,5 +161,22 @@ public record AwsBraketCreateJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

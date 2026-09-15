@@ -11,14 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --byvaulttype.
+/// Allowed values for --by-vault-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupListBackupVaultsByVaultType
 {
     [EnumValue("BACKUP_VAULT")]
-    BackupVault = 1,
+    BackupVault,
+
+    [EnumValue("LOGICALLY_AIR_GAPPED_BACKUP_VAULT")]
+    LogicallyAirGappedBackupVault,
 
     [EnumValue("RESTORE_ACCESS_BACKUP_VAULT")]
-    RestoreAccessBackupVault = 2
+    RestoreAccessBackupVault
 }

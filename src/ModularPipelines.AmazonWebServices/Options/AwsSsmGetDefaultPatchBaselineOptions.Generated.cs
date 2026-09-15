@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -25,7 +26,7 @@ public record AwsSsmGetDefaultPatchBaselineOptions : AwsOptions
     /// Returns the default patch baseline for the specified operating sys- tem. Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
-    public string? OperatingSystem { get; set; }
+    public AwsSsmGetDefaultPatchBaselineOperatingSystem? OperatingSystem { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

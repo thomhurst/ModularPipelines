@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deletetype.
+/// Allowed values for --delete-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppConfigDeleteExperimentDefinitionDeleteType
 {
     [EnumValue("ARCHIVE")]
-    Archive = 1,
+    Archive,
 
     [EnumValue("DESTROY")]
-    Destroy = 2
+    Destroy
 }

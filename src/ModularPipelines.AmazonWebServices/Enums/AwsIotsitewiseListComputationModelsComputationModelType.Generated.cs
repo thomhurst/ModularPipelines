@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --computationmodeltype.
+/// Allowed values for --computation-model-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListComputationModelsComputationModelType
 {
     [EnumValue("ANOMALY_DETECTION")]
-    AnomalyDetection = 1
+    AnomalyDetection,
+
+    [EnumValue("o")]
+    O
 }

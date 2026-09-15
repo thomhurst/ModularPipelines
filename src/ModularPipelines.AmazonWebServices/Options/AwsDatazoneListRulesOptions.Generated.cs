@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "list-rules")]
-public record AwsDatazoneListRulesOptions : AwsOptions
+public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., pub- lishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance stan- dards in data management processes. For instance, a metadata enforce- ment rule can specify the required information for creating a subscrip- tion request or...
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain in which the rules are to be listed. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="TargetType">The target type of the rule. Possible values: o DOMAIN_UNIT</param>
+    /// <param name="TargetIdentifier">The target ID of the rule.</param>
+    public AwsDatazoneListRulesOptions(
+        string DomainIdentifier,
+        AwsDatazoneListRulesTargetType TargetType,
+        string TargetIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetType);
+        this.TargetType = TargetType;
+        global::System.ArgumentNullException.ThrowIfNull(TargetIdentifier);
+        this.TargetIdentifier = TargetIdentifier;
+    }
+
+    private AwsDatazoneListRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneListRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneListRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain in which the rules are to be listed. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The target type of the rule. Possible values: o DOMAIN_UNIT
+    /// </summary>
     [CliOption("--target-type")]
-    public string? TargetType { get; set; }
+    public AwsDatazoneListRulesTargetType? TargetType { get; private init; }
 
+    /// <summary>
+    /// The target ID of the rule.
+    /// </summary>
     [CliOption("--target-identifier")]
-    public string? TargetIdentifier { get; set; }
+    public string? TargetIdentifier { get; private init; }
 
     /// <summary>
     /// The type of the rule. Possible values: o METADATA_FORM_ENFORCEMENT o GLOSSARY_TERM_ENFORCEMENT
@@ -56,10 +107,16 @@ public record AwsDatazoneListRulesOptions : AwsOptions
     [CliOption("--asset-types", GroupValues = true)]
     public IEnumerable<string>? AssetTypes { get; set; }
 
-    [CliFlag("--data-product")]
+    /// <summary>
+    /// The data product of the rule.
+    /// </summary>
+    [CliFlag("--data-product", NegatedName = "--no-data-product")]
     public bool? DataProduct { get; set; }
 
-    [CliFlag("--include-cascaded")]
+    /// <summary>
+    /// Specifies whether to include cascading rules in the results.
+    /// </summary>
+    [CliFlag("--include-cascaded", NegatedName = "--no-include-cascaded")]
     public bool? IncludeCascaded { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -86,5 +143,22 @@ public record AwsDatazoneListRulesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "set-log-delivery-configuration")]
-public record AwsCognitoIdpSetLogDeliveryConfigurationOptions : AwsOptions
+public record AwsCognitoIdpSetLogDeliveryConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets up or modifies the logging configuration of a user pool. User pools can export user notification logs and, when threat protection is active, user-activity logs. For more information, see Exporting user pool logs . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to configure logging. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="LogConfigurations">A collection of the logging configurations for a user pool. Constraints: o min: 0 o max: 2 (structure) The configuration of user event logs to an external Amazon Web Services service like Amazon Data Firehose, Amazon S3, or Amazon CloudWatch Logs. LogLevel -&gt; (string) [required] The errorlevel selection of logs that a user pool sends for detailed activity logging. To send userNotification activity with information about message delivery , choose ERROR with CloudWatchLogsConfiguration . To send userAuthEvents activity with user logs from threat protection with the Plus feature plan, choose INFO with one of CloudWatchLogsConfiguration , FirehoseConfiguration , or S3Configuration . Possible values: o ERROR o INFO EventSource -&gt; (string) [required] The source of events that your user pool sends for logging. To send error-level logs about user notification activity, set to userNotification . To send info-level logs about threat-protection user activity in user pools with the Plus feature plan, set to userAuthEvents . Possible values: o userNotification o userAuthEvents CloudWatchLogsConfiguration -&gt; (structure) The CloudWatch log group destination of user pool detailed activity logs, or of user activity log export with threat protection. LogGroupArn -&gt; (string) The Amazon Resource Name (arn) of a CloudWatch Logs log group where your user pool sends logs. The log group must not be encrypted with Key Management Service and must be in the same Amazon Web Services account as your user pool. To send logs to log groups with a resource policy of a size greater than 5120 characters, configure a log group with a path that starts with /aws/vendedlogs . For more information, see Enabling logging from certain Amazon Web Services services . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? S3Configuration -&gt; (structure) The Amazon S3 bucket destination of user activity log export with threat protection. To activate this setting, your user pool must be on the Plus tier . BucketArn -&gt; (string) The ARN of an Amazon S3 bucket that's the destination for threat protection log export. Constraints: o min: 3 o max: 1024 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:::[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? FirehoseConfiguration -&gt; (structure) The Amazon Data Firehose stream destination of user activity log export with threat protection. To activate this setting, your user pool must be on the Plus tier . StreamArn -&gt; (string) The ARN of an Amazon Data Firehose stream that's the des- tination for threat protection log export. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? Shorthand Syntax: LogLevel=string,EventSource=string,CloudWatchLogsConfiguration={LogGroupArn=string},S3Configuration={BucketArn=string},FirehoseConfiguration={StreamArn=string} ... JSON Syntax: [ { "LogLevel": "ERROR"|"INFO", "EventSource": "userNotification"|"userAuthEvents", "CloudWatchLogsConfiguration": { "LogGroupArn": "string" }, "S3Configuration": { "BucketArn": "string" }, "FirehoseConfiguration": { "StreamArn": "string" } } ... ]</param>
+    public AwsCognitoIdpSetLogDeliveryConfigurationOptions(
+        string UserPoolId,
+        IEnumerable<string> LogConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LogConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LogConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LogConfigurations));
+            }
+
+            LogConfigurations = materialized;
+        }
+        this.LogConfigurations = LogConfigurations;
+    }
+
+    private AwsCognitoIdpSetLogDeliveryConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpSetLogDeliveryConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpSetLogDeliveryConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to configure logging. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// A collection of the logging configurations for a user pool. Constraints: o min: 0 o max: 2 (structure) The configuration of user event logs to an external Amazon Web Services service like Amazon Data Firehose, Amazon S3, or Amazon CloudWatch Logs. LogLevel -&gt; (string) [required] The errorlevel selection of logs that a user pool sends for detailed activity logging. To send userNotification activity with information about message delivery , choose ERROR with CloudWatchLogsConfiguration . To send userAuthEvents activity with user logs from threat protection with the Plus feature plan, choose INFO with one of CloudWatchLogsConfiguration , FirehoseConfiguration , or S3Configuration . Possible values: o ERROR o INFO EventSource -&gt; (string) [required] The source of events that your user pool sends for logging. To send error-level logs about user notification activity, set to userNotification . To send info-level logs about threat-protection user activity in user pools with the Plus feature plan, set to userAuthEvents . Possible values: o userNotification o userAuthEvents CloudWatchLogsConfiguration -&gt; (structure) The CloudWatch log group destination of user pool detailed activity logs, or of user activity log export with threat protection. LogGroupArn -&gt; (string) The Amazon Resource Name (arn) of a CloudWatch Logs log group where your user pool sends logs. The log group must not be encrypted with Key Management Service and must be in the same Amazon Web Services account as your user pool. To send logs to log groups with a resource policy of a size greater than 5120 characters, configure a log group with a path that starts with /aws/vendedlogs . For more information, see Enabling logging from certain Amazon Web Services services . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? S3Configuration -&gt; (structure) The Amazon S3 bucket destination of user activity log export with threat protection. To activate this setting, your user pool must be on the Plus tier . BucketArn -&gt; (string) The ARN of an Amazon S3 bucket that's the destination for threat protection log export. Constraints: o min: 3 o max: 1024 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:::[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? FirehoseConfiguration -&gt; (structure) The Amazon Data Firehose stream destination of user activity log export with threat protection. To activate this setting, your user pool must be on the Plus tier . StreamArn -&gt; (string) The ARN of an Amazon Data Firehose stream that's the des- tination for threat protection log export. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? Shorthand Syntax: LogLevel=string,EventSource=string,CloudWatchLogsConfiguration={LogGroupArn=string},S3Configuration={BucketArn=string},FirehoseConfiguration={StreamArn=string} ... JSON Syntax: [ { "LogLevel": "ERROR"|"INFO", "EventSource": "userNotification"|"userAuthEvents", "CloudWatchLogsConfiguration": { "LogGroupArn": "string" }, "S3Configuration": { "BucketArn": "string" }, "FirehoseConfiguration": { "StreamArn": "string" } } ... ]
+    /// </summary>
     [CliOption("--log-configurations", GroupValues = true)]
-    public IEnumerable<string>? LogConfigurations { get; set; }
+    public IEnumerable<string>? LogConfigurations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

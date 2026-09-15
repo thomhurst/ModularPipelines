@@ -11,26 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --opportunitytype.
+/// Allowed values for --opportunity-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPartnercentralSellingCreateOpportunityOpportunityType
 {
-    [EnumValue("Net")]
-    Net = 1,
-
-    [EnumValue("New")]
-    New = 2,
-
     [EnumValue("Business")]
-    Business = 3,
-
-    [EnumValue("Flat")]
-    Flat = 4,
-
-    [EnumValue("Renewal")]
-    Renewal = 5,
+    Business,
 
     [EnumValue("Expansion")]
-    Expansion = 6
+    Expansion,
+
+    [EnumValue("Flat")]
+    Flat,
+
+    [EnumValue("Net")]
+    Net,
+
+    [EnumValue("New")]
+    New,
+
+    [EnumValue("o")]
+    O,
+
+    [EnumValue("Renewal")]
+    Renewal
 }

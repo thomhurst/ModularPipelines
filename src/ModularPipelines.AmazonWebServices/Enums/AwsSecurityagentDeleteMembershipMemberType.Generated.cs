@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --membertype.
+/// Allowed values for --member-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityagentDeleteMembershipMemberType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("USER")]
-    User = 1
+    User
 }

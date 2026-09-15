@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-ownership-controls")]
-public record AwsS3apiPutBucketOwnershipControlsOptions : AwsOptions
+public record AwsS3apiPutBucketOwnershipControlsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permis- sion. For more information about Amazon S3 permissions, see Specifying permissions in a policy . For information about Amazon S3 Object Ownership, see Using object own- ership . The following operations are related to PutBucketOwnershipControls : o GetBucketOwnershipControls o DeleteBucketOwnersh...
+    /// </summary>
+    /// <param name="Bucket">The name of the Amazon S3 bucket whose OwnershipControls you want to set.</param>
+    /// <param name="OwnershipControls">The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred, or ObjectWriter) that you want to apply to this Amazon S3 bucket. Rules -&gt; (list) [required] The container element for an ownership control rule. (structure) The container element for an ownership control rule. ObjectOwnership -&gt; (string) [required] The container element for object ownership for a bucket's ownership controls. BucketOwnerPreferred - Objects uploaded to the bucket change ownership to the bucket owner if the objects are uploaded with the bucket-owner-full-control canned ACL. ObjectWriter - The uploading account will own the ob- ject if the object is uploaded with the bucket-owner-full-control canned ACL. BucketOwnerEnforced - Access control lists (ACLs) are disabled and no longer affect permissions. The bucket owner automatically owns and has full control over every object in the bucket. The bucket only accepts PUT requests that don't specify an ACL or specify bucket owner full control ACLs (such as the predefined bucket-owner-full-control canned ACL or a custom ACL in XML format that grants the same permissions). By default, ObjectOwnership is set to BucketOwnerEnforced and ACLs are disabled. We recommend keeping ACLs dis- abled, except in uncommon use cases where you must con- trol access for each object individually. For more infor- mation about S3 Object Ownership, see Controlling owner- ship of objects and disabling ACLs for your bucket in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Directory buckets use the bucket owner en- forced setting for S3 Object Ownership. Possible values: o BucketOwnerPreferred o ObjectWriter o BucketOwnerEnforced Shorthand Syntax: Rules=[{ObjectOwnership=string},{ObjectOwnership=string}] JSON Syntax: { "Rules": [ { "ObjectOwnership": "BucketOwnerPreferred"|"ObjectWriter"|"BucketOwnerEnforced" } ... ] }</param>
+    public AwsS3apiPutBucketOwnershipControlsOptions(
+        string Bucket,
+        string OwnershipControls
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(OwnershipControls);
+        this.OwnershipControls = OwnershipControls;
+    }
+
+    private AwsS3apiPutBucketOwnershipControlsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketOwnershipControlsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketOwnershipControlsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred, or ObjectWriter) that you want to apply to this Amazon S3 bucket. Rules -&gt; (list) [required] The container element for an ownership control rule. (structure) The container element for an ownership control rule. ObjectOwnership -&gt; (string) [required] The container element for object ownership for a bucket's ownership controls. BucketOwnerPreferred - Objects uploaded to the bucket change ownership to the bucket owner if the objects are uploaded with the bucket-owner-full-control canned ACL. ObjectWriter - The uploading account will own the ob- ject if the object is uploaded with the bucket-owner-full-control canned ACL. BucketOwnerEnforced - Access control lists (ACLs) are disabled and no longer affect permissions. The bucket owner automatically owns and has full control over every object in the bucket. The bucket only accepts PUT requests that don't specify an ACL or specify bucket owner full control ACLs (such as the predefined bucket-owner-full-control canned ACL or a custom ACL in XML format that grants the same permissions). By default, ObjectOwnership is set to BucketOwnerEnforced and ACLs are disabled. We recommend keeping ACLs dis- abled, except in uncommon use cases where you must con- trol access for each object individually. For more infor- mation about S3 Object Ownership, see Controlling owner- ship of objects and disabling ACLs for your bucket in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Directory buckets use the bucket owner en- forced setting for S3 Object Ownership. Possible values: o BucketOwnerPreferred o ObjectWriter o BucketOwnerEnforced Shorthand Syntax: Rules=[{ObjectOwnership=string},{ObjectOwnership=string}] JSON Syntax: { "Rules": [ { "ObjectOwnership": "BucketOwnerPreferred"|"ObjectWriter"|"BucketOwnerEnforced" } ... ] }
+    /// </summary>
+    [CliOption("--ownership-controls")]
+    public string? OwnershipControls { get; private init; }
 
     /// <summary>
     /// The MD5 hash of the OwnershipControls request body. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -37,9 +84,6 @@ public record AwsS3apiPutBucketOwnershipControlsOptions : AwsOptions
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CliOption("--ownership-controls")]
-    public string? OwnershipControls { get; set; }
-
     /// <summary>
     /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-*algorithm* `` header sent. Otherwise, Amazon S3 fails the request with the HTTP status code ``400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any pro- vided ChecksumAlgorithm parameter. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
     /// </summary>
@@ -51,5 +95,22 @@ public record AwsS3apiPutBucketOwnershipControlsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "list-custom-routing-port-mappings")]
-public record AwsGlobalacceleratorListCustomRoutingPortMappingsOptions : AwsOptions
+public record AwsGlobalacceleratorListCustomRoutingPortMappingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator. For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers. If you remove a subnet from your acceler...
+    /// </summary>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator to list the custom routing port mappings for. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorListCustomRoutingPortMappingsOptions(
+        string AcceleratorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcceleratorArn);
+        this.AcceleratorArn = AcceleratorArn;
+    }
+
+    private AwsGlobalacceleratorListCustomRoutingPortMappingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorListCustomRoutingPortMappingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorListCustomRoutingPortMappingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the accelerator to list the custom routing port mappings for. Constraints: o max: 255
+    /// </summary>
     [CliOption("--accelerator-arn")]
-    public string? AcceleratorArn { get; set; }
+    public string? AcceleratorArn { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the endpoint group to list the custom routing port mappings for. Constraints: o max: 255
@@ -55,5 +92,22 @@ public record AwsGlobalacceleratorListCustomRoutingPortMappingsOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

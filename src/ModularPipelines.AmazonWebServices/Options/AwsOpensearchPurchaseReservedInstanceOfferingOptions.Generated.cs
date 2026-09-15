@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "purchase-reserved-instance-offering")]
-public record AwsOpensearchPurchaseReservedInstanceOfferingOptions : AwsOptions
+public record AwsOpensearchPurchaseReservedInstanceOfferingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--reserved-instance-offering-id")]
-    public string? ReservedInstanceOfferingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows you to purchase Amazon OpenSearch Service Reserved Instances. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReservedInstanceOfferingId">The ID of the Reserved Instance offering to purchase. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    /// <param name="ReservationName">A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64 o pattern: .*</param>
+    public AwsOpensearchPurchaseReservedInstanceOfferingOptions(
+        string ReservedInstanceOfferingId,
+        string ReservationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedInstanceOfferingId);
+        this.ReservedInstanceOfferingId = ReservedInstanceOfferingId;
+        global::System.ArgumentNullException.ThrowIfNull(ReservationName);
+        this.ReservationName = ReservationName;
+    }
+
+    private AwsOpensearchPurchaseReservedInstanceOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchPurchaseReservedInstanceOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchPurchaseReservedInstanceOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Reserved Instance offering to purchase. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// </summary>
+    [CliOption("--reserved-instance-offering-id")]
+    public string? ReservedInstanceOfferingId { get; private init; }
+
+    /// <summary>
+    /// A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64 o pattern: .*
+    /// </summary>
     [CliOption("--reservation-name")]
-    public string? ReservationName { get; set; }
+    public string? ReservationName { get; private init; }
 
     /// <summary>
     /// The number of OpenSearch instances to reserve. Constraints: o min: 1
@@ -38,5 +82,22 @@ public record AwsOpensearchPurchaseReservedInstanceOfferingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

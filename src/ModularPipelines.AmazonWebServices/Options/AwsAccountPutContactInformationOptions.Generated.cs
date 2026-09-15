@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "put-contact-information")]
-public record AwsAccountPutContactInformationOptions : AwsOptions
+public record AwsAccountPutContactInformationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the primary contact information of an Amazon Web Services ac- count. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactInformation">Contains the details of the primary contact information associated with an Amazon Web Services account. FullName -&gt; (string) [required] The full name of the primary contact address. Constraints: o min: 1 o max: 50 AddressLine1 -&gt; (string) [required] The first line of the primary contact address. Constraints: o min: 1 o max: 60 AddressLine2 -&gt; (string) The second line of the primary contact address, if any. Constraints: o min: 1 o max: 60 AddressLine3 -&gt; (string) The third line of the primary contact address, if any. Constraints: o min: 1 o max: 60 City -&gt; (string) [required] The city of the primary contact address. Constraints: o min: 1 o max: 50 StateOrRegion -&gt; (string) The state or region of the primary contact address. If the mail- ing address is within the United States (US), the value in this field can be either a two character state code (for example, NJ ) or the full state name (for example, New Jersey ). This field is required in the following countries: US , CA , GB , DE , JP , IN , and BR . Constraints: o min: 1 o max: 50 DistrictOrCounty -&gt; (string) The district or county of the primary contact address, if any. Constraints: o min: 1 o max: 50 PostalCode -&gt; (string) [required] The postal code of the primary contact address. Constraints: o min: 1 o max: 20 CountryCode -&gt; (string) [required] The ISO-3166 two-letter country code for the primary contact ad- dress. Constraints: o min: 2 o max: 2 PhoneNumber -&gt; (string) [required] The phone number of the primary contact information. The number will be validated and, in some countries, checked for activa- tion. Constraints: o min: 1 o max: 20 o pattern: [+][\s0-9()-]+ CompanyName -&gt; (string) The name of the company associated with the primary contact in- formation, if any. Constraints: o min: 1 o max: 50 WebsiteUrl -&gt; (string) The URL of the website associated with the primary contact in- formation, if any. Constraints: o min: 1 o max: 256 Shorthand Syntax: FullName=string,AddressLine1=string,AddressLine2=string,AddressLine3=string,City=string,StateOrRegion=string,DistrictOrCounty=string,PostalCode=string,CountryCode=string,PhoneNumber=string,CompanyName=string,WebsiteUrl=string JSON Syntax: { "FullName": "string", "AddressLine1": "string", "AddressLine2": "string", "AddressLine3": "string", "City": "string", "StateOrRegion": "string", "DistrictOrCounty": "string", "PostalCode": "string", "CountryCode": "string", "PhoneNumber": "string", "CompanyName": "string", "WebsiteUrl": "string" }</param>
+    public AwsAccountPutContactInformationOptions(
+        string ContactInformation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactInformation);
+        this.ContactInformation = ContactInformation;
+    }
+
+    private AwsAccountPutContactInformationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccountPutContactInformationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccountPutContactInformationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Contains the details of the primary contact information associated with an Amazon Web Services account. FullName -&gt; (string) [required] The full name of the primary contact address. Constraints: o min: 1 o max: 50 AddressLine1 -&gt; (string) [required] The first line of the primary contact address. Constraints: o min: 1 o max: 60 AddressLine2 -&gt; (string) The second line of the primary contact address, if any. Constraints: o min: 1 o max: 60 AddressLine3 -&gt; (string) The third line of the primary contact address, if any. Constraints: o min: 1 o max: 60 City -&gt; (string) [required] The city of the primary contact address. Constraints: o min: 1 o max: 50 StateOrRegion -&gt; (string) The state or region of the primary contact address. If the mail- ing address is within the United States (US), the value in this field can be either a two character state code (for example, NJ ) or the full state name (for example, New Jersey ). This field is required in the following countries: US , CA , GB , DE , JP , IN , and BR . Constraints: o min: 1 o max: 50 DistrictOrCounty -&gt; (string) The district or county of the primary contact address, if any. Constraints: o min: 1 o max: 50 PostalCode -&gt; (string) [required] The postal code of the primary contact address. Constraints: o min: 1 o max: 20 CountryCode -&gt; (string) [required] The ISO-3166 two-letter country code for the primary contact ad- dress. Constraints: o min: 2 o max: 2 PhoneNumber -&gt; (string) [required] The phone number of the primary contact information. The number will be validated and, in some countries, checked for activa- tion. Constraints: o min: 1 o max: 20 o pattern: [+][\s0-9()-]+ CompanyName -&gt; (string) The name of the company associated with the primary contact in- formation, if any. Constraints: o min: 1 o max: 50 WebsiteUrl -&gt; (string) The URL of the website associated with the primary contact in- formation, if any. Constraints: o min: 1 o max: 256 Shorthand Syntax: FullName=string,AddressLine1=string,AddressLine2=string,AddressLine3=string,City=string,StateOrRegion=string,DistrictOrCounty=string,PostalCode=string,CountryCode=string,PhoneNumber=string,CompanyName=string,WebsiteUrl=string JSON Syntax: { "FullName": "string", "AddressLine1": "string", "AddressLine2": "string", "AddressLine3": "string", "City": "string", "StateOrRegion": "string", "DistrictOrCounty": "string", "PostalCode": "string", "CountryCode": "string", "PhoneNumber": "string", "CompanyName": "string", "WebsiteUrl": "string" }
+    /// </summary>
     [CliOption("--contact-information")]
-    public string? ContactInformation { get; set; }
+    public string? ContactInformation { get; private init; }
 
     /// <summary>
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Ser- vices account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The speci- fied account ID must be a member account in the same organization. The organization must have all features enabled , and the organiza- tion must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned. NOTE: The management account can't specify its own AccountId . It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an or- ganization, don't specify this parameter. Instead, call the opera- tion using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: o pattern: \d{12}
@@ -35,5 +72,22 @@ public record AwsAccountPutContactInformationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

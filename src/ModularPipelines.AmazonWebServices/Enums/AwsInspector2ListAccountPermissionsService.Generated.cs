@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListAccountPermissionsService
 {
     [EnumValue("EC2")]
-    Ec2 = 1,
+    Ec2,
 
     [EnumValue("ECR")]
-    Ecr = 2,
+    Ecr,
 
     [EnumValue("LAMBDA")]
-    Lambda = 3
+    Lambda
 }

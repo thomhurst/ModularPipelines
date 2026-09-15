@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "create-data-source")]
-public record AwsAppsyncCreateDataSourceOptions : AwsOptions
+public record AwsAppsyncCreateDataSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a DataSource object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API ID for the GraphQL API for the DataSource .</param>
+    /// <param name="Name">A user-supplied name for the DataSource . Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="Type">The type of the DataSource . Possible values: o AWS_LAMBDA o AMAZON_DYNAMODB o AMAZON_ELASTICSEARCH o NONE o HTTP o RELATIONAL_DATABASE o AMAZON_OPENSEARCH_SERVICE o AMAZON_EVENTBRIDGE o AMAZON_BEDROCK_RUNTIME</param>
+    public AwsAppsyncCreateDataSourceOptions(
+        string ApiId,
+        string Name,
+        AwsAppsyncCreateDataSourceType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsAppsyncCreateDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncCreateDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncCreateDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API ID for the GraphQL API for the DataSource .
+    /// </summary>
+    [CliOption("--api-id")]
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// A user-supplied name for the DataSource . Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of the DataSource . Possible values: o AWS_LAMBDA o AMAZON_DYNAMODB o AMAZON_ELASTICSEARCH o NONE o HTTP o RELATIONAL_DATABASE o AMAZON_OPENSEARCH_SERVICE o AMAZON_EVENTBRIDGE o AMAZON_BEDROCK_RUNTIME
+    /// </summary>
+    [CliOption("--type")]
+    public AwsAppsyncCreateDataSourceType? Type { get; private init; }
 
     /// <summary>
     /// A description of the DataSource .
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
 
     /// <summary>
     /// The Identity and Access Management (IAM) service role Amazon Re- source Name (ARN) for the data source. The system assumes this role when accessing the data source.
@@ -96,5 +147,22 @@ public record AwsAppsyncCreateDataSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

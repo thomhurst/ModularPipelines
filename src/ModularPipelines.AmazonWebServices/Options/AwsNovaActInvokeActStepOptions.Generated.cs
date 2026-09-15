@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nova-act", "invoke-act-step")]
-public record AwsNovaActInvokeActStepOptions : AwsOptions
+public record AwsNovaActInvokeActStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Executes the next step of an act, processing tool call results and re- turning new tool calls if needed. See also: AWS API Documentation invoke-act-step uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the act. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SessionId">The unique identifier of the session containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ActId">The unique identifier of the act to invoke the next step for. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="CallResults">The results from previous tool calls that the act requested. Constraints: o min: 1 o max: 100 (structure) The result returned from executing a tool call. callId -&gt; (string) The identifier of the tool call that this result corresponds to. Constraints: o min: 1 o max: 100 content -&gt; (list) [required] The content returned by the tool execution, which can include text or other media types. Constraints: o min: 1 o max: 100 (tagged union structure) Content returned from a tool call execution. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) Text content returned from the tool execution. Shorthand Syntax: callId=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "callId": "string", "content": [ { "text": "string" } ... ] } ... ]</param>
+    public AwsNovaActInvokeActStepOptions(
+        string WorkflowDefinitionName,
+        string WorkflowRunId,
+        string SessionId,
+        string ActId,
+        IEnumerable<string> CallResults
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowDefinitionName);
+        this.WorkflowDefinitionName = WorkflowDefinitionName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowRunId);
+        this.WorkflowRunId = WorkflowRunId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(ActId);
+        this.ActId = ActId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CallResults);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CallResults));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CallResults));
+            }
+
+            CallResults = materialized;
+        }
+        this.CallResults = CallResults;
+    }
+
+    private AwsNovaActInvokeActStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNovaActInvokeActStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNovaActInvokeActStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow definition containing the act. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// </summary>
     [CliOption("--workflow-definition-name")]
-    public string? WorkflowDefinitionName { get; set; }
+    public string? WorkflowDefinitionName { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the workflow run containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--workflow-run-id")]
-    public string? WorkflowRunId { get; set; }
+    public string? WorkflowRunId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the session containing the act. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the act to invoke the next step for. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--act-id")]
-    public string? ActId { get; set; }
+    public string? ActId { get; private init; }
 
+    /// <summary>
+    /// The results from previous tool calls that the act requested. Constraints: o min: 1 o max: 100 (structure) The result returned from executing a tool call. callId -&gt; (string) The identifier of the tool call that this result corresponds to. Constraints: o min: 1 o max: 100 content -&gt; (list) [required] The content returned by the tool execution, which can include text or other media types. Constraints: o min: 1 o max: 100 (tagged union structure) Content returned from a tool call execution. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) Text content returned from the tool execution. Shorthand Syntax: callId=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "callId": "string", "content": [ { "text": "string" } ... ] } ... ]
+    /// </summary>
     [CliOption("--call-results", GroupValues = true)]
-    public IEnumerable<string>? CallResults { get; set; }
+    public IEnumerable<string>? CallResults { get; private init; }
 
     /// <summary>
     /// The identifier of the previous step, used for tracking execution flow. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
@@ -47,5 +123,22 @@ public record AwsNovaActInvokeActStepOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

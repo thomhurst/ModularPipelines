@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,70 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "create-tape-with-barcode")]
-public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions
+public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to bar- codes used on deleted tapes. This operation is only supported in the tape gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayArn">The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="TapeSizeInBytes">The size, in bytes, of the virtual tape that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).</param>
+    /// <param name="TapeBarcode">The barcode that you want to assign to the tape. NOTE: Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. Constraints: o min: 5 o max: 16 o pattern: ^[A-Z0-9]*$</param>
+    public AwsStoragegatewayCreateTapeWithBarcodeOptions(
+        string GatewayArn,
+        int TapeSizeInBytes,
+        string TapeBarcode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+        this.TapeSizeInBytes = TapeSizeInBytes;
+        global::System.ArgumentNullException.ThrowIfNull(TapeBarcode);
+        this.TapeBarcode = TapeBarcode;
+    }
+
+    private AwsStoragegatewayCreateTapeWithBarcodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayCreateTapeWithBarcodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayCreateTapeWithBarcodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// </summary>
     [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
+    public string? GatewayArn { get; private init; }
 
+    /// <summary>
+    /// The size, in bytes, of the virtual tape that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).
+    /// </summary>
     [CliOption("--tape-size-in-bytes")]
-    public int? TapeSizeInBytes { get; set; }
+    public int? TapeSizeInBytes { get; private init; }
 
+    /// <summary>
+    /// The barcode that you want to assign to the tape. NOTE: Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. Constraints: o min: 5 o max: 16 o pattern: ^[A-Z0-9]*$
+    /// </summary>
     [CliOption("--tape-barcode")]
-    public string? TapeBarcode { get; set; }
+    public string? TapeBarcode { get; private init; }
 
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
@@ -45,7 +98,10 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
-    [CliFlag("--worm")]
+    /// <summary>
+    /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
+    /// </summary>
+    [CliFlag("--worm", NegatedName = "--no-worm")]
     public bool? Worm { get; set; }
 
     /// <summary>
@@ -59,5 +115,22 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

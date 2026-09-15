@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,103 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "get-metric-data")]
-public record AwsConnectGetMetricDataOptions : AwsOptions
+public record AwsConnectGetMetricDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets historical metric data from the specified Connect Customer in- stance. For a description of each historical metric, see Metrics definitions in the Connect Customer Administrator Guide . NOTE: We recommend using the GetMetricDataV2 API. It provides more flexi- bility, features, and the ability to query longer time ranges than GetMetricData . Use it to retrieve historical agent and contact met- rics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="StartTime">The timestamp, in UNIX Epoch time format, at which to start the re- porting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than 24 hours before the time of the request. Historical metrics are available only for 24 hours.</param>
+    /// <param name="EndTime">The timestamp, in UNIX Epoch time format, at which to end the re- porting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time time- stamp. The time range between the start and end time must be less than 24 hours.</param>
+    /// <param name="Filters">The queues, up to 100, or channels, to use to filter the metrics re- turned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features. NOTE: To filter by Queues , enter the queue ID/ARN, not the name of the queue. Queues -&gt; (list) The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request. Constraints: o min: 1 o max: 100 (string) Channels -&gt; (list) The channel to use to filter the metrics. Constraints: o max: 4 (string) Possible values: o VOICE o CHAT o TASK o EMAIL RoutingProfiles -&gt; (list) A list of up to 100 routing profile IDs or ARNs. Constraints: o min: 1 o max: 100 (string) RoutingStepExpressions -&gt; (list) A list of expressions as a filter, in which an expression is an object of a step in a routing criteria. Accepts filter values up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array or- der and tree structure must be preserved. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 3000 AgentStatuses -&gt; (list) A list of up to 50 agent status IDs or ARNs. (string) Subtypes -&gt; (list) A list of up to 10 subtypes can be provided. Constraints: o max: 10 (string) Constraints: o min: 1 o max: 100 ValidationTestTypes -&gt; (list) A list of up to 10 validationTestTypes can be provided. Constraints: o max: 10 (string) Shorthand Syntax: Queues=string,string,Channels=string,string,RoutingProfiles=string,string,RoutingStepExpressions=string,string,AgentStatuses=string,string,Subtypes=string,string,ValidationTestTypes=string,string JSON Syntax: { "Queues": ["string", ...], "Channels": ["VOICE"|"CHAT"|"TASK"|"EMAIL", ...], "RoutingProfiles": ["string", ...], "RoutingStepExpressions": ["string", ...], "AgentStatuses": ["string", ...], "Subtypes": ["string", ...], "ValidationTestTypes": ["string", ...] }</param>
+    /// <param name="HistoricalMetrics">The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide . NOTE: This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list). ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: Average queue abandon time AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: After contact work time API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: API contacts handled AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average customer hold time CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Callback contacts handled CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: Contacts abandoned CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: Contacts consulted CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Contacts handled CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: Contacts handled incoming CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: Contacts handled outbound CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: Contacts queued CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: Contacts transferred in CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: Contacts transferred out CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: Average handle time INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction time OCCUPANCY Unit: PERCENT Statistic: AVG UI name: Occupancy QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: Average queue answer time QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: Minimum flow time SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue , enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison , you must enter LT (for "Less than"). UI name: Average queue abandon time (structure) Contains information about a historical metric. Name -&gt; (string) The name of the metric. Following is a list of each supported metric mapped to the UI name, linked to a detailed descrip- tion in the Connect Customer Administrator Guide . ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: Average queue abandon time AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: After contact work time API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: API contacts handled AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average customer hold time CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Callback contacts handled CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: Contacts abandoned CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: Contacts consulted CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Contacts handled CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: Contacts handled incoming CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: Contacts handled outbound CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: Contacts queued CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: Contacts transferred in CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: Contacts transferred out CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: Average handle time INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction time OCCUPANCY Unit: PERCENT Statistic: AVG UI name: Occupancy QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: Average queue answer time QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: Minimum flow time SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue , enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison , you must enter LT (for "Less than"). UI name: Service level X Possible values: o CONTACTS_QUEUED o CONTACTS_HANDLED o CONTACTS_ABANDONED o CONTACTS_CONSULTED o CONTACTS_AGENT_HUNG_UP_FIRST o CONTACTS_HANDLED_INCOMING o CONTACTS_HANDLED_OUTBOUND o CONTACTS_HOLD_ABANDONS o CONTACTS_TRANSFERRED_IN o CONTACTS_TRANSFERRED_OUT o CONTACTS_TRANSFERRED_IN_FROM_QUEUE o CONTACTS_TRANSFERRED_OUT_FROM_QUEUE o CONTACTS_MISSED o CALLBACK_CONTACTS_HANDLED o API_CONTACTS_HANDLED o OCCUPANCY o HANDLE_TIME o AFTER_CONTACT_WORK_TIME o QUEUED_TIME o ABANDON_TIME o QUEUE_ANSWER_TIME o HOLD_TIME o INTERACTION_TIME o INTERACTION_AND_HOLD_TIME o SERVICE_LEVEL Threshold -&gt; (structure) The threshold for the metric, used with service level met- rics. Comparison -&gt; (string) The type of comparison. Only "less than" (LT) comparisons are supported. Possible values: o LT ThresholdValue -&gt; (double) The threshold value to compare. Statistic -&gt; (string) The statistic for the metric. Possible values: o SUM o MAX o AVG Unit -&gt; (string) The unit for the metric. Possible values: o SECONDS o COUNT o PERCENT Shorthand Syntax: Name=string,Threshold={Comparison=string,ThresholdValue=double},Statistic=string,Unit=string ... JSON Syntax: [ { "Name": "CONTACTS_QUEUED"|"CONTACTS_HANDLED"|"CONTACTS_ABANDONED"|"CONTACTS_CONSULTED"|"CONTACTS_AGENT_HUNG_UP_FIRST"|"CONTACTS_HANDLED_INCOMING"|"CONTACTS_HANDLED_OUTBOUND"|"CONTACTS_HOLD_ABANDONS"|"CONTACTS_TRANSFERRED_IN"|"CONTACTS_TRANSFERRED_OUT"|"CONTACTS_TRANSFERRED_IN_FROM_QUEUE"|"CONTACTS_TRANSFERRED_OUT_FROM_QUEUE"|"CONTACTS_MISSED"|"CALLBACK_CONTACTS_HANDLED"|"API_CONTACTS_HANDLED"|"OCCUPANCY"|"HANDLE_TIME"|"AFTER_CONTACT_WORK_TIME"|"QUEUED_TIME"|"ABANDON_TIME"|"QUEUE_ANSWER_TIME"|"HOLD_TIME"|"INTERACTION_TIME"|"INTERACTION_AND_HOLD_TIME"|"SERVICE_LEVEL", "Threshold": { "Comparison": "LT", "ThresholdValue": double }, "Statistic": "SUM"|"MAX"|"AVG", "Unit": "SECONDS"|"COUNT"|"PERCENT" } ... ]</param>
+    public AwsConnectGetMetricDataOptions(
+        string InstanceId,
+        string StartTime,
+        string EndTime,
+        string Filters,
+        IEnumerable<string> HistoricalMetrics
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(Filters);
+        this.Filters = Filters;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(HistoricalMetrics);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(HistoricalMetrics));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(HistoricalMetrics));
+            }
+
+            HistoricalMetrics = materialized;
+        }
+        this.HistoricalMetrics = HistoricalMetrics;
+    }
+
+    private AwsConnectGetMetricDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectGetMetricDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectGetMetricDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The timestamp, in UNIX Epoch time format, at which to start the re- porting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than 24 hours before the time of the request. Historical metrics are available only for 24 hours.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The timestamp, in UNIX Epoch time format, at which to end the re- porting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time time- stamp. The time range between the start and end time must be less than 24 hours.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
+    /// <summary>
+    /// The queues, up to 100, or channels, to use to filter the metrics re- turned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features. NOTE: To filter by Queues , enter the queue ID/ARN, not the name of the queue. Queues -&gt; (list) The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request. Constraints: o min: 1 o max: 100 (string) Channels -&gt; (list) The channel to use to filter the metrics. Constraints: o max: 4 (string) Possible values: o VOICE o CHAT o TASK o EMAIL RoutingProfiles -&gt; (list) A list of up to 100 routing profile IDs or ARNs. Constraints: o min: 1 o max: 100 (string) RoutingStepExpressions -&gt; (list) A list of expressions as a filter, in which an expression is an object of a step in a routing criteria. Accepts filter values up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array or- der and tree structure must be preserved. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 3000 AgentStatuses -&gt; (list) A list of up to 50 agent status IDs or ARNs. (string) Subtypes -&gt; (list) A list of up to 10 subtypes can be provided. Constraints: o max: 10 (string) Constraints: o min: 1 o max: 100 ValidationTestTypes -&gt; (list) A list of up to 10 validationTestTypes can be provided. Constraints: o max: 10 (string) Shorthand Syntax: Queues=string,string,Channels=string,string,RoutingProfiles=string,string,RoutingStepExpressions=string,string,AgentStatuses=string,string,Subtypes=string,string,ValidationTestTypes=string,string JSON Syntax: { "Queues": ["string", ...], "Channels": ["VOICE"|"CHAT"|"TASK"|"EMAIL", ...], "RoutingProfiles": ["string", ...], "RoutingStepExpressions": ["string", ...], "AgentStatuses": ["string", ...], "Subtypes": ["string", ...], "ValidationTestTypes": ["string", ...] }
+    /// </summary>
     [CliOption("--filters")]
-    public string? Filters { get; set; }
+    public string? Filters { get; private init; }
+
+    /// <summary>
+    /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide . NOTE: This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list). ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: Average queue abandon time AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: After contact work time API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: API contacts handled AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average customer hold time CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Callback contacts handled CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: Contacts abandoned CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: Contacts consulted CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Contacts handled CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: Contacts handled incoming CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: Contacts handled outbound CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: Contacts queued CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: Contacts transferred in CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: Contacts transferred out CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: Average handle time INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction time OCCUPANCY Unit: PERCENT Statistic: AVG UI name: Occupancy QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: Average queue answer time QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: Minimum flow time SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue , enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison , you must enter LT (for "Less than"). UI name: Average queue abandon time (structure) Contains information about a historical metric. Name -&gt; (string) The name of the metric. Following is a list of each supported metric mapped to the UI name, linked to a detailed descrip- tion in the Connect Customer Administrator Guide . ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: Average queue abandon time AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: After contact work time API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: API contacts handled AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average customer hold time CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Callback contacts handled CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: Contacts abandoned CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: Contacts consulted CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: Contacts handled CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: Contacts handled incoming CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: Contacts handled outbound CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: Contacts queued CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: Contacts transferred in CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: Contacts transferred out CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: Average handle time INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: Average agent interaction time OCCUPANCY Unit: PERCENT Statistic: AVG UI name: Occupancy QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: Average queue answer time QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: Minimum flow time SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue , enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison , you must enter LT (for "Less than"). UI name: Service level X Possible values: o CONTACTS_QUEUED o CONTACTS_HANDLED o CONTACTS_ABANDONED o CONTACTS_CONSULTED o CONTACTS_AGENT_HUNG_UP_FIRST o CONTACTS_HANDLED_INCOMING o CONTACTS_HANDLED_OUTBOUND o CONTACTS_HOLD_ABANDONS o CONTACTS_TRANSFERRED_IN o CONTACTS_TRANSFERRED_OUT o CONTACTS_TRANSFERRED_IN_FROM_QUEUE o CONTACTS_TRANSFERRED_OUT_FROM_QUEUE o CONTACTS_MISSED o CALLBACK_CONTACTS_HANDLED o API_CONTACTS_HANDLED o OCCUPANCY o HANDLE_TIME o AFTER_CONTACT_WORK_TIME o QUEUED_TIME o ABANDON_TIME o QUEUE_ANSWER_TIME o HOLD_TIME o INTERACTION_TIME o INTERACTION_AND_HOLD_TIME o SERVICE_LEVEL Threshold -&gt; (structure) The threshold for the metric, used with service level met- rics. Comparison -&gt; (string) The type of comparison. Only "less than" (LT) comparisons are supported. Possible values: o LT ThresholdValue -&gt; (double) The threshold value to compare. Statistic -&gt; (string) The statistic for the metric. Possible values: o SUM o MAX o AVG Unit -&gt; (string) The unit for the metric. Possible values: o SECONDS o COUNT o PERCENT Shorthand Syntax: Name=string,Threshold={Comparison=string,ThresholdValue=double},Statistic=string,Unit=string ... JSON Syntax: [ { "Name": "CONTACTS_QUEUED"|"CONTACTS_HANDLED"|"CONTACTS_ABANDONED"|"CONTACTS_CONSULTED"|"CONTACTS_AGENT_HUNG_UP_FIRST"|"CONTACTS_HANDLED_INCOMING"|"CONTACTS_HANDLED_OUTBOUND"|"CONTACTS_HOLD_ABANDONS"|"CONTACTS_TRANSFERRED_IN"|"CONTACTS_TRANSFERRED_OUT"|"CONTACTS_TRANSFERRED_IN_FROM_QUEUE"|"CONTACTS_TRANSFERRED_OUT_FROM_QUEUE"|"CONTACTS_MISSED"|"CALLBACK_CONTACTS_HANDLED"|"API_CONTACTS_HANDLED"|"OCCUPANCY"|"HANDLE_TIME"|"AFTER_CONTACT_WORK_TIME"|"QUEUED_TIME"|"ABANDON_TIME"|"QUEUE_ANSWER_TIME"|"HOLD_TIME"|"INTERACTION_TIME"|"INTERACTION_AND_HOLD_TIME"|"SERVICE_LEVEL", "Threshold": { "Comparison": "LT", "ThresholdValue": double }, "Statistic": "SUM"|"MAX"|"AVG", "Unit": "SECONDS"|"COUNT"|"PERCENT" } ... ]
+    /// </summary>
+    [CliOption("--historical-metrics", GroupValues = true)]
+    public IEnumerable<string>? HistoricalMetrics { get; private init; }
 
     /// <summary>
     /// The grouping applied to the metrics returned. For example, when re- sults are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features. Constraints: o max: 2 (string) Possible values: o QUEUE o CHANNEL o ROUTING_PROFILE o ROUTING_STEP_EXPRESSION o AGENT_STATUS o SUBTYPE o VALIDATION_TEST_TYPE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--groupings", GroupValues = true)]
     public IEnumerable<string>? Groupings { get; set; }
-
-    [CliOption("--historical-metrics", GroupValues = true)]
-    public IEnumerable<string>? HistoricalMetrics { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -67,5 +143,22 @@ public record AwsConnectGetMetricDataOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

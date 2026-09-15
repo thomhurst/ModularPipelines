@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --batchstrategy.
+/// Allowed values for --batch-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerCreateTransformJobBatchStrategy
 {
     [EnumValue("MultiRecord")]
-    MultiRecord = 1,
+    MultiRecord,
 
     [EnumValue("SingleRecord")]
-    SingleRecord = 2
+    SingleRecord
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "update-directory-config")]
-public record AwsAppstreamUpdateDirectoryConfigOptions : AwsOptions
+public record AwsAppstreamUpdateDirectoryConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified Directory Config object in WorkSpaces Applica- tions. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryName">The name of the Directory Config object.</param>
+    public AwsAppstreamUpdateDirectoryConfigOptions(
+        string DirectoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryName);
+        this.DirectoryName = DirectoryName;
+    }
+
+    private AwsAppstreamUpdateDirectoryConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamUpdateDirectoryConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamUpdateDirectoryConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Directory Config object.
+    /// </summary>
     [CliOption("--directory-name")]
-    public string? DirectoryName { get; set; }
+    public string? DirectoryName { get; private init; }
 
     /// <summary>
     /// The distinguished names of the organizational units for computer ac- counts. (string) Constraints: o max: 2000 Syntax: "string" "string" ...
@@ -49,5 +86,22 @@ public record AwsAppstreamUpdateDirectoryConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

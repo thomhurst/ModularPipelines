@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "start-trained-model-inference-job")]
-public record AwsCleanroomsmlStartTrainedModelInferenceJobOptions : AwsOptions
+public record AwsCleanroomsmlStartTrainedModelInferenceJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Defines the information necessary to begin a trained model inference job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">The membership ID of the membership that contains the trained model inference job. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">The name of the trained model inference job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="TrainedModelArn">The Amazon Resource Name (ARN) of the trained model that is used for this trained model inference job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ResourceConfig">Defines the resource configuration for the trained model inference job. instanceType -&gt; (string) [required] The type of instance that is used to perform model inference. Possible values: o ml.r7i.48xlarge o ml.r6i.16xlarge o ml.m6i.xlarge o ml.m5.4xlarge o ml.p2.xlarge o ml.m4.16xlarge o ml.r7i.16xlarge o ml.m7i.xlarge o ml.m6i.12xlarge o ml.r7i.8xlarge o ml.r7i.large o ml.m7i.12xlarge o ml.m6i.24xlarge o ml.m7i.24xlarge o ml.r6i.8xlarge o ml.r6i.large o ml.g5.2xlarge o ml.m5.large o ml.m7i.48xlarge o ml.m6i.16xlarge o ml.p2.16xlarge o ml.g5.4xlarge o ml.m7i.16xlarge o ml.c4.2xlarge o ml.c5.2xlarge o ml.c6i.32xlarge o ml.c4.4xlarge o ml.g5.8xlarge o ml.c6i.xlarge o ml.c5.4xlarge o ml.g4dn.xlarge o ml.c7i.xlarge o ml.c6i.12xlarge o ml.g4dn.12xlarge o ml.c7i.12xlarge o ml.c6i.24xlarge o ml.g4dn.2xlarge o ml.c7i.24xlarge o ml.c7i.2xlarge o ml.c4.8xlarge o ml.c6i.2xlarge o ml.g4dn.4xlarge o ml.c7i.48xlarge o ml.c7i.4xlarge o ml.c6i.16xlarge o ml.c5.9xlarge o ml.g4dn.16xlarge o ml.c7i.16xlarge o ml.c6i.4xlarge o ml.c5.xlarge o ml.c4.xlarge o ml.g4dn.8xlarge o ml.c7i.8xlarge o ml.c7i.large o ml.g5.xlarge o ml.c6i.8xlarge o ml.c6i.large o ml.g5.12xlarge o ml.g5.24xlarge o ml.m7i.2xlarge o ml.c5.18xlarge o ml.g5.48xlarge o ml.m6i.2xlarge o ml.g5.16xlarge o ml.m7i.4xlarge o ml.r6i.32xlarge o ml.m6i.4xlarge o ml.m5.xlarge o ml.m4.10xlarge o ml.r6i.xlarge o ml.m5.12xlarge o ml.m4.xlarge o ml.r7i.2xlarge o ml.r7i.xlarge o ml.r6i.12xlarge o ml.m5.24xlarge o ml.r7i.12xlarge o ml.m7i.8xlarge o ml.m7i.large o ml.r6i.24xlarge o ml.r6i.2xlarge o ml.m4.2xlarge o ml.r7i.24xlarge o ml.r7i.4xlarge o ml.m6i.8xlarge o ml.m6i.large o ml.m5.2xlarge o ml.p2.8xlarge o ml.r6i.4xlarge o ml.m6i.32xlarge o ml.m4.4xlarge o ml.p3.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge instanceCount -&gt; (integer) The number of instances to use. Constraints: o min: 1 o max: 10 Shorthand Syntax: instanceType=string,instanceCount=integer JSON Syntax: { "instanceType": "ml.r7i.48xlarge"|"ml.r6i.16xlarge"|"ml.m6i.xlarge"|"ml.m5.4xlarge"|"ml.p2.xlarge"|"ml.m4.16xlarge"|"ml.r7i.16xlarge"|"ml.m7i.xlarge"|"ml.m6i.12xlarge"|"ml.r7i.8xlarge"|"ml.r7i.large"|"ml.m7i.12xlarge"|"ml.m6i.24xlarge"|"ml.m7i.24xlarge"|"ml.r6i.8xlarge"|"ml.r6i.large"|"ml.g5.2xlarge"|"ml.m5.large"|"ml.m7i.48xlarge"|"ml.m6i.16xlarge"|"ml.p2.16xlarge"|"ml.g5.4xlarge"|"ml.m7i.16xlarge"|"ml.c4.2xlarge"|"ml.c5.2xlarge"|"ml.c6i.32xlarge"|"ml.c4.4xlarge"|"ml.g5.8xlarge"|"ml.c6i.xlarge"|"ml.c5.4xlarge"|"ml.g4dn.xlarge"|"ml.c7i.xlarge"|"ml.c6i.12xlarge"|"ml.g4dn.12xlarge"|"ml.c7i.12xlarge"|"ml.c6i.24xlarge"|"ml.g4dn.2xlarge"|"ml.c7i.24xlarge"|"ml.c7i.2xlarge"|"ml.c4.8xlarge"|"ml.c6i.2xlarge"|"ml.g4dn.4xlarge"|"ml.c7i.48xlarge"|"ml.c7i.4xlarge"|"ml.c6i.16xlarge"|"ml.c5.9xlarge"|"ml.g4dn.16xlarge"|"ml.c7i.16xlarge"|"ml.c6i.4xlarge"|"ml.c5.xlarge"|"ml.c4.xlarge"|"ml.g4dn.8xlarge"|"ml.c7i.8xlarge"|"ml.c7i.large"|"ml.g5.xlarge"|"ml.c6i.8xlarge"|"ml.c6i.large"|"ml.g5.12xlarge"|"ml.g5.24xlarge"|"ml.m7i.2xlarge"|"ml.c5.18xlarge"|"ml.g5.48xlarge"|"ml.m6i.2xlarge"|"ml.g5.16xlarge"|"ml.m7i.4xlarge"|"ml.r6i.32xlarge"|"ml.m6i.4xlarge"|"ml.m5.xlarge"|"ml.m4.10xlarge"|"ml.r6i.xlarge"|"ml.m5.12xlarge"|"ml.m4.xlarge"|"ml.r7i.2xlarge"|"ml.r7i.xlarge"|"ml.r6i.12xlarge"|"ml.m5.24xlarge"|"ml.r7i.12xlarge"|"ml.m7i.8xlarge"|"ml.m7i.large"|"ml.r6i.24xlarge"|"ml.r6i.2xlarge"|"ml.m4.2xlarge"|"ml.r7i.24xlarge"|"ml.r7i.4xlarge"|"ml.m6i.8xlarge"|"ml.m6i.large"|"ml.m5.2xlarge"|"ml.p2.8xlarge"|"ml.r6i.4xlarge"|"ml.m6i.32xlarge"|"ml.m4.4xlarge"|"ml.p3.16xlarge"|"ml.p3.2xlarge"|"ml.p3.8xlarge", "instanceCount": integer }</param>
+    /// <param name="OutputConfiguration">Defines the output configuration information for the trained model inference job. accept -&gt; (string) The MIME type used to specify the output data. Constraints: o min: 0 o max: 256 o pattern: .* members -&gt; (list) [required] Defines the members that can receive inference output. Constraints: o min: 1 o max: 1 (structure) Defines who will receive inference results. accountId -&gt; (string) [required] The account ID of the member that can receive inference results. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: accept=string,members=[{accountId=string},{accountId=string}] JSON Syntax: { "accept": "string", "members": [ { "accountId": "string" } ... ] }</param>
+    /// <param name="DataSource">Defines the data source that is used for the trained model inference job. mlInputChannelArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the ML input channel for this model inference data source. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-in- put-channel/[-a-zA-Z0-9_/.]+ Shorthand Syntax: mlInputChannelArn=string JSON Syntax: { "mlInputChannelArn": "string" }</param>
+    public AwsCleanroomsmlStartTrainedModelInferenceJobOptions(
+        string MembershipIdentifier,
+        string Name,
+        string TrainedModelArn,
+        string ResourceConfig,
+        string OutputConfiguration,
+        string DataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TrainedModelArn);
+        this.TrainedModelArn = TrainedModelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfig);
+        this.ResourceConfig = ResourceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfiguration);
+        this.OutputConfiguration = OutputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+    }
+
+    private AwsCleanroomsmlStartTrainedModelInferenceJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlStartTrainedModelInferenceJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlStartTrainedModelInferenceJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The membership ID of the membership that contains the trained model inference job. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the trained model inference job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the trained model that is used for this trained model inference job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+
+    /// </summary>
     [CliOption("--trained-model-arn")]
-    public string? TrainedModelArn { get; set; }
+    public string? TrainedModelArn { get; private init; }
+
+    /// <summary>
+    /// Defines the resource configuration for the trained model inference job. instanceType -&gt; (string) [required] The type of instance that is used to perform model inference. Possible values: o ml.r7i.48xlarge o ml.r6i.16xlarge o ml.m6i.xlarge o ml.m5.4xlarge o ml.p2.xlarge o ml.m4.16xlarge o ml.r7i.16xlarge o ml.m7i.xlarge o ml.m6i.12xlarge o ml.r7i.8xlarge o ml.r7i.large o ml.m7i.12xlarge o ml.m6i.24xlarge o ml.m7i.24xlarge o ml.r6i.8xlarge o ml.r6i.large o ml.g5.2xlarge o ml.m5.large o ml.m7i.48xlarge o ml.m6i.16xlarge o ml.p2.16xlarge o ml.g5.4xlarge o ml.m7i.16xlarge o ml.c4.2xlarge o ml.c5.2xlarge o ml.c6i.32xlarge o ml.c4.4xlarge o ml.g5.8xlarge o ml.c6i.xlarge o ml.c5.4xlarge o ml.g4dn.xlarge o ml.c7i.xlarge o ml.c6i.12xlarge o ml.g4dn.12xlarge o ml.c7i.12xlarge o ml.c6i.24xlarge o ml.g4dn.2xlarge o ml.c7i.24xlarge o ml.c7i.2xlarge o ml.c4.8xlarge o ml.c6i.2xlarge o ml.g4dn.4xlarge o ml.c7i.48xlarge o ml.c7i.4xlarge o ml.c6i.16xlarge o ml.c5.9xlarge o ml.g4dn.16xlarge o ml.c7i.16xlarge o ml.c6i.4xlarge o ml.c5.xlarge o ml.c4.xlarge o ml.g4dn.8xlarge o ml.c7i.8xlarge o ml.c7i.large o ml.g5.xlarge o ml.c6i.8xlarge o ml.c6i.large o ml.g5.12xlarge o ml.g5.24xlarge o ml.m7i.2xlarge o ml.c5.18xlarge o ml.g5.48xlarge o ml.m6i.2xlarge o ml.g5.16xlarge o ml.m7i.4xlarge o ml.r6i.32xlarge o ml.m6i.4xlarge o ml.m5.xlarge o ml.m4.10xlarge o ml.r6i.xlarge o ml.m5.12xlarge o ml.m4.xlarge o ml.r7i.2xlarge o ml.r7i.xlarge o ml.r6i.12xlarge o ml.m5.24xlarge o ml.r7i.12xlarge o ml.m7i.8xlarge o ml.m7i.large o ml.r6i.24xlarge o ml.r6i.2xlarge o ml.m4.2xlarge o ml.r7i.24xlarge o ml.r7i.4xlarge o ml.m6i.8xlarge o ml.m6i.large o ml.m5.2xlarge o ml.p2.8xlarge o ml.r6i.4xlarge o ml.m6i.32xlarge o ml.m4.4xlarge o ml.p3.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge instanceCount -&gt; (integer) The number of instances to use. Constraints: o min: 1 o max: 10 Shorthand Syntax: instanceType=string,instanceCount=integer JSON Syntax: { "instanceType": "ml.r7i.48xlarge"|"ml.r6i.16xlarge"|"ml.m6i.xlarge"|"ml.m5.4xlarge"|"ml.p2.xlarge"|"ml.m4.16xlarge"|"ml.r7i.16xlarge"|"ml.m7i.xlarge"|"ml.m6i.12xlarge"|"ml.r7i.8xlarge"|"ml.r7i.large"|"ml.m7i.12xlarge"|"ml.m6i.24xlarge"|"ml.m7i.24xlarge"|"ml.r6i.8xlarge"|"ml.r6i.large"|"ml.g5.2xlarge"|"ml.m5.large"|"ml.m7i.48xlarge"|"ml.m6i.16xlarge"|"ml.p2.16xlarge"|"ml.g5.4xlarge"|"ml.m7i.16xlarge"|"ml.c4.2xlarge"|"ml.c5.2xlarge"|"ml.c6i.32xlarge"|"ml.c4.4xlarge"|"ml.g5.8xlarge"|"ml.c6i.xlarge"|"ml.c5.4xlarge"|"ml.g4dn.xlarge"|"ml.c7i.xlarge"|"ml.c6i.12xlarge"|"ml.g4dn.12xlarge"|"ml.c7i.12xlarge"|"ml.c6i.24xlarge"|"ml.g4dn.2xlarge"|"ml.c7i.24xlarge"|"ml.c7i.2xlarge"|"ml.c4.8xlarge"|"ml.c6i.2xlarge"|"ml.g4dn.4xlarge"|"ml.c7i.48xlarge"|"ml.c7i.4xlarge"|"ml.c6i.16xlarge"|"ml.c5.9xlarge"|"ml.g4dn.16xlarge"|"ml.c7i.16xlarge"|"ml.c6i.4xlarge"|"ml.c5.xlarge"|"ml.c4.xlarge"|"ml.g4dn.8xlarge"|"ml.c7i.8xlarge"|"ml.c7i.large"|"ml.g5.xlarge"|"ml.c6i.8xlarge"|"ml.c6i.large"|"ml.g5.12xlarge"|"ml.g5.24xlarge"|"ml.m7i.2xlarge"|"ml.c5.18xlarge"|"ml.g5.48xlarge"|"ml.m6i.2xlarge"|"ml.g5.16xlarge"|"ml.m7i.4xlarge"|"ml.r6i.32xlarge"|"ml.m6i.4xlarge"|"ml.m5.xlarge"|"ml.m4.10xlarge"|"ml.r6i.xlarge"|"ml.m5.12xlarge"|"ml.m4.xlarge"|"ml.r7i.2xlarge"|"ml.r7i.xlarge"|"ml.r6i.12xlarge"|"ml.m5.24xlarge"|"ml.r7i.12xlarge"|"ml.m7i.8xlarge"|"ml.m7i.large"|"ml.r6i.24xlarge"|"ml.r6i.2xlarge"|"ml.m4.2xlarge"|"ml.r7i.24xlarge"|"ml.r7i.4xlarge"|"ml.m6i.8xlarge"|"ml.m6i.large"|"ml.m5.2xlarge"|"ml.p2.8xlarge"|"ml.r6i.4xlarge"|"ml.m6i.32xlarge"|"ml.m4.4xlarge"|"ml.p3.16xlarge"|"ml.p3.2xlarge"|"ml.p3.8xlarge", "instanceCount": integer }
+    /// </summary>
+    [CliOption("--resource-config")]
+    public string? ResourceConfig { get; private init; }
+
+    /// <summary>
+    /// Defines the output configuration information for the trained model inference job. accept -&gt; (string) The MIME type used to specify the output data. Constraints: o min: 0 o max: 256 o pattern: .* members -&gt; (list) [required] Defines the members that can receive inference output. Constraints: o min: 1 o max: 1 (structure) Defines who will receive inference results. accountId -&gt; (string) [required] The account ID of the member that can receive inference results. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: accept=string,members=[{accountId=string},{accountId=string}] JSON Syntax: { "accept": "string", "members": [ { "accountId": "string" } ... ] }
+    /// </summary>
+    [CliOption("--output-configuration")]
+    public string? OutputConfiguration { get; private init; }
+
+    /// <summary>
+    /// Defines the data source that is used for the trained model inference job. mlInputChannelArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the ML input channel for this model inference data source. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-in- put-channel/[-a-zA-Z0-9_/.]+ Shorthand Syntax: mlInputChannelArn=string JSON Syntax: { "mlInputChannelArn": "string" }
+    /// </summary>
+    [CliOption("--data-source")]
+    public string? DataSource { get; private init; }
 
     /// <summary>
     /// The version identifier of the trained model to use for inference. This specifies which version of the trained model should be used to generate predictions on the input data. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
@@ -42,15 +123,6 @@ public record AwsCleanroomsmlStartTrainedModelInferenceJobOptions : AwsOptions
     /// </summary>
     [CliOption("--configured-model-algorithm-association-arn")]
     public string? ConfiguredModelAlgorithmAssociationArn { get; set; }
-
-    [CliOption("--resource-config")]
-    public string? ResourceConfig { get; set; }
-
-    [CliOption("--output-configuration")]
-    public string? OutputConfiguration { get; set; }
-
-    [CliOption("--data-source")]
-    public string? DataSource { get; set; }
 
     /// <summary>
     /// The description of the trained model inference job. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
@@ -93,5 +165,22 @@ public record AwsCleanroomsmlStartTrainedModelInferenceJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListEnrichmentJobsStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
-    [EnumValue("RUNNING")]
-    Running = 2,
+    [EnumValue("CANCELLED")]
+    Cancelled,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
+
+    [EnumValue("PENDING")]
+    Pending,
+
+    [EnumValue("RUNNING")]
+    Running,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 5,
-
-    [EnumValue("CANCELLED")]
-    Cancelled = 6
+    TimedOut
 }

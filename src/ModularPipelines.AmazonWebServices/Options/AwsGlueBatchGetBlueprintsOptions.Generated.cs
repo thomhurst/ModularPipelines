@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "batch-get-blueprints")]
-public record AwsGlueBatchGetBlueprintsOptions : AwsOptions
+public record AwsGlueBatchGetBlueprintsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--names", GroupValues = true)]
-    public IEnumerable<string>? Names { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-blueprint")]
+    /// <summary>
+    /// Retrieves information about a list of blueprints. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Names">A list of blueprint names. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...</param>
+    public AwsGlueBatchGetBlueprintsOptions(
+        IEnumerable<string> Names
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Names);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Names));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Names));
+            }
+
+            Names = materialized;
+        }
+        this.Names = Names;
+    }
+
+    private AwsGlueBatchGetBlueprintsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueBatchGetBlueprintsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueBatchGetBlueprintsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of blueprint names. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--names", GroupValues = true)]
+    public IEnumerable<string>? Names { get; private init; }
+
+    /// <summary>
+    /// Specifies whether or not to include the blueprint in the response.
+    /// </summary>
+    [CliFlag("--include-blueprint", NegatedName = "--no-include-blueprint")]
     public bool? IncludeBlueprint { get; set; }
 
-    [CliFlag("--include-parameter-spec")]
+    /// <summary>
+    /// Specifies whether or not to include the parameters, as a JSON string, for the blueprint in the response.
+    /// </summary>
+    [CliFlag("--include-parameter-spec", NegatedName = "--no-include-parameter-spec")]
     public bool? IncludeParameterSpec { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +89,22 @@ public record AwsGlueBatchGetBlueprintsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

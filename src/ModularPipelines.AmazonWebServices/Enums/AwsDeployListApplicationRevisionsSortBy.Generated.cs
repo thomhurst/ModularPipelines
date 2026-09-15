@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeployListApplicationRevisionsSortBy
 {
-    [EnumValue("registerTime")]
-    RegisterTime = 1,
-
     [EnumValue("firstUsedTime")]
-    FirstUsedTime = 2,
+    FirstUsedTime,
 
     [EnumValue("lastUsedTime")]
-    LastUsedTime = 3
+    LastUsedTime,
+
+    [EnumValue("registerTime")]
+    RegisterTime
 }

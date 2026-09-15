@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --storageoptimizertype.
+/// Allowed values for --storage-optimizer-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLakeformationListTableStorageOptimizersStorageOptimizerType
 {
+    [EnumValue("ALL")]
+    All,
+
     [EnumValue("COMPACTION")]
-    Compaction = 1,
+    Compaction,
 
     [EnumValue("GARBAGE_COLLECTION")]
-    GarbageCollection = 2,
-
-    [EnumValue("ALL")]
-    All = 3
+    GarbageCollection
 }

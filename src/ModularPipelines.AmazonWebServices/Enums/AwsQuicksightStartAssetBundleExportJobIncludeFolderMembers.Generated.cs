@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --includefoldermembers.
+/// Allowed values for --include-folder-members.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightStartAssetBundleExportJobIncludeFolderMembers
 {
-    [EnumValue("RECURSE")]
-    Recurse = 1,
+    [EnumValue("NONE")]
+    None,
 
     [EnumValue("ONE_LEVEL")]
-    OneLevel = 2,
+    OneLevel,
 
-    [EnumValue("NONE")]
-    None = 3
+    [EnumValue("RECURSE")]
+    Recurse
 }

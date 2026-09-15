@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-ai-recommendation-job")]
-public record AwsSagemakerCreateAiRecommendationJobOptions : AwsOptions
+public record AwsSagemakerCreateAiRecommendationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a recommendation job that generates intelligent optimization recommendations for generative AI inference deployments. The job ana- lyzes your model, workload configuration, and performance targets to recommend optimal instance types, model optimization techniques (such as quantization and speculative decoding), and deployment configura- tions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AiRecommendationJobName">The name of the AI recommendation job. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ModelSource">The source of the model to optimize. Specify the Amazon S3 location of the model artifacts. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3. S3 -&gt; (structure) The Amazon S3 location of the model artifacts. S3Uri -&gt; (string) The Amazon S3 URI of the model artifacts. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: S3={S3Uri=string} JSON Syntax: { "S3": { "S3Uri": "string" } }</param>
+    /// <param name="OutputConfig">The output configuration for the recommendation job, including the Amazon S3 location for results and an optional model package group where the optimized model is registered. S3OutputLocation -&gt; (string) The Amazon S3 URI where recommendation results are stored. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) ModelPackageGroupIdentifier -&gt; (string) The name or Amazon Resource Name (ARN) of the model package group where the optimized model is registered as a new model package version. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-) MlflowConfig -&gt; (structure) The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled. MlflowResourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the SageMaker managed MLflow resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-(app|tracking-server)/.* MlflowExperimentName -&gt; (string) The MLflow experiment name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ MlflowRunName -&gt; (string) The MLflow run name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ Shorthand Syntax: S3OutputLocation=string,ModelPackageGroupIdentifier=string,MlflowConfig={MlflowResourceArn=string,MlflowExperimentName=string,MlflowRunName=string} JSON Syntax: { "S3OutputLocation": "string", "ModelPackageGroupIdentifier": "string", "MlflowConfig": { "MlflowResourceArn": "string", "MlflowExperimentName": "string", "MlflowRunName": "string" } }</param>
+    /// <param name="AiWorkloadConfigIdentifier">The name or Amazon Resource Name (ARN) of the AI workload configura- tion to use for this recommendation job. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-)</param>
+    /// <param name="PerformanceTarget">The performance targets for the recommendation job. Specify con- straints on metrics such as time to first token (ttft-ms ), through- put , or cost . Constraints -&gt; (list) [required] An array of performance constraints that define the optimization objectives. (structure) A performance constraint for an AI recommendation job. Metric -&gt; (string) [required] The performance metric. Valid values are ttft-ms (time to first token in milliseconds), throughput , and cost . Possible values: o ttft-ms o throughput o cost Shorthand Syntax: Constraints=[{Metric=string},{Metric=string}] JSON Syntax: { "Constraints": [ { "Metric": "ttft-ms"|"throughput"|"cost" } ... ] }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsSagemakerCreateAiRecommendationJobOptions(
+        string AiRecommendationJobName,
+        string ModelSource,
+        string OutputConfig,
+        string AiWorkloadConfigIdentifier,
+        string PerformanceTarget,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AiRecommendationJobName);
+        this.AiRecommendationJobName = AiRecommendationJobName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelSource);
+        this.ModelSource = ModelSource;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+        global::System.ArgumentNullException.ThrowIfNull(AiWorkloadConfigIdentifier);
+        this.AiWorkloadConfigIdentifier = AiWorkloadConfigIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(PerformanceTarget);
+        this.PerformanceTarget = PerformanceTarget;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsSagemakerCreateAiRecommendationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateAiRecommendationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateAiRecommendationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the AI recommendation job. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--ai-recommendation-job-name")]
-    public string? AiRecommendationJobName { get; set; }
+    public string? AiRecommendationJobName { get; private init; }
 
+    /// <summary>
+    /// The source of the model to optimize. Specify the Amazon S3 location of the model artifacts. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3. S3 -&gt; (structure) The Amazon S3 location of the model artifacts. S3Uri -&gt; (string) The Amazon S3 URI of the model artifacts. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: S3={S3Uri=string} JSON Syntax: { "S3": { "S3Uri": "string" } }
+    /// </summary>
     [CliOption("--model-source")]
-    public string? ModelSource { get; set; }
+    public string? ModelSource { get; private init; }
 
+    /// <summary>
+    /// The output configuration for the recommendation job, including the Amazon S3 location for results and an optional model package group where the optimized model is registered. S3OutputLocation -&gt; (string) The Amazon S3 URI where recommendation results are stored. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) ModelPackageGroupIdentifier -&gt; (string) The name or Amazon Resource Name (ARN) of the model package group where the optimized model is registered as a new model package version. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-) MlflowConfig -&gt; (structure) The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled. MlflowResourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the SageMaker managed MLflow resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-(app|tracking-server)/.* MlflowExperimentName -&gt; (string) The MLflow experiment name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ MlflowRunName -&gt; (string) The MLflow run name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ Shorthand Syntax: S3OutputLocation=string,ModelPackageGroupIdentifier=string,MlflowConfig={MlflowResourceArn=string,MlflowExperimentName=string,MlflowRunName=string} JSON Syntax: { "S3OutputLocation": "string", "ModelPackageGroupIdentifier": "string", "MlflowConfig": { "MlflowResourceArn": "string", "MlflowExperimentName": "string", "MlflowRunName": "string" } }
+    /// </summary>
     [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
+    public string? OutputConfig { get; private init; }
 
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the AI workload configura- tion to use for this recommendation job. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-)
+    /// </summary>
     [CliOption("--ai-workload-config-identifier")]
-    public string? AiWorkloadConfigIdentifier { get; set; }
+    public string? AiWorkloadConfigIdentifier { get; private init; }
 
+    /// <summary>
+    /// The performance targets for the recommendation job. Specify con- straints on metrics such as time to first token (ttft-ms ), through- put , or cost . Constraints -&gt; (list) [required] An array of performance constraints that define the optimization objectives. (structure) A performance constraint for an AI recommendation job. Metric -&gt; (string) [required] The performance metric. Valid values are ttft-ms (time to first token in milliseconds), throughput , and cost . Possible values: o ttft-ms o throughput o cost Shorthand Syntax: Constraints=[{Metric=string},{Metric=string}] JSON Syntax: { "Constraints": [ { "Metric": "ttft-ms"|"throughput"|"cost" } ... ] }
+    /// </summary>
     [CliOption("--performance-target")]
-    public string? PerformanceTarget { get; set; }
+    public string? PerformanceTarget { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The inference framework configuration. Specify the framework (such as LMI or vLLM) for the recommendation job. Framework -&gt; (string) The inference framework. Valid values are LMI and VLLM . Possible values: o LMI o VLLM Shorthand Syntax: Framework=string JSON Syntax: { "Framework": "LMI"|"VLLM" }
@@ -45,7 +117,10 @@ public record AwsSagemakerCreateAiRecommendationJobOptions : AwsOptions
     [CliOption("--inference-specification")]
     public string? InferenceSpecification { get; set; }
 
-    [CliFlag("--optimize-model")]
+    /// <summary>
+    /// Whether to allow model optimization techniques such as quantization, speculative decoding, and kernel tuning. The default is true .
+    /// </summary>
+    [CliFlag("--optimize-model", NegatedName = "--no-optimize-model")]
     public bool? OptimizeModel { get; set; }
 
     /// <summary>
@@ -71,5 +146,22 @@ public record AwsSagemakerCreateAiRecommendationJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

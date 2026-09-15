@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("neptunedata", "list-open-cypher-queries")]
 public record AwsNeptunedataListOpenCypherQueriesOptions : AwsOptions
 {
-    [CliFlag("--include-waiting")]
+    /// <summary>
+    /// When set to TRUE and other parameters are not present, causes status information to be returned for waiting queries as well as for run- ning queries.
+    /// </summary>
+    [CliFlag("--include-waiting", NegatedName = "--no-include-waiting")]
     public bool? IncludeWaiting { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "reset-cluster-parameter-group")]
-public record AwsRedshiftResetClusterParameterGroupOptions : AwsOptions
+public record AwsRedshiftResetClusterParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--parameter-group-name")]
-    public string? ParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "en- gine-default". To reset the entire parameter group specify the Rese- tAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ParameterGroupName">The name of the cluster parameter group to be reset. Constraints: o max: 2147483647</param>
+    public AwsRedshiftResetClusterParameterGroupOptions(
+        string ParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParameterGroupName);
+        this.ParameterGroupName = ParameterGroupName;
+    }
+
+    private AwsRedshiftResetClusterParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftResetClusterParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftResetClusterParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cluster parameter group to be reset. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--parameter-group-name")]
+    public string? ParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// If true , all parameters in the specified parameter group will be reset to their default values. Default: true
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>
@@ -38,5 +78,22 @@ public record AwsRedshiftResetClusterParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

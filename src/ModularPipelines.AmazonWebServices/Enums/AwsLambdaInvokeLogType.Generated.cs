@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --logtype.
+/// Allowed values for --log-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaInvokeLogType
 {
     [EnumValue("None")]
-    None = 1,
+    None,
 
     [EnumValue("Tail")]
-    Tail = 2
+    Tail
 }

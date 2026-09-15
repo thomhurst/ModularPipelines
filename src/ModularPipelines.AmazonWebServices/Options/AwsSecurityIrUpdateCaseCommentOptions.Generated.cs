@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "update-case-comment")]
-public record AwsSecurityIrUpdateCaseCommentOptions : AwsOptions
+public record AwsSecurityIrUpdateCaseCommentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing case comment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CaseId">Required element for UpdateCaseComment to identify the case ID con- taining the comment to be updated. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
+    /// <param name="CommentId">Required element for UpdateCaseComment to identify the case ID to be updated. Constraints: o min: 6 o max: 6 o pattern: \d{6}</param>
+    /// <param name="Body">Required element for UpdateCaseComment to identify the content for the comment to be updated. Constraints: o min: 1 o max: 12000</param>
+    public AwsSecurityIrUpdateCaseCommentOptions(
+        string CaseId,
+        string CommentId,
+        string Body
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+        global::System.ArgumentNullException.ThrowIfNull(CommentId);
+        this.CommentId = CommentId;
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+    }
+
+    private AwsSecurityIrUpdateCaseCommentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrUpdateCaseCommentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrUpdateCaseCommentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required element for UpdateCaseComment to identify the case ID con- taining the comment to be updated. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// </summary>
     [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    public string? CaseId { get; private init; }
 
+    /// <summary>
+    /// Required element for UpdateCaseComment to identify the case ID to be updated. Constraints: o min: 6 o max: 6 o pattern: \d{6}
+    /// </summary>
     [CliOption("--comment-id")]
-    public string? CommentId { get; set; }
+    public string? CommentId { get; private init; }
 
+    /// <summary>
+    /// Required element for UpdateCaseComment to identify the content for the comment to be updated. Constraints: o min: 1 o max: 12000
+    /// </summary>
     [CliOption("--body")]
-    public string? Body { get; set; }
+    public string? Body { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --productsource.
+/// Allowed values for --product-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsServicecatalogSearchProductsAsAdminProductSource
 {
     [EnumValue("ACCOUNT")]
-    Account = 1
+    Account,
+
+    [EnumValue("o")]
+    O
 }

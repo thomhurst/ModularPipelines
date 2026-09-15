@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --controlstatus.
+/// Allowed values for --control-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAuditManagerUpdateAssessmentControlControlStatus
 {
-    [EnumValue("UNDER_REVIEW")]
-    UnderReview = 1,
+    [EnumValue("INACTIVE")]
+    Inactive,
 
     [EnumValue("REVIEWED")]
-    Reviewed = 2,
+    Reviewed,
 
-    [EnumValue("INACTIVE")]
-    Inactive = 3
+    [EnumValue("UNDER_REVIEW")]
+    UnderReview
 }

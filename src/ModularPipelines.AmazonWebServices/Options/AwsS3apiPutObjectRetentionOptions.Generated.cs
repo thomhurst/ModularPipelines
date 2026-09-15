@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,59 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-object-retention")]
-public record AwsS3apiPutObjectRetentionOptions : AwsOptions
+public record AwsS3apiPutObjectRetentionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
-
-    [CliOption("--key")]
-    public string? Key { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The container element for the Object Retention configuration. Mode -&gt; (string) Indicates the Retention mode for the specified object. Possible values: o GOVERNANCE o COMPLIANCE RetainUntilDate -&gt; (timestamp) The date on which this Object Lock Retention will expire. Shorthand Syntax: Mode=string,RetainUntilDate=timestamp JSON Syntax: { "Mode": "GOVERNANCE"|"COMPLIANCE", "RetainUntilDate": timestamp }
+    /// NOTE: This operation is not supported for directory buckets. Places an Object Retention configuration on an object. For more infor- mation, see Locking Objects . Users or accounts require the s3:PutOb- jectRetention permission in order to place an Object Retention configu- ration on objects. Bypassing a Governance Retention configuration re- quires the s3:BypassGovernanceRetention permission. This functionality is not supported for Amazon S3 on Outposts. WARNING: You must URL encode any signed h...
+    /// </summary>
+    /// <param name="Bucket">The bucket name that contains the object you want to apply this Ob- ject Retention configuration to. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide .</param>
+    /// <param name="Key">The key name for the object that you want to apply this Object Re- tention configuration to. Constraints: o min: 1</param>
+    public AwsS3apiPutObjectRetentionOptions(
+        string Bucket,
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    private AwsS3apiPutObjectRetentionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutObjectRetentionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutObjectRetentionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name that contains the object you want to apply this Ob- ject Retention configuration to. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The key name for the object that you want to apply this Object Re- tention configuration to. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--key")]
+    public string? Key { get; private init; }
+
+    /// <summary>
+    /// The container element for the Object Retention configuration. Mode -&gt; (string) Indicates the Retention mode for the specified object. Possible values: o GOVERNANCE o COMPLIANCE RetainUntilDate -&gt; (timestamp) The date on which this Object Lock Retention will expire. EventHold -&gt; (string) The event hold status for the object. Set to ON to enable an event hold or OFF to disable it. Possible values: o ON o OFF EventHoldDuration -&gt; (structure) The event hold duration for the object. Specifies how long the object remains protected after the event hold is released. Days -&gt; (integer) The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500. Years -&gt; (integer) The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100. Shorthand Syntax: Mode=string,RetainUntilDate=timestamp,EventHold=string,EventHoldDuration={Days=integer,Years=integer} JSON Syntax: { "Mode": "GOVERNANCE"|"COMPLIANCE", "RetainUntilDate": timestamp, "EventHold": "ON"|"OFF", "EventHoldDuration": { "Days": integer, "Years": integer } }
     /// </summary>
     [CliOption("--retention")]
     public string? Retention { get; set; }
@@ -46,7 +90,10 @@ public record AwsS3apiPutObjectRetentionOptions : AwsOptions
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CliFlag("--bypass-governance-retention")]
+    /// <summary>
+    /// Indicates whether this action should bypass Governance-mode restric- tions.
+    /// </summary>
+    [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
 
     /// <summary>
@@ -72,5 +119,22 @@ public record AwsS3apiPutObjectRetentionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

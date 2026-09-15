@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsChimeUpdateRoomMembershipRole
 {
     [EnumValue("Administrator")]
-    Administrator = 1,
+    Administrator,
 
     [EnumValue("Member")]
-    Member = 2
+    Member
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain", "update-member")]
-public record AwsManagedblockchainUpdateMemberOptions : AwsOptions
+public record AwsManagedblockchainUpdateMemberOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a member configuration with new parameters. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The unique identifier of the Managed Blockchain network to which the member belongs. Constraints: o min: 1 o max: 32</param>
+    /// <param name="MemberId">The unique identifier of the member. Constraints: o min: 1 o max: 32</param>
+    public AwsManagedblockchainUpdateMemberOptions(
+        string NetworkId,
+        string MemberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberId);
+        this.MemberId = MemberId;
+    }
+
+    private AwsManagedblockchainUpdateMemberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainUpdateMemberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainUpdateMemberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Managed Blockchain network to which the member belongs. Constraints: o min: 1 o max: 32
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the member. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--member-id")]
-    public string? MemberId { get; set; }
+    public string? MemberId { get; private init; }
 
     /// <summary>
     /// Configuration properties for publishing to Amazon CloudWatch Logs. Fabric -&gt; (structure) Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework. CaLogs -&gt; (structure) Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you deter- mine when a member in your account joins the network, or when new peers register with a member CA. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. JSON Syntax: { "Fabric": { "CaLogs": { "Cloudwatch": { "Enabled": true|false } } } }
@@ -38,5 +82,22 @@ public record AwsManagedblockchainUpdateMemberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

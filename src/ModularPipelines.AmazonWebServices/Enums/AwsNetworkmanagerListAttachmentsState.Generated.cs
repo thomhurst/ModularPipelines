@@ -16,30 +16,30 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkmanagerListAttachmentsState
 {
-    [EnumValue("REJECTED")]
-    Rejected = 1,
-
-    [EnumValue("PENDING_ATTACHMENT_ACCEPTANCE")]
-    PendingAttachmentAcceptance = 2,
+    [EnumValue("AVAILABLE")]
+    Available,
 
     [EnumValue("CREATING")]
-    Creating = 3,
-
-    [EnumValue("FAILED")]
-    Failed = 4,
-
-    [EnumValue("AVAILABLE")]
-    Available = 5,
-
-    [EnumValue("UPDATING")]
-    Updating = 6,
-
-    [EnumValue("PENDING_NETWORK_UPDATE")]
-    PendingNetworkUpdate = 7,
-
-    [EnumValue("PENDING_TAG_ACCEPTANCE")]
-    PendingTagAcceptance = 8,
+    Creating,
 
     [EnumValue("DELETING")]
-    Deleting = 9
+    Deleting,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("PENDING_ATTACHMENT_ACCEPTANCE")]
+    PendingAttachmentAcceptance,
+
+    [EnumValue("PENDING_NETWORK_UPDATE")]
+    PendingNetworkUpdate,
+
+    [EnumValue("PENDING_TAG_ACCEPTANCE")]
+    PendingTagAcceptance,
+
+    [EnumValue("REJECTED")]
+    Rejected,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

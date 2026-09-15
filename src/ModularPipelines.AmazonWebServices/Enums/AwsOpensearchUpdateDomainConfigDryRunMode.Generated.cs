@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dryrunmode.
+/// Allowed values for --dry-run-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOpensearchUpdateDomainConfigDryRunMode
 {
     [EnumValue("Basic")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("Verbose")]
-    Verbose = 2
+    Verbose
 }

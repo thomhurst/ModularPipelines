@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcesharetype.
+/// Allowed values for --resource-share-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLakeformationListLfTagsResourceShareType
 {
-    [EnumValue("FOREIGN")]
-    Foreign = 1,
-
     [EnumValue("ALL")]
-    All = 2
+    All,
+
+    [EnumValue("FOREIGN")]
+    Foreign
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-groups", "start-tag-sync-task")]
-public record AwsResourceGroupsStartTagSyncTaskOptions : AwsOptions
+public record AwsResourceGroupsStartTagSyncTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an application. To start a tag-sync task, you need a resource tagging role . The resource tagging role grants permissions to tag and untag applications resources and must in- clude a trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf. For instructions on creating a tag-sync task, see Create a tag-sync us- ing the Resource Groups API in ...
+    /// </summary>
+    /// <param name="Group">The Amazon resource name (ARN) or name of the application group for which you want to create a tag-sync task. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})</param>
+    /// <param name="RoleArn">The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsResourceGroupsStartTagSyncTaskOptions(
+        string Group,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsResourceGroupsStartTagSyncTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourceGroupsStartTagSyncTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourceGroupsStartTagSyncTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon resource name (ARN) or name of the application group for which you want to create a tag-sync task. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26})
+    /// </summary>
     [CliOption("--group")]
-    public string? Group { get; set; }
+    public string? Group { get; private init; }
+
+    /// <summary>
+    /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The tag key. Resources tagged with this tag key-value pair will be added to the application. If a resource with this tag is later un- tagged, the tag-sync task removes the resource from the application. When using the TagKey parameter, you must also specify the TagValue parameter. If you specify a tag key-value pair, you can't use the ResourceQuery parameter. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
@@ -42,13 +89,27 @@ public record AwsResourceGroupsStartTagSyncTaskOptions : AwsOptions
     [CliOption("--resource-query")]
     public string? ResourceQuery { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("b2bi", "generate-mapping")]
-public record AwsB2biGenerateMappingOptions : AwsOptions
+public record AwsB2biGenerateMappingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Takes sample input and output documents and uses Amazon Bedrock to gen- erate a mapping automatically. Depending on the accuracy and other fac- tors, you can then edit the mapping for your needs. NOTE: Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Ama- zon Web Services B2B Data Interchange User guide . To generate a mapping, perform the following ...
+    /// </summary>
+    /// <param name="InputFileContent">Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping. Constraints: o min: 0 o max: 5000000</param>
+    /// <param name="OutputFileContent">Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping. Constraints: o min: 0 o max: 5000000</param>
+    /// <param name="MappingType">Specify the mapping type: either JSONATA or XSLT. Possible values: o JSONATA o XSLT</param>
+    public AwsB2biGenerateMappingOptions(
+        string InputFileContent,
+        string OutputFileContent,
+        AwsB2biGenerateMappingMappingType MappingType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputFileContent);
+        this.InputFileContent = InputFileContent;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFileContent);
+        this.OutputFileContent = OutputFileContent;
+        global::System.ArgumentNullException.ThrowIfNull(MappingType);
+        this.MappingType = MappingType;
+    }
+
+    private AwsB2biGenerateMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsB2biGenerateMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsB2biGenerateMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping. Constraints: o min: 0 o max: 5000000
+    /// </summary>
     [CliOption("--input-file-content")]
-    public string? InputFileContent { get; set; }
+    public string? InputFileContent { get; private init; }
 
+    /// <summary>
+    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping. Constraints: o min: 0 o max: 5000000
+    /// </summary>
     [CliOption("--output-file-content")]
-    public string? OutputFileContent { get; set; }
+    public string? OutputFileContent { get; private init; }
 
+    /// <summary>
+    /// Specify the mapping type: either JSONATA or XSLT. Possible values: o JSONATA o XSLT
+    /// </summary>
     [CliOption("--mapping-type")]
-    public string? MappingType { get; set; }
+    public AwsB2biGenerateMappingMappingType? MappingType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

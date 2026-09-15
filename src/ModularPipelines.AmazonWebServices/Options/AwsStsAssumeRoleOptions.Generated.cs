@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "assume-role")]
-public record AwsStsAssumeRoleOptions : AwsOptions
+public record AwsStsAssumeRoleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a set of temporary security credentials that you can use to ac- cess Amazon Web Services resources. These temporary credentials consist of an access key ID, a secret access key, and a security token. Typi- cally, you use AssumeRole within your account or for cross-account ac- cess. For a comparison of AssumeRole with other API operations that produce temporary credentials, see Requesting Temporary Security Cre- dentials and Compare STS credentials in the IAM User Guide . Permissions The ...
+    /// </summary>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the role to assume. Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+</param>
+    /// <param name="RoleSessionName">An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different rea- sons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. For security purposes, administrators can view this field in CloudTrail logs to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more in- formation, see ` sts:RoleSessionName https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname`__ . The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@- Constraints: o min: 2 o max: 64 o pattern: [\w+=,.@-]*</param>
+    public AwsStsAssumeRoleOptions(
+        string RoleArn,
+        string RoleSessionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoleSessionName);
+        this.RoleSessionName = RoleSessionName;
+    }
+
+    private AwsStsAssumeRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsAssumeRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsAssumeRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the role to assume. Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different rea- sons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. For security purposes, administrators can view this field in CloudTrail logs to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more in- formation, see ` sts:RoleSessionName https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname`__ . The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@- Constraints: o min: 2 o max: 64 o pattern: [\w+=,.@-]*
+    /// </summary>
     [CliOption("--role-session-name")]
-    public string? RoleSessionName { get; set; }
+    public string? RoleSessionName { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and man- aged session policies can't exceed 2,048 characters. For more infor- mation about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence. NOTE: An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other re- quirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary creden- tials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Ser- vices API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide . (structure) A reference to the IAM managed policy that is passed as a ses- sion policy for a role session or a federated user session. arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services Gen- eral Reference . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string ... JSON Syntax: [ { "arn": "string" } ... ]
@@ -89,10 +133,31 @@ public record AwsStsAssumeRoleOptions : AwsOptions
     [CliOption("--provided-contexts", GroupValues = true)]
     public IEnumerable<string>? ProvidedContexts { get; set; }
 
+    [SecretValue]
+    [CliOption("--minimum-session-token-size")]
+    public int? MinimumSessionTokenSize { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

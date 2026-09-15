@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "put-profile-object-type")]
-public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions
+public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /- UntagResource . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="Description">Description of the profile object type. Constraints: o min: 1 o max: 1000</param>
+    public AwsCustomerProfilesPutProfileObjectTypeOptions(
+        string DomainName,
+        string ObjectTypeName,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectTypeName);
+        this.ObjectTypeName = ObjectTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsCustomerProfilesPutProfileObjectTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesPutProfileObjectTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesPutProfileObjectTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// </summary>
     [CliOption("--object-type-name")]
-    public string? ObjectTypeName { get; set; }
+    public string? ObjectTypeName { get; private init; }
 
+    /// <summary>
+    /// Description of the profile object type. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     /// <summary>
     /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException . These attributes include: AllowProfileCreation, SourceLastUpdatedTime- stampFormat, Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
@@ -49,7 +100,10 @@ public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CliFlag("--allow-profile-creation")]
+    /// <summary>
+    /// Indicates whether a profile should be created when data is received if one doesnt exist for an object of this type. The default is FALSE . If the AllowProfileCreation flag is set to FALSE , then the ser- vice tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE , and if no match is found, then the service creates a new standard profile.
+    /// </summary>
+    [CliFlag("--allow-profile-creation", NegatedName = "--no-allow-profile-creation")]
     public bool? AllowProfileCreation { get; set; }
 
     /// <summary>
@@ -93,5 +147,22 @@ public record AwsCustomerProfilesPutProfileObjectTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

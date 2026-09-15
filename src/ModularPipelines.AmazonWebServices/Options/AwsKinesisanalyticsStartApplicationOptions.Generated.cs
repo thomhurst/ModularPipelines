@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalytics", "start-application")]
-public record AwsKinesisanalyticsStartApplicationOptions : AwsOptions
+public record AwsKinesisanalyticsStartApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Starts the specified Amazon Kinesis Analytics application. After creat- ing an application, you must exclusively call this operation to start your application. After the application starts, it begins consuming the input data...
+    /// </summary>
+    /// <param name="ApplicationName">Name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="InputConfigurations">Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading. (structure) When you start your application, you provide this configuration, which identifies the input source and the point in the input source at which you want the application to start processing records. Id -&gt; (string) [required] Input source ID. You can get this ID by calling the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+ InputStartingPositionConfiguration -&gt; (structure) [required] Point at which you want the application to start processing records from the streaming source. InputStartingPosition -&gt; (string) The starting position on the stream. o NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued. o TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record avail- able in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream. o LAST_STOPPED_POINT - Resume reading from where the ap- plication last stopped reading. Possible values: o NOW o TRIM_HORIZON o LAST_STOPPED_POINT Shorthand Syntax: Id=string,InputStartingPositionConfiguration={InputStartingPosition=string} ... JSON Syntax: [ { "Id": "string", "InputStartingPositionConfiguration": { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" } } ... ]</param>
+    public AwsKinesisanalyticsStartApplicationOptions(
+        string ApplicationName,
+        IEnumerable<string> InputConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InputConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InputConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InputConfigurations));
+            }
+
+            InputConfigurations = materialized;
+        }
+        this.InputConfigurations = InputConfigurations;
+    }
+
+    private AwsKinesisanalyticsStartApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsStartApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsStartApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading. (structure) When you start your application, you provide this configuration, which identifies the input source and the point in the input source at which you want the application to start processing records. Id -&gt; (string) [required] Input source ID. You can get this ID by calling the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+ InputStartingPositionConfiguration -&gt; (structure) [required] Point at which you want the application to start processing records from the streaming source. InputStartingPosition -&gt; (string) The starting position on the stream. o NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued. o TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record avail- able in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream. o LAST_STOPPED_POINT - Resume reading from where the ap- plication last stopped reading. Possible values: o NOW o TRIM_HORIZON o LAST_STOPPED_POINT Shorthand Syntax: Id=string,InputStartingPositionConfiguration={InputStartingPosition=string} ... JSON Syntax: [ { "Id": "string", "InputStartingPositionConfiguration": { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" } } ... ]
+    /// </summary>
     [CliOption("--input-configurations", GroupValues = true)]
-    public IEnumerable<string>? InputConfigurations { get; set; }
+    public IEnumerable<string>? InputConfigurations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

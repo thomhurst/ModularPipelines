@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-replication-task-assessment")]
-public record AwsDmsStartReplicationTaskAssessmentOptions : AwsOptions
+public record AwsDmsStartReplicationTaskAssessmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: o The task must be in the stopped state. o The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assess- ment report in the Database Migration Service User Guid...
+    /// </summary>
+    /// <param name="ReplicationTaskArn">The Amazon Resource Name (ARN) of the replication task.</param>
+    public AwsDmsStartReplicationTaskAssessmentOptions(
+        string ReplicationTaskArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskArn);
+        this.ReplicationTaskArn = ReplicationTaskArn;
+    }
+
+    private AwsDmsStartReplicationTaskAssessmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartReplicationTaskAssessmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartReplicationTaskAssessmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replication task.
+    /// </summary>
     [CliOption("--replication-task-arn")]
-    public string? ReplicationTaskArn { get; set; }
+    public string? ReplicationTaskArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "get-network-routes")]
-public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions
+public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-network-id")]
-    public string? GlobalNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the network routes of the specified global network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="RouteTableIdentifier">The ID of the route table. TransitGatewayRouteTableArn -&gt; (string) The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]* CoreNetworkSegmentEdge -&gt; (structure) The segment edge in a core network. CoreNetworkId -&gt; (string) The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ SegmentName -&gt; (string) The name of the segment edge. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The Region where the segment edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* CoreNetworkNetworkFunctionGroup -&gt; (structure) The route table identifier associated with the network function group. CoreNetworkId -&gt; (string) The ID of the core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ NetworkFunctionGroupName -&gt; (string) The network function group name. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The location for the core network edge. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayRouteTableArn=string,CoreNetworkSegmentEdge={CoreNetworkId=string,SegmentName=string,EdgeLocation=string},CoreNetworkNetworkFunctionGroup={CoreNetworkId=string,NetworkFunctionGroupName=string,EdgeLocation=string} JSON Syntax: { "TransitGatewayRouteTableArn": "string", "CoreNetworkSegmentEdge": { "CoreNetworkId": "string", "SegmentName": "string", "EdgeLocation": "string" }, "CoreNetworkNetworkFunctionGroup": { "CoreNetworkId": "string", "NetworkFunctionGroupName": "string", "EdgeLocation": "string" } }</param>
+    public AwsNetworkmanagerGetNetworkRoutesOptions(
+        string GlobalNetworkId,
+        string RouteTableIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalNetworkId);
+        this.GlobalNetworkId = GlobalNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(RouteTableIdentifier);
+        this.RouteTableIdentifier = RouteTableIdentifier;
+    }
+
+    private AwsNetworkmanagerGetNetworkRoutesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerGetNetworkRoutesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerGetNetworkRoutesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
+    [CliOption("--global-network-id")]
+    public string? GlobalNetworkId { get; private init; }
+
+    /// <summary>
+    /// The ID of the route table. TransitGatewayRouteTableArn -&gt; (string) The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]* CoreNetworkSegmentEdge -&gt; (structure) The segment edge in a core network. CoreNetworkId -&gt; (string) The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ SegmentName -&gt; (string) The name of the segment edge. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The Region where the segment edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* CoreNetworkNetworkFunctionGroup -&gt; (structure) The route table identifier associated with the network function group. CoreNetworkId -&gt; (string) The ID of the core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ NetworkFunctionGroupName -&gt; (string) The network function group name. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The location for the core network edge. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayRouteTableArn=string,CoreNetworkSegmentEdge={CoreNetworkId=string,SegmentName=string,EdgeLocation=string},CoreNetworkNetworkFunctionGroup={CoreNetworkId=string,NetworkFunctionGroupName=string,EdgeLocation=string} JSON Syntax: { "TransitGatewayRouteTableArn": "string", "CoreNetworkSegmentEdge": { "CoreNetworkId": "string", "SegmentName": "string", "EdgeLocation": "string" }, "CoreNetworkNetworkFunctionGroup": { "CoreNetworkId": "string", "NetworkFunctionGroupName": "string", "EdgeLocation": "string" } }
+    /// </summary>
     [CliOption("--route-table-identifier")]
-    public string? RouteTableIdentifier { get; set; }
+    public string? RouteTableIdentifier { get; private init; }
 
     /// <summary>
     /// An exact CIDR block. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
@@ -81,5 +125,22 @@ public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

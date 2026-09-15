@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-ops-item")]
-public record AwsSsmCreateOpsItemOptions : AwsOptions
+public record AwsSsmCreateOpsItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Systems Manage...
+    /// </summary>
+    /// <param name="Description">User-defined text that contains information about the OpsItem, in Markdown format. NOTE: Provide enough information so that users viewing this OpsItem for the first time understand the issue. Constraints: o min: 1 o max: 2048 o pattern: [\s\S]*\S[\s\S]*</param>
+    /// <param name="Source">The origin of the OpsItem, such as Amazon EC2 or Systems Manager. NOTE: The source name can't contain the following strings: aws , ama- zon , and amzn . Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+</param>
+    /// <param name="Title">A short heading that describes the nature of the OpsItem and the im- pacted resource. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+</param>
+    public AwsSsmCreateOpsItemOptions(
+        string Description,
+        string Source,
+        string Title
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+    }
+
+    private AwsSsmCreateOpsItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreateOpsItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreateOpsItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// User-defined text that contains information about the OpsItem, in Markdown format. NOTE: Provide enough information so that users viewing this OpsItem for the first time understand the issue. Constraints: o min: 1 o max: 2048 o pattern: [\s\S]*\S[\s\S]*
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
+
+    /// <summary>
+    /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager. NOTE: The source name can't contain the following strings: aws , ama- zon , and amzn . Constraints: o min: 1 o max: 128 o pattern: ^(?!\s*$).+
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// A short heading that describes the nature of the OpsItem and the im- pacted resource. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+
+    /// </summary>
+    [CliOption("--title")]
+    public string? Title { get; private init; }
 
     /// <summary>
     /// The type of OpsItem to create. Systems Manager supports the follow- ing types of OpsItems: o /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter. o /aws/insight This type of OpsItem is used by OpsCenter for ag- gregating and reporting on duplicate OpsItems. o /aws/changerequest This type of OpsItem is used by Change Man- ager for reviewing and approving or rejecting change requests. WARNING: Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Ser- vices Systems Manager Change Manager availability change .
@@ -54,12 +111,6 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions
     /// </summary>
     [CliOption("--related-ops-items", GroupValues = true)]
     public IEnumerable<string>? RelatedOpsItems { get; set; }
-
-    [CliOption("--source")]
-    public string? Source { get; set; }
-
-    [CliOption("--title")]
-    public string? Title { get; set; }
 
     /// <summary>
     /// Optional metadata that you assign to a resource. Tags use a key-value pair. For example: Key=Department,Value=Finance WARNING: To add tags to a new OpsItem, a user must have IAM permissions for both the ssm:CreateOpsItems operation and the ssm:AddTag- sToResource operation. To add tags to an existing OpsItem, use the AddTagsToResource operation. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -114,5 +165,22 @@ public record AwsSsmCreateOpsItemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

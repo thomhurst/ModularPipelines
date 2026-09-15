@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-public-key")]
-public record AwsCloudfrontUpdatePublicKeyOptions : AwsOptions
+public record AwsCloudfrontUpdatePublicKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--public-key-config")]
-    public string? PublicKeyConfig { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update public key information. Note that the only value you can change is the comment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PublicKeyConfig">A public key configuration. CallerReference -&gt; (string) [required] A string included in the request to help make sure that the re- quest can't be replayed. Name -&gt; (string) [required] A name to help identify the public key. EncodedKey -&gt; (string) [required] The public key that you can use with signed URLs and signed cookies , or with field-level encryption . Comment -&gt; (string) A comment to describe the public key. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Name=string,EncodedKey=string,Comment=string JSON Syntax: { "CallerReference": "string", "Name": "string", "EncodedKey": "string", "Comment": "string" }</param>
+    /// <param name="Id">The identifier of the public key that you are updating.</param>
+    public AwsCloudfrontUpdatePublicKeyOptions(
+        string PublicKeyConfig,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PublicKeyConfig);
+        this.PublicKeyConfig = PublicKeyConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsCloudfrontUpdatePublicKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdatePublicKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdatePublicKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A public key configuration. CallerReference -&gt; (string) [required] A string included in the request to help make sure that the re- quest can't be replayed. Name -&gt; (string) [required] A name to help identify the public key. EncodedKey -&gt; (string) [required] The public key that you can use with signed URLs and signed cookies , or with field-level encryption . Comment -&gt; (string) A comment to describe the public key. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Name=string,EncodedKey=string,Comment=string JSON Syntax: { "CallerReference": "string", "Name": "string", "EncodedKey": "string", "Comment": "string" }
+    /// </summary>
+    [CliOption("--public-key-config")]
+    public string? PublicKeyConfig { get; private init; }
+
+    /// <summary>
+    /// The identifier of the public key that you are updating.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL .
@@ -38,5 +82,22 @@ public record AwsCloudfrontUpdatePublicKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-data", "batch-execute-statement")]
-public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions
+public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs one or more SQL statements, which can be data manipulation lan- guage (DML) or data definition language (DDL). Depending on the autho- rization method, use one of the following combinations of request para- meters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supp...
+    /// </summary>
+    /// <param name="Sqls">One or more SQL statements to run. The SQL statements run serially in the order of the array. Subsequent SQL statements don't start un- til the previous statement in the array completes. By default, the SQL statements are run as a single transaction. If any SQL statement fails, all work is rolled back. To change this behavior, see the Ex- ecutionMode parameter. Constraints: o min: 1 o max: 40 (string) Syntax: "string" "string" ...</param>
+    public AwsRedshiftDataBatchExecuteStatementOptions(
+        IEnumerable<string> Sqls
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sqls);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sqls));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sqls));
+            }
+
+            Sqls = materialized;
+        }
+        this.Sqls = Sqls;
+    }
+
+    private AwsRedshiftDataBatchExecuteStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDataBatchExecuteStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDataBatchExecuteStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// One or more SQL statements to run. The SQL statements run serially in the order of the array. Subsequent SQL statements don't start un- til the previous statement in the array completes. By default, the SQL statements are run as a single transaction. If any SQL statement fails, all work is rolled back. To change this behavior, see the Ex- ecutionMode parameter. Constraints: o min: 1 o max: 40 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--sqls", GroupValues = true)]
-    public IEnumerable<string>? Sqls { get; set; }
+    public IEnumerable<string>? Sqls { get; private init; }
 
     /// <summary>
     /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or tem- porary credentials. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
@@ -51,7 +99,10 @@ public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions
     [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CliFlag("--with-event")]
+    /// <summary>
+    /// A value that indicates whether to send an event to the Amazon Event- Bridge event bus after the SQL statements run.
+    /// </summary>
+    [CliFlag("--with-event", NegatedName = "--no-with-event")]
     public bool? WithEvent { get; set; }
 
     /// <summary>
@@ -114,5 +165,22 @@ public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

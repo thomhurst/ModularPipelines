@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "run-task")]
-public record AwsEcsRunTaskOptions : AwsOptions
+public record AwsEcsRunTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a new task using the specified task definition. NOTE: On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. NOTE: Amazon Elastic Inference (EI) is no longer available to customers. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places tasks using placement constraints and placement stra...
+    /// </summary>
+    /// <param name="TaskDefinition">The family and revision (family:revision ) or full ARN of the task definition to run. If a revision isn't specified, the latest ACTIVE revision is used. The full ARN value must match the value that you specified as the Resource of the principal's permissions policy. When you specify a task definition, you must either specify a spe- cific revision, or all revisions in the ARN. To specify a specific revision, include the revision number in the ARN. For example, to specify revision 2, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:2 . To specify all revisions, use the wildcard (*) in the ARN. For exam- ple, to specify all revisions, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:* . For more information, see Policy Resources for Amazon ECS in the Amazon Elastic Container Service Developer Guide.</param>
+    public AwsEcsRunTaskOptions(
+        string TaskDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskDefinition);
+        this.TaskDefinition = TaskDefinition;
+    }
+
+    private AwsEcsRunTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsRunTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsRunTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The family and revision (family:revision ) or full ARN of the task definition to run. If a revision isn't specified, the latest ACTIVE revision is used. The full ARN value must match the value that you specified as the Resource of the principal's permissions policy. When you specify a task definition, you must either specify a spe- cific revision, or all revisions in the ARN. To specify a specific revision, include the revision number in the ARN. For example, to specify revision 2, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:2 . To specify all revisions, use the wildcard (*) in the ARN. For exam- ple, to specify all revisions, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:* . For more information, see Policy Resources for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
+    /// </summary>
+    [CliOption("--task-definition")]
+    public string? TaskDefinition { get; private init; }
+
     /// <summary>
     /// The capacity provider strategy to use for the task. NOTE: If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capaci- tyProviderStrategy and not launchType . A capacity provider strategy can contain a maximum of 20 capacity providers. (structure) The details of a capacity provider strategy. A capacity provider strategy can be set when using the RunTask or CreateCluster APIs or as the default capacity provider strategy for a cluster with the CreateCluster API. Only capacity providers that are already associated with a clus- ter and have an ACTIVE or UPDATING status can be used in a ca- pacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New Auto Scaling group capacity providers can be created with the CreateClusterCapacityProvider API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be as- sociated with a cluster to be used in a capacity provider strat- egy. With FARGATE_SPOT , you can run interruption tolerant tasks at a rate that's discounted compared to the FARGATE price. FAR- GATE_SPOT runs tasks on spare compute capacity. When Amazon Web Services needs the capacity back, your tasks are interrupted with a two-minute warning. FARGATE_SPOT supports Linux tasks with the X86_64 architecture on platform version 1.3.0 or later. FARGATE_SPOT supports Linux tasks with the ARM64 architecture on platform version 1.4.0 or later. A capacity provider strategy can contain a maximum of 20 capac- ity providers. capacityProvider -&gt; (string) [required] The short name of the capacity provider. weight -&gt; (integer) The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into considera- tion after the base value, if defined, is satisfied. If no weight value is specified, the default value of 0 is used. When multiple capacity providers are specified within a capacity provider strategy, at least one of the capacity providers must have a weight value greater than zero and any capacity providers with a weight of 0 can't be used to place tasks. If you specify multiple capacity providers in a strat- egy that all have a weight of 0 , any RunTask or CreateSer- vice actions using the capacity provider strategy will fail. Weight value characteristics: o Weight is considered after the base value is satisfied o The default value is 0 if not specified o The valid range is 0 to 1,000 o At least one capacity provider must have a weight greater than zero o Capacity providers with weight of 0 cannot place tasks Task distribution logic: o Base satisfaction: The minimum number of tasks specified by the base value are placed on that capacity provider o Weight distribution: After base requirements are met, addi- tional tasks are distributed according to weight ratios Examples: Equal Distribution: Two capacity providers both with weight 1 will split tasks evenly after base requirements are met. Weighted Distribution: If capacityProviderA has weight 1 and capacityProviderB has weight 4 , then for every 1 task on A, 4 tasks will run on B. Constraints: o min: 0 o max: 1000 base -&gt; (integer) The base value designates how many tasks, at a minimum, to run on the specified capacity provider for each service. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used. Base value characteristics: o Only one capacity provider in a strategy can have a base defined o The default value is 0 if not specified o The valid range is 0 to 100,000 o Base requirements are satisfied first before weight distri- bution Constraints: o min: 0 o max: 100000 Shorthand Syntax: capacityProvider=string,weight=integer,base=integer ... JSON Syntax: [ { "capacityProvider": "string", "weight": integer, "base": integer } ... ]
     /// </summary>
@@ -41,9 +81,15 @@ public record AwsEcsRunTaskOptions : AwsOptions
     [CliOption("--count")]
     public int? Count { get; set; }
 
-    [CliFlag("--enable-ecs-managed-tags")]
+    /// <summary>
+    /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see Tagging Your Amazon ECS Resources in the Ama- zon Elastic Container Service Developer Guide .
+    /// </summary>
+    [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
 
+    /// <summary>
+    /// Determines whether to use the execute command functionality for the containers in this task. If true , this enables execute command functionality on all containers in the task. If true , then the task definition must have a task role, or you must provide one as an override.
+    /// </summary>
     [CliFlag("--enable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 
@@ -113,9 +159,6 @@ public record AwsEcsRunTaskOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--task-definition")]
-    public string? TaskDefinition { get; set; }
-
     /// <summary>
     /// An identifier that you provide to ensure the idempotency of the re- quest. It must be unique and is case sensitive. Up to 64 characters are allowed. The valid characters are characters in the range of 33-126, inclusive. For more information, see Ensuring idempotency .
     /// </summary>
@@ -134,5 +177,22 @@ public record AwsEcsRunTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

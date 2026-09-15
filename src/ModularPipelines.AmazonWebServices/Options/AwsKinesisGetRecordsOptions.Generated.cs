@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "get-records")]
-public record AwsKinesisGetRecordsOptions : AwsOptions
+public record AwsKinesisGetRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets data records from a Kinesis data stream's shard. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records avail- able in the portion of the shard that the itera...
+    /// </summary>
+    /// <param name="ShardIterator">The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard. Constraints: o min: 1 o max: 512</param>
+    public AwsKinesisGetRecordsOptions(
+        string ShardIterator
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShardIterator);
+        this.ShardIterator = ShardIterator;
+    }
+
+    private AwsKinesisGetRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisGetRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisGetRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard. Constraints: o min: 1 o max: 512
+    /// </summary>
     [CliOption("--shard-iterator")]
-    public string? ShardIterator { get; set; }
+    public string? ShardIterator { get; private init; }
 
     /// <summary>
     /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, Ge- tRecords throws InvalidArgumentException . The default value is 10,000. Constraints: o min: 1 o max: 10000
@@ -42,10 +79,33 @@ public record AwsKinesisGetRecordsOptions : AwsOptions
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
+    /// <summary>
+    /// Checks if your request will succeed. DryRun is an optional parame- ter.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

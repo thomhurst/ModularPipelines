@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "update-kinesis-streaming-destination")]
-public record AwsDynamodbUpdateKinesisStreamingDestinationOptions : AwsOptions
+public record AwsDynamodbUpdateKinesisStreamingDestinationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The command to update the Kinesis stream destination. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableName">The table name for the Kinesis streaming destination input. You can also provide the ARN of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) for the Kinesis stream input. Constraints: o min: 37 o max: 1024</param>
+    public AwsDynamodbUpdateKinesisStreamingDestinationOptions(
+        string TableName,
+        string StreamArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(StreamArn);
+        this.StreamArn = StreamArn;
+    }
+
+    private AwsDynamodbUpdateKinesisStreamingDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbUpdateKinesisStreamingDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbUpdateKinesisStreamingDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The table name for the Kinesis streaming destination input. You can also provide the ARN of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the Kinesis stream input. Constraints: o min: 37 o max: 1024
+    /// </summary>
     [CliOption("--stream-arn")]
-    public string? StreamArn { get; set; }
+    public string? StreamArn { get; private init; }
 
     /// <summary>
     /// The command to update the Kinesis stream configuration. ApproximateCreationDateTimePrecision -&gt; (string) Enables updating the precision of Kinesis data stream timestamp. Possible values: o MILLISECOND o MICROSECOND Shorthand Syntax: ApproximateCreationDateTimePrecision=string JSON Syntax: { "ApproximateCreationDateTimePrecision": "MILLISECOND"|"MICROSECOND" }
@@ -38,5 +82,22 @@ public record AwsDynamodbUpdateKinesisStreamingDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

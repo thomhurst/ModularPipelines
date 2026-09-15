@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "create-case")]
-public record AwsConnectcasesCreateCaseOptions : AwsOptions
+public record AwsConnectcasesCreateCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configu- rations, the specified tags are automatically applied to the case. The following fields are required when creating a case: o customer_id - You...
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="TemplateId">A unique identifier of a template. Constraints: o min: 1 o max: 500</param>
+    /// <param name="Fields">An array of objects with field ID (matching ListFields/De- scribeField) and value union data. Constraints: o min: 0 o max: 220 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. Shorthand Syntax: id=string,value={stringValue=string,doubleValue=double,booleanValue=boolean,emptyValue={},userArnValue=string} ... JSON Syntax: [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ]</param>
+    public AwsConnectcasesCreateCaseOptions(
+        string DomainId,
+        string TemplateId,
+        IEnumerable<string> Fields
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateId);
+        this.TemplateId = TemplateId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+    }
+
+    private AwsConnectcasesCreateCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesCreateCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesCreateCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier of a template. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--template-id")]
-    public string? TemplateId { get; set; }
+    public string? TemplateId { get; private init; }
 
+    /// <summary>
+    /// An array of objects with field ID (matching ListFields/De- scribeField) and value union data. Constraints: o min: 0 o max: 220 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArnValue. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. Shorthand Syntax: id=string,value={stringValue=string,doubleValue=double,booleanValue=boolean,emptyValue={},userArnValue=string} ... JSON Syntax: [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ]
+    /// </summary>
     [CliOption("--fields", GroupValues = true)]
-    public IEnumerable<string>? Fields { get; set; }
+    public IEnumerable<string>? Fields { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 0 o max: 64
@@ -56,5 +118,22 @@ public record AwsConnectcasesCreateCaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

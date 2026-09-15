@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --executionmode.
+/// Allowed values for --execution-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftDataBatchExecuteStatementExecutionMode
 {
-    [EnumValue("TRANSACTION")]
-    Transaction = 1,
-
     [EnumValue("AUTO_COMMIT")]
-    AutoCommit = 2
+    AutoCommit,
+
+    [EnumValue("TRANSACTION")]
+    Transaction
 }

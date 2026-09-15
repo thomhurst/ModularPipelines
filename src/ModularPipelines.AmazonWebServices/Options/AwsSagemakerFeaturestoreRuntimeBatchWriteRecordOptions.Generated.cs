@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-featurestore-runtime", "batch-write-record")]
-public record AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions : AwsOptions
+public record AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Writes a batch of Records to one or more FeatureGroup s. Use this API for bulk ingestion of records into the OnlineStore and OfflineStore . You can set the ingested records to expire at a given time to live (TTL) duration after the record's event time by specifying the TtlDura- tion parameter. A request level TtlDuration applies to all entries that do not specify their own TtlDuration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Entries">A list of records to write. Each entry specifies the FeatureGroup , the record data, and optionally target stores and a TTL duration. Constraints: o min: 1 o max: 25 (structure) An entry to write as part of a BatchWriteRecord request. FeatureGroupName -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the FeatureGroup to write the record to. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}) Record -&gt; (list) [required] List of FeatureValues to be inserted. This will be a full over-write. Constraints: o min: 1 (structure) The value associated with a feature. FeatureName -&gt; (string) [required] The name of a feature that a feature value corresponds to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} ValueAsString -&gt; (string) The value in string format associated with a feature. Used when your CollectionType is None . Note that fea- tures types can be String , Integral , or Fractional . This value represents all three types as a string. Constraints: o max: 358400 o pattern: .* ValueAsStringList -&gt; (list) The list of values in string format associated with a feature. Used when your CollectionType is a List , Set , or Vector . Note that features types can be String , Integral , or Fractional . These values represents all three types as a string. Constraints: o min: 0 o max: 358400 (string) Constraints: o max: 358400 o pattern: .* TargetStores -&gt; (list) A list of stores to which you're adding the record. By de- fault, Feature Store adds the record to all of the stores that you're using for the FeatureGroup . Constraints: o min: 1 o max: 2 (string) Possible values: o OnlineStore o OfflineStore TtlDuration -&gt; (structure) Time to live duration for this entry, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration . This overrides the request level TtlDuration . Unit -&gt; (string) [required] TtlDuration time unit. Possible values: o Seconds o Minutes o Hours o Days o Weeks Value -&gt; (integer) [required] TtlDuration time value. Constraints: o min: 1 JSON Syntax: [ { "FeatureGroupName": "string", "Record": [ { "FeatureName": "string", "ValueAsString": "string", "ValueAsStringList": ["string", ...] } ... ], "TargetStores": ["OnlineStore"|"OfflineStore", ...], "TtlDuration": { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer } } ... ]</param>
+    public AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions(
+        IEnumerable<string> Entries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of records to write. Each entry specifies the FeatureGroup , the record data, and optionally target stores and a TTL duration. Constraints: o min: 1 o max: 25 (structure) An entry to write as part of a BatchWriteRecord request. FeatureGroupName -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the FeatureGroup to write the record to. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}) Record -&gt; (list) [required] List of FeatureValues to be inserted. This will be a full over-write. Constraints: o min: 1 (structure) The value associated with a feature. FeatureName -&gt; (string) [required] The name of a feature that a feature value corresponds to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} ValueAsString -&gt; (string) The value in string format associated with a feature. Used when your CollectionType is None . Note that fea- tures types can be String , Integral , or Fractional . This value represents all three types as a string. Constraints: o max: 358400 o pattern: .* ValueAsStringList -&gt; (list) The list of values in string format associated with a feature. Used when your CollectionType is a List , Set , or Vector . Note that features types can be String , Integral , or Fractional . These values represents all three types as a string. Constraints: o min: 0 o max: 358400 (string) Constraints: o max: 358400 o pattern: .* TargetStores -&gt; (list) A list of stores to which you're adding the record. By de- fault, Feature Store adds the record to all of the stores that you're using for the FeatureGroup . Constraints: o min: 1 o max: 2 (string) Possible values: o OnlineStore o OfflineStore TtlDuration -&gt; (structure) Time to live duration for this entry, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration . This overrides the request level TtlDuration . Unit -&gt; (string) [required] TtlDuration time unit. Possible values: o Seconds o Minutes o Hours o Days o Weeks Value -&gt; (integer) [required] TtlDuration time value. Constraints: o min: 1 JSON Syntax: [ { "FeatureGroupName": "string", "Record": [ { "FeatureName": "string", "ValueAsString": "string", "ValueAsStringList": ["string", ...] } ... ], "TargetStores": ["OnlineStore"|"OfflineStore", ...], "TtlDuration": { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer } } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
 
     /// <summary>
     /// Time to live duration applied to all entries in the batch that do not specify their own TtlDuration ; ExpiresAt = EventTime + TtlDura- tion . For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide. Unit -&gt; (string) [required] TtlDuration time unit. Possible values: o Seconds o Minutes o Hours o Days o Weeks Value -&gt; (integer) [required] TtlDuration time value. Constraints: o min: 1 Shorthand Syntax: Unit=string,Value=integer JSON Syntax: { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer }
@@ -35,5 +83,22 @@ public record AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }
