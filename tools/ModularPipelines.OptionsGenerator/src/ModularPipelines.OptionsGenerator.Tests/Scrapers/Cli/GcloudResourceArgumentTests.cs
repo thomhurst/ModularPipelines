@@ -9,8 +9,8 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudResourceArgumentTests
 {
     [Test]
-    [Arguments("compute-ssh", "compute ssh", "Instance,SshArgs")]
-    [Arguments("compute-scp", "compute scp", "Src,Dest")]
+    [Arguments("compute-ssh", "compute ssh", "UserInstance,SshArgs")]
+    [Arguments("compute-scp", "compute scp", "UserInstanceSrc,UserInstanceDest")]
     [Arguments("iam-service-accounts-keys-create", "iam service-accounts keys create", "OutputFile")]
     [Arguments("ai-custom-jobs-local-run", "ai custom-jobs local-run", "Args")]
     [Arguments("resource-manager-tags-keys-create", "resource-manager tags keys create", "ShortName")]
@@ -25,7 +25,7 @@ public class GcloudResourceArgumentTests
             var forwarded = operand.PropertyName is "Args" or "SshArgs";
             await Assert.That(operand.IsRequired).IsEqualTo(!forwarded);
             await Assert.That(operand.PrependOptionTerminator).IsEqualTo(forwarded);
-            await Assert.That(operand.IsVariadic).IsEqualTo(forwarded || operand.PropertyName == "Src");
+            await Assert.That(operand.IsVariadic).IsEqualTo(forwarded || operand.PropertyName == "UserInstanceSrc");
         }
     }
 

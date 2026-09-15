@@ -550,6 +550,14 @@ public static class UsageSynopsisParser
                 nestedArguments = PreserveOptionTerminatorOnNestedGroup(
                     nestedArguments,
                     groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand);
+                if (groupedBehindOptionTerminator && token.StartsWith('['))
+                {
+                    nestedArguments = [.. nestedArguments.Select(argument => argument with
+                    {
+                        IsRequired = false,
+                        CSharpType = GetCSharpType(false, argument.IsVariadic),
+                    })];
+                }
                 arguments.AddRange(nestedArguments);
                 if (nestedArguments.Count > 0)
                 {
@@ -565,6 +573,7 @@ public static class UsageSynopsisParser
                 operandToken,
                 operandPhase,
                 groupedBehindOptionTerminator,
+                groupedBehindOptionTerminator && token.StartsWith('['),
                 arguments,
                 unparsedTokens,
                 ref prependOptionTerminatorToNextOperand,
@@ -639,6 +648,7 @@ public static class UsageSynopsisParser
         string operandToken,
         CommandLinePhase operandPhase,
         bool groupedBehindOptionTerminator,
+        bool isOptionalGroup,
         List<CliPositionalArgument> arguments,
         List<string> unparsedTokens,
         ref bool prependOptionTerminatorToNextOperand,
@@ -662,6 +672,10 @@ public static class UsageSynopsisParser
             argument = argument with { PrependOptionTerminator = true };
         }
 
+        if (isOptionalGroup)
+        {
+            argument = argument with { IsRequired = false, CSharpType = GetCSharpType(false, argument.IsVariadic) };
+        }
         arguments.Add(argument);
         prependOptionTerminatorToNextOperand = false;
         associatedOptionSwitch = null;
@@ -1153,6 +1167,9 @@ public static class UsageSynopsisParser
         return null;
     }
 
+    internal static string? GetOperandPropertyName(string token) =>
+        ParseOperand(token, 0, CommandLinePhase.EarlyOperand)?.PropertyName;
+
     private static CliPositionalArgument? ParseOperand(
         string token,
         int positionIndex,
@@ -1162,12 +1179,6 @@ public static class UsageSynopsisParser
         var isRequired = IsRequiredUsageToken(trimmed);
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
-        var compoundSuffix = GetWrappedPrefixSuffix(content)?.TrimStart(':').TrimEnd('.', '…').Trim();
-        if (!string.IsNullOrEmpty(compoundSuffix)
-            && compoundSuffix.All(character => char.IsUpper(character) || char.IsDigit(character) || character is '_' or '-' or '/'))
-        {
-            canonicalName = compoundSuffix;
-        }
         if (HasMixedOptionOperandAlternatives(content))
         {
             isRequired = false;
@@ -1263,6 +1274,12 @@ public static class UsageSynopsisParser
         {
             throw new InvalidOperationException(
                 $"Usage synopsis has ambiguous alternatives in colon group '{normalizedToken}'.");
+        }
+
+        if (nestedTokens.Contains(":") && IsRequiredUsageToken(normalizedToken) && ContainsOnlyInlineOptions(nestedTokens))
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has unsupported required option-only colon group '{normalizedToken}'.");
         }
 
         if (TryParseColonSeparatedOperands(
@@ -1468,6 +1485,11 @@ public static class UsageSynopsisParser
 
     private static string SelectCanonicalAlternative(string content)
     {
+        if (content.StartsWith('(') && GetWrappedPrefixSuffix(content)?.StartsWith(':') == true)
+        {
+            return content;
+        }
+
         var alternatives = content.Split(
             '|',
             StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -1572,10 +1594,6 @@ public static class UsageSynopsisParser
         }
 
         operand = content[2..].Trim();
-        if (token.StartsWith('[') && IsWrapped(token) && operand.Length > 0 && IsRequiredUsageToken(operand))
-        {
-            operand = $"[{operand}]";
-        }
         return !string.IsNullOrWhiteSpace(operand);
     }
 

@@ -10,11 +10,19 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
-    [Arguments("[USER@]INSTANCE", "Instance", true, false)]
-    [Arguments("[[USER@]INSTANCE:]SRC", "Src", true, false)]
-    [Arguments("[[[USER@]INSTANCE:]SRC ...]", "Src", false, true)]
-    [Arguments("(cloudshell|localhost):SRC", "Src", true, false)]
-    [Arguments("[(cloudshell|localhost):SRC ...]", "Src", false, true)]
+    public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded()
+    {
+        await Assert.That(() => UsageSynopsisParser.Parse(
+                "Usage: tool run ((--a=A --x=X) : --b=B)", ["tool", "run"]))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    [Arguments("[USER@]INSTANCE", "UserInstance", true, false)]
+    [Arguments("[[USER@]INSTANCE:]SRC", "UserInstanceSrc", true, false)]
+    [Arguments("[[[USER@]INSTANCE:]SRC ...]", "UserInstanceSrc", false, true)]
+    [Arguments("(cloudshell|localhost):SRC", "CloudshellLocalhostSrc", true, false)]
+    [Arguments("[(cloudshell|localhost):SRC ...]", "CloudshellLocalhostSrc", false, true)]
     [Arguments("[-- ARGS ...]", "Args", false, true)]
     [Arguments("(RESOURCE --parent=PARENT)", "Resource", true, false)]
     [Arguments("[RESOURCE --parent=PARENT]", "Resource", false, false)]

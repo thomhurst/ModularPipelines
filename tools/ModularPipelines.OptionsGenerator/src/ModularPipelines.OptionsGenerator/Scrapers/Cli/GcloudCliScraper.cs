@@ -764,7 +764,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         return new CliArgumentDefinition
         {
-            SwitchName = match.Groups["name"].Value,
+            SwitchName = UsageSynopsisParser.GetOperandPropertyName(match.Groups["operand"].Value)!,
             IsPositional = true,
             ValueHint = line.Trim(),
             Indentation = GetIndentation(line),
