@@ -551,71 +551,71 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
-    [Arguments(false, "ISet<object>?")]
-    [Arguments(true, "ISet<object>?")]
-    [Arguments(false, "IReadOnlySet<object>?")]
-    [Arguments(true, "IReadOnlySet<object>?")]
-    [Arguments(false, "HashSet<object>?")]
-    [Arguments(true, "HashSet<object>?")]
-    public async Task Alternative_Set_Snapshots_Preserve_Typed_Views_And_Comparers(bool positional, string collectionType)
+    [Arguments(false, "ISet<object>?", "reference")]
+    [Arguments(true, "ISet<object>?", "reference")]
+    [Arguments(false, "IReadOnlySet<object>?", "reference")]
+    [Arguments(true, "IReadOnlySet<object>?", "reference")]
+    [Arguments(false, "HashSet<object>?", "reference")]
+    [Arguments(true, "HashSet<object>?", "reference")]
+    [Arguments(false, "ISet<object>?", "all-equal")]
+    [Arguments(true, "ISet<object>?", "all-equal")]
+    [Arguments(false, "IReadOnlySet<object>?", "all-equal")]
+    [Arguments(true, "IReadOnlySet<object>?", "all-equal")]
+    [Arguments(false, "HashSet<object>?", "all-equal")]
+    [Arguments(true, "HashSet<object>?", "all-equal")]
+    [Arguments(false, "ISet<object>?", "strings-only")]
+    [Arguments(true, "ISet<object>?", "strings-only")]
+    [Arguments(false, "IReadOnlySet<object>?", "strings-only")]
+    [Arguments(true, "IReadOnlySet<object>?", "strings-only")]
+    [Arguments(false, "HashSet<object>?", "strings-only")]
+    [Arguments(true, "HashSet<object>?", "strings-only")]
+    public async Task Alternative_Custom_Set_Views_Retain_Their_Membership_Contract(bool positional, string collectionType, string comparer)
     {
         var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
-        var input = new SingleUseSetViews();
+        var input = new IndependentSetViews(comparer);
         options.GetProperty("Values")!.SetValue(instance, input);
         var retained = (HashSet<object>) options.GetProperty("Values")!.GetValue(instance)!;
-        await Assert.That(retained.Comparer).IsSameReferenceAs(input.Comparer);
-        input.Clear();
-        string[] expected = positional ? ["first=second"] : ["--requirement", "first", "second"];
+        string[] expected = positional ? ["first=second", "first=second"] : ["--requirement", "first", "second", "--requirement", "first", "second"];
         for (var pass = 0; pass < 2; pass++)
         {
             await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
             await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
         }
 
-        await Assert.That(input.PairEnumerationCount).IsEqualTo(positional ? 0 : 1);
-        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(positional ? 1 : 0);
-        retained.Add(positional
-            ? new ModularPipelines.Models.KeyValue("first", "second")
-            : new ModularPipelines.Models.CliValuePair("first", "second"));
-        // Reference equality keeps both equal-valued instances.
-        await Assert.That(retained.Count).IsEqualTo(2);
-        await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected.Concat(expected));
+        await Assert.That(retained).IsSameReferenceAs(input);
+        await Assert.That(retained.Comparer).IsSameReferenceAs(input.Comparer);
+        // This custom source defines its typed view independently of ordinary membership.
+        // Mutating its object set must retain that behavior rather than invent a new mapping.
         retained.Clear();
         retained.Add("ordinary object addition");
-        retained.Add(null!);
-        await Assert.That(retained.Count).IsEqualTo(2);
-        await Assert.That(RenderAlternativeCollection(instance, positional)).IsEmpty();
-        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
+        await Assert.That(input.Contains("ordinary object addition")).IsTrue();
+        await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
     }
 
-    private sealed class SingleUseSetViews : HashSet<object>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    private sealed class IndependentSetViews : HashSet<object>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
     {
-        public SingleUseSetViews() : base(ReferenceEqualityComparer.Instance) => Add("ordinary object view");
-
-        public int PairEnumerationCount { get; private set; }
-
-        public int KeyValueEnumerationCount { get; private set; }
+        public IndependentSetViews(string comparer) : base(comparer switch
+        {
+            "reference" => ReferenceEqualityComparer.Instance,
+            "all-equal" => EqualityComparer<object>.Create(static (_, _) => true, static _ => 0),
+            _ => EqualityComparer<object>.Create(static (left, right) => (string) left! == (string) right!, static value => ((string) value).GetHashCode()),
+        }) => Add("ordinary object view");
 
         IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
         {
-            if (++PairEnumerationCount != 1)
-            {
-                throw new InvalidOperationException("Pair input can only be enumerated once.");
-            }
-
-            yield return new("first", "second");
+            var pair = new ModularPipelines.Models.CliValuePair("first", "second");
+            yield return pair;
+            yield return pair;
         }
 
         IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
         {
-            if (++KeyValueEnumerationCount != 1)
-            {
-                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
-            }
-
-            yield return new("first", "second");
+            var pair = new ModularPipelines.Models.KeyValue("first", "second");
+            yield return pair;
+            yield return pair;
         }
     }
 

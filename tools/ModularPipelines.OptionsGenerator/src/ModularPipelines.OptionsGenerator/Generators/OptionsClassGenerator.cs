@@ -630,12 +630,12 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("        get;");
             sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
             sb.AppendLine("    }");
-            if (CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType) is { } collectionType)
+            if (CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType) == "List")
             {
-                GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "KeyValue", collectionType);
+                GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "KeyValue");
                 if (preserveValuePairs)
                 {
-                    GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "CliValuePair", collectionType);
+                    GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "CliValuePair");
                 }
             }
 
@@ -645,15 +645,13 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
     }
 
-    private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName, string collectionType)
+    private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)
     {
         var elementType = $"global::ModularPipelines.Models.{elementName}";
-        var comparerParameter = collectionType == "HashSet" ? ", global::System.Collections.Generic.IEqualityComparer<object> comparer" : string.Empty;
-        var comparerArgument = collectionType == "HashSet" ? ", comparer" : string.Empty;
         sb.AppendLine();
         sb.AppendLine($$"""
-                private sealed class {{typePrefix}}{{elementName}}(global::System.Collections.Generic.IEnumerable<{{elementType}}> values{{comparerParameter}})
-                    : global::System.Collections.Generic.{{collectionType}}<object>(global::System.Linq.Enumerable.Select(values, static pair => (object)pair){{comparerArgument}}),
+                private sealed class {{typePrefix}}{{elementName}}(global::System.Collections.Generic.IEnumerable<{{elementType}}> values)
+                    : global::System.Collections.Generic.List<object>(global::System.Linq.Enumerable.Select(values, static pair => (object)pair)),
                         global::System.Collections.Generic.IEnumerable<{{elementType}}>
                 {
                     global::System.Collections.Generic.IEnumerator<{{elementType}}>

@@ -264,18 +264,20 @@ public record CliOptionDefinition
         ITypeSymbol propertyType, string? collectionType, string elementName, string variableName, string fallback)
     {
         var elementType = $"global::ModularPipelines.Models.{elementName}";
+        if (collectionType == "HashSet")
+        {
+            // A custom set can expose a rendering view unrelated to its membership.
+            // Its comparer can reject or deduplicate those values, and mutations can
+            // affect that view arbitrarily. Retain the implementation rather than
+            // replacing its contracts with a generated set adapter.
+            return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{elementType}> ? {{0}} : ({fallback})";
+        }
+
         var values = $"default(global::System.Collections.Immutable.ImmutableArray<{elementType}>).Equals((object){variableName}) ? global::System.Array.Empty<{elementType}>() : {variableName}";
         var propertyName = propertyType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var snapshot = collectionType is not null
             ? $"new {{1}}{elementName}({values})"
             : $"({propertyName})(object)global::System.Linq.Enumerable.ToArray({values})";
-        if (collectionType == "HashSet")
-        {
-            // Other ISet implementations retain their instance; copying their contents
-            // without their comparer would change set equality and mutation behavior.
-            snapshot = $"(object){{0}} is global::System.Collections.Generic.HashSet<object> {variableName}Set ? new {{1}}{elementName}({values}, {variableName}Set.Comparer) : {{0}}";
-        }
-
         return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{elementType}> {variableName} ? {snapshot} : ({fallback})";
     }
 
