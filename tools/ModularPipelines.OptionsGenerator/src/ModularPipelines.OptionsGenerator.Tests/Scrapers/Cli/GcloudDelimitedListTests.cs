@@ -153,6 +153,15 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUE", "Provide names as a comma-separated string.", ",")]
     [Arguments("VALUE", "Path to a file whose fields contain a comma-separated string.", null)]
     [Arguments("VALUE", "Use --other with a comma-delimited string of names.", null)]
+    [Arguments("VALUE", "String value should follow SQL syntax: comma separated list of fields.", ",")]
+    [Arguments("VALUE", "(ALPHA) This option must use SQL syntax: a comma-delimited list of names.", ",")]
+    [Arguments("VALUE", "The file uses SQL syntax: comma separated list of fields.", null)]
+    [Arguments("VALUE", "String value for --other should follow SQL syntax: comma separated list of fields.", null)]
+    [Arguments("VALUE", "This is a comma-separated list of fully qualified names.", ",")]
+    [Arguments("VALUE", "(BETA) This flag is a comma-delimited list of names.", ",")]
+    [Arguments("VALUE", "It is a comma-separated string of names.", ",")]
+    [Arguments("VALUE", "This field is a comma-separated list inside the config file.", null)]
+    [Arguments("VALUE", "This is a path to a file containing a comma-separated list.", null)]
     [Arguments("VALUE", "A string of labels. Mappings are separated by commas.", null)]
     [Arguments("VALUE", "Path to a file containing mappings. Mappings are separated by commas.", null)]
     [Arguments("[VALUE,...]", "Specify the --values flag multiple times.", null)]
@@ -255,6 +264,8 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("database-migration-migration-jobs-promote", "database-migration migration-jobs promote", "--databases-filter", ",")]
     [Arguments("compute-interconnects-groups-update", "compute interconnects groups update", "--update-mask", ",")]
     [Arguments("iam-workload-identity-pools-list-attestation-rules", "iam workload-identity-pools list-attestation-rules", "--container-id-filter", ",")]
+    [Arguments("scc-findings-list", "scc findings list", "--order-by", ",")]
+    [Arguments("datastream-streams-update", "datastream streams update", "--update-mask", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
         string fixture, string commandPath, string switchName, string? separator, string version = "550.0.0")
     {

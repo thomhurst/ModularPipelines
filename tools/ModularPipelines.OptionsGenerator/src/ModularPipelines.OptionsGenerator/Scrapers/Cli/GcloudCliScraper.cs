@@ -761,8 +761,10 @@ public partial class GcloudCliScraper : CliScraperBase
 
     [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern
         + @"(?:(?:(?:at (?:most|least)|exactly) one) of these (?:can|must) be specified:\s+)*"
-        + @"(?:(?:this|the)\s+(?:flag|argument|option)\s+)?"
-        + @"(?:(?:accepts?|expects?|specif(?:y|ies)|takes?|contains?|(?:must|can|may)\s+be)\s+)?"
+        + @"(?:(?:(?:this|the)\s+(?:flag|option|argument|value)|(?:the\s+)?string\s+value)\s+"
+        + @"(?:must|should|can|may)\s+(?:follow|use|be)\s+(?:(?!--)[^.!?:])*:\s*)?"
+        + @"(?:(?:this|the)\s+(?:flag|argument|option|value)\s+|(?:this|it)\s+)?"
+        + @"(?:(?:is|accepts?|expects?|specif(?:y|ies)|takes?|contains?|(?:must|can|may)\s+be)\s+)?"
         + @"(?:(?:a|the)\s+)?(?:single\s+[\w-]+(?:\s+[\w-]+)*\s+or\s+(?:a\s+)?)?"
         + @"comma[- ](?:sep[ae]rated|delimited)\s+(?:list|string)\b"
         // Unqualified subjects describe the option only in its opening sentence. Later
