@@ -777,7 +777,7 @@ public static class UsageSynopsisParser
                 && IsPositionalSlot(candidate, options) == IsPositionalSlot(argument, options)))
             .Select(argument => (argument.PropertyName, IsPositionalSlot(argument, options)))
             .ToHashSet();
-        return usage.RequirednessCandidates.Select(candidate => candidate with
+        return [.. usage.RequirednessCandidates.Select(candidate => candidate with
         {
             PositionalArguments = [.. candidate.PositionalArguments.Where(argument =>
                     !omittedArguments.Contains((argument.PropertyName, IsPositionalSlot(argument, options))))
@@ -787,7 +787,7 @@ public static class UsageSynopsisParser
             RequiredAlternativeGroups = [.. ResolveInlineAlternativeGroups(candidate, options).Where(group =>
                 group.Members.All(member => member.PositionalPropertyName is not { } name
                     || !omittedArguments.Contains((name, true))))],
-        }).ToArray();
+        })];
     }
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> ResolveInlineAlternativeGroups(
@@ -1241,6 +1241,12 @@ public static class UsageSynopsisParser
 
         var content = TrimWrapper(normalizedToken).Trim();
         var nestedTokens = Tokenize(content);
+        if (nestedTokens.Contains(":") && ContainsOnlyInlineOptions(nestedTokens))
+        {
+            // Nested option choices can share selector flags without declaring operands.
+            return true;
+        }
+
         if (nestedTokens.Contains(":") && SplitTopLevelAlternatives(content).Count > 1)
         {
             throw new InvalidOperationException(
@@ -1264,6 +1270,14 @@ public static class UsageSynopsisParser
         }
 
         return TryParseOptionalNestedOperands(nestedTokens, positionIndex, phase, out arguments);
+    }
+
+    private static bool ContainsOnlyInlineOptions(IEnumerable<string> tokens)
+    {
+        var optionTokens = tokens.Where(static token => token is not (":" or "|")).ToArray();
+        return optionTokens.Length > 0 && optionTokens.All(static token => IsWrapped(token)
+            ? ContainsOnlyInlineOptions(Tokenize(TrimWrapper(token)))
+            : GetOptionSwitch(token) is not null);
     }
 
     private static bool TryParseOptionalNestedOperands(
