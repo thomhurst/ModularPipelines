@@ -245,14 +245,14 @@ public partial class GcloudCliScraper : CliScraperBase
             argumentGroups.Add(group);
             foreach (var argument in group.FlattenArguments().Where(argument => !argument.IsPositional))
             {
-                foreach (var option in CreateOptions(argument, commandParts))
+                foreach (var option in CreateOptions(argument, commandParts, helpText))
                 {
                     if (!seenOptions.Add(option.SwitchName))
                     {
                         continue;
                     }
 
-                    options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                    options.Add(NormalizeRepeatability(option, helpText, commandParts, argument.Description));
                 }
             }
         }
@@ -284,7 +284,8 @@ public partial class GcloudCliScraper : CliScraperBase
     private CliOptionDefinition NormalizeRepeatability(
         CliOptionDefinition option,
         string helpText,
-        IReadOnlyList<string> commandParts)
+        IReadOnlyList<string> commandParts,
+        string? optionDescription)
     {
         if (option.IsFlag
             || option.CSharpType is "bool" or "bool?"
@@ -293,7 +294,7 @@ public partial class GcloudCliScraper : CliScraperBase
             || !HelpDeclaresRepeatableOption(
                 helpText,
                 option.SwitchName,
-                option.Description ?? string.Empty))
+                optionDescription ?? string.Empty))
         {
             return option;
         }
@@ -309,7 +310,8 @@ public partial class GcloudCliScraper : CliScraperBase
 
     private IEnumerable<CliOptionDefinition> CreateOptions(
         CliArgumentDefinition argument,
-        IReadOnlyList<string> commandParts)
+        IReadOnlyList<string> commandParts,
+        string helpText)
     {
         var longForm = argument.SwitchName;
         if (string.IsNullOrEmpty(longForm))
@@ -329,16 +331,10 @@ public partial class GcloudCliScraper : CliScraperBase
         var hasCompositeSyntax = IsCompositeValueHint(valueHint);
         var isStructuredValue = hasCompositeSyntax
                                 || DescriptionDeclaresStructuredValue(description);
-        var acceptsMultipleValues = (!ShouldTreatOptionAsScalar(commandParts, longForm)
-                                     || valueHint.Contains("...", StringComparison.Ordinal))
-                                    && AcceptsMultipleValues(
-                longForm,
-                valueHint,
-                description,
-                isFlag,
-                hasCompositeSyntax);
-        var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
         var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
+        var (acceptsMultipleValues, isDelimitedList) = GetCollectionBehavior(
+            argument, commandParts, helpText, isFlag, hasCompositeSyntax, isStructuredValue, isKeyValue);
+        var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(propertyName, description);
 
         var option = new CliOptionDefinition
@@ -351,10 +347,11 @@ public partial class GcloudCliScraper : CliScraperBase
                 isKeyValue,
                 isNumeric,
                 enumDefinition),
-            Description = description,
+            Description = AddDelimitedListGuidance(description, isDelimitedList, isNumeric, enumDefinition),
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultipleValues,
+            CollectionSeparator = isDelimitedList ? "," : null,
             IsKeyValue = isKeyValue,
             IsNumeric = isNumeric,
             ValueSeparator = isFlag ? " " : "=",
@@ -368,8 +365,70 @@ public partial class GcloudCliScraper : CliScraperBase
         if (argument.IsNegatable
             || DescriptionMentionsSwitch(description, negativeSwitch))
         {
-            yield return CreateNegatedOption(option, negativeSwitch);
+            yield return CreateNegatedOption(option, negativeSwitch, description);
         }
+    }
+
+    private (bool AcceptsMultipleValues, bool IsDelimitedList) GetCollectionBehavior(
+        CliArgumentDefinition argument,
+        IReadOnlyList<string> commandParts,
+        string helpText,
+        bool isFlag,
+        bool hasCompositeSyntax,
+        bool isStructuredValue,
+        bool isKeyValue)
+    {
+        var valueHint = argument.ValueHint ?? string.Empty;
+        var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, argument.SwitchName);
+        var repeatsSwitch = !isFlag && (DescriptionDeclaresRepeatedSwitch(argument.Description, argument.SwitchName)
+            || HelpOptionBlockMatches(helpText, argument.SwitchName,
+                block => DescriptionDeclaresRepeatedSwitch(block, argument.SwitchName)));
+        var isDelimitedList = UsesCommaSeparatedList(
+            valueHint, argument.Description, isFlag, isStructuredValue, isKeyValue, isKnownScalar, repeatsSwitch);
+        var acceptsMultipleValues = isDelimitedList
+                                    || (!isKnownScalar && repeatsSwitch)
+                                    || ((!isKnownScalar || valueHint.Contains("...", StringComparison.Ordinal))
+                                        && AcceptsMultipleValues(argument.SwitchName, valueHint, argument.Description, isFlag, hasCompositeSyntax));
+        return (acceptsMultipleValues, isDelimitedList);
+    }
+
+    private static bool DescriptionDeclaresRepeatedSwitch(string? description, string switchName) =>
+        RepeatedSwitchDescriptionPattern().IsMatch(description ?? string.Empty)
+        || NamedRepeatedSwitchDescriptionPattern().Matches(description ?? string.Empty)
+            .Any(match => match.Groups["switch"].Value.Equals(switchName, StringComparison.OrdinalIgnoreCase));
+
+    private static bool UsesCommaSeparatedList(
+        string valueHint,
+        string? description,
+        bool isFlag,
+        bool isStructuredValue,
+        bool isKeyValue,
+        bool isKnownScalar,
+        bool repeatsSwitch) =>
+        !isFlag
+        && (!isStructuredValue || isKeyValue || RepeatedPairValueHintPattern().IsMatch(valueHint))
+        && !isKnownScalar
+        // Repeating a switch preserves boundaries between structured records. Merely
+        // accepting multiple values does not distinguish a list from repeated switches.
+        && !repeatsSwitch
+        && ((valueHint.Contains(',') && valueHint.Contains("...", StringComparison.Ordinal))
+            || CommaSeparatedListDescriptionPattern().IsMatch(description ?? string.Empty));
+
+    private static string? AddDelimitedListGuidance(
+        string? description,
+        bool isDelimitedList,
+        bool isNumeric,
+        CliEnumDefinition? enumDefinition)
+    {
+        if (!isDelimitedList || isNumeric || enumDefinition is not null)
+        {
+            return description;
+        }
+
+        const string guidance = "Collection entries are joined with commas into one option value. "
+            + "For entries containing commas, supply one pre-escaped list value using gcloud topic escaping "
+            + "(https://cloud.google.com/sdk/gcloud/reference/topic/escaping).";
+        return string.IsNullOrWhiteSpace(description) ? guidance : $"{description} {guidance}";
     }
 
     private static bool AcceptsMultipleValues(
@@ -380,6 +439,7 @@ public partial class GcloudCliScraper : CliScraperBase
         bool hasCompositeSyntax) =>
         !isFlag
         && (DescriptionDeclaresValueList(description)
+            || DescriptionDeclaresRepeatedSwitch(description, switchName)
             || DescriptionDeclaresRepeatableOption(description ?? string.Empty)
             || (!hasCompositeSyntax && valueHint.Contains("..."))
             || DescriptionRepeatsStructuredOption(description, switchName));
@@ -401,7 +461,8 @@ public partial class GcloudCliScraper : CliScraperBase
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
-        string negativeSwitch)
+        string negativeSwitch,
+        string? description)
     {
         var propertyName = $"No{option.PropertyName}";
         return option with
@@ -409,11 +470,12 @@ public partial class GcloudCliScraper : CliScraperBase
             SwitchName = negativeSwitch,
             PropertyName = propertyName,
             CSharpType = "bool?",
-            Description = $"Negates {option.SwitchName}. {option.Description}",
+            Description = $"Negates {option.SwitchName}. {description}",
             IsFlag = true,
             ValueArity = CliOptionValueArity.Required,
             AcceptsMultipleValues = false,
             GroupValues = false,
+            CollectionSeparator = null,
             IsCollection = false,
             IsKeyValue = false,
             IsNumeric = false,
@@ -649,7 +711,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         if (enumDef is not null)
         {
-            return $"{enumDef.EnumName}?";
+            return AsCSharpType($"{enumDef.EnumName}?", acceptsMultipleValues);
         }
 
         if (isKeyValue)
@@ -664,6 +726,62 @@ public partial class GcloudCliScraper : CliScraperBase
     #endregion
 
     #region Regex Patterns
+
+    private const string RepeatableSwitchRegex =
+        @"(?:repeatable"
+        + @"|repeat\s+to\s+add\s+more"
+        + @"|repeat\s+or\s+comma-separate\s+for\s+multiple"
+        + @"|(?:(?:can|must|should)\s+be|may\s*be)\s+repeated"
+        + @"|(?:is|are)\s+(?:(?:a|an)\s+)?(?:repeatable|repeated)"
+        + @"|repeated\s+(?:flag|argument|option)"
+        + @"|(?:multiples?|multiple\s+[\w-]+)\s+(?:are\s+)?supported\s+by\s+passing\s+"
+        + @"(?:--?[\w-]+|(?<exampleQuote>['""`])--?[\w-]+(?:\s+[^'""`\r\n]+)?\k<exampleQuote>)\s+multiple\s+times"
+        + @"|(?:(?:can|must|should)\s+be|may\s*be|is)\s+"
+        + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
+        + @"(?:(?:one|zero)\s+or\s+more\s+times|multiple\s+times|more\s+than\s+once)"
+        + @"|(?:to\s+[^.!?;\r\n]+,\s*)?(?:specify|supply|provide|use|pass|set|give)\s+"
+        + @"(?:this|the)\s+(?:flag|argument|option)\s+(?:multiple\s+times|more\s+than\s+once)"
+        + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?|contains?)\s+"
+        + @"(?:multiple\s+times|more\s+than\s+once))";
+
+    private const string StatusPrefixPattern = @"(?:\((?:DEPRECATED|ALPHA|BETA)\)\s+)*";
+
+    [GeneratedRegex(@"(?:^|[.!?]\s+)\s*" + StatusPrefixPattern
+        + @"(?:(?:this|the)\s+)?(?:(?:flag|argument|option)\s+)?"
+        + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex RepeatedSwitchDescriptionPattern();
+
+    [GeneratedRegex(@"(?:^|[.!?]\s+)\s*" + StatusPrefixPattern
+        + @"(?:(?:to\s+[^.!?;\r\n]+,\s*)?(?:specify|supply|provide|use|pass|set|give)\s+"
+        + @"(?:the\s+)?(?<switch>--?[\w-]+)\s+(?:(?:flag|argument|option)\s+)?"
+        + @"(?:multiple\s+times|more\s+than\s+once)"
+        + @"|(?:the\s+)?(?<switch>--?[\w-]+)\s+(?:(?:flag|argument|option)\s+)?"
+        + RepeatableSwitchRegex + @")\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex NamedRepeatedSwitchDescriptionPattern();
+
+    [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern
+        + @"(?:(?:(?:at (?:most|least)|exactly) one) of these (?:can|must) be specified:\s+)*"
+        + @"(?:(?:(?:this|the)\s+(?:flag|option|argument|value)|(?:the\s+)?string\s+value)\s+"
+        + @"(?:must|should|can|may)\s+(?:follow|use|be)\s+(?:(?!--)[^.!?:])*:\s*)?"
+        + @"(?:(?:this|the)\s+(?:flag|argument|option|value)\s+|(?:this|it)\s+)?"
+        + @"(?:(?:is|accepts?|expects?|specif(?:y|ies)|takes?|contains?|(?:must|can|may)\s+be)\s+)?"
+        + @"(?:(?:a|the)\s+)?(?:single\s+[\w-]+(?:\s+[\w-]+)*\s+or\s+(?:a\s+)?)?"
+        + @"comma[- ](?:sep[ae]rated|delimited)\s+(?:list|string)\b"
+        // Unqualified subjects describe the option only in its opening sentence. Later
+        // sentences may describe fields inside a configuration file instead.
+        + @"|(?:^|[.!?]\s+(?:this|the)\s+(?:flag|argument|option)\s+)"
+        + @"(?:(?!--)[^.!?])*?[,([]\s*sep[ae]rated\s+by\s+commas\b"
+        // A repeated subject links the passive sentence to the option's string value.
+        + @"|^" + StatusPrefixPattern + @"(?:a|the)\s+string\s+of\s+(?:[\w-]+\s+)*(?<subject>[\w-]+)\.\s+"
+        + @"\k<subject>\s+are\s+sep[ae]rated\s+by\s+commas\b"
+        + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"(?:provide|supply|pass|specify|use)\s+"
+        + @"(?:[a-z][\w-]*\s+)+as\s+(?:a\s+)?comma[- ](?:sep[ae]rated|delimited)\s+(?:list|string)\b"
+        + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"use\s+commas\s+to\s+(?:separate|delimit)\s+"
+        + @"(?:(?:the|individual|multiple)\s+)?[a-z][\w-]*(?=\s*(?:[.!?]|$))", RegexOptions.IgnoreCase)]
+    private static partial Regex CommaSeparatedListDescriptionPattern();
+
+    [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_-]*)=(?<value>[A-Z][A-Z0-9_-]*),(?:\[\k<key>=\k<value>,\.{3}\]|\.{3})(?(outer)\])$")]
+    private static partial Regex RepeatedPairValueHintPattern();
 
     /// <summary>
     /// Matches gcloud flag patterns:
