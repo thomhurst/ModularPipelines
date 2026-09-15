@@ -24,9 +24,13 @@ public class UsageSynopsisParserTests
     [Test]
     public async Task Optional_Group_Does_Not_Discard_Conditional_Requirements()
     {
-        await Assert.That(() => UsageSynopsisParser.Parse(
-                "Usage: tool run [RESOURCE --parent=PARENT]", ["tool", "run"]))
-            .Throws<InvalidOperationException>();
+        var result = UsageSynopsisParser.Parse("Usage: tool run [RESOURCE --parent=PARENT]", ["tool", "run"]);
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.IsChoice).IsFalse();
+        await Assert.That(group.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Resource", "--parent"]);
+        await Assert.That(group.Members.All(member => member.IsRequired)).IsTrue();
     }
 
     [Test]

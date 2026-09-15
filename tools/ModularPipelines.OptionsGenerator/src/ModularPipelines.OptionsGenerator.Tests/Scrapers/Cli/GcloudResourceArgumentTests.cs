@@ -261,7 +261,7 @@ public class GcloudResourceArgumentTests
         await Assert.That(await ScrapeFixture("example show", help)).IsEmpty();
     }
 
-    private static async Task<List<CliCommandDefinition>> ScrapeFixture(string path, string help)
+    internal static async Task<List<CliCommandDefinition>> ScrapeFixture(string path, string help)
     {
         var scraper = new GcloudCliScraper(new FixtureExecutor(path.Split(' '), help),
             new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<GcloudCliScraper>.Instance);

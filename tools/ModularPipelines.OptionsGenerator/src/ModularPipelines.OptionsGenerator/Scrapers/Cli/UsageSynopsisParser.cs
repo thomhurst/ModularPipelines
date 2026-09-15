@@ -216,8 +216,16 @@ public static class UsageSynopsisParser
             var normalizedToken = TrimTrailingOperandPunctuation(token)
                 .TrimEnd('.', '…')
                 .Trim();
-            if (normalizedToken.StartsWith('[') || !IsWrapped(normalizedToken))
+            if (!IsWrapped(normalizedToken))
             {
+                continue;
+            }
+            if (normalizedToken.StartsWith('['))
+            {
+                if (ParseOptionalOperandBundle(normalizedToken, phase) is { } bundle)
+                {
+                    groups.Add(bundle);
+                }
                 continue;
             }
 
@@ -259,10 +267,39 @@ public static class UsageSynopsisParser
                 candidate.PositionalArguments,
                 candidate.UnparsedOperandTokens,
                 candidate.RequiredOptionSwitches))
-            .Concat(candidate.RequiredAlternativeGroups.SelectMany(static candidateGroup =>
+            .Concat(candidate.RequiredAlternativeGroups.Where(static group => group.IsRequired).SelectMany(static candidateGroup =>
                 candidateGroup.EnumerateMembers()))
             .Select(GetAlternativeMemberKey)
             .ToHashSet(StringComparer.Ordinal);
+
+    private static UsageRequiredAlternativeGroup? ParseOptionalOperandBundle(string token, CommandLinePhase phase)
+    {
+        var tokens = Tokenize(TrimWrapper(token));
+        // Colons denote resource selectors, whose requirements come from help metadata.
+        if (tokens.Contains(":") || tokens.Contains("|"))
+        {
+            return null;
+        }
+        var parsed = ParseOperandTokens(tokens, phase);
+        var operands = parsed.Arguments.Where(static argument => argument.AssociatedOptionSwitch is null).ToArray();
+        if (operands.Length == 0 || parsed.RequiredOptionSwitches.Count == 0)
+        {
+            return null;
+        }
+        var switches = tokens.SelectMany(GetOptionSwitches).Concat(parsed.RequiredOptionSwitches).Distinct(StringComparer.Ordinal);
+        return new UsageRequiredAlternativeGroup
+        {
+            IsRequired = false,
+            IsChoice = false,
+            Members = [.. operands.Select(argument => new UsageRequiredAlternativeMember
+            {
+                PositionalPropertyName = argument.PropertyName, IsRequired = argument.IsRequired,
+            }), .. switches.Select(optionSwitch => new UsageRequiredAlternativeMember
+            {
+                OptionSwitch = optionSwitch, IsRequired = parsed.RequiredOptionSwitches.Contains(optionSwitch, StringComparer.Ordinal),
+            })],
+        };
+    }
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetRequiredAlternativeGroups(
         UsageSynopsisParseResult selected,
@@ -272,7 +309,7 @@ public static class UsageSynopsisParser
         return
         [
             .. selected.RequiredAlternativeGroups.Where(group =>
-                candidateMemberKeys.All(keys =>
+                !group.IsRequired || candidateMemberKeys.All(keys =>
                     group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))),
             .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
         ];
@@ -1379,8 +1416,6 @@ public static class UsageSynopsisParser
             associatedOptionSwitch = null;
         }
 
-        ValidateNestedGroupRequirements(isRequiredGroup, parsedRequiredOptions, parsedArguments, nestedTokens);
-
         arguments = [.. parsedArguments.Select(argument => argument with
         {
             IsRequired = isRequiredGroup && argument.IsRequired,
@@ -1388,22 +1423,6 @@ public static class UsageSynopsisParser
         })];
         requiredOptionSwitches = isRequiredGroup ? parsedRequiredOptions : [];
         return true;
-    }
-
-    private static void ValidateNestedGroupRequirements(
-        bool isRequiredGroup,
-        IReadOnlyList<string> requiredOptionSwitches,
-        IReadOnlyList<CliPositionalArgument> arguments,
-        IEnumerable<string> nestedTokens)
-    {
-        if (!isRequiredGroup && requiredOptionSwitches.Count > 0
-            && arguments.Any(static argument => argument.AssociatedOptionSwitch is null))
-        {
-            // Conditional sibling requirements need a richer model; never silently drop them.
-            throw new InvalidOperationException(
-                $"Usage synopsis has unsupported conditional requirements in group '{string.Join(" ", nestedTokens)}'.");
-        }
-
     }
 
     private static bool TryParseColonSeparatedOperands(
@@ -1431,12 +1450,6 @@ public static class UsageSynopsisParser
             ? tokens.Take(separator)
             : tokens.Where(static token => token != ":");
         var parsed = ParseOperandTokens(operandTokens, phase);
-        if (!groupRequired && parsed.RequiredOptionSwitches.Count > 0)
-        {
-            throw new InvalidOperationException(
-                $"Usage synopsis has unsupported conditional requirements in colon group '{string.Join(" ", tokens)}'.");
-        }
-
         requiredOptionSwitches = groupRequired ? parsed.RequiredOptionSwitches : [];
         var groupArguments = parsed.Arguments;
         arguments = [.. groupArguments.Select((argument, index) => argument with
@@ -2015,6 +2028,9 @@ public sealed record UsageSynopsisParseResult
 /// </summary>
 public sealed record UsageRequiredAlternativeGroup
 {
+    /// <summary>Whether this constraint requires the group to be supplied.</summary>
+    public bool IsRequired { get; init; } = true;
+
     /// <summary>
     /// Whether members and nested groups are alternatives rather than one required bundle.
     /// </summary>
@@ -2039,6 +2055,9 @@ public sealed record UsageRequiredAlternativeGroup
 /// </summary>
 public sealed record UsageRequiredAlternativeMember
 {
+    /// <summary>Whether this member is mandatory when its bundle is supplied.</summary>
+    public bool IsRequired { get; init; } = true;
+
     /// <summary>
     /// Option spelling when this member is supplied through a named option.
     /// </summary>

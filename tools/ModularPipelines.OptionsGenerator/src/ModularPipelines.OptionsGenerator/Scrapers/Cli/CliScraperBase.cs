@@ -1106,10 +1106,11 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return new CliRequiredAlternativeGroup
         {
+            IsRequired = group.IsRequired,
             IsChoice = group.IsChoice,
             IsUsageFormChoice = group.IsChoice && group.Groups.Count > 0,
             Members = [.. members
-                .Select(member => member! with { IsRequired = !group.IsChoice })
+                .Select((member, index) => member! with { IsRequired = !group.IsChoice && group.Members[index].IsRequired })
                 .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
             Groups = [.. groups.Select(static nested => nested!)],
         };
