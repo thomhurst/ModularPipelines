@@ -551,7 +551,11 @@ public static class UsageSynopsisParser
                     nestedArguments,
                     groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand);
                 arguments.AddRange(nestedArguments);
-                prependOptionTerminatorToNextOperand = false;
+                if (nestedArguments.Count > 0)
+                {
+                    prependOptionTerminatorToNextOperand = false;
+                }
+
                 AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
 
                 continue;

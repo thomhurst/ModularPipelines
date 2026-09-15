@@ -25,6 +25,20 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("-- [(--a|--b) : --c|--d]", true)]
+    [Arguments("-- [(--a|--b) : --c|--d] [--e : --f]", true)]
+    [Arguments("[(--a|--b) : --c|--d]", false)]
+    public async Task Option_Only_Groups_Preserve_Pending_Option_Terminator(string prefix, bool prependTerminator)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {prefix} FILE", ["tool", "run"]);
+
+        var operand = result.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo("File");
+        await Assert.That(operand.PrependOptionTerminator).IsEqualTo(prependTerminator);
+        await Assert.That(result.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
     public async Task Repeated_Adapter_Operand_Names_Do_Not_Turn_Required_Slots_Into_Choices()
     {
         var usage = UsageSynopsisParser.Parse("""
