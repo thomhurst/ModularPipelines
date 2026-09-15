@@ -34,38 +34,26 @@ public class ModuleSchedulerDisposalTests
                 continueTransition.Wait(TimeSpan.FromSeconds(5));
                 return true;
             });
-        var scheduler = CreateScheduler(constraintEvaluator.Object);
+        using var scheduler = CreateScheduler(constraintEvaluator.Object);
         scheduler.InitializeModules([new TestModule()]);
 
-        var transitionTask = Task.Run(() => scheduler.MarkModuleStarted(typeof(TestModule)));
-        await transitionEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
-
-        Exception? disposeException = null;
+        // This worker deliberately blocks until disposal; it must not occupy the shared pool.
+        var transitionTask = Task.Factory.StartNew(
+            () => scheduler.MarkModuleStarted(typeof(TestModule)),
+            CancellationToken.None,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
         try
         {
-            scheduler.Dispose();
-        }
-        catch (Exception exception)
-        {
-            disposeException = exception;
+            await transitionEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(transitionTask.IsCompleted).IsFalse();
+            await Assert.That(() => scheduler.Dispose()).ThrowsNothing();
         }
         finally
         {
             continueTransition.Set();
-        }
-
-        Exception? transitionException = null;
-        try
-        {
             await transitionTask.WaitAsync(TimeSpan.FromSeconds(5));
         }
-        catch (Exception exception)
-        {
-            transitionException = exception;
-        }
-
-        await Assert.That(disposeException).IsNull();
-        await Assert.That(transitionException).IsNull();
     }
 
     [Test]
