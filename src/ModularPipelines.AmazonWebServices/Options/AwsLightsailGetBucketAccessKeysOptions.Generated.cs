@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "get-bucket-access-keys")]
-public record AwsLightsailGetBucketAccessKeysOptions : AwsOptions
+public record AwsLightsailGetBucketAccessKeysOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the existing access key IDs for the specified Amazon Lightsail bucket. WARNING: This action does not return the secret access key value of an access key. You can get a secret access key only when you create it from the response of the CreateBucketAccessKey action. If you lose the secret access key, you must create a new access key. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BucketName">The name of the bucket for which to return access keys. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    public AwsLightsailGetBucketAccessKeysOptions(
+        string BucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+    }
+
+    private AwsLightsailGetBucketAccessKeysOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailGetBucketAccessKeysOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailGetBucketAccessKeysOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket for which to return access keys. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// </summary>
     [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
+    public string? BucketName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-conformance-pack-compliance-summary")]
-public record AwsConfigserviceGetConformancePackComplianceSummaryOptions : AwsOptions
+public record AwsConfigserviceGetConformancePackComplianceSummaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns compliance details for the conformance pack based on the cumu- lative compliance results of all the rules in that conformance pack. See also: AWS API Documentation get-conformance-pack-compliance-summary is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must ext...
+    /// </summary>
+    /// <param name="ConformancePackNames">Names of conformance packs. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]* Syntax: "string" "string" ...</param>
+    public AwsConfigserviceGetConformancePackComplianceSummaryOptions(
+        IEnumerable<string> ConformancePackNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConformancePackNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConformancePackNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConformancePackNames));
+            }
+
+            ConformancePackNames = materialized;
+        }
+        this.ConformancePackNames = ConformancePackNames;
+    }
+
+    private AwsConfigserviceGetConformancePackComplianceSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetConformancePackComplianceSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetConformancePackComplianceSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Names of conformance packs. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--conformance-pack-names", GroupValues = true)]
-    public IEnumerable<string>? ConformancePackNames { get; set; }
+    public IEnumerable<string>? ConformancePackNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +97,22 @@ public record AwsConfigserviceGetConformancePackComplianceSummaryOptions : AwsOp
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

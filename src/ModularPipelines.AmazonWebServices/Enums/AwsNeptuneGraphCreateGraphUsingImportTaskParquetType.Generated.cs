@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --parquettype.
+/// Allowed values for --parquet-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNeptuneGraphCreateGraphUsingImportTaskParquetType
 {
     [EnumValue("COLUMNAR")]
-    Columnar = 1
+    Columnar,
+
+    [EnumValue("o")]
+    O
 }

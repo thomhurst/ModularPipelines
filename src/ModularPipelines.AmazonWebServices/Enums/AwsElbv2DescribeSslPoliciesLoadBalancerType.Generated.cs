@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --loadbalancertype.
+/// Allowed values for --load-balancer-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElbv2DescribeSslPoliciesLoadBalancerType
 {
     [EnumValue("application")]
-    Application = 1,
-
-    [EnumValue("network")]
-    Network = 2,
+    Application,
 
     [EnumValue("gateway")]
-    Gateway = 3
+    Gateway,
+
+    [EnumValue("network")]
+    Network
 }

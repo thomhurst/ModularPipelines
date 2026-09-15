@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-identity", "get-id")]
-public record AwsCognitoIdentityGetIdOptions : AwsOptions
+public record AwsCognitoIdentityGetIdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    public AwsCognitoIdentityGetIdOptions(
+        string IdentityPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+    }
+
+    private AwsCognitoIdentityGetIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdentityGetIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdentityGetIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
+    [CliOption("--identity-pool-id")]
+    public string? IdentityPoolId { get; private init; }
+
     /// <summary>
     /// A standard Amazon Web Services account ID (9+ digits). Constraints: o min: 1 o max: 15 o pattern: \d+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
-
-    [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
 
     /// <summary>
     /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as fol- lows: o Facebook: graph.facebook.com o Amazon Cognito user pool: cognito-idp.&lt;region&gt;.amazon- aws.com/&lt;YOUR_USER_POOL_ID&gt; , for example, cog- nito-idp.us-east-1.amazonaws.com/us-east-1_123456789 . o Google: accounts.google.com o Amazon: www.amazon.com o Twitter: api.twitter.com o Digits: www.digits.com Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +79,22 @@ public record AwsCognitoIdentityGetIdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

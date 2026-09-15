@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,26 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-hsm-configuration")]
-public record AwsRedshiftCreateHsmConfigurationOptions : AwsOptions
+public record AwsRedshiftCreateHsmConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an HSM configuration that contains the information required by an Amazon Redshift cluster to store and use database encryption keys in a Hardware Security Module (HSM). After creating the HSM configuration, you can specify it as a parameter when creating a cluster. The cluster will then store its encryption keys in the HSM. In addition to creating an HSM configuration, you must also create an HSM client certificate. For more information, go to Hardware Security Modules in the Amazon Reds...
+    /// </summary>
+    /// <param name="HsmConfigurationIdentifier">The identifier to be assigned to the new Amazon Redshift HSM config- uration. Constraints: o max: 2147483647</param>
+    /// <param name="Description">A text description of the HSM configuration to be created. Constraints: o max: 2147483647</param>
+    /// <param name="HsmIpAddress">The IP address that the Amazon Redshift cluster must use to access the HSM. Constraints: o max: 2147483647</param>
+    /// <param name="HsmPartitionName">The name of the partition in the HSM where the Amazon Redshift clus- ters will store their database encryption keys. Constraints: o max: 2147483647</param>
+    /// <param name="HsmPartitionPassword">The password required to access the HSM partition. Constraints: o max: 2147483647</param>
+    /// <param name="HsmServerPublicCertificate">The HSMs public certificate file. When using Cloud HSM, the file name is server.pem. Constraints: o max: 2147483647</param>
+    public AwsRedshiftCreateHsmConfigurationOptions(
+        string HsmConfigurationIdentifier,
+        string Description,
+        string HsmIpAddress,
+        string HsmPartitionName,
+        string HsmPartitionPassword,
+        string HsmServerPublicCertificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmConfigurationIdentifier);
+        this.HsmConfigurationIdentifier = HsmConfigurationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(HsmIpAddress);
+        this.HsmIpAddress = HsmIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(HsmPartitionName);
+        this.HsmPartitionName = HsmPartitionName;
+        global::System.ArgumentNullException.ThrowIfNull(HsmPartitionPassword);
+        this.HsmPartitionPassword = HsmPartitionPassword;
+        global::System.ArgumentNullException.ThrowIfNull(HsmServerPublicCertificate);
+        this.HsmServerPublicCertificate = HsmServerPublicCertificate;
+    }
+
+    private AwsRedshiftCreateHsmConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateHsmConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateHsmConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier to be assigned to the new Amazon Redshift HSM config- uration. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--hsm-configuration-identifier")]
-    public string? HsmConfigurationIdentifier { get; set; }
+    public string? HsmConfigurationIdentifier { get; private init; }
 
+    /// <summary>
+    /// A text description of the HSM configuration to be created. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
+    /// <summary>
+    /// The IP address that the Amazon Redshift cluster must use to access the HSM. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--hsm-ip-address")]
-    public string? HsmIpAddress { get; set; }
+    public string? HsmIpAddress { get; private init; }
 
+    /// <summary>
+    /// The name of the partition in the HSM where the Amazon Redshift clus- ters will store their database encryption keys. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--hsm-partition-name")]
-    public string? HsmPartitionName { get; set; }
+    public string? HsmPartitionName { get; private init; }
 
+    /// <summary>
+    /// The password required to access the HSM partition. Constraints: o max: 2147483647
+    /// </summary>
     [SecretValue]
     [CliOption("--hsm-partition-password")]
-    public string? HsmPartitionPassword { get; set; }
+    public string? HsmPartitionPassword { get; private init; }
 
+    /// <summary>
+    /// The HSMs public certificate file. When using Cloud HSM, the file name is server.pem. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--hsm-server-public-certificate")]
-    public string? HsmServerPublicCertificate { get; set; }
+    public string? HsmServerPublicCertificate { get; private init; }
 
     /// <summary>
     /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -52,5 +124,22 @@ public record AwsRedshiftCreateHsmConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

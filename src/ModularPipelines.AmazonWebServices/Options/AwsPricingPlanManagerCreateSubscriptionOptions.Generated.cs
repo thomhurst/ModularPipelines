@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pricing-plan-manager", "create-subscription")]
-public record AwsPricingPlanManagerCreateSubscriptionOptions : AwsOptions
+public record AwsPricingPlanManagerCreateSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--plan-family")]
-    public string? PlanFamily { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate Approve- PaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the sub- scription is activated immediately. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PlanFamily">The pricing plan family to subscribe to, such as CloudFront .</param>
+    /// <param name="PlanTier">The tier level for the subscription, such as FREE , PRO , BUSINESS , or PREMIUM .</param>
+    /// <param name="ResourceArns">The ARNs of the resources to include in the subscription. Specify one or more supported resources. NOTE: For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and ex- actly one WAF web ACL. You can also include other supported re- sources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    public AwsPricingPlanManagerCreateSubscriptionOptions(
+        string PlanFamily,
+        string PlanTier,
+        IEnumerable<string> ResourceArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlanFamily);
+        this.PlanFamily = PlanFamily;
+        global::System.ArgumentNullException.ThrowIfNull(PlanTier);
+        this.PlanTier = PlanTier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceArns));
+            }
+
+            ResourceArns = materialized;
+        }
+        this.ResourceArns = ResourceArns;
+    }
+
+    private AwsPricingPlanManagerCreateSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPricingPlanManagerCreateSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPricingPlanManagerCreateSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The pricing plan family to subscribe to, such as CloudFront .
+    /// </summary>
+    [CliOption("--plan-family")]
+    public string? PlanFamily { get; private init; }
+
+    /// <summary>
+    /// The tier level for the subscription, such as FREE , PRO , BUSINESS , or PREMIUM .
+    /// </summary>
     [CliOption("--plan-tier")]
-    public string? PlanTier { get; set; }
+    public string? PlanTier { get; private init; }
+
+    /// <summary>
+    /// The ARNs of the resources to include in the subscription. Specify one or more supported resources. NOTE: For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and ex- actly one WAF web ACL. You can also include other supported re- sources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--resource-arns", GroupValues = true)]
+    public IEnumerable<string>? ResourceArns { get; private init; }
 
     /// <summary>
     /// The usage level within the plan tier. Specify DEFAULT for the base configuration, or a higher level if your plan tier supports it.
     /// </summary>
     [CliOption("--usage-level")]
     public string? UsageLevel { get; set; }
-
-    [CliOption("--resource-arns", GroupValues = true)]
-    public IEnumerable<string>? ResourceArns { get; set; }
 
     /// <summary>
     /// Determines whether the subscription requires explicit approval be- fore billing starts. Set to MANUAL to require a separate Approve- PaidSubscription call, or IMMEDIATE to activate the subscription right away. For paid tier plans, this defaults to MANUAL if not specified. For the FREE plan tier, only IMMEDIATE is supported, and it is the default. Possible values: o MANUAL o IMMEDIATE
@@ -56,5 +118,22 @@ public record AwsPricingPlanManagerCreateSubscriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

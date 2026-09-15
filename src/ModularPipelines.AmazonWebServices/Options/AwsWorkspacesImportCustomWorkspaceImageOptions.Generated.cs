@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,31 +21,116 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "import-custom-workspace-image")]
-public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions
+public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see Bring Your Own Windows Desktop Licenses . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageName">The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="ImageDescription">The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="ComputeType">The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6</param>
+    /// <param name="Protocol">The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol. Possible values: o PCOIP o DCV o BYOP</param>
+    /// <param name="ImageSource">The options for image import source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Ec2ImportTaskId, ImageBuildVersionArn, Ec2ImageId. Ec2ImportTaskId -&gt; (string) The EC2 import task ID to import the image from the Amazon EC2 VM import process. Constraints: o min: 19 o max: 28 o pattern: ^import-ami\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$ ImageBuildVersionArn -&gt; (string) The ARN of the EC2 Image Builder image. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ Ec2ImageId -&gt; (string) The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$ Shorthand Syntax: Ec2ImportTaskId=string,ImageBuildVersionArn=string,Ec2ImageId=string JSON Syntax: { "Ec2ImportTaskId": "string", "ImageBuildVersionArn": "string", "Ec2ImageId": "string" }</param>
+    /// <param name="InfrastructureConfigurationArn">The infrastructure configuration ARN that specifies how the Work- Space image is built. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
+    /// <param name="Platform">The platform for the WorkSpace image source. Possible values: o WINDOWS</param>
+    /// <param name="OsVersion">The OS version for the WorkSpace image source. Possible values: o Windows_10 o Windows_11</param>
+    public AwsWorkspacesImportCustomWorkspaceImageOptions(
+        string ImageName,
+        string ImageDescription,
+        AwsWorkspacesImportCustomWorkspaceImageComputeType ComputeType,
+        AwsWorkspacesImportCustomWorkspaceImageProtocol Protocol,
+        string ImageSource,
+        string InfrastructureConfigurationArn,
+        AwsWorkspacesImportCustomWorkspaceImagePlatform Platform,
+        AwsWorkspacesImportCustomWorkspaceImageOsVersion OsVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+        global::System.ArgumentNullException.ThrowIfNull(ImageDescription);
+        this.ImageDescription = ImageDescription;
+        global::System.ArgumentNullException.ThrowIfNull(ComputeType);
+        this.ComputeType = ComputeType;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(ImageSource);
+        this.ImageSource = ImageSource;
+        global::System.ArgumentNullException.ThrowIfNull(InfrastructureConfigurationArn);
+        this.InfrastructureConfigurationArn = InfrastructureConfigurationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+        global::System.ArgumentNullException.ThrowIfNull(OsVersion);
+        this.OsVersion = OsVersion;
+    }
+
+    private AwsWorkspacesImportCustomWorkspaceImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesImportCustomWorkspaceImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesImportCustomWorkspaceImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// </summary>
     [CliOption("--image-name")]
-    public string? ImageName { get; set; }
+    public string? ImageName { get; private init; }
 
+    /// <summary>
+    /// The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// </summary>
     [CliOption("--image-description")]
-    public string? ImageDescription { get; set; }
+    public string? ImageDescription { get; private init; }
 
+    /// <summary>
+    /// The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6
+    /// </summary>
     [CliOption("--compute-type")]
-    public string? ComputeType { get; set; }
+    public AwsWorkspacesImportCustomWorkspaceImageComputeType? ComputeType { get; private init; }
 
+    /// <summary>
+    /// The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol. Possible values: o PCOIP o DCV o BYOP
+    /// </summary>
     [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    public AwsWorkspacesImportCustomWorkspaceImageProtocol? Protocol { get; private init; }
 
+    /// <summary>
+    /// The options for image import source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Ec2ImportTaskId, ImageBuildVersionArn, Ec2ImageId. Ec2ImportTaskId -&gt; (string) The EC2 import task ID to import the image from the Amazon EC2 VM import process. Constraints: o min: 19 o max: 28 o pattern: ^import-ami\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$ ImageBuildVersionArn -&gt; (string) The ARN of the EC2 Image Builder image. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ Ec2ImageId -&gt; (string) The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$ Shorthand Syntax: Ec2ImportTaskId=string,ImageBuildVersionArn=string,Ec2ImageId=string JSON Syntax: { "Ec2ImportTaskId": "string", "ImageBuildVersionArn": "string", "Ec2ImageId": "string" }
+    /// </summary>
     [CliOption("--image-source")]
-    public string? ImageSource { get; set; }
+    public string? ImageSource { get; private init; }
 
+    /// <summary>
+    /// The infrastructure configuration ARN that specifies how the Work- Space image is built. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$
+    /// </summary>
     [CliOption("--infrastructure-configuration-arn")]
-    public string? InfrastructureConfigurationArn { get; set; }
+    public string? InfrastructureConfigurationArn { get; private init; }
 
+    /// <summary>
+    /// The platform for the WorkSpace image source. Possible values: o WINDOWS
+    /// </summary>
     [CliOption("--platform")]
-    public string? Platform { get; set; }
+    public AwsWorkspacesImportCustomWorkspaceImagePlatform? Platform { get; private init; }
 
+    /// <summary>
+    /// The OS version for the WorkSpace image source. Possible values: o Windows_10 o Windows_11
+    /// </summary>
     [CliOption("--os-version")]
-    public string? OsVersion { get; set; }
+    public AwsWorkspacesImportCustomWorkspaceImageOsVersion? OsVersion { get; private init; }
 
     /// <summary>
     /// The resource tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -56,5 +143,22 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --notifyoncaseseverity.
+/// Allowed values for --notify-on-case-severity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSupportAppUpdateSlackChannelConfigurationNotifyOnCaseSeverity
 {
-    [EnumValue("none")]
-    None = 1,
-
     [EnumValue("all")]
-    All = 2,
+    All,
 
     [EnumValue("high")]
-    High = 3
+    High,
+
+    [EnumValue("none")]
+    None
 }

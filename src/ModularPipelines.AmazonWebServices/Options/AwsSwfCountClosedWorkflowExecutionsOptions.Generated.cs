@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "count-closed-workflow-executions")]
-public record AwsSwfCountClosedWorkflowExecutionsOptions : AwsOptions
+public record AwsSwfCountClosedWorkflowExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the number of closed workflow executions within the given do- main that meet the specified filtering criteria. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allow or deny permissi...
+    /// </summary>
+    /// <param name="Domain">The name of the domain containing the workflow executions to count. Constraints: o min: 1 o max: 256</param>
+    public AwsSwfCountClosedWorkflowExecutionsOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    private AwsSwfCountClosedWorkflowExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfCountClosedWorkflowExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfCountClosedWorkflowExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain containing the workflow executions to count. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
 
     /// <summary>
     /// If specified, only workflow executions that meet the start time cri- teria of the filter are counted. NOTE: startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both. oldestDate -&gt; (timestamp) [required] Specifies the oldest start or close date and time to return. latestDate -&gt; (timestamp) Specifies the latest start or close date and time to return. Shorthand Syntax: oldestDate=timestamp,latestDate=timestamp JSON Syntax: { "oldestDate": timestamp, "latestDate": timestamp }
@@ -65,5 +102,22 @@ public record AwsSwfCountClosedWorkflowExecutionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

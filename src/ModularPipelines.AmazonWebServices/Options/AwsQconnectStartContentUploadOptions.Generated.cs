@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "start-content-upload")]
-public record AwsQconnectStartContentUploadOptions : AwsOptions
+public record AwsQconnectStartContentUploadOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to final- ize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUS- TOM. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="ContentType">The type of content to upload. Constraints: o pattern: (text/(plain|html|csv))|(application/(pdf|vnd\.openxml- formats-officedocument\.wordprocessingml\.document))|(applica- tion/x\.wisdom-json;source=(salesforce|servicenow|zendesk))</param>
+    public AwsQconnectStartContentUploadOptions(
+        string KnowledgeBaseId,
+        string ContentType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+    }
+
+    private AwsQconnectStartContentUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectStartContentUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectStartContentUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The type of content to upload. Constraints: o pattern: (text/(plain|html|csv))|(application/(pdf|vnd\.openxml- formats-officedocument\.wordprocessingml\.document))|(applica- tion/x\.wisdom-json;source=(salesforce|servicenow|zendesk))
+    /// </summary>
     [CliOption("--content-type")]
-    public string? ContentType { get; set; }
+    public string? ContentType { get; private init; }
 
     /// <summary>
     /// The expected expiration time of the generated presigned URL, speci- fied in minutes. Constraints: o min: 1 o max: 60
@@ -38,5 +82,22 @@ public record AwsQconnectStartContentUploadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

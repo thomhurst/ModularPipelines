@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --improvementstatus.
+/// Allowed values for --improvement-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedUpdateWorkloadImprovementStatus
 {
-    [EnumValue("NOT_APPLICABLE")]
-    NotApplicable = 1,
-
-    [EnumValue("NOT_STARTED")]
-    NotStarted = 2,
+    [EnumValue("COMPLETE")]
+    Complete,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
+    InProgress,
 
-    [EnumValue("COMPLETE")]
-    Complete = 4,
+    [EnumValue("NOT_APPLICABLE")]
+    NotApplicable,
+
+    [EnumValue("NOT_STARTED")]
+    NotStarted,
 
     [EnumValue("RISK_ACKNOWLEDGED")]
-    RiskAcknowledged = 5
+    RiskAcknowledged
 }

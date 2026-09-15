@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backupsearch", "start-search-result-export-job")]
-public record AwsBackupsearchStartSearchResultExportJobOptions : AwsOptions
+public record AwsBackupsearchStartSearchResultExportJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--search-job-identifier")]
-    public string? SearchJobIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This operations starts a job to export the results of search job to a designated S3 bucket. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SearchJobIdentifier">The unique string that specifies the search job.</param>
+    /// <param name="ExportSpecification">This specification contains a required string of the destination bucket; optionally, you can include the destination prefix. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3ExportSpecification. s3ExportSpecification -&gt; (structure) This specifies the destination Amazon S3 bucket for the export job. And, if included, it also specifies the destination prefix. DestinationBucket -&gt; (string) [required] This specifies the destination Amazon S3 bucket for the ex- port job. DestinationPrefix -&gt; (string) This specifies the prefix for the destination Amazon S3 bucket for the export job. Shorthand Syntax: s3ExportSpecification={DestinationBucket=string,DestinationPrefix=string} JSON Syntax: { "s3ExportSpecification": { "DestinationBucket": "string", "DestinationPrefix": "string" } }</param>
+    public AwsBackupsearchStartSearchResultExportJobOptions(
+        string SearchJobIdentifier,
+        string ExportSpecification
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SearchJobIdentifier);
+        this.SearchJobIdentifier = SearchJobIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExportSpecification);
+        this.ExportSpecification = ExportSpecification;
+    }
+
+    private AwsBackupsearchStartSearchResultExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupsearchStartSearchResultExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupsearchStartSearchResultExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique string that specifies the search job.
+    /// </summary>
+    [CliOption("--search-job-identifier")]
+    public string? SearchJobIdentifier { get; private init; }
+
+    /// <summary>
+    /// This specification contains a required string of the destination bucket; optionally, you can include the destination prefix. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3ExportSpecification. s3ExportSpecification -&gt; (structure) This specifies the destination Amazon S3 bucket for the export job. And, if included, it also specifies the destination prefix. DestinationBucket -&gt; (string) [required] This specifies the destination Amazon S3 bucket for the ex- port job. DestinationPrefix -&gt; (string) This specifies the prefix for the destination Amazon S3 bucket for the export job. Shorthand Syntax: s3ExportSpecification={DestinationBucket=string,DestinationPrefix=string} JSON Syntax: { "s3ExportSpecification": { "DestinationBucket": "string", "DestinationPrefix": "string" } }
+    /// </summary>
     [CliOption("--export-specification")]
-    public string? ExportSpecification { get; set; }
+    public string? ExportSpecification { get; private init; }
 
     /// <summary>
     /// Include this parameter to allow multiple identical calls for idempo- tency. A client token is valid for 8 hours after the first request that uses it is completed. After this time, any request with the same to- ken is treated as a new request.
@@ -53,5 +97,22 @@ public record AwsBackupsearchStartSearchResultExportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

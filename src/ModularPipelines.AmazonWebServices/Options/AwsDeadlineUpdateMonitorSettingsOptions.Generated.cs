@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "update-monitor-settings")]
-public record AwsDeadlineUpdateMonitorSettingsOptions : AwsOptions
+public record AwsDeadlineUpdateMonitorSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--monitor-id")]
-    public string? MonitorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MonitorId">The unique identifier of the monitor to update settings for. Constraints: o pattern: monitor-[0-9a-f]{32}</param>
+    /// <param name="Settings">The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. Constraints: o min: 0 o max: 64 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_.:-]* value -&gt; (string) Constraints: o min: 0 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsDeadlineUpdateMonitorSettingsOptions(
+        string MonitorId,
+        IReadOnlyList<KeyValue> Settings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorId);
+        this.MonitorId = MonitorId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Settings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Settings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Settings));
+            }
+
+            Settings = materialized;
+        }
+        this.Settings = Settings;
+    }
+
+    private AwsDeadlineUpdateMonitorSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineUpdateMonitorSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineUpdateMonitorSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the monitor to update settings for. Constraints: o pattern: monitor-[0-9a-f]{32}
+    /// </summary>
+    [CliOption("--monitor-id")]
+    public string? MonitorId { get; private init; }
+
+    /// <summary>
+    /// The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. Constraints: o min: 0 o max: 64 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_.:-]* value -&gt; (string) Constraints: o min: 0 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--settings", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Settings { get; set; }
+    public IReadOnlyList<KeyValue>? Settings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

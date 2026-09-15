@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "list-storage-profiles-for-queue")]
-public record AwsDeadlineListStorageProfilesForQueueOptions : AwsOptions
+public record AwsDeadlineListStorageProfilesForQueueOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists storage profiles for a queue. See also: AWS API Documentation list-storage-profiles-for-queue is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: storageProfiles
+    /// </summary>
+    /// <param name="FarmId">The farm ID of the queue's storage profile. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID for the storage profile. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    public AwsDeadlineListStorageProfilesForQueueOptions(
+        string FarmId,
+        string QueueId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(QueueId);
+        this.QueueId = QueueId;
+    }
+
+    private AwsDeadlineListStorageProfilesForQueueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineListStorageProfilesForQueueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineListStorageProfilesForQueueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID of the queue's storage profile. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
+    [CliOption("--farm-id")]
+    public string? FarmId { get; private init; }
+
+    /// <summary>
+    /// The queue ID for the storage profile. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--queue-id")]
-    public string? QueueId { get; set; }
+    public string? QueueId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsDeadlineListStorageProfilesForQueueOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

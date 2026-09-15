@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "download-db-log-file-portion")]
-public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions
+public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom. NOTE: This operation uses resources on database instances. Because of this, we recommend publishing database logs to CloudWatch and then using the GetLogEvents operation. For more information, see GetLogEvents in the Amazon CloudWatch Logs API Reference . See also: AWS API Documentation download-db-log-file-portion is a paginated operation. Multiple API calls may be issued in order...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The customer-assigned name of the DB instance that contains the log files you want to list. Constraints: o Must match the identifier of an existing DBInstance.</param>
+    /// <param name="LogFileName">The name of the log file to be downloaded.</param>
+    public AwsRdsDownloadDbLogFilePortionOptions(
+        string DbInstanceIdentifier,
+        string LogFileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(LogFileName);
+        this.LogFileName = LogFileName;
+    }
+
+    private AwsRdsDownloadDbLogFilePortionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDownloadDbLogFilePortionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDownloadDbLogFilePortionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints: o Must match the identifier of an existing DBInstance.
+    /// </summary>
+    [CliOption("--db-instance-identifier")]
+    public string? DbInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the log file to be downloaded.
+    /// </summary>
     [CliOption("--log-file-name")]
-    public string? LogFileName { get; set; }
+    public string? LogFileName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-hub-content-presigned-urls")]
-public record AwsSagemakerCreateHubContentPresignedUrlsOptions : AwsOptions
+public record AwsSagemakerCreateHubContentPresignedUrlsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates presigned URLs for accessing hub content artifacts. This opera- tion generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement accep- tance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination b...
+    /// </summary>
+    /// <param name="HubName">The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub . Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of hub content to access. Valid values include Model , Notebook , and ModelReference . Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
+    /// <param name="HubContentName">The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerCreateHubContentPresignedUrlsOptions(
+        string HubName,
+        AwsSagemakerCreateHubContentPresignedUrlsHubContentType HubContentType,
+        string HubContentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HubName);
+        this.HubName = HubName;
+        global::System.ArgumentNullException.ThrowIfNull(HubContentType);
+        this.HubContentType = HubContentType;
+        global::System.ArgumentNullException.ThrowIfNull(HubContentName);
+        this.HubContentName = HubContentName;
+    }
+
+    private AwsSagemakerCreateHubContentPresignedUrlsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateHubContentPresignedUrlsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateHubContentPresignedUrlsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub . Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--hub-name")]
-    public string? HubName { get; set; }
+    public string? HubName { get; private init; }
 
+    /// <summary>
+    /// The type of hub content to access. Valid values include Model , Notebook , and ModelReference . Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// </summary>
     [CliOption("--hub-content-type")]
-    public string? HubContentType { get; set; }
+    public AwsSagemakerCreateHubContentPresignedUrlsHubContentType? HubContentType { get; private init; }
 
+    /// <summary>
+    /// The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--hub-content-name")]
-    public string? HubContentName { get; set; }
+    public string? HubContentName { get; private init; }
 
     /// <summary>
     /// The version of the hub content. If not specified, the latest version is used. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
@@ -67,5 +119,22 @@ public record AwsSagemakerCreateHubContentPresignedUrlsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

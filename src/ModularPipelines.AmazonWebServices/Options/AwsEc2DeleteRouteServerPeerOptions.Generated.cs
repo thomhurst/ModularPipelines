@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-route-server-peer")]
-public record AwsEc2DeleteRouteServerPeerOptions : AwsOptions
+public record AwsEc2DeleteRouteServerPeerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--route-server-peer-id")]
-    public string? RouteServerPeerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RouteServerPeerId">The ID of the route server peer to delete.</param>
+    public AwsEc2DeleteRouteServerPeerOptions(
+        string RouteServerPeerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteServerPeerId);
+        this.RouteServerPeerId = RouteServerPeerId;
+    }
+
+    private AwsEc2DeleteRouteServerPeerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteRouteServerPeerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteRouteServerPeerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route server peer to delete.
+    /// </summary>
+    [CliOption("--route-server-peer-id")]
+    public string? RouteServerPeerId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsEc2DeleteRouteServerPeerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

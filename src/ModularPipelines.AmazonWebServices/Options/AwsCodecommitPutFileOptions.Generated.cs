@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "put-file")]
-public record AwsCodecommitPutFileOptions : AwsOptions
+public record AwsCodecommitPutFileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository where you want to add or update the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="BranchName">The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created. Constraints: o min: 1 o max: 256</param>
+    /// <param name="FileContent">The content of the file, in binary object format. Constraints: o max: 6291456</param>
+    /// <param name="FilePath">The name of the file you want to add or update, including the rela- tive path to the file in the repository. NOTE: If the path does not currently exist in the repository, the path is created as part of adding the file.</param>
+    public AwsCodecommitPutFileOptions(
+        string RepositoryName,
+        string BranchName,
+        string FileContent,
+        string FilePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(BranchName);
+        this.BranchName = BranchName;
+        global::System.ArgumentNullException.ThrowIfNull(FileContent);
+        this.FileContent = FileContent;
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+    }
+
+    private AwsCodecommitPutFileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitPutFileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitPutFileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository where you want to add or update the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
+    /// <summary>
+    /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--branch-name")]
-    public string? BranchName { get; set; }
+    public string? BranchName { get; private init; }
 
+    /// <summary>
+    /// The content of the file, in binary object format. Constraints: o max: 6291456
+    /// </summary>
     [CliOption("--file-content")]
-    public string? FileContent { get; set; }
+    public string? FileContent { get; private init; }
 
+    /// <summary>
+    /// The name of the file you want to add or update, including the rela- tive path to the file in the repository. NOTE: If the path does not currently exist in the repository, the path is created as part of adding the file.
+    /// </summary>
     [CliOption("--file-path")]
-    public string? FilePath { get; set; }
+    public string? FilePath { get; private init; }
 
     /// <summary>
     /// The file mode permissions of the blob. Valid file mode permissions are listed here. Possible values: o EXECUTABLE o NORMAL o SYMLINK
@@ -69,5 +127,22 @@ public record AwsCodecommitPutFileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "create-activity")]
-public record AwsStepfunctionsCreateActivityOptions : AwsOptions
+public record AwsStepfunctionsCreateActivityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an activity. An activity is a task that you write in any pro- gramming language and host on any machine that has access to Step Func- tions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an iden- tifier for use in a state machine and when polling from the activity. NOTE: This operation is eventually consistent. The results are best effort a...
+    /// </summary>
+    /// <param name="Name">The name of the activity to create. This name must be unique for your Amazon Web Services account and region. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80</param>
+    public AwsStepfunctionsCreateActivityOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsStepfunctionsCreateActivityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsCreateActivityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsCreateActivityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Manage- ment User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Func- tions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -41,5 +78,22 @@ public record AwsStepfunctionsCreateActivityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

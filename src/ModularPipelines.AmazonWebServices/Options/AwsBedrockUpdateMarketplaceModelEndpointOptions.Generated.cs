@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "update-marketplace-model-endpoint")]
-public record AwsBedrockUpdateMarketplaceModelEndpointOptions : AwsOptions
+public record AwsBedrockUpdateMarketplaceModelEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-arn")]
-    public string? EndpointArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the configuration of an existing endpoint for a model from Ama- zon Bedrock Marketplace. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointArn">The Amazon Resource Name (ARN) of the endpoint you want to update. Constraints: o min: 0 o max: 2048</param>
+    /// <param name="EndpointConfig">The new configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for ini- tial endpoint creation. Constraints: o min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: o min: 1 o max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }</param>
+    public AwsBedrockUpdateMarketplaceModelEndpointOptions(
+        string EndpointArn,
+        string EndpointConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointArn);
+        this.EndpointArn = EndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointConfig);
+        this.EndpointConfig = EndpointConfig;
+    }
+
+    private AwsBedrockUpdateMarketplaceModelEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockUpdateMarketplaceModelEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockUpdateMarketplaceModelEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the endpoint you want to update. Constraints: o min: 0 o max: 2048
+    /// </summary>
+    [CliOption("--endpoint-arn")]
+    public string? EndpointArn { get; private init; }
+
+    /// <summary>
+    /// The new configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for ini- tial endpoint creation. Constraints: o min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: o min: 1 o max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }
+    /// </summary>
     [CliOption("--endpoint-config")]
-    public string? EndpointConfig { get; set; }
+    public string? EndpointConfig { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required be- cause Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
@@ -40,5 +84,22 @@ public record AwsBedrockUpdateMarketplaceModelEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

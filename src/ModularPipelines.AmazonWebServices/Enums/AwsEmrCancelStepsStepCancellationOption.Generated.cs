@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --stepcancellationoption.
+/// Allowed values for --step-cancellation-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrCancelStepsStepCancellationOption
 {
     [EnumValue("SEND_INTERRUPT")]
-    SendInterrupt = 1,
+    SendInterrupt,
 
     [EnumValue("TERMINATE_PROCESS")]
-    TerminateProcess = 2
+    TerminateProcess
 }

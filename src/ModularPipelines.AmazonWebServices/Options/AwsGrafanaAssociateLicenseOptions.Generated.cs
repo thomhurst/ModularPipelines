@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "associate-license")]
-public record AwsGrafanaAssociateLicenseOptions : AwsOptions
+public record AwsGrafanaAssociateLicenseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType , and pass in a valid Grafana Labs token for the grafanaToken . Upgrading to Grafana Enterprise in- curs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace to associate the license with. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="LicenseType">The type of license to associate with the workspace. NOTE: Amazon Managed Grafana workspaces no longer support Grafana En- terprise free trials. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL</param>
+    public AwsGrafanaAssociateLicenseOptions(
+        string WorkspaceId,
+        AwsGrafanaAssociateLicenseLicenseType LicenseType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(LicenseType);
+        this.LicenseType = LicenseType;
+    }
+
+    private AwsGrafanaAssociateLicenseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaAssociateLicenseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaAssociateLicenseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace to associate the license with. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// The type of license to associate with the workspace. NOTE: Amazon Managed Grafana workspaces no longer support Grafana En- terprise free trials. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL
+    /// </summary>
     [CliOption("--license-type")]
-    public string? LicenseType { get; set; }
+    public AwsGrafanaAssociateLicenseLicenseType? LicenseType { get; private init; }
 
     /// <summary>
     /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see Link your ac- count with Grafana Labs . Constraints: o min: 1 o max: 36
@@ -40,5 +85,22 @@ public record AwsGrafanaAssociateLicenseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

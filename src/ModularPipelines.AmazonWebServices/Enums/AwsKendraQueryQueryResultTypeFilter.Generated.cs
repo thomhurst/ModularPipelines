@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --queryresulttypefilter.
+/// Allowed values for --query-result-type-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKendraQueryQueryResultTypeFilter
 {
+    [EnumValue("ANSWER")]
+    Answer,
+
     [EnumValue("DOCUMENT")]
-    Document = 1,
+    Document,
 
     [EnumValue("QUESTION_ANSWER")]
-    QuestionAnswer = 2,
-
-    [EnumValue("ANSWER")]
-    Answer = 3
+    QuestionAnswer
 }

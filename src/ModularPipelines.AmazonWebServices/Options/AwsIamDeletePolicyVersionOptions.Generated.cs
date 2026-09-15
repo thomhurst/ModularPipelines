@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "delete-policy-version")]
-public record AwsIamDeletePolicyVersionOptions : AwsOptions
+public record AwsIamDeletePolicyVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this opera- tion. To delete the default version from a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions . For information about versions for managed policies, see Versioning for managed policies in the IAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="VersionId">The policy version to delete. This parameter allows (through its regex pattern ) a string of char- acters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</param>
+    public AwsIamDeletePolicyVersionOptions(
+        string PolicyArn,
+        string VersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(VersionId);
+        this.VersionId = VersionId;
+    }
+
+    private AwsIamDeletePolicyVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamDeletePolicyVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamDeletePolicyVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--policy-arn")]
+    public string? PolicyArn { get; private init; }
+
+    /// <summary>
+    /// The policy version to delete. This parameter allows (through its regex pattern ) a string of char- acters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?
+    /// </summary>
     [CliOption("--version-id")]
-    public string? VersionId { get; set; }
+    public string? VersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "batch-get-case-rule")]
-public record AwsConnectcasesBatchGetCaseRuleOptions : AwsOptions
+public record AwsConnectcasesBatchGetCaseRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions . For more information about case field conditions, see Add case field conditions to a case template . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">Unique identifier of a Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="CaseRules">A list of case rule identifiers. Constraints: o min: 1 o max: 50 (structure) Object containing case rule identifier information. id -&gt; (string) [required] Unique identifier of a case rule. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
+    public AwsConnectcasesBatchGetCaseRuleOptions(
+        string DomainId,
+        IEnumerable<string> CaseRules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CaseRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CaseRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CaseRules));
+            }
+
+            CaseRules = materialized;
+        }
+        this.CaseRules = CaseRules;
+    }
+
+    private AwsConnectcasesBatchGetCaseRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesBatchGetCaseRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesBatchGetCaseRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique identifier of a Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// A list of case rule identifiers. Constraints: o min: 1 o max: 50 (structure) Object containing case rule identifier information. id -&gt; (string) [required] Unique identifier of a case rule. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
+    /// </summary>
     [CliOption("--case-rules", GroupValues = true)]
-    public IEnumerable<string>? CaseRules { get; set; }
+    public IEnumerable<string>? CaseRules { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

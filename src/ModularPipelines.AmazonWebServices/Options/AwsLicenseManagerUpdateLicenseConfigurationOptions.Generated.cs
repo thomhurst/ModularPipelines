@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "update-license-configuration")]
-public record AwsLicenseManagerUpdateLicenseConfigurationOptions : AwsOptions
+public record AwsLicenseManagerUpdateLicenseConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the attributes of an existing license configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LicenseConfigurationArn">Amazon Resource Name (ARN) of the license configuration.</param>
+    public AwsLicenseManagerUpdateLicenseConfigurationOptions(
+        string LicenseConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseConfigurationArn);
+        this.LicenseConfigurationArn = LicenseConfigurationArn;
+    }
+
+    private AwsLicenseManagerUpdateLicenseConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerUpdateLicenseConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerUpdateLicenseConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the license configuration.
+    /// </summary>
     [CliOption("--license-configuration-arn")]
-    public string? LicenseConfigurationArn { get; set; }
+    public string? LicenseConfigurationArn { get; private init; }
 
     /// <summary>
     /// New status of the license configuration. Possible values: o AVAILABLE o DISABLED
@@ -43,7 +80,10 @@ public record AwsLicenseManagerUpdateLicenseConfigurationOptions : AwsOptions
     [CliOption("--license-count")]
     public int? LicenseCount { get; set; }
 
-    [CliFlag("--license-count-hard-limit")]
+    /// <summary>
+    /// New hard limit of the number of available licenses.
+    /// </summary>
+    [CliFlag("--license-count-hard-limit", NegatedName = "--no-license-count-hard-limit")]
     public bool? LicenseCountHardLimit { get; set; }
 
     /// <summary>
@@ -64,7 +104,10 @@ public record AwsLicenseManagerUpdateLicenseConfigurationOptions : AwsOptions
     [CliOption("--product-information-list", GroupValues = true)]
     public IEnumerable<string>? ProductInformationList { get; set; }
 
-    [CliFlag("--disassociate-when-not-found")]
+    /// <summary>
+    /// When true, disassociates a resource when software is uninstalled.
+    /// </summary>
+    [CliFlag("--disassociate-when-not-found", NegatedName = "--no-disassociate-when-not-found")]
     public bool? DisassociateWhenNotFound { get; set; }
 
     /// <summary>
@@ -78,5 +121,22 @@ public record AwsLicenseManagerUpdateLicenseConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

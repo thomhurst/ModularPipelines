@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "update-organization-configuration")]
-public record AwsInspector2UpdateOrganizationConfigurationOptions : AwsOptions
+public record AwsInspector2UpdateOrganizationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configurations for your Amazon Inspector organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoEnable">Defines which scan types are enabled automatically for new members of your Amazon Inspector organization. ec2 -&gt; (boolean) [required] Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization. ecr -&gt; (boolean) [required] Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization. lambda -&gt; (boolean) Represents whether Amazon Web Services Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization. lambdaCode -&gt; (boolean) Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization. codeRepository -&gt; (boolean) Represents whether code repository scans are automatically en- abled for new members of your Amazon Inspector organization. Shorthand Syntax: ec2=boolean,ecr=boolean,lambda=boolean,lambdaCode=boolean,codeRepository=boolean JSON Syntax: { "ec2": true|false, "ecr": true|false, "lambda": true|false, "lambdaCode": true|false, "codeRepository": true|false }</param>
+    public AwsInspector2UpdateOrganizationConfigurationOptions(
+        string AutoEnable
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoEnable);
+        this.AutoEnable = AutoEnable;
+    }
+
+    private AwsInspector2UpdateOrganizationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2UpdateOrganizationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2UpdateOrganizationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Defines which scan types are enabled automatically for new members of your Amazon Inspector organization. ec2 -&gt; (boolean) [required] Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization. ecr -&gt; (boolean) [required] Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization. lambda -&gt; (boolean) Represents whether Amazon Web Services Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization. lambdaCode -&gt; (boolean) Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization. codeRepository -&gt; (boolean) Represents whether code repository scans are automatically en- abled for new members of your Amazon Inspector organization. Shorthand Syntax: ec2=boolean,ecr=boolean,lambda=boolean,lambdaCode=boolean,codeRepository=boolean JSON Syntax: { "ec2": true|false, "ecr": true|false, "lambda": true|false, "lambdaCode": true|false, "codeRepository": true|false }
+    /// </summary>
     [CliOption("--auto-enable")]
-    public string? AutoEnable { get; set; }
+    public string? AutoEnable { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

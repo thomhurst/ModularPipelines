@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "get-file")]
-public record AwsCodecommitGetFileOptions : AwsOptions
+public record AwsCodecommitGetFileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the base-64 encoded contents of a specified file and its meta- data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository that contains the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="FilePath">The fully qualified path to the file, including the full name and extension of the file. For example, /examples/file.md is the fully qualified path to a file named file.md in a folder named examples.</param>
+    public AwsCodecommitGetFileOptions(
+        string RepositoryName,
+        string FilePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+    }
+
+    private AwsCodecommitGetFileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitGetFileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitGetFileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository that contains the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The fully qualified path to the file, including the full name and extension of the file. For example, /examples/file.md is the fully qualified path to a file named file.md in a folder named examples.
+    /// </summary>
+    [CliOption("--file-path")]
+    public string? FilePath { get; private init; }
 
     /// <summary>
     /// The fully quaified reference that identifies the commit that con- tains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main. If none is provided, the head commit is used.
@@ -30,13 +77,27 @@ public record AwsCodecommitGetFileOptions : AwsOptions
     [CliOption("--commit-specifier")]
     public string? CommitSpecifier { get; set; }
 
-    [CliOption("--file-path")]
-    public string? FilePath { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

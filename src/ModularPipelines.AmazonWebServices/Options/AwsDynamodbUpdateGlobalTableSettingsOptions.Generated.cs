@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "update-global-table-settings")]
-public record AwsDynamodbUpdateGlobalTableSettingsOptions : AwsOptions
+public record AwsDynamodbUpdateGlobalTableSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing global tables fr...
+    /// </summary>
+    /// <param name="GlobalTableName">The name of the global table Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsDynamodbUpdateGlobalTableSettingsOptions(
+        string GlobalTableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalTableName);
+        this.GlobalTableName = GlobalTableName;
+    }
+
+    private AwsDynamodbUpdateGlobalTableSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbUpdateGlobalTableSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbUpdateGlobalTableSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the global table Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--global-table-name")]
-    public string? GlobalTableName { get; set; }
+    public string? GlobalTableName { get; private init; }
 
     /// <summary>
     /// The billing mode of the global table. If GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity billing mode. o PROVISIONED - We recommend using PROVISIONED for predictable work- loads. PROVISIONED sets the billing mode to Provisioned capacity mode . o PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpre- dictable workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode . Possible values: o PROVISIONED o PAY_PER_REQUEST
@@ -60,5 +97,22 @@ public record AwsDynamodbUpdateGlobalTableSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

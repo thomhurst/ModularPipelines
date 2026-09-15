@@ -11,14 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --pullrequesteventtype.
+/// Allowed values for --pull-request-event-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodecommitDescribePullRequestEventsPullRequestEventType
 {
+    [EnumValue("PULL_REQUEST_APPROVAL_RULE_CREATED")]
+    PullRequestApprovalRuleCreated,
+
+    [EnumValue("PULL_REQUEST_APPROVAL_RULE_DELETED")]
+    PullRequestApprovalRuleDeleted,
+
+    [EnumValue("PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN")]
+    PullRequestApprovalRuleOverridden,
+
+    [EnumValue("PULL_REQUEST_APPROVAL_RULE_UPDATED")]
+    PullRequestApprovalRuleUpdated,
+
+    [EnumValue("PULL_REQUEST_APPROVAL_STATE_CHANGED")]
+    PullRequestApprovalStateChanged,
+
     [EnumValue("PULL_REQUEST_CREATED")]
-    PullRequestCreated = 1,
+    PullRequestCreated,
+
+    [EnumValue("PULL_REQUEST_MERGE_STATE_CHANGED")]
+    PullRequestMergeStateChanged,
+
+    [EnumValue("PULL_REQUEST_SOURCE_REFERENCE_UPDATED")]
+    PullRequestSourceReferenceUpdated,
 
     [EnumValue("PULL_REQUEST_STATUS_CHANGED")]
-    PullRequestStatusChanged = 2
+    PullRequestStatusChanged
 }

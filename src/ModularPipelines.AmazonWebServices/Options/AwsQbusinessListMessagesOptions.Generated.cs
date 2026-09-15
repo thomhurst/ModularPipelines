@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "list-messages")]
-public record AwsQbusinessListMessagesOptions : AwsOptions
+public record AwsQbusinessListMessagesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--conversation-id")]
-    public string? ConversationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a list of messages associated with an Amazon Q Business web expe- rience. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may...
+    /// </summary>
+    /// <param name="ConversationId">The identifier of the Amazon Q Business web experience conversation. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier for the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    public AwsQbusinessListMessagesOptions(
+        string ConversationId,
+        string ApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConversationId);
+        this.ConversationId = ConversationId;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+    }
+
+    private AwsQbusinessListMessagesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessListMessagesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessListMessagesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q Business web experience conversation. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
+    [CliOption("--conversation-id")]
+    public string? ConversationId { get; private init; }
+
+    /// <summary>
+    /// The identifier for the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
     /// <summary>
     /// The identifier of the user involved in the Amazon Q Business web ex- perience conversation. Constraints: o min: 1 o max: 1024 o pattern: \P{C}*
@@ -58,5 +102,22 @@ public record AwsQbusinessListMessagesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

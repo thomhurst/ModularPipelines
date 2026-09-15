@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "disassociate-faces")]
-public record AwsRekognitionDisassociateFacesOptions : AwsOptions
+public record AwsRekognitionDisassociateFacesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the association between a Face supplied in an array of FaceIds and the User. If the User is not present already, then a ResourceNot- Found exception is thrown. If successful, an array of faces that are disassociated from the User is returned. If a given face is already disassociated from the given UserID, it will be ignored and not be re- turned in the response. If a given face is already associated with a different User or not found in the collection it will be returned as part of Unsuc...
+    /// </summary>
+    /// <param name="CollectionId">The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="UserId">ID for the existing UserID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+</param>
+    /// <param name="FaceIds">An array of face IDs to disassociate from the UserID. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...</param>
+    public AwsRekognitionDisassociateFacesOptions(
+        string CollectionId,
+        string UserId,
+        IEnumerable<string> FaceIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FaceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FaceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FaceIds));
+            }
+
+            FaceIds = materialized;
+        }
+        this.FaceIds = FaceIds;
+    }
+
+    private AwsRekognitionDisassociateFacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionDisassociateFacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionDisassociateFacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
+    [CliOption("--collection-id")]
+    public string? CollectionId { get; private init; }
+
+    /// <summary>
+    /// ID for the existing UserID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
+
+    /// <summary>
+    /// An array of face IDs to disassociate from the UserID. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--face-ids", GroupValues = true)]
+    public IEnumerable<string>? FaceIds { get; private init; }
 
     /// <summary>
     /// Idempotent token used to identify the request to DisassociateFaces . If you use the same token with multiple DisassociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -35,13 +100,27 @@ public record AwsRekognitionDisassociateFacesOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--face-ids", GroupValues = true)]
-    public IEnumerable<string>? FaceIds { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

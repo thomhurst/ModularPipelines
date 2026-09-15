@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,59 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datapipeline", "put-pipeline-definition")]
-public record AwsDatapipelinePutPipelineDefinitionOptions : AwsOptions
+public record AwsDatapipelinePutPipelineDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds tasks, schedules, and preconditions to the specified pipeline. You can use PutPipelineDefinition to populate a new pipeline. PutPipelineDefinition also validates the configuration as it adds it to the pipeline. Changes to the pipeline are saved unless one of the following three validation errors exists in the pipeline. o An object is missing a name or identifier field. o A string or reference field is empty. o The number of objects in the pipeline exceeds the maximum allowed ob- jects. o Th...
+    /// </summary>
+    /// <param name="PipelineId">The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PipelineDefinition"></param>
+    public AwsDatapipelinePutPipelineDefinitionOptions(
+        string PipelineId,
+        string PipelineDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineId);
+        this.PipelineId = PipelineId;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineDefinition);
+        this.PipelineDefinition = PipelineDefinition;
+    }
+
+    private AwsDatapipelinePutPipelineDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatapipelinePutPipelineDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatapipelinePutPipelineDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--pipeline-id")]
-    public string? PipelineId { get; set; }
+    public string? PipelineId { get; private init; }
+
+    [CliOption("--pipeline-definition")]
+    public string? PipelineDefinition { get; private init; }
 
     [CliOption("--parameter-objects")]
     public string? ParameterObjects { get; set; }
 
     [CliOption("--parameter-values")]
     public string? ParameterValues { get; set; }
-
-    [CliOption("--pipeline-definition")]
-    public string? PipelineDefinition { get; set; }
 
     [CliOption("--parameter-values-uri")]
     public string? ParameterValuesUri { get; set; }
@@ -41,5 +82,22 @@ public record AwsDatapipelinePutPipelineDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

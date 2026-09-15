@@ -21,11 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sagemaker-runtime", "invoke-endpoint")]
 public record AwsSagemakerRuntimeInvokeEndpointOptions : AwsOptions
 {
-    [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    /// <summary>
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the re- quest syntax. Calls to InvokeEndpoint...
+    /// </summary>
+    /// <param name="EndpointName">The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="Body">Provides input data, in the format specified in the ContentType re- quest header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see Common Data Formats-Inference . Constraints: o max: 6291456</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsSagemakerRuntimeInvokeEndpointOptions(
+        string EndpointName,
+        string Body,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string EndpointName, out string Body, out string Outfile)
+    {
+        EndpointName = this.EndpointName;
+        Body = this.Body;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string EndpointName { get; private init; }
+
+    /// <summary>
+    /// Provides input data, in the format specified in the ContentType re- quest header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see Common Data Formats-Inference . Constraints: o max: 6291456
+    /// </summary>
     [CliOption("--body")]
-    public string? Body { get; set; }
+    public string Body { get; private init; }
 
     /// <summary>
     /// The MIME type of the input data in the request body. Constraints: o max: 1024 o pattern: \p{ASCII}*
@@ -92,5 +125,11 @@ public record AwsSagemakerRuntimeInvokeEndpointOptions : AwsOptions
     /// </summary>
     [CliOption("--prefix-aware-id")]
     public string? PrefixAwareId { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

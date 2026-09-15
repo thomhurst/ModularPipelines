@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pricing", "get-price-list-file-url")]
-public record AwsPricingGetPriceListFileUrlOptions : AwsOptions
+public record AwsPricingGetPriceListFileUrlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--price-list-arn")]
-    public string? PriceListArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PriceListArn">The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists re- sponse. Constraints: o min: 18 o max: 2048 o pattern: arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pric- ing:::price-list/[A-Za-z0-9+_/.-]{1,1023}</param>
+    /// <param name="FileFormat">The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the ListPriceLists response. Constraints: o min: 1 o max: 255</param>
+    public AwsPricingGetPriceListFileUrlOptions(
+        string PriceListArn,
+        string FileFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PriceListArn);
+        this.PriceListArn = PriceListArn;
+        global::System.ArgumentNullException.ThrowIfNull(FileFormat);
+        this.FileFormat = FileFormat;
+    }
+
+    private AwsPricingGetPriceListFileUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPricingGetPriceListFileUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPricingGetPriceListFileUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists re- sponse. Constraints: o min: 18 o max: 2048 o pattern: arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pric- ing:::price-list/[A-Za-z0-9+_/.-]{1,1023}
+    /// </summary>
+    [CliOption("--price-list-arn")]
+    public string? PriceListArn { get; private init; }
+
+    /// <summary>
+    /// The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the ListPriceLists response. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--file-format")]
-    public string? FileFormat { get; set; }
+    public string? FileFormat { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

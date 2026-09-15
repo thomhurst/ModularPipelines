@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-data-table-attribute")]
-public record AwsConnectCreateDataTableAttributeOptions : AwsOptions
+public record AwsConnectCreateDataTableAttributeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds an attribute to an existing data table. Creating a new primary at- tribute uses the empty value for the specified value type for all ex- isting records. This should not affect uniqueness of published data ta- bles since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. White- space trimmed before persisting. Must be unique for the data table using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
+    /// <param name="ValueType">The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN. Possible values: o TEXT o NUMBER o BOOLEAN o TEXT_LIST o NUMBER_LIST</param>
+    public AwsConnectCreateDataTableAttributeOptions(
+        string InstanceId,
+        string DataTableId,
+        string Name,
+        AwsConnectCreateDataTableAttributeValueType ValueType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataTableId);
+        this.DataTableId = DataTableId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ValueType);
+        this.ValueType = ValueType;
+    }
+
+    private AwsConnectCreateDataTableAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateDataTableAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateDataTableAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--data-table-id")]
-    public string? DataTableId { get; set; }
+    public string? DataTableId { get; private init; }
 
+    /// <summary>
+    /// The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. White- space trimmed before persisting. Must be unique for the data table using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN. Possible values: o TEXT o NUMBER o BOOLEAN o TEXT_LIST o NUMBER_LIST
+    /// </summary>
     [CliOption("--value-type")]
-    public string? ValueType { get; set; }
+    public AwsConnectCreateDataTableAttributeValueType? ValueType { get; private init; }
 
     /// <summary>
     /// An optional description for the attribute. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace trimmed before persisting. Constraints: o min: 0 o max: 250 o pattern: ^[\\P{C}\r\n\t]+$
@@ -39,7 +98,10 @@ public record AwsConnectCreateDataTableAttributeOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--primary")]
+    /// <summary>
+    /// Optional boolean that defaults to false. Determines if the value is used to identify a record in the table. Values for primary attrib- utes must not be expressions.
+    /// </summary>
+    [CliFlag("--primary", NegatedName = "--no-primary")]
     public bool? Primary { get; set; }
 
     /// <summary>
@@ -53,5 +115,22 @@ public record AwsConnectCreateDataTableAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

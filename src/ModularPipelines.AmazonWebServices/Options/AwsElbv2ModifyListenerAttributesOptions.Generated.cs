@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "modify-listener-attributes")]
-public record AwsElbv2ModifyListenerAttributesOptions : AwsOptions
+public record AwsElbv2ModifyListenerAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--listener-arn")]
-    public string? ListenerArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the specified attributes of the specified listener. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener.</param>
+    /// <param name="Attributes">The listener attributes. (structure) Information about a listener attribute. Key -&gt; (string) The name of the attribute. The following attribute is supported by Network Load Bal- ancers, and Gateway Load Balancers. o tcp.idle_timeout.seconds - The tcp idle timeout value, in seconds. The valid range is 60-6000 seconds. The default is 350 seconds. The following attribute is only supported by Gateway Load Balancers: o send_tcp_reset.on_idle_timeout.enabled Specifies whether the Gateway Load Balancer sends a TCP Reset to the sender of traffic when a TCP flow's idle timeout expires. This at- tribute also applies to non-SYN TCP packets received for flows that are not in the flow table. The value is true or false . The default is false . The following attributes are only supported by Application Load Balancers. o routing.http.request.x_amzn_mtls_clientcert_serial_num- ber.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Serial-Number HTTP request header. o routing.http.request.x_amzn_mtls_clientcert_is- suer.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Issuer HTTP request header. o routing.http.request.x_amzn_mtls_clientcert_sub- ject.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Subject HTTP request header. o routing.http.request.x_amzn_mtls_clientcert_valid- ity.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Validity HTTP request header. o routing.http.re- quest.x_amzn_mtls_clientcert_leaf.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Leaf HTTP request header. o routing.http.request.x_amzn_mtls_clientcert.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert HTTP request header. o routing.http.request.x_amzn_tls_version.header_name - En- ables you to modify the header name of the X-Amzn-Tls-Ver- sion HTTP request header. o routing.http.request.x_amzn_tls_cipher_suite.header_name - Enables you to modify the header name of the X-Amzn-Tls-Ci- pher-Suite HTTP request header. o routing.http.response.server.enabled - Enables you to allow or remove the HTTP response server header. o routing.http.response.strict_transport_secu- rity.header_value - Informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. o routing.http.response.access_control_allow_ori- gin.header_value - Specifies which origins are allowed to access the server. o routing.http.response.access_control_allow_meth- ods.header_value - Returns which HTTP methods are allowed when accessing the server from a different origin. o routing.http.response.access_control_allow_head- ers.header_value - Specifies which headers can be used dur- ing the request. o routing.http.response.access_control_allow_creden- tials.header_value - Indicates whether the browser should include credentials such as cookies or authentication when making requests. o routing.http.response.access_control_expose_head- ers.header_value - Returns which headers the browser can expose to the requesting client. o routing.http.response.access_control_max_age.header_value - Specifies how long the results of a preflight request can be cached, in seconds. o routing.http.response.content_security_policy.header_value - Specifies restrictions enforced by the browser to help minimize the risk of certain types of security threats. o routing.http.response.x_content_type_options.header_value - Indicates whether the MIME types advertised in the Con- tent-Type headers should be followed and not be changed. o routing.http.response.x_frame_options.header_value - Indi- cates whether the browser is allowed to render a page in a frame , iframe , embed or object . Constraints: o max: 256 o pattern: ^[a-zA-Z0-9._]+$ Value -&gt; (string) The value of the attribute. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsElbv2ModifyListenerAttributesOptions(
+        string ListenerArn,
+        IEnumerable<string> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ListenerArn);
+        this.ListenerArn = ListenerArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsElbv2ModifyListenerAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2ModifyListenerAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2ModifyListenerAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the listener.
+    /// </summary>
+    [CliOption("--listener-arn")]
+    public string? ListenerArn { get; private init; }
+
+    /// <summary>
+    /// The listener attributes. (structure) Information about a listener attribute. Key -&gt; (string) The name of the attribute. The following attribute is supported by Network Load Bal- ancers, and Gateway Load Balancers. o tcp.idle_timeout.seconds - The tcp idle timeout value, in seconds. The valid range is 60-6000 seconds. The default is 350 seconds. The following attribute is only supported by Gateway Load Balancers: o send_tcp_reset.on_idle_timeout.enabled Specifies whether the Gateway Load Balancer sends a TCP Reset to the sender of traffic when a TCP flow's idle timeout expires. This at- tribute also applies to non-SYN TCP packets received for flows that are not in the flow table. The value is true or false . The default is false . The following attributes are only supported by Application Load Balancers. o routing.http.request.x_amzn_mtls_clientcert_serial_num- ber.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Serial-Number HTTP request header. o routing.http.request.x_amzn_mtls_clientcert_is- suer.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Issuer HTTP request header. o routing.http.request.x_amzn_mtls_clientcert_sub- ject.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Subject HTTP request header. o routing.http.request.x_amzn_mtls_clientcert_valid- ity.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Validity HTTP request header. o routing.http.re- quest.x_amzn_mtls_clientcert_leaf.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert-Leaf HTTP request header. o routing.http.request.x_amzn_mtls_clientcert.header_name - Enables you to modify the header name of the X-Amzn-Mtls-Clientcert HTTP request header. o routing.http.request.x_amzn_tls_version.header_name - En- ables you to modify the header name of the X-Amzn-Tls-Ver- sion HTTP request header. o routing.http.request.x_amzn_tls_cipher_suite.header_name - Enables you to modify the header name of the X-Amzn-Tls-Ci- pher-Suite HTTP request header. o routing.http.response.server.enabled - Enables you to allow or remove the HTTP response server header. o routing.http.response.strict_transport_secu- rity.header_value - Informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. o routing.http.response.access_control_allow_ori- gin.header_value - Specifies which origins are allowed to access the server. o routing.http.response.access_control_allow_meth- ods.header_value - Returns which HTTP methods are allowed when accessing the server from a different origin. o routing.http.response.access_control_allow_head- ers.header_value - Specifies which headers can be used dur- ing the request. o routing.http.response.access_control_allow_creden- tials.header_value - Indicates whether the browser should include credentials such as cookies or authentication when making requests. o routing.http.response.access_control_expose_head- ers.header_value - Returns which headers the browser can expose to the requesting client. o routing.http.response.access_control_max_age.header_value - Specifies how long the results of a preflight request can be cached, in seconds. o routing.http.response.content_security_policy.header_value - Specifies restrictions enforced by the browser to help minimize the risk of certain types of security threats. o routing.http.response.x_content_type_options.header_value - Indicates whether the MIME types advertised in the Con- tent-Type headers should be followed and not be changed. o routing.http.response.x_frame_options.header_value - Indi- cates whether the browser is allowed to render a page in a frame , iframe , embed or object . Constraints: o max: 256 o pattern: ^[a-zA-Z0-9._]+$ Value -&gt; (string) The value of the attribute. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--attributes", GroupValues = true)]
-    public IEnumerable<string>? Attributes { get; set; }
+    public IEnumerable<string>? Attributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

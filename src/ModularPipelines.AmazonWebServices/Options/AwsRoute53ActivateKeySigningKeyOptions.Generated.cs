@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "activate-key-signing-key")]
-public record AwsRoute53ActivateKeySigningKeyOptions : AwsOptions
+public record AwsRoute53ActivateKeySigningKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HostedZoneId">A unique string used to identify a hosted zone. Constraints: o max: 32</param>
+    /// <param name="Name">A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: o min: 3 o max: 128</param>
+    public AwsRoute53ActivateKeySigningKeyOptions(
+        string HostedZoneId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsRoute53ActivateKeySigningKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53ActivateKeySigningKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53ActivateKeySigningKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique string used to identify a hosted zone. Constraints: o max: 32
+    /// </summary>
+    [CliOption("--hosted-zone-id")]
+    public string? HostedZoneId { get; private init; }
+
+    /// <summary>
+    /// A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: o min: 3 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

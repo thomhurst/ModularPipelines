@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "delete-db-cluster")]
-public record AwsNeptuneDeleteDbClusterOptions : AwsOptions
+public record AwsNeptuneDeleteDbClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. Note that the DB Cluster cannot be deleted if deletion protection is enabled. To delete it, you must first set its DeletionProtection field to False . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier for the DB cluster to be deleted. This pa- rameter isn't case-sensitive. Constraints: o Must match an existing DBClusterIdentifier.</param>
+    public AwsNeptuneDeleteDbClusterOptions(
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsNeptuneDeleteDbClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneDeleteDbClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneDeleteDbClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB cluster identifier for the DB cluster to be deleted. This pa- rameter isn't case-sensitive. Constraints: o Must match an existing DBClusterIdentifier.
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted. NOTE: You must specify a FinalDBSnapshotIdentifier parameter if Skip- FinalSnapshot is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
@@ -38,5 +78,22 @@ public record AwsNeptuneDeleteDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

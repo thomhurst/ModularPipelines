@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "create-job-queue")]
-public record AwsBatchCreateJobQueueOptions : AwsOptions
+public record AwsBatchCreateJobQueueOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Batch job queue. When you create a job queue, you associate one or more compute environments to the queue and assign an order of preference for the compute environments. You also set a priority to the job queue that determines the order that the Batch scheduler places jobs onto its associated compute environ- ments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given pref- erence for scheduling jobs to that co...
+    /// </summary>
+    /// <param name="JobQueueName">The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).</param>
+    /// <param name="Priority">The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a pri- ority value of 10 is given scheduling preference over a job queue with a priority value of 1 . All of the compute environments must be either EC2 (EC2 or SPOT ) or Fargate (FARGATE or FARGATE_SPOT ); EC2 and Fargate compute environments can't be mixed.</param>
+    public AwsBatchCreateJobQueueOptions(
+        string JobQueueName,
+        int Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobQueueName);
+        this.JobQueueName = JobQueueName;
+        this.Priority = Priority;
+    }
+
+    private AwsBatchCreateJobQueueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchCreateJobQueueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchCreateJobQueueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    /// </summary>
     [CliOption("--job-queue-name")]
-    public string? JobQueueName { get; set; }
+    public string? JobQueueName { get; private init; }
+
+    /// <summary>
+    /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a pri- ority value of 10 is given scheduling preference over a job queue with a priority value of 1 . All of the compute environments must be either EC2 (EC2 or SPOT ) or Fargate (FARGATE or FARGATE_SPOT ); EC2 and Fargate compute environments can't be mixed.
+    /// </summary>
+    [CliOption("--priority")]
+    public int? Priority { get; private init; }
 
     /// <summary>
     /// The state of the job queue. If the job queue state is ENABLED , it is able to accept jobs. If the job queue state is DISABLED , new jobs can't be added to the queue, but jobs already in the queue can finish. Possible values: o ENABLED o DISABLED
@@ -37,9 +83,6 @@ public record AwsBatchCreateJobQueueOptions : AwsOptions
     /// </summary>
     [CliOption("--scheduling-policy-arn")]
     public string? SchedulingPolicyArn { get; set; }
-
-    [CliOption("--priority")]
-    public int? Priority { get; set; }
 
     /// <summary>
     /// The set of compute environments mapped to a job queue and their or- der relative to each other. The job scheduler uses this parameter to determine which compute environment runs a specific job. Compute en- vironments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT ) or Fargate (FARGATE or FARGATE_SPOT ); EC2 and Far- gate compute environments can't be mixed. NOTE: All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue. (structure) The order that compute environments are tried in for job place- ment within a queue. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order in- teger value is tried for job placement first. Compute environ- ments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT ) or Fargate (FARGATE or FARGATE_SPOT ); Amazon EC2 and Fargate compute environments can't be mixed. NOTE: All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mix- ing compute environment architecture types in a single job queue. order -&gt; (integer) [required] The order of the compute environment. Compute environments are tried in ascending order. For example, if two compute en- vironments are associated with a job queue, the compute envi- ronment with a lower order integer value is tried for job placement first. computeEnvironment -&gt; (string) [required] The Amazon Resource Name (ARN) of the compute environment. Shorthand Syntax: order=integer,computeEnvironment=string ... JSON Syntax: [ { "order": integer, "computeEnvironment": "string" } ... ]
@@ -76,5 +119,22 @@ public record AwsBatchCreateJobQueueOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

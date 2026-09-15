@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "test-invoke-authorizer")]
-public record AwsIotTestInvokeAuthorizerOptions : AwsOptions
+public record AwsIotTestInvokeAuthorizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behav- ior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthorizerName">The custom authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    public AwsIotTestInvokeAuthorizerOptions(
+        string AuthorizerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizerName);
+        this.AuthorizerName = AuthorizerName;
+    }
+
+    private AwsIotTestInvokeAuthorizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotTestInvokeAuthorizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotTestInvokeAuthorizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The custom authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// </summary>
     [CliOption("--authorizer-name")]
-    public string? AuthorizerName { get; set; }
+    public string? AuthorizerName { get; private init; }
 
     /// <summary>
     /// The token returned by your custom authentication service. Constraints: o min: 1 o max: 6144 o pattern: [\s\S]*
@@ -48,6 +85,7 @@ public record AwsIotTestInvokeAuthorizerOptions : AwsOptions
     /// <summary>
     /// Specifies a test MQTT authorization request. username -&gt; (string) The value of the username key in an MQTT authorization request. Constraints: o min: 1 o max: 65535 o pattern: [\s\S]* password -&gt; (blob) The value of the password key in an MQTT authorization request. Constraints: o min: 1 o max: 65535 clientId -&gt; (string) The value of the clientId key in an MQTT authorization request. Constraints: o min: 1 o max: 65535 o pattern: [\s\S]* Shorthand Syntax: username=string,password=blob,clientId=string JSON Syntax: { "username": "string", "password": blob, "clientId": "string" }
     /// </summary>
+    [SecretValue]
     [CliOption("--mqtt-context")]
     public string? MqttContext { get; set; }
 
@@ -62,5 +100,22 @@ public record AwsIotTestInvokeAuthorizerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "get-generated-policy")]
-public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions
+public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-resource-placeholders")]
+    /// <summary>
+    /// Retrieves the policy that was generated using StartPolicyGeneration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the gener- ated policies or used with CancelPolicyGeneration to cancel the pol- icy generation request.</param>
+    public AwsAccessanalyzerGetGeneratedPolicyOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    private AwsAccessanalyzerGetGeneratedPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerGetGeneratedPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerGetGeneratedPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the gener- ated policies or used with CancelPolicyGeneration to cancel the pol- icy generation request.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// The level of detail that you want to generate. You can specify whether to generate policies with placeholders for resource ARNs for actions that support resource level granularity in policies. For example, in the resource section of a policy, you can receive a placeholder such as "Resource":"arn:aws:s3:::${BucketName}" instead of "*" .
+    /// </summary>
+    [CliFlag("--include-resource-placeholders", NegatedName = "--no-include-resource-placeholders")]
     public bool? IncludeResourcePlaceholders { get; set; }
 
-    [CliFlag("--include-service-level-template")]
+    /// <summary>
+    /// The level of detail that you want to generate. You can specify whether to generate service-level policies. IAM Access Analyzer uses iam:servicelastaccessed to identify ser- vices that have been used recently to create this service-level tem- plate.
+    /// </summary>
+    [CliFlag("--include-service-level-template", NegatedName = "--no-include-service-level-template")]
     public bool? IncludeServiceLevelTemplate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +78,22 @@ public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

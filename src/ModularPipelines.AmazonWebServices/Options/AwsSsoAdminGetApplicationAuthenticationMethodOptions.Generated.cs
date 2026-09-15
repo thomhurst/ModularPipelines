@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "get-application-authentication-method")]
-public record AwsSsoAdminGetApplicationAuthenticationMethodOptions : AwsOptions
+public record AwsSsoAdminGetApplicationAuthenticationMethodOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves details about an authentication method used by an applica- tion. See also: AWS API Documentation get-application-authentication-method uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="ApplicationArn">Specifies the ARN of the application. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="AuthenticationMethodType">Specifies the type of authentication method for which you want de- tails. Possible values: o IAM</param>
+    public AwsSsoAdminGetApplicationAuthenticationMethodOptions(
+        string ApplicationArn,
+        AwsSsoAdminGetApplicationAuthenticationMethodAuthenticationMethodType AuthenticationMethodType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMethodType);
+        this.AuthenticationMethodType = AuthenticationMethodType;
+    }
+
+    private AwsSsoAdminGetApplicationAuthenticationMethodOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminGetApplicationAuthenticationMethodOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminGetApplicationAuthenticationMethodOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the application. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// </summary>
+    [CliOption("--application-arn")]
+    public string? ApplicationArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the type of authentication method for which you want de- tails. Possible values: o IAM
+    /// </summary>
     [CliOption("--authentication-method-type")]
-    public string? AuthenticationMethodType { get; set; }
+    public AwsSsoAdminGetApplicationAuthenticationMethodAuthenticationMethodType? AuthenticationMethodType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

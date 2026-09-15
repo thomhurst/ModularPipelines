@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --goaltype.
+/// Allowed values for --goal-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDevopsAgentListGoalsGoalType
 {
     [EnumValue("CUSTOMER_DEFINED")]
-    CustomerDefined = 1,
+    CustomerDefined,
 
     [EnumValue("ONCALL_REPORT")]
-    OncallReport = 2
+    OncallReport
 }

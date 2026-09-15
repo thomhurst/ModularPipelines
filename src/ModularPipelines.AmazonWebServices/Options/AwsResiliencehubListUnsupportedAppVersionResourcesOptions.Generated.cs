@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "list-unsupported-app-version-resources")]
-public record AwsResiliencehubListUnsupportedAppVersionResourcesOptions : AwsOptions
+public record AwsResiliencehubListUnsupportedAppVersionResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppVersion">The version of the application. Constraints: o pattern: ^\S{1,50}$</param>
+    public AwsResiliencehubListUnsupportedAppVersionResourcesOptions(
+        string AppArn,
+        string AppVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+        global::System.ArgumentNullException.ThrowIfNull(AppVersion);
+        this.AppVersion = AppVersion;
+    }
+
+    private AwsResiliencehubListUnsupportedAppVersionResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubListUnsupportedAppVersionResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubListUnsupportedAppVersionResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
+    /// <summary>
+    /// The version of the application. Constraints: o pattern: ^\S{1,50}$
+    /// </summary>
     [CliOption("--app-version")]
-    public string? AppVersion { get; set; }
+    public string? AppVersion { get; private init; }
 
     /// <summary>
     /// Maximum number of results to include in the response. If more re- sults exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Constraints: o min: 1 o max: 100
@@ -52,5 +96,22 @@ public record AwsResiliencehubListUnsupportedAppVersionResourcesOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

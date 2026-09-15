@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-mlflow-tracking-server")]
-public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions
+public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates properties of an existing MLflow Tracking Server. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackingServerName">The name of the MLflow Tracking Server to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    public AwsSagemakerUpdateMlflowTrackingServerOptions(
+        string TrackingServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackingServerName);
+        this.TrackingServerName = TrackingServerName;
+    }
+
+    private AwsSagemakerUpdateMlflowTrackingServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateMlflowTrackingServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateMlflowTrackingServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the MLflow Tracking Server to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// </summary>
     [CliOption("--tracking-server-name")]
-    public string? TrackingServerName { get; set; }
+    public string? TrackingServerName { get; private init; }
 
     /// <summary>
     /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow Tracking Server. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)
@@ -37,7 +74,10 @@ public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--tracking-server-size")]
     public AwsSagemakerUpdateMlflowTrackingServerTrackingServerSize? TrackingServerSize { get; set; }
 
-    [CliFlag("--automatic-model-registration")]
+    /// <summary>
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, Automatic- ModelRegistration defaults to False
+    /// </summary>
+    [CliFlag("--automatic-model-registration", NegatedName = "--no-automatic-model-registration")]
     public bool? AutomaticModelRegistration { get; set; }
 
     /// <summary>
@@ -52,7 +92,10 @@ public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--s3-bucket-owner-account-id")]
     public string? S3BucketOwnerAccountId { get; set; }
 
-    [CliFlag("--s3-bucket-owner-verification")]
+    /// <summary>
+    /// Whether to enable or disable Amazon S3 Bucket Owenrship Verifaction whenever the MLflow Tracking Server interacts with Amazon Amazon S3.
+    /// </summary>
+    [CliFlag("--s3-bucket-owner-verification", NegatedName = "--no-s3-bucket-owner-verification")]
     public bool? S3BucketOwnerVerification { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -60,5 +103,22 @@ public record AwsSagemakerUpdateMlflowTrackingServerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

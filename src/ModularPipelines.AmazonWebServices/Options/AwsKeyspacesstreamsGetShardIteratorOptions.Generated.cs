@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspacesstreams", "get-shard-iterator")]
-public record AwsKeyspacesstreamsGetShardIteratorOptions : AwsOptions
+public record AwsKeyspacesstreamsGetShardIteratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a shard iterator that serves as a bookmark for reading data from a specific position in an Amazon Keyspaces data stream's shard. The shard iterator specifies the shard position from which to start reading data records sequentially. You can specify whether to begin reading at the latest record, the oldest record, or at a particular se- quence number within the shard. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="ShardId">The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access. Constraints: o min: 28 o max: 65</param>
+    /// <param name="ShardIteratorType">Determines how the shard iterator is positioned. Must be one of the following: o TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard. o AT_SEQUENCE_NUMBER - Start reading exactly from the specified se- quence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number. o LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER</param>
+    public AwsKeyspacesstreamsGetShardIteratorOptions(
+        string StreamArn,
+        string ShardId,
+        AwsKeyspacesstreamsGetShardIteratorShardIteratorType ShardIteratorType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamArn);
+        this.StreamArn = StreamArn;
+        global::System.ArgumentNullException.ThrowIfNull(ShardId);
+        this.ShardId = ShardId;
+        global::System.ArgumentNullException.ThrowIfNull(ShardIteratorType);
+        this.ShardIteratorType = ShardIteratorType;
+    }
+
+    private AwsKeyspacesstreamsGetShardIteratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesstreamsGetShardIteratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesstreamsGetShardIteratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces. Constraints: o min: 37 o max: 1024
+    /// </summary>
     [CliOption("--stream-arn")]
-    public string? StreamArn { get; set; }
+    public string? StreamArn { get; private init; }
 
+    /// <summary>
+    /// The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access. Constraints: o min: 28 o max: 65
+    /// </summary>
     [CliOption("--shard-id")]
-    public string? ShardId { get; set; }
+    public string? ShardId { get; private init; }
 
+    /// <summary>
+    /// Determines how the shard iterator is positioned. Must be one of the following: o TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard. o AT_SEQUENCE_NUMBER - Start reading exactly from the specified se- quence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number. o LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER
+    /// </summary>
     [CliOption("--shard-iterator-type")]
-    public string? ShardIteratorType { get; set; }
+    public AwsKeyspacesstreamsGetShardIteratorShardIteratorType? ShardIteratorType { get; private init; }
 
     /// <summary>
     /// The sequence number of the data record in the shard from which to start reading. Required if ShardIteratorType is AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER . This parameter is ignored for other iter- ator types. Constraints: o min: 21 o max: 48
@@ -41,5 +93,22 @@ public record AwsKeyspacesstreamsGetShardIteratorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

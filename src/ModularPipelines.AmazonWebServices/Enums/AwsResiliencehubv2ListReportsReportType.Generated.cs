@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --reporttype.
+/// Allowed values for --report-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListReportsReportType
 {
     [EnumValue("FAILURE_MODE")]
-    FailureMode = 1,
+    FailureMode,
 
     [EnumValue("TESTING")]
-    Testing = 2
+    Testing
 }

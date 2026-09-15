@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,20 +23,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "create-knowledge-base")]
-public record AwsQconnectCreateKnowledgeBaseOptions : AwsOptions
+public record AwsQconnectCreateKnowledgeBaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a knowledge base. NOTE: When using this API, you cannot reuse Amazon AppIntegrations DataIn- tegrations with external knowledge bases such as Salesforce and Ser- viceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowl- edge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following: o Call DeleteKnowledgeBase . o Call DeleteDataIntegration . o Call CreateDataInte...
+    /// </summary>
+    /// <param name="Name">The name of the knowledge base. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*</param>
+    /// <param name="KnowledgeBaseType">The type of knowledge base. Only CUSTOM knowledge bases allow you to upload your own content. EXTERNAL knowledge bases support integra- tions with third-party systems whose content is synchronized auto- matically. Possible values: o EXTERNAL o CUSTOM o QUICK_RESPONSES o MESSAGE_TEMPLATES o MANAGED</param>
+    public AwsQconnectCreateKnowledgeBaseOptions(
+        string Name,
+        AwsQconnectCreateKnowledgeBaseKnowledgeBaseType KnowledgeBaseType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseType);
+        this.KnowledgeBaseType = KnowledgeBaseType;
+    }
+
+    private AwsQconnectCreateKnowledgeBaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectCreateKnowledgeBaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectCreateKnowledgeBaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the knowledge base. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of knowledge base. Only CUSTOM knowledge bases allow you to upload your own content. EXTERNAL knowledge bases support integra- tions with third-party systems whose content is synchronized auto- matically. Possible values: o EXTERNAL o CUSTOM o QUICK_RESPONSES o MESSAGE_TEMPLATES o MANAGED
+    /// </summary>
+    [CliOption("--knowledge-base-type")]
+    public AwsQconnectCreateKnowledgeBaseKnowledgeBaseType? KnowledgeBaseType { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--knowledge-base-type")]
-    public string? KnowledgeBaseType { get; set; }
 
     /// <summary>
     /// The source of the knowledge base content. Only set this argument for EXTERNAL or Managed knowledge bases. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: appIntegrations, managedSourceConfigura- tion. appIntegrations -&gt; (structure) Configuration information for Amazon AppIntegrations to automat- ically ingest content. appIntegrationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AppIntegrations DataIn- tegration to use for ingesting content. o For Salesforce , your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not pro- vided, including at least Id , ArticleNumber , VersionNum- ber , Title , PublishStatus , and IsDeleted as source fields. o For ServiceNow , your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not pro- vided, including at least number , short_description , sys_mod_count , workflow_state , and active as source fields. o For Zendesk , your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not pro- vided, including at least id , title , updated_at , and draft as source fields. o For SharePoint , your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx , pdf , html , htm , and txt . o For Amazon S3 , the ObjectConfiguration and FileConfigura- tion of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the follow- ing format: s3://your_s3_bucket_name . WARNING: The bucket policy of the corresponding S3 bucket must al- low the Amazon Web Services principal app-integra- tions.amazonaws.com to perform s3:ListBucket , s3:GetOb- ject , and s3:GetBucketLocation against the bucket. Constraints: o min: 1 o max: 2048 o pattern: arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+ objectFields -&gt; (list) The fields from the source that are made available to your agents in Amazon Q in Connect. Optional if ObjectConfigura- tion is included in the provided DataIntegration. o For Salesforce , you must include at least Id , ArticleNum- ber , VersionNumber , Title , PublishStatus , and IsDeleted . o For ServiceNow , you must include at least number , short_description , sys_mod_count , workflow_state , and active . o For Zendesk , you must include at least id , title , up- dated_at , and draft . Make sure to include additional fields. These fields are in- dexed and used to source recommendations. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 4096 managedSourceConfiguration -&gt; (tagged union structure) Source configuration for managed resources. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: webCrawlerConfiguration. webCrawlerConfiguration -&gt; (structure) Configuration data for web crawler data source. urlConfiguration -&gt; (structure) [required] The configuration of the URL/URLs for the web content that you want to crawl. You should be authorized to crawl the URLs. seedUrls -&gt; (list) List of URLs for crawling. Constraints: o min: 1 o max: 100 (structure) A URL for crawling. url -&gt; (string) URL for crawling Constraints: o pattern: https?://[A-Za-z0-9][^\s]* crawlerLimits -&gt; (structure) The configuration of crawl limits for the web URLs. rateLimit -&gt; (integer) Rate of web URLs retrieved per minute. Constraints: o min: 1 o max: 300 inclusionFilters -&gt; (list) A list of one or more inclusion regular expression pat- terns to include certain URLs. If you specify an inclu- sion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isnt crawled. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1000 exclusionFilters -&gt; (list) A list of one or more exclusion regular expression pat- terns to exclude certain URLs. If you specify an inclu- sion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isnt crawled. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1000 scope -&gt; (string) The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary domain. For example, only web pages that contain the seed URL https://docs.aws.ama- zon.com/bedrock/latest/userguide/ and no other domains. You can choose to include sub domains in addition to the host or primary domain. For example, web pages that con- tain aws.amazon.com can also include sub domain docs.aws.amazon.com . Possible values: o HOST_ONLY o SUBDOMAINS JSON Syntax: { "appIntegrations": { "appIntegrationArn": "string", "objectFields": ["string", ...] }, "managedSourceConfiguration": { "webCrawlerConfiguration": { "urlConfiguration": { "seedUrls": [ { "url": "string" } ... ] }, "crawlerLimits": { "rateLimit": integer }, "inclusionFilters": ["string", ...], "exclusionFilters": ["string", ...], "scope": "HOST_ONLY"|"SUBDOMAINS" } } }
@@ -77,5 +122,22 @@ public record AwsQconnectCreateKnowledgeBaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

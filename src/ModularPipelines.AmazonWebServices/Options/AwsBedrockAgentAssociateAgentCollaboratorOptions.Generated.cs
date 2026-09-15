@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "associate-agent-collaborator")]
-public record AwsBedrockAgentAssociateAgentCollaboratorOptions : AwsOptions
+public record AwsBedrockAgentAssociateAgentCollaboratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Makes an agent a collaborator for another agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentId">The agent's ID. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">An agent version. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
+    /// <param name="AgentDescriptor">The alias of the collaborator agent. aliasArn -&gt; (string) The agent's alias ARN. Constraints: o min: 0 o max: 2048 o pattern: arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10} Shorthand Syntax: aliasArn=string JSON Syntax: { "aliasArn": "string" }</param>
+    /// <param name="CollaboratorName">A name for the collaborator. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="CollaborationInstruction">Instruction for the collaborator. Constraints: o min: 1 o max: 4000</param>
+    public AwsBedrockAgentAssociateAgentCollaboratorOptions(
+        string AgentId,
+        string AgentVersion,
+        string AgentDescriptor,
+        string CollaboratorName,
+        string CollaborationInstruction
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentVersion);
+        this.AgentVersion = AgentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(AgentDescriptor);
+        this.AgentDescriptor = AgentDescriptor;
+        global::System.ArgumentNullException.ThrowIfNull(CollaboratorName);
+        this.CollaboratorName = CollaboratorName;
+        global::System.ArgumentNullException.ThrowIfNull(CollaborationInstruction);
+        this.CollaborationInstruction = CollaborationInstruction;
+    }
+
+    private AwsBedrockAgentAssociateAgentCollaboratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentAssociateAgentCollaboratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentAssociateAgentCollaboratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The agent's ID. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
 
+    /// <summary>
+    /// An agent version. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// </summary>
     [CliOption("--agent-version")]
-    public string? AgentVersion { get; set; }
+    public string? AgentVersion { get; private init; }
 
+    /// <summary>
+    /// The alias of the collaborator agent. aliasArn -&gt; (string) The agent's alias ARN. Constraints: o min: 0 o max: 2048 o pattern: arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10} Shorthand Syntax: aliasArn=string JSON Syntax: { "aliasArn": "string" }
+    /// </summary>
     [CliOption("--agent-descriptor")]
-    public string? AgentDescriptor { get; set; }
+    public string? AgentDescriptor { get; private init; }
 
+    /// <summary>
+    /// A name for the collaborator. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// </summary>
     [CliOption("--collaborator-name")]
-    public string? CollaboratorName { get; set; }
+    public string? CollaboratorName { get; private init; }
 
+    /// <summary>
+    /// Instruction for the collaborator. Constraints: o min: 1 o max: 4000
+    /// </summary>
     [CliOption("--collaboration-instruction")]
-    public string? CollaborationInstruction { get; set; }
+    public string? CollaborationInstruction { get; private init; }
 
     /// <summary>
     /// A relay conversation history for the collaborator. Possible values: o TO_COLLABORATOR o DISABLED
@@ -56,5 +121,22 @@ public record AwsBedrockAgentAssociateAgentCollaboratorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

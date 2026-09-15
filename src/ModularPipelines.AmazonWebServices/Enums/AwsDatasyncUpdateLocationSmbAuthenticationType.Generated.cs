@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationtype.
+/// Allowed values for --authentication-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatasyncUpdateLocationSmbAuthenticationType
 {
-    [EnumValue("NTLM")]
-    Ntlm = 1,
-
     [EnumValue("KERBEROS")]
-    Kerberos = 2
+    Kerberos,
+
+    [EnumValue("NTLM")]
+    Ntlm
 }

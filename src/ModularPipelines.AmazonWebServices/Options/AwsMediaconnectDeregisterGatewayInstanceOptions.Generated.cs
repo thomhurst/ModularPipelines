@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "deregister-gateway-instance")]
-public record AwsMediaconnectDeregisterGatewayInstanceOptions : AwsOptions
+public record AwsMediaconnectDeregisterGatewayInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--force")]
-    public bool? Force { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayInstanceArn">The Amazon Resource Name (ARN) of the gateway that contains the in- stance that you want to deregister. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+</param>
+    public AwsMediaconnectDeregisterGatewayInstanceOptions(
+        string GatewayInstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayInstanceArn);
+        this.GatewayInstanceArn = GatewayInstanceArn;
+    }
+
+    private AwsMediaconnectDeregisterGatewayInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectDeregisterGatewayInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectDeregisterGatewayInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the gateway that contains the in- stance that you want to deregister. Constraints: o pattern: arn:.+:mediaconnect.+:gateway:.+:instance:.+
+    /// </summary>
     [CliOption("--gateway-instance-arn")]
-    public string? GatewayInstanceArn { get; set; }
+    public string? GatewayInstanceArn { get; private init; }
+
+    /// <summary>
+    /// Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
+    public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

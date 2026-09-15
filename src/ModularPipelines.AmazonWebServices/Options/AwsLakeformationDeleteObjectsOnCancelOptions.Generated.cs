@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +20,115 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "delete-objects-on-cancel")]
-public record AwsLakeformationDeleteObjectsOnCancelOptions : AwsOptions
+public record AwsLakeformationDeleteObjectsOnCancelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be au- tomatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction can- cels. The Glue ETL library function write_dynamic_frame.from_catalog() in- cludes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also:...
+    /// </summary>
+    /// <param name="DatabaseName">The database that contains the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TransactionId">ID of the transaction that the writes occur in. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*</param>
+    /// <param name="Objects">A list of VirtualObject structures, which indicates the Amazon S3 objects to be deleted if the transaction cancels. Constraints: o min: 1 o max: 100 (structure) An object that defines an Amazon S3 object to be deleted if a transaction cancels, provided that VirtualPut was called before writing the object. Uri -&gt; (string) [required] The path to the Amazon S3 object. Must start with s3:// Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The ETag of the Amazon S3 object. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: Uri=string,ETag=string ... JSON Syntax: [ { "Uri": "string", "ETag": "string" } ... ]</param>
+    public AwsLakeformationDeleteObjectsOnCancelOptions(
+        string DatabaseName,
+        string TableName,
+        string TransactionId,
+        IEnumerable<string> Objects
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(TransactionId);
+        this.TransactionId = TransactionId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Objects);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Objects));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Objects));
+            }
+
+            Objects = materialized;
+        }
+        this.Objects = Objects;
+    }
+
+    private AwsLakeformationDeleteObjectsOnCancelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationDeleteObjectsOnCancelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationDeleteObjectsOnCancelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The database that contains the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// ID of the transaction that the writes occur in. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// </summary>
+    [CliOption("--transaction-id")]
+    public string? TransactionId { get; private init; }
+
+    /// <summary>
+    /// A list of VirtualObject structures, which indicates the Amazon S3 objects to be deleted if the transaction cancels. Constraints: o min: 1 o max: 100 (structure) An object that defines an Amazon S3 object to be deleted if a transaction cancels, provided that VirtualPut was called before writing the object. Uri -&gt; (string) [required] The path to the Amazon S3 object. Must start with s3:// Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The ETag of the Amazon S3 object. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: Uri=string,ETag=string ... JSON Syntax: [ { "Uri": "string", "ETag": "string" } ... ]
+    /// </summary>
+    [CliOption("--objects", GroupValues = true)]
+    public IEnumerable<string>? Objects { get; private init; }
+
     /// <summary>
     /// The Glue data catalog that contains the governed table. Defaults to the current account ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
-
-    [CliOption("--transaction-id")]
-    public string? TransactionId { get; set; }
-
-    [CliOption("--objects", GroupValues = true)]
-    public IEnumerable<string>? Objects { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

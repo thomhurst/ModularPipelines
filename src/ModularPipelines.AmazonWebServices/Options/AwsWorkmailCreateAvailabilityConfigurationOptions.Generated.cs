@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "create-availability-configuration")]
-public record AwsWorkmailCreateAvailabilityConfigurationOptions : AwsOptions
+public record AwsWorkmailCreateAvailabilityConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AvailabilityConfiguration for the given WorkMail organiza- tion and domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The WorkMail organization for which the AvailabilityConfiguration will be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="DomainName">The domain to which the provider applies. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.-]+</param>
+    public AwsWorkmailCreateAvailabilityConfigurationOptions(
+        string OrganizationId,
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsWorkmailCreateAvailabilityConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailCreateAvailabilityConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailCreateAvailabilityConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The WorkMail organization for which the AvailabilityConfiguration will be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The domain to which the provider applies. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.-]+
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
     /// <summary>
     /// An idempotent token that ensures that an API request is executed only once. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
-
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
 
     /// <summary>
     /// Exchange Web Services (EWS) availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider . EwsEndpoint -&gt; (string) [required] The endpoint of the remote EWS server. Constraints: o max: 256 o pattern: https?://[A-Za-z0-9.-]+(:[0-9]+)?/.* EwsUsername -&gt; (string) [required] The username used to authenticate the remote EWS server. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+ EwsPassword -&gt; (string) [required] The password used to authenticate the remote EWS server. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+ Shorthand Syntax: EwsEndpoint=string,EwsUsername=string,EwsPassword=string JSON Syntax: { "EwsEndpoint": "string", "EwsUsername": "string", "EwsPassword": "string" }
@@ -52,5 +96,22 @@ public record AwsWorkmailCreateAvailabilityConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

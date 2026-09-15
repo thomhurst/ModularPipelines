@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --indicatortype.
+/// Allowed values for --indicator-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDetectiveListIndicatorsIndicatorType
 {
-    [EnumValue("TTP_OBSERVED")]
-    TtpObserved = 1,
+    [EnumValue("FLAGGED_IP_ADDRESS")]
+    FlaggedIpAddress,
 
     [EnumValue("IMPOSSIBLE_TRAVEL")]
-    ImpossibleTravel = 2,
-
-    [EnumValue("FLAGGED_IP_ADDRESS")]
-    FlaggedIpAddress = 3,
-
-    [EnumValue("NEW_GEOLOCATION")]
-    NewGeolocation = 4,
+    ImpossibleTravel,
 
     [EnumValue("NEW_ASO")]
-    NewAso = 5,
+    NewAso,
+
+    [EnumValue("NEW_GEOLOCATION")]
+    NewGeolocation,
 
     [EnumValue("NEW_USER_AGENT")]
-    NewUserAgent = 6,
+    NewUserAgent,
 
     [EnumValue("RELATED_FINDING")]
-    RelatedFinding = 7,
+    RelatedFinding,
 
     [EnumValue("RELATED_FINDING_GROUP")]
-    RelatedFindingGroup = 8
+    RelatedFindingGroup,
+
+    [EnumValue("TTP_OBSERVED")]
+    TtpObserved
 }

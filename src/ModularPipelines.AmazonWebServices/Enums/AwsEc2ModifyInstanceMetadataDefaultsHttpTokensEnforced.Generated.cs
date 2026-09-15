@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --httptokensenforced.
+/// Allowed values for --http-tokens-enforced.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyInstanceMetadataDefaultsHttpTokensEnforced
 {
     [EnumValue("disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("enabled")]
-    Enabled = 2,
+    Enabled,
 
     [EnumValue("no-preference")]
-    NoPreference = 3
+    NoPreference
 }

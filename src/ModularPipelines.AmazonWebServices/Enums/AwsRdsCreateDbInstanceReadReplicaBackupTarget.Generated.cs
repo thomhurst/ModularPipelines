@@ -11,32 +11,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --backuptarget.
+/// Allowed values for --backup-target.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsCreateDbInstanceReadReplicaBackupTarget
 {
-    [EnumValue("local")]
-    Local = 1,
-
-    [EnumValue("for")]
-    For = 2,
+    [EnumValue("Amazon")]
+    Amazon,
 
     [EnumValue("Dedicated")]
-    Dedicated = 3,
+    Dedicated,
 
-    [EnumValue("Zones")]
-    Zones = 4,
+    [EnumValue("for")]
+    For,
+
+    [EnumValue("local")]
+    Local,
+
+    [EnumValue("Local")]
+    LocalAlternative,
+
+    [EnumValue("o")]
+    O,
 
     [EnumValue("region")]
-    Region = 5,
+    Region,
 
-    [EnumValue("Amazon")]
-    Amazon = 6,
-
-    [EnumValue("Web")]
-    Web = 7,
+    [EnumValue("Region")]
+    RegionAlternative,
 
     [EnumValue("Services")]
-    Services = 8
+    Services,
+
+    [EnumValue("Web")]
+    Web,
+
+    [EnumValue("Zones")]
+    Zones
 }

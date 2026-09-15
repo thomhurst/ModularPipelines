@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "create-connector-v2")]
-public record AwsSecurityhubCreateConnectorV2Options : AwsOptions
+public record AwsSecurityhubCreateConnectorV2Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Grants permission to create a connectorV2 based on input parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The unique name of the connectorV2. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Provider">The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The configuration settings required to establish an integration with Jira Cloud. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: o pattern: .*\S.* ServiceNow -&gt; (structure) The configuration settings required to establish an integration with ServiceNow ITSM. InstanceName -&gt; (string) [required] The instance name of ServiceNow ITSM. Constraints: o pattern: .*\S.* SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the ServiceNow creden- tials. Constraints: o pattern: .*\S.* Azure -&gt; (structure) The configuration settings required to establish a CSPM integra- tion with Microsoft Azure. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "InstanceName": "string", "SecretArn": "string" }, "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }</param>
+    public AwsSecurityhubCreateConnectorV2Options(
+        string Name,
+        string Provider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    private AwsSecurityhubCreateConnectorV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubCreateConnectorV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubCreateConnectorV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the connectorV2. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The configuration settings required to establish an integration with Jira Cloud. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: o pattern: .*\S.* ServiceNow -&gt; (structure) The configuration settings required to establish an integration with ServiceNow ITSM. InstanceName -&gt; (string) [required] The instance name of ServiceNow ITSM. Constraints: o pattern: .*\S.* SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the ServiceNow creden- tials. Constraints: o pattern: .*\S.* Azure -&gt; (structure) The configuration settings required to establish a CSPM integra- tion with Microsoft Azure. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "InstanceName": "string", "SecretArn": "string" }, "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
+    /// </summary>
+    [CliOption("--provider")]
+    public string? Provider { get; private init; }
 
     /// <summary>
     /// The description of the connectorV2. Constraints: o pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--provider")]
-    public string? Provider { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of KMS key used to encrypt secrets for the connectorV2. Constraints: o pattern: .*\S.*
@@ -59,5 +103,22 @@ public record AwsSecurityhubCreateConnectorV2Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --locationtype.
+/// Allowed values for --location-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2DescribeInstanceTypeOfferingsLocationType
 {
-    [EnumValue("region")]
-    Region = 1,
-
     [EnumValue("availability-zone")]
-    AvailabilityZone = 2,
+    AvailabilityZone,
 
     [EnumValue("availability-zone-id")]
-    AvailabilityZoneId = 3,
+    AvailabilityZoneId,
 
     [EnumValue("outpost")]
-    Outpost = 4
+    Outpost,
+
+    [EnumValue("region")]
+    Region
 }

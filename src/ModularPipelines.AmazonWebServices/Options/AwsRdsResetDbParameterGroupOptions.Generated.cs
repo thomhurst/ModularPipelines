@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "reset-db-parameter-group")]
-public record AwsRdsResetDbParameterGroupOptions : AwsOptions
+public record AwsRdsResetDbParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-parameter-group-name")]
-    public string? DbParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the fol- lowing: ParameterName and ApplyMethod . To reset the entire DB parame- ter group, specify the DBParameterGroup name and ResetAllParameters pa- rameters. When resetting the entire group, dynamic parameters are up- dated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance re- quest. Se...
+    /// </summary>
+    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: o Must match the name of an existing DBParameterGroup .</param>
+    public AwsRdsResetDbParameterGroupOptions(
+        string DbParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupName);
+        this.DbParameterGroupName = DbParameterGroupName;
+    }
+
+    private AwsRdsResetDbParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsResetDbParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsResetDbParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB parameter group. Constraints: o Must match the name of an existing DBParameterGroup .
+    /// </summary>
+    [CliOption("--db-parameter-group-name")]
+    public string? DbParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to reset all parameters in the DB parameter group to default values. By default, all parameters in the DB parameter group are reset to default values.
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>
@@ -38,5 +78,22 @@ public record AwsRdsResetDbParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

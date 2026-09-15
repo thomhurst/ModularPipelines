@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "wait", "tasks-running")]
-public record AwsEcsWaitTasksRunningOptions : AwsOptions
+public record AwsEcsWaitTasksRunningOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait until JMESPath query tasks[].lastStatus returns RUNNING for all elements when polling with describe-tasks. It will poll every 6 seconds until a successful state has been reached. This will exit with a return code of 255 after 100 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Tasks">A list of up to 100 task IDs or full ARN entries. (string) Syntax: "string" "string" ...</param>
+    public AwsEcsWaitTasksRunningOptions(
+        IEnumerable<string> Tasks
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tasks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tasks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tasks));
+            }
+
+            Tasks = materialized;
+        }
+        this.Tasks = Tasks;
+    }
+
+    private AwsEcsWaitTasksRunningOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsWaitTasksRunningOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsWaitTasksRunningOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of up to 100 task IDs or full ARN entries. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--tasks", GroupValues = true)]
+    public IEnumerable<string>? Tasks { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
-
-    [CliOption("--tasks", GroupValues = true)]
-    public IEnumerable<string>? Tasks { get; set; }
 
     /// <summary>
     /// Specifies whether you want to see the resource tags for the task. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
@@ -41,5 +89,22 @@ public record AwsEcsWaitTasksRunningOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

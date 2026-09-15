@@ -11,23 +11,77 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensur- ing agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's ...
+/// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using Cedar or Dogwood, you can define fine-grained poli- cies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' in...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-policy")]
-public record AwsBedrockAgentcoreControlCreatePolicyOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreatePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using Cedar or Dogwood, you can define fine-grained poli- cies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' in...
+    /// </summary>
+    /// <param name="Name">The customer-assigned immutable name for the policy. Must be unique within the account. This name is used for policy identification and cannot be changed after creation. Constraints: o min: 1 o max: 48 o pattern: [A-Za-z][A-Za-z0-9_]*</param>
+    /// <param name="Definition">The Cedar or Dogwood policy statement that defines the access con- trol rules. This contains the actual policy logic written in Cedar or Dogwood, specifying effect (permit or forbid), principals, ac- tions, resources, and conditions for agent behavior control. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedar, policyGeneration, policy. cedar -&gt; (structure) The Cedar policy definition within the policy definition struc- ture. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can ac- cess), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained con- trol. Cedar provides a formal policy language designed for au- thorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies. statement -&gt; (string) [required] The Cedar policy statement that defines the authorization logic. This statement follows Cedar syntax and specifies principals, actions, resources, and conditions that determine when access should be allowed or denied. Constraints: o min: 35 o max: 10000 policyGeneration -&gt; (structure) The generated policy asset information within the policy defini- tion structure. This contains information identifying a gener- ated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Dog- wood policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option. policyGenerationId -&gt; (string) [required] The unique identifier for this policy generation request. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policyGenerationAssetId -&gt; (string) [required] The unique identifier for this generated policy asset within the policy generation request. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policy -&gt; (structure) The Dogwood policy statement that defines the access control rules. This policy definition can include Dogwood policies and supports temporal conditions and information providers such as guardrails. statement -&gt; (string) [required] The body of the AgentCore Cedar or Dogwood policy statement. Contains the policy logic, which can be a Cedar policy, a temporal policy, or a guardrails definition. Constraints: o min: 35 o max: 10000 Shorthand Syntax: cedar={statement=string},policyGeneration={policyGenerationId=string,policyGenerationAssetId=string},policy={statement=string} JSON Syntax: { "cedar": { "statement": "string" }, "policyGeneration": { "policyGenerationId": "string", "policyGenerationAssetId": "string" }, "policy": { "statement": "string" } }</param>
+    /// <param name="PolicyEngineId">The identifier of the policy engine which contains this policy. Pol- icy engines group related policies and provide the execution context for policy evaluation. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    public AwsBedrockAgentcoreControlCreatePolicyOptions(
+        string Name,
+        string Definition,
+        string PolicyEngineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyEngineId);
+        this.PolicyEngineId = PolicyEngineId;
+    }
+
+    private AwsBedrockAgentcoreControlCreatePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreatePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreatePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The customer-assigned immutable name for the policy. Must be unique within the account. This name is used for policy identification and cannot be changed after creation. Constraints: o min: 1 o max: 48 o pattern: [A-Za-z][A-Za-z0-9_]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Cedar or Dogwood policy statement that defines the access con- trol rules. This contains the actual policy logic written in Cedar or Dogwood, specifying effect (permit or forbid), principals, ac- tions, resources, and conditions for agent behavior control. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedar, policyGeneration, policy. cedar -&gt; (structure) The Cedar policy definition within the policy definition struc- ture. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can ac- cess), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained con- trol. Cedar provides a formal policy language designed for au- thorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies. statement -&gt; (string) [required] The Cedar policy statement that defines the authorization logic. This statement follows Cedar syntax and specifies principals, actions, resources, and conditions that determine when access should be allowed or denied. Constraints: o min: 35 o max: 10000 policyGeneration -&gt; (structure) The generated policy asset information within the policy defini- tion structure. This contains information identifying a gener- ated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Dog- wood policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option. policyGenerationId -&gt; (string) [required] The unique identifier for this policy generation request. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policyGenerationAssetId -&gt; (string) [required] The unique identifier for this generated policy asset within the policy generation request. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policy -&gt; (structure) The Dogwood policy statement that defines the access control rules. This policy definition can include Dogwood policies and supports temporal conditions and information providers such as guardrails. statement -&gt; (string) [required] The body of the AgentCore Cedar or Dogwood policy statement. Contains the policy logic, which can be a Cedar policy, a temporal policy, or a guardrails definition. Constraints: o min: 35 o max: 10000 Shorthand Syntax: cedar={statement=string},policyGeneration={policyGenerationId=string,policyGenerationAssetId=string},policy={statement=string} JSON Syntax: { "cedar": { "statement": "string" }, "policyGeneration": { "policyGenerationId": "string", "policyGenerationAssetId": "string" }, "policy": { "statement": "string" } }
+    /// </summary>
     [CliOption("--definition")]
-    public string? Definition { get; set; }
+    public string? Definition { get; private init; }
+
+    /// <summary>
+    /// The identifier of the policy engine which contains this policy. Pol- icy engines group related policies and provide the execution context for policy evaluation. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// </summary>
+    [CliOption("--policy-engine-id")]
+    public string? PolicyEngineId { get; private init; }
 
     /// <summary>
     /// A human-readable description of the policy's purpose and functional- ity (1-4,096 characters). This helps policy administrators under- stand the policy's intent, business rules, and operational scope. Use this field to document why the policy exists, what business re- quirement it addresses, and any special considerations for mainte- nance. Clear descriptions are essential for policy governance, au- diting, and troubleshooting. Constraints: o min: 1 o max: 4096
@@ -47,9 +101,6 @@ public record AwsBedrockAgentcoreControlCreatePolicyOptions : AwsOptions
     [CliOption("--enforcement-mode")]
     public AwsBedrockAgentcoreControlCreatePolicyEnforcementMode? EnforcementMode { get; set; }
 
-    [CliOption("--policy-engine-id")]
-    public string? PolicyEngineId { get; set; }
-
     /// <summary>
     /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
@@ -62,5 +113,22 @@ public record AwsBedrockAgentcoreControlCreatePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

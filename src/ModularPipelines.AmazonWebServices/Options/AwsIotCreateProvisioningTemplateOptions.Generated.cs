@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-provisioning-template")]
-public record AwsIotCreateProvisioningTemplateOptions : AwsOptions
+public record AwsIotCreateProvisioningTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a provisioning template. Requires permission to access the CreateProvisioningTemplate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="TemplateBody">The JSON formatted contents of the provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*</param>
+    /// <param name="ProvisioningRoleArn">The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: o min: 20 o max: 2048</param>
+    public AwsIotCreateProvisioningTemplateOptions(
+        string TemplateName,
+        string TemplateBody,
+        string ProvisioningRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateBody);
+        this.TemplateBody = TemplateBody;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningRoleArn);
+        this.ProvisioningRoleArn = ProvisioningRoleArn;
+    }
+
+    private AwsIotCreateProvisioningTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateProvisioningTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateProvisioningTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
+
+    /// <summary>
+    /// The JSON formatted contents of the provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*
+    /// </summary>
+    [CliOption("--template-body")]
+    public string? TemplateBody { get; private init; }
+
+    /// <summary>
+    /// The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--provisioning-role-arn")]
+    public string? ProvisioningRoleArn { get; private init; }
 
     /// <summary>
     /// The description of the provisioning template. Constraints: o min: 0 o max: 500 o pattern: [^\p{C}]*
@@ -31,14 +88,11 @@ public record AwsIotCreateProvisioningTemplateOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--template-body")]
-    public string? TemplateBody { get; set; }
-
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// True to enable the provisioning template, otherwise false.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
-
-    [CliOption("--provisioning-role-arn")]
-    public string? ProvisioningRoleArn { get; set; }
 
     /// <summary>
     /// Creates a pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING . For more information about provisioning template types, see type . payloadVersion -&gt; (string) The payload that was sent to the target function. Note: Only Lambda functions are currently supported. Constraints: o min: 10 o max: 32 o pattern: ^[0-9-]+$ targetArn -&gt; (string) [required] The ARN of the target function. Note: Only Lambda functions are currently supported. Constraints: o max: 2048 Shorthand Syntax: payloadVersion=string,targetArn=string JSON Syntax: { "payloadVersion": "string", "targetArn": "string" }
@@ -63,5 +117,22 @@ public record AwsIotCreateProvisioningTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

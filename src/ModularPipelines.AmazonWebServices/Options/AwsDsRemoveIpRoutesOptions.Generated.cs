@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "remove-ip-routes")]
-public record AwsDsRemoveIpRoutesOptions : AwsOptions
+public record AwsDsRemoveIpRoutesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes IP address blocks from a directory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">Identifier (ID) of the directory from which you want to remove the IP addresses. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    public AwsDsRemoveIpRoutesOptions(
+        string DirectoryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+    }
+
+    private AwsDsRemoveIpRoutesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsRemoveIpRoutesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsRemoveIpRoutesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier (ID) of the directory from which you want to remove the IP addresses. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
     /// <summary>
     /// IP address blocks that you want to remove. (string) Constraints: o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([1-9]|[1-2][0-9]|3[0-2]))$ Syntax: "string" "string" ...
@@ -41,5 +78,22 @@ public record AwsDsRemoveIpRoutesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

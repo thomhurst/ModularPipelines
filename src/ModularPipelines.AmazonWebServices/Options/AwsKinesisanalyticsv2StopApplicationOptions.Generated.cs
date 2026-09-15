@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "stop-application")]
-public record AwsKinesisanalyticsv2StopApplicationOptions : AwsOptions
+public record AwsKinesisanalyticsv2StopApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true . You can use the DescribeApplication operation to find the application status. Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set to true . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of the running application to stop. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisanalyticsv2StopApplicationOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    private AwsKinesisanalyticsv2StopApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2StopApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2StopApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the running application to stop. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Set to true to force the application to stop. If you set Force to true , Managed Service for Apache Flink stops the application with- out taking a snapshot. NOTE: Force-stopping your application may lead to data loss or dupli- cation. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application. You can only force stop a Managed Service for Apache Flink applica- tion. You can't force stop a SQL-based Kinesis Data Analytics appli- cation. The application must be in the STARTING , UPDATING , STOPPING , AU- TOSCALING , or RUNNING status.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsKinesisanalyticsv2StopApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

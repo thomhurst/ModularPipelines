@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "create-direct-connect-gateway-association-proposal")]
-public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptions : AwsOptions
+public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectConnectGatewayId">The ID of the Direct Connect gateway.</param>
+    /// <param name="DirectConnectGatewayOwnerAccount">The ID of the Amazon Web Services account that owns the Direct Con- nect gateway.</param>
+    /// <param name="GatewayId">The ID of the virtual private gateway or transit gateway.</param>
+    public AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptions(
+        string DirectConnectGatewayId,
+        string DirectConnectGatewayOwnerAccount,
+        string GatewayId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectConnectGatewayId);
+        this.DirectConnectGatewayId = DirectConnectGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(DirectConnectGatewayOwnerAccount);
+        this.DirectConnectGatewayOwnerAccount = DirectConnectGatewayOwnerAccount;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+    }
+
+    private AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Direct Connect gateway.
+    /// </summary>
     [CliOption("--direct-connect-gateway-id")]
-    public string? DirectConnectGatewayId { get; set; }
+    public string? DirectConnectGatewayId { get; private init; }
 
+    /// <summary>
+    /// The ID of the Amazon Web Services account that owns the Direct Con- nect gateway.
+    /// </summary>
     [CliOption("--direct-connect-gateway-owner-account")]
-    public string? DirectConnectGatewayOwnerAccount { get; set; }
+    public string? DirectConnectGatewayOwnerAccount { get; private init; }
 
+    /// <summary>
+    /// The ID of the virtual private gateway or transit gateway.
+    /// </summary>
     [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
+    public string? GatewayId { get; private init; }
 
     /// <summary>
     /// The Amazon VPC prefixes to advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
@@ -47,5 +98,22 @@ public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

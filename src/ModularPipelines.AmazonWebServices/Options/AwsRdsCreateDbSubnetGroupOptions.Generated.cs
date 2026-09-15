@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-subnet-group")]
-public record AwsRdsCreateDbSubnetGroupOptions : AwsOptions
+public record AwsRdsCreateDbSubnetGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbSubnetGroupName">The name for the DB subnet group. This value is stored as a lower- case string. Constraints: o Must contain no more than 255 letters, numbers, periods, under- scores, spaces, or hyphens. o Must not be default. o First character must be a letter. Example: mydbsubnetgroup</param>
+    /// <param name="DbSubnetGroupDescription">The description for the DB subnet group.</param>
+    /// <param name="SubnetIds">The EC2 Subnet IDs for the DB subnet group. (string) Syntax: "string" "string" ...</param>
+    public AwsRdsCreateDbSubnetGroupOptions(
+        string DbSubnetGroupName,
+        string DbSubnetGroupDescription,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbSubnetGroupName);
+        this.DbSubnetGroupName = DbSubnetGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(DbSubnetGroupDescription);
+        this.DbSubnetGroupDescription = DbSubnetGroupDescription;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsRdsCreateDbSubnetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbSubnetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbSubnetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the DB subnet group. This value is stored as a lower- case string. Constraints: o Must contain no more than 255 letters, numbers, periods, under- scores, spaces, or hyphens. o Must not be default. o First character must be a letter. Example: mydbsubnetgroup
+    /// </summary>
     [CliOption("--db-subnet-group-name")]
-    public string? DbSubnetGroupName { get; set; }
+    public string? DbSubnetGroupName { get; private init; }
 
+    /// <summary>
+    /// The description for the DB subnet group.
+    /// </summary>
     [CliOption("--db-subnet-group-description")]
-    public string? DbSubnetGroupDescription { get; set; }
+    public string? DbSubnetGroupDescription { get; private init; }
 
+    /// <summary>
+    /// The EC2 Subnet IDs for the DB subnet group. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
     /// Tags to assign to the DB subnet group. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +103,22 @@ public record AwsRdsCreateDbSubnetGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

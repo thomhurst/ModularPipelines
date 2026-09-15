@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --webappendpointpolicy.
+/// Allowed values for --web-app-endpoint-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTransferCreateWebAppWebAppEndpointPolicy
 {
     [EnumValue("FIPS")]
-    Fips = 1,
+    Fips,
 
     [EnumValue("STANDARD")]
-    Standard = 2
+    Standard
 }

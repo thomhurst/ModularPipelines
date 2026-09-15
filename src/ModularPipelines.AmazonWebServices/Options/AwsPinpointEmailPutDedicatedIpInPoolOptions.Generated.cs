@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "put-dedicated-ip-in-pool")]
-public record AwsPinpointEmailPutDedicatedIpInPoolOptions : AwsOptions
+public record AwsPinpointEmailPutDedicatedIpInPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--ip")]
-    public string? Ip { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Move a dedicated IP address to an existing dedicated IP pool. NOTE: The dedicated IP address that you specify must already exist, and must be associated with your Amazon Pinpoint account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Ip">The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Pinpoint account.</param>
+    /// <param name="DestinationPoolName">The name of the IP pool that you want to add the dedicated IP ad- dress to. You have to specify an IP pool that already exists.</param>
+    public AwsPinpointEmailPutDedicatedIpInPoolOptions(
+        string Ip,
+        string DestinationPoolName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ip);
+        this.Ip = Ip;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationPoolName);
+        this.DestinationPoolName = DestinationPoolName;
+    }
+
+    private AwsPinpointEmailPutDedicatedIpInPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailPutDedicatedIpInPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailPutDedicatedIpInPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Pinpoint account.
+    /// </summary>
+    [CliOption("--ip")]
+    public string? Ip { get; private init; }
+
+    /// <summary>
+    /// The name of the IP pool that you want to add the dedicated IP ad- dress to. You have to specify an IP pool that already exists.
+    /// </summary>
     [CliOption("--destination-pool-name")]
-    public string? DestinationPoolName { get; set; }
+    public string? DestinationPoolName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

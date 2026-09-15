@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "disassociate-principal-from-portfolio")]
-public record AwsServicecatalogDisassociatePrincipalFromPortfolioOptions : AwsOptions
+public record AwsServicecatalogDisassociatePrincipalFromPortfolioOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipal- WithPortfolio call request details. For example, to disassociate an as- sociation created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing en- abled: after disassociating a principal, share recipient accounts...
+    /// </summary>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PrincipalArn">The ARN of the principal (user, role, or group). This field allows an ARN with no accountID with or without wildcard characters if PrincipalType is IAM_PATTERN . Constraints: o min: 1 o max: 1000</param>
+    public AwsServicecatalogDisassociatePrincipalFromPortfolioOptions(
+        string PortfolioId,
+        string PrincipalArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortfolioId);
+        this.PortfolioId = PortfolioId;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
+        this.PrincipalArn = PrincipalArn;
+    }
+
+    private AwsServicecatalogDisassociatePrincipalFromPortfolioOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogDisassociatePrincipalFromPortfolioOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogDisassociatePrincipalFromPortfolioOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--portfolio-id")]
+    public string? PortfolioId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the principal (user, role, or group). This field allows an ARN with no accountID with or without wildcard characters if PrincipalType is IAM_PATTERN . Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [CliOption("--principal-arn")]
+    public string? PrincipalArn { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--portfolio-id")]
-    public string? PortfolioId { get; set; }
-
-    [CliOption("--principal-arn")]
-    public string? PrincipalArn { get; set; }
 
     /// <summary>
     /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you specify an IAM ARN with no AccountId, with or without wildcard characters. Possible values: o IAM o IAM_PATTERN
@@ -45,5 +89,22 @@ public record AwsServicecatalogDisassociatePrincipalFromPortfolioOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

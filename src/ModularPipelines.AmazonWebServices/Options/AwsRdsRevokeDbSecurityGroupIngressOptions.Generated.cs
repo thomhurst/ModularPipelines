@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "revoke-db-security-group-ingress")]
-public record AwsRdsRevokeDbSecurityGroupIngressOptions : AwsOptions
+public record AwsRdsRevokeDbSecurityGroupIngressOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2Security- GroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId). NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC...
+    /// </summary>
+    /// <param name="DbSecurityGroupName">The name of the DB security group to revoke ingress from.</param>
+    public AwsRdsRevokeDbSecurityGroupIngressOptions(
+        string DbSecurityGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbSecurityGroupName);
+        this.DbSecurityGroupName = DbSecurityGroupName;
+    }
+
+    private AwsRdsRevokeDbSecurityGroupIngressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRevokeDbSecurityGroupIngressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRevokeDbSecurityGroupIngressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB security group to revoke ingress from.
+    /// </summary>
     [CliOption("--db-security-group-name")]
-    public string? DbSecurityGroupName { get; set; }
+    public string? DbSecurityGroupName { get; private init; }
 
     /// <summary>
     /// The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName , EC2SecurityGroupId and EC2SecurityGroupOwnerId can't be provided.
@@ -53,5 +90,22 @@ public record AwsRdsRevokeDbSecurityGroupIngressOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

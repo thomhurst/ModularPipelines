@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-product-rest-endpoint-page")]
-public record AwsApigatewayv2CreateProductRestEndpointPageOptions : AwsOptions
+public record AwsApigatewayv2CreateProductRestEndpointPageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a product REST endpoint page for a portal product. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PortalProductId">The portal product identifier.</param>
+    /// <param name="RestEndpointIdentifier">The REST endpoint identifier. IdentifierParts -&gt; (structure) The identifier parts of the REST endpoint identifier. Method -&gt; (string) [required] The method of the product REST endpoint. Constraints: o min: 1 o max: 20 Path -&gt; (string) [required] The path of the product REST endpoint. Constraints: o min: 1 o max: 4096 RestApiId -&gt; (string) [required] The REST API ID of the product REST endpoint. Constraints: o min: 1 o max: 50 Stage -&gt; (string) [required] The stage of the product REST endpoint. Constraints: o min: 1 o max: 128 Shorthand Syntax: IdentifierParts={Method=string,Path=string,RestApiId=string,Stage=string} JSON Syntax: { "IdentifierParts": { "Method": "string", "Path": "string", "RestApiId": "string", "Stage": "string" } }</param>
+    public AwsApigatewayv2CreateProductRestEndpointPageOptions(
+        string PortalProductId,
+        string RestEndpointIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortalProductId);
+        this.PortalProductId = PortalProductId;
+        global::System.ArgumentNullException.ThrowIfNull(RestEndpointIdentifier);
+        this.RestEndpointIdentifier = RestEndpointIdentifier;
+    }
+
+    private AwsApigatewayv2CreateProductRestEndpointPageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateProductRestEndpointPageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateProductRestEndpointPageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portal product identifier.
+    /// </summary>
+    [CliOption("--portal-product-id")]
+    public string? PortalProductId { get; private init; }
+
+    /// <summary>
+    /// The REST endpoint identifier. IdentifierParts -&gt; (structure) The identifier parts of the REST endpoint identifier. Method -&gt; (string) [required] The method of the product REST endpoint. Constraints: o min: 1 o max: 20 Path -&gt; (string) [required] The path of the product REST endpoint. Constraints: o min: 1 o max: 4096 RestApiId -&gt; (string) [required] The REST API ID of the product REST endpoint. Constraints: o min: 1 o max: 50 Stage -&gt; (string) [required] The stage of the product REST endpoint. Constraints: o min: 1 o max: 128 Shorthand Syntax: IdentifierParts={Method=string,Path=string,RestApiId=string,Stage=string} JSON Syntax: { "IdentifierParts": { "Method": "string", "Path": "string", "RestApiId": "string", "Stage": "string" } }
+    /// </summary>
+    [CliOption("--rest-endpoint-identifier")]
+    public string? RestEndpointIdentifier { get; private init; }
+
     /// <summary>
     /// The content of the product REST endpoint page. None -&gt; (structure) If your product REST endpoint contains no overrides, the none object is returned. Overrides -&gt; (structure) The overrides for endpoint display content. Body -&gt; (string) By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value. Constraints: o min: 1 o max: 32768 Endpoint -&gt; (string) The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value. Constraints: o min: 1 o max: 1024 OperationName -&gt; (string) The operation name of the product REST endpoint. Constraints: o min: 1 o max: 255 Shorthand Syntax: None={},Overrides={Body=string,Endpoint=string,OperationName=string} JSON Syntax: { "None": { }, "Overrides": { "Body": "string", "Endpoint": "string", "OperationName": "string" } }
     /// </summary>
     [CliOption("--display-content")]
     public string? DisplayContent { get; set; }
-
-    [CliOption("--portal-product-id")]
-    public string? PortalProductId { get; set; }
-
-    [CliOption("--rest-endpoint-identifier")]
-    public string? RestEndpointIdentifier { get; set; }
 
     /// <summary>
     /// The try it state of the product REST endpoint page. Possible values: o ENABLED o DISABLED
@@ -45,5 +89,22 @@ public record AwsApigatewayv2CreateProductRestEndpointPageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "list-monitor-evaluations")]
-public record AwsForecastListMonitorEvaluationsOptions : AwsOptions
+public record AwsForecastListMonitorEvaluationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see predictor-monitoring . For more information about retrieving monitoring results see Viewing Monitoring Results . See also: AWS API Documentation list-monitor-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
+    /// </summary>
+    /// <param name="MonitorArn">The Amazon Resource Name (ARN) of the monitor resource to get re- sults from. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    public AwsForecastListMonitorEvaluationsOptions(
+        string MonitorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorArn);
+        this.MonitorArn = MonitorArn;
+    }
+
+    private AwsForecastListMonitorEvaluationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastListMonitorEvaluationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastListMonitorEvaluationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the monitor resource to get re- sults from. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// </summary>
     [CliOption("--monitor-arn")]
-    public string? MonitorArn { get; set; }
+    public string? MonitorArn { get; private init; }
 
     /// <summary>
     /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT , which speci- fies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value. Filter properties o Condition - The condition to apply. Valid values are IS and IS_NOT . o Key - The name of the parameter to filter on. The only valid value is EvaluationState . o Value - The value to match. Valid values are only SUCCESS or FAIL- URE . For example, to list only successful monitor evaluations, you would specify: "Filters": [ { "Condition": "IS", "Key": "EvaluationState", "Value": "SUCCESS" } ] (structure) Describes a filter for choosing a subset of objects. Each filter consists of a condition and a match statement. The condition is either IS or IS_NOT , which specifies whether to include or ex- clude the objects that match the statement, respectively. The match statement consists of a key and a value. Key -&gt; (string) [required] The name of the parameter to filter on. Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_]+$ Value -&gt; (string) [required] The value to match. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Condition -&gt; (string) [required] The condition to apply. To include the objects that match the statement, specify IS . To exclude matching objects, specify IS_NOT . Possible values: o IS o IS_NOT Shorthand Syntax: Key=string,Value=string,Condition=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Condition": "IS"|"IS_NOT" } ... ]
@@ -55,5 +92,22 @@ public record AwsForecastListMonitorEvaluationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

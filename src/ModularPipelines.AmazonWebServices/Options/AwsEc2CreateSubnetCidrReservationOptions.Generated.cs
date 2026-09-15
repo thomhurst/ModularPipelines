@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-subnet-cidr-reservation")]
-public record AwsEc2CreateSubnetCidrReservationOptions : AwsOptions
+public record AwsEc2CreateSubnetCidrReservationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations in the Amazon VPC User Guide and Manage prefixes for your network interfaces in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubnetId">The ID of the subnet.</param>
+    /// <param name="Cidr">The IPv4 or IPV6 CIDR range to reserve.</param>
+    /// <param name="ReservationType">The type of reservation. The reservation type determines how the re- served IP addresses are assigned to resources. o prefix - Amazon Web Services assigns the reserved IP addresses to network interfaces. o explicit - You assign the reserved IP addresses to network inter- faces. Possible values: o prefix o explicit</param>
+    public AwsEc2CreateSubnetCidrReservationOptions(
+        string SubnetId,
+        string Cidr,
+        AwsEc2CreateSubnetCidrReservationReservationType ReservationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+        global::System.ArgumentNullException.ThrowIfNull(ReservationType);
+        this.ReservationType = ReservationType;
+    }
+
+    private AwsEc2CreateSubnetCidrReservationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateSubnetCidrReservationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateSubnetCidrReservationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the subnet.
+    /// </summary>
     [CliOption("--subnet-id")]
-    public string? SubnetId { get; set; }
+    public string? SubnetId { get; private init; }
 
+    /// <summary>
+    /// The IPv4 or IPV6 CIDR range to reserve.
+    /// </summary>
     [CliOption("--cidr")]
-    public string? Cidr { get; set; }
+    public string? Cidr { get; private init; }
 
+    /// <summary>
+    /// The type of reservation. The reservation type determines how the re- served IP addresses are assigned to resources. o prefix - Amazon Web Services assigns the reserved IP addresses to network interfaces. o explicit - You assign the reserved IP addresses to network inter- faces. Possible values: o prefix o explicit
+    /// </summary>
     [CliOption("--reservation-type")]
-    public string? ReservationType { get; set; }
+    public AwsEc2CreateSubnetCidrReservationReservationType? ReservationType { get; private init; }
 
     /// <summary>
     /// The description to assign to the subnet CIDR reservation.
@@ -36,7 +88,10 @@ public record AwsEc2CreateSubnetCidrReservationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -50,5 +105,22 @@ public record AwsEc2CreateSubnetCidrReservationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

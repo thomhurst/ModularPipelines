@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsS3controlListAccessGrantsPermission
 {
     [EnumValue("READ")]
-    Read = 1,
-
-    [EnumValue("WRITE")]
-    Write = 2,
+    Read,
 
     [EnumValue("READWRITE")]
-    Readwrite = 3
+    Readwrite,
+
+    [EnumValue("WRITE")]
+    Write
 }

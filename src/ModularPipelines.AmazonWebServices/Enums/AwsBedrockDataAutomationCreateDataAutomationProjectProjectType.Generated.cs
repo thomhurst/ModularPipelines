@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --projecttype.
+/// Allowed values for --project-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockDataAutomationCreateDataAutomationProjectProjectType
 {
     [EnumValue("ASYNC")]
-    Async = 1,
+    Async,
 
     [EnumValue("SYNC")]
-    Sync = 2
+    Sync
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-placement")]
-public record AwsEc2ModifyInstancePlacementOptions : AwsOptions
+public record AwsEc2ModifyInstancePlacementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the placement attributes for a specified instance. You can do the following: o Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the in- stance is restarted or rebooted, this relationship persists. o Change the Dedicated Host with which an instance is associated. o Change the...
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance that you are modifying.</param>
+    public AwsEc2ModifyInstancePlacementOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2ModifyInstancePlacementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstancePlacementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstancePlacementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance that you are modifying.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
     /// <summary>
     /// The name of the placement group in which to place the instance. For spread placement groups, the instance must have a tenancy of default . For cluster and partition placement groups, the instance must have a tenancy of default or dedicated . To remove an instance from a placement group, specify an empty string ("").
     /// </summary>
@@ -46,9 +86,6 @@ public record AwsEc2ModifyInstancePlacementOptions : AwsOptions
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
-
     /// <summary>
     /// The tenancy for the instance. NOTE: For T3 instances, you must launch the instance on a Dedicated Host to use a tenancy of host . You can't change the tenancy from host to dedicated or default . Attempting to make one of these unsupported tenancy changes results in an InvalidRequest error code. Possible values: o default o dedicated o host
     /// </summary>
@@ -72,5 +109,22 @@ public record AwsEc2ModifyInstancePlacementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "execute-policy")]
-public record AwsAutoscalingExecutePolicyOptions : AwsOptions
+public record AwsAutoscalingExecutePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Executes the specified policy. This can be useful for testing the de- sign of your scaling policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyName">The name or ARN of the policy. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsAutoscalingExecutePolicyOptions(
+        string PolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+    }
+
+    private AwsAutoscalingExecutePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingExecutePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingExecutePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the policy. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string? PolicyName { get; private init; }
+
     /// <summary>
     /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
-
-    [CliFlag("--honor-cooldown")]
+    /// <summary>
+    /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown pe- riod to complete before executing the policy. Valid only if the policy type is SimpleScaling . For more informa- tion, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Ama- zon EC2 Auto Scaling User Guide .
+    /// </summary>
+    [CliFlag("--honor-cooldown", NegatedName = "--no-honor-cooldown")]
     public bool? HonorCooldown { get; set; }
 
     /// <summary>
@@ -50,5 +90,22 @@ public record AwsAutoscalingExecutePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

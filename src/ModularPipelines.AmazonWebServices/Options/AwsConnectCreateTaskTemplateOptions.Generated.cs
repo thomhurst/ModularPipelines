@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-task-template")]
-public record AwsConnectCreateTaskTemplateOptions : AwsOptions
+public record AwsConnectCreateTaskTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new task template in the specified Connect Customer instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of the task template. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Fields">Fields that are part of the template. The request must contain exactly one field of type NAME . This field must also be listed in the RequiredFields array within the Con- straints parameter. (structure) Describes a single task template field. Id -&gt; (structure) [required] The unique identifier for the field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 Description -&gt; (string) The description of the field. Constraints: o min: 1 o max: 255 Type -&gt; (string) Indicates the type of field. Possible values: o NAME o DESCRIPTION o SCHEDULED_TIME o QUICK_CONNECT o URL o NUMBER o TEXT o TEXT_AREA o DATE_TIME o BOOLEAN o SINGLE_SELECT o EMAIL o SELF_ASSIGN o EXPIRY_DURATION SingleSelectOptions -&gt; (list) A list of options for a single select field. (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Id={Name=string},Description=string,Type=string,SingleSelectOptions=string,string ... JSON Syntax: [ { "Id": { "Name": "string" }, "Description": "string", "Type": "NAME"|"DESCRIPTION"|"SCHEDULED_TIME"|"QUICK_CONNECT"|"URL"|"NUMBER"|"TEXT"|"TEXT_AREA"|"DATE_TIME"|"BOOLEAN"|"SINGLE_SELECT"|"EMAIL"|"SELF_ASSIGN"|"EXPIRY_DURATION", "SingleSelectOptions": ["string", ...] } ... ]</param>
+    public AwsConnectCreateTaskTemplateOptions(
+        string InstanceId,
+        string Name,
+        IEnumerable<string> Fields
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+    }
+
+    private AwsConnectCreateTaskTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateTaskTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateTaskTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of the task template. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Fields that are part of the template. The request must contain exactly one field of type NAME . This field must also be listed in the RequiredFields array within the Con- straints parameter. (structure) Describes a single task template field. Id -&gt; (structure) [required] The unique identifier for the field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 Description -&gt; (string) The description of the field. Constraints: o min: 1 o max: 255 Type -&gt; (string) Indicates the type of field. Possible values: o NAME o DESCRIPTION o SCHEDULED_TIME o QUICK_CONNECT o URL o NUMBER o TEXT o TEXT_AREA o DATE_TIME o BOOLEAN o SINGLE_SELECT o EMAIL o SELF_ASSIGN o EXPIRY_DURATION SingleSelectOptions -&gt; (list) A list of options for a single select field. (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Id={Name=string},Description=string,Type=string,SingleSelectOptions=string,string ... JSON Syntax: [ { "Id": { "Name": "string" }, "Description": "string", "Type": "NAME"|"DESCRIPTION"|"SCHEDULED_TIME"|"QUICK_CONNECT"|"URL"|"NUMBER"|"TEXT"|"TEXT_AREA"|"DATE_TIME"|"BOOLEAN"|"SINGLE_SELECT"|"EMAIL"|"SELF_ASSIGN"|"EXPIRY_DURATION", "SingleSelectOptions": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--fields", GroupValues = true)]
+    public IEnumerable<string>? Fields { get; private init; }
 
     /// <summary>
     /// The description of the task template. Constraints: o min: 1 o max: 255
@@ -65,9 +130,6 @@ public record AwsConnectCreateTaskTemplateOptions : AwsOptions
     [CliOption("--status")]
     public AwsConnectCreateTaskTemplateStatus? Status { get; set; }
 
-    [CliOption("--fields", GroupValues = true)]
-    public IEnumerable<string>? Fields { get; set; }
-
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
     /// </summary>
@@ -80,5 +142,22 @@ public record AwsConnectCreateTaskTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

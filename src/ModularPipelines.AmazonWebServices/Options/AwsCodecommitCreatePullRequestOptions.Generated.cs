@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "create-pull-request")]
-public record AwsCodecommitCreatePullRequestOptions : AwsOptions
+public record AwsCodecommitCreatePullRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a pull request in the specified repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Title">The title of the pull request. This title is used to identify the pull request to other users in the repository. Constraints: o max: 150</param>
+    /// <param name="Targets">The targets for the pull request, including the source of the code to be reviewed (the source branch) and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch). (structure) Returns information about a target for a pull request. repositoryName -&gt; (string) [required] The name of the repository that contains the pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ sourceReference -&gt; (string) [required] The branch of the repository that contains the changes for the pull request. Also known as the source branch. destinationReference -&gt; (string) The branch of the repository where the pull request changes are merged. Also known as the destination branch. Shorthand Syntax: repositoryName=string,sourceReference=string,destinationReference=string ... JSON Syntax: [ { "repositoryName": "string", "sourceReference": "string", "destinationReference": "string" } ... ]</param>
+    public AwsCodecommitCreatePullRequestOptions(
+        string Title,
+        IEnumerable<string> Targets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+    }
+
+    private AwsCodecommitCreatePullRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitCreatePullRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitCreatePullRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The title of the pull request. This title is used to identify the pull request to other users in the repository. Constraints: o max: 150
+    /// </summary>
     [CliOption("--title")]
-    public string? Title { get; set; }
+    public string? Title { get; private init; }
+
+    /// <summary>
+    /// The targets for the pull request, including the source of the code to be reviewed (the source branch) and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch). (structure) Returns information about a target for a pull request. repositoryName -&gt; (string) [required] The name of the repository that contains the pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+ sourceReference -&gt; (string) [required] The branch of the repository that contains the changes for the pull request. Also known as the source branch. destinationReference -&gt; (string) The branch of the repository where the pull request changes are merged. Also known as the destination branch. Shorthand Syntax: repositoryName=string,sourceReference=string,destinationReference=string ... JSON Syntax: [ { "repositoryName": "string", "sourceReference": "string", "destinationReference": "string" } ... ]
+    /// </summary>
+    [CliOption("--targets", GroupValues = true)]
+    public IEnumerable<string>? Targets { get; private init; }
 
     /// <summary>
     /// A description of the pull request. Constraints: o max: 10240
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
     /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token. NOTE: The Amazon Web ServicesSDKs prepopulate client request tokens. If you are using an Amazon Web ServicesSDK, an idempotency token is created for you.
@@ -46,5 +101,22 @@ public record AwsCodecommitCreatePullRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

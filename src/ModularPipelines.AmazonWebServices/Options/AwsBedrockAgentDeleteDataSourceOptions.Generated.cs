@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "delete-data-source")]
-public record AwsBedrockAgentDeleteDataSourceOptions : AwsOptions
+public record AwsBedrockAgentDeleteDataSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a data source from a knowledge base. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base from which to delete the data source. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source to delete. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    public AwsBedrockAgentDeleteDataSourceOptions(
+        string KnowledgeBaseId,
+        string DataSourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+    }
+
+    private AwsBedrockAgentDeleteDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentDeleteDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentDeleteDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the knowledge base from which to delete the data source. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the data source to delete. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "reset-cache-parameter-group")]
-public record AwsElasticacheResetCacheParameterGroupOptions : AwsOptions
+public record AwsElasticacheResetCacheParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cache-parameter-group-name")]
-    public string? CacheParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// Modifies the parameters of a cache parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire cache parameter group, specify the ResetAllParameters and CacheParameterGroupName parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CacheParameterGroupName">The name of the cache parameter group to reset.</param>
+    public AwsElasticacheResetCacheParameterGroupOptions(
+        string CacheParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheParameterGroupName);
+        this.CacheParameterGroupName = CacheParameterGroupName;
+    }
+
+    private AwsElasticacheResetCacheParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheResetCacheParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheResetCacheParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cache parameter group to reset.
+    /// </summary>
+    [CliOption("--cache-parameter-group-name")]
+    public string? CacheParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// If true , all parameters in the cache parameter group are reset to their default values. If false , only the parameters listed by Para- meterNameValues are reset to their default values. Valid values: true | false
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>
@@ -38,5 +78,22 @@ public record AwsElasticacheResetCacheParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

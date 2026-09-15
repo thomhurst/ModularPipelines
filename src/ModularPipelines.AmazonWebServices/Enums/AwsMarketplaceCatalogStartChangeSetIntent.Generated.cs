@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMarketplaceCatalogStartChangeSetIntent
 {
-    [EnumValue("VALIDATE")]
-    Validate = 1,
-
     [EnumValue("APPLY")]
-    Apply = 2
+    Apply,
+
+    [EnumValue("VALIDATE")]
+    Validate
 }

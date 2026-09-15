@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "list-document-metadata-history")]
-public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions
+public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services Systems Manager Change Manager availability change . Information about approval reviews for a version of a change template in Change Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the change template. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="Metadata">The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: o DocumentReviews</param>
+    public AwsSsmListDocumentMetadataHistoryOptions(
+        string Name,
+        AwsSsmListDocumentMetadataHistoryMetadata Metadata
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Metadata);
+        this.Metadata = Metadata;
+    }
+
+    private AwsSsmListDocumentMetadataHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmListDocumentMetadataHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmListDocumentMetadataHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the change template. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: o DocumentReviews
+    /// </summary>
+    [CliOption("--metadata")]
+    public AwsSsmListDocumentMetadataHistoryMetadata? Metadata { get; private init; }
 
     /// <summary>
     /// The version of the change template. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
-
-    [CliOption("--metadata")]
-    public string? Metadata { get; set; }
 
     /// <summary>
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -52,5 +97,22 @@ public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

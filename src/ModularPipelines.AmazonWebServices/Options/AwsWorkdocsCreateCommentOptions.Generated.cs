@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,20 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "create-comment")]
-public record AwsWorkdocsCreateCommentOptions : AwsOptions
+public record AwsWorkdocsCreateCommentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a new comment to the specified document version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DocumentId">The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="VersionId">The ID of the document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="Text">The text of the comment. Constraints: o min: 1 o max: 2048</param>
+    public AwsWorkdocsCreateCommentOptions(
+        string DocumentId,
+        string VersionId,
+        string Text
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DocumentId);
+        this.DocumentId = DocumentId;
+        global::System.ArgumentNullException.ThrowIfNull(VersionId);
+        this.VersionId = VersionId;
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+    }
+
+    private AwsWorkdocsCreateCommentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsCreateCommentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsCreateCommentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// </summary>
+    [CliOption("--document-id")]
+    public string? DocumentId { get; private init; }
+
+    /// <summary>
+    /// The ID of the document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// </summary>
+    [CliOption("--version-id")]
+    public string? VersionId { get; private init; }
+
+    /// <summary>
+    /// The text of the comment. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--text")]
+    public string? Text { get; private init; }
+
     /// <summary>
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
-
-    [CliOption("--document-id")]
-    public string? DocumentId { get; set; }
-
-    [CliOption("--version-id")]
-    public string? VersionId { get; set; }
 
     /// <summary>
     /// The ID of the parent comment. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
@@ -48,16 +102,16 @@ public record AwsWorkdocsCreateCommentOptions : AwsOptions
     [CliOption("--thread-id")]
     public string? ThreadId { get; set; }
 
-    [CliOption("--text")]
-    public string? Text { get; set; }
-
     /// <summary>
     /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document own- ers, co-owners, and contributors. Possible values: o PUBLIC o PRIVATE
     /// </summary>
     [CliOption("--visibility")]
     public AwsWorkdocsCreateCommentVisibility? Visibility { get; set; }
 
-    [CliFlag("--notify-collaborators")]
+    /// <summary>
+    /// Set this parameter to TRUE to send an email out to the document col- laborators after the comment is created.
+    /// </summary>
+    [CliFlag("--notify-collaborators", NegatedName = "--no-notify-collaborators")]
     public bool? NotifyCollaborators { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -65,5 +119,22 @@ public record AwsWorkdocsCreateCommentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

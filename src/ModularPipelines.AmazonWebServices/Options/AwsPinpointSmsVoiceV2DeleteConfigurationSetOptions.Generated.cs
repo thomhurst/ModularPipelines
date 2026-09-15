@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "delete-configuration-set")]
-public record AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an existing configuration set. A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a des- tination for specific types of events related to voice and SMS mes- sages. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set or the configuration set ARN that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    public AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions(
+        string ConfigurationSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+    }
+
+    private AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set or the configuration set ARN that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
     [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    public string? ConfigurationSetName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

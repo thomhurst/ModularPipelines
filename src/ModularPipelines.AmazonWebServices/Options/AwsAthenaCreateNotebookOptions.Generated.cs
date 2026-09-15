@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "create-notebook")]
-public record AwsAthenaCreateNotebookOptions : AwsOptions
+public record AwsAthenaCreateNotebookOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--work-group")]
-    public string? WorkGroup { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an empty ipynb file in the specified Apache Spark enabled work- group. Throws an error if a file in the workgroup with the same name already exists. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkGroup">The name of the Spark enabled workgroup in which the notebook will be created. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="Name">The name of the ipynb file to be created in the Spark workgroup, without the .ipynb extension. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+</param>
+    public AwsAthenaCreateNotebookOptions(
+        string WorkGroup,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkGroup);
+        this.WorkGroup = WorkGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsAthenaCreateNotebookOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaCreateNotebookOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaCreateNotebookOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Spark enabled workgroup in which the notebook will be created. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// </summary>
+    [CliOption("--work-group")]
+    public string? WorkGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the ipynb file to be created in the Spark workgroup, without the .ipynb extension. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must pro- vide this token or the action will fail. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
@@ -40,5 +84,22 @@ public record AwsAthenaCreateNotebookOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

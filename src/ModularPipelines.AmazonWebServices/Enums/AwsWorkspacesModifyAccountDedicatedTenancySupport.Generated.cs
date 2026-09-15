@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dedicatedtenancysupport.
+/// Allowed values for --dedicated-tenancy-support.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesModifyAccountDedicatedTenancySupport
 {
     [EnumValue("ENABLED")]
-    Enabled = 1
+    Enabled,
+
+    [EnumValue("o")]
+    O
 }

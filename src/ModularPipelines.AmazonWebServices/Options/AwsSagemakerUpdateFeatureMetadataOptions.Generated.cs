@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-feature-metadata")]
-public record AwsSagemakerUpdateFeatureMetadataOptions : AwsOptions
+public record AwsSagemakerUpdateFeatureMetadataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--feature-group-name")]
-    public string? FeatureGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the description and parameters of the feature group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group contain- ing the feature that you're updating. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="FeatureName">The name of the feature that you're updating. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}</param>
+    public AwsSagemakerUpdateFeatureMetadataOptions(
+        string FeatureGroupName,
+        string FeatureName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FeatureGroupName);
+        this.FeatureGroupName = FeatureGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(FeatureName);
+        this.FeatureName = FeatureName;
+    }
+
+    private AwsSagemakerUpdateFeatureMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateFeatureMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateFeatureMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the feature group contain- ing the feature that you're updating. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
+    /// </summary>
+    [CliOption("--feature-group-name")]
+    public string? FeatureGroupName { get; private init; }
+
+    /// <summary>
+    /// The name of the feature that you're updating. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}
+    /// </summary>
     [CliOption("--feature-name")]
-    public string? FeatureName { get; set; }
+    public string? FeatureName { get; private init; }
 
     /// <summary>
     /// A description that you can write to better describe the feature. Constraints: o min: 0 o max: 255 o pattern: .*
@@ -50,5 +94,22 @@ public record AwsSagemakerUpdateFeatureMetadataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

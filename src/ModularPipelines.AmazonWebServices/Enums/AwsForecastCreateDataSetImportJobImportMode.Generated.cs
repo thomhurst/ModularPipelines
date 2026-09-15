@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --importmode.
+/// Allowed values for --import-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsForecastCreateDataSetImportJobImportMode
 {
     [EnumValue("FULL")]
-    Full = 1,
+    Full,
 
     [EnumValue("INCREMENTAL")]
-    Incremental = 2
+    Incremental
 }

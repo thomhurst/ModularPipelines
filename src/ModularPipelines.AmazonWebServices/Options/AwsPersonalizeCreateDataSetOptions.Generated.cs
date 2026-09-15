@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "create-dataset")]
-public record AwsPersonalizeCreateDataSetOptions : AwsOptions
+public record AwsPersonalizeCreateDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an empty dataset and adds it to the specified dataset group. Use CreateDatasetImportJob to import your training data to a dataset. There are 5 types of datasets: o Item interactions o Items o Users o Action interactions o Actions Each dataset type has an associated schema with required field types. Only the Item interactions dataset is required in order to train a model (also referred to as creating a solution). A dataset can be in one of the following states: o CREATE PENDING &gt; CREATE I...
+    /// </summary>
+    /// <param name="Name">The name for the dataset. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="SchemaArn">The ARN of the schema to associate with the dataset. The schema de- fines the dataset fields. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the dataset group to add the dataset to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSetType">The type of dataset. One of the following (case insensitive) values: o Interactions o Items o Users o Actions o Action_Interactions Constraints: o max: 256 o pattern: ^[A-Za-z_]+$</param>
+    public AwsPersonalizeCreateDataSetOptions(
+        string Name,
+        string SchemaArn,
+        string DataSetGroupArn,
+        string DataSetType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaArn);
+        this.SchemaArn = SchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetGroupArn);
+        this.DataSetGroupArn = DataSetGroupArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetType);
+        this.DataSetType = DataSetType;
+    }
+
+    private AwsPersonalizeCreateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeCreateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeCreateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the dataset. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The ARN of the schema to associate with the dataset. The schema de- fines the dataset fields. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--schema-arn")]
-    public string? SchemaArn { get; set; }
+    public string? SchemaArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the dataset group to add the dataset to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--dataset-group-arn")]
-    public string? DataSetGroupArn { get; set; }
+    public string? DataSetGroupArn { get; private init; }
 
+    /// <summary>
+    /// The type of dataset. One of the following (case insensitive) values: o Interactions o Items o Users o Actions o Action_Interactions Constraints: o max: 256 o pattern: ^[A-Za-z_]+$
+    /// </summary>
     [CliOption("--dataset-type")]
-    public string? DataSetType { get; set; }
+    public string? DataSetType { get; private init; }
 
     /// <summary>
     /// A list of tags to apply to the dataset. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
@@ -44,5 +102,22 @@ public record AwsPersonalizeCreateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

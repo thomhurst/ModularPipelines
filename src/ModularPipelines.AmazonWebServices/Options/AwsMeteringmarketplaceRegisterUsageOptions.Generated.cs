@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("meteringmarketplace", "register-usage")]
-public record AwsMeteringmarketplaceRegisterUsageOptions : AwsOptions
+public record AwsMeteringmarketplaceRegisterUsageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--product-code")]
-    public string? ProductCode { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Paid container software products sold through Amazon Web Services Mar- ketplace must integrate with the Amazon Web Services Marketplace Meter- ing Service and call the RegisterUsage operation for software entitle- ment and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage , but you may choose to do so if you would like to receive usage data in your seller reports. The sec- tions below explain the behavior of RegisterUsage . RegisterUsage per- for...
+    /// </summary>
+    /// <param name="ProductCode">Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$</param>
+    /// <param name="PublicKeyVersion">Public Key Version provided by Amazon Web Services Marketplace Constraints: o min: 1</param>
+    public AwsMeteringmarketplaceRegisterUsageOptions(
+        string ProductCode,
+        int PublicKeyVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductCode);
+        this.ProductCode = ProductCode;
+        this.PublicKeyVersion = PublicKeyVersion;
+    }
+
+    private AwsMeteringmarketplaceRegisterUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMeteringmarketplaceRegisterUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMeteringmarketplaceRegisterUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$
+    /// </summary>
+    [CliOption("--product-code")]
+    public string? ProductCode { get; private init; }
+
+    /// <summary>
+    /// Public Key Version provided by Amazon Web Services Marketplace Constraints: o min: 1
+    /// </summary>
     [CliOption("--public-key-version")]
-    public int? PublicKeyVersion { get; set; }
+    public int? PublicKeyVersion { get; private init; }
 
     /// <summary>
     /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks. Constraints: o max: 255 o pattern: [\s\S]*
@@ -38,5 +81,22 @@ public record AwsMeteringmarketplaceRegisterUsageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "copy-snapshot")]
-public record AwsMemorydbCopySnapshotOptions : AwsOptions
+public record AwsMemorydbCopySnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-snapshot-name")]
-    public string? SourceSnapshotName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Makes a copy of an existing snapshot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceSnapshotName">The name of an existing snapshot from which to make a copy.</param>
+    /// <param name="TargetSnapshotName">A name for the snapshot copy. MemoryDB does not permit overwriting a snapshot, therefore this name must be unique within its context - MemoryDB or an Amazon S3 bucket if exporting.</param>
+    public AwsMemorydbCopySnapshotOptions(
+        string SourceSnapshotName,
+        string TargetSnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceSnapshotName);
+        this.SourceSnapshotName = SourceSnapshotName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetSnapshotName);
+        this.TargetSnapshotName = TargetSnapshotName;
+    }
+
+    private AwsMemorydbCopySnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbCopySnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbCopySnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an existing snapshot from which to make a copy.
+    /// </summary>
+    [CliOption("--source-snapshot-name")]
+    public string? SourceSnapshotName { get; private init; }
+
+    /// <summary>
+    /// A name for the snapshot copy. MemoryDB does not permit overwriting a snapshot, therefore this name must be unique within its context - MemoryDB or an Amazon S3 bucket if exporting.
+    /// </summary>
     [CliOption("--target-snapshot-name")]
-    public string? TargetSnapshotName { get; set; }
+    public string? TargetSnapshotName { get; private init; }
 
     /// <summary>
     /// The Amazon S3 bucket to which the snapshot is exported. This parame- ter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket. For more information, see Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket . Constraints: o max: 255 o pattern: ^[A-Za-z0-9._-]+$
@@ -50,5 +94,22 @@ public record AwsMemorydbCopySnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

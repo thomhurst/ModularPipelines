@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53domains", "renew-domain")]
-public record AwsRoute53domainsRenewDomainOptions : AwsOptions
+public record AwsRoute53domainsRenewDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services ac- count. We recommend that you renew your domain several weeks before the expi- ration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Do- main in the Amazon Route 53 Developer Guide . See also: AWS API Doc...
+    /// </summary>
+    /// <param name="DomainName">The name of the domain that you want to renew. Constraints: o max: 255</param>
+    /// <param name="CurrentExpiryYear">The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.</param>
+    public AwsRoute53domainsRenewDomainOptions(
+        string DomainName,
+        int CurrentExpiryYear
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        this.CurrentExpiryYear = CurrentExpiryYear;
+    }
+
+    private AwsRoute53domainsRenewDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53domainsRenewDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53domainsRenewDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that you want to renew. Constraints: o max: 255
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
+    /// </summary>
+    [CliOption("--current-expiry-year")]
+    public int? CurrentExpiryYear { get; private init; }
 
     /// <summary>
     /// The number of years that you want to renew the domain for. The maxi- mum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . Default: 1 Constraints: o min: 1 o max: 10
@@ -30,13 +76,27 @@ public record AwsRoute53domainsRenewDomainOptions : AwsOptions
     [CliOption("--duration-in-years")]
     public int? DurationInYears { get; set; }
 
-    [CliOption("--current-expiry-year")]
-    public int? CurrentExpiryYear { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

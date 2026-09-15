@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,59 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("importexport", "create-job")]
-public record AwsImportexportCreateJobOptions : AwsOptions
+public record AwsImportexportCreateJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation initiates the process of scheduling an upload or down- load of your data. You include in the request a manifest that describes the data transfer specifics. The response to the request includes a job ID, which you can use in other operations, a signature that you use to identify your storage device, and the address where you should ship your storage device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobType"></param>
+    /// <param name="Manifest"></param>
+    /// <param name="ValidateOnly"></param>
+    public AwsImportexportCreateJobOptions(
+        string JobType,
+        string Manifest,
+        bool ValidateOnly
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobType);
+        this.JobType = JobType;
+        global::System.ArgumentNullException.ThrowIfNull(Manifest);
+        this.Manifest = Manifest;
+        this.ValidateOnly = ValidateOnly;
+    }
+
+    private AwsImportexportCreateJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImportexportCreateJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImportexportCreateJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--job-type")]
-    public string? JobType { get; set; }
+    public string? JobType { get; private init; }
 
     [CliOption("--manifest")]
-    public string? Manifest { get; set; }
+    public string? Manifest { get; private init; }
+
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
+    public bool? ValidateOnly { get; private init; }
 
     [CliOption("--manifest-addendum")]
     public string? ManifestAddendum { get; set; }
-
-    [CliFlag("--validate-only")]
-    public bool? ValidateOnly { get; set; }
 
     [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
@@ -41,5 +82,22 @@ public record AwsImportexportCreateJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

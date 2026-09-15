@@ -29,7 +29,7 @@ public record AwsMgnDescribeSourceServersOptions : AwsOptions
     public string? Filters { get; set; }
 
     /// <summary>
-    /// Request to filter Source Servers list by Accoun ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Request to filter Source Servers list by Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

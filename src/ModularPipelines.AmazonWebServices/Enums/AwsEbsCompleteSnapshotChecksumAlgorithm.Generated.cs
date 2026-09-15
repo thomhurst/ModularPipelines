@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --checksumalgorithm.
+/// Allowed values for --checksum-algorithm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEbsCompleteSnapshotChecksumAlgorithm
 {
-    [EnumValue("SHA256")]
-    Sha256 = 1,
+    [EnumValue("o")]
+    O,
 
-    [EnumValue("Constraints")]
-    Constraints = 2
+    [EnumValue("SHA256")]
+    Sha256
 }

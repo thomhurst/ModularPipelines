@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modelapprovalstatus.
+/// Allowed values for --model-approval-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListModelPackagesModelApprovalStatus
 {
     [EnumValue("Approved")]
-    Approved = 1,
-
-    [EnumValue("Rejected")]
-    Rejected = 2,
+    Approved,
 
     [EnumValue("PendingManualApproval")]
-    PendingManualApproval = 3
+    PendingManualApproval,
+
+    [EnumValue("Rejected")]
+    Rejected
 }

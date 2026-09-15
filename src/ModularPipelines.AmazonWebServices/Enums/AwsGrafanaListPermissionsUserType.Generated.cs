@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --usertype.
+/// Allowed values for --user-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGrafanaListPermissionsUserType
 {
-    [EnumValue("SSO_USER")]
-    SsoUser = 1,
-
     [EnumValue("SSO_GROUP")]
-    SsoGroup = 2
+    SsoGroup,
+
+    [EnumValue("SSO_USER")]
+    SsoUser
 }

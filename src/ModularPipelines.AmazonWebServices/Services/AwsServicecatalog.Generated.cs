@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptPortfolioShareAsync(
-        AwsServicecatalogAcceptPortfolioShareOptions? options = null,
+        AwsServicecatalogAcceptPortfolioShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogAcceptPortfolioShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateBudgetWithResourceAsync(
-        AwsServicecatalogAssociateBudgetWithResourceOptions? options = null,
+        AwsServicecatalogAssociateBudgetWithResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogAssociateBudgetWithResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociatePrincipalWithPortfolioAsync(
-        AwsServicecatalogAssociatePrincipalWithPortfolioOptions? options = null,
+        AwsServicecatalogAssociatePrincipalWithPortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogAssociatePrincipalWithPortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateProductWithPortfolioAsync(
-        AwsServicecatalogAssociateProductWithPortfolioOptions? options = null,
+        AwsServicecatalogAssociateProductWithPortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogAssociateProductWithPortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateServiceActionWithProvisioningArtifactAsync(
-        AwsServicecatalogAssociateServiceActionWithProvisioningArtifactOptions? options = null,
+        AwsServicecatalogAssociateServiceActionWithProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogAssociateServiceActionWithProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateTagOptionWithResourceAsync(
-        AwsServicecatalogAssociateTagOptionWithResourceOptions? options = null,
+        AwsServicecatalogAssociateTagOptionWithResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogAssociateTagOptionWithResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchAssociateServiceActionWithProvisioningArtifactAsync(
-        AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions? options = null,
+        AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDisassociateServiceActionFromProvisioningArtifactAsync(
-        AwsServicecatalogBatchDisassociateServiceActionFromProvisioningArtifactOptions? options = null,
+        AwsServicecatalogBatchDisassociateServiceActionFromProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogBatchDisassociateServiceActionFromProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyProductAsync(
-        AwsServicecatalogCopyProductOptions? options = null,
+        AwsServicecatalogCopyProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCopyProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConstraintAsync(
-        AwsServicecatalogCreateConstraintOptions? options = null,
+        AwsServicecatalogCreateConstraintOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreateConstraintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +200,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePortfolioAsync(
-        AwsServicecatalogCreatePortfolioOptions? options = null,
+        AwsServicecatalogCreatePortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreatePortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +215,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePortfolioShareAsync(
-        AwsServicecatalogCreatePortfolioShareOptions? options = null,
+        AwsServicecatalogCreatePortfolioShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreatePortfolioShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +230,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateProductAsync(
-        AwsServicecatalogCreateProductOptions? options = null,
+        AwsServicecatalogCreateProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreateProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +245,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateProvisionedProductPlanAsync(
-        AwsServicecatalogCreateProvisionedProductPlanOptions? options = null,
+        AwsServicecatalogCreateProvisionedProductPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreateProvisionedProductPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,11 +260,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateProvisioningArtifactAsync(
-        AwsServicecatalogCreateProvisioningArtifactOptions? options = null,
+        AwsServicecatalogCreateProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreateProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +275,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateServiceActionAsync(
-        AwsServicecatalogCreateServiceActionOptions? options = null,
+        AwsServicecatalogCreateServiceActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreateServiceActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +290,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTagOptionAsync(
-        AwsServicecatalogCreateTagOptionOptions? options = null,
+        AwsServicecatalogCreateTagOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogCreateTagOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +305,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConstraintAsync(
-        AwsServicecatalogDeleteConstraintOptions? options = null,
+        AwsServicecatalogDeleteConstraintOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeleteConstraintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +320,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePortfolioAsync(
-        AwsServicecatalogDeletePortfolioOptions? options = null,
+        AwsServicecatalogDeletePortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeletePortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +335,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePortfolioShareAsync(
-        AwsServicecatalogDeletePortfolioShareOptions? options = null,
+        AwsServicecatalogDeletePortfolioShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeletePortfolioShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +350,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteProductAsync(
-        AwsServicecatalogDeleteProductOptions? options = null,
+        AwsServicecatalogDeleteProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeleteProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +365,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteProvisionedProductPlanAsync(
-        AwsServicecatalogDeleteProvisionedProductPlanOptions? options = null,
+        AwsServicecatalogDeleteProvisionedProductPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeleteProvisionedProductPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +380,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteProvisioningArtifactAsync(
-        AwsServicecatalogDeleteProvisioningArtifactOptions? options = null,
+        AwsServicecatalogDeleteProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeleteProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +395,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteServiceActionAsync(
-        AwsServicecatalogDeleteServiceActionOptions? options = null,
+        AwsServicecatalogDeleteServiceActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeleteServiceActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +410,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTagOptionAsync(
-        AwsServicecatalogDeleteTagOptionOptions? options = null,
+        AwsServicecatalogDeleteTagOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDeleteTagOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +425,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeConstraintAsync(
-        AwsServicecatalogDescribeConstraintOptions? options = null,
+        AwsServicecatalogDescribeConstraintOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeConstraintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +440,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCopyProductStatusAsync(
-        AwsServicecatalogDescribeCopyProductStatusOptions? options = null,
+        AwsServicecatalogDescribeCopyProductStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeCopyProductStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +455,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePortfolioAsync(
-        AwsServicecatalogDescribePortfolioOptions? options = null,
+        AwsServicecatalogDescribePortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribePortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +470,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePortfolioSharesAsync(
-        AwsServicecatalogDescribePortfolioSharesOptions? options = null,
+        AwsServicecatalogDescribePortfolioSharesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribePortfolioSharesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +485,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePortfolioShareStatusAsync(
-        AwsServicecatalogDescribePortfolioShareStatusOptions? options = null,
+        AwsServicecatalogDescribePortfolioShareStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribePortfolioShareStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -504,7 +504,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProductAsAdminOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProductAsAdminOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -519,7 +519,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProductOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +530,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeProductViewAsync(
-        AwsServicecatalogDescribeProductViewOptions? options = null,
+        AwsServicecatalogDescribeProductViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProductViewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -549,7 +549,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProvisionedProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProvisionedProductOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +560,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeProvisionedProductPlanAsync(
-        AwsServicecatalogDescribeProvisionedProductPlanOptions? options = null,
+        AwsServicecatalogDescribeProvisionedProductPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProvisionedProductPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -579,7 +579,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProvisioningArtifactOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -594,7 +594,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProvisioningParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeProvisioningParametersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +605,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRecordAsync(
-        AwsServicecatalogDescribeRecordOptions? options = null,
+        AwsServicecatalogDescribeRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -620,11 +620,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeServiceActionExecutionParametersAsync(
-        AwsServicecatalogDescribeServiceActionExecutionParametersOptions? options = null,
+        AwsServicecatalogDescribeServiceActionExecutionParametersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeServiceActionExecutionParametersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -635,11 +635,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeServiceActionAsync(
-        AwsServicecatalogDescribeServiceActionOptions? options = null,
+        AwsServicecatalogDescribeServiceActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeServiceActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -650,11 +650,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTagOptionAsync(
-        AwsServicecatalogDescribeTagOptionOptions? options = null,
+        AwsServicecatalogDescribeTagOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDescribeTagOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -669,7 +669,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDisableAwsOrganizationsAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDisableAwsOrganizationsAccessOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +680,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateBudgetFromResourceAsync(
-        AwsServicecatalogDisassociateBudgetFromResourceOptions? options = null,
+        AwsServicecatalogDisassociateBudgetFromResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDisassociateBudgetFromResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -695,11 +695,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociatePrincipalFromPortfolioAsync(
-        AwsServicecatalogDisassociatePrincipalFromPortfolioOptions? options = null,
+        AwsServicecatalogDisassociatePrincipalFromPortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDisassociatePrincipalFromPortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -710,11 +710,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateProductFromPortfolioAsync(
-        AwsServicecatalogDisassociateProductFromPortfolioOptions? options = null,
+        AwsServicecatalogDisassociateProductFromPortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDisassociateProductFromPortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,11 +725,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateServiceActionFromProvisioningArtifactAsync(
-        AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions? options = null,
+        AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +740,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateTagOptionFromResourceAsync(
-        AwsServicecatalogDisassociateTagOptionFromResourceOptions? options = null,
+        AwsServicecatalogDisassociateTagOptionFromResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogDisassociateTagOptionFromResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -759,7 +759,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogEnableAwsOrganizationsAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogEnableAwsOrganizationsAccessOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +770,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteProvisionedProductPlanAsync(
-        AwsServicecatalogExecuteProvisionedProductPlanOptions? options = null,
+        AwsServicecatalogExecuteProvisionedProductPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogExecuteProvisionedProductPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +785,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteProvisionedProductServiceActionAsync(
-        AwsServicecatalogExecuteProvisionedProductServiceActionOptions? options = null,
+        AwsServicecatalogExecuteProvisionedProductServiceActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogExecuteProvisionedProductServiceActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -804,7 +804,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogGetAwsOrganizationsAccessStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogGetAwsOrganizationsAccessStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -819,7 +819,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogGetProvisionedProductOutputsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogGetProvisionedProductOutputsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +830,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportAsProvisionedProductAsync(
-        AwsServicecatalogImportAsProvisionedProductOptions? options = null,
+        AwsServicecatalogImportAsProvisionedProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogImportAsProvisionedProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -849,7 +849,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListAcceptedPortfolioSharesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListAcceptedPortfolioSharesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +860,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBudgetsForResourceAsync(
-        AwsServicecatalogListBudgetsForResourceOptions? options = null,
+        AwsServicecatalogListBudgetsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListBudgetsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +875,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListConstraintsForPortfolioAsync(
-        AwsServicecatalogListConstraintsForPortfolioOptions? options = null,
+        AwsServicecatalogListConstraintsForPortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListConstraintsForPortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +890,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLaunchPathsAsync(
-        AwsServicecatalogListLaunchPathsOptions? options = null,
+        AwsServicecatalogListLaunchPathsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListLaunchPathsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +905,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListOrganizationPortfolioAccessAsync(
-        AwsServicecatalogListOrganizationPortfolioAccessOptions? options = null,
+        AwsServicecatalogListOrganizationPortfolioAccessOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListOrganizationPortfolioAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +920,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPortfolioAccessAsync(
-        AwsServicecatalogListPortfolioAccessOptions? options = null,
+        AwsServicecatalogListPortfolioAccessOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListPortfolioAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +935,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPortfoliosForProductAsync(
-        AwsServicecatalogListPortfoliosForProductOptions? options = null,
+        AwsServicecatalogListPortfoliosForProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListPortfoliosForProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -954,7 +954,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListPortfoliosOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListPortfoliosOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -965,11 +965,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPrincipalsForPortfolioAsync(
-        AwsServicecatalogListPrincipalsForPortfolioOptions? options = null,
+        AwsServicecatalogListPrincipalsForPortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListPrincipalsForPortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -984,7 +984,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListProvisionedProductPlansOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListProvisionedProductPlansOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +995,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProvisioningArtifactsForServiceActionAsync(
-        AwsServicecatalogListProvisioningArtifactsForServiceActionOptions? options = null,
+        AwsServicecatalogListProvisioningArtifactsForServiceActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListProvisioningArtifactsForServiceActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1010,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProvisioningArtifactsAsync(
-        AwsServicecatalogListProvisioningArtifactsOptions? options = null,
+        AwsServicecatalogListProvisioningArtifactsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListProvisioningArtifactsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1029,7 +1029,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListRecordHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListRecordHistoryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1040,11 +1040,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListResourcesForTagOptionAsync(
-        AwsServicecatalogListResourcesForTagOptionOptions? options = null,
+        AwsServicecatalogListResourcesForTagOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListResourcesForTagOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1055,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListServiceActionsForProvisioningArtifactAsync(
-        AwsServicecatalogListServiceActionsForProvisioningArtifactOptions? options = null,
+        AwsServicecatalogListServiceActionsForProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListServiceActionsForProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1074,7 +1074,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListServiceActionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListServiceActionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1085,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListStackInstancesForProvisionedProductAsync(
-        AwsServicecatalogListStackInstancesForProvisionedProductOptions? options = null,
+        AwsServicecatalogListStackInstancesForProvisionedProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListStackInstancesForProvisionedProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1104,7 +1104,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListTagOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogListTagOptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1115,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> NotifyProvisionProductEngineWorkflowResultAsync(
-        AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions? options = null,
+        AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1130,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> NotifyTerminateProvisionedProductEngineWorkflowResultAsync(
-        AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions? options = null,
+        AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1145,11 +1145,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> NotifyUpdateProvisionedProductEngineWorkflowResultAsync(
-        AwsServicecatalogNotifyUpdateProvisionedProductEngineWorkflowResultOptions? options = null,
+        AwsServicecatalogNotifyUpdateProvisionedProductEngineWorkflowResultOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogNotifyUpdateProvisionedProductEngineWorkflowResultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1160,11 +1160,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ProvisionProductAsync(
-        AwsServicecatalogProvisionProductOptions? options = null,
+        AwsServicecatalogProvisionProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogProvisionProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1175,11 +1175,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectPortfolioShareAsync(
-        AwsServicecatalogRejectPortfolioShareOptions? options = null,
+        AwsServicecatalogRejectPortfolioShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogRejectPortfolioShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1194,7 +1194,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogScanProvisionedProductsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogScanProvisionedProductsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1209,7 +1209,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogSearchProductsAsAdminOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogSearchProductsAsAdminOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1224,7 +1224,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogSearchProductsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogSearchProductsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1239,7 +1239,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogSearchProvisionedProductsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogSearchProvisionedProductsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1254,7 +1254,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogTerminateProvisionedProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogTerminateProvisionedProductOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1265,11 +1265,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConstraintAsync(
-        AwsServicecatalogUpdateConstraintOptions? options = null,
+        AwsServicecatalogUpdateConstraintOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateConstraintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1280,11 +1280,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePortfolioAsync(
-        AwsServicecatalogUpdatePortfolioOptions? options = null,
+        AwsServicecatalogUpdatePortfolioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdatePortfolioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1295,11 +1295,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePortfolioShareAsync(
-        AwsServicecatalogUpdatePortfolioShareOptions? options = null,
+        AwsServicecatalogUpdatePortfolioShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdatePortfolioShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1310,11 +1310,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateProductAsync(
-        AwsServicecatalogUpdateProductOptions? options = null,
+        AwsServicecatalogUpdateProductOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1329,7 +1329,7 @@ public class AwsServicecatalog : IAwsServicecatalog
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateProvisionedProductOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateProvisionedProductOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1340,11 +1340,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateProvisionedProductPropertiesAsync(
-        AwsServicecatalogUpdateProvisionedProductPropertiesOptions? options = null,
+        AwsServicecatalogUpdateProvisionedProductPropertiesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateProvisionedProductPropertiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1355,11 +1355,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateProvisioningArtifactAsync(
-        AwsServicecatalogUpdateProvisioningArtifactOptions? options = null,
+        AwsServicecatalogUpdateProvisioningArtifactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateProvisioningArtifactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1370,11 +1370,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateServiceActionAsync(
-        AwsServicecatalogUpdateServiceActionOptions? options = null,
+        AwsServicecatalogUpdateServiceActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateServiceActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1385,11 +1385,11 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateTagOptionAsync(
-        AwsServicecatalogUpdateTagOptionOptions? options = null,
+        AwsServicecatalogUpdateTagOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsServicecatalogUpdateTagOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

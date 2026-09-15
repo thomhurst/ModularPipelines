@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-metrics", "batch-put-metrics")]
-public record AwsSagemakerMetricsBatchPutMetricsOptions : AwsOptions
+public record AwsSagemakerMetricsBatchPutMetricsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--trial-component-name")]
-    public string? TrialComponentName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrialComponentName">The name of the Trial Component to associate with the metrics. The Trial Component name must be entirely lowercase. Constraints: o min: 1 o max: 120 o pattern: ^[a-z0-9](-*[a-z0-9]){0,119}</param>
+    /// <param name="MetricData">A list of raw metric values to put. Constraints: o min: 1 o max: 10 (structure) The raw metric data to associate with the resource. MetricName -&gt; (string) [required] The name of the metric. Constraints: o min: 1 o max: 255 o pattern: .+ Timestamp -&gt; (timestamp) [required] The time that the metric was recorded. Step -&gt; (integer) The metric step (epoch). Constraints: o min: 0 Value -&gt; (double) [required] The metric value. Shorthand Syntax: MetricName=string,Timestamp=timestamp,Step=integer,Value=double ... JSON Syntax: [ { "MetricName": "string", "Timestamp": timestamp, "Step": integer, "Value": double } ... ]</param>
+    public AwsSagemakerMetricsBatchPutMetricsOptions(
+        string TrialComponentName,
+        IEnumerable<string> MetricData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrialComponentName);
+        this.TrialComponentName = TrialComponentName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MetricData);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MetricData));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MetricData));
+            }
+
+            MetricData = materialized;
+        }
+        this.MetricData = MetricData;
+    }
+
+    private AwsSagemakerMetricsBatchPutMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerMetricsBatchPutMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerMetricsBatchPutMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Trial Component to associate with the metrics. The Trial Component name must be entirely lowercase. Constraints: o min: 1 o max: 120 o pattern: ^[a-z0-9](-*[a-z0-9]){0,119}
+    /// </summary>
+    [CliOption("--trial-component-name")]
+    public string? TrialComponentName { get; private init; }
+
+    /// <summary>
+    /// A list of raw metric values to put. Constraints: o min: 1 o max: 10 (structure) The raw metric data to associate with the resource. MetricName -&gt; (string) [required] The name of the metric. Constraints: o min: 1 o max: 255 o pattern: .+ Timestamp -&gt; (timestamp) [required] The time that the metric was recorded. Step -&gt; (integer) The metric step (epoch). Constraints: o min: 0 Value -&gt; (double) [required] The metric value. Shorthand Syntax: MetricName=string,Timestamp=timestamp,Step=integer,Value=double ... JSON Syntax: [ { "MetricName": "string", "Timestamp": timestamp, "Step": integer, "Value": double } ... ]
+    /// </summary>
     [CliOption("--metric-data", GroupValues = true)]
-    public IEnumerable<string>? MetricData { get; set; }
+    public IEnumerable<string>? MetricData { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

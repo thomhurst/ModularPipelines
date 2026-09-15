@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "disassociate-sbom-from-package-version")]
-public record AwsIotDisassociateSbomFromPackageVersionOptions : AwsOptions
+public record AwsIotDisassociateSbomFromPackageVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--package-name")]
-    public string? PackageName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Disassociates the selected software bill of materials (SBOM) from a specific software package version. Requires permission to access the DisassociateSbomWithPackageVersion action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageName">The name of the new software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="VersionName">The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+</param>
+    public AwsIotDisassociateSbomFromPackageVersionOptions(
+        string PackageName,
+        string VersionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageName);
+        this.PackageName = PackageName;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+    }
+
+    private AwsIotDisassociateSbomFromPackageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDisassociateSbomFromPackageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDisassociateSbomFromPackageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
+    [CliOption("--package-name")]
+    public string? PackageName { get; private init; }
+
+    /// <summary>
+    /// The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -40,5 +84,22 @@ public record AwsIotDisassociateSbomFromPackageVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

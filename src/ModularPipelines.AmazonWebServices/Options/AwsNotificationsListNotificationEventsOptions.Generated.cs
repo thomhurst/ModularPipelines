@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -38,7 +39,7 @@ public record AwsNotificationsListNotificationEventsOptions : AwsOptions
     /// The locale code of the language used for the retrieved Notification- Event . The default locale is English (en_US) . Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
     /// </summary>
     [CliOption("--locale")]
-    public string? Locale { get; set; }
+    public AwsNotificationsListNotificationEventsLocale? Locale { get; set; }
 
     /// <summary>
     /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+
@@ -46,7 +47,10 @@ public record AwsNotificationsListNotificationEventsOptions : AwsOptions
     [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CliFlag("--include-child-events")]
+    /// <summary>
+    /// Include aggregated child events in the result.
+    /// </summary>
+    [CliFlag("--include-child-events", NegatedName = "--no-include-child-events")]
     public bool? IncludeChildEvents { get; set; }
 
     /// <summary>

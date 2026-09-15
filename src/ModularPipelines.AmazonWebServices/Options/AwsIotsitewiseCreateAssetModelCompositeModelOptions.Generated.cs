@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-asset-model-composite-model")]
-public record AwsIotsitewiseCreateAssetModelCompositeModelOptions : AwsOptions
+public record AwsIotsitewiseCreateAssetModelCompositeModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based . Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no prop- erties of its own; its referenced component model p...
+    /// </summary>
+    /// <param name="AssetModelId">The ID of the asset model this composite model is a part of. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    /// <param name="AssetModelCompositeModelName">A unique name for the composite model. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
+    /// <param name="AssetModelCompositeModelType">The composite model type. Valid values are AWS/ALARM , CUSTOM , or AWS/L4E_ANOMALY . Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
+    public AwsIotsitewiseCreateAssetModelCompositeModelOptions(
+        string AssetModelId,
+        string AssetModelCompositeModelName,
+        string AssetModelCompositeModelType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetModelId);
+        this.AssetModelId = AssetModelId;
+        global::System.ArgumentNullException.ThrowIfNull(AssetModelCompositeModelName);
+        this.AssetModelCompositeModelName = AssetModelCompositeModelName;
+        global::System.ArgumentNullException.ThrowIfNull(AssetModelCompositeModelType);
+        this.AssetModelCompositeModelType = AssetModelCompositeModelType;
+    }
+
+    private AwsIotsitewiseCreateAssetModelCompositeModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateAssetModelCompositeModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateAssetModelCompositeModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the asset model this composite model is a part of. Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// </summary>
     [CliOption("--asset-model-id")]
-    public string? AssetModelId { get; set; }
+    public string? AssetModelId { get; private init; }
+
+    /// <summary>
+    /// A unique name for the composite model. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// </summary>
+    [CliOption("--asset-model-composite-model-name")]
+    public string? AssetModelCompositeModelName { get; private init; }
+
+    /// <summary>
+    /// The composite model type. Valid values are AWS/ALARM , CUSTOM , or AWS/L4E_ANOMALY . Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// </summary>
+    [CliOption("--asset-model-composite-model-type")]
+    public string? AssetModelCompositeModelType { get; private init; }
 
     /// <summary>
     /// An external ID to assign to the composite model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using Up- dateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of. Constraints: o min: 2 o max: 128 o pattern: [a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
@@ -49,12 +106,6 @@ public record AwsIotsitewiseCreateAssetModelCompositeModelOptions : AwsOptions
     /// </summary>
     [CliOption("--asset-model-composite-model-description")]
     public string? AssetModelCompositeModelDescription { get; set; }
-
-    [CliOption("--asset-model-composite-model-name")]
-    public string? AssetModelCompositeModelName { get; set; }
-
-    [CliOption("--asset-model-composite-model-type")]
-    public string? AssetModelCompositeModelType { get; set; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -98,5 +149,22 @@ public record AwsIotsitewiseCreateAssetModelCompositeModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

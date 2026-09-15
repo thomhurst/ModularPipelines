@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("voice-id", "create-domain")]
-public record AwsVoiceIdCreateDomainOptions : AwsOptions
+public record AwsVoiceIdCreateDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
+    /// <param name="ServerSideEncryptionConfiguration">The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }</param>
+    public AwsVoiceIdCreateDomainOptions(
+        string Name,
+        string ServerSideEncryptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ServerSideEncryptionConfiguration);
+        this.ServerSideEncryptionConfiguration = ServerSideEncryptionConfiguration;
+    }
+
+    private AwsVoiceIdCreateDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVoiceIdCreateDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVoiceIdCreateDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
+    /// </summary>
+    [CliOption("--server-side-encryption-configuration")]
+    public string? ServerSideEncryptionConfiguration { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
@@ -35,12 +85,6 @@ public record AwsVoiceIdCreateDomainOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--server-side-encryption-configuration")]
-    public string? ServerSideEncryptionConfiguration { get; set; }
-
     /// <summary>
     /// A list of tags you want added to the domain. Constraints: o min: 0 o max: 200 (structure) The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the key is 'Department'. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the value is 'Sales'. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -52,5 +96,22 @@ public record AwsVoiceIdCreateDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

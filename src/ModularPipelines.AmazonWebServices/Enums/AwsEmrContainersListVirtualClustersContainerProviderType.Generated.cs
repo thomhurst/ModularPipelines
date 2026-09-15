@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --containerprovidertype.
+/// Allowed values for --container-provider-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrContainersListVirtualClustersContainerProviderType
 {
     [EnumValue("EKS")]
-    Eks = 1
+    Eks,
+
+    [EnumValue("o")]
+    O
 }

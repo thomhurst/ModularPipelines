@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "create-key-signing-key")]
-public record AwsRoute53CreateKeySigningKeyOptions : AwsOptions
+public record AwsRoute53CreateKeySigningKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CallerReference">A unique string that identifies the request. Constraints: o min: 1 o max: 128</param>
+    /// <param name="HostedZoneId">The unique string (ID) used to identify a hosted zone. Constraints: o max: 32</param>
+    /// <param name="KeyManagementServiceArn">The Amazon resource name (ARN) for a customer managed key in Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key-signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permis- sions for DNSSEC, scroll down to Example . You must configure the customer managed customer managed key as fol- lows: Status Enabled Key spec ECC_NIST_P256 Key usage Sign and verify Key policy The key policy must give permission for the following actions: o DescribeKey o GetPublicKey o Sign The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following: o "Service": "dnssec-route53.amazonaws.com" For more information about working with a customer managed key in KMS, see Key Management Service concepts .</param>
+    /// <param name="Name">A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: o min: 3 o max: 128</param>
+    /// <param name="Status">A string specifying the initial status of the key-signing key (KSK). You can set the value to ACTIVE or INACTIVE . Constraints: o min: 5 o max: 150</param>
+    public AwsRoute53CreateKeySigningKeyOptions(
+        string CallerReference,
+        string HostedZoneId,
+        string KeyManagementServiceArn,
+        string Name,
+        string Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CallerReference);
+        this.CallerReference = CallerReference;
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyManagementServiceArn);
+        this.KeyManagementServiceArn = KeyManagementServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsRoute53CreateKeySigningKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53CreateKeySigningKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53CreateKeySigningKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique string that identifies the request. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--caller-reference")]
-    public string? CallerReference { get; set; }
+    public string? CallerReference { get; private init; }
 
+    /// <summary>
+    /// The unique string (ID) used to identify a hosted zone. Constraints: o max: 32
+    /// </summary>
     [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    public string? HostedZoneId { get; private init; }
 
+    /// <summary>
+    /// The Amazon resource name (ARN) for a customer managed key in Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key-signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permis- sions for DNSSEC, scroll down to Example . You must configure the customer managed customer managed key as fol- lows: Status Enabled Key spec ECC_NIST_P256 Key usage Sign and verify Key policy The key policy must give permission for the following actions: o DescribeKey o GetPublicKey o Sign The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following: o "Service": "dnssec-route53.amazonaws.com" For more information about working with a customer managed key in KMS, see Key Management Service concepts .
+    /// </summary>
     [CliOption("--key-management-service-arn")]
-    public string? KeyManagementServiceArn { get; set; }
+    public string? KeyManagementServiceArn { get; private init; }
 
+    /// <summary>
+    /// A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: o min: 3 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// A string specifying the initial status of the key-signing key (KSK). You can set the value to ACTIVE or INACTIVE . Constraints: o min: 5 o max: 150
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public string? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

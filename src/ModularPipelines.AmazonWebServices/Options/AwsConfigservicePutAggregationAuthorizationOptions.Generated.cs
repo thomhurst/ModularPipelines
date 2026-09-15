@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-aggregation-authorization")]
-public record AwsConfigservicePutAggregationAuthorizationOptions : AwsOptions
+public record AwsConfigservicePutAggregationAuthorizationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--authorized-account-id")]
-    public string? AuthorizedAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Authorizes the aggregator account and region to collect data from the source account and region. NOTE: Tags are added at creation and cannot be updated with this oper- ation PutAggregationAuthorization is an idempotent API. Subsequent re- quests wont create a duplicate resource if one was already cre- ated. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent re- quest of the previous. In this case, tags will not be updated, even if...
+    /// </summary>
+    /// <param name="AuthorizedAccountId">The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}</param>
+    /// <param name="AuthorizedAwsRegion">The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64</param>
+    public AwsConfigservicePutAggregationAuthorizationOptions(
+        string AuthorizedAccountId,
+        string AuthorizedAwsRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedAccountId);
+        this.AuthorizedAccountId = AuthorizedAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedAwsRegion);
+        this.AuthorizedAwsRegion = AuthorizedAwsRegion;
+    }
+
+    private AwsConfigservicePutAggregationAuthorizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutAggregationAuthorizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutAggregationAuthorizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}
+    /// </summary>
+    [CliOption("--authorized-account-id")]
+    public string? AuthorizedAccountId { get; private init; }
+
+    /// <summary>
+    /// The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--authorized-aws-region")]
-    public string? AuthorizedAwsRegion { get; set; }
+    public string? AuthorizedAwsRegion { get; private init; }
 
     /// <summary>
     /// An array of tag object. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +82,22 @@ public record AwsConfigservicePutAggregationAuthorizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

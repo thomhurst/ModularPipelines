@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "get-pull-request-approval-states")]
-public record AwsCodecommitGetPullRequestApprovalStatesOptions : AwsOptions
+public record AwsCodecommitGetPullRequestApprovalStatesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets information about the approval states for a specified pull re- quest. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID for the pull request.</param>
+    /// <param name="RevisionId">The system-generated ID for the pull request revision.</param>
+    public AwsCodecommitGetPullRequestApprovalStatesOptions(
+        string PullRequestId,
+        string RevisionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+    }
+
+    private AwsCodecommitGetPullRequestApprovalStatesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitGetPullRequestApprovalStatesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitGetPullRequestApprovalStatesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID for the pull request.
+    /// </summary>
+    [CliOption("--pull-request-id")]
+    public string? PullRequestId { get; private init; }
+
+    /// <summary>
+    /// The system-generated ID for the pull request revision.
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

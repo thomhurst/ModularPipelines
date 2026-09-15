@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "allocate-transit-virtual-interface")]
-public record AwsDirectconnectAllocateTransitVirtualInterfaceOptions : AwsOptions
+public record AwsDirectconnectAllocateTransitVirtualInterfaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway. The owner of a connection provisions a transit virtual interface to be owned by the specified Amazon Web Services account. After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface . Until this step has been completed, the transit virtual interface is in t...
+    /// </summary>
+    /// <param name="ConnectionId">The ID of the connection on which the transit virtual interface is provisioned.</param>
+    /// <param name="OwnerAccount">The ID of the Amazon Web Services account that owns the transit vir- tual interface.</param>
+    /// <param name="NewTransitVirtualInterfaceAllocation">Information about the transit virtual interface. virtualInterfaceName -&gt; (string) The name of the virtual interface assigned by the customer net- work. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-). vlan -&gt; (integer) The ID of the VLAN. asn -&gt; (integer) The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is re- turned. Use asnLong instead. o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . o If you enter a 4-byte ASN for the asn parameter, the API re- turns an error. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. The valid values are 1-2147483646. asnLong -&gt; (long) The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong : o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte. o When using a 4-byte asnLong , the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . mtu -&gt; (integer) The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500 authKey -&gt; (string) The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters. amazonAddress -&gt; (string) The IP address assigned to the Amazon interface. customerAddress -&gt; (string) The IP address assigned to the customer interface. addressFamily -&gt; (string) The address family for the BGP peer. Possible values: o ipv4 o ipv6 tags -&gt; (list) The tags associated with the transitive virtual interface. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ rateLimit -&gt; (string) The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection. Shorthand Syntax: virtualInterfaceName=string,vlan=integer,asn=integer,asnLong=long,mtu=integer,authKey=string,amazonAddress=string,customerAddress=string,addressFamily=string,tags=[{key=string,value=string},{key=string,value=string}],rateLimit=string JSON Syntax: { "virtualInterfaceName": "string", "vlan": integer, "asn": integer, "asnLong": long, "mtu": integer, "authKey": "string", "amazonAddress": "string", "customerAddress": "string", "addressFamily": "ipv4"|"ipv6", "tags": [ { "key": "string", "value": "string" } ... ], "rateLimit": "string" }</param>
+    public AwsDirectconnectAllocateTransitVirtualInterfaceOptions(
+        string ConnectionId,
+        string OwnerAccount,
+        string NewTransitVirtualInterfaceAllocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionId);
+        this.ConnectionId = ConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(OwnerAccount);
+        this.OwnerAccount = OwnerAccount;
+        global::System.ArgumentNullException.ThrowIfNull(NewTransitVirtualInterfaceAllocation);
+        this.NewTransitVirtualInterfaceAllocation = NewTransitVirtualInterfaceAllocation;
+    }
+
+    private AwsDirectconnectAllocateTransitVirtualInterfaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectAllocateTransitVirtualInterfaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectAllocateTransitVirtualInterfaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the connection on which the transit virtual interface is provisioned.
+    /// </summary>
     [CliOption("--connection-id")]
-    public string? ConnectionId { get; set; }
+    public string? ConnectionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the Amazon Web Services account that owns the transit vir- tual interface.
+    /// </summary>
     [CliOption("--owner-account")]
-    public string? OwnerAccount { get; set; }
+    public string? OwnerAccount { get; private init; }
 
+    /// <summary>
+    /// Information about the transit virtual interface. virtualInterfaceName -&gt; (string) The name of the virtual interface assigned by the customer net- work. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-). vlan -&gt; (integer) The ID of the VLAN. asn -&gt; (integer) The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is re- turned. Use asnLong instead. o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . o If you enter a 4-byte ASN for the asn parameter, the API re- turns an error. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. The valid values are 1-2147483646. asnLong -&gt; (long) The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong : o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte. o When using a 4-byte asnLong , the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . mtu -&gt; (integer) The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500 authKey -&gt; (string) The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters. amazonAddress -&gt; (string) The IP address assigned to the Amazon interface. customerAddress -&gt; (string) The IP address assigned to the customer interface. addressFamily -&gt; (string) The address family for the BGP peer. Possible values: o ipv4 o ipv6 tags -&gt; (list) The tags associated with the transitive virtual interface. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ rateLimit -&gt; (string) The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection. Shorthand Syntax: virtualInterfaceName=string,vlan=integer,asn=integer,asnLong=long,mtu=integer,authKey=string,amazonAddress=string,customerAddress=string,addressFamily=string,tags=[{key=string,value=string},{key=string,value=string}],rateLimit=string JSON Syntax: { "virtualInterfaceName": "string", "vlan": integer, "asn": integer, "asnLong": long, "mtu": integer, "authKey": "string", "amazonAddress": "string", "customerAddress": "string", "addressFamily": "ipv4"|"ipv6", "tags": [ { "key": "string", "value": "string" } ... ], "rateLimit": "string" }
+    /// </summary>
     [CliOption("--new-transit-virtual-interface-allocation")]
-    public string? NewTransitVirtualInterfaceAllocation { get; set; }
+    public string? NewTransitVirtualInterfaceAllocation { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

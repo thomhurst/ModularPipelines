@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "enable-operator-app")]
-public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions
+public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enable the Operator App to access the given AgentSpace See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AuthFlow">The authentication flow configured for the operator App. e.g. iam or idc Possible values: o iam o idc o idp</param>
+    /// <param name="OperatorAppRoleArn">The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:aws:iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+</param>
+    public AwsDevopsAgentEnableOperatorAppOptions(
+        string AgentSpaceId,
+        AwsDevopsAgentEnableOperatorAppAuthFlow AuthFlow,
+        string OperatorAppRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(AuthFlow);
+        this.AuthFlow = AuthFlow;
+        global::System.ArgumentNullException.ThrowIfNull(OperatorAppRoleArn);
+        this.OperatorAppRoleArn = OperatorAppRoleArn;
+    }
+
+    private AwsDevopsAgentEnableOperatorAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentEnableOperatorAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentEnableOperatorAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
+    /// <summary>
+    /// The authentication flow configured for the operator App. e.g. iam or idc Possible values: o iam o idc o idp
+    /// </summary>
     [CliOption("--auth-flow")]
-    public string? AuthFlow { get; set; }
+    public AwsDevopsAgentEnableOperatorAppAuthFlow? AuthFlow { get; private init; }
 
+    /// <summary>
+    /// The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:aws:iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+
+    /// </summary>
     [CliOption("--operator-app-role-arn")]
-    public string? OperatorAppRoleArn { get; set; }
+    public string? OperatorAppRoleArn { get; private init; }
 
     /// <summary>
     /// The IdC instance Arn used to create an IdC auth application
@@ -67,5 +119,22 @@ public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

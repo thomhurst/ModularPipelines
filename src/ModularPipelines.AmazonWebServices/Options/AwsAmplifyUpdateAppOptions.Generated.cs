@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplify", "update-app")]
-public record AwsAmplifyUpdateAppOptions : AwsOptions
+public record AwsAmplifyUpdateAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Amplify app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    public AwsAmplifyUpdateAppOptions(
+        string AppId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+    }
+
+    private AwsAmplifyUpdateAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyUpdateAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyUpdateAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
     /// <summary>
     /// The name for an Amplify app. Constraints: o min: 1 o max: 255 o pattern: (?s).+
@@ -63,13 +100,22 @@ public record AwsAmplifyUpdateAppOptions : AwsOptions
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
-    [CliFlag("--enable-branch-auto-build")]
+    /// <summary>
+    /// Enables branch auto-building for an Amplify app.
+    /// </summary>
+    [CliFlag("--enable-branch-auto-build", NegatedName = "--no-enable-branch-auto-build")]
     public bool? EnableBranchAutoBuild { get; set; }
 
-    [CliFlag("--enable-branch-auto-deletion")]
+    /// <summary>
+    /// Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
+    /// </summary>
+    [CliFlag("--enable-branch-auto-deletion", NegatedName = "--no-enable-branch-auto-deletion")]
     public bool? EnableBranchAutoDeletion { get; set; }
 
-    [CliFlag("--enable-basic-auth")]
+    /// <summary>
+    /// Enables basic authorization for an Amplify app.
+    /// </summary>
+    [CliFlag("--enable-basic-auth", NegatedName = "--no-enable-basic-auth")]
     public bool? EnableBasicAuth { get; set; }
 
     /// <summary>
@@ -97,7 +143,10 @@ public record AwsAmplifyUpdateAppOptions : AwsOptions
     [CliOption("--custom-headers")]
     public string? CustomHeaders { get; set; }
 
-    [CliFlag("--enable-auto-branch-creation")]
+    /// <summary>
+    /// Enables automated branch creation for an Amplify app.
+    /// </summary>
+    [CliFlag("--enable-auto-branch-creation", NegatedName = "--no-enable-auto-branch-creation")]
     public bool? EnableAutoBranchCreation { get; set; }
 
     /// <summary>
@@ -149,5 +198,22 @@ public record AwsAmplifyUpdateAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

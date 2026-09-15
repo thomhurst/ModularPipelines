@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "get-whatsapp-flow")]
-public record AwsSocialmessagingGetWhatsappFlowOptions : AwsOptions
+public record AwsSocialmessagingGetWhatsappFlowOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the metadata and status of a WhatsApp Flow, including valida- tion errors, preview information, and health status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="FlowId">The unique identifier of the Flow to retrieve. Constraints: o min: 1 o max: 100 o pattern: [0-9]+</param>
+    public AwsSocialmessagingGetWhatsappFlowOptions(
+        string Id,
+        string FlowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(FlowId);
+        this.FlowId = FlowId;
+    }
+
+    private AwsSocialmessagingGetWhatsappFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingGetWhatsappFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingGetWhatsappFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the Flow to retrieve. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--flow-id")]
-    public string? FlowId { get; set; }
+    public string? FlowId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

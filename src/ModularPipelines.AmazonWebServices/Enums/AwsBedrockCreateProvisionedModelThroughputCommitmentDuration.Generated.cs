@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --commitmentduration.
+/// Allowed values for --commitment-duration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockCreateProvisionedModelThroughputCommitmentDuration
 {
     [EnumValue("OneMonth")]
-    OneMonth = 1,
+    OneMonth,
 
     [EnumValue("SixMonths")]
-    SixMonths = 2
+    SixMonths
 }

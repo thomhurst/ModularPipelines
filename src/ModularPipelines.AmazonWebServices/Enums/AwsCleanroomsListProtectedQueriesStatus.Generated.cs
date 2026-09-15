@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsListProtectedQueriesStatus
 {
-    [EnumValue("SUBMITTED")]
-    Submitted = 1,
-
-    [EnumValue("STARTED")]
-    Started = 2,
-
     [EnumValue("CANCELLED")]
-    Cancelled = 3,
+    Cancelled,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 4,
+    Cancelling,
 
     [EnumValue("FAILED")]
-    Failed = 5,
+    Failed,
+
+    [EnumValue("STARTED")]
+    Started,
+
+    [EnumValue("SUBMITTED")]
+    Submitted,
 
     [EnumValue("SUCCESS")]
-    Success = 6,
+    Success,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 7
+    TimedOut
 }

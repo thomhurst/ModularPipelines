@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2RegisterImageArchitecture
 {
-    [EnumValue("i386")]
-    I386 = 1,
-
-    [EnumValue("x86_64")]
-    X86_64 = 2,
-
     [EnumValue("arm64")]
-    Arm64 = 3,
-
-    [EnumValue("x86_64_mac")]
-    X86_64Mac = 4,
+    Arm64,
 
     [EnumValue("arm64_mac")]
-    Arm64Mac = 5
+    Arm64Mac,
+
+    [EnumValue("i386")]
+    I386,
+
+    [EnumValue("x86_64")]
+    X8664,
+
+    [EnumValue("x86_64_mac")]
+    X8664Mac
 }

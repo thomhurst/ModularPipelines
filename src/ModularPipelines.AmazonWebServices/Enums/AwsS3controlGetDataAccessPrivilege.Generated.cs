@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3controlGetDataAccessPrivilege
 {
-    [EnumValue("Minimal")]
-    Minimal = 1,
-
     [EnumValue("Default")]
-    Default = 2
+    Default,
+
+    [EnumValue("Minimal")]
+    Minimal
 }

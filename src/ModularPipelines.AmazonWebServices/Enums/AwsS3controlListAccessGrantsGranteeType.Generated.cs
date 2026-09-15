@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --granteetype.
+/// Allowed values for --grantee-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3controlListAccessGrantsGranteeType
 {
-    [EnumValue("DIRECTORY_USER")]
-    DirectoryUser = 1,
-
     [EnumValue("DIRECTORY_GROUP")]
-    DirectoryGroup = 2,
+    DirectoryGroup,
+
+    [EnumValue("DIRECTORY_USER")]
+    DirectoryUser,
 
     [EnumValue("IAM")]
-    Iam = 3
+    Iam
 }

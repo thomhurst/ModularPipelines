@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotUpdatePackageVersionAction
 {
-    [EnumValue("PUBLISH")]
-    Publish = 1,
-
     [EnumValue("DEPRECATE")]
-    Deprecate = 2
+    Deprecate,
+
+    [EnumValue("PUBLISH")]
+    Publish
 }

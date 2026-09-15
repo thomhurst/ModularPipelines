@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "create-revision")]
-public record AwsDataexchangeCreateRevisionOptions : AwsOptions
+public record AwsDataexchangeCreateRevisionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation creates a revision for a data set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    public AwsDataexchangeCreateRevisionOptions(
+        string DataSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+    }
+
+    private AwsDataexchangeCreateRevisionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeCreateRevisionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeCreateRevisionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
+    [CliOption("--data-set-id")]
+    public string? DataSetId { get; private init; }
+
     /// <summary>
     /// An optional comment about the revision. Constraints: o min: 0 o max: 16384
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
-
-    [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
 
     /// <summary>
     /// A revision tag is an optional label that you can assign to a revi- sion when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +79,22 @@ public record AwsDataexchangeCreateRevisionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

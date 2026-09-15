@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --devicetrustprovidertype.
+/// Allowed values for --device-trust-provider-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateVerifiedAccessTrustProviderDeviceTrustProviderType
 {
-    [EnumValue("jamf")]
-    Jamf = 1,
-
     [EnumValue("crowdstrike")]
-    Crowdstrike = 2,
+    Crowdstrike,
+
+    [EnumValue("jamf")]
+    Jamf,
 
     [EnumValue("jumpcloud")]
-    Jumpcloud = 3
+    Jumpcloud
 }

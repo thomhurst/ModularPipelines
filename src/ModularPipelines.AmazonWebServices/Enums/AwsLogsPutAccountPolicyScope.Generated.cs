@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLogsPutAccountPolicyScope
 {
     [EnumValue("ALL")]
-    All = 1
+    All,
+
+    [EnumValue("o")]
+    O
 }

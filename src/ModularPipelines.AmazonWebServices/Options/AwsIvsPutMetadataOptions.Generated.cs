@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ivs", "put-metadata")]
-public record AwsIvsPutMetadataOptions : AwsOptions
+public record AwsIvsPutMetadataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 re- quests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">ARN of the channel into which metadata is inserted. This channel must have an active stream. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="Metadata">Metadata to insert into the stream. Maximum: 1 KB per request. Constraints: o min: 1</param>
+    public AwsIvsPutMetadataOptions(
+        string ChannelArn,
+        string Metadata
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(Metadata);
+        this.Metadata = Metadata;
+    }
+
+    private AwsIvsPutMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIvsPutMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIvsPutMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN of the channel into which metadata is inserted. This channel must have an active stream. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--channel-arn")]
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// Metadata to insert into the stream. Maximum: 1 KB per request. Constraints: o min: 1
+    /// </summary>
     [CliOption("--metadata")]
-    public string? Metadata { get; set; }
+    public string? Metadata { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

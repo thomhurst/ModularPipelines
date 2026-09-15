@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --periodalignment.
+/// Allowed values for --period-alignment.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPiGetResourceMetricsPeriodAlignment
 {
     [EnumValue("END_TIME")]
-    EndTime = 1,
+    EndTime,
 
     [EnumValue("START_TIME")]
-    StartTime = 2
+    StartTime
 }

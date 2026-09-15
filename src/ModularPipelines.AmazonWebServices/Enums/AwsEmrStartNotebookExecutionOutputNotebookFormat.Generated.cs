@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputnotebookformat.
+/// Allowed values for --output-notebook-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrStartNotebookExecutionOutputNotebookFormat
 {
     [EnumValue("HTML")]
-    Html = 1
+    Html,
+
+    [EnumValue("o")]
+    O
 }

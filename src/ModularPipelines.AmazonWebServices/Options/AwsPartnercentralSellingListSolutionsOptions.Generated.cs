@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "list-solutions")]
-public record AwsPartnercentralSellingListSolutionsOptions : AwsOptions
+public record AwsPartnercentralSellingListSolutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity. See also: AWS API Documentation list-solutions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment. Constraints: o pattern: [a-zA-Z]+</param>
+    public AwsPartnercentralSellingListSolutionsOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsPartnercentralSellingListSolutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingListSolutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingListSolutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
     /// <summary>
     /// Object that configures sorting done on the response. Default Sort.SortBy is Identifier . SortOrder -&gt; (string) [required] Specifies the sorting order, either Ascending or Descending . The default is Descending . Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] Specifies the attribute to sort by, such as Name , CreatedDate , or Status . Possible values: o Identifier o Name o Status o Category o CreatedDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "Identifier"|"Name"|"Status"|"Category"|"CreatedDate" }
@@ -79,5 +116,22 @@ public record AwsPartnercentralSellingListSolutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

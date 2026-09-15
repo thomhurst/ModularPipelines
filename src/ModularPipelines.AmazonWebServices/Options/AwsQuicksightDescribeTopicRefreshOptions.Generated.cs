@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "describe-topic-refresh")]
-public record AwsQuicksightDescribeTopicRefreshOptions : AwsOptions
+public record AwsQuicksightDescribeTopicRefreshOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the status of a topic refresh. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic whose refresh you want to describe. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="TopicId">The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$</param>
+    /// <param name="RefreshId">The ID of the refresh, which is performed when the topic is created or updated.</param>
+    public AwsQuicksightDescribeTopicRefreshOptions(
+        string AwsAccountId,
+        string TopicId,
+        string RefreshId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(TopicId);
+        this.TopicId = TopicId;
+        global::System.ArgumentNullException.ThrowIfNull(RefreshId);
+        this.RefreshId = RefreshId;
+    }
+
+    private AwsQuicksightDescribeTopicRefreshOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightDescribeTopicRefreshOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightDescribeTopicRefreshOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the topic whose refresh you want to describe. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$
+    /// </summary>
     [CliOption("--topic-id")]
-    public string? TopicId { get; set; }
+    public string? TopicId { get; private init; }
 
+    /// <summary>
+    /// The ID of the refresh, which is performed when the topic is created or updated.
+    /// </summary>
     [CliOption("--refresh-id")]
-    public string? RefreshId { get; set; }
+    public string? RefreshId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

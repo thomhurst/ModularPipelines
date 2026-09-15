@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --queryresulttype.
+/// Allowed values for --query-result-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAthenaGetQueryResultsQueryResultType
 {
     [EnumValue("DATA_MANIFEST")]
-    DataManifest = 1,
+    DataManifest,
 
     [EnumValue("DATA_ROWS")]
-    DataRows = 2
+    DataRows
 }

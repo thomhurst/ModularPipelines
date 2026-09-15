@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "get-guardrail")]
-public record AwsBedrockGetGuardrailOptions : AwsOptions
+public record AwsBedrockGetGuardrailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets details about a guardrail. If you don't specify a version, the re- sponse returns details for the DRAFT version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GuardrailIdentifier">The unique identifier of the guardrail for which to get details. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
+    public AwsBedrockGetGuardrailOptions(
+        string GuardrailIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GuardrailIdentifier);
+        this.GuardrailIdentifier = GuardrailIdentifier;
+    }
+
+    private AwsBedrockGetGuardrailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockGetGuardrailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockGetGuardrailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the guardrail for which to get details. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
+    /// </summary>
     [CliOption("--guardrail-identifier")]
-    public string? GuardrailIdentifier { get; set; }
+    public string? GuardrailIdentifier { get; private init; }
 
     /// <summary>
     /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT ver- sion. Constraints: o pattern: (([1-9][0-9]{0,7})|(DRAFT))
@@ -35,5 +72,22 @@ public record AwsBedrockGetGuardrailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

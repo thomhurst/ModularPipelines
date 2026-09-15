@@ -46,10 +46,16 @@ public record AwsRdsDescribeDbClusterSnapshotsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--include-shared")]
+    /// <summary>
+    /// Specifies whether to include shared manual DB cluster snapshots from other Amazon Web Services accounts that this Amazon Web Services ac- count has been given permission to copy or restore. By default, these snapshots are not included. You can give an Amazon Web Services account permission to restore a manual DB cluster snapshot from another Amazon Web Services account by the ModifyDBClusterSnapshotAttribute API action.
+    /// </summary>
+    [CliFlag("--include-shared", NegatedName = "--no-include-shared")]
     public bool? IncludeShared { get; set; }
 
-    [CliFlag("--include-public")]
+    /// <summary>
+    /// Specifies whether to include manual DB cluster snapshots that are public and can be copied or restored by any Amazon Web Services ac- count. By default, the public snapshots are not included. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
+    /// </summary>
+    [CliFlag("--include-public", NegatedName = "--no-include-public")]
     public bool? IncludePublic { get; set; }
 
     /// <summary>

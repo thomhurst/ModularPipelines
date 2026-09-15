@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaignsv2", "update-campaign-entry-limits")]
-public record AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions : AwsOptions
+public record AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the entry limits config for a campaign. This API is idempotent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="EntryLimitsConfig">Campaign entry limits config maxEntryCount -&gt; (integer) [required] Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed. Constraints: o min: 0 minEntryInterval -&gt; (string) [required] Minimum time interval that must pass before a participant can enter the campaign again. Constraints: o min: 0 o max: 50 o pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: maxEntryCount=integer,minEntryInterval=string JSON Syntax: { "maxEntryCount": integer, "minEntryInterval": "string" }</param>
+    public AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions(
+        string Id,
+        string EntryLimitsConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(EntryLimitsConfig);
+        this.EntryLimitsConfig = EntryLimitsConfig;
+    }
+
+    private AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// Campaign entry limits config maxEntryCount -&gt; (integer) [required] Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed. Constraints: o min: 0 minEntryInterval -&gt; (string) [required] Minimum time interval that must pass before a participant can enter the campaign again. Constraints: o min: 0 o max: 50 o pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: maxEntryCount=integer,minEntryInterval=string JSON Syntax: { "maxEntryCount": integer, "minEntryInterval": "string" }
+    /// </summary>
     [CliOption("--entry-limits-config")]
-    public string? EntryLimitsConfig { get; set; }
+    public string? EntryLimitsConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

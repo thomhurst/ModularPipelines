@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "update-notification-settings")]
-public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions
+public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The UpdateNotificationSettings operation creates, updates, disables or re-enables notifications for a HIT type. If you call the UpdateNotifi- cationSettings operation for a HIT type that already has a notification specification, the operation replaces the old specification with a new one. You can call the UpdateNotificationSettings operation to enable or disable notifications for the HIT type, without having to modify the notification specification itself by providing updates to the Active statu...
+    /// </summary>
+    /// <param name="HitTypeId">The ID of the HIT type whose notification specification is being up- dated. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    public AwsMturkUpdateNotificationSettingsOptions(
+        string HitTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HitTypeId);
+        this.HitTypeId = HitTypeId;
+    }
+
+    private AwsMturkUpdateNotificationSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkUpdateNotificationSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkUpdateNotificationSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the HIT type whose notification specification is being up- dated. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--hit-type-id")]
-    public string? HitTypeId { get; set; }
+    public string? HitTypeId { get; private init; }
 
     /// <summary>
     /// The notification specification for the HIT type. Destination -&gt; (string) [required] The target for notification messages. The Destinations format is determined by the specified Transport: o When Transport is Email, the Destination is your email ad- dress. o When Transport is SQS, the Destination is your queue URL. o When Transport is SNS, the Destination is the ARN of your topic. Transport -&gt; (string) [required] The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. Possible values: o Email o SQS o SNS Version -&gt; (string) [required] The version of the Notification API to use. Valid value is 2006-05-05. EventTypes -&gt; (list) [required] The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | Assign- mentReturned | AssignmentSubmitted | AssignmentRejected | As- signmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. (string) Possible values: o AssignmentAccepted o AssignmentAbandoned o AssignmentReturned o AssignmentSubmitted o AssignmentRejected o AssignmentApproved o HITCreated o HITExpired o HITReviewable o HITExtended o HITDisposed o Ping Shorthand Syntax: Destination=string,Transport=string,Version=string,EventTypes=string,string JSON Syntax: { "Destination": "string", "Transport": "Email"|"SQS"|"SNS", "Version": "string", "EventTypes": ["AssignmentAccepted"|"AssignmentAbandoned"|"AssignmentReturned"|"AssignmentSubmitted"|"AssignmentRejected"|"AssignmentApproved"|"HITCreated"|"HITExpired"|"HITReviewable"|"HITExtended"|"HITDisposed"|"Ping", ...] }
@@ -30,7 +67,10 @@ public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions
     [CliOption("--notification")]
     public string? Notification { get; set; }
 
-    [CliFlag("--active")]
+    /// <summary>
+    /// Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
+    /// </summary>
+    [CliFlag("--active", NegatedName = "--no-active")]
     public bool? Active { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,22 @@ public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

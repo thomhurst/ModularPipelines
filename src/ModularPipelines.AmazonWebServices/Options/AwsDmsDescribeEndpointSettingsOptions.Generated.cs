@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "describe-endpoint-settings")]
-public record AwsDmsDescribeEndpointSettingsOptions : AwsOptions
+public record AwsDmsDescribeEndpointSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EngineName">The database engine used for your source or target endpoint.</param>
+    public AwsDmsDescribeEndpointSettingsOptions(
+        string EngineName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EngineName);
+        this.EngineName = EngineName;
+    }
+
+    private AwsDmsDescribeEndpointSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsDescribeEndpointSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsDescribeEndpointSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The database engine used for your source or target endpoint.
+    /// </summary>
     [CliOption("--engine-name")]
-    public string? EngineName { get; set; }
+    public string? EngineName { get; private init; }
 
     /// <summary>
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination to- ken called a marker is included in the response so that the remain- ing results can be retrieved.
@@ -41,5 +78,22 @@ public record AwsDmsDescribeEndpointSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

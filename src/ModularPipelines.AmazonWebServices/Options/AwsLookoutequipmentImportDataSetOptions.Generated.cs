@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "import-dataset")]
-public record AwsLookoutequipmentImportDataSetOptions : AwsOptions
+public record AwsLookoutequipmentImportDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports a dataset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDataSetArn">The Amazon Resource Name (ARN) of the dataset to import. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:dataset\/[0-9a-zA-Z_-]{1,200}\/.+</param>
+    public AwsLookoutequipmentImportDataSetOptions(
+        string SourceDataSetArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDataSetArn);
+        this.SourceDataSetArn = SourceDataSetArn;
+    }
+
+    private AwsLookoutequipmentImportDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentImportDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentImportDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the dataset to import. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:dataset\/[0-9a-zA-Z_-]{1,200}\/.+
+    /// </summary>
     [CliOption("--source-dataset-arn")]
-    public string? SourceDataSetArn { get; set; }
+    public string? SourceDataSetArn { get; private init; }
 
     /// <summary>
     /// The name of the machine learning dataset to be created. If the dataset already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you don't specify this field, it is filled with the name of the source dataset. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
@@ -55,5 +92,22 @@ public record AwsLookoutequipmentImportDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

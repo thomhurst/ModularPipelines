@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-report-plan")]
-public record AwsBackupCreateReportPlanOptions : AwsOptions
+public record AwsBackupCreateReportPlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a report plan. A report plan is a document that contains infor- mation about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you re- ceive an AlreadyExistsException exception. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReportPlanName">The unique name of the report plan. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_). Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*</param>
+    /// <param name="ReportDeliveryChannel">A structure that contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key pre- fix, and the formats of your reports. S3BucketName -&gt; (string) [required] The unique name of the S3 bucket that receives your reports. S3KeyPrefix -&gt; (string) The prefix for where Backup Audit Manager delivers your reports to Amazon S3. The prefix is this part of the following path: s3://your-bucket-name/prefix /Backup/us-west-2/year/month/day/report-name. If not specified, there is no prefix. Formats -&gt; (list) The format of your reports: CSV , JSON , or both. If not speci- fied, the default format is CSV . (string) Shorthand Syntax: S3BucketName=string,S3KeyPrefix=string,Formats=string,string JSON Syntax: { "S3BucketName": "string", "S3KeyPrefix": "string", "Formats": ["string", ...] }</param>
+    /// <param name="ReportSetting">Identifies the report template for the report. Reports are built us- ing a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COM- PLIANCE_REPORT , this API resource also describes the report cover- age by Amazon Web Services Regions and frameworks. ReportTemplate -&gt; (string) [required] Identifies the report template for the report. Reports are built using a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT FrameworkArns -&gt; (list) The Amazon Resource Names (ARNs) of the frameworks a report cov- ers. (string) NumberOfFrameworks -&gt; (integer) The number of frameworks a report covers. Accounts -&gt; (list) These are the accounts to be included in the report. Use string value of ROOT to include all organizational units. (string) OrganizationUnits -&gt; (list) These are the Organizational Units to be included in the report. (string) Regions -&gt; (list) These are the Regions to be included in the report. Use the wildcard as the string value to include all Regions. (string) Shorthand Syntax: ReportTemplate=string,FrameworkArns=string,string,NumberOfFrameworks=integer,Accounts=string,string,OrganizationUnits=string,string,Regions=string,string JSON Syntax: { "ReportTemplate": "string", "FrameworkArns": ["string", ...], "NumberOfFrameworks": integer, "Accounts": ["string", ...], "OrganizationUnits": ["string", ...], "Regions": ["string", ...] }</param>
+    public AwsBackupCreateReportPlanOptions(
+        string ReportPlanName,
+        string ReportDeliveryChannel,
+        string ReportSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportPlanName);
+        this.ReportPlanName = ReportPlanName;
+        global::System.ArgumentNullException.ThrowIfNull(ReportDeliveryChannel);
+        this.ReportDeliveryChannel = ReportDeliveryChannel;
+        global::System.ArgumentNullException.ThrowIfNull(ReportSetting);
+        this.ReportSetting = ReportSetting;
+    }
+
+    private AwsBackupCreateReportPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateReportPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateReportPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the report plan. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_). Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--report-plan-name")]
-    public string? ReportPlanName { get; set; }
+    public string? ReportPlanName { get; private init; }
+
+    /// <summary>
+    /// A structure that contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key pre- fix, and the formats of your reports. S3BucketName -&gt; (string) [required] The unique name of the S3 bucket that receives your reports. S3KeyPrefix -&gt; (string) The prefix for where Backup Audit Manager delivers your reports to Amazon S3. The prefix is this part of the following path: s3://your-bucket-name/prefix /Backup/us-west-2/year/month/day/report-name. If not specified, there is no prefix. Formats -&gt; (list) The format of your reports: CSV , JSON , or both. If not speci- fied, the default format is CSV . (string) Shorthand Syntax: S3BucketName=string,S3KeyPrefix=string,Formats=string,string JSON Syntax: { "S3BucketName": "string", "S3KeyPrefix": "string", "Formats": ["string", ...] }
+    /// </summary>
+    [CliOption("--report-delivery-channel")]
+    public string? ReportDeliveryChannel { get; private init; }
+
+    /// <summary>
+    /// Identifies the report template for the report. Reports are built us- ing a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COM- PLIANCE_REPORT , this API resource also describes the report cover- age by Amazon Web Services Regions and frameworks. ReportTemplate -&gt; (string) [required] Identifies the report template for the report. Reports are built using a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT FrameworkArns -&gt; (list) The Amazon Resource Names (ARNs) of the frameworks a report cov- ers. (string) NumberOfFrameworks -&gt; (integer) The number of frameworks a report covers. Accounts -&gt; (list) These are the accounts to be included in the report. Use string value of ROOT to include all organizational units. (string) OrganizationUnits -&gt; (list) These are the Organizational Units to be included in the report. (string) Regions -&gt; (list) These are the Regions to be included in the report. Use the wildcard as the string value to include all Regions. (string) Shorthand Syntax: ReportTemplate=string,FrameworkArns=string,string,NumberOfFrameworks=integer,Accounts=string,string,OrganizationUnits=string,string,Regions=string,string JSON Syntax: { "ReportTemplate": "string", "FrameworkArns": ["string", ...], "NumberOfFrameworks": integer, "Accounts": ["string", ...], "OrganizationUnits": ["string", ...], "Regions": ["string", ...] }
+    /// </summary>
+    [CliOption("--report-setting")]
+    public string? ReportSetting { get; private init; }
 
     /// <summary>
     /// An optional description of the report plan with a maximum of 1,024 characters. Constraints: o min: 0 o max: 1024 o pattern: .*\S.*
     /// </summary>
     [CliOption("--report-plan-description")]
     public string? ReportPlanDescription { get; set; }
-
-    [CliOption("--report-delivery-channel")]
-    public string? ReportDeliveryChannel { get; set; }
-
-    [CliOption("--report-setting")]
-    public string? ReportSetting { get; set; }
 
     /// <summary>
     /// The tags to assign to the report plan. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -56,5 +107,22 @@ public record AwsBackupCreateReportPlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

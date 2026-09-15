@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "put-verification-state-on-violation")]
-public record AwsIotPutVerificationStateOnViolationOptions : AwsOptions
+public record AwsIotPutVerificationStateOnViolationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--violation-id")]
-    public string? ViolationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Set a verification state and provide a description of that verification state...
+    /// </summary>
+    /// <param name="ViolationId">The violation ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="VerificationState">The verification state of the violation. Possible values: o FALSE_POSITIVE o BENIGN_POSITIVE o TRUE_POSITIVE o UNKNOWN</param>
+    public AwsIotPutVerificationStateOnViolationOptions(
+        string ViolationId,
+        AwsIotPutVerificationStateOnViolationVerificationState VerificationState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ViolationId);
+        this.ViolationId = ViolationId;
+        global::System.ArgumentNullException.ThrowIfNull(VerificationState);
+        this.VerificationState = VerificationState;
+    }
+
+    private AwsIotPutVerificationStateOnViolationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotPutVerificationStateOnViolationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotPutVerificationStateOnViolationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The violation ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-]+
+    /// </summary>
+    [CliOption("--violation-id")]
+    public string? ViolationId { get; private init; }
+
+    /// <summary>
+    /// The verification state of the violation. Possible values: o FALSE_POSITIVE o BENIGN_POSITIVE o TRUE_POSITIVE o UNKNOWN
+    /// </summary>
     [CliOption("--verification-state")]
-    public string? VerificationState { get; set; }
+    public AwsIotPutVerificationStateOnViolationVerificationState? VerificationState { get; private init; }
 
     /// <summary>
     /// The description of the verification state of the violation (detect alarm). Constraints: o max: 1000 o pattern: [^\p{Cntrl}]*
@@ -38,5 +83,22 @@ public record AwsIotPutVerificationStateOnViolationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "complete-migration")]
-public record AwsElasticacheCompleteMigrationOptions : AwsOptions
+public record AwsElasticacheCompleteMigrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Complete the migration of data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationGroupId">The ID of the replication group to which data is being migrated.</param>
+    public AwsElasticacheCompleteMigrationOptions(
+        string ReplicationGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+    }
+
+    private AwsElasticacheCompleteMigrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCompleteMigrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCompleteMigrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the replication group to which data is being migrated.
+    /// </summary>
+    [CliOption("--replication-group-id")]
+    public string? ReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsElasticacheCompleteMigrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

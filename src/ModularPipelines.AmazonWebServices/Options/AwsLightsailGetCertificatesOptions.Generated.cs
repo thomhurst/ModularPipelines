@@ -28,7 +28,10 @@ public record AwsLightsailGetCertificatesOptions : AwsOptions
     [CliOption("--certificate-statuses", GroupValues = true)]
     public IEnumerable<string>? CertificateStatuses { get; set; }
 
-    [CliFlag("--include-certificate-details")]
+    /// <summary>
+    /// Indicates whether to include detailed information about the certifi- cates in the response. When omitted, the response includes only the certificate names, Ama- zon Resource Names (ARNs), domain names, and tags.
+    /// </summary>
+    [CliFlag("--include-certificate-details", NegatedName = "--no-include-certificate-details")]
     public bool? IncludeCertificateDetails { get; set; }
 
     /// <summary>

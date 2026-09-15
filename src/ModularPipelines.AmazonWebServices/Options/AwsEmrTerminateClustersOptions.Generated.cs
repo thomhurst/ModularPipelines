@@ -21,7 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "terminate-clusters")]
 public record AwsEmrTerminateClustersOptions : AwsOptions
 {
+    /// <summary>
+    /// Shuts down one or more clusters, each specified by cluster ID. Use this command only on clusters that do not have termination protection en- abled. Clusters with termination protection enabled are not terminated. When a cluster is shut down, any step not yet completed is canceled and the Amazon EC2 instances in the cluster are terminated. Any log files not already saved are uploaded to Amazon S3 if a --log-uri was speci- fied when the cluster was created. The maximum number of clusters al- lowed...
+    /// </summary>
+    /// <param name="ClusterIds">A list of clusters to terminate. (string) Syntax: "string" "string" ...</param>
+    public AwsEmrTerminateClustersOptions(
+        IEnumerable<string> ClusterIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ClusterIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ClusterIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ClusterIds));
+            }
+
+            ClusterIds = materialized;
+        }
+        this.ClusterIds = ClusterIds;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ClusterIds)
+    {
+        ClusterIds = this.ClusterIds;
+    }
+
+    /// <summary>
+    /// A list of clusters to terminate. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--cluster-ids", GroupValues = true)]
-    public IEnumerable<string>? ClusterIds { get; set; }
+    public IEnumerable<string> ClusterIds { get; private init; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Value { get; set; }
 
 }

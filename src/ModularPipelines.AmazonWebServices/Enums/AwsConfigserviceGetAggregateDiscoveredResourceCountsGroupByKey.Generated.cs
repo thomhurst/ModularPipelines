@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --groupbykey.
+/// Allowed values for --group-by-key.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConfigserviceGetAggregateDiscoveredResourceCountsGroupByKey
 {
-    [EnumValue("RESOURCE_TYPE")]
-    ResourceType = 1,
-
     [EnumValue("ACCOUNT_ID")]
-    AccountId = 2,
+    AccountId,
 
     [EnumValue("AWS_REGION")]
-    AwsRegion = 3
+    AwsRegion,
+
+    [EnumValue("RESOURCE_TYPE")]
+    ResourceType
 }

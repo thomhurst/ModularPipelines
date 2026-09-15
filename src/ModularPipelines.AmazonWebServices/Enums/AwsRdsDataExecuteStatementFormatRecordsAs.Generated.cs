@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --formatrecordsas.
+/// Allowed values for --format-records-as.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsDataExecuteStatementFormatRecordsAs
 {
-    [EnumValue("NONE")]
-    None = 1,
-
     [EnumValue("JSON")]
-    Json = 2
+    Json,
+
+    [EnumValue("NONE")]
+    None
 }

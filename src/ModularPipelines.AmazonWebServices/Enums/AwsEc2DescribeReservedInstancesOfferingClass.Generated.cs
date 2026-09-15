@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --offeringclass.
+/// Allowed values for --offering-class.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2DescribeReservedInstancesOfferingClass
 {
-    [EnumValue("standard")]
-    Standard = 1,
-
     [EnumValue("convertible")]
-    Convertible = 2
+    Convertible,
+
+    [EnumValue("standard")]
+    Standard
 }

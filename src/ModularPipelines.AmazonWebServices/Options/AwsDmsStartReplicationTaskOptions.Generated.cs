@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-replication-task")]
-public record AwsDmsStartReplicationTaskOptions : AwsOptions
+public record AwsDmsStartReplicationTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-task-arn")]
-    public string? ReplicationTaskArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts the replication task. For more information about DMS tasks, see Working with Migration Tasks in the Database Migration Service User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationTaskArn">The Amazon Resource Name (ARN) of the replication task to be started.</param>
+    /// <param name="StartReplicationTaskType">The type of replication task to start. start-replication is the only valid action that can be used for the first time a task with the migration type of full-load full-load, full-load-and-cdc or cdc is run. Any other action used for the first time on a given task, such as resume-process- ing and reload-target will result in data errors. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. For a full-load task, the resume-processing option will reload any tables that were partially loaded or not yet loaded during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then ap- plies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target . Oth- erwise use resume-processing , to replicate the changes from the last stop position. For a cdc only task, to start from a specific position, you must use start-replication and also specify the start position. Check the source endpoint DMS documentation for any limitations. For example, not all sources support starting from a time. NOTE: resume-processing is only available for previously executed tasks. Possible values: o start-replication o resume-processing o reload-target</param>
+    public AwsDmsStartReplicationTaskOptions(
+        string ReplicationTaskArn,
+        AwsDmsStartReplicationTaskStartReplicationTaskType StartReplicationTaskType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskArn);
+        this.ReplicationTaskArn = ReplicationTaskArn;
+        global::System.ArgumentNullException.ThrowIfNull(StartReplicationTaskType);
+        this.StartReplicationTaskType = StartReplicationTaskType;
+    }
+
+    private AwsDmsStartReplicationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartReplicationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartReplicationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replication task to be started.
+    /// </summary>
+    [CliOption("--replication-task-arn")]
+    public string? ReplicationTaskArn { get; private init; }
+
+    /// <summary>
+    /// The type of replication task to start. start-replication is the only valid action that can be used for the first time a task with the migration type of full-load full-load, full-load-and-cdc or cdc is run. Any other action used for the first time on a given task, such as resume-process- ing and reload-target will result in data errors. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. For a full-load task, the resume-processing option will reload any tables that were partially loaded or not yet loaded during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then ap- plies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target . Oth- erwise use resume-processing , to replicate the changes from the last stop position. For a cdc only task, to start from a specific position, you must use start-replication and also specify the start position. Check the source endpoint DMS documentation for any limitations. For example, not all sources support starting from a time. NOTE: resume-processing is only available for previously executed tasks. Possible values: o start-replication o resume-processing o reload-target
+    /// </summary>
     [CliOption("--start-replication-task-type")]
-    public string? StartReplicationTaskType { get; set; }
+    public AwsDmsStartReplicationTaskStartReplicationTaskType? StartReplicationTaskType { get; private init; }
 
     /// <summary>
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an er- ror. Timestamp Example: --cdc-start-time 2018-03-08T12:12:12
@@ -50,5 +95,22 @@ public record AwsDmsStartReplicationTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

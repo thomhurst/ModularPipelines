@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "put-bucket-versioning")]
-public record AwsS3controlPutBucketVersioningOptions : AwsOptions
+public record AwsS3controlPutBucketVersioningOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference . Sets the versioning state for an S3 on Outposts bucket. With S3 Ver- sioning, you can save multiple distinct copies of your objects and re- cover from unintended user actions and application failures. You can set the versioning state to one of the following: o Enabled - Enables versioning for the objects in the buck...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Bucket">The S3 on Outposts bucket to set the versioning state for. Constraints: o min: 3 o max: 255</param>
+    /// <param name="VersioningConfiguration">The root-level tag for the VersioningConfiguration parameters. MFADelete -&gt; (string) Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket. Possible values: o Enabled o Disabled Status -&gt; (string) Sets the versioning state of the S3 on Outposts bucket. Possible values: o Enabled o Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }</param>
+    public AwsS3controlPutBucketVersioningOptions(
+        string AccountId,
+        string Bucket,
+        string VersioningConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(VersioningConfiguration);
+        this.VersioningConfiguration = VersioningConfiguration;
+    }
+
+    private AwsS3controlPutBucketVersioningOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlPutBucketVersioningOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlPutBucketVersioningOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The S3 on Outposts bucket to set the versioning state for. Constraints: o min: 3 o max: 255
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The root-level tag for the VersioningConfiguration parameters. MFADelete -&gt; (string) Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket. Possible values: o Enabled o Disabled Status -&gt; (string) Sets the versioning state of the S3 on Outposts bucket. Possible values: o Enabled o Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }
+    /// </summary>
+    [CliOption("--versioning-configuration")]
+    public string? VersioningConfiguration { get; private init; }
 
     /// <summary>
     /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication de- vice.
@@ -33,13 +87,27 @@ public record AwsS3controlPutBucketVersioningOptions : AwsOptions
     [CliOption("--mfa")]
     public string? Mfa { get; set; }
 
-    [CliOption("--versioning-configuration")]
-    public string? VersioningConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

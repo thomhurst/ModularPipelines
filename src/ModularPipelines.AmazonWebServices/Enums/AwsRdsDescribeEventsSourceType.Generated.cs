@@ -11,41 +11,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsDescribeEventsSourceType
 {
-    [EnumValue("db-instance")]
-    DbInstance = 1,
-
-    [EnumValue("db-parameter-group")]
-    DbParameterGroup = 2,
-
-    [EnumValue("db-security-group")]
-    DbSecurityGroup = 3,
-
-    [EnumValue("db-snapshot")]
-    DbSnapshot = 4,
-
-    [EnumValue("db-cluster")]
-    DbCluster = 5,
-
-    [EnumValue("db-cluster-snapshot")]
-    DbClusterSnapshot = 6,
+    [EnumValue("blue-green-deployment")]
+    BlueGreenDeployment,
 
     [EnumValue("custom-engine-version")]
-    CustomEngineVersion = 7,
+    CustomEngineVersion,
+
+    [EnumValue("db-cluster")]
+    DbCluster,
+
+    [EnumValue("db-cluster-snapshot")]
+    DbClusterSnapshot,
+
+    [EnumValue("db-instance")]
+    DbInstance,
+
+    [EnumValue("db-parameter-group")]
+    DbParameterGroup,
 
     [EnumValue("db-proxy")]
-    DbProxy = 8,
+    DbProxy,
 
-    [EnumValue("blue-green-deployment")]
-    BlueGreenDeployment = 9,
+    [EnumValue("db-security-group")]
+    DbSecurityGroup,
 
     [EnumValue("db-shard-group")]
-    DbShardGroup = 10,
+    DbShardGroup,
+
+    [EnumValue("db-snapshot")]
+    DbSnapshot,
 
     [EnumValue("zero-etl")]
-    ZeroEtl = 11
+    ZeroEtl
 }

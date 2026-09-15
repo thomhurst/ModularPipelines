@@ -11,20 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --typefilter.
+/// Allowed values for --type-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsListDeviceDiscoveriesTypeFilter
 {
-    [EnumValue("ZWAVE")]
-    Zwave = 1,
-
-    [EnumValue("ZIGBEE")]
-    Zigbee = 2,
-
     [EnumValue("CLOUD")]
-    Cloud = 3,
+    Cloud,
+
+    [EnumValue("CONTROLLER_CAPABILITY_REDISCOVERY")]
+    ControllerCapabilityRediscovery,
 
     [EnumValue("CUSTOM")]
-    Custom = 4
+    Custom,
+
+    [EnumValue("ZIGBEE")]
+    Zigbee,
+
+    [EnumValue("ZWAVE")]
+    Zwave
 }

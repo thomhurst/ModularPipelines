@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "delete-permission-version")]
-public record AwsRamDeletePermissionVersionOptions : AwsOptions
+public record AwsRamDeletePermissionVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--permission-arn")]
-    public string? PermissionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes one version of a customer managed permission. The version you specify must not be attached to any resource share and must not be the default version for the permission. If a customer managed permission has the maximum of 5 versions, then you must delete at least one version before you can create another. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the permission with the version you want to delete.</param>
+    /// <param name="PermissionVersion">Specifies the version number to delete. You can't delete the default version for a customer managed permis- sion. You can't delete a version if it's the only version of the permis- sion. You must either first create another version, or delete the permission completely. You can't delete a version if it is attached to any resource shares. If the version is the default, you must first use SetDefaultPermis- sionVersion to set a different version as the default for the cus- tomer managed permission, and then use AssociateResourceSharePer- mission to update your resource shares to use the new default ver- sion.</param>
+    public AwsRamDeletePermissionVersionOptions(
+        string PermissionArn,
+        int PermissionVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PermissionArn);
+        this.PermissionArn = PermissionArn;
+        this.PermissionVersion = PermissionVersion;
+    }
+
+    private AwsRamDeletePermissionVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamDeletePermissionVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamDeletePermissionVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the permission with the version you want to delete.
+    /// </summary>
+    [CliOption("--permission-arn")]
+    public string? PermissionArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the version number to delete. You can't delete the default version for a customer managed permis- sion. You can't delete a version if it's the only version of the permis- sion. You must either first create another version, or delete the permission completely. You can't delete a version if it is attached to any resource shares. If the version is the default, you must first use SetDefaultPermis- sionVersion to set a different version as the default for the cus- tomer managed permission, and then use AssociateResourceSharePer- mission to update your resource shares to use the new default ver- sion.
+    /// </summary>
     [CliOption("--permission-version")]
-    public int? PermissionVersion { get; set; }
+    public int? PermissionVersion { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
@@ -40,5 +83,22 @@ public record AwsRamDeletePermissionVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

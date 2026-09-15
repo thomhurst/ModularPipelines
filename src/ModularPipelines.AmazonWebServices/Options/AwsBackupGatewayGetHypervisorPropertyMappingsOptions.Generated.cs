@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-gateway", "get-hypervisor-property-mappings")]
-public record AwsBackupGatewayGetHypervisorPropertyMappingsOptions : AwsOptions
+public record AwsBackupGatewayGetHypervisorPropertyMappingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This action retrieves the property mappings for the specified hypervi- sor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HypervisorArn">The Amazon Resource Name (ARN) of the hypervisor. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    public AwsBackupGatewayGetHypervisorPropertyMappingsOptions(
+        string HypervisorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HypervisorArn);
+        this.HypervisorArn = HypervisorArn;
+    }
+
+    private AwsBackupGatewayGetHypervisorPropertyMappingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupGatewayGetHypervisorPropertyMappingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupGatewayGetHypervisorPropertyMappingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the hypervisor. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// </summary>
     [CliOption("--hypervisor-arn")]
-    public string? HypervisorArn { get; set; }
+    public string? HypervisorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

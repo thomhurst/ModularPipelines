@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "evict-files-failing-upload")]
-public record AwsStoragegatewayEvictFilesFailingUploadOptions : AwsOptions
+public record AwsStoragegatewayEvictFilesFailingUploadOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--file-share-arn")]
-    public string? FileShareArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-remove")]
+    /// <summary>
+    /// Starts a process that cleans the specified file share's cache of file entries that are failing upload to Amazon S3. This API operation re- ports success if the request is received with valid arguments, and there are no other cache clean operations currently in-progress for the specified file share. After a successful request, the cache clean oper- ation occurs asynchronously and reports progress using CloudWatch logs and notifications. WARNING: If ForceRemove is set to True , the cache clean ope...
+    /// </summary>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation. Constraints: o min: 50 o max: 500</param>
+    public AwsStoragegatewayEvictFilesFailingUploadOptions(
+        string FileShareArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileShareArn);
+        this.FileShareArn = FileShareArn;
+    }
+
+    private AwsStoragegatewayEvictFilesFailingUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayEvictFilesFailingUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayEvictFilesFailingUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation. Constraints: o min: 50 o max: 500
+    /// </summary>
+    [CliOption("--file-share-arn")]
+    public string? FileShareArn { get; private init; }
+
+    /// <summary>
+    /// Specifies whether cache entries with full or partial file data cur- rently stored on the gateway will be forcibly removed by the cache clean operation. Valid arguments: o False - The cache clean operation skips cache entries failing up- load if they are associated with data currently stored on the gateway. This preserves the cached data. o True - The cache clean operation removes cache entries failing up- load even if they are associated with data currently stored on the gateway. This deletes the cached data. WARNING: If ForceRemove is set to True , the cache clean operation will delete file data from the gateway which might otherwise be re- coverable.
+    /// </summary>
+    [CliFlag("--force-remove", NegatedName = "--no-force-remove")]
     public bool? ForceRemove { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsStoragegatewayEvictFilesFailingUploadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

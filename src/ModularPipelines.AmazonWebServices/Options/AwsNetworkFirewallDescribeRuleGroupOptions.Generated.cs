@@ -40,7 +40,10 @@ public record AwsNetworkFirewallDescribeRuleGroupOptions : AwsOptions
     [CliOption("--type")]
     public AwsNetworkFirewallDescribeRuleGroupType? Type { get; set; }
 
-    [CliFlag("--analyze-rule-group")]
+    /// <summary>
+    /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric rout- ing. If set to TRUE , Network Firewall runs the analysis.
+    /// </summary>
+    [CliFlag("--analyze-rule-group", NegatedName = "--no-analyze-rule-group")]
     public bool? AnalyzeRuleGroup { get; set; }
 
     [CliOption("--cli-input-json")]

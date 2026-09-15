@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "create-license-configuration")]
-public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
+public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a license configuration. A license configuration is an abstraction of a customer license agree- ment that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated In- stance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of li- censes purchased and used. See also: AWS API D...
+    /// </summary>
+    /// <param name="Name">Name of the license configuration.</param>
+    /// <param name="LicenseCountingType">Dimension used to track the license inventory. Possible values: o vCPU o Instance o Core o Socket</param>
+    public AwsLicenseManagerCreateLicenseConfigurationOptions(
+        string Name,
+        AwsLicenseManagerCreateLicenseConfigurationLicenseCountingType LicenseCountingType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(LicenseCountingType);
+        this.LicenseCountingType = LicenseCountingType;
+    }
+
+    private AwsLicenseManagerCreateLicenseConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerCreateLicenseConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerCreateLicenseConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the license configuration.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Dimension used to track the license inventory. Possible values: o vCPU o Instance o Core o Socket
+    /// </summary>
+    [CliOption("--license-counting-type")]
+    public AwsLicenseManagerCreateLicenseConfigurationLicenseCountingType? LicenseCountingType { get; private init; }
 
     /// <summary>
     /// Description of the license configuration.
@@ -30,16 +78,16 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--license-counting-type")]
-    public string? LicenseCountingType { get; set; }
-
     /// <summary>
     /// Number of licenses managed by the license configuration.
     /// </summary>
     [CliOption("--license-count")]
     public int? LicenseCount { get; set; }
 
-    [CliFlag("--license-count-hard-limit")]
+    /// <summary>
+    /// Indicates whether hard or soft license enforcement is used. Exceed- ing a hard limit blocks the launch of new instances.
+    /// </summary>
+    [CliFlag("--license-count-hard-limit", NegatedName = "--no-license-count-hard-limit")]
     public bool? LicenseCountHardLimit { get; set; }
 
     /// <summary>
@@ -54,7 +102,10 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--disassociate-when-not-found")]
+    /// <summary>
+    /// When true, disassociates a resource when software is uninstalled.
+    /// </summary>
+    [CliFlag("--disassociate-when-not-found", NegatedName = "--no-disassociate-when-not-found")]
     public bool? DisassociateWhenNotFound { get; set; }
 
     /// <summary>
@@ -74,5 +125,22 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

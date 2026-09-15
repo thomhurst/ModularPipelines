@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudhsmv2", "copy-backup-to-region")]
-public record AwsCloudhsmv2CopyBackupToRegionOptions : AwsOptions
+public record AwsCloudhsmv2CopyBackupToRegionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--destination-region")]
-    public string? DestinationRegion { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Copy an CloudHSM cluster backup to a different region. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DestinationRegion">The AWS region that will contain your copied CloudHSM cluster backup. Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d</param>
+    /// <param name="BackupId">The ID of the backup that will be copied to the destination region. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}</param>
+    public AwsCloudhsmv2CopyBackupToRegionOptions(
+        string DestinationRegion,
+        string BackupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationRegion);
+        this.DestinationRegion = DestinationRegion;
+        global::System.ArgumentNullException.ThrowIfNull(BackupId);
+        this.BackupId = BackupId;
+    }
+
+    private AwsCloudhsmv2CopyBackupToRegionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudhsmv2CopyBackupToRegionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudhsmv2CopyBackupToRegionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AWS region that will contain your copied CloudHSM cluster backup. Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d
+    /// </summary>
+    [CliOption("--destination-region")]
+    public string? DestinationRegion { get; private init; }
+
+    /// <summary>
+    /// The ID of the backup that will be copied to the destination region. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}
+    /// </summary>
     [CliOption("--backup-id")]
-    public string? BackupId { get; set; }
+    public string? BackupId { get; private init; }
 
     /// <summary>
     /// Tags to apply to the destination backup during creation. If you specify tags, only these tags will be applied to the destination backup. If you do not specify tags, the service copies tags from the source backup to the destination backup. Constraints: o min: 1 o max: 50 (structure) Contains a tag. A tag is a key-value pair. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +82,22 @@ public record AwsCloudhsmv2CopyBackupToRegionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

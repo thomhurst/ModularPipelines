@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediastore", "put-container-policy")]
-public record AwsMediastorePutContainerPolicyOptions : AwsOptions
+public record AwsMediastorePutContainerPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--container-name")]
-    public string? ContainerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an access policy for the specified container to restrict the users and clients that can access it. For information about the data that is included in an access policy, see the AWS Identity and Access Management User Guide . For this release of the REST API, you can create only one policy for a container. If you enter PutContainerPolicy twice, the second command modifies the existing policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContainerName">The name of the container. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    /// <param name="Policy">The contents of the policy, which includes the following: o One Version tag o One Statement tag that contains the standard tags for the policy. Constraints: o min: 1 o max: 8192 o pattern: [\x00-\x7F]+</param>
+    public AwsMediastorePutContainerPolicyOptions(
+        string ContainerName,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsMediastorePutContainerPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediastorePutContainerPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediastorePutContainerPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; private init; }
+
+    /// <summary>
+    /// The contents of the policy, which includes the following: o One Version tag o One Statement tag that contains the standard tags for the policy. Constraints: o min: 1 o max: 8192 o pattern: [\x00-\x7F]+
+    /// </summary>
     [CliOption("--policy")]
-    public string? Policy { get; set; }
+    public string? Policy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

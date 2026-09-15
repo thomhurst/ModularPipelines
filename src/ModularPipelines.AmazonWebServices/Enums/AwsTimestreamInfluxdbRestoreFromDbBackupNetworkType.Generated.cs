@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --networktype.
+/// Allowed values for --network-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamInfluxdbRestoreFromDbBackupNetworkType
 {
-    [EnumValue("IPV4")]
-    Ipv4 = 1,
-
     [EnumValue("DUAL")]
-    Dual = 2
+    Dual,
+
+    [EnumValue("IPV4")]
+    Ipv4
 }

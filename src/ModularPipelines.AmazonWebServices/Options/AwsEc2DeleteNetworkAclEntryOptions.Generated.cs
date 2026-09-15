@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-network-acl-entry")]
-public record AwsEc2DeleteNetworkAclEntryOptions : AwsOptions
+public record AwsEc2DeleteNetworkAclEntryOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified ingress or egress entry (rule) from the specified network ACL. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkAclId">The ID of the network ACL.</param>
+    /// <param name="RuleNumber">The rule number of the entry to delete.</param>
+    /// <param name="Egress">Indicates whether the rule is an egress rule.</param>
+    public AwsEc2DeleteNetworkAclEntryOptions(
+        string NetworkAclId,
+        int RuleNumber,
+        bool Egress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkAclId);
+        this.NetworkAclId = NetworkAclId;
+        this.RuleNumber = RuleNumber;
+        if (!Egress)
+        {
+            throw new global::System.ArgumentException(
+                "Required flag must be enabled to emit its switch.",
+                nameof(Egress));
+        }
+        this.Egress = Egress;
+    }
+
+    private AwsEc2DeleteNetworkAclEntryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteNetworkAclEntryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteNetworkAclEntryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the network ACL.
+    /// </summary>
     [CliOption("--network-acl-id")]
-    public string? NetworkAclId { get; set; }
+    public string? NetworkAclId { get; private init; }
 
+    /// <summary>
+    /// The rule number of the entry to delete.
+    /// </summary>
     [CliOption("--rule-number")]
-    public int? RuleNumber { get; set; }
+    public int? RuleNumber { get; private init; }
 
+    /// <summary>
+    /// Indicates whether the rule is an egress rule.
+    /// </summary>
     [CliFlag("--egress")]
-    public bool? Egress { get; set; }
+    public bool? Egress { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

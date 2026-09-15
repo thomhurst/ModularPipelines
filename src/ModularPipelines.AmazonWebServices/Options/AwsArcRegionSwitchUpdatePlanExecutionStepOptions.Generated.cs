@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-region-switch", "update-plan-execution-step")]
-public record AwsArcRegionSwitchUpdatePlanExecutionStepOptions : AwsOptions
+public record AwsArcRegionSwitchUpdatePlanExecutionStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a specific step in an in-progress plan execution. This opera- tion allows you to modify the step's comment or action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan containing the execution step to update. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="ExecutionId">The unique identifier of the plan execution containing the step to update.</param>
+    /// <param name="Comment">An optional comment about the plan execution. Constraints: o min: 0 o max: 1024</param>
+    /// <param name="StepName">The name of the execution step to update.</param>
+    /// <param name="ActionToTake">The updated action to take for the step. This can be used to skip or retry a step. Possible values: o switchToUngraceful o skip</param>
+    public AwsArcRegionSwitchUpdatePlanExecutionStepOptions(
+        string PlanArn,
+        string ExecutionId,
+        string Comment,
+        string StepName,
+        AwsArcRegionSwitchUpdatePlanExecutionStepActionToTake ActionToTake
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlanArn);
+        this.PlanArn = PlanArn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
+        this.ExecutionId = ExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(Comment);
+        this.Comment = Comment;
+        global::System.ArgumentNullException.ThrowIfNull(StepName);
+        this.StepName = StepName;
+        global::System.ArgumentNullException.ThrowIfNull(ActionToTake);
+        this.ActionToTake = ActionToTake;
+    }
+
+    private AwsArcRegionSwitchUpdatePlanExecutionStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcRegionSwitchUpdatePlanExecutionStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcRegionSwitchUpdatePlanExecutionStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the plan containing the execution step to update. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// </summary>
     [CliOption("--plan-arn")]
-    public string? PlanArn { get; set; }
+    public string? PlanArn { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the plan execution containing the step to update.
+    /// </summary>
     [CliOption("--execution-id")]
-    public string? ExecutionId { get; set; }
+    public string? ExecutionId { get; private init; }
 
+    /// <summary>
+    /// An optional comment about the plan execution. Constraints: o min: 0 o max: 1024
+    /// </summary>
     [CliOption("--comment")]
-    public string? Comment { get; set; }
+    public string? Comment { get; private init; }
 
+    /// <summary>
+    /// The name of the execution step to update.
+    /// </summary>
     [CliOption("--step-name")]
-    public string? StepName { get; set; }
+    public string? StepName { get; private init; }
 
+    /// <summary>
+    /// The updated action to take for the step. This can be used to skip or retry a step. Possible values: o switchToUngraceful o skip
+    /// </summary>
     [CliOption("--action-to-take")]
-    public string? ActionToTake { get; set; }
+    public AwsArcRegionSwitchUpdatePlanExecutionStepActionToTake? ActionToTake { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

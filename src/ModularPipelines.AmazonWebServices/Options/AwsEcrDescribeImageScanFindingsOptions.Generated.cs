@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "describe-image-scan-findings")]
-public record AwsEcrDescribeImageScanFindingsOptions : AwsOptions
+public record AwsEcrDescribeImageScanFindingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the scan findings for the specified image. See also: AWS API Documentation describe-image-scan-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageScanFindings.findings, imageScan...
+    /// </summary>
+    /// <param name="RepositoryName">The repository for the image for which to describe the scan find- ings. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageId">An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }</param>
+    public AwsEcrDescribeImageScanFindingsOptions(
+        string RepositoryName,
+        string ImageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+    }
+
+    private AwsEcrDescribeImageScanFindingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrDescribeImageScanFindingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrDescribeImageScanFindingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The repository for the image for which to describe the scan find- ings. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }
+    /// </summary>
+    [CliOption("--image-id")]
+    public string? ImageId { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry that contains the repository in which to describe the image scan findings for. If you do not specify a registry, the default registry is as- sumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
-
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
-    [CliOption("--image-id")]
-    public string? ImageId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -58,5 +102,22 @@ public record AwsEcrDescribeImageScanFindingsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

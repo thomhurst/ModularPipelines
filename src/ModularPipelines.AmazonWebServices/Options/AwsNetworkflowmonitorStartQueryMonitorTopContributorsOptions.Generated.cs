@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkflowmonitor", "start-query-monitor-top-contributors")]
-public record AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions : AwsOptions
+public record AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a query that you can use with the Network Flow Monitor query in- terface to return the top contributors for a monitor. Specify the moni- tor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all worklo...
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="StartTime">The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.</param>
+    /// <param name="EndTime">The timestamp that is the date and time end of the period that you want to retrieve results for with your query.</param>
+    /// <param name="MetricName">The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (option- ally) within a specific category, such as network flows between Availability Zones. Possible values: o ROUND_TRIP_TIME o TIMEOUTS o RETRANSMISSIONS o DATA_TRANSFERRED</param>
+    /// <param name="DestinationCategory">The category that you want to query top contributors for, for a spe- cific monitor. Destination categories can be one of the following: o INTRA_AZ : Top contributor network flows within a single Avail- ability Zone o INTER_AZ : Top contributor network flows between Availability Zones o INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) o INTER_VPC : Top contributor network flows between VPCs o AMAZON_S3 : Top contributor network flows to or from Amazon S3 o AMAZON_DYNAMODB : Top contributor network flows to or from Amazon Dynamo DB o UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: o INTRA_AZ o INTER_AZ o INTER_VPC o UNCLASSIFIED o AMAZON_S3 o AMAZON_DYNAMODB o INTER_REGION</param>
+    public AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions(
+        string MonitorName,
+        string StartTime,
+        string EndTime,
+        AwsNetworkflowmonitorStartQueryMonitorTopContributorsMetricName MetricName,
+        AwsNetworkflowmonitorStartQueryMonitorTopContributorsDestinationCategory DestinationCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCategory);
+        this.DestinationCategory = DestinationCategory;
+    }
+
+    private AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    public string? MonitorName { get; private init; }
 
+    /// <summary>
+    /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
+    /// <summary>
+    /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (option- ally) within a specific category, such as network flows between Availability Zones. Possible values: o ROUND_TRIP_TIME o TIMEOUTS o RETRANSMISSIONS o DATA_TRANSFERRED
+    /// </summary>
     [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
+    public AwsNetworkflowmonitorStartQueryMonitorTopContributorsMetricName? MetricName { get; private init; }
 
+    /// <summary>
+    /// The category that you want to query top contributors for, for a spe- cific monitor. Destination categories can be one of the following: o INTRA_AZ : Top contributor network flows within a single Avail- ability Zone o INTER_AZ : Top contributor network flows between Availability Zones o INTER_REGION : Top contributor network flows between Regions (to the edge of another Region) o INTER_VPC : Top contributor network flows between VPCs o AMAZON_S3 : Top contributor network flows to or from Amazon S3 o AMAZON_DYNAMODB : Top contributor network flows to or from Amazon Dynamo DB o UNCLASSIFIED : Top contributor network flows that do not have a bucket classification Possible values: o INTRA_AZ o INTER_AZ o INTER_VPC o UNCLASSIFIED o AMAZON_S3 o AMAZON_DYNAMODB o INTER_REGION
+    /// </summary>
     [CliOption("--destination-category")]
-    public string? DestinationCategory { get; set; }
+    public AwsNetworkflowmonitorStartQueryMonitorTopContributorsDestinationCategory? DestinationCategory { get; private init; }
 
     /// <summary>
     /// The maximum number of top contributors to return. Constraints: o min: 1 o max: 500
@@ -47,5 +113,22 @@ public record AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

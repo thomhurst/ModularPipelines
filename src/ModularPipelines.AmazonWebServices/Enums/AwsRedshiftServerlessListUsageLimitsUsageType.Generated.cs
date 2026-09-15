@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --usagetype.
+/// Allowed values for --usage-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftServerlessListUsageLimitsUsageType
 {
-    [EnumValue("serverless-compute")]
-    ServerlessCompute = 1,
-
     [EnumValue("cross-region-datasharing")]
-    CrossRegionDatasharing = 2
+    CrossRegionDatasharing,
+
+    [EnumValue("serverless-compute")]
+    ServerlessCompute
 }

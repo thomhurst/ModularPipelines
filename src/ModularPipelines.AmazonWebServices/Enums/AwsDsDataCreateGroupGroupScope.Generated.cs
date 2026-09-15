@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --groupscope.
+/// Allowed values for --group-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsDataCreateGroupGroupScope
 {
+    [EnumValue("BuiltinLocal")]
+    BuiltinLocal,
+
     [EnumValue("DomainLocal")]
-    DomainLocal = 1,
+    DomainLocal,
 
     [EnumValue("Global")]
-    Global = 2,
+    Global,
 
     [EnumValue("Universal")]
-    Universal = 3,
-
-    [EnumValue("BuiltinLocal")]
-    BuiltinLocal = 4
+    Universal
 }

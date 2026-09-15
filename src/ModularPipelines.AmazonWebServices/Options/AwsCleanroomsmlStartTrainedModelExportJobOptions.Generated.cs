@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "start-trained-model-export-job")]
-public record AwsCleanroomsmlStartTrainedModelExportJobOptions : AwsOptions
+public record AwsCleanroomsmlStartTrainedModelExportJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides the information necessary to start a trained model export job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the trained model export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="TrainedModelArn">The Amazon Resource Name (ARN) of the trained model that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="MembershipIdentifier">The membership ID of the member that is receiving the exported trained model artifacts. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="OutputConfiguration">The output configuration information for the trained model export job. members -&gt; (list) [required] The members that will received the exported trained model out- put. Constraints: o min: 1 o max: 1 (structure) Provides information about the member who will receive trained model exports. accountId -&gt; (string) [required] The account ID of the member who will receive trained model exports. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: members=[{accountId=string},{accountId=string}] JSON Syntax: { "members": [ { "accountId": "string" } ... ] }</param>
+    public AwsCleanroomsmlStartTrainedModelExportJobOptions(
+        string Name,
+        string TrainedModelArn,
+        string MembershipIdentifier,
+        string OutputConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TrainedModelArn);
+        this.TrainedModelArn = TrainedModelArn;
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfiguration);
+        this.OutputConfiguration = OutputConfiguration;
+    }
+
+    private AwsCleanroomsmlStartTrainedModelExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlStartTrainedModelExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlStartTrainedModelExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the trained model export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the trained model that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+
+    /// </summary>
     [CliOption("--trained-model-arn")]
-    public string? TrainedModelArn { get; set; }
+    public string? TrainedModelArn { get; private init; }
+
+    /// <summary>
+    /// The membership ID of the member that is receiving the exported trained model artifacts. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--membership-identifier")]
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// The output configuration information for the trained model export job. members -&gt; (list) [required] The members that will received the exported trained model out- put. Constraints: o min: 1 o max: 1 (structure) Provides information about the member who will receive trained model exports. accountId -&gt; (string) [required] The account ID of the member who will receive trained model exports. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: members=[{accountId=string},{accountId=string}] JSON Syntax: { "members": [ { "accountId": "string" } ... ] }
+    /// </summary>
+    [CliOption("--output-configuration")]
+    public string? OutputConfiguration { get; private init; }
 
     /// <summary>
     /// The version identifier of the trained model to export. This speci- fies which version of the trained model should be exported to the specified destination. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--trained-model-version-identifier")]
     public string? TrainedModelVersionIdentifier { get; set; }
-
-    [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
-
-    [CliOption("--output-configuration")]
-    public string? OutputConfiguration { get; set; }
 
     /// <summary>
     /// The description of the trained model export job. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
@@ -50,5 +108,22 @@ public record AwsCleanroomsmlStartTrainedModelExportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

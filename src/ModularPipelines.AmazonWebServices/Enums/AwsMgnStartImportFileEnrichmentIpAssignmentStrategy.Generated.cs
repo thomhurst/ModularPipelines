@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ipassignmentstrategy.
+/// Allowed values for --ip-assignment-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnStartImportFileEnrichmentIpAssignmentStrategy
 {
-    [EnumValue("STATIC")]
-    Static = 1,
-
     [EnumValue("DYNAMIC")]
-    Dynamic = 2
+    Dynamic,
+
+    [EnumValue("STATIC")]
+    Static
 }

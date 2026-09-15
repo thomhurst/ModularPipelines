@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-parameter")]
-public record AwsSsmGetParameterOptions : AwsOptions
+public record AwsSsmGetParameterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--with-decryption")]
+    /// <summary>
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: To get information about more than one parameter at a time, use the GetParameters operation. NOTE: Parameter Store throughput defines the number of API transactions...
+    /// </summary>
+    /// <param name="Name">The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 2048</param>
+    public AwsSsmGetParameterOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmGetParameterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetParameterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetParameterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
+    /// </summary>
+    [CliFlag("--with-decryption", NegatedName = "--no-with-decryption")]
     public bool? WithDecryption { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsSsmGetParameterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

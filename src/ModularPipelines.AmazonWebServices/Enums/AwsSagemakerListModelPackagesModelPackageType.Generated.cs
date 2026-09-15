@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modelpackagetype.
+/// Allowed values for --model-package-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListModelPackagesModelPackageType
 {
-    [EnumValue("Versioned")]
-    Versioned = 1,
+    [EnumValue("Both")]
+    Both,
 
     [EnumValue("Unversioned")]
-    Unversioned = 2,
+    Unversioned,
 
-    [EnumValue("Both")]
-    Both = 3
+    [EnumValue("Versioned")]
+    Versioned
 }

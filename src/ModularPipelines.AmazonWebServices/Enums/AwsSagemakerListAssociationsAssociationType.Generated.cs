@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --associationtype.
+/// Allowed values for --association-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListAssociationsAssociationType
 {
-    [EnumValue("ContributedTo")]
-    ContributedTo = 1,
-
     [EnumValue("AssociatedWith")]
-    AssociatedWith = 2,
+    AssociatedWith,
+
+    [EnumValue("ContributedTo")]
+    ContributedTo,
 
     [EnumValue("DerivedFrom")]
-    DerivedFrom = 3,
+    DerivedFrom,
 
     [EnumValue("Produced")]
-    Produced = 4,
+    Produced,
 
     [EnumValue("SameAs")]
-    SameAs = 5
+    SameAs
 }

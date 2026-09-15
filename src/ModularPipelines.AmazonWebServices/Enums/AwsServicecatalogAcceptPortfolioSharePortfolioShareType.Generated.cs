@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --portfoliosharetype.
+/// Allowed values for --portfolio-share-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsServicecatalogAcceptPortfolioSharePortfolioShareType
 {
-    [EnumValue("IMPORTED")]
-    Imported = 1,
+    [EnumValue("AWS_ORGANIZATIONS")]
+    AwsOrganizations,
 
     [EnumValue("AWS_SERVICECATALOG")]
-    AwsServicecatalog = 2,
+    AwsServicecatalog,
 
-    [EnumValue("AWS_ORGANIZATIONS")]
-    AwsOrganizations = 3
+    [EnumValue("IMPORTED")]
+    Imported
 }

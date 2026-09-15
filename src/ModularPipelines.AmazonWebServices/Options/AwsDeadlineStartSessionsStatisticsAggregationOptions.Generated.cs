@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,118 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "start-sessions-statistics-aggregation")]
-public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions
+public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAg- gregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation opera- tion and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSession- sStatisticsAggregation operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The identifier of the farm that contains queues or fleets to return statistics for. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="ResourceIds">A list of fleet IDs or queue IDs to gather statistics for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueIds, fleetIds. queueIds -&gt; (list) One to 10 queue IDs that specify the queues to return statistics for. If you specify the queueIds field, you can't specify the fleetIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: queue-[0-9a-f]{32} fleetIds -&gt; (list) One to 10 fleet IDs that specify the fleets to return statistics for. If you specify the fleetIds field, you can't specify the queueIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: fleet-[0-9a-f]{32} Shorthand Syntax: queueIds=string,string,fleetIds=string,string JSON Syntax: { "queueIds": ["string", ...], "fleetIds": ["string", ...] }</param>
+    /// <param name="StartTime">The Linux timestamp of the date and time that the statistics start.</param>
+    /// <param name="EndTime">The Linux timestamp of the date and time that the statistics end.</param>
+    /// <param name="GroupBy">The field to use to group the statistics. Constraints: o min: 1 o max: 2 (string) Possible values: o QUEUE_ID o FLEET_ID o JOB_ID o USER_ID o USAGE_TYPE o INSTANCE_TYPE o LICENSE_PRODUCT Syntax: "string" "string" ...</param>
+    /// <param name="Statistics">One to four statistics to return. Constraints: o min: 1 o max: 4 (string) Possible values: o SUM o MIN o MAX o AVG Syntax: "string" "string" ...</param>
+    public AwsDeadlineStartSessionsStatisticsAggregationOptions(
+        string FarmId,
+        string ResourceIds,
+        string StartTime,
+        string EndTime,
+        IEnumerable<string> GroupBy,
+        IEnumerable<string> Statistics
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIds);
+        this.ResourceIds = ResourceIds;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(GroupBy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(GroupBy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(GroupBy));
+            }
+
+            GroupBy = materialized;
+        }
+        this.GroupBy = GroupBy;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Statistics);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Statistics));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Statistics));
+            }
+
+            Statistics = materialized;
+        }
+        this.Statistics = Statistics;
+    }
+
+    private AwsDeadlineStartSessionsStatisticsAggregationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineStartSessionsStatisticsAggregationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineStartSessionsStatisticsAggregationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the farm that contains queues or fleets to return statistics for. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    public string? FarmId { get; private init; }
 
+    /// <summary>
+    /// A list of fleet IDs or queue IDs to gather statistics for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queueIds, fleetIds. queueIds -&gt; (list) One to 10 queue IDs that specify the queues to return statistics for. If you specify the queueIds field, you can't specify the fleetIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: queue-[0-9a-f]{32} fleetIds -&gt; (list) One to 10 fleet IDs that specify the fleets to return statistics for. If you specify the fleetIds field, you can't specify the queueIds field. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: fleet-[0-9a-f]{32} Shorthand Syntax: queueIds=string,string,fleetIds=string,string JSON Syntax: { "queueIds": ["string", ...], "fleetIds": ["string", ...] }
+    /// </summary>
     [CliOption("--resource-ids")]
-    public string? ResourceIds { get; set; }
+    public string? ResourceIds { get; private init; }
 
+    /// <summary>
+    /// The Linux timestamp of the date and time that the statistics start.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The Linux timestamp of the date and time that the statistics end.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
+
+    /// <summary>
+    /// The field to use to group the statistics. Constraints: o min: 1 o max: 2 (string) Possible values: o QUEUE_ID o FLEET_ID o JOB_ID o USER_ID o USAGE_TYPE o INSTANCE_TYPE o LICENSE_PRODUCT Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--group-by", GroupValues = true)]
+    public IEnumerable<string>? GroupBy { get; private init; }
+
+    /// <summary>
+    /// One to four statistics to return. Constraints: o min: 1 o max: 4 (string) Possible values: o SUM o MIN o MAX o AVG Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--statistics", GroupValues = true)]
+    public IEnumerable<string>? Statistics { get; private init; }
 
     /// <summary>
     /// The timezone to use for the statistics. Use UTC notation such as "UTC+8." Constraints: o min: 9 o max: 9 o pattern: UTC[-+][01][0-9]:(30|00)
@@ -46,16 +146,27 @@ public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions
     [CliOption("--period")]
     public AwsDeadlineStartSessionsStatisticsAggregationPeriod? Period { get; set; }
 
-    [CliOption("--group-by", GroupValues = true)]
-    public IEnumerable<string>? GroupBy { get; set; }
-
-    [CliOption("--statistics", GroupValues = true)]
-    public IEnumerable<string>? Statistics { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,20 +12,67 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an im- ageRecipeArn . NOTE: UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the up- date request, not just the properties that have changed. See also: AWS API Documentation
+/// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . NOTE: UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the up- date request, not just the properties that have changed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "update-image-pipeline")]
-public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions
+public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . NOTE: UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the up- date request, not just the properties that have changed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline that you want to update. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$</param>
+    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images that this image pipeline has updated. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
+    public AwsImagebuilderUpdateImagePipelineOptions(
+        string ImagePipelineArn,
+        string InfrastructureConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImagePipelineArn);
+        this.ImagePipelineArn = ImagePipelineArn;
+        global::System.ArgumentNullException.ThrowIfNull(InfrastructureConfigurationArn);
+        this.InfrastructureConfigurationArn = InfrastructureConfigurationArn;
+    }
+
+    private AwsImagebuilderUpdateImagePipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderUpdateImagePipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderUpdateImagePipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the image pipeline that you want to update. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$
+    /// </summary>
     [CliOption("--image-pipeline-arn")]
-    public string? ImagePipelineArn { get; set; }
+    public string? ImagePipelineArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images that this image pipeline has updated. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$
+    /// </summary>
+    [CliOption("--infrastructure-configuration-arn")]
+    public string? InfrastructureConfigurationArn { get; private init; }
 
     /// <summary>
     /// The description of the image pipeline. Constraints: o min: 1 o max: 1024
@@ -34,7 +81,7 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure images updated by this image pipeline. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// The Amazon Resource Name (ARN) of the image recipe that configures images updated by this image pipeline. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
     [CliOption("--image-recipe-arn")]
     public string? ImageRecipeArn { get; set; }
@@ -45,9 +92,6 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions
     [CliOption("--container-recipe-arn")]
     public string? ContainerRecipeArn { get; set; }
 
-    [CliOption("--infrastructure-configuration-arn")]
-    public string? InfrastructureConfigurationArn { get; set; }
-
     /// <summary>
     /// The Amazon Resource Name (ARN) of the distribution configuration that Image Builder uses to configure and distribute images that this image pipeline has updated. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$
     /// </summary>
@@ -55,12 +99,15 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions
     public string? DistributionConfigurationArn { get; set; }
 
     /// <summary>
-    /// The image test configuration of the image pipeline. imageTestsEnabled -&gt; (boolean) Determines if tests should run after building the image. Image Builder defaults to enable tests to run following the image build, before image distribution. timeoutMinutes -&gt; (integer) The maximum time in minutes that tests are permitted to run. NOTE: The timeout property is not currently active. This value is ignored. Constraints: o min: 60 o max: 1440 Shorthand Syntax: imageTestsEnabled=boolean,timeoutMinutes=integer JSON Syntax: { "imageTestsEnabled": true|false, "timeoutMinutes": integer }
+    /// The image test configuration of the image pipeline. imageTestsEnabled -&gt; (boolean) Specifies whether tests run after building the image. When en- abled, tests run after the image build and before image distrib- ution. Defaults to true . timeoutMinutes -&gt; (integer) The maximum time in minutes that tests are permitted to run. NOTE: The timeout property is not currently active. This value is ignored. Constraints: o min: 60 o max: 1440 Shorthand Syntax: imageTestsEnabled=boolean,timeoutMinutes=integer JSON Syntax: { "imageTestsEnabled": true|false, "timeoutMinutes": integer }
     /// </summary>
     [CliOption("--image-tests-configuration")]
     public string? ImageTestsConfiguration { get; set; }
 
-    [CliFlag("--enhanced-image-metadata-enabled")]
+    /// <summary>
+    /// abled (boolean) Specifies whether to collect additional information about the image being created, including the operating system (OS) version and pack- age list. Defaults to true .
+    /// </summary>
+    [CliFlag("--enhanced-image-metadata-enabled", NegatedName = "--no-enhanced-image-metadata-enabled")]
     public bool? EnhancedImageMetadataEnabled { get; set; }
 
     /// <summary>
@@ -76,7 +123,7 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions
     public AwsImagebuilderUpdateImagePipelineStatus? Status { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -117,5 +164,22 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

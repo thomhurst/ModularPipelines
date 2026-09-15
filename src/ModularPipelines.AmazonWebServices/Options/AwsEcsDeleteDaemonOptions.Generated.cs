@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "delete-daemon")]
-public record AwsEcsDeleteDaemonOptions : AwsOptions
+public record AwsEcsDeleteDaemonOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified daemon. The daemon must be in an ACTIVE state to be deleted. Deleting a daemon stops all running daemon tasks on the as- sociated container instances. Amazon ECS drains existing container in- stances and provisions new instances without the deleted daemon. Amazon ECS automatically launches replacement tasks for your Amazon ECS ser- vices. NOTE: ECS Managed Daemons is only supported for Amazon ECS Managed In- stances Capacity Providers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DaemonArn">The Amazon Resource Name (ARN) of the daemon to delete.</param>
+    public AwsEcsDeleteDaemonOptions(
+        string DaemonArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DaemonArn);
+        this.DaemonArn = DaemonArn;
+    }
+
+    private AwsEcsDeleteDaemonOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDeleteDaemonOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDeleteDaemonOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the daemon to delete.
+    /// </summary>
     [CliOption("--daemon-arn")]
-    public string? DaemonArn { get; set; }
+    public string? DaemonArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

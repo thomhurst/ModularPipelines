@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "start-revenue-attribution-allocations-task")]
-public record AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Submits a batch of up to 250 allocation changes (CREATE and/or UPDATE) for asynchronous processing. Returns a TaskId for tracking. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog context for this operation. Possible values: o AWS o Sandbox</param>
+    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="RevenueAttributionRevision">Current revision of the revenue attribution for optimistic locking. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*</param>
+    /// <param name="RevenueShareAllocations">The list of allocation changes to process in this batch. Constraints: o min: 1 o max: 250 (structure) A single allocation change within a batch request. Action -&gt; (string) [required] The operation type: CREATE or UPDATE. Possible values: o CREATE o UPDATE RevenueAttributionAllocationId -&gt; (string) The allocation to update. Required when Action is UPDATE. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13} EntityType -&gt; (string) [required] The type of the associated deal entity. Possible values: o OFFER o OPPORTUNITY EntityIdentifier -&gt; (string) [required] The unique identifier of the associated deal entity. Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+ CustomerAwsAccountId -&gt; (string) [required] The customer AWS account ID for this associated deal entity. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} RevenueSharePercent -&gt; (string) [required] Revenue share percentage. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})? EffectiveFrom -&gt; (string) [required] The effective start date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} EffectiveUntil -&gt; (string) [required] The effective end date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} Status -&gt; (string) Allocation status. Defaults to ACTIVE on CREATE. Possible values: o ACTIVE o INACTIVE Shorthand Syntax: Action=string,RevenueAttributionAllocationId=string,EntityType=string,EntityIdentifier=string,CustomerAwsAccountId=string,RevenueSharePercent=string,EffectiveFrom=string,EffectiveUntil=string,Status=string ... JSON Syntax: [ { "Action": "CREATE"|"UPDATE", "RevenueAttributionAllocationId": "string", "EntityType": "OFFER"|"OPPORTUNITY", "EntityIdentifier": "string", "CustomerAwsAccountId": "string", "RevenueSharePercent": "string", "EffectiveFrom": "string", "EffectiveUntil": "string", "Status": "ACTIVE"|"INACTIVE" } ... ]</param>
+    public AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions(
+        AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskCatalog Catalog,
+        string RevenueAttributionIdentifier,
+        string RevenueAttributionRevision,
+        IEnumerable<string> RevenueShareAllocations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(RevenueAttributionIdentifier);
+        this.RevenueAttributionIdentifier = RevenueAttributionIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RevenueAttributionRevision);
+        this.RevenueAttributionRevision = RevenueAttributionRevision;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RevenueShareAllocations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RevenueShareAllocations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RevenueShareAllocations));
+            }
+
+            RevenueShareAllocations = materialized;
+        }
+        this.RevenueShareAllocations = RevenueShareAllocations;
+    }
+
+    private AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog context for this operation. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskCatalog? Catalog { get; private init; }
 
+    /// <summary>
+    /// The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// </summary>
     [CliOption("--revenue-attribution-identifier")]
-    public string? RevenueAttributionIdentifier { get; set; }
+    public string? RevenueAttributionIdentifier { get; private init; }
 
+    /// <summary>
+    /// Current revision of the revenue attribution for optimistic locking. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// </summary>
     [CliOption("--revenue-attribution-revision")]
-    public string? RevenueAttributionRevision { get; set; }
+    public string? RevenueAttributionRevision { get; private init; }
 
+    /// <summary>
+    /// The list of allocation changes to process in this batch. Constraints: o min: 1 o max: 250 (structure) A single allocation change within a batch request. Action -&gt; (string) [required] The operation type: CREATE or UPDATE. Possible values: o CREATE o UPDATE RevenueAttributionAllocationId -&gt; (string) The allocation to update. Required when Action is UPDATE. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13} EntityType -&gt; (string) [required] The type of the associated deal entity. Possible values: o OFFER o OPPORTUNITY EntityIdentifier -&gt; (string) [required] The unique identifier of the associated deal entity. Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+ CustomerAwsAccountId -&gt; (string) [required] The customer AWS account ID for this associated deal entity. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} RevenueSharePercent -&gt; (string) [required] Revenue share percentage. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})? EffectiveFrom -&gt; (string) [required] The effective start date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} EffectiveUntil -&gt; (string) [required] The effective end date for this allocation. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2} Status -&gt; (string) Allocation status. Defaults to ACTIVE on CREATE. Possible values: o ACTIVE o INACTIVE Shorthand Syntax: Action=string,RevenueAttributionAllocationId=string,EntityType=string,EntityIdentifier=string,CustomerAwsAccountId=string,RevenueSharePercent=string,EffectiveFrom=string,EffectiveUntil=string,Status=string ... JSON Syntax: [ { "Action": "CREATE"|"UPDATE", "RevenueAttributionAllocationId": "string", "EntityType": "OFFER"|"OPPORTUNITY", "EntityIdentifier": "string", "CustomerAwsAccountId": "string", "RevenueSharePercent": "string", "EffectiveFrom": "string", "EffectiveUntil": "string", "Status": "ACTIVE"|"INACTIVE" } ... ]
+    /// </summary>
     [CliOption("--revenue-share-allocations", GroupValues = true)]
-    public IEnumerable<string>? RevenueShareAllocations { get; set; }
+    public IEnumerable<string>? RevenueShareAllocations { get; private init; }
 
     /// <summary>
     /// Idempotency token for deduplication and retry. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
@@ -52,5 +122,22 @@ public record AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocati
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "put-message-feedback")]
-public record AwsPinpointSmsVoiceV2PutMessageFeedbackOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2PutMessageFeedbackOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--message-id")]
-    public string? MessageId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId. If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED ; Otherwise, an hour after the message feedback record is set to FAILED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MessageId">The unique identifier for the message. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="MessageFeedbackStatus">Set the message feedback to be either RECEIVED or FAILED . Possible values: o RECEIVED o FAILED</param>
+    public AwsPinpointSmsVoiceV2PutMessageFeedbackOptions(
+        string MessageId,
+        AwsPinpointSmsVoiceV2PutMessageFeedbackMessageFeedbackStatus MessageFeedbackStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MessageId);
+        this.MessageId = MessageId;
+        global::System.ArgumentNullException.ThrowIfNull(MessageFeedbackStatus);
+        this.MessageFeedbackStatus = MessageFeedbackStatus;
+    }
+
+    private AwsPinpointSmsVoiceV2PutMessageFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2PutMessageFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2PutMessageFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the message. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--message-id")]
+    public string? MessageId { get; private init; }
+
+    /// <summary>
+    /// Set the message feedback to be either RECEIVED or FAILED . Possible values: o RECEIVED o FAILED
+    /// </summary>
     [CliOption("--message-feedback-status")]
-    public string? MessageFeedbackStatus { get; set; }
+    public AwsPinpointSmsVoiceV2PutMessageFeedbackMessageFeedbackStatus? MessageFeedbackStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

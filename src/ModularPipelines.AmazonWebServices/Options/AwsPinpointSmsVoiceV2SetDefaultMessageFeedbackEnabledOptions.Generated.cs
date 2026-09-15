@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "set-default-message-feedback-enabled")]
-public record AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--message-feedback-enabled")]
-    public bool? MessageFeedbackEnabled { get; set; }
+    /// <summary>
+    /// Sets a configuration set's default for message feedback. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="MessageFeedbackEnabled">Set to true to enable message feedback.</param>
+    public AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions(
+        string ConfigurationSetName,
+        bool MessageFeedbackEnabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+        this.MessageFeedbackEnabled = MessageFeedbackEnabled;
+    }
+
+    private AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--configuration-set-name")]
+    public string? ConfigurationSetName { get; private init; }
+
+    /// <summary>
+    /// Set to true to enable message feedback.
+    /// </summary>
+    [CliFlag("--message-feedback-enabled", NegatedName = "--no-message-feedback-enabled")]
+    public bool? MessageFeedbackEnabled { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

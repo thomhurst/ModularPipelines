@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "list-enrichment-jobs")]
-public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions
+public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: o datasetId: Filter by dataset o propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) o status: Filter by job status (e.g., RUNNING to find active jobs) o jobType: Filter by enrichment type (currently only EVENT_DETECTION) o startDateand endDate: Filter by job creation time range ...
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace to list enrichment jobs from. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    public AwsIotsitewiseListEnrichmentJobsOptions(
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    private AwsIotsitewiseListEnrichmentJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseListEnrichmentJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseListEnrichmentJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the IoT SiteWise workspace to list enrichment jobs from. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    public string? WorkspaceName { get; private init; }
 
     /// <summary>
     /// Filter jobs by dataset ID. Returns only jobs analyzing data from the specified dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
@@ -92,5 +129,22 @@ public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

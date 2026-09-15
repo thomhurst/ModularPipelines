@@ -21,7 +21,38 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("workmailmessageflow", "get-raw-message-content")]
 public record AwsWorkmailmessageflowGetRawMessageContentOptions : AwsOptions
 {
+    /// <summary>
+    /// Retrieves the raw content of an in-transit email message, in MIME for- mat. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MessageId">The identifier of the email message to retrieve. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]* outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsWorkmailmessageflowGetRawMessageContentOptions(
+        string MessageId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MessageId);
+        this.MessageId = MessageId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string MessageId, out string Outfile)
+    {
+        MessageId = this.MessageId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The identifier of the email message to retrieve. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]* outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--message-id")]
-    public string? MessageId { get; set; }
+    public string MessageId { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

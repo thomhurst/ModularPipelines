@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "update-workgroup")]
-public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions
+public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned...
+    /// </summary>
+    /// <param name="WorkgroupName">The name of the workgroup to update. You can't update the name of a workgroup once it is created. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    public AwsRedshiftServerlessUpdateWorkgroupOptions(
+        string WorkgroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkgroupName);
+        this.WorkgroupName = WorkgroupName;
+    }
+
+    private AwsRedshiftServerlessUpdateWorkgroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessUpdateWorkgroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessUpdateWorkgroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workgroup to update. You can't update the name of a workgroup once it is created. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--workgroup-name")]
+    public string? WorkgroupName { get; private init; }
+
     /// <summary>
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     /// </summary>
@@ -33,10 +73,16 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions
     [CliOption("--config-parameters", GroupValues = true)]
     public IEnumerable<string>? ConfigParameters { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
-    [CliFlag("--extra-compute-for-automatic-optimization")]
+    /// <summary>
+    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// </summary>
+    [CliFlag("--extra-compute-for-automatic-optimization", NegatedName = "--no-extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 
     /// <summary>
@@ -63,7 +109,10 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions
     [CliOption("--price-performance-target")]
     public string? PricePerformanceTarget { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// A value that specifies whether the workgroup can be accessible from a public network.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -84,13 +133,27 @@ public record AwsRedshiftServerlessUpdateWorkgroupOptions : AwsOptions
     [CliOption("--track-name")]
     public string? TrackName { get; set; }
 
-    [CliOption("--workgroup-name")]
-    public string? WorkgroupName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --checksumaggregationmethod.
+/// Allowed values for --checksum-aggregation-method.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEbsCompleteSnapshotChecksumAggregationMethod
 {
     [EnumValue("LINEAR")]
-    Linear = 1,
+    Linear,
 
-    [EnumValue("Constraints")]
-    Constraints = 2
+    [EnumValue("o")]
+    O
 }

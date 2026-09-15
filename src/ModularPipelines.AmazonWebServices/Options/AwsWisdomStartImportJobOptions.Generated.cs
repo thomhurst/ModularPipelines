@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wisdom", "start-import-job")]
-public record AwsWisdomStartImportJobOptions : AwsOptions
+public record AwsWisdomStartImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start an asynchronous job to import Wisdom resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. o For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick re- sponses . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImportJobType">The type of the import job. o For importing quick response resource, set the value to QUICK_RE- SPONSES . Possible values: o QUICK_RESPONSES</param>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. o For importing Wisdom quick responses, this should be a QUICK_RE- SPONSES type knowledge base. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="UploadId">A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200</param>
+    public AwsWisdomStartImportJobOptions(
+        AwsWisdomStartImportJobImportJobType ImportJobType,
+        string KnowledgeBaseId,
+        string UploadId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImportJobType);
+        this.ImportJobType = ImportJobType;
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(UploadId);
+        this.UploadId = UploadId;
+    }
+
+    private AwsWisdomStartImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWisdomStartImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWisdomStartImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the import job. o For importing quick response resource, set the value to QUICK_RE- SPONSES . Possible values: o QUICK_RESPONSES
+    /// </summary>
+    [CliOption("--import-job-type")]
+    public AwsWisdomStartImportJobImportJobType? ImportJobType { get; private init; }
+
+    /// <summary>
+    /// The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. o For importing Wisdom quick responses, this should be a QUICK_RE- SPONSES type knowledge base. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200
+    /// </summary>
+    [CliOption("--upload-id")]
+    public string? UploadId { get; private init; }
+
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 4096
     /// </summary>
@@ -36,25 +97,33 @@ public record AwsWisdomStartImportJobOptions : AwsOptions
     [CliOption("--external-source-configuration")]
     public string? ExternalSourceConfiguration { get; set; }
 
-    [CliOption("--import-job-type")]
-    public string? ImportJobType { get; set; }
-
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
-
     /// <summary>
     /// The metadata fields of the imported Wisdom resources. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (string) Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
-    [CliOption("--upload-id")]
-    public string? UploadId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

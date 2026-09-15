@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-query", "create-scheduled-query")]
-public record AwsTimestreamQueryCreateScheduledQueryOptions : AwsOptions
+public record AwsTimestreamQueryCreateScheduledQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a scheduled query that will be run on your behalf at the config- ured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notifica- tion for your scheduled query operations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Name of the scheduled query. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+</param>
+    /// <param name="QueryString">The query string to run. Parameter names can be specified in the query string @ character followed by an identifier. The named Para- meter @scheduled_runtime is reserved and can be used in the query to get the time at which the query is scheduled to run. The timestamp calculated according to the ScheduleConfiguration pa- rameter, will be the value of @scheduled_runtime paramater for each query run. For example, consider an instance of a scheduled query executing on 2021-12-01 00:00:00. For this instance, the @sched- uled_runtime parameter is initialized to the timestamp 2021-12-01 00:00:00 when invoking the query. Constraints: o min: 1 o max: 262144</param>
+    /// <param name="ScheduleConfiguration">The schedule configuration for the query. ScheduleExpression -&gt; (string) [required] An expression that denotes when to trigger the scheduled query run. This can be a cron expression or a rate expression. Constraints: o min: 1 o max: 256 Shorthand Syntax: ScheduleExpression=string JSON Syntax: { "ScheduleExpression": "string" }</param>
+    /// <param name="NotificationConfiguration">Notification configuration for the scheduled query. A notification is sent by Timestream when a query run finishes, when the state is updated or when you delete it. SnsConfiguration -&gt; (structure) [required] Details about the Amazon Simple Notification Service (SNS) con- figuration. This field is visible only when SNS Topic is pro- vided when updating the account settings. TopicArn -&gt; (string) [required] SNS topic ARN that the scheduled query status notifications will be sent to. Constraints: o min: 1 o max: 2048 Shorthand Syntax: SnsConfiguration={TopicArn=string} JSON Syntax: { "SnsConfiguration": { "TopicArn": "string" } }</param>
+    /// <param name="ScheduledQueryExecutionRoleArn">The ARN for the IAM role that Timestream will assume when running the scheduled query. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ErrorReportConfiguration">Configuration for error reporting. Error reports will be generated when a problem is encountered when writing the query results. S3Configuration -&gt; (structure) [required] The S3 configuration for the error reports. BucketName -&gt; (string) [required] Name of the S3 bucket under which error reports will be cre- ated. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) Prefix for the error report key. Timestream by default adds the following prefix to the error report path. Constraints: o min: 1 o max: 896 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ EncryptionOption -&gt; (string) Encryption at rest options for the error reports. If no en- cryption option is specified, Timestream will choose SSE_S3 as default. Possible values: o SSE_S3 o SSE_KMS Shorthand Syntax: S3Configuration={BucketName=string,ObjectKeyPrefix=string,EncryptionOption=string} JSON Syntax: { "S3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string", "EncryptionOption": "SSE_S3"|"SSE_KMS" } }</param>
+    public AwsTimestreamQueryCreateScheduledQueryOptions(
+        string Name,
+        string QueryString,
+        string ScheduleConfiguration,
+        string NotificationConfiguration,
+        string ScheduledQueryExecutionRoleArn,
+        string ErrorReportConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleConfiguration);
+        this.ScheduleConfiguration = ScheduleConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationConfiguration);
+        this.NotificationConfiguration = NotificationConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledQueryExecutionRoleArn);
+        this.ScheduledQueryExecutionRoleArn = ScheduledQueryExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ErrorReportConfiguration);
+        this.ErrorReportConfiguration = ErrorReportConfiguration;
+    }
+
+    private AwsTimestreamQueryCreateScheduledQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamQueryCreateScheduledQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamQueryCreateScheduledQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the scheduled query. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The query string to run. Parameter names can be specified in the query string @ character followed by an identifier. The named Para- meter @scheduled_runtime is reserved and can be used in the query to get the time at which the query is scheduled to run. The timestamp calculated according to the ScheduleConfiguration pa- rameter, will be the value of @scheduled_runtime paramater for each query run. For example, consider an instance of a scheduled query executing on 2021-12-01 00:00:00. For this instance, the @sched- uled_runtime parameter is initialized to the timestamp 2021-12-01 00:00:00 when invoking the query. Constraints: o min: 1 o max: 262144
+    /// </summary>
     [CliOption("--query-string")]
-    public string? QueryString { get; set; }
+    public string? QueryString { get; private init; }
 
+    /// <summary>
+    /// The schedule configuration for the query. ScheduleExpression -&gt; (string) [required] An expression that denotes when to trigger the scheduled query run. This can be a cron expression or a rate expression. Constraints: o min: 1 o max: 256 Shorthand Syntax: ScheduleExpression=string JSON Syntax: { "ScheduleExpression": "string" }
+    /// </summary>
     [CliOption("--schedule-configuration")]
-    public string? ScheduleConfiguration { get; set; }
+    public string? ScheduleConfiguration { get; private init; }
 
+    /// <summary>
+    /// Notification configuration for the scheduled query. A notification is sent by Timestream when a query run finishes, when the state is updated or when you delete it. SnsConfiguration -&gt; (structure) [required] Details about the Amazon Simple Notification Service (SNS) con- figuration. This field is visible only when SNS Topic is pro- vided when updating the account settings. TopicArn -&gt; (string) [required] SNS topic ARN that the scheduled query status notifications will be sent to. Constraints: o min: 1 o max: 2048 Shorthand Syntax: SnsConfiguration={TopicArn=string} JSON Syntax: { "SnsConfiguration": { "TopicArn": "string" } }
+    /// </summary>
     [CliOption("--notification-configuration")]
-    public string? NotificationConfiguration { get; set; }
+    public string? NotificationConfiguration { get; private init; }
+
+    /// <summary>
+    /// The ARN for the IAM role that Timestream will assume when running the scheduled query. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--scheduled-query-execution-role-arn")]
+    public string? ScheduledQueryExecutionRoleArn { get; private init; }
+
+    /// <summary>
+    /// Configuration for error reporting. Error reports will be generated when a problem is encountered when writing the query results. S3Configuration -&gt; (structure) [required] The S3 configuration for the error reports. BucketName -&gt; (string) [required] Name of the S3 bucket under which error reports will be cre- ated. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) Prefix for the error report key. Timestream by default adds the following prefix to the error report path. Constraints: o min: 1 o max: 896 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ EncryptionOption -&gt; (string) Encryption at rest options for the error reports. If no en- cryption option is specified, Timestream will choose SSE_S3 as default. Possible values: o SSE_S3 o SSE_KMS Shorthand Syntax: S3Configuration={BucketName=string,ObjectKeyPrefix=string,EncryptionOption=string} JSON Syntax: { "S3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string", "EncryptionOption": "SSE_S3"|"SSE_KMS" } }
+    /// </summary>
+    [CliOption("--error-report-configuration")]
+    public string? ErrorReportConfiguration { get; private init; }
 
     /// <summary>
     /// Configuration used for writing the result of a query. TimestreamConfiguration -&gt; (structure) [required] Configuration needed to write data into the Timestream database and table. DatabaseName -&gt; (string) [required] Name of Timestream database to which the query result will be written. TableName -&gt; (string) [required] Name of Timestream table that the query result will be writ- ten to. The table should be within the same database that is provided in Timestream configuration. TimeColumn -&gt; (string) [required] Column from query result that should be used as the time col- umn in destination table. Column type for this should be TIMESTAMP. DimensionMappings -&gt; (list) [required] This is to allow mapping column(s) from the query result to the dimension in the destination table. (structure) This type is used to map column(s) from the query result to a dimension in the destination table. Name -&gt; (string) [required] Column name from query result. DimensionValueType -&gt; (string) [required] Type for the dimension. Possible values: o VARCHAR MultiMeasureMappings -&gt; (structure) Multi-measure mappings. TargetMultiMeasureName -&gt; (string) The name of the target multi-measure name in the derived table. This input is required when measureNameColumn is not provided. If MeasureNameColumn is provided, then value from that column will be used as multi-measure name. MultiMeasureAttributeMappings -&gt; (list) [required] Required. Attribute mappings to be used for mapping query results to ingest data for multi-measure attributes. Constraints: o min: 1 (structure) Attribute mapping for MULTI value measures. SourceColumn -&gt; (string) [required] Source column from where the attribute value is to be read. TargetMultiMeasureAttributeName -&gt; (string) Custom name to be used for attribute name in de- rived table. If not provided, source column name would be used. MeasureValueType -&gt; (string) [required] Type of the attribute to be read from the source column. Possible values: o BIGINT o BOOLEAN o DOUBLE o VARCHAR o TIMESTAMP MixedMeasureMappings -&gt; (list) Specifies how to map measures to multi-measure records. Constraints: o min: 1 (structure) MixedMeasureMappings are mappings that can be used to in- gest data into a mixture of narrow and multi measures in the derived table. MeasureName -&gt; (string) Refers to the value of measure_name in a result row. This field is required if MeasureNameColumn is pro- vided. SourceColumn -&gt; (string) This field refers to the source column from which mea- sure-value is to be read for result materialization. TargetMeasureName -&gt; (string) Target measure name to be used. If not provided, the target measure name by default would be measure-name if provided, or sourceColumn otherwise. MeasureValueType -&gt; (string) [required] Type of the value that is to be read from sourceCol- umn. If the mapping is for MULTI, use MeasureValue- Type.MULTI. Possible values: o BIGINT o BOOLEAN o DOUBLE o VARCHAR o MULTI MultiMeasureAttributeMappings -&gt; (list) Required when measureValueType is MULTI. Attribute mappings for MULTI value measures. Constraints: o min: 1 (structure) Attribute mapping for MULTI value measures. SourceColumn -&gt; (string) [required] Source column from where the attribute value is to be read. TargetMultiMeasureAttributeName -&gt; (string) Custom name to be used for attribute name in derived table. If not provided, source column name would be used. MeasureValueType -&gt; (string) [required] Type of the attribute to be read from the source column. Possible values: o BIGINT o BOOLEAN o DOUBLE o VARCHAR o TIMESTAMP MeasureNameColumn -&gt; (string) Name of the measure column. JSON Syntax: { "TimestreamConfiguration": { "DatabaseName": "string", "TableName": "string", "TimeColumn": "string", "DimensionMappings": [ { "Name": "string", "DimensionValueType": "VARCHAR" } ... ], "MultiMeasureMappings": { "TargetMultiMeasureName": "string", "MultiMeasureAttributeMappings": [ { "SourceColumn": "string", "TargetMultiMeasureAttributeName": "string", "MeasureValueType": "BIGINT"|"BOOLEAN"|"DOUBLE"|"VARCHAR"|"TIMESTAMP" } ... ] }, "MixedMeasureMappings": [ { "MeasureName": "string", "SourceColumn": "string", "TargetMeasureName": "string", "MeasureValueType": "BIGINT"|"BOOLEAN"|"DOUBLE"|"VARCHAR"|"MULTI", "MultiMeasureAttributeMappings": [ { "SourceColumn": "string", "TargetMultiMeasureAttributeName": "string", "MeasureValueType": "BIGINT"|"BOOLEAN"|"DOUBLE"|"VARCHAR"|"TIMESTAMP" } ... ] } ... ], "MeasureNameColumn": "string" } }
@@ -47,9 +125,6 @@ public record AwsTimestreamQueryCreateScheduledQueryOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--scheduled-query-execution-role-arn")]
-    public string? ScheduledQueryExecutionRoleArn { get; set; }
-
     /// <summary>
     /// A list of key-value pairs to label the scheduled query. Constraints: o min: 0 o max: 200 (structure) A tag is a label that you assign to a Timestream database and/or table. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize databases and/or tables, for example, by purpose, owner, or environment. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case sensitive and can be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -62,13 +137,27 @@ public record AwsTimestreamQueryCreateScheduledQueryOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliOption("--error-report-configuration")]
-    public string? ErrorReportConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

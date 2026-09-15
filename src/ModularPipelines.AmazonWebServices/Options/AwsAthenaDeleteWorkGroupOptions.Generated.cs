@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "delete-work-group")]
-public record AwsAthenaDeleteWorkGroupOptions : AwsOptions
+public record AwsAthenaDeleteWorkGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--work-group")]
-    public string? WorkGroup { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--recursive-delete-option")]
+    /// <summary>
+    /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkGroup">The unique name of the workgroup to delete. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    public AwsAthenaDeleteWorkGroupOptions(
+        string WorkGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkGroup);
+        this.WorkGroup = WorkGroup;
+    }
+
+    private AwsAthenaDeleteWorkGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaDeleteWorkGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaDeleteWorkGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the workgroup to delete. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// </summary>
+    [CliOption("--work-group")]
+    public string? WorkGroup { get; private init; }
+
+    /// <summary>
+    /// The option to delete the workgroup and its contents even if the workgroup contains any named queries, query executions, or note- books.
+    /// </summary>
+    [CliFlag("--recursive-delete-option", NegatedName = "--no-recursive-delete-option")]
     public bool? RecursiveDeleteOption { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsAthenaDeleteWorkGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

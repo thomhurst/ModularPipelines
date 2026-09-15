@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "get-partner-account")]
-public record AwsIotwirelessGetPartnerAccountOptions : AwsOptions
+public record AwsIotwirelessGetPartnerAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--partner-account-id")]
-    public string? PartnerAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets information about a partner account. If PartnerAccountId and Part- nerType are null , returns all partner accounts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PartnerAccountId">The partner account ID to disassociate from the AWS account. Constraints: o max: 256</param>
+    /// <param name="PartnerType">The partner type. Possible values: o Sidewalk</param>
+    public AwsIotwirelessGetPartnerAccountOptions(
+        string PartnerAccountId,
+        AwsIotwirelessGetPartnerAccountPartnerType PartnerType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartnerAccountId);
+        this.PartnerAccountId = PartnerAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerType);
+        this.PartnerType = PartnerType;
+    }
+
+    private AwsIotwirelessGetPartnerAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessGetPartnerAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessGetPartnerAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The partner account ID to disassociate from the AWS account. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--partner-account-id")]
+    public string? PartnerAccountId { get; private init; }
+
+    /// <summary>
+    /// The partner type. Possible values: o Sidewalk
+    /// </summary>
     [CliOption("--partner-type")]
-    public string? PartnerType { get; set; }
+    public AwsIotwirelessGetPartnerAccountPartnerType? PartnerType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

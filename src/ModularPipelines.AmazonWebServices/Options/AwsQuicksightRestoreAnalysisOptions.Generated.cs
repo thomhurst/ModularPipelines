@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "restore-analysis")]
-public record AwsQuicksightRestoreAnalysisOptions : AwsOptions
+public record AwsQuicksightRestoreAnalysisOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores an analysis. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the analy- sis. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AnalysisId">The ID of the analysis that you're restoring. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    public AwsQuicksightRestoreAnalysisOptions(
+        string AwsAccountId,
+        string AnalysisId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisId);
+        this.AnalysisId = AnalysisId;
+    }
+
+    private AwsQuicksightRestoreAnalysisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightRestoreAnalysisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightRestoreAnalysisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the analy- sis. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the analysis that you're restoring. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--analysis-id")]
-    public string? AnalysisId { get; set; }
+    public string? AnalysisId { get; private init; }
 
-    [CliFlag("--restore-to-folders")]
+    /// <summary>
+    /// A boolean value that determines if the analysis will be restored to folders that it previously resided in. A True value restores analy- sis back to all folders that it previously resided in. A False value restores the analysis but does not restore the analysis back to all previously resided folders. Restoring a restricted analysis requires this parameter to be set to True .
+    /// </summary>
+    [CliFlag("--restore-to-folders", NegatedName = "--no-restore-to-folders")]
     public bool? RestoreToFolders { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsQuicksightRestoreAnalysisOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

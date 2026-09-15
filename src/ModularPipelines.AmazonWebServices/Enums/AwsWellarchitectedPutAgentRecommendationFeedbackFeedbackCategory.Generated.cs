@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --feedbackcategory.
+/// Allowed values for --feedback-category.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedPutAgentRecommendationFeedbackFeedbackCategory
 {
     [EnumValue("OTHER")]
-    Other = 1,
-
-    [EnumValue("RECOMMENDATION_NOT_RELEVANT")]
-    RecommendationNotRelevant = 2,
-
-    [EnumValue("RESOURCE_NOT_IMPORTANT")]
-    ResourceNotImportant = 3,
-
-    [EnumValue("RESOURCE_TYPE_NOT_IMPORTANT")]
-    ResourceTypeNotImportant = 4,
+    Other,
 
     [EnumValue("RECOMMENDATION_INCORRECT")]
-    RecommendationIncorrect = 5
+    RecommendationIncorrect,
+
+    [EnumValue("RECOMMENDATION_NOT_RELEVANT")]
+    RecommendationNotRelevant,
+
+    [EnumValue("RESOURCE_NOT_IMPORTANT")]
+    ResourceNotImportant,
+
+    [EnumValue("RESOURCE_TYPE_NOT_IMPORTANT")]
+    ResourceTypeNotImportant
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-zonal-shift", "create-practice-run-configuration")]
-public record AwsArcZonalShiftCreatePracticeRunConfigurationOptions : AwsOptions
+public record AwsArcZonalShiftCreatePracticeRunConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A practice run configuration for zonal autoshift is required when you enable zonal autoshift. A practice run configuration includes specifi- cations for blocked dates and blocked time windows, and for Amazon CloudWatch alarms that you create to use with practice runs. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block prac- tice runs from starting. When a resource has a practice run configuration, ARC...
+    /// </summary>
+    /// <param name="ResourceIdentifier">The identifier of the resource that Amazon Web Services shifts traf- fic for with a practice run zonal shift. The identifier is the Ama- zon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: o Amazon EC2 Auto Scaling groups o Amazon Elastic Kubernetes Service o Application Load Balancer o Network Load Balancer Constraints: o min: 8 o max: 1024</param>
+    /// <param name="OutcomeAlarms">Outcome alarms for practice runs are alarms that you specify that end a practice run when one or more of the alarms is in an ALARM state. Configure one or more of these alarms to monitor the health of your application when traffic is shifted away from an Availability Zone during each practice run. You should configure these alarms to go into an ALARM state if you want to stop a zonal shift, to let traf- fic for the resource return to the original Availability Zone. Constraints: o min: 1 o max: 10 (structure) A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. type -&gt; (string) [required] The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH . Possible values: o CLOUDWATCH alarmIdentifier -&gt; (string) [required] The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run. Constraints: o min: 8 o max: 1024 o pattern: .* Shorthand Syntax: type=string,alarmIdentifier=string ... JSON Syntax: [ { "type": "CLOUDWATCH", "alarmIdentifier": "string" } ... ]</param>
+    public AwsArcZonalShiftCreatePracticeRunConfigurationOptions(
+        string ResourceIdentifier,
+        IEnumerable<string> OutcomeAlarms
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OutcomeAlarms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OutcomeAlarms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OutcomeAlarms));
+            }
+
+            OutcomeAlarms = materialized;
+        }
+        this.OutcomeAlarms = OutcomeAlarms;
+    }
+
+    private AwsArcZonalShiftCreatePracticeRunConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcZonalShiftCreatePracticeRunConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcZonalShiftCreatePracticeRunConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the resource that Amazon Web Services shifts traf- fic for with a practice run zonal shift. The identifier is the Ama- zon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: o Amazon EC2 Auto Scaling groups o Amazon Elastic Kubernetes Service o Application Load Balancer o Network Load Balancer Constraints: o min: 8 o max: 1024
+    /// </summary>
     [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    public string? ResourceIdentifier { get; private init; }
+
+    /// <summary>
+    /// Outcome alarms for practice runs are alarms that you specify that end a practice run when one or more of the alarms is in an ALARM state. Configure one or more of these alarms to monitor the health of your application when traffic is shifted away from an Availability Zone during each practice run. You should configure these alarms to go into an ALARM state if you want to stop a zonal shift, to let traf- fic for the resource return to the original Availability Zone. Constraints: o min: 1 o max: 10 (structure) A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. type -&gt; (string) [required] The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH . Possible values: o CLOUDWATCH alarmIdentifier -&gt; (string) [required] The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run. Constraints: o min: 8 o max: 1024 o pattern: .* Shorthand Syntax: type=string,alarmIdentifier=string ... JSON Syntax: [ { "type": "CLOUDWATCH", "alarmIdentifier": "string" } ... ]
+    /// </summary>
+    [CliOption("--outcome-alarms", GroupValues = true)]
+    public IEnumerable<string>? OutcomeAlarms { get; private init; }
 
     /// <summary>
     /// Optionally, you can block ARC from starting practice runs for spe- cific windows of days and times. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you could set the following recurring days and times as blocked windows, for example: Mon:00:00-Mon:10:00 Wed-20:30-Wed:21:30 Fri-20:30-Fri:21:30 . WARNING: The blockedWindows have to start and end on the same day. Win- dows that span multiple days aren't supported. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 19 o max: 19 o pattern: (Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2} Syntax: "string" "string" ...
@@ -48,13 +106,27 @@ public record AwsArcZonalShiftCreatePracticeRunConfigurationOptions : AwsOptions
     [CliOption("--allowed-windows", GroupValues = true)]
     public IEnumerable<string>? AllowedWindows { get; set; }
 
-    [CliOption("--outcome-alarms", GroupValues = true)]
-    public IEnumerable<string>? OutcomeAlarms { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

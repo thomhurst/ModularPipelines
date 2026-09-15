@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --directinternetaccess.
+/// Allowed values for --direct-internet-access.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerCreateNotebookInstanceDirectInternetAccess
 {
-    [EnumValue("Enabled")]
-    Enabled = 1,
-
     [EnumValue("Disabled")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("Enabled")]
+    Enabled
 }

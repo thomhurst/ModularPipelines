@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "list-collaboration-configured-audience-model-associations")]
-public record AwsCleanroomsListCollaborationConfiguredAudienceModelAssociationsOptions : AwsOptions
+public record AwsCleanroomsListCollaborationConfiguredAudienceModelAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists configured audience model associations within a collaboration. See also: AWS API Documentation list-collaboration-configured-audience-model-associations is a pagi- nated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// </summary>
+    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the configured audi- ence model association belongs to. Accepts a collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsCleanroomsListCollaborationConfiguredAudienceModelAssociationsOptions(
+        string CollaborationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
+        this.CollaborationIdentifier = CollaborationIdentifier;
+    }
+
+    private AwsCleanroomsListCollaborationConfiguredAudienceModelAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsListCollaborationConfiguredAudienceModelAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsListCollaborationConfiguredAudienceModelAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the collaboration that the configured audi- ence model association belongs to. Accepts a collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--collaboration-identifier")]
-    public string? CollaborationIdentifier { get; set; }
+    public string? CollaborationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsCleanroomsListCollaborationConfiguredAudienceModelAssociationsO
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

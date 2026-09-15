@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,11 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "describe-root-folders")]
-public record AwsWorkdocsDescribeRootFoldersOptions : AwsOptions
+public record AwsWorkdocsDescribeRootFoldersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the current user's special folders; the RootFolder and the RecycleBin . RootFolder is the root of user's files and folders and Re- cycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more informa- tion, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide . See...
+    /// </summary>
+    /// <param name="AuthenticationToken">Amazon WorkDocs authentication token. Constraints: o min: 1 o max: 8199</param>
+    public AwsWorkdocsDescribeRootFoldersOptions(
+        string AuthenticationToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationToken);
+        this.AuthenticationToken = AuthenticationToken;
+    }
+
+    private AwsWorkdocsDescribeRootFoldersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsDescribeRootFoldersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsDescribeRootFoldersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon WorkDocs authentication token. Constraints: o min: 1 o max: 8199
+    /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
-    public string? AuthenticationToken { get; set; }
+    public string? AuthenticationToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -50,5 +87,22 @@ public record AwsWorkdocsDescribeRootFoldersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

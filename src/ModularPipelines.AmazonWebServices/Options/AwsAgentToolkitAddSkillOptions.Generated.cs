@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("agent-toolkit", "add-skill")]
 public record AwsAgentToolkitAddSkillOptions : AwsOptions
 {
+    /// <summary>
+    /// Download and install an AWS skill to detected AI coding agents. By de- fault the latest version is installed globally to all detected agents. Use --agent to target a specific tool, or --skill-version to pin a spe- cific version.
+    /// </summary>
+    /// <param name="SkillName"></param>
+    public AwsAgentToolkitAddSkillOptions(
+        string SkillName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SkillName);
+        this.SkillName = SkillName;
+    }
+
+    public void Deconstruct(out string SkillName)
+    {
+        SkillName = this.SkillName;
+    }
+
     [CliOption("--skill-name")]
-    public string? SkillName { get; set; }
+    public string SkillName { get; private init; }
 
     [CliOption("--skill-version")]
     public string? SkillVersion { get; set; }

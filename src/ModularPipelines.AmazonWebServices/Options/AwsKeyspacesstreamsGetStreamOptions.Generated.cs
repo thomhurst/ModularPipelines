@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspacesstreams", "get-stream")]
-public record AwsKeyspacesstreamsGetStreamOptions : AwsOptions
+public record AwsKeyspacesstreamsGetStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns detailed information about a specific data capture stream for an Amazon Keyspaces table. The information includes the stream's Amazon Resource Name (ARN), creation time, current status, retention period, shard composition, and associated table details. This operation helps you monitor and manage the configuration of your Amazon Keyspaces data streams. See also: AWS API Documentation get-stream is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
+    /// </summary>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) of the stream for which detailed in- formation is requested. This uniquely identifies the specific stream you want to get information about. Constraints: o min: 37 o max: 1024</param>
+    public AwsKeyspacesstreamsGetStreamOptions(
+        string StreamArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamArn);
+        this.StreamArn = StreamArn;
+    }
+
+    private AwsKeyspacesstreamsGetStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesstreamsGetStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesstreamsGetStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the stream for which detailed in- formation is requested. This uniquely identifies the specific stream you want to get information about. Constraints: o min: 37 o max: 1024
+    /// </summary>
     [CliOption("--stream-arn")]
-    public string? StreamArn { get; set; }
+    public string? StreamArn { get; private init; }
 
     /// <summary>
     /// Optional filter criteria to apply when retrieving shards. You can filter shards based on their parent shardID to get a list of chil- dren shards to narrow down the results returned by the GetStream op- eration. type -&gt; (string) The type of shard filter to use, which determines how the shar- dId parameter is interpreted. Possible values: o CHILD_SHARDS shardId -&gt; (string) The identifier of a specific shard used to filter results based on the specified filter type. Constraints: o min: 28 o max: 65 Shorthand Syntax: type=string,shardId=string JSON Syntax: { "type": "CHILD_SHARDS", "shardId": "string" }
@@ -55,5 +92,22 @@ public record AwsKeyspacesstreamsGetStreamOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

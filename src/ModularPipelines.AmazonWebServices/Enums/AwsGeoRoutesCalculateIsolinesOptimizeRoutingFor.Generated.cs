@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --optimizeroutingfor.
+/// Allowed values for --optimize-routing-for.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoRoutesCalculateIsolinesOptimizeRoutingFor
 {
     [EnumValue("FastestRoute")]
-    FastestRoute = 1,
+    FastestRoute,
 
     [EnumValue("ShortestRoute")]
-    ShortestRoute = 2
+    ShortestRoute
 }

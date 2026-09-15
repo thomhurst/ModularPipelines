@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "deregister-certificate")]
-public record AwsDsDeregisterCertificateOptions : AwsOptions
+public record AwsDsDeregisterCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes from the system the certificate that was registered for secure LDAP or client certificate authentication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="CertificateId">The identifier of the certificate. Constraints: o pattern: ^c-[0-9a-f]{10}$</param>
+    public AwsDsDeregisterCertificateOptions(
+        string DirectoryId,
+        string CertificateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
+        this.CertificateId = CertificateId;
+    }
+
+    private AwsDsDeregisterCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDeregisterCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDeregisterCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the certificate. Constraints: o pattern: ^c-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--certificate-id")]
-    public string? CertificateId { get; set; }
+    public string? CertificateId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("agent-toolkit", "remove-skill")]
 public record AwsAgentToolkitRemoveSkillOptions : AwsOptions
 {
+    /// <summary>
+    /// Remove a previously installed AWS skill from detected agents. By de- fault the skill is removed from all detected agents, use --agent to re- move from a specific tool only.
+    /// </summary>
+    /// <param name="SkillName"></param>
+    public AwsAgentToolkitRemoveSkillOptions(
+        string SkillName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SkillName);
+        this.SkillName = SkillName;
+    }
+
+    public void Deconstruct(out string SkillName)
+    {
+        SkillName = this.SkillName;
+    }
+
     [CliOption("--skill-name")]
-    public string? SkillName { get; set; }
+    public string SkillName { get; private init; }
 
     [CliOption("--agent")]
     public string? Agent { get; set; }

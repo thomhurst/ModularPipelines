@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "stop-db-instance")]
-public record AwsRdsStopDbInstanceOptions : AwsOptions
+public record AwsRdsStopDbInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops an Amazon RDS DB instance temporarily. When you stop a DB in- stance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see Stopping an Amazon RDS DB Instance Temporar- ily in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Auro...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The user-supplied instance identifier.</param>
+    public AwsRdsStopDbInstanceOptions(
+        string DbInstanceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+    }
+
+    private AwsRdsStopDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsStopDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsStopDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The user-supplied instance identifier.
+    /// </summary>
     [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
     /// The user-supplied instance identifier of the DB Snapshot created im- mediately before the DB instance is stopped.
@@ -35,5 +72,22 @@ public record AwsRdsStopDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

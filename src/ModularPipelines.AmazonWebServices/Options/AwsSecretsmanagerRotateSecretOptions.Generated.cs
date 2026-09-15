@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,11 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "rotate-secret")]
-public record AwsSecretsmanagerRotateSecretOptions : AwsOptions
+public record AwsSecretsmanagerRotateSecretOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see Rotate secrets in the Secrets Man- ager User Guide . If you include the configuration parameters, the op- eration sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the opera- tion starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be at- tached...
+    /// </summary>
+    /// <param name="SecretId">The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
+    public AwsSecretsmanagerRotateSecretOptions(
+        string SecretId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretId);
+        this.SecretId = SecretId;
+    }
+
+    private AwsSecretsmanagerRotateSecretOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerRotateSecretOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerRotateSecretOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
-    public string? SecretId { get; set; }
+    public string? SecretId { get; private init; }
 
     /// <summary>
     /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a se- cret version twice. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. Constraints: o min: 32 o max: 64
@@ -42,6 +79,7 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions
     /// <summary>
     /// A structure that defines the rotation configuration for this secret. WARNING: When changing an existing rotation schedule and setting Ro- tateImmediately to false : o If using AutomaticallyAfterDays or a ScheduleExpression with rate() , the previously scheduled rotation might still occur. o To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows. AutomaticallyAfterDays -&gt; (long) The number of days between rotations of the secret. You can use this value to check that your secret meets your compliance guidelines for how often secrets must be rotated. If you use this field to set the rotation schedule, Secrets Manager calcu- lates the next rotation date based on the previous rotation. Manually updating the secret value by calling PutSecretValue or UpdateSecret is considered a valid rotation. In DescribeSecret and ListSecrets , this value is calculated from the rotation schedule after every successful rotation. In RotateSecret , you can set the rotation schedule in Rotation- Rules with AutomaticallyAfterDays or ScheduleExpression , but not both. To set a rotation schedule in hours, use ScheduleEx- pression . Constraints: o min: 1 o max: 1000 Duration -&gt; (string) The length of the rotation window in hours, for example 3h for a three hour window. Secrets Manager rotates your secret at any time during this window. The window must not extend into the next rotation window or the next UTC day. The window starts ac- cording to the ScheduleExpression . If you don't specify a Dura- tion , for a ScheduleExpression in hours, the window automati- cally closes after one hour. For a ScheduleExpression in days, the window automatically closes at the end of the UTC day. For more information, including examples, see Schedule expressions in Secrets Manager rotation in the Secrets Manager Users Guide . Constraints: o min: 2 o max: 3 o pattern: [0-9]+h ScheduleExpression -&gt; (string) A cron() or rate() expression that defines the schedule for ro- tating your secret. Secrets Manager rotation schedules use UTC time zone. Secrets Manager rotates your secret any time during a rotation window. Secrets Manager rate() expressions represent the interval in hours or days that you want to rotate your secret, for example rate(12 hours) or rate(10 days) . You can rotate a secret as of- ten as every four hours. If you use a rate() expression, the ro- tation window starts at midnight. For a rate in hours, the de- fault rotation window closes after one hour. For a rate in days, the default rotation window closes at the end of the day. You can set the Duration to change the rotation window. The rotation window must not extend into the next UTC day or into the next rotation window. You can use a cron() expression to create a rotation schedule that is more detailed than a rotation interval. For more infor- mation, including examples, see Schedule expressions in Secrets Manager rotation in the Secrets Manager Users Guide . For a cron expression that represents a schedule in hours, the default ro- tation window closes after one hour. For a cron expression that represents a schedule in days, the default rotation window closes at the end of the day. You can set the Duration to change the rotation window. The rotation window must not extend into the next UTC day or into the next rotation window. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z\(\)#\?\*\-\/, ]+ Shorthand Syntax: AutomaticallyAfterDays=long,Duration=string,ScheduleExpression=string JSON Syntax: { "AutomaticallyAfterDays": long, "Duration": "string", "ScheduleExpression": "string" }
     /// </summary>
+    [SecretValue]
     [CliOption("--rotation-rules")]
     public string? RotationRules { get; set; }
 
@@ -59,7 +97,10 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions
     [CliOption("--external-secret-rotation-role-arn")]
     public string? ExternalSecretRotationRoleArn { get; set; }
 
-    [CliFlag("--rotate-immediately")]
+    /// <summary>
+    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in RotateSecretRequest$RotationRules . The default for RotateImmediately is true . If you don't specify this value, Secrets Manager rotates the secret immediately. If you set RotateImmediately to false , Secrets Manager tests the rotation configuration by running the ` testSecret step &lt;- https://docs.aws.amazon.com/secretsmanager/latest/userguide/ro- tate-secrets_how.html&gt;`__ of the Lambda rotation function. This test creates an AWSPENDING version of the secret and then removes it. When changing an existing rotation schedule and setting RotateImme- diately to false : o If using AutomaticallyAfterDays or a ScheduleExpression with rate() , the previously scheduled rotation might still occur. o To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows. Rotation is an asynchronous process. For more information, see How rotation works .
+    /// </summary>
+    [CliFlag("--rotate-immediately", NegatedName = "--no-rotate-immediately")]
     public bool? RotateImmediately { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -67,5 +108,22 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

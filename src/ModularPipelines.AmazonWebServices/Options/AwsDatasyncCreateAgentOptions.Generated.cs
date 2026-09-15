@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-agent")]
-public record AwsDatasyncCreateAgentOptions : AwsOptions
+public record AwsDatasyncCreateAgentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Activates an DataSync agent that you deploy in your storage environ- ment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent? See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActivationKey">Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent . Constraints: o max: 29 o pattern: [A-Z0-9]{5}(-[A-Z0-9]{5}){4}</param>
+    public AwsDatasyncCreateAgentOptions(
+        string ActivationKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivationKey);
+        this.ActivationKey = ActivationKey;
+    }
+
+    private AwsDatasyncCreateAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent . Constraints: o max: 29 o pattern: [A-Z0-9]{5}(-[A-Z0-9]{5}){4}
+    /// </summary>
     [CliOption("--activation-key")]
-    public string? ActivationKey { get; set; }
+    public string? ActivationKey { get; private init; }
 
     /// <summary>
     /// Specifies a name for your agent. We recommend specifying a name that you can remember. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$
@@ -59,5 +96,22 @@ public record AwsDatasyncCreateAgentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

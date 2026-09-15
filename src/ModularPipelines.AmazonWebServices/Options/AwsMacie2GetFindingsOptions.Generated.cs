@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "get-findings")]
-public record AwsMacie2GetFindingsOptions : AwsOptions
+public record AwsMacie2GetFindingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the details of one or more findings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FindingIds">An array of strings that lists the unique identifiers for the find- ings to retrieve. You can specify as many as 50 unique identifiers in this array. (string) Syntax: "string" "string" ...</param>
+    public AwsMacie2GetFindingsOptions(
+        IEnumerable<string> FindingIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FindingIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FindingIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FindingIds));
+            }
+
+            FindingIds = materialized;
+        }
+        this.FindingIds = FindingIds;
+    }
+
+    private AwsMacie2GetFindingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2GetFindingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2GetFindingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of strings that lists the unique identifiers for the find- ings to retrieve. You can specify as many as 50 unique identifiers in this array. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--finding-ids", GroupValues = true)]
-    public IEnumerable<string>? FindingIds { get; set; }
+    public IEnumerable<string>? FindingIds { get; private init; }
 
     /// <summary>
     /// The criteria for sorting the results of the request. attributeName -&gt; (string) The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDe- tails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt. orderBy -&gt; (string) The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid val- ues are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: o ASC o DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "string", "orderBy": "ASC"|"DESC" }
@@ -35,5 +83,22 @@ public record AwsMacie2GetFindingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

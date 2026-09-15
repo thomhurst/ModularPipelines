@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --notificationtype.
+/// Allowed values for --notification-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBudgetsUpdateBudgetActionNotificationType
 {
     [EnumValue("ACTUAL")]
-    Actual = 1,
+    Actual,
 
     [EnumValue("FORECASTED")]
-    Forecasted = 2
+    Forecasted
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisvideo", "create-stream")]
-public record AwsKinesisvideoCreateStreamOptions : AwsOptions
+public record AwsKinesisvideoCreateStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a ver- sion number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see How it Works . You must have permissions for the KinesisVideo:CreateStream action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StreamName">A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisvideoCreateStreamOptions(
+        string StreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamName);
+        this.StreamName = StreamName;
+    }
+
+    private AwsKinesisvideoCreateStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisvideoCreateStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisvideoCreateStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--stream-name")]
+    public string? StreamName { get; private init; }
+
     /// <summary>
     /// The name of the device that is writing to the stream. NOTE: In the current implementation, Kinesis Video Streams doesn't use this name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--device-name")]
     public string? DeviceName { get; set; }
-
-    [CliOption("--stream-name")]
-    public string? StreamName { get; set; }
 
     /// <summary>
     /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types . If you choose to specify the Medi- aType , see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,au- dio/aac". This parameter is optional; the default value is null (or empty in JSON). Constraints: o min: 1 o max: 128 o pattern: [\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*
@@ -66,5 +103,22 @@ public record AwsKinesisvideoCreateStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

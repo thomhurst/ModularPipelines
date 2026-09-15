@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --multiregiondisasterrecoveryapproach.
+/// Allowed values for --multi-region-disaster-recovery-approach.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ImportPolicyMultiRegionDisasterRecoveryApproach
 {
     [EnumValue("ACTIVE_ACTIVE")]
-    ActiveActive = 1,
-
-    [EnumValue("HOT_STANDBY")]
-    HotStandby = 2,
-
-    [EnumValue("WARM_STANDBY")]
-    WarmStandby = 3,
-
-    [EnumValue("PILOT_LIGHT")]
-    PilotLight = 4,
+    ActiveActive,
 
     [EnumValue("BACKUP_AND_RESTORE")]
-    BackupAndRestore = 5
+    BackupAndRestore,
+
+    [EnumValue("HOT_STANDBY")]
+    HotStandby,
+
+    [EnumValue("PILOT_LIGHT")]
+    PilotLight,
+
+    [EnumValue("WARM_STANDBY")]
+    WarmStandby
 }

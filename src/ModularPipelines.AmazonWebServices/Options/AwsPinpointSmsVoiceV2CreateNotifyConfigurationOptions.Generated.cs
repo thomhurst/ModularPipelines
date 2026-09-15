@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "create-notify-configuration")]
-public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new notify configuration for managed messaging. A notify con- figuration defines the settings for sending templated messages, includ- ing the display name, use case, enabled channels, and enabled coun- tries. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DisplayName">The display name to associate with the notify configuration. Constraints: o min: 1 o max: 15 o pattern: [A-Za-z0-9_ -]+</param>
+    /// <param name="UseCase">The use case for the notify configuration. Possible values: o CODE_VERIFICATION</param>
+    /// <param name="EnabledChannels">An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...</param>
+    public AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions(
+        string DisplayName,
+        AwsPinpointSmsVoiceV2CreateNotifyConfigurationUseCase UseCase,
+        IEnumerable<string> EnabledChannels
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(UseCase);
+        this.UseCase = UseCase;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EnabledChannels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EnabledChannels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EnabledChannels));
+            }
+
+            EnabledChannels = materialized;
+        }
+        this.EnabledChannels = EnabledChannels;
+    }
+
+    private AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The display name to associate with the notify configuration. Constraints: o min: 1 o max: 15 o pattern: [A-Za-z0-9_ -]+
+    /// </summary>
+    [CliOption("--display-name")]
+    public string? DisplayName { get; private init; }
+
+    /// <summary>
+    /// The use case for the notify configuration. Possible values: o CODE_VERIFICATION
+    /// </summary>
     [CliOption("--use-case")]
-    public string? UseCase { get; set; }
+    public AwsPinpointSmsVoiceV2CreateNotifyConfigurationUseCase? UseCase { get; private init; }
+
+    /// <summary>
+    /// An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--enabled-channels", GroupValues = true)]
+    public IEnumerable<string>? EnabledChannels { get; private init; }
 
     /// <summary>
     /// The default template identifier to associate with the notify config- uration. If specified, this template is used when sending messages without an explicit template identifier. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
@@ -46,10 +112,10 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
     [CliOption("--enabled-countries", GroupValues = true)]
     public IEnumerable<string>? EnabledCountries { get; set; }
 
-    [CliOption("--enabled-channels", GroupValues = true)]
-    public IEnumerable<string>? EnabledChannels { get; set; }
-
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the notify config- uration can't be deleted. You can change this value using the Up- dateNotifyConfiguration action.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -70,5 +136,22 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

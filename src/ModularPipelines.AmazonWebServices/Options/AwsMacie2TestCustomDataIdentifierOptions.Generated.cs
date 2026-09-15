@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "test-custom-data-identifier")]
-public record AwsMacie2TestCustomDataIdentifierOptions : AwsOptions
+public record AwsMacie2TestCustomDataIdentifierOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Tests criteria for a custom data identifier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Regex">The regular expression (regex ) that defines the pattern to match. The expression can contain as many as 512 characters.</param>
+    /// <param name="SampleText">The sample text to inspect by using the custom data identifier. The text can contain as many as 1,000 characters.</param>
+    public AwsMacie2TestCustomDataIdentifierOptions(
+        string Regex,
+        string SampleText
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Regex);
+        this.Regex = Regex;
+        global::System.ArgumentNullException.ThrowIfNull(SampleText);
+        this.SampleText = SampleText;
+    }
+
+    private AwsMacie2TestCustomDataIdentifierOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2TestCustomDataIdentifierOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2TestCustomDataIdentifierOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The regular expression (regex ) that defines the pattern to match. The expression can contain as many as 512 characters.
+    /// </summary>
+    [CliOption("--regex")]
+    public string? Regex { get; private init; }
+
+    /// <summary>
+    /// The sample text to inspect by using the custom data identifier. The text can contain as many as 1,000 characters.
+    /// </summary>
+    [CliOption("--sample-text")]
+    public string? SampleText { get; private init; }
+
     /// <summary>
     /// An array that lists specific character sequences (ignore words ) to exclude from the results. If the text matched by the regular expres- sion contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -39,16 +89,27 @@ public record AwsMacie2TestCustomDataIdentifierOptions : AwsOptions
     [CliOption("--maximum-match-distance")]
     public int? MaximumMatchDistance { get; set; }
 
-    [CliOption("--regex")]
-    public string? Regex { get; set; }
-
-    [CliOption("--sample-text")]
-    public string? SampleText { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

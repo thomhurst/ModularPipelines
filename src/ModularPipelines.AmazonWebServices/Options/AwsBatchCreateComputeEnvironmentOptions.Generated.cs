@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "create-compute-environment")]
-public record AwsBatchCreateComputeEnvironmentOptions : AwsOptions
+public record AwsBatchCreateComputeEnvironmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--compute-environment-name")]
-    public string? ComputeEnvironmentName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Batch compute environment. You can create MANAGED or UNMAN- AGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and in- stance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute enviro...
+    /// </summary>
+    /// <param name="ComputeEnvironmentName">The name for your compute environment. It can be up to 128 charac- ters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).</param>
+    /// <param name="Type">The type of the compute environment: MANAGED or UNMANAGED . For more information, see Compute Environments in the Batch User Guide . Possible values: o MANAGED o UNMANAGED</param>
+    public AwsBatchCreateComputeEnvironmentOptions(
+        string ComputeEnvironmentName,
+        AwsBatchCreateComputeEnvironmentType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComputeEnvironmentName);
+        this.ComputeEnvironmentName = ComputeEnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsBatchCreateComputeEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchCreateComputeEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchCreateComputeEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for your compute environment. It can be up to 128 charac- ters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    /// </summary>
+    [CliOption("--compute-environment-name")]
+    public string? ComputeEnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The type of the compute environment: MANAGED or UNMANAGED . For more information, see Compute Environments in the Batch User Guide . Possible values: o MANAGED o UNMANAGED
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsBatchCreateComputeEnvironmentType? Type { get; private init; }
 
     /// <summary>
     /// The state of the compute environment. A compute environment must be created in the ENABLED state. If the state is ENABLED , then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED , then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED , then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. NOTE: Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, con- sider a c5.8xlarge instance with a minvCpus value of 4 and a de- siredvCpus value of 36 . This instance doesn't scale down to a c5.large instance. Possible values: o ENABLED o DISABLED
@@ -82,5 +126,22 @@ public record AwsBatchCreateComputeEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "update-continuous-backups")]
-public record AwsDynamodbUpdateContinuousBackupsOptions : AwsOptions
+public record AwsDynamodbUpdateContinuousBackupsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription . Continuous back- ups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to EN- ABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and Lat- estRestorableDa...
+    /// </summary>
+    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="PointInTimeRecoverySpecification">Represents the settings used to enable point in time recovery. PointInTimeRecoveryEnabled -&gt; (boolean) [required] Indicates whether point in time recovery is enabled (true) or disabled (false) on the table. RecoveryPeriodInDays -&gt; (integer) The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35. Constraints: o min: 1 o max: 35 Shorthand Syntax: PointInTimeRecoveryEnabled=boolean,RecoveryPeriodInDays=integer JSON Syntax: { "PointInTimeRecoveryEnabled": true|false, "RecoveryPeriodInDays": integer }</param>
+    public AwsDynamodbUpdateContinuousBackupsOptions(
+        string TableName,
+        string PointInTimeRecoverySpecification
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(PointInTimeRecoverySpecification);
+        this.PointInTimeRecoverySpecification = PointInTimeRecoverySpecification;
+    }
+
+    private AwsDynamodbUpdateContinuousBackupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbUpdateContinuousBackupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbUpdateContinuousBackupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// Represents the settings used to enable point in time recovery. PointInTimeRecoveryEnabled -&gt; (boolean) [required] Indicates whether point in time recovery is enabled (true) or disabled (false) on the table. RecoveryPeriodInDays -&gt; (integer) The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35. Constraints: o min: 1 o max: 35 Shorthand Syntax: PointInTimeRecoveryEnabled=boolean,RecoveryPeriodInDays=integer JSON Syntax: { "PointInTimeRecoveryEnabled": true|false, "RecoveryPeriodInDays": integer }
+    /// </summary>
     [CliOption("--point-in-time-recovery-specification")]
-    public string? PointInTimeRecoverySpecification { get; set; }
+    public string? PointInTimeRecoverySpecification { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

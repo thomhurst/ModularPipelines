@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --mediastreamtype.
+/// Allowed values for --media-stream-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediaconnectUpdateFlowMediaStreamMediaStreamType
 {
-    [EnumValue("video")]
-    Video = 1,
+    [EnumValue("ancillary-data")]
+    AncillaryData,
 
     [EnumValue("audio")]
-    Audio = 2,
+    Audio,
 
-    [EnumValue("ancillary-data")]
-    AncillaryData = 3
+    [EnumValue("video")]
+    Video
 }

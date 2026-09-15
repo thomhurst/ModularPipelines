@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --copystrategy.
+/// Allowed values for --copy-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFsxCopySnapshotAndUpdateVolumeCopyStrategy
 {
     [EnumValue("CLONE")]
-    Clone = 1,
+    Clone,
 
     [EnumValue("FULL_COPY")]
-    FullCopy = 2,
+    FullCopy,
 
     [EnumValue("INCREMENTAL_COPY")]
-    IncrementalCopy = 3
+    IncrementalCopy
 }

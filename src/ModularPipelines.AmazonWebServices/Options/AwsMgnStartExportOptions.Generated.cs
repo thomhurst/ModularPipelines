@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "start-export")]
-public record AwsMgnStartExportOptions : AwsOptions
+public record AwsMgnStartExportOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--s3-bucket")]
-    public string? S3Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Start export. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3Bucket">Start export request s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255}</param>
+    /// <param name="S3Key">Start export request s3key. Constraints: o pattern: [^\x00]{1,1020}\.csv</param>
+    public AwsMgnStartExportOptions(
+        string S3Bucket,
+        string S3Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Bucket);
+        this.S3Bucket = S3Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(S3Key);
+        this.S3Key = S3Key;
+    }
+
+    private AwsMgnStartExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnStartExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnStartExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Start export request s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255}
+    /// </summary>
+    [CliOption("--s3-bucket")]
+    public string? S3Bucket { get; private init; }
+
+    /// <summary>
+    /// Start export request s3key. Constraints: o pattern: [^\x00]{1,1020}\.csv
+    /// </summary>
     [CliOption("--s3-key")]
-    public string? S3Key { get; set; }
+    public string? S3Key { get; private init; }
 
     /// <summary>
     /// Start export request s3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
@@ -35,7 +79,7 @@ public record AwsMgnStartExportOptions : AwsOptions
     public string? S3BucketOwner { get; set; }
 
     /// <summary>
-    /// Start import request tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Start export request tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -45,5 +89,22 @@ public record AwsMgnStartExportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

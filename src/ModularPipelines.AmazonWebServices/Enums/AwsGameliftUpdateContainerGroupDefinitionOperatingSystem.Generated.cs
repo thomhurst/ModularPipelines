@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --operatingsystem.
+/// Allowed values for --operating-system.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftUpdateContainerGroupDefinitionOperatingSystem
 {
     [EnumValue("AMAZON_LINUX_2023")]
-    AmazonLinux_2023 = 1
+    AmazonLinux2023,
+
+    [EnumValue("o")]
+    O
 }

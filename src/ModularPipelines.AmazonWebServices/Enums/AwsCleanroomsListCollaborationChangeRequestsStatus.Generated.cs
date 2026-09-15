@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsListCollaborationChangeRequestsStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
     [EnumValue("APPROVED")]
-    Approved = 2,
+    Approved,
 
     [EnumValue("CANCELLED")]
-    Cancelled = 3,
-
-    [EnumValue("DENIED")]
-    Denied = 4,
+    Cancelled,
 
     [EnumValue("COMMITTED")]
-    Committed = 5
+    Committed,
+
+    [EnumValue("DENIED")]
+    Denied,
+
+    [EnumValue("PENDING")]
+    Pending
 }

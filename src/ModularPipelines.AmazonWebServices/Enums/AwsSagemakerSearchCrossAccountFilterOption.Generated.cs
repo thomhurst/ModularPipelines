@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --crossaccountfilteroption.
+/// Allowed values for --cross-account-filter-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerSearchCrossAccountFilterOption
 {
-    [EnumValue("SameAccount")]
-    SameAccount = 1,
-
     [EnumValue("CrossAccount")]
-    CrossAccount = 2
+    CrossAccount,
+
+    [EnumValue("SameAccount")]
+    SameAccount
 }

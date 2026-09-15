@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "remove-role-from-db-cluster")]
-public record AwsRdsRemoveRoleFromDbClusterOptions : AwsOptions
+public record AwsRdsRemoveRoleFromDbClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the asssociation of an Amazon Web Services Identity and Access Management (IAM) role from a DB cluster. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The name of the DB cluster to disassociate the IAM role from.</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*</param>
+    public AwsRdsRemoveRoleFromDbClusterOptions(
+        string DbClusterIdentifier,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsRdsRemoveRoleFromDbClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRemoveRoleFromDbClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRemoveRoleFromDbClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB cluster to disassociate the IAM role from.
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For information about supported feature names, see DBEngineVersion .
@@ -38,5 +82,22 @@ public record AwsRdsRemoveRoleFromDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

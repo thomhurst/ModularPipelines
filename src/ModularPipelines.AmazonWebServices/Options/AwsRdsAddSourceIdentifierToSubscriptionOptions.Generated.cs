@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "add-source-identifier-to-subscription")]
-public record AwsRdsAddSourceIdentifierToSubscriptionOptions : AwsOptions
+public record AwsRdsAddSourceIdentifierToSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--subscription-name")]
-    public string? SubscriptionName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a source identifier to an existing RDS event notification sub- scription. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubscriptionName">The name of the RDS event notification subscription you want to add a source identifier to.</param>
+    /// <param name="SourceIdentifier">The identifier of the event source to be added. Constraints: o If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. o If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. o If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. o If the source type is a DB security group, a DBSecurityGroupName value must be supplied. o If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. o If the source type is a DB cluster snapshot, a DBClusterSnapshotI- dentifier value must be supplied. o If the source type is an RDS Proxy, a DBProxyName value must be supplied.</param>
+    public AwsRdsAddSourceIdentifierToSubscriptionOptions(
+        string SubscriptionName,
+        string SourceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionName);
+        this.SubscriptionName = SubscriptionName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceIdentifier);
+        this.SourceIdentifier = SourceIdentifier;
+    }
+
+    private AwsRdsAddSourceIdentifierToSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsAddSourceIdentifierToSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsAddSourceIdentifierToSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the RDS event notification subscription you want to add a source identifier to.
+    /// </summary>
+    [CliOption("--subscription-name")]
+    public string? SubscriptionName { get; private init; }
+
+    /// <summary>
+    /// The identifier of the event source to be added. Constraints: o If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. o If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. o If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. o If the source type is a DB security group, a DBSecurityGroupName value must be supplied. o If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. o If the source type is a DB cluster snapshot, a DBClusterSnapshotI- dentifier value must be supplied. o If the source type is an RDS Proxy, a DBProxyName value must be supplied.
+    /// </summary>
     [CliOption("--source-identifier")]
-    public string? SourceIdentifier { get; set; }
+    public string? SourceIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

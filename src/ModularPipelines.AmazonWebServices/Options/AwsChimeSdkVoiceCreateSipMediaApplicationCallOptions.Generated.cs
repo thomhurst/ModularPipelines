@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "create-sip-media-application-call")]
-public record AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions : AwsOptions
+public record AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an outbound call to a phone number from the phone number speci- fied in the request, and it invokes the endpoint of the specified sip- MediaApplicationId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FromPhoneNumber">The phone number that a user calls from. This is a phone number in your Amazon Chime SDK phone number inventory. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="ToPhoneNumber">The phone number that the service should call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="SipMediaApplicationId">The ID of the SIP media application. Constraints: o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions(
+        string FromPhoneNumber,
+        string ToPhoneNumber,
+        string SipMediaApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FromPhoneNumber);
+        this.FromPhoneNumber = FromPhoneNumber;
+        global::System.ArgumentNullException.ThrowIfNull(ToPhoneNumber);
+        this.ToPhoneNumber = ToPhoneNumber;
+        global::System.ArgumentNullException.ThrowIfNull(SipMediaApplicationId);
+        this.SipMediaApplicationId = SipMediaApplicationId;
+    }
+
+    private AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The phone number that a user calls from. This is a phone number in your Amazon Chime SDK phone number inventory. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// </summary>
     [CliOption("--from-phone-number")]
-    public string? FromPhoneNumber { get; set; }
+    public string? FromPhoneNumber { get; private init; }
 
+    /// <summary>
+    /// The phone number that the service should call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// </summary>
     [CliOption("--to-phone-number")]
-    public string? ToPhoneNumber { get; set; }
+    public string? ToPhoneNumber { get; private init; }
 
+    /// <summary>
+    /// The ID of the SIP media application. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--sip-media-application-id")]
-    public string? SipMediaApplicationId { get; set; }
+    public string? SipMediaApplicationId { get; private init; }
 
     /// <summary>
     /// The SIP headers added to an outbound call leg. Constraints: o min: 0 o max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +99,22 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

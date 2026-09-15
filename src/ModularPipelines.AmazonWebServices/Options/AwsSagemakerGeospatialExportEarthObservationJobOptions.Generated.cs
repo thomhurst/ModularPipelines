@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-geospatial", "export-earth-observation-job")]
-public record AwsSagemakerGeospatialExportEarthObservationJobOptions : AwsOptions
+public record AwsSagemakerGeospatialExportEarthObservationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 loca- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The input Amazon Resource Name (ARN) of the Earth Observation job being exported. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
+    /// <param name="OutputConfig">An object containing information about the output file. S3Data -&gt; (structure) [required] Path to Amazon S3 storage location for the output configuration file. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data input. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }</param>
+    public AwsSagemakerGeospatialExportEarthObservationJobOptions(
+        string Arn,
+        string ExecutionRoleArn,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsSagemakerGeospatialExportEarthObservationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerGeospatialExportEarthObservationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerGeospatialExportEarthObservationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The input Amazon Resource Name (ARN) of the Earth Observation job being exported. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
+    /// </summary>
+    [CliOption("--execution-role-arn")]
+    public string? ExecutionRoleArn { get; private init; }
+
+    /// <summary>
+    /// An object containing information about the output file. S3Data -&gt; (structure) [required] Path to Amazon S3 storage location for the output configuration file. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data input. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
 
     /// <summary>
     /// A unique token that guarantees that the call to this API is idempo- tent. Constraints: o min: 36 o max: 64
@@ -32,19 +89,33 @@ public record AwsSagemakerGeospatialExportEarthObservationJobOptions : AwsOption
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
-
-    [CliFlag("--export-source-images")]
+    /// <summary>
+    /// The source images provided to the Earth Observation job being ex- ported.
+    /// </summary>
+    [CliFlag("--export-source-images", NegatedName = "--no-export-source-images")]
     public bool? ExportSourceImages { get; set; }
-
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

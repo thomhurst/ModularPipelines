@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "stop-bot-recommendation")]
-public record AwsLexv2ModelsStopBotRecommendationOptions : AwsOptions
+public record AwsLexv2ModelsStopBotRecommendationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stop an already running Bot Recommendation request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The unique identifier of the bot containing the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot containing the bot recommendation. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the bot recommendation to stop. The string must match one of the supported locales. For more information, see Supported languages</param>
+    /// <param name="BotRecommendationId">The unique identifier of the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    public AwsLexv2ModelsStopBotRecommendationOptions(
+        string BotId,
+        string BotVersion,
+        string LocaleId,
+        string BotRecommendationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        global::System.ArgumentNullException.ThrowIfNull(BotRecommendationId);
+        this.BotRecommendationId = BotRecommendationId;
+    }
+
+    private AwsLexv2ModelsStopBotRecommendationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsStopBotRecommendationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsStopBotRecommendationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the bot containing the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The version of the bot containing the bot recommendation. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
+    /// <summary>
+    /// The identifier of the language and locale of the bot recommendation to stop. The string must match one of the supported locales. For more information, see Supported languages
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the bot recommendation to be stopped. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-recommendation-id")]
-    public string? BotRecommendationId { get; set; }
+    public string? BotRecommendationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "get-deployment-group")]
-public record AwsDeployGetDeploymentGroupOptions : AwsOptions
+public record AwsDeployGetDeploymentGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets information about a deployment group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    /// <param name="DeploymentGroupName">The name of a deployment group for the specified application. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    public AwsDeployGetDeploymentGroupOptions(
+        string ApplicationName,
+        string DeploymentGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentGroupName);
+        this.DeploymentGroupName = DeploymentGroupName;
+    }
+
+    private AwsDeployGetDeploymentGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployGetDeploymentGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployGetDeploymentGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// The name of a deployment group for the specified application. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// </summary>
     [CliOption("--deployment-group-name")]
-    public string? DeploymentGroupName { get; set; }
+    public string? DeploymentGroupName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --servicenetworklogtype.
+/// Allowed values for --service-network-log-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsVpcLatticeCreateAccessLogSubscriptionServiceNetworkLogType
 {
-    [EnumValue("SERVICE")]
-    Service = 1,
-
     [EnumValue("RESOURCE")]
-    Resource = 2
+    Resource,
+
+    [EnumValue("SERVICE")]
+    Service
 }

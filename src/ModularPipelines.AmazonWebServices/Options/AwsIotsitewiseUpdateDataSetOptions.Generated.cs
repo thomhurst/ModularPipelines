@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "update-dataset")]
-public record AwsIotsitewiseUpdateDataSetOptions : AwsOptions
+public record AwsIotsitewiseUpdateDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a dataset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetId">The ID of the dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="DataSetName">The name of the dataset. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$</param>
+    /// <param name="DataSetSource">The data source for the dataset. sourceType -&gt; (string) [required] The type of data source for the dataset. Possible values: o KENDRA o SITEWISE sourceFormat -&gt; (string) [required] The format of the dataset source associated with the dataset. Possible values: o KNOWLEDGE_BASE o TIMESERIES sourceDetail -&gt; (structure) The details of the dataset source associated with the dataset. kendra -&gt; (structure) Contains details about the Kendra dataset source. knowledgeBaseArn -&gt; (string) [required] The knowledgeBaseArn details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The roleARN details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: sourceType=string,sourceFormat=string,sourceDetail={kendra={knowledgeBaseArn=string,roleArn=string}} JSON Syntax: { "sourceType": "KENDRA"|"SITEWISE", "sourceFormat": "KNOWLEDGE_BASE"|"TIMESERIES", "sourceDetail": { "kendra": { "knowledgeBaseArn": "string", "roleArn": "string" } } }</param>
+    public AwsIotsitewiseUpdateDataSetOptions(
+        string DataSetId,
+        string DataSetName,
+        string DataSetSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetSource);
+        this.DataSetSource = DataSetSource;
+    }
+
+    private AwsIotsitewiseUpdateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseUpdateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseUpdateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--dataset-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
+
+    /// <summary>
+    /// The name of the dataset. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$
+    /// </summary>
+    [CliOption("--dataset-name")]
+    public string? DataSetName { get; private init; }
+
+    /// <summary>
+    /// The data source for the dataset. sourceType -&gt; (string) [required] The type of data source for the dataset. Possible values: o KENDRA o SITEWISE sourceFormat -&gt; (string) [required] The format of the dataset source associated with the dataset. Possible values: o KNOWLEDGE_BASE o TIMESERIES sourceDetail -&gt; (structure) The details of the dataset source associated with the dataset. kendra -&gt; (structure) Contains details about the Kendra dataset source. knowledgeBaseArn -&gt; (string) [required] The knowledgeBaseArn details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The roleARN details for the Kendra dataset source. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: sourceType=string,sourceFormat=string,sourceDetail={kendra={knowledgeBaseArn=string,roleArn=string}} JSON Syntax: { "sourceType": "KENDRA"|"SITEWISE", "sourceFormat": "KNOWLEDGE_BASE"|"TIMESERIES", "sourceDetail": { "kendra": { "knowledgeBaseArn": "string", "roleArn": "string" } } }
+    /// </summary>
+    [CliOption("--dataset-source")]
+    public string? DataSetSource { get; private init; }
 
     /// <summary>
     /// The name of the workspace that contains the dataset. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
-
-    [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
 
     /// <summary>
     /// A description about the dataset, and its functionality. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
@@ -53,9 +107,6 @@ public record AwsIotsitewiseUpdateDataSetOptions : AwsOptions
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
-    [CliOption("--dataset-source")]
-    public string? DataSetSource { get; set; }
-
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
     /// </summary>
@@ -68,5 +119,22 @@ public record AwsIotsitewiseUpdateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

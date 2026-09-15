@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-pipeline")]
-public record AwsIotsitewiseCreatePipelineOptions : AwsOptions
+public record AwsIotsitewiseCreatePipelineOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node refer- ences a task and can declare dependencies on other nodes. Cyclic depen- dencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them a...
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="PipelineName">The name of the pipeline to create. Must be unique within the work- space. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Computations">The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. Constraints: o min: 0 o max: 50 (structure) A single compute node in a pipeline DAG. Each compute node ref- erences a task and can declare dependencies on other nodes. computeNodeName -&gt; (string) [required] The unique name for this compute node within the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ taskName -&gt; (string) [required] The name of the task to execute for this compute node. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ environmentVariables -&gt; (map) Environment variables specific to this compute node. These override pipeline-level environment variables with the same key. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 dependsOn -&gt; (list) A list of compute node names that must complete successfully before this node can start. Constraints: o min: 0 o max: 10 (string) Reusable resource name with alphanumeric, hyphen, and un- derscore characters. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: computeNodeName=string,taskName=string,environmentVariables={KeyName1=string,KeyName2=string},dependsOn=string,string ... JSON Syntax: [ { "computeNodeName": "string", "taskName": "string", "environmentVariables": {"string": "string" ...}, "dependsOn": ["string", ...] } ... ]</param>
+    public AwsIotsitewiseCreatePipelineOptions(
+        string WorkspaceName,
+        string PipelineName,
+        IEnumerable<string> Computations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Computations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Computations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Computations));
+            }
+
+            Computations = materialized;
+        }
+        this.Computations = Computations;
+    }
+
+    private AwsIotsitewiseCreatePipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreatePipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreatePipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the pipeline to create. Must be unique within the work- space. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
+
+    /// <summary>
+    /// The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes. Constraints: o min: 0 o max: 50 (structure) A single compute node in a pipeline DAG. Each compute node ref- erences a task and can declare dependencies on other nodes. computeNodeName -&gt; (string) [required] The unique name for this compute node within the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ taskName -&gt; (string) [required] The name of the task to execute for this compute node. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ environmentVariables -&gt; (map) Environment variables specific to this compute node. These override pipeline-level environment variables with the same key. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 dependsOn -&gt; (list) A list of compute node names that must complete successfully before this node can start. Constraints: o min: 0 o max: 10 (string) Reusable resource name with alphanumeric, hyphen, and un- derscore characters. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: computeNodeName=string,taskName=string,environmentVariables={KeyName1=string,KeyName2=string},dependsOn=string,string ... JSON Syntax: [ { "computeNodeName": "string", "taskName": "string", "environmentVariables": {"string": "string" ...}, "dependsOn": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--computations", GroupValues = true)]
+    public IEnumerable<string>? Computations { get; private init; }
 
     /// <summary>
     /// A description of the pipeline. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
@@ -40,9 +105,6 @@ public record AwsIotsitewiseCreatePipelineOptions : AwsOptions
     /// </summary>
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
-
-    [CliOption("--computations", GroupValues = true)]
-    public IEnumerable<string>? Computations { get; set; }
 
     /// <summary>
     /// A list of key-value pairs that contain metadata for the pipeline. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -62,5 +124,22 @@ public record AwsIotsitewiseCreatePipelineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

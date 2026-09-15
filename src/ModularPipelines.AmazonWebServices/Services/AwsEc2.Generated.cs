@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptAddressTransferAsync(
-        AwsEc2AcceptAddressTransferOptions? options = null,
+        AwsEc2AcceptAddressTransferOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptAddressTransferOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptCapacityReservationBillingOwnershipAsync(
-        AwsEc2AcceptCapacityReservationBillingOwnershipOptions? options = null,
+        AwsEc2AcceptCapacityReservationBillingOwnershipOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptCapacityReservationBillingOwnershipOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptReservedInstancesExchangeQuoteAsync(
-        AwsEc2AcceptReservedInstancesExchangeQuoteOptions? options = null,
+        AwsEc2AcceptReservedInstancesExchangeQuoteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptReservedInstancesExchangeQuoteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptTransitGatewayClientVpnAttachmentAsync(
-        AwsEc2AcceptTransitGatewayClientVpnAttachmentOptions? options = null,
+        AwsEc2AcceptTransitGatewayClientVpnAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptTransitGatewayClientVpnAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptTransitGatewayMulticastDomainAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptTransitGatewayMulticastDomainAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptTransitGatewayPeeringAttachmentAsync(
-        AwsEc2AcceptTransitGatewayPeeringAttachmentOptions? options = null,
+        AwsEc2AcceptTransitGatewayPeeringAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptTransitGatewayPeeringAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptTransitGatewayVpcAttachmentAsync(
-        AwsEc2AcceptTransitGatewayVpcAttachmentOptions? options = null,
+        AwsEc2AcceptTransitGatewayVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptTransitGatewayVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptVpcEndpointConnectionsAsync(
-        AwsEc2AcceptVpcEndpointConnectionsOptions? options = null,
+        AwsEc2AcceptVpcEndpointConnectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptVpcEndpointConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptVpcPeeringConnectionAsync(
-        AwsEc2AcceptVpcPeeringConnectionOptions? options = null,
+        AwsEc2AcceptVpcPeeringConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AcceptVpcPeeringConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AdvertiseByoipCidrAsync(
-        AwsEc2AdvertiseByoipCidrOptions? options = null,
+        AwsEc2AdvertiseByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AdvertiseByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -204,7 +204,22 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AllocateAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AllocateAddressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Allocates a Dedicated Host to your account. At a minimum, specify the supported instance type or instance family, the Availability Zone in which to allocate the host, and the number of hosts to allocate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AllocateHostsAsync(
+        AwsEc2AllocateHostsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AllocateHostsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +230,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AllocateIpamPoolCidrAsync(
-        AwsEc2AllocateIpamPoolCidrOptions? options = null,
+        AwsEc2AllocateIpamPoolCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AllocateIpamPoolCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +245,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ApplySecurityGroupsToClientVpnTargetNetworkAsync(
-        AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions? options = null,
+        AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +260,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssignIpv6AddressesAsync(
-        AwsEc2AssignIpv6AddressesOptions? options = null,
+        AwsEc2AssignIpv6AddressesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssignIpv6AddressesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,11 +275,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssignPrivateIpAddressesAsync(
-        AwsEc2AssignPrivateIpAddressesOptions? options = null,
+        AwsEc2AssignPrivateIpAddressesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssignPrivateIpAddressesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +290,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssignPrivateNatGatewayAddressAsync(
-        AwsEc2AssignPrivateNatGatewayAddressOptions? options = null,
+        AwsEc2AssignPrivateNatGatewayAddressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssignPrivateNatGatewayAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -294,7 +309,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateAddressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +320,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateApplicationStatusCheckAsync(
-        AwsEc2AssociateApplicationStatusCheckOptions? options = null,
+        AwsEc2AssociateApplicationStatusCheckOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateApplicationStatusCheckOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +335,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateCapacityReservationBillingOwnerAsync(
-        AwsEc2AssociateCapacityReservationBillingOwnerOptions? options = null,
+        AwsEc2AssociateCapacityReservationBillingOwnerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateCapacityReservationBillingOwnerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +350,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateClientVpnTargetNetworkAsync(
-        AwsEc2AssociateClientVpnTargetNetworkOptions? options = null,
+        AwsEc2AssociateClientVpnTargetNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateClientVpnTargetNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +365,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateDhcpOptionsAsync(
-        AwsEc2AssociateDhcpOptionsOptions? options = null,
+        AwsEc2AssociateDhcpOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateDhcpOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +380,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateEnclaveCertificateIamRoleAsync(
-        AwsEc2AssociateEnclaveCertificateIamRoleOptions? options = null,
+        AwsEc2AssociateEnclaveCertificateIamRoleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateEnclaveCertificateIamRoleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +395,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateIamInstanceProfileAsync(
-        AwsEc2AssociateIamInstanceProfileOptions? options = null,
+        AwsEc2AssociateIamInstanceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateIamInstanceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +410,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateInstanceEventWindowAsync(
-        AwsEc2AssociateInstanceEventWindowOptions? options = null,
+        AwsEc2AssociateInstanceEventWindowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateInstanceEventWindowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +425,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateIpamByoasnAsync(
-        AwsEc2AssociateIpamByoasnOptions? options = null,
+        AwsEc2AssociateIpamByoasnOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateIpamByoasnOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +440,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateIpamResourceDiscoveryAsync(
-        AwsEc2AssociateIpamResourceDiscoveryOptions? options = null,
+        AwsEc2AssociateIpamResourceDiscoveryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateIpamResourceDiscoveryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +455,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateNatGatewayAddressAsync(
-        AwsEc2AssociateNatGatewayAddressOptions? options = null,
+        AwsEc2AssociateNatGatewayAddressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateNatGatewayAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +470,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateRouteServerAsync(
-        AwsEc2AssociateRouteServerOptions? options = null,
+        AwsEc2AssociateRouteServerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateRouteServerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +485,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateRouteTableAsync(
-        AwsEc2AssociateRouteTableOptions? options = null,
+        AwsEc2AssociateRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +500,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateSecurityGroupVpcAsync(
-        AwsEc2AssociateSecurityGroupVpcOptions? options = null,
+        AwsEc2AssociateSecurityGroupVpcOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateSecurityGroupVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,11 +515,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateSubnetCidrBlockAsync(
-        AwsEc2AssociateSubnetCidrBlockOptions? options = null,
+        AwsEc2AssociateSubnetCidrBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateSubnetCidrBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -515,11 +530,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateTransitGatewayMulticastDomainAsync(
-        AwsEc2AssociateTransitGatewayMulticastDomainOptions? options = null,
+        AwsEc2AssociateTransitGatewayMulticastDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateTransitGatewayMulticastDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +545,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateTransitGatewayPolicyTableAsync(
-        AwsEc2AssociateTransitGatewayPolicyTableOptions? options = null,
+        AwsEc2AssociateTransitGatewayPolicyTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateTransitGatewayPolicyTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -545,11 +560,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateTransitGatewayRouteTableAsync(
-        AwsEc2AssociateTransitGatewayRouteTableOptions? options = null,
+        AwsEc2AssociateTransitGatewayRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateTransitGatewayRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +575,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateTrunkInterfaceAsync(
-        AwsEc2AssociateTrunkInterfaceOptions? options = null,
+        AwsEc2AssociateTrunkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateTrunkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -575,11 +590,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateVpcCidrBlockAsync(
-        AwsEc2AssociateVpcCidrBlockOptions? options = null,
+        AwsEc2AssociateVpcCidrBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AssociateVpcCidrBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -590,11 +605,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachClassicLinkVpcAsync(
-        AwsEc2AttachClassicLinkVpcOptions? options = null,
+        AwsEc2AttachClassicLinkVpcOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AttachClassicLinkVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +620,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachImageWatermarkAsync(
-        AwsEc2AttachImageWatermarkOptions? options = null,
+        AwsEc2AttachImageWatermarkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AttachImageWatermarkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -620,11 +635,26 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachInternetGatewayAsync(
-        AwsEc2AttachInternetGatewayOptions? options = null,
+        AwsEc2AttachInternetGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AttachInternetGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Attaches a network interface to an instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AttachNetworkInterfaceAsync(
+        AwsEc2AttachNetworkInterfaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -635,11 +665,26 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachVerifiedAccessTrustProviderAsync(
-        AwsEc2AttachVerifiedAccessTrustProviderOptions? options = null,
+        AwsEc2AttachVerifiedAccessTrustProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AttachVerifiedAccessTrustProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Attaches an Amazon EBS volume to a running or stopped instance, and ex- poses it to the instance with the specified device name. NOTE: The maximum number of Amazon EBS volumes that you can attach to an instance depends on the instance type. If you exceed the volume at- tachment limit for an instance type, the attachment request fails with the AttachmentLimitExceeded error. For more information, see Instance volume limits . After you attach an EBS volume, you must make it available for use. For m...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AttachVolumeAsync(
+        AwsEc2AttachVolumeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -650,11 +695,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachVpnGatewayAsync(
-        AwsEc2AttachVpnGatewayOptions? options = null,
+        AwsEc2AttachVpnGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AttachVpnGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -665,11 +710,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AuthorizeClientVpnIngressAsync(
-        AwsEc2AuthorizeClientVpnIngressOptions? options = null,
+        AwsEc2AuthorizeClientVpnIngressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AuthorizeClientVpnIngressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +725,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AuthorizeSecurityGroupEgressAsync(
-        AwsEc2AuthorizeSecurityGroupEgressOptions? options = null,
+        AwsEc2AuthorizeSecurityGroupEgressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AuthorizeSecurityGroupEgressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -699,7 +744,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AuthorizeSecurityGroupIngressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2AuthorizeSecurityGroupIngressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -710,11 +755,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchModifyIpamRoutingPolicyRegistrationsAsync(
-        AwsEc2BatchModifyIpamRoutingPolicyRegistrationsOptions? options = null,
+        AwsEc2BatchModifyIpamRoutingPolicyRegistrationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2BatchModifyIpamRoutingPolicyRegistrationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,11 +770,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BundleInstanceAsync(
-        AwsEc2BundleInstanceOptions? options = null,
+        AwsEc2BundleInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2BundleInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +785,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelBundleTaskAsync(
-        AwsEc2CancelBundleTaskOptions? options = null,
+        AwsEc2CancelBundleTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelBundleTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +800,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelCapacityReservationFleetsAsync(
-        AwsEc2CancelCapacityReservationFleetsOptions? options = null,
+        AwsEc2CancelCapacityReservationFleetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelCapacityReservationFleetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +815,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelCapacityReservationAsync(
-        AwsEc2CancelCapacityReservationOptions? options = null,
+        AwsEc2CancelCapacityReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelCapacityReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +830,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelConversionTaskAsync(
-        AwsEc2CancelConversionTaskOptions? options = null,
+        AwsEc2CancelConversionTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelConversionTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +845,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelDeclarativePoliciesReportAsync(
-        AwsEc2CancelDeclarativePoliciesReportOptions? options = null,
+        AwsEc2CancelDeclarativePoliciesReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelDeclarativePoliciesReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +860,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelExportTaskAsync(
-        AwsEc2CancelExportTaskOptions? options = null,
+        AwsEc2CancelExportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelExportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +875,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelImageLaunchPermissionAsync(
-        AwsEc2CancelImageLaunchPermissionOptions? options = null,
+        AwsEc2CancelImageLaunchPermissionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelImageLaunchPermissionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -849,7 +894,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelImportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelImportTaskOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +905,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelReservedInstancesListingAsync(
-        AwsEc2CancelReservedInstancesListingOptions? options = null,
+        AwsEc2CancelReservedInstancesListingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelReservedInstancesListingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +920,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelSpotFleetRequestsAsync(
-        AwsEc2CancelSpotFleetRequestsOptions? options = null,
+        AwsEc2CancelSpotFleetRequestsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelSpotFleetRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +935,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelSpotInstanceRequestsAsync(
-        AwsEc2CancelSpotInstanceRequestsOptions? options = null,
+        AwsEc2CancelSpotInstanceRequestsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CancelSpotInstanceRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +950,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfirmProductInstanceAsync(
-        AwsEc2ConfirmProductInstanceOptions? options = null,
+        AwsEc2ConfirmProductInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ConfirmProductInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +965,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyFpgaImageAsync(
-        AwsEc2CopyFpgaImageOptions? options = null,
+        AwsEc2CopyFpgaImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CopyFpgaImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +980,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyImageAsync(
-        AwsEc2CopyImageOptions? options = null,
+        AwsEc2CopyImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CopyImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -950,11 +995,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopySnapshotAsync(
-        AwsEc2CopySnapshotOptions? options = null,
+        AwsEc2CopySnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CopySnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -965,11 +1010,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyVolumesAsync(
-        AwsEc2CopyVolumesOptions? options = null,
+        AwsEc2CopyVolumesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CopyVolumesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +1025,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateApplicationStatusCheckAsync(
-        AwsEc2CreateApplicationStatusCheckOptions? options = null,
+        AwsEc2CreateApplicationStatusCheckOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateApplicationStatusCheckOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +1040,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCapacityManagerDataExportAsync(
-        AwsEc2CreateCapacityManagerDataExportOptions? options = null,
+        AwsEc2CreateCapacityManagerDataExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCapacityManagerDataExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1055,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCapacityReservationBySplittingAsync(
-        AwsEc2CreateCapacityReservationBySplittingOptions? options = null,
+        AwsEc2CreateCapacityReservationBySplittingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCapacityReservationBySplittingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1025,11 +1070,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCapacityReservationCancellationQuoteAsync(
-        AwsEc2CreateCapacityReservationCancellationQuoteOptions? options = null,
+        AwsEc2CreateCapacityReservationCancellationQuoteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCapacityReservationCancellationQuoteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1040,11 +1085,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCapacityReservationFleetAsync(
-        AwsEc2CreateCapacityReservationFleetOptions? options = null,
+        AwsEc2CreateCapacityReservationFleetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCapacityReservationFleetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1100,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCapacityReservationAsync(
-        AwsEc2CreateCapacityReservationOptions? options = null,
+        AwsEc2CreateCapacityReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCapacityReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1115,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCarrierGatewayAsync(
-        AwsEc2CreateCarrierGatewayOptions? options = null,
+        AwsEc2CreateCarrierGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCarrierGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1130,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateClientVpnEndpointAsync(
-        AwsEc2CreateClientVpnEndpointOptions? options = null,
+        AwsEc2CreateClientVpnEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateClientVpnEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1100,11 +1145,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateClientVpnRouteAsync(
-        AwsEc2CreateClientVpnRouteOptions? options = null,
+        AwsEc2CreateClientVpnRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateClientVpnRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1160,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCoipCidrAsync(
-        AwsEc2CreateCoipCidrOptions? options = null,
+        AwsEc2CreateCoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1175,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCoipPoolAsync(
-        AwsEc2CreateCoipPoolOptions? options = null,
+        AwsEc2CreateCoipPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCoipPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1145,11 +1190,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCustomerGatewayAsync(
-        AwsEc2CreateCustomerGatewayOptions? options = null,
+        AwsEc2CreateCustomerGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateCustomerGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1164,7 +1209,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateDefaultSubnetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateDefaultSubnetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1179,7 +1224,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateDefaultVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateDefaultVpcOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1190,11 +1235,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDelegateMacVolumeOwnershipTaskAsync(
-        AwsEc2CreateDelegateMacVolumeOwnershipTaskOptions? options = null,
+        AwsEc2CreateDelegateMacVolumeOwnershipTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateDelegateMacVolumeOwnershipTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1205,11 +1250,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDhcpOptionsAsync(
-        AwsEc2CreateDhcpOptionsOptions? options = null,
+        AwsEc2CreateDhcpOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateDhcpOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1220,11 +1265,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEgressOnlyInternetGatewayAsync(
-        AwsEc2CreateEgressOnlyInternetGatewayOptions? options = null,
+        AwsEc2CreateEgressOnlyInternetGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateEgressOnlyInternetGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1235,11 +1280,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateFleetAsync(
-        AwsEc2CreateFleetOptions? options = null,
+        AwsEc2CreateFleetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateFleetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1250,11 +1295,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateFlowLogsAsync(
-        AwsEc2CreateFlowLogsOptions? options = null,
+        AwsEc2CreateFlowLogsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateFlowLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1265,11 +1310,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateFpgaImageAsync(
-        AwsEc2CreateFpgaImageOptions? options = null,
+        AwsEc2CreateFpgaImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateFpgaImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1280,11 +1325,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateImageAsync(
-        AwsEc2CreateImageOptions? options = null,
+        AwsEc2CreateImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1295,11 +1340,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateImageUsageReportAsync(
-        AwsEc2CreateImageUsageReportOptions? options = null,
+        AwsEc2CreateImageUsageReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateImageUsageReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1310,11 +1355,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInstanceConnectEndpointAsync(
-        AwsEc2CreateInstanceConnectEndpointOptions? options = null,
+        AwsEc2CreateInstanceConnectEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateInstanceConnectEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1329,7 +1374,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateInstanceEventWindowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateInstanceEventWindowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1340,11 +1385,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInstanceExportTaskAsync(
-        AwsEc2CreateInstanceExportTaskOptions? options = null,
+        AwsEc2CreateInstanceExportTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateInstanceExportTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1359,7 +1404,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateInternetGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateInternetGatewayOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1370,11 +1415,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInterruptibleCapacityReservationAllocationAsync(
-        AwsEc2CreateInterruptibleCapacityReservationAllocationOptions? options = null,
+        AwsEc2CreateInterruptibleCapacityReservationAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateInterruptibleCapacityReservationAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1385,11 +1430,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamExternalResourceVerificationTokenAsync(
-        AwsEc2CreateIpamExternalResourceVerificationTokenOptions? options = null,
+        AwsEc2CreateIpamExternalResourceVerificationTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamExternalResourceVerificationTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1400,11 +1445,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamInternetRegistryAssociationAsync(
-        AwsEc2CreateIpamInternetRegistryAssociationOptions? options = null,
+        AwsEc2CreateIpamInternetRegistryAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamInternetRegistryAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1419,7 +1464,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1430,11 +1475,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamPolicyAsync(
-        AwsEc2CreateIpamPolicyOptions? options = null,
+        AwsEc2CreateIpamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1445,11 +1490,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamPoolAsync(
-        AwsEc2CreateIpamPoolOptions? options = null,
+        AwsEc2CreateIpamPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1460,11 +1505,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamPrefixListResolverAsync(
-        AwsEc2CreateIpamPrefixListResolverOptions? options = null,
+        AwsEc2CreateIpamPrefixListResolverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamPrefixListResolverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1475,11 +1520,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamPrefixListResolverTargetAsync(
-        AwsEc2CreateIpamPrefixListResolverTargetOptions? options = null,
+        AwsEc2CreateIpamPrefixListResolverTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamPrefixListResolverTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1494,7 +1539,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamResourceDiscoveryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamResourceDiscoveryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1505,11 +1550,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamRoutingPolicyRegistrationAsync(
-        AwsEc2CreateIpamRoutingPolicyRegistrationOptions? options = null,
+        AwsEc2CreateIpamRoutingPolicyRegistrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamRoutingPolicyRegistrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1520,11 +1565,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIpamScopeAsync(
-        AwsEc2CreateIpamScopeOptions? options = null,
+        AwsEc2CreateIpamScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateIpamScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1535,11 +1580,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateKeyPairAsync(
-        AwsEc2CreateKeyPairOptions? options = null,
+        AwsEc2CreateKeyPairOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1550,11 +1595,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLaunchTemplateAsync(
-        AwsEc2CreateLaunchTemplateOptions? options = null,
+        AwsEc2CreateLaunchTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLaunchTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1565,11 +1610,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLaunchTemplateVersionAsync(
-        AwsEc2CreateLaunchTemplateVersionOptions? options = null,
+        AwsEc2CreateLaunchTemplateVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLaunchTemplateVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1580,11 +1625,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLocalGatewayRouteAsync(
-        AwsEc2CreateLocalGatewayRouteOptions? options = null,
+        AwsEc2CreateLocalGatewayRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLocalGatewayRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1595,11 +1640,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLocalGatewayRouteTableAsync(
-        AwsEc2CreateLocalGatewayRouteTableOptions? options = null,
+        AwsEc2CreateLocalGatewayRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLocalGatewayRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1610,11 +1655,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationAsync(
-        AwsEc2CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions? options = null,
+        AwsEc2CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1625,11 +1670,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLocalGatewayRouteTableVpcAssociationAsync(
-        AwsEc2CreateLocalGatewayRouteTableVpcAssociationOptions? options = null,
+        AwsEc2CreateLocalGatewayRouteTableVpcAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLocalGatewayRouteTableVpcAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1640,11 +1685,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLocalGatewayVirtualInterfaceGroupAsync(
-        AwsEc2CreateLocalGatewayVirtualInterfaceGroupOptions? options = null,
+        AwsEc2CreateLocalGatewayVirtualInterfaceGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLocalGatewayVirtualInterfaceGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1655,11 +1700,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLocalGatewayVirtualInterfaceAsync(
-        AwsEc2CreateLocalGatewayVirtualInterfaceOptions? options = null,
+        AwsEc2CreateLocalGatewayVirtualInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateLocalGatewayVirtualInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1670,11 +1715,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMacSystemIntegrityProtectionModificationTaskAsync(
-        AwsEc2CreateMacSystemIntegrityProtectionModificationTaskOptions? options = null,
+        AwsEc2CreateMacSystemIntegrityProtectionModificationTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateMacSystemIntegrityProtectionModificationTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1685,11 +1730,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateManagedPrefixListAsync(
-        AwsEc2CreateManagedPrefixListOptions? options = null,
+        AwsEc2CreateManagedPrefixListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateManagedPrefixListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1704,7 +1749,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNatGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNatGatewayOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1715,11 +1760,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateNetworkAclEntryAsync(
-        AwsEc2CreateNetworkAclEntryOptions? options = null,
+        AwsEc2CreateNetworkAclEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNetworkAclEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1730,11 +1775,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateNetworkAclAsync(
-        AwsEc2CreateNetworkAclOptions? options = null,
+        AwsEc2CreateNetworkAclOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNetworkAclOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1749,7 +1794,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNetworkInsightsAccessScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNetworkInsightsAccessScopeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1760,11 +1805,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateNetworkInsightsPathAsync(
-        AwsEc2CreateNetworkInsightsPathOptions? options = null,
+        AwsEc2CreateNetworkInsightsPathOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNetworkInsightsPathOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1775,11 +1820,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateNetworkInterfaceAsync(
-        AwsEc2CreateNetworkInterfaceOptions? options = null,
+        AwsEc2CreateNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1790,11 +1835,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateNetworkInterfacePermissionAsync(
-        AwsEc2CreateNetworkInterfacePermissionOptions? options = null,
+        AwsEc2CreateNetworkInterfacePermissionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateNetworkInterfacePermissionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1809,7 +1854,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreatePlacementGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreatePlacementGroupOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1824,7 +1869,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreatePublicIpv4PoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreatePublicIpv4PoolOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1835,11 +1880,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateReplaceRootVolumeTaskAsync(
-        AwsEc2CreateReplaceRootVolumeTaskOptions? options = null,
+        AwsEc2CreateReplaceRootVolumeTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateReplaceRootVolumeTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1850,11 +1895,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateReservedInstancesListingAsync(
-        AwsEc2CreateReservedInstancesListingOptions? options = null,
+        AwsEc2CreateReservedInstancesListingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateReservedInstancesListingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1865,11 +1910,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRestoreImageTaskAsync(
-        AwsEc2CreateRestoreImageTaskOptions? options = null,
+        AwsEc2CreateRestoreImageTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateRestoreImageTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1880,11 +1925,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouteAsync(
-        AwsEc2CreateRouteOptions? options = null,
+        AwsEc2CreateRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1895,11 +1940,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouteServerEndpointAsync(
-        AwsEc2CreateRouteServerEndpointOptions? options = null,
+        AwsEc2CreateRouteServerEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateRouteServerEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1910,11 +1955,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouteServerAsync(
-        AwsEc2CreateRouteServerOptions? options = null,
+        AwsEc2CreateRouteServerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateRouteServerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1925,11 +1970,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouteServerPeerAsync(
-        AwsEc2CreateRouteServerPeerOptions? options = null,
+        AwsEc2CreateRouteServerPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateRouteServerPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1940,11 +1985,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRouteTableAsync(
-        AwsEc2CreateRouteTableOptions? options = null,
+        AwsEc2CreateRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1955,11 +2000,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSecondaryNetworkAsync(
-        AwsEc2CreateSecondaryNetworkOptions? options = null,
+        AwsEc2CreateSecondaryNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSecondaryNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1970,11 +2015,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSecondarySubnetAsync(
-        AwsEc2CreateSecondarySubnetOptions? options = null,
+        AwsEc2CreateSecondarySubnetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSecondarySubnetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1985,11 +2030,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSecurityGroupAsync(
-        AwsEc2CreateSecurityGroupOptions? options = null,
+        AwsEc2CreateSecurityGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSecurityGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2000,11 +2045,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSnapshotAsync(
-        AwsEc2CreateSnapshotOptions? options = null,
+        AwsEc2CreateSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2015,11 +2060,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSnapshotsAsync(
-        AwsEc2CreateSnapshotsOptions? options = null,
+        AwsEc2CreateSnapshotsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2030,11 +2075,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSpotDatafeedSubscriptionAsync(
-        AwsEc2CreateSpotDatafeedSubscriptionOptions? options = null,
+        AwsEc2CreateSpotDatafeedSubscriptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSpotDatafeedSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2045,11 +2090,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateStoreImageTaskAsync(
-        AwsEc2CreateStoreImageTaskOptions? options = null,
+        AwsEc2CreateStoreImageTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateStoreImageTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2060,11 +2105,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSubnetCidrReservationAsync(
-        AwsEc2CreateSubnetCidrReservationOptions? options = null,
+        AwsEc2CreateSubnetCidrReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSubnetCidrReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2075,11 +2120,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSubnetAsync(
-        AwsEc2CreateSubnetOptions? options = null,
+        AwsEc2CreateSubnetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateSubnetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2090,11 +2135,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTagsAsync(
-        AwsEc2CreateTagsOptions? options = null,
+        AwsEc2CreateTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTagsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2109,7 +2154,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTrafficMirrorFilterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTrafficMirrorFilterOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2120,11 +2165,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTrafficMirrorFilterRuleAsync(
-        AwsEc2CreateTrafficMirrorFilterRuleOptions? options = null,
+        AwsEc2CreateTrafficMirrorFilterRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTrafficMirrorFilterRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2135,11 +2180,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTrafficMirrorSessionAsync(
-        AwsEc2CreateTrafficMirrorSessionOptions? options = null,
+        AwsEc2CreateTrafficMirrorSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTrafficMirrorSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2154,7 +2199,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTrafficMirrorTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTrafficMirrorTargetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2165,11 +2210,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayConnectAsync(
-        AwsEc2CreateTransitGatewayConnectOptions? options = null,
+        AwsEc2CreateTransitGatewayConnectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayConnectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2180,11 +2225,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayConnectPeerAsync(
-        AwsEc2CreateTransitGatewayConnectPeerOptions? options = null,
+        AwsEc2CreateTransitGatewayConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2195,11 +2240,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayMeteringPolicyEntryAsync(
-        AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions? options = null,
+        AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2210,11 +2255,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayMeteringPolicyAsync(
-        AwsEc2CreateTransitGatewayMeteringPolicyOptions? options = null,
+        AwsEc2CreateTransitGatewayMeteringPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayMeteringPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2225,11 +2270,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayMulticastDomainAsync(
-        AwsEc2CreateTransitGatewayMulticastDomainOptions? options = null,
+        AwsEc2CreateTransitGatewayMulticastDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayMulticastDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2244,7 +2289,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2255,11 +2300,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayPeeringAttachmentAsync(
-        AwsEc2CreateTransitGatewayPeeringAttachmentOptions? options = null,
+        AwsEc2CreateTransitGatewayPeeringAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayPeeringAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2270,11 +2315,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayPolicyTableEntryAsync(
-        AwsEc2CreateTransitGatewayPolicyTableEntryOptions? options = null,
+        AwsEc2CreateTransitGatewayPolicyTableEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayPolicyTableEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2285,11 +2330,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayPolicyTableAsync(
-        AwsEc2CreateTransitGatewayPolicyTableOptions? options = null,
+        AwsEc2CreateTransitGatewayPolicyTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayPolicyTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2300,11 +2345,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayPrefixListReferenceAsync(
-        AwsEc2CreateTransitGatewayPrefixListReferenceOptions? options = null,
+        AwsEc2CreateTransitGatewayPrefixListReferenceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayPrefixListReferenceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2315,11 +2360,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayRouteAsync(
-        AwsEc2CreateTransitGatewayRouteOptions? options = null,
+        AwsEc2CreateTransitGatewayRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2330,11 +2375,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayRouteTableAnnouncementAsync(
-        AwsEc2CreateTransitGatewayRouteTableAnnouncementOptions? options = null,
+        AwsEc2CreateTransitGatewayRouteTableAnnouncementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayRouteTableAnnouncementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2345,11 +2390,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayRouteTableAsync(
-        AwsEc2CreateTransitGatewayRouteTableOptions? options = null,
+        AwsEc2CreateTransitGatewayRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2360,11 +2405,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayVpcAttachmentAsync(
-        AwsEc2CreateTransitGatewayVpcAttachmentOptions? options = null,
+        AwsEc2CreateTransitGatewayVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateTransitGatewayVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2375,11 +2420,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVerifiedAccessEndpointAsync(
-        AwsEc2CreateVerifiedAccessEndpointOptions? options = null,
+        AwsEc2CreateVerifiedAccessEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVerifiedAccessEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2390,11 +2435,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVerifiedAccessGroupAsync(
-        AwsEc2CreateVerifiedAccessGroupOptions? options = null,
+        AwsEc2CreateVerifiedAccessGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVerifiedAccessGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2409,7 +2454,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVerifiedAccessInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVerifiedAccessInstanceOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2420,11 +2465,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVerifiedAccessTrustProviderAsync(
-        AwsEc2CreateVerifiedAccessTrustProviderOptions? options = null,
+        AwsEc2CreateVerifiedAccessTrustProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVerifiedAccessTrustProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2439,7 +2484,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVolumeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVolumeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2450,11 +2495,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpcBlockPublicAccessExclusionAsync(
-        AwsEc2CreateVpcBlockPublicAccessExclusionOptions? options = null,
+        AwsEc2CreateVpcBlockPublicAccessExclusionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcBlockPublicAccessExclusionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2465,11 +2510,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpcEncryptionControlAsync(
-        AwsEc2CreateVpcEncryptionControlOptions? options = null,
+        AwsEc2CreateVpcEncryptionControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcEncryptionControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2480,11 +2525,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpcEndpointConnectionNotificationAsync(
-        AwsEc2CreateVpcEndpointConnectionNotificationOptions? options = null,
+        AwsEc2CreateVpcEndpointConnectionNotificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcEndpointConnectionNotificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2495,11 +2540,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpcEndpointAsync(
-        AwsEc2CreateVpcEndpointOptions? options = null,
+        AwsEc2CreateVpcEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2514,7 +2559,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcEndpointServiceConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcEndpointServiceConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2529,7 +2574,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2540,11 +2585,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpcPeeringConnectionAsync(
-        AwsEc2CreateVpcPeeringConnectionOptions? options = null,
+        AwsEc2CreateVpcPeeringConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpcPeeringConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2555,11 +2600,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpnConcentratorAsync(
-        AwsEc2CreateVpnConcentratorOptions? options = null,
+        AwsEc2CreateVpnConcentratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpnConcentratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2570,11 +2615,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpnConnectionAsync(
-        AwsEc2CreateVpnConnectionOptions? options = null,
+        AwsEc2CreateVpnConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpnConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2585,11 +2630,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpnConnectionRouteAsync(
-        AwsEc2CreateVpnConnectionRouteOptions? options = null,
+        AwsEc2CreateVpnConnectionRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpnConnectionRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2600,11 +2645,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpnGatewayAsync(
-        AwsEc2CreateVpnGatewayOptions? options = null,
+        AwsEc2CreateVpnGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2CreateVpnGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2615,11 +2660,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationStatusCheckAsync(
-        AwsEc2DeleteApplicationStatusCheckOptions? options = null,
+        AwsEc2DeleteApplicationStatusCheckOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteApplicationStatusCheckOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2630,11 +2675,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCapacityManagerDataExportAsync(
-        AwsEc2DeleteCapacityManagerDataExportOptions? options = null,
+        AwsEc2DeleteCapacityManagerDataExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteCapacityManagerDataExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2645,11 +2690,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCarrierGatewayAsync(
-        AwsEc2DeleteCarrierGatewayOptions? options = null,
+        AwsEc2DeleteCarrierGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteCarrierGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2660,11 +2705,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteClientVpnEndpointAsync(
-        AwsEc2DeleteClientVpnEndpointOptions? options = null,
+        AwsEc2DeleteClientVpnEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteClientVpnEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2675,11 +2720,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteClientVpnRouteAsync(
-        AwsEc2DeleteClientVpnRouteOptions? options = null,
+        AwsEc2DeleteClientVpnRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteClientVpnRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2690,11 +2735,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCoipCidrAsync(
-        AwsEc2DeleteCoipCidrOptions? options = null,
+        AwsEc2DeleteCoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteCoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2705,11 +2750,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCoipPoolAsync(
-        AwsEc2DeleteCoipPoolOptions? options = null,
+        AwsEc2DeleteCoipPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteCoipPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2720,11 +2765,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomerGatewayAsync(
-        AwsEc2DeleteCustomerGatewayOptions? options = null,
+        AwsEc2DeleteCustomerGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteCustomerGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2735,11 +2780,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDhcpOptionsAsync(
-        AwsEc2DeleteDhcpOptionsOptions? options = null,
+        AwsEc2DeleteDhcpOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteDhcpOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2750,11 +2795,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEgressOnlyInternetGatewayAsync(
-        AwsEc2DeleteEgressOnlyInternetGatewayOptions? options = null,
+        AwsEc2DeleteEgressOnlyInternetGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteEgressOnlyInternetGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2765,11 +2810,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFleetsAsync(
-        AwsEc2DeleteFleetsOptions? options = null,
+        AwsEc2DeleteFleetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteFleetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2780,11 +2825,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFlowLogsAsync(
-        AwsEc2DeleteFlowLogsOptions? options = null,
+        AwsEc2DeleteFlowLogsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteFlowLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2795,11 +2840,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFpgaImageAsync(
-        AwsEc2DeleteFpgaImageOptions? options = null,
+        AwsEc2DeleteFpgaImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteFpgaImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2810,11 +2855,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteImageUsageReportAsync(
-        AwsEc2DeleteImageUsageReportOptions? options = null,
+        AwsEc2DeleteImageUsageReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteImageUsageReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2825,11 +2870,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInstanceConnectEndpointAsync(
-        AwsEc2DeleteInstanceConnectEndpointOptions? options = null,
+        AwsEc2DeleteInstanceConnectEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteInstanceConnectEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2840,11 +2885,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInstanceEventWindowAsync(
-        AwsEc2DeleteInstanceEventWindowOptions? options = null,
+        AwsEc2DeleteInstanceEventWindowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteInstanceEventWindowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2855,11 +2900,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInternetGatewayAsync(
-        AwsEc2DeleteInternetGatewayOptions? options = null,
+        AwsEc2DeleteInternetGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteInternetGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2870,11 +2915,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamExternalResourceVerificationTokenAsync(
-        AwsEc2DeleteIpamExternalResourceVerificationTokenOptions? options = null,
+        AwsEc2DeleteIpamExternalResourceVerificationTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamExternalResourceVerificationTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2885,11 +2930,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamInternetRegistryAssociationAsync(
-        AwsEc2DeleteIpamInternetRegistryAssociationOptions? options = null,
+        AwsEc2DeleteIpamInternetRegistryAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamInternetRegistryAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2900,11 +2945,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamAsync(
-        AwsEc2DeleteIpamOptions? options = null,
+        AwsEc2DeleteIpamOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2915,11 +2960,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamPolicyAsync(
-        AwsEc2DeleteIpamPolicyOptions? options = null,
+        AwsEc2DeleteIpamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2930,11 +2975,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamPoolAsync(
-        AwsEc2DeleteIpamPoolOptions? options = null,
+        AwsEc2DeleteIpamPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2945,11 +2990,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamPrefixListResolverAsync(
-        AwsEc2DeleteIpamPrefixListResolverOptions? options = null,
+        AwsEc2DeleteIpamPrefixListResolverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamPrefixListResolverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2960,11 +3005,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamPrefixListResolverTargetAsync(
-        AwsEc2DeleteIpamPrefixListResolverTargetOptions? options = null,
+        AwsEc2DeleteIpamPrefixListResolverTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamPrefixListResolverTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2975,11 +3020,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamResourceDiscoveryAsync(
-        AwsEc2DeleteIpamResourceDiscoveryOptions? options = null,
+        AwsEc2DeleteIpamResourceDiscoveryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamResourceDiscoveryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2990,11 +3035,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamRoutingPolicyRegistrationAsync(
-        AwsEc2DeleteIpamRoutingPolicyRegistrationOptions? options = null,
+        AwsEc2DeleteIpamRoutingPolicyRegistrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamRoutingPolicyRegistrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3005,11 +3050,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIpamScopeAsync(
-        AwsEc2DeleteIpamScopeOptions? options = null,
+        AwsEc2DeleteIpamScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteIpamScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3024,7 +3069,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteKeyPairOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3039,7 +3084,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLaunchTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLaunchTemplateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3050,11 +3095,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLaunchTemplateVersionsAsync(
-        AwsEc2DeleteLaunchTemplateVersionsOptions? options = null,
+        AwsEc2DeleteLaunchTemplateVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLaunchTemplateVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3065,11 +3110,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLocalGatewayRouteAsync(
-        AwsEc2DeleteLocalGatewayRouteOptions? options = null,
+        AwsEc2DeleteLocalGatewayRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLocalGatewayRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3080,11 +3125,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLocalGatewayRouteTableAsync(
-        AwsEc2DeleteLocalGatewayRouteTableOptions? options = null,
+        AwsEc2DeleteLocalGatewayRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLocalGatewayRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3095,11 +3140,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationAsync(
-        AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions? options = null,
+        AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3110,11 +3155,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLocalGatewayRouteTableVpcAssociationAsync(
-        AwsEc2DeleteLocalGatewayRouteTableVpcAssociationOptions? options = null,
+        AwsEc2DeleteLocalGatewayRouteTableVpcAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLocalGatewayRouteTableVpcAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3125,11 +3170,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLocalGatewayVirtualInterfaceGroupAsync(
-        AwsEc2DeleteLocalGatewayVirtualInterfaceGroupOptions? options = null,
+        AwsEc2DeleteLocalGatewayVirtualInterfaceGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLocalGatewayVirtualInterfaceGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3140,11 +3185,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLocalGatewayVirtualInterfaceAsync(
-        AwsEc2DeleteLocalGatewayVirtualInterfaceOptions? options = null,
+        AwsEc2DeleteLocalGatewayVirtualInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteLocalGatewayVirtualInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3155,11 +3200,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteManagedPrefixListAsync(
-        AwsEc2DeleteManagedPrefixListOptions? options = null,
+        AwsEc2DeleteManagedPrefixListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteManagedPrefixListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3170,11 +3215,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNatGatewayAsync(
-        AwsEc2DeleteNatGatewayOptions? options = null,
+        AwsEc2DeleteNatGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNatGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3185,11 +3230,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkAclEntryAsync(
-        AwsEc2DeleteNetworkAclEntryOptions? options = null,
+        AwsEc2DeleteNetworkAclEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkAclEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3200,11 +3245,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkAclAsync(
-        AwsEc2DeleteNetworkAclOptions? options = null,
+        AwsEc2DeleteNetworkAclOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkAclOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3215,11 +3260,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkInsightsAccessScopeAnalysisAsync(
-        AwsEc2DeleteNetworkInsightsAccessScopeAnalysisOptions? options = null,
+        AwsEc2DeleteNetworkInsightsAccessScopeAnalysisOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkInsightsAccessScopeAnalysisOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3230,11 +3275,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkInsightsAccessScopeAsync(
-        AwsEc2DeleteNetworkInsightsAccessScopeOptions? options = null,
+        AwsEc2DeleteNetworkInsightsAccessScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkInsightsAccessScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3245,11 +3290,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkInsightsAnalysisAsync(
-        AwsEc2DeleteNetworkInsightsAnalysisOptions? options = null,
+        AwsEc2DeleteNetworkInsightsAnalysisOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkInsightsAnalysisOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3260,11 +3305,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkInsightsPathAsync(
-        AwsEc2DeleteNetworkInsightsPathOptions? options = null,
+        AwsEc2DeleteNetworkInsightsPathOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkInsightsPathOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3275,11 +3320,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkInterfaceAsync(
-        AwsEc2DeleteNetworkInterfaceOptions? options = null,
+        AwsEc2DeleteNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3290,11 +3335,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNetworkInterfacePermissionAsync(
-        AwsEc2DeleteNetworkInterfacePermissionOptions? options = null,
+        AwsEc2DeleteNetworkInterfacePermissionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteNetworkInterfacePermissionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3305,11 +3350,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePlacementGroupAsync(
-        AwsEc2DeletePlacementGroupOptions? options = null,
+        AwsEc2DeletePlacementGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeletePlacementGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3320,11 +3365,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePublicIpv4PoolAsync(
-        AwsEc2DeletePublicIpv4PoolOptions? options = null,
+        AwsEc2DeletePublicIpv4PoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeletePublicIpv4PoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3335,11 +3380,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteQueuedReservedInstancesAsync(
-        AwsEc2DeleteQueuedReservedInstancesOptions? options = null,
+        AwsEc2DeleteQueuedReservedInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteQueuedReservedInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3350,11 +3395,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouteAsync(
-        AwsEc2DeleteRouteOptions? options = null,
+        AwsEc2DeleteRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3365,11 +3410,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouteServerEndpointAsync(
-        AwsEc2DeleteRouteServerEndpointOptions? options = null,
+        AwsEc2DeleteRouteServerEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteRouteServerEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3380,11 +3425,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouteServerAsync(
-        AwsEc2DeleteRouteServerOptions? options = null,
+        AwsEc2DeleteRouteServerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteRouteServerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3395,11 +3440,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouteServerPeerAsync(
-        AwsEc2DeleteRouteServerPeerOptions? options = null,
+        AwsEc2DeleteRouteServerPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteRouteServerPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3410,11 +3455,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRouteTableAsync(
-        AwsEc2DeleteRouteTableOptions? options = null,
+        AwsEc2DeleteRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3425,11 +3470,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSecondaryNetworkAsync(
-        AwsEc2DeleteSecondaryNetworkOptions? options = null,
+        AwsEc2DeleteSecondaryNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSecondaryNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3440,11 +3485,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSecondarySubnetAsync(
-        AwsEc2DeleteSecondarySubnetOptions? options = null,
+        AwsEc2DeleteSecondarySubnetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSecondarySubnetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3459,7 +3504,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSecurityGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSecurityGroupOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3470,11 +3515,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSnapshotAsync(
-        AwsEc2DeleteSnapshotOptions? options = null,
+        AwsEc2DeleteSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3489,7 +3534,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSpotDatafeedSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSpotDatafeedSubscriptionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3500,11 +3545,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSubnetCidrReservationAsync(
-        AwsEc2DeleteSubnetCidrReservationOptions? options = null,
+        AwsEc2DeleteSubnetCidrReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSubnetCidrReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3515,11 +3560,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSubnetAsync(
-        AwsEc2DeleteSubnetOptions? options = null,
+        AwsEc2DeleteSubnetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteSubnetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3530,11 +3575,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTagsAsync(
-        AwsEc2DeleteTagsOptions? options = null,
+        AwsEc2DeleteTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTagsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3545,11 +3590,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTrafficMirrorFilterAsync(
-        AwsEc2DeleteTrafficMirrorFilterOptions? options = null,
+        AwsEc2DeleteTrafficMirrorFilterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTrafficMirrorFilterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3560,11 +3605,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTrafficMirrorFilterRuleAsync(
-        AwsEc2DeleteTrafficMirrorFilterRuleOptions? options = null,
+        AwsEc2DeleteTrafficMirrorFilterRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTrafficMirrorFilterRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3575,11 +3620,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTrafficMirrorSessionAsync(
-        AwsEc2DeleteTrafficMirrorSessionOptions? options = null,
+        AwsEc2DeleteTrafficMirrorSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTrafficMirrorSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3590,11 +3635,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTrafficMirrorTargetAsync(
-        AwsEc2DeleteTrafficMirrorTargetOptions? options = null,
+        AwsEc2DeleteTrafficMirrorTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTrafficMirrorTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3605,11 +3650,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayClientVpnAttachmentAsync(
-        AwsEc2DeleteTransitGatewayClientVpnAttachmentOptions? options = null,
+        AwsEc2DeleteTransitGatewayClientVpnAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayClientVpnAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3620,11 +3665,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayConnectAsync(
-        AwsEc2DeleteTransitGatewayConnectOptions? options = null,
+        AwsEc2DeleteTransitGatewayConnectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayConnectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3635,11 +3680,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayConnectPeerAsync(
-        AwsEc2DeleteTransitGatewayConnectPeerOptions? options = null,
+        AwsEc2DeleteTransitGatewayConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3650,11 +3695,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayMeteringPolicyEntryAsync(
-        AwsEc2DeleteTransitGatewayMeteringPolicyEntryOptions? options = null,
+        AwsEc2DeleteTransitGatewayMeteringPolicyEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayMeteringPolicyEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3665,11 +3710,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayMeteringPolicyAsync(
-        AwsEc2DeleteTransitGatewayMeteringPolicyOptions? options = null,
+        AwsEc2DeleteTransitGatewayMeteringPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayMeteringPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3680,11 +3725,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayMulticastDomainAsync(
-        AwsEc2DeleteTransitGatewayMulticastDomainOptions? options = null,
+        AwsEc2DeleteTransitGatewayMulticastDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayMulticastDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3695,11 +3740,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayAsync(
-        AwsEc2DeleteTransitGatewayOptions? options = null,
+        AwsEc2DeleteTransitGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3710,11 +3755,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayPeeringAttachmentAsync(
-        AwsEc2DeleteTransitGatewayPeeringAttachmentOptions? options = null,
+        AwsEc2DeleteTransitGatewayPeeringAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayPeeringAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3725,11 +3770,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayPolicyTableEntryAsync(
-        AwsEc2DeleteTransitGatewayPolicyTableEntryOptions? options = null,
+        AwsEc2DeleteTransitGatewayPolicyTableEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayPolicyTableEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3740,11 +3785,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayPolicyTableAsync(
-        AwsEc2DeleteTransitGatewayPolicyTableOptions? options = null,
+        AwsEc2DeleteTransitGatewayPolicyTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayPolicyTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3755,11 +3800,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayPrefixListReferenceAsync(
-        AwsEc2DeleteTransitGatewayPrefixListReferenceOptions? options = null,
+        AwsEc2DeleteTransitGatewayPrefixListReferenceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayPrefixListReferenceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3770,11 +3815,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayRouteAsync(
-        AwsEc2DeleteTransitGatewayRouteOptions? options = null,
+        AwsEc2DeleteTransitGatewayRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3785,11 +3830,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayRouteTableAnnouncementAsync(
-        AwsEc2DeleteTransitGatewayRouteTableAnnouncementOptions? options = null,
+        AwsEc2DeleteTransitGatewayRouteTableAnnouncementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayRouteTableAnnouncementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3800,11 +3845,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayRouteTableAsync(
-        AwsEc2DeleteTransitGatewayRouteTableOptions? options = null,
+        AwsEc2DeleteTransitGatewayRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3815,11 +3860,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTransitGatewayVpcAttachmentAsync(
-        AwsEc2DeleteTransitGatewayVpcAttachmentOptions? options = null,
+        AwsEc2DeleteTransitGatewayVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteTransitGatewayVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3830,11 +3875,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVerifiedAccessEndpointAsync(
-        AwsEc2DeleteVerifiedAccessEndpointOptions? options = null,
+        AwsEc2DeleteVerifiedAccessEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVerifiedAccessEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3845,11 +3890,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVerifiedAccessGroupAsync(
-        AwsEc2DeleteVerifiedAccessGroupOptions? options = null,
+        AwsEc2DeleteVerifiedAccessGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVerifiedAccessGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3860,11 +3905,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVerifiedAccessInstanceAsync(
-        AwsEc2DeleteVerifiedAccessInstanceOptions? options = null,
+        AwsEc2DeleteVerifiedAccessInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVerifiedAccessInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3875,11 +3920,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVerifiedAccessTrustProviderAsync(
-        AwsEc2DeleteVerifiedAccessTrustProviderOptions? options = null,
+        AwsEc2DeleteVerifiedAccessTrustProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVerifiedAccessTrustProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3890,11 +3935,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVolumeAsync(
-        AwsEc2DeleteVolumeOptions? options = null,
+        AwsEc2DeleteVolumeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVolumeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3905,11 +3950,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpcBlockPublicAccessExclusionAsync(
-        AwsEc2DeleteVpcBlockPublicAccessExclusionOptions? options = null,
+        AwsEc2DeleteVpcBlockPublicAccessExclusionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpcBlockPublicAccessExclusionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3920,11 +3965,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpcEncryptionControlAsync(
-        AwsEc2DeleteVpcEncryptionControlOptions? options = null,
+        AwsEc2DeleteVpcEncryptionControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpcEncryptionControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3935,11 +3980,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpcEndpointConnectionNotificationsAsync(
-        AwsEc2DeleteVpcEndpointConnectionNotificationsOptions? options = null,
+        AwsEc2DeleteVpcEndpointConnectionNotificationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpcEndpointConnectionNotificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3950,11 +3995,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpcEndpointServiceConfigurationsAsync(
-        AwsEc2DeleteVpcEndpointServiceConfigurationsOptions? options = null,
+        AwsEc2DeleteVpcEndpointServiceConfigurationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpcEndpointServiceConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3965,11 +4010,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpcEndpointsAsync(
-        AwsEc2DeleteVpcEndpointsOptions? options = null,
+        AwsEc2DeleteVpcEndpointsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpcEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3980,11 +4025,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpcAsync(
-        AwsEc2DeleteVpcOptions? options = null,
+        AwsEc2DeleteVpcOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3995,11 +4040,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpcPeeringConnectionAsync(
-        AwsEc2DeleteVpcPeeringConnectionOptions? options = null,
+        AwsEc2DeleteVpcPeeringConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpcPeeringConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4010,11 +4055,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpnConcentratorAsync(
-        AwsEc2DeleteVpnConcentratorOptions? options = null,
+        AwsEc2DeleteVpnConcentratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpnConcentratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4025,11 +4070,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpnConnectionAsync(
-        AwsEc2DeleteVpnConnectionOptions? options = null,
+        AwsEc2DeleteVpnConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpnConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4040,11 +4085,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpnConnectionRouteAsync(
-        AwsEc2DeleteVpnConnectionRouteOptions? options = null,
+        AwsEc2DeleteVpnConnectionRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpnConnectionRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4055,11 +4100,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVpnGatewayAsync(
-        AwsEc2DeleteVpnGatewayOptions? options = null,
+        AwsEc2DeleteVpnGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeleteVpnGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4070,11 +4115,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeprovisionByoipCidrAsync(
-        AwsEc2DeprovisionByoipCidrOptions? options = null,
+        AwsEc2DeprovisionByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeprovisionByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4085,11 +4130,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeprovisionIpamByoasnAsync(
-        AwsEc2DeprovisionIpamByoasnOptions? options = null,
+        AwsEc2DeprovisionIpamByoasnOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeprovisionIpamByoasnOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4100,11 +4145,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeprovisionIpamPoolCidrAsync(
-        AwsEc2DeprovisionIpamPoolCidrOptions? options = null,
+        AwsEc2DeprovisionIpamPoolCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeprovisionIpamPoolCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4115,11 +4160,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeprovisionPublicIpv4PoolCidrAsync(
-        AwsEc2DeprovisionPublicIpv4PoolCidrOptions? options = null,
+        AwsEc2DeprovisionPublicIpv4PoolCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeprovisionPublicIpv4PoolCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4130,11 +4175,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeregisterImageAsync(
-        AwsEc2DeregisterImageOptions? options = null,
+        AwsEc2DeregisterImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeregisterImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4145,11 +4190,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeregisterInstanceEventNotificationAttributesAsync(
-        AwsEc2DeregisterInstanceEventNotificationAttributesOptions? options = null,
+        AwsEc2DeregisterInstanceEventNotificationAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeregisterInstanceEventNotificationAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4164,7 +4209,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeregisterTransitGatewayMulticastGroupMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeregisterTransitGatewayMulticastGroupMembersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4179,7 +4224,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeregisterTransitGatewayMulticastGroupSourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DeregisterTransitGatewayMulticastGroupSourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4194,7 +4239,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAccountAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAccountAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4209,7 +4254,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAccountVpcEncryptionControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAccountVpcEncryptionControlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4224,7 +4269,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressesAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressesAttributeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4239,7 +4284,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4254,7 +4299,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressTransfersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressTransfersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4269,7 +4314,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAggregateIdFormatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAggregateIdFormatOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4284,7 +4329,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeApplicationStatusCheckAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeApplicationStatusCheckAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4299,7 +4344,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeApplicationStatusChecksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeApplicationStatusChecksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4314,7 +4359,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeApplicationStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeApplicationStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4329,7 +4374,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAvailabilityZonesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAvailabilityZonesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4344,7 +4389,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAwsNetworkPerformanceMetricSubscriptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAwsNetworkPerformanceMetricSubscriptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4359,7 +4404,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeBundleTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeBundleTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4374,7 +4419,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeByoipCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeByoipCidrsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4389,7 +4434,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlockExtensionHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlockExtensionHistoryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4400,11 +4445,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCapacityBlockExtensionOfferingsAsync(
-        AwsEc2DescribeCapacityBlockExtensionOfferingsOptions? options = null,
+        AwsEc2DescribeCapacityBlockExtensionOfferingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlockExtensionOfferingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4415,11 +4460,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCapacityBlockOfferingsAsync(
-        AwsEc2DescribeCapacityBlockOfferingsOptions? options = null,
+        AwsEc2DescribeCapacityBlockOfferingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlockOfferingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4434,7 +4479,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlocksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlocksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4449,7 +4494,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlockStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlockStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4464,7 +4509,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityManagerDataExportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityManagerDataExportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4475,11 +4520,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCapacityReservationBillingRequestsAsync(
-        AwsEc2DescribeCapacityReservationBillingRequestsOptions? options = null,
+        AwsEc2DescribeCapacityReservationBillingRequestsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationBillingRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4494,7 +4539,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationCancellationQuotesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationCancellationQuotesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4509,7 +4554,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationFleetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationFleetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4524,7 +4569,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4539,7 +4584,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationTopologyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationTopologyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4554,7 +4599,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCarrierGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCarrierGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4569,7 +4614,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClassicLinkInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClassicLinkInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4580,11 +4625,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeClientVpnAuthorizationRulesAsync(
-        AwsEc2DescribeClientVpnAuthorizationRulesOptions? options = null,
+        AwsEc2DescribeClientVpnAuthorizationRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClientVpnAuthorizationRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4595,11 +4640,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeClientVpnConnectionsAsync(
-        AwsEc2DescribeClientVpnConnectionsOptions? options = null,
+        AwsEc2DescribeClientVpnConnectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClientVpnConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4614,7 +4659,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClientVpnEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClientVpnEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4625,11 +4670,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeClientVpnRoutesAsync(
-        AwsEc2DescribeClientVpnRoutesOptions? options = null,
+        AwsEc2DescribeClientVpnRoutesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClientVpnRoutesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4640,11 +4685,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeClientVpnTargetNetworksAsync(
-        AwsEc2DescribeClientVpnTargetNetworksOptions? options = null,
+        AwsEc2DescribeClientVpnTargetNetworksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeClientVpnTargetNetworksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4659,7 +4704,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCoipPoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCoipPoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4674,7 +4719,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeConversionTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeConversionTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4689,7 +4734,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCustomerGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCustomerGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4704,7 +4749,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeDeclarativePoliciesReportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeDeclarativePoliciesReportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4719,7 +4764,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeDhcpOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeDhcpOptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4734,7 +4779,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeEgressOnlyInternetGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeEgressOnlyInternetGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4749,7 +4794,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeElasticGpusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeElasticGpusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4764,7 +4809,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeExportImageTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeExportImageTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4779,7 +4824,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeExportTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeExportTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4794,7 +4839,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFastLaunchImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFastLaunchImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4809,7 +4854,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFastSnapshotRestoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFastSnapshotRestoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4820,11 +4865,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeFleetHistoryAsync(
-        AwsEc2DescribeFleetHistoryOptions? options = null,
+        AwsEc2DescribeFleetHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFleetHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4835,11 +4880,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeFleetInstancesAsync(
-        AwsEc2DescribeFleetInstancesOptions? options = null,
+        AwsEc2DescribeFleetInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFleetInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4854,7 +4899,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFleetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFleetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4869,7 +4914,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFlowLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFlowLogsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4880,11 +4925,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeFpgaImageAttributeAsync(
-        AwsEc2DescribeFpgaImageAttributeOptions? options = null,
+        AwsEc2DescribeFpgaImageAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFpgaImageAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4899,7 +4944,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFpgaImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeFpgaImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4914,7 +4959,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeHostReservationOfferingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeHostReservationOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4929,7 +4974,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeHostReservationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeHostReservationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4944,7 +4989,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeHostsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeHostsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4959,7 +5004,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIamInstanceProfileAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIamInstanceProfileAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4970,11 +5015,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeIdentityIdFormatAsync(
-        AwsEc2DescribeIdentityIdFormatOptions? options = null,
+        AwsEc2DescribeIdentityIdFormatOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIdentityIdFormatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4989,7 +5034,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIdFormatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIdFormatOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5000,11 +5045,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeImageAttributeAsync(
-        AwsEc2DescribeImageAttributeOptions? options = null,
+        AwsEc2DescribeImageAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImageAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5015,11 +5060,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeImageReferencesAsync(
-        AwsEc2DescribeImageReferencesOptions? options = null,
+        AwsEc2DescribeImageReferencesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImageReferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5034,7 +5079,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5049,7 +5094,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImageUsageReportEntriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImageUsageReportEntriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5064,7 +5109,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImageUsageReportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImageUsageReportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5079,7 +5124,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImportImageTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImportImageTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5094,7 +5139,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImportSnapshotTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImportSnapshotTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5105,11 +5150,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeInstanceAttributeAsync(
-        AwsEc2DescribeInstanceAttributeOptions? options = null,
+        AwsEc2DescribeInstanceAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5124,7 +5169,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceConnectEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceConnectEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5139,7 +5184,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceCreditSpecificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceCreditSpecificationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5154,7 +5199,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceEventNotificationAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceEventNotificationAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5169,7 +5214,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceEventWindowsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceEventWindowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5184,7 +5229,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceImageMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceImageMetadataOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5199,7 +5244,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5214,7 +5259,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceSqlHaHistoryStatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceSqlHaHistoryStatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5229,7 +5274,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceSqlHaStatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceSqlHaStatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5244,7 +5289,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5259,7 +5304,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTopologyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTopologyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5274,7 +5319,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTypeOfferingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTypeOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5289,7 +5334,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5304,7 +5349,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInternetGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInternetGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5319,7 +5364,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamByoasnOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamByoasnOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5334,7 +5379,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamExternalResourceVerificationTokensOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamExternalResourceVerificationTokensOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5349,7 +5394,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamInternetRegistryAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamInternetRegistryAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5364,7 +5409,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5379,7 +5424,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPoolAllocationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPoolAllocationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5394,7 +5439,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5409,7 +5454,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolversOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolversOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5424,7 +5469,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolverTargetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolverTargetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5439,7 +5484,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamResourceDiscoveriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamResourceDiscoveriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5454,7 +5499,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamResourceDiscoveryAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamResourceDiscoveryAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5469,7 +5514,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamScopesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamScopesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5484,7 +5529,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5499,7 +5544,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpv6PoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpv6PoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5514,7 +5559,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeKeyPairsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeKeyPairsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5529,7 +5574,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5544,7 +5589,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplateVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplateVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5559,7 +5604,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTablesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5574,7 +5619,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5589,7 +5634,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5604,7 +5649,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5619,7 +5664,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfacesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5634,7 +5679,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLockedSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLockedSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5649,7 +5694,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeMacHostsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeMacHostsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5664,7 +5709,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeMacModificationTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeMacModificationTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5679,7 +5724,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeManagedPrefixListsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeManagedPrefixListsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5694,7 +5739,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeMovingAddressesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeMovingAddressesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5709,7 +5754,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNatGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNatGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5724,7 +5769,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkAclsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkAclsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5739,7 +5784,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsAccessScopeAnalysesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsAccessScopeAnalysesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5754,7 +5799,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsAccessScopesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsAccessScopesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5769,7 +5814,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsAnalysesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsAnalysesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5784,7 +5829,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsPathsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInsightsPathsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5795,11 +5840,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeNetworkInterfaceAttributeAsync(
-        AwsEc2DescribeNetworkInterfaceAttributeOptions? options = null,
+        AwsEc2DescribeNetworkInterfaceAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInterfaceAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5814,7 +5859,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInterfacePermissionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInterfacePermissionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5829,7 +5874,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInterfacesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeNetworkInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5844,7 +5889,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeOutpostLagsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeOutpostLagsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5859,7 +5904,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePlacementGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePlacementGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5874,7 +5919,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePrefixListsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePrefixListsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5889,7 +5934,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePrincipalIdFormatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePrincipalIdFormatOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5904,7 +5949,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePublicIpv4PoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribePublicIpv4PoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5919,7 +5964,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRegionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRegionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5934,7 +5979,22 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReplaceRootVolumeTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReplaceRootVolumeTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes your account's Reserved Instance listings in the Reserved In- stance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Re- served Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to recei...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeReservedInstancesListingsAsync(
+        AwsEc2DescribeReservedInstancesListingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReservedInstancesListingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5949,7 +6009,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReservedInstancesModificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReservedInstancesModificationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5964,7 +6024,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReservedInstancesOfferingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReservedInstancesOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5979,7 +6039,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReservedInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeReservedInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5994,7 +6054,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteServerEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteServerEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6009,7 +6069,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteServerPeersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteServerPeersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6024,7 +6084,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteServersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteServersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6039,7 +6099,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteTablesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeRouteTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6050,11 +6110,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeScheduledInstanceAvailabilityAsync(
-        AwsEc2DescribeScheduledInstanceAvailabilityOptions? options = null,
+        AwsEc2DescribeScheduledInstanceAvailabilityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeScheduledInstanceAvailabilityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6069,7 +6129,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeScheduledInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeScheduledInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6084,7 +6144,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecondaryInterfacesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecondaryInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6099,7 +6159,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecondaryNetworksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecondaryNetworksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6114,7 +6174,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecondarySubnetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecondarySubnetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6125,11 +6185,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSecurityGroupReferencesAsync(
-        AwsEc2DescribeSecurityGroupReferencesOptions? options = null,
+        AwsEc2DescribeSecurityGroupReferencesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupReferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6144,7 +6204,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6159,7 +6219,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6174,7 +6234,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupVpcAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6189,7 +6249,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeServiceLinkVirtualInterfacesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeServiceLinkVirtualInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6200,11 +6260,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSnapshotAttributeAsync(
-        AwsEc2DescribeSnapshotAttributeOptions? options = null,
+        AwsEc2DescribeSnapshotAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6219,7 +6279,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6234,7 +6294,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotTierStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotTierStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6249,7 +6309,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotDatafeedSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotDatafeedSubscriptionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6260,11 +6320,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSpotFleetInstancesAsync(
-        AwsEc2DescribeSpotFleetInstancesOptions? options = null,
+        AwsEc2DescribeSpotFleetInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotFleetInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6275,11 +6335,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSpotFleetRequestHistoryAsync(
-        AwsEc2DescribeSpotFleetRequestHistoryOptions? options = null,
+        AwsEc2DescribeSpotFleetRequestHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotFleetRequestHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6294,7 +6354,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotFleetRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotFleetRequestsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6309,7 +6369,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotInstanceRequestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotInstanceRequestsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6324,7 +6384,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotPriceHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSpotPriceHistoryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6335,11 +6395,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeStaleSecurityGroupsAsync(
-        AwsEc2DescribeStaleSecurityGroupsOptions? options = null,
+        AwsEc2DescribeStaleSecurityGroupsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeStaleSecurityGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6354,7 +6414,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeStoreImageTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeStoreImageTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6369,7 +6429,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSubnetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSubnetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6384,7 +6444,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTagsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTagsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6399,7 +6459,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorFilterRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorFilterRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6414,7 +6474,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorFiltersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorFiltersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6429,7 +6489,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorSessionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorSessionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6444,7 +6504,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorTargetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrafficMirrorTargetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6459,7 +6519,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayAttachmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6474,7 +6534,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayConnectPeersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayConnectPeersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6489,7 +6549,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayConnectsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayConnectsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6504,7 +6564,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayMeteringPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayMeteringPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6519,7 +6579,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayMulticastDomainsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayMulticastDomainsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6534,7 +6594,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayPeeringAttachmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayPeeringAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6549,7 +6609,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayPolicyTablesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayPolicyTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6564,7 +6624,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayRouteTableAnnouncementsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayRouteTableAnnouncementsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6579,7 +6639,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayRouteTablesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayRouteTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6594,7 +6654,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6609,7 +6669,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayVpcAttachmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayVpcAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6624,7 +6684,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrunkInterfaceAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTrunkInterfaceAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6639,7 +6699,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6654,7 +6714,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6669,7 +6729,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessInstanceLoggingConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessInstanceLoggingConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6684,7 +6744,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6699,7 +6759,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessTrustProvidersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVerifiedAccessTrustProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6710,11 +6770,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeVolumeAttributeAsync(
-        AwsEc2DescribeVolumeAttributeOptions? options = null,
+        AwsEc2DescribeVolumeAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumeAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6729,7 +6789,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumesModificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumesModificationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6744,7 +6804,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6759,7 +6819,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumeStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumeStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6770,11 +6830,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeVpcAttributeAsync(
-        AwsEc2DescribeVpcAttributeOptions? options = null,
+        AwsEc2DescribeVpcAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6789,7 +6849,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcBlockPublicAccessExclusionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcBlockPublicAccessExclusionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6804,7 +6864,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcBlockPublicAccessOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcBlockPublicAccessOptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6819,7 +6879,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcClassicLinkDnsSupportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcClassicLinkDnsSupportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6834,7 +6894,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcClassicLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcClassicLinkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6849,7 +6909,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEncryptionControlsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEncryptionControlsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6864,7 +6924,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6879,7 +6939,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointConnectionNotificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointConnectionNotificationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6894,7 +6954,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointConnectionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6909,7 +6969,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointServiceConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointServiceConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6920,11 +6980,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeVpcEndpointServicePermissionsAsync(
-        AwsEc2DescribeVpcEndpointServicePermissionsOptions? options = null,
+        AwsEc2DescribeVpcEndpointServicePermissionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointServicePermissionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6939,7 +6999,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointServicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6954,7 +7014,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6969,7 +7029,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcPeeringConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcPeeringConnectionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6984,7 +7044,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpcsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6999,7 +7059,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpnConcentratorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpnConcentratorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7014,7 +7074,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpnConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpnConnectionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7029,7 +7089,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpnGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVpnGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7040,11 +7100,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachClassicLinkVpcAsync(
-        AwsEc2DetachClassicLinkVpcOptions? options = null,
+        AwsEc2DetachClassicLinkVpcOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DetachClassicLinkVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7055,11 +7115,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachImageWatermarkAsync(
-        AwsEc2DetachImageWatermarkOptions? options = null,
+        AwsEc2DetachImageWatermarkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DetachImageWatermarkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7070,11 +7130,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachInternetGatewayAsync(
-        AwsEc2DetachInternetGatewayOptions? options = null,
+        AwsEc2DetachInternetGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DetachInternetGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7085,11 +7145,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachNetworkInterfaceAsync(
-        AwsEc2DetachNetworkInterfaceOptions? options = null,
+        AwsEc2DetachNetworkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DetachNetworkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7100,11 +7160,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachVerifiedAccessTrustProviderAsync(
-        AwsEc2DetachVerifiedAccessTrustProviderOptions? options = null,
+        AwsEc2DetachVerifiedAccessTrustProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DetachVerifiedAccessTrustProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7115,11 +7175,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachVolumeAsync(
-        AwsEc2DetachVolumeOptions? options = null,
+        AwsEc2DetachVolumeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DetachVolumeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7130,11 +7190,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachVpnGatewayAsync(
-        AwsEc2DetachVpnGatewayOptions? options = null,
+        AwsEc2DetachVpnGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DetachVpnGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7145,11 +7205,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableAddressTransferAsync(
-        AwsEc2DisableAddressTransferOptions? options = null,
+        AwsEc2DisableAddressTransferOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableAddressTransferOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7164,7 +7224,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableAllowedImagesSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableAllowedImagesSettingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7179,7 +7239,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableApplicationStatusCheckSuppressionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableApplicationStatusCheckSuppressionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7194,7 +7254,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableAwsNetworkPerformanceMetricSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableAwsNetworkPerformanceMetricSubscriptionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7209,7 +7269,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableCapacityManagerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableCapacityManagerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7224,7 +7284,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableEbsEncryptionByDefaultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableEbsEncryptionByDefaultOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7235,11 +7295,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableFastLaunchAsync(
-        AwsEc2DisableFastLaunchOptions? options = null,
+        AwsEc2DisableFastLaunchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableFastLaunchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7250,11 +7310,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableFastSnapshotRestoresAsync(
-        AwsEc2DisableFastSnapshotRestoresOptions? options = null,
+        AwsEc2DisableFastSnapshotRestoresOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableFastSnapshotRestoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7269,7 +7329,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableImageBlockPublicAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableImageBlockPublicAccessOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7280,11 +7340,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableImageDeprecationAsync(
-        AwsEc2DisableImageDeprecationOptions? options = null,
+        AwsEc2DisableImageDeprecationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableImageDeprecationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7295,11 +7355,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableImageDeregistrationProtectionAsync(
-        AwsEc2DisableImageDeregistrationProtectionOptions? options = null,
+        AwsEc2DisableImageDeregistrationProtectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableImageDeregistrationProtectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7310,11 +7370,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableImageAsync(
-        AwsEc2DisableImageOptions? options = null,
+        AwsEc2DisableImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7325,11 +7385,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableInstanceSqlHaStandbyDetectionsAsync(
-        AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions? options = null,
+        AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7340,11 +7400,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableIpamOrganizationAdminAccountAsync(
-        AwsEc2DisableIpamOrganizationAdminAccountOptions? options = null,
+        AwsEc2DisableIpamOrganizationAdminAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableIpamOrganizationAdminAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7355,11 +7415,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableIpamPolicyAsync(
-        AwsEc2DisableIpamPolicyOptions? options = null,
+        AwsEc2DisableIpamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableIpamPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7370,11 +7430,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableRouteServerPropagationAsync(
-        AwsEc2DisableRouteServerPropagationOptions? options = null,
+        AwsEc2DisableRouteServerPropagationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableRouteServerPropagationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7389,7 +7449,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableSerialConsoleAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableSerialConsoleAccessOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7404,7 +7464,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableSnapshotBlockPublicAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableSnapshotBlockPublicAccessOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7415,11 +7475,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableTransitGatewayRouteTablePropagationAsync(
-        AwsEc2DisableTransitGatewayRouteTablePropagationOptions? options = null,
+        AwsEc2DisableTransitGatewayRouteTablePropagationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableTransitGatewayRouteTablePropagationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7430,11 +7490,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableVgwRoutePropagationAsync(
-        AwsEc2DisableVgwRoutePropagationOptions? options = null,
+        AwsEc2DisableVgwRoutePropagationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableVgwRoutePropagationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7449,7 +7509,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableVpcClassicLinkDnsSupportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableVpcClassicLinkDnsSupportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7460,11 +7520,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableVpcClassicLinkAsync(
-        AwsEc2DisableVpcClassicLinkOptions? options = null,
+        AwsEc2DisableVpcClassicLinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisableVpcClassicLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7479,7 +7539,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateAddressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7490,11 +7550,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateApplicationStatusCheckAsync(
-        AwsEc2DisassociateApplicationStatusCheckOptions? options = null,
+        AwsEc2DisassociateApplicationStatusCheckOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateApplicationStatusCheckOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7505,11 +7565,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateCapacityReservationBillingOwnerAsync(
-        AwsEc2DisassociateCapacityReservationBillingOwnerOptions? options = null,
+        AwsEc2DisassociateCapacityReservationBillingOwnerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateCapacityReservationBillingOwnerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7520,11 +7580,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateClientVpnTargetNetworkAsync(
-        AwsEc2DisassociateClientVpnTargetNetworkOptions? options = null,
+        AwsEc2DisassociateClientVpnTargetNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateClientVpnTargetNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7535,11 +7595,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateEnclaveCertificateIamRoleAsync(
-        AwsEc2DisassociateEnclaveCertificateIamRoleOptions? options = null,
+        AwsEc2DisassociateEnclaveCertificateIamRoleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateEnclaveCertificateIamRoleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7550,11 +7610,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateIamInstanceProfileAsync(
-        AwsEc2DisassociateIamInstanceProfileOptions? options = null,
+        AwsEc2DisassociateIamInstanceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateIamInstanceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7565,11 +7625,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateInstanceEventWindowAsync(
-        AwsEc2DisassociateInstanceEventWindowOptions? options = null,
+        AwsEc2DisassociateInstanceEventWindowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateInstanceEventWindowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7580,11 +7640,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateIpamByoasnAsync(
-        AwsEc2DisassociateIpamByoasnOptions? options = null,
+        AwsEc2DisassociateIpamByoasnOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateIpamByoasnOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7595,11 +7655,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateIpamResourceDiscoveryAsync(
-        AwsEc2DisassociateIpamResourceDiscoveryOptions? options = null,
+        AwsEc2DisassociateIpamResourceDiscoveryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateIpamResourceDiscoveryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7610,11 +7670,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateNatGatewayAddressAsync(
-        AwsEc2DisassociateNatGatewayAddressOptions? options = null,
+        AwsEc2DisassociateNatGatewayAddressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateNatGatewayAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7625,11 +7685,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateRouteServerAsync(
-        AwsEc2DisassociateRouteServerOptions? options = null,
+        AwsEc2DisassociateRouteServerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateRouteServerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7640,11 +7700,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateRouteTableAsync(
-        AwsEc2DisassociateRouteTableOptions? options = null,
+        AwsEc2DisassociateRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7655,11 +7715,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateSecurityGroupVpcAsync(
-        AwsEc2DisassociateSecurityGroupVpcOptions? options = null,
+        AwsEc2DisassociateSecurityGroupVpcOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateSecurityGroupVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7670,11 +7730,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateSubnetCidrBlockAsync(
-        AwsEc2DisassociateSubnetCidrBlockOptions? options = null,
+        AwsEc2DisassociateSubnetCidrBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateSubnetCidrBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7685,11 +7745,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateTransitGatewayMulticastDomainAsync(
-        AwsEc2DisassociateTransitGatewayMulticastDomainOptions? options = null,
+        AwsEc2DisassociateTransitGatewayMulticastDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateTransitGatewayMulticastDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7700,11 +7760,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateTransitGatewayPolicyTableAsync(
-        AwsEc2DisassociateTransitGatewayPolicyTableOptions? options = null,
+        AwsEc2DisassociateTransitGatewayPolicyTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateTransitGatewayPolicyTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7715,11 +7775,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateTransitGatewayRouteTableAsync(
-        AwsEc2DisassociateTransitGatewayRouteTableOptions? options = null,
+        AwsEc2DisassociateTransitGatewayRouteTableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateTransitGatewayRouteTableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7730,11 +7790,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateTrunkInterfaceAsync(
-        AwsEc2DisassociateTrunkInterfaceOptions? options = null,
+        AwsEc2DisassociateTrunkInterfaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateTrunkInterfaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7745,11 +7805,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateVpcCidrBlockAsync(
-        AwsEc2DisassociateVpcCidrBlockOptions? options = null,
+        AwsEc2DisassociateVpcCidrBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DisassociateVpcCidrBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7760,11 +7820,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableAddressTransferAsync(
-        AwsEc2EnableAddressTransferOptions? options = null,
+        AwsEc2EnableAddressTransferOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableAddressTransferOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7775,11 +7835,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableAllowedImagesSettingsAsync(
-        AwsEc2EnableAllowedImagesSettingsOptions? options = null,
+        AwsEc2EnableAllowedImagesSettingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableAllowedImagesSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7794,7 +7854,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableApplicationStatusCheckSuppressionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableApplicationStatusCheckSuppressionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7809,7 +7869,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableAwsNetworkPerformanceMetricSubscriptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableAwsNetworkPerformanceMetricSubscriptionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7824,7 +7884,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableCapacityManagerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableCapacityManagerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7839,7 +7899,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableEbsEncryptionByDefaultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableEbsEncryptionByDefaultOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7850,11 +7910,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableFastLaunchAsync(
-        AwsEc2EnableFastLaunchOptions? options = null,
+        AwsEc2EnableFastLaunchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableFastLaunchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7865,11 +7925,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableFastSnapshotRestoresAsync(
-        AwsEc2EnableFastSnapshotRestoresOptions? options = null,
+        AwsEc2EnableFastSnapshotRestoresOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableFastSnapshotRestoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7880,11 +7940,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableImageBlockPublicAccessAsync(
-        AwsEc2EnableImageBlockPublicAccessOptions? options = null,
+        AwsEc2EnableImageBlockPublicAccessOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableImageBlockPublicAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7895,11 +7955,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableImageDeprecationAsync(
-        AwsEc2EnableImageDeprecationOptions? options = null,
+        AwsEc2EnableImageDeprecationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableImageDeprecationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7910,11 +7970,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableImageDeregistrationProtectionAsync(
-        AwsEc2EnableImageDeregistrationProtectionOptions? options = null,
+        AwsEc2EnableImageDeregistrationProtectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableImageDeregistrationProtectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7925,11 +7985,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableImageAsync(
-        AwsEc2EnableImageOptions? options = null,
+        AwsEc2EnableImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7940,11 +8000,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableInstanceSqlHaStandbyDetectionsAsync(
-        AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions? options = null,
+        AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7955,11 +8015,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableIpamInternetRegistryAssociationAsync(
-        AwsEc2EnableIpamInternetRegistryAssociationOptions? options = null,
+        AwsEc2EnableIpamInternetRegistryAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableIpamInternetRegistryAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7970,11 +8030,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableIpamOrganizationAdminAccountAsync(
-        AwsEc2EnableIpamOrganizationAdminAccountOptions? options = null,
+        AwsEc2EnableIpamOrganizationAdminAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableIpamOrganizationAdminAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -7985,11 +8045,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableIpamPolicyAsync(
-        AwsEc2EnableIpamPolicyOptions? options = null,
+        AwsEc2EnableIpamPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableIpamPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8004,7 +8064,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableReachabilityAnalyzerOrganizationSharingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableReachabilityAnalyzerOrganizationSharingOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8015,11 +8075,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableRouteServerPropagationAsync(
-        AwsEc2EnableRouteServerPropagationOptions? options = null,
+        AwsEc2EnableRouteServerPropagationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableRouteServerPropagationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8034,7 +8094,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableSerialConsoleAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableSerialConsoleAccessOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8045,11 +8105,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableSnapshotBlockPublicAccessAsync(
-        AwsEc2EnableSnapshotBlockPublicAccessOptions? options = null,
+        AwsEc2EnableSnapshotBlockPublicAccessOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableSnapshotBlockPublicAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8060,11 +8120,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableTransitGatewayRouteTablePropagationAsync(
-        AwsEc2EnableTransitGatewayRouteTablePropagationOptions? options = null,
+        AwsEc2EnableTransitGatewayRouteTablePropagationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableTransitGatewayRouteTablePropagationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8075,11 +8135,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableVgwRoutePropagationAsync(
-        AwsEc2EnableVgwRoutePropagationOptions? options = null,
+        AwsEc2EnableVgwRoutePropagationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableVgwRoutePropagationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8090,11 +8150,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableVolumeIoAsync(
-        AwsEc2EnableVolumeIoOptions? options = null,
+        AwsEc2EnableVolumeIoOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableVolumeIoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8109,7 +8169,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableVpcClassicLinkDnsSupportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableVpcClassicLinkDnsSupportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8120,11 +8180,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableVpcClassicLinkAsync(
-        AwsEc2EnableVpcClassicLinkOptions? options = null,
+        AwsEc2EnableVpcClassicLinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2EnableVpcClassicLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8135,11 +8195,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportClientVpnClientCertificateRevocationListAsync(
-        AwsEc2ExportClientVpnClientCertificateRevocationListOptions? options = null,
+        AwsEc2ExportClientVpnClientCertificateRevocationListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ExportClientVpnClientCertificateRevocationListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8150,11 +8210,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportClientVpnClientConfigurationAsync(
-        AwsEc2ExportClientVpnClientConfigurationOptions? options = null,
+        AwsEc2ExportClientVpnClientConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ExportClientVpnClientConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8165,11 +8225,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportImageAsync(
-        AwsEc2ExportImageOptions? options = null,
+        AwsEc2ExportImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ExportImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8180,11 +8240,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportTransitGatewayRoutesAsync(
-        AwsEc2ExportTransitGatewayRoutesOptions? options = null,
+        AwsEc2ExportTransitGatewayRoutesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ExportTransitGatewayRoutesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8195,11 +8255,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportVerifiedAccessInstanceClientConfigurationAsync(
-        AwsEc2ExportVerifiedAccessInstanceClientConfigurationOptions? options = null,
+        AwsEc2ExportVerifiedAccessInstanceClientConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ExportVerifiedAccessInstanceClientConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8210,11 +8270,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetActiveVpnTunnelStatusAsync(
-        AwsEc2GetActiveVpnTunnelStatusOptions? options = null,
+        AwsEc2GetActiveVpnTunnelStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetActiveVpnTunnelStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8229,7 +8289,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetAllowedImagesSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetAllowedImagesSettingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8240,11 +8300,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAssociatedEnclaveCertificateIamRolesAsync(
-        AwsEc2GetAssociatedEnclaveCertificateIamRolesOptions? options = null,
+        AwsEc2GetAssociatedEnclaveCertificateIamRolesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetAssociatedEnclaveCertificateIamRolesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8255,11 +8315,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAssociatedIpv6PoolCidrsAsync(
-        AwsEc2GetAssociatedIpv6PoolCidrsOptions? options = null,
+        AwsEc2GetAssociatedIpv6PoolCidrsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetAssociatedIpv6PoolCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8274,7 +8334,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetAwsNetworkPerformanceDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetAwsNetworkPerformanceDataOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8289,7 +8349,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCapacityManagerAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCapacityManagerAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8300,11 +8360,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCapacityManagerMetricDataAsync(
-        AwsEc2GetCapacityManagerMetricDataOptions? options = null,
+        AwsEc2GetCapacityManagerMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCapacityManagerMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8315,11 +8375,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCapacityManagerMetricDimensionsAsync(
-        AwsEc2GetCapacityManagerMetricDimensionsOptions? options = null,
+        AwsEc2GetCapacityManagerMetricDimensionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCapacityManagerMetricDimensionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8334,7 +8394,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCapacityManagerMonitoredTagKeysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCapacityManagerMonitoredTagKeysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8345,11 +8405,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCapacityReservationUsageAsync(
-        AwsEc2GetCapacityReservationUsageOptions? options = null,
+        AwsEc2GetCapacityReservationUsageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCapacityReservationUsageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8360,11 +8420,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCoipPoolUsageAsync(
-        AwsEc2GetCoipPoolUsageOptions? options = null,
+        AwsEc2GetCoipPoolUsageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetCoipPoolUsageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8375,11 +8435,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConsoleOutputAsync(
-        AwsEc2GetConsoleOutputOptions? options = null,
+        AwsEc2GetConsoleOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetConsoleOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8390,11 +8450,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConsoleScreenshotAsync(
-        AwsEc2GetConsoleScreenshotOptions? options = null,
+        AwsEc2GetConsoleScreenshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetConsoleScreenshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8405,11 +8465,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDeclarativePoliciesReportSummaryAsync(
-        AwsEc2GetDeclarativePoliciesReportSummaryOptions? options = null,
+        AwsEc2GetDeclarativePoliciesReportSummaryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetDeclarativePoliciesReportSummaryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8420,11 +8480,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDefaultCreditSpecificationAsync(
-        AwsEc2GetDefaultCreditSpecificationOptions? options = null,
+        AwsEc2GetDefaultCreditSpecificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetDefaultCreditSpecificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8439,7 +8499,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetEbsDefaultKmsKeyIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetEbsDefaultKmsKeyIdOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8454,7 +8514,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetEbsEncryptionByDefaultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetEbsEncryptionByDefaultOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8469,7 +8529,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetEnabledIpamPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetEnabledIpamPolicyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8480,11 +8540,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFlowLogsIntegrationTemplateAsync(
-        AwsEc2GetFlowLogsIntegrationTemplateOptions? options = null,
+        AwsEc2GetFlowLogsIntegrationTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetFlowLogsIntegrationTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8495,11 +8555,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGroupsForCapacityReservationAsync(
-        AwsEc2GetGroupsForCapacityReservationOptions? options = null,
+        AwsEc2GetGroupsForCapacityReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetGroupsForCapacityReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8510,11 +8570,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHostReservationPurchasePreviewAsync(
-        AwsEc2GetHostReservationPurchasePreviewOptions? options = null,
+        AwsEc2GetHostReservationPurchasePreviewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetHostReservationPurchasePreviewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8525,11 +8585,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetImageAncestryAsync(
-        AwsEc2GetImageAncestryOptions? options = null,
+        AwsEc2GetImageAncestryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetImageAncestryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8544,7 +8604,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetImageBlockPublicAccessStateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetImageBlockPublicAccessStateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8559,7 +8619,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetInstanceMetadataDefaultsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetInstanceMetadataDefaultsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8570,11 +8630,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceTpmEkPubAsync(
-        AwsEc2GetInstanceTpmEkPubOptions? options = null,
+        AwsEc2GetInstanceTpmEkPubOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetInstanceTpmEkPubOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8585,11 +8645,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceTypesFromInstanceRequirementsAsync(
-        AwsEc2GetInstanceTypesFromInstanceRequirementsOptions? options = null,
+        AwsEc2GetInstanceTypesFromInstanceRequirementsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetInstanceTypesFromInstanceRequirementsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8600,11 +8660,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceUefiDataAsync(
-        AwsEc2GetInstanceUefiDataOptions? options = null,
+        AwsEc2GetInstanceUefiDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetInstanceUefiDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8615,11 +8675,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamAddressHistoryAsync(
-        AwsEc2GetIpamAddressHistoryOptions? options = null,
+        AwsEc2GetIpamAddressHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamAddressHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8630,11 +8690,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamDiscoveredAccountsAsync(
-        AwsEc2GetIpamDiscoveredAccountsOptions? options = null,
+        AwsEc2GetIpamDiscoveredAccountsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamDiscoveredAccountsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8645,11 +8705,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamDiscoveredPublicAddressesAsync(
-        AwsEc2GetIpamDiscoveredPublicAddressesOptions? options = null,
+        AwsEc2GetIpamDiscoveredPublicAddressesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamDiscoveredPublicAddressesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8660,11 +8720,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamDiscoveredResourceCidrsAsync(
-        AwsEc2GetIpamDiscoveredResourceCidrsOptions? options = null,
+        AwsEc2GetIpamDiscoveredResourceCidrsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamDiscoveredResourceCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8675,11 +8735,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamDiscoveredRoutesAsync(
-        AwsEc2GetIpamDiscoveredRoutesOptions? options = null,
+        AwsEc2GetIpamDiscoveredRoutesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamDiscoveredRoutesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8690,11 +8750,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamInternetRegistryAssociationAsnsAsync(
-        AwsEc2GetIpamInternetRegistryAssociationAsnsOptions? options = null,
+        AwsEc2GetIpamInternetRegistryAssociationAsnsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamInternetRegistryAssociationAsnsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8705,11 +8765,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamInternetRegistryAssociationCidrsAsync(
-        AwsEc2GetIpamInternetRegistryAssociationCidrsOptions? options = null,
+        AwsEc2GetIpamInternetRegistryAssociationCidrsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamInternetRegistryAssociationCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8720,11 +8780,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamPolicyAllocationRulesAsync(
-        AwsEc2GetIpamPolicyAllocationRulesOptions? options = null,
+        AwsEc2GetIpamPolicyAllocationRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamPolicyAllocationRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8735,11 +8795,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamPolicyOrganizationTargetsAsync(
-        AwsEc2GetIpamPolicyOrganizationTargetsOptions? options = null,
+        AwsEc2GetIpamPolicyOrganizationTargetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamPolicyOrganizationTargetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8750,11 +8810,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamPoolAllocationsAsync(
-        AwsEc2GetIpamPoolAllocationsOptions? options = null,
+        AwsEc2GetIpamPoolAllocationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamPoolAllocationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8765,11 +8825,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamPoolCidrsAsync(
-        AwsEc2GetIpamPoolCidrsOptions? options = null,
+        AwsEc2GetIpamPoolCidrsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamPoolCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8780,11 +8840,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamPrefixListResolverRulesAsync(
-        AwsEc2GetIpamPrefixListResolverRulesOptions? options = null,
+        AwsEc2GetIpamPrefixListResolverRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamPrefixListResolverRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8795,11 +8855,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamPrefixListResolverVersionEntriesAsync(
-        AwsEc2GetIpamPrefixListResolverVersionEntriesOptions? options = null,
+        AwsEc2GetIpamPrefixListResolverVersionEntriesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamPrefixListResolverVersionEntriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8810,11 +8870,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamPrefixListResolverVersionsAsync(
-        AwsEc2GetIpamPrefixListResolverVersionsOptions? options = null,
+        AwsEc2GetIpamPrefixListResolverVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamPrefixListResolverVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8825,11 +8885,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamResourceCidrsAsync(
-        AwsEc2GetIpamResourceCidrsOptions? options = null,
+        AwsEc2GetIpamResourceCidrsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamResourceCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8840,11 +8900,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamRouteOriginAuthorizationsAsync(
-        AwsEc2GetIpamRouteOriginAuthorizationsOptions? options = null,
+        AwsEc2GetIpamRouteOriginAuthorizationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamRouteOriginAuthorizationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8855,11 +8915,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamRouteProtectionFindingsAsync(
-        AwsEc2GetIpamRouteProtectionFindingsOptions? options = null,
+        AwsEc2GetIpamRouteProtectionFindingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamRouteProtectionFindingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8870,11 +8930,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamRoutingPolicyRegistrationDeltasAsync(
-        AwsEc2GetIpamRoutingPolicyRegistrationDeltasOptions? options = null,
+        AwsEc2GetIpamRoutingPolicyRegistrationDeltasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamRoutingPolicyRegistrationDeltasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8885,11 +8945,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIpamRoutingPolicyRegistrationsAsync(
-        AwsEc2GetIpamRoutingPolicyRegistrationsOptions? options = null,
+        AwsEc2GetIpamRoutingPolicyRegistrationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetIpamRoutingPolicyRegistrationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8900,11 +8960,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLaunchTemplateDataAsync(
-        AwsEc2GetLaunchTemplateDataOptions? options = null,
+        AwsEc2GetLaunchTemplateDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetLaunchTemplateDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8915,11 +8975,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetManagedPrefixListAssociationsAsync(
-        AwsEc2GetManagedPrefixListAssociationsOptions? options = null,
+        AwsEc2GetManagedPrefixListAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetManagedPrefixListAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8930,11 +8990,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetManagedPrefixListEntriesAsync(
-        AwsEc2GetManagedPrefixListEntriesOptions? options = null,
+        AwsEc2GetManagedPrefixListEntriesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetManagedPrefixListEntriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8949,7 +9009,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetManagedResourceVisibilityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetManagedResourceVisibilityOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8960,11 +9020,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkInsightsAccessScopeAnalysisFindingsAsync(
-        AwsEc2GetNetworkInsightsAccessScopeAnalysisFindingsOptions? options = null,
+        AwsEc2GetNetworkInsightsAccessScopeAnalysisFindingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetNetworkInsightsAccessScopeAnalysisFindingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8975,11 +9035,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkInsightsAccessScopeContentAsync(
-        AwsEc2GetNetworkInsightsAccessScopeContentOptions? options = null,
+        AwsEc2GetNetworkInsightsAccessScopeContentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetNetworkInsightsAccessScopeContentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -8990,11 +9050,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPasswordDataAsync(
-        AwsEc2GetPasswordDataOptions? options = null,
+        AwsEc2GetPasswordDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetPasswordDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9005,11 +9065,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReservedInstancesExchangeQuoteAsync(
-        AwsEc2GetReservedInstancesExchangeQuoteOptions? options = null,
+        AwsEc2GetReservedInstancesExchangeQuoteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetReservedInstancesExchangeQuoteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9020,11 +9080,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouteServerAssociationsAsync(
-        AwsEc2GetRouteServerAssociationsOptions? options = null,
+        AwsEc2GetRouteServerAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetRouteServerAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9035,11 +9095,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouteServerPropagationsAsync(
-        AwsEc2GetRouteServerPropagationsOptions? options = null,
+        AwsEc2GetRouteServerPropagationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetRouteServerPropagationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9050,11 +9110,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouteServerRoutingDatabaseAsync(
-        AwsEc2GetRouteServerRoutingDatabaseOptions? options = null,
+        AwsEc2GetRouteServerRoutingDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetRouteServerRoutingDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9065,11 +9125,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSecurityGroupsForVpcAsync(
-        AwsEc2GetSecurityGroupsForVpcOptions? options = null,
+        AwsEc2GetSecurityGroupsForVpcOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetSecurityGroupsForVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9084,7 +9144,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetSerialConsoleAccessStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetSerialConsoleAccessStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9099,7 +9159,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetSnapshotBlockPublicAccessStateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetSnapshotBlockPublicAccessStateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9110,11 +9170,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSpotPlacementScoresAsync(
-        AwsEc2GetSpotPlacementScoresOptions? options = null,
+        AwsEc2GetSpotPlacementScoresOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetSpotPlacementScoresOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9125,11 +9185,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSubnetCidrReservationsAsync(
-        AwsEc2GetSubnetCidrReservationsOptions? options = null,
+        AwsEc2GetSubnetCidrReservationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetSubnetCidrReservationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9140,11 +9200,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayAttachmentPropagationsAsync(
-        AwsEc2GetTransitGatewayAttachmentPropagationsOptions? options = null,
+        AwsEc2GetTransitGatewayAttachmentPropagationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayAttachmentPropagationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9155,11 +9215,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayMeteringPolicyEntriesAsync(
-        AwsEc2GetTransitGatewayMeteringPolicyEntriesOptions? options = null,
+        AwsEc2GetTransitGatewayMeteringPolicyEntriesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayMeteringPolicyEntriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9170,11 +9230,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayMulticastDomainAssociationsAsync(
-        AwsEc2GetTransitGatewayMulticastDomainAssociationsOptions? options = null,
+        AwsEc2GetTransitGatewayMulticastDomainAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayMulticastDomainAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9185,11 +9245,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayPolicyTableAssociationsAsync(
-        AwsEc2GetTransitGatewayPolicyTableAssociationsOptions? options = null,
+        AwsEc2GetTransitGatewayPolicyTableAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayPolicyTableAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9200,11 +9260,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayPolicyTableEntriesAsync(
-        AwsEc2GetTransitGatewayPolicyTableEntriesOptions? options = null,
+        AwsEc2GetTransitGatewayPolicyTableEntriesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayPolicyTableEntriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9215,11 +9275,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayPrefixListReferencesAsync(
-        AwsEc2GetTransitGatewayPrefixListReferencesOptions? options = null,
+        AwsEc2GetTransitGatewayPrefixListReferencesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayPrefixListReferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9230,11 +9290,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayRouteTableAssociationsAsync(
-        AwsEc2GetTransitGatewayRouteTableAssociationsOptions? options = null,
+        AwsEc2GetTransitGatewayRouteTableAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayRouteTableAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9245,11 +9305,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayRouteTablePropagationsAsync(
-        AwsEc2GetTransitGatewayRouteTablePropagationsOptions? options = null,
+        AwsEc2GetTransitGatewayRouteTablePropagationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetTransitGatewayRouteTablePropagationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9260,11 +9320,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVerifiedAccessEndpointPolicyAsync(
-        AwsEc2GetVerifiedAccessEndpointPolicyOptions? options = null,
+        AwsEc2GetVerifiedAccessEndpointPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVerifiedAccessEndpointPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9275,11 +9335,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVerifiedAccessEndpointTargetsAsync(
-        AwsEc2GetVerifiedAccessEndpointTargetsOptions? options = null,
+        AwsEc2GetVerifiedAccessEndpointTargetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVerifiedAccessEndpointTargetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9290,11 +9350,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVerifiedAccessGroupPolicyAsync(
-        AwsEc2GetVerifiedAccessGroupPolicyOptions? options = null,
+        AwsEc2GetVerifiedAccessGroupPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVerifiedAccessGroupPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9305,11 +9365,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVpcResourcesBlockingEncryptionEnforcementAsync(
-        AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions? options = null,
+        AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9320,11 +9380,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVpnConnectionDeviceSampleConfigurationAsync(
-        AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions? options = null,
+        AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9339,7 +9399,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVpnConnectionDeviceTypesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVpnConnectionDeviceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9350,11 +9410,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVpnTunnelReplacementStatusAsync(
-        AwsEc2GetVpnTunnelReplacementStatusOptions? options = null,
+        AwsEc2GetVpnTunnelReplacementStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2GetVpnTunnelReplacementStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9365,11 +9425,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportClientVpnClientCertificateRevocationListAsync(
-        AwsEc2ImportClientVpnClientCertificateRevocationListOptions? options = null,
+        AwsEc2ImportClientVpnClientCertificateRevocationListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ImportClientVpnClientCertificateRevocationListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9384,7 +9444,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ImportImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ImportImageOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9395,11 +9455,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportKeyPairAsync(
-        AwsEc2ImportKeyPairOptions? options = null,
+        AwsEc2ImportKeyPairOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ImportKeyPairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9414,7 +9474,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ImportSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ImportSnapshotOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9429,7 +9489,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ListImagesInRecycleBinOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ListImagesInRecycleBinOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9444,7 +9504,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ListSnapshotsInRecycleBinOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ListSnapshotsInRecycleBinOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9459,7 +9519,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ListVolumesInRecycleBinOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ListVolumesInRecycleBinOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9470,11 +9530,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LockSnapshotAsync(
-        AwsEc2LockSnapshotOptions? options = null,
+        AwsEc2LockSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2LockSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9489,7 +9549,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyAccountVpcEncryptionControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyAccountVpcEncryptionControlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9500,11 +9560,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyAddressAttributeAsync(
-        AwsEc2ModifyAddressAttributeOptions? options = null,
+        AwsEc2ModifyAddressAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyAddressAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9515,11 +9575,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyApplicationStatusCheckAsync(
-        AwsEc2ModifyApplicationStatusCheckOptions? options = null,
+        AwsEc2ModifyApplicationStatusCheckOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyApplicationStatusCheckOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9530,11 +9590,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyAvailabilityZoneGroupAsync(
-        AwsEc2ModifyAvailabilityZoneGroupOptions? options = null,
+        AwsEc2ModifyAvailabilityZoneGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyAvailabilityZoneGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9545,11 +9605,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyCapacityReservationFleetAsync(
-        AwsEc2ModifyCapacityReservationFleetOptions? options = null,
+        AwsEc2ModifyCapacityReservationFleetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyCapacityReservationFleetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9560,11 +9620,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyCapacityReservationAsync(
-        AwsEc2ModifyCapacityReservationOptions? options = null,
+        AwsEc2ModifyCapacityReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyCapacityReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9575,11 +9635,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyClientVpnEndpointAsync(
-        AwsEc2ModifyClientVpnEndpointOptions? options = null,
+        AwsEc2ModifyClientVpnEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyClientVpnEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9590,11 +9650,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyDefaultCreditSpecificationAsync(
-        AwsEc2ModifyDefaultCreditSpecificationOptions? options = null,
+        AwsEc2ModifyDefaultCreditSpecificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyDefaultCreditSpecificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9605,11 +9665,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyEbsDefaultKmsKeyIdAsync(
-        AwsEc2ModifyEbsDefaultKmsKeyIdOptions? options = null,
+        AwsEc2ModifyEbsDefaultKmsKeyIdOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyEbsDefaultKmsKeyIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9620,11 +9680,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyFleetAsync(
-        AwsEc2ModifyFleetOptions? options = null,
+        AwsEc2ModifyFleetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyFleetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9635,11 +9695,26 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyFpgaImageAttributeAsync(
-        AwsEc2ModifyFpgaImageAttributeOptions? options = null,
+        AwsEc2ModifyFpgaImageAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyFpgaImageAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Modify the auto-placement setting of a Dedicated Host. When auto-place- ment is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-place- ment is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ModifyHostsAsync(
+        AwsEc2ModifyHostsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9650,11 +9725,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIdentityIdFormatAsync(
-        AwsEc2ModifyIdentityIdFormatOptions? options = null,
+        AwsEc2ModifyIdentityIdFormatOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIdentityIdFormatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9665,11 +9740,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIdFormatAsync(
-        AwsEc2ModifyIdFormatOptions? options = null,
+        AwsEc2ModifyIdFormatOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIdFormatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9680,11 +9755,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyImageAttributeAsync(
-        AwsEc2ModifyImageAttributeOptions? options = null,
+        AwsEc2ModifyImageAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyImageAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9695,11 +9770,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceAttributeAsync(
-        AwsEc2ModifyInstanceAttributeOptions? options = null,
+        AwsEc2ModifyInstanceAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9710,11 +9785,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceCapacityReservationAttributesAsync(
-        AwsEc2ModifyInstanceCapacityReservationAttributesOptions? options = null,
+        AwsEc2ModifyInstanceCapacityReservationAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceCapacityReservationAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9725,11 +9800,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceConnectEndpointAsync(
-        AwsEc2ModifyInstanceConnectEndpointOptions? options = null,
+        AwsEc2ModifyInstanceConnectEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceConnectEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9740,11 +9815,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceCpuOptionsAsync(
-        AwsEc2ModifyInstanceCpuOptionsOptions? options = null,
+        AwsEc2ModifyInstanceCpuOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceCpuOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9755,11 +9830,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceCreditSpecificationAsync(
-        AwsEc2ModifyInstanceCreditSpecificationOptions? options = null,
+        AwsEc2ModifyInstanceCreditSpecificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceCreditSpecificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9770,11 +9845,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceEventStartTimeAsync(
-        AwsEc2ModifyInstanceEventStartTimeOptions? options = null,
+        AwsEc2ModifyInstanceEventStartTimeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceEventStartTimeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9785,11 +9860,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceEventWindowAsync(
-        AwsEc2ModifyInstanceEventWindowOptions? options = null,
+        AwsEc2ModifyInstanceEventWindowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceEventWindowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9800,11 +9875,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceMaintenanceOptionsAsync(
-        AwsEc2ModifyInstanceMaintenanceOptionsOptions? options = null,
+        AwsEc2ModifyInstanceMaintenanceOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceMaintenanceOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9819,7 +9894,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceMetadataDefaultsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceMetadataDefaultsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9830,11 +9905,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceMetadataOptionsAsync(
-        AwsEc2ModifyInstanceMetadataOptionsOptions? options = null,
+        AwsEc2ModifyInstanceMetadataOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceMetadataOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9845,11 +9920,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstanceNetworkPerformanceOptionsAsync(
-        AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions? options = null,
+        AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9860,11 +9935,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyInstancePlacementAsync(
-        AwsEc2ModifyInstancePlacementOptions? options = null,
+        AwsEc2ModifyInstancePlacementOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyInstancePlacementOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9875,11 +9950,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamAsync(
-        AwsEc2ModifyIpamOptions? options = null,
+        AwsEc2ModifyIpamOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9890,11 +9965,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamPolicyAllocationRulesAsync(
-        AwsEc2ModifyIpamPolicyAllocationRulesOptions? options = null,
+        AwsEc2ModifyIpamPolicyAllocationRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamPolicyAllocationRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9905,11 +9980,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamPoolAllocationAsync(
-        AwsEc2ModifyIpamPoolAllocationOptions? options = null,
+        AwsEc2ModifyIpamPoolAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamPoolAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9920,11 +9995,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamPoolAsync(
-        AwsEc2ModifyIpamPoolOptions? options = null,
+        AwsEc2ModifyIpamPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9935,11 +10010,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamPrefixListResolverAsync(
-        AwsEc2ModifyIpamPrefixListResolverOptions? options = null,
+        AwsEc2ModifyIpamPrefixListResolverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamPrefixListResolverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9950,11 +10025,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamPrefixListResolverTargetAsync(
-        AwsEc2ModifyIpamPrefixListResolverTargetOptions? options = null,
+        AwsEc2ModifyIpamPrefixListResolverTargetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamPrefixListResolverTargetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9965,11 +10040,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamResourceCidrAsync(
-        AwsEc2ModifyIpamResourceCidrOptions? options = null,
+        AwsEc2ModifyIpamResourceCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamResourceCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9980,11 +10055,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamResourceDiscoveryAsync(
-        AwsEc2ModifyIpamResourceDiscoveryOptions? options = null,
+        AwsEc2ModifyIpamResourceDiscoveryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamResourceDiscoveryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9995,11 +10070,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamRoutingPolicyRegistrationAsync(
-        AwsEc2ModifyIpamRoutingPolicyRegistrationOptions? options = null,
+        AwsEc2ModifyIpamRoutingPolicyRegistrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamRoutingPolicyRegistrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10010,11 +10085,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIpamScopeAsync(
-        AwsEc2ModifyIpamScopeOptions? options = null,
+        AwsEc2ModifyIpamScopeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyIpamScopeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10029,7 +10104,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyLaunchTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyLaunchTemplateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10040,11 +10115,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyLocalGatewayRouteAsync(
-        AwsEc2ModifyLocalGatewayRouteOptions? options = null,
+        AwsEc2ModifyLocalGatewayRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyLocalGatewayRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10055,11 +10130,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyManagedPrefixListAsync(
-        AwsEc2ModifyManagedPrefixListOptions? options = null,
+        AwsEc2ModifyManagedPrefixListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyManagedPrefixListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10070,11 +10145,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyManagedResourceVisibilityAsync(
-        AwsEc2ModifyManagedResourceVisibilityOptions? options = null,
+        AwsEc2ModifyManagedResourceVisibilityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyManagedResourceVisibilityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10085,11 +10160,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyNetworkInterfaceAttributeAsync(
-        AwsEc2ModifyNetworkInterfaceAttributeOptions? options = null,
+        AwsEc2ModifyNetworkInterfaceAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyNetworkInterfaceAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10100,11 +10175,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyPrivateDnsNameOptionsAsync(
-        AwsEc2ModifyPrivateDnsNameOptionsOptions? options = null,
+        AwsEc2ModifyPrivateDnsNameOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyPrivateDnsNameOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10115,11 +10190,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyPublicIpDnsNameOptionsAsync(
-        AwsEc2ModifyPublicIpDnsNameOptionsOptions? options = null,
+        AwsEc2ModifyPublicIpDnsNameOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyPublicIpDnsNameOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10130,11 +10205,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyReservedInstancesAsync(
-        AwsEc2ModifyReservedInstancesOptions? options = null,
+        AwsEc2ModifyReservedInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyReservedInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10145,11 +10220,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyRouteServerAsync(
-        AwsEc2ModifyRouteServerOptions? options = null,
+        AwsEc2ModifyRouteServerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyRouteServerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10160,11 +10235,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifySecurityGroupRulesAsync(
-        AwsEc2ModifySecurityGroupRulesOptions? options = null,
+        AwsEc2ModifySecurityGroupRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifySecurityGroupRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10175,11 +10250,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifySnapshotAttributeAsync(
-        AwsEc2ModifySnapshotAttributeOptions? options = null,
+        AwsEc2ModifySnapshotAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifySnapshotAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10190,11 +10265,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifySnapshotTierAsync(
-        AwsEc2ModifySnapshotTierOptions? options = null,
+        AwsEc2ModifySnapshotTierOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifySnapshotTierOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10205,11 +10280,26 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifySpotFleetRequestAsync(
-        AwsEc2ModifySpotFleetRequestOptions? options = null,
+        AwsEc2ModifySpotFleetRequestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifySpotFleetRequestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. o To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOn- Launch and CustomerOwnedIpv4Pool . These two parameters act as a sin- gle attribute. o To modify a subnet on an Outpost server, set either EnableLniAtDevi- ceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the fol- lowing: o Outpost server...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ModifySubnetAttributeAsync(
+        AwsEc2ModifySubnetAttributeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10220,11 +10310,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTrafficMirrorFilterNetworkServicesAsync(
-        AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions? options = null,
+        AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10235,11 +10325,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTrafficMirrorFilterRuleAsync(
-        AwsEc2ModifyTrafficMirrorFilterRuleOptions? options = null,
+        AwsEc2ModifyTrafficMirrorFilterRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTrafficMirrorFilterRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10250,11 +10340,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTrafficMirrorSessionAsync(
-        AwsEc2ModifyTrafficMirrorSessionOptions? options = null,
+        AwsEc2ModifyTrafficMirrorSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTrafficMirrorSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10265,11 +10355,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTransitGatewayMeteringPolicyAsync(
-        AwsEc2ModifyTransitGatewayMeteringPolicyOptions? options = null,
+        AwsEc2ModifyTransitGatewayMeteringPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTransitGatewayMeteringPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10280,11 +10370,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTransitGatewayAsync(
-        AwsEc2ModifyTransitGatewayOptions? options = null,
+        AwsEc2ModifyTransitGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTransitGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10295,11 +10385,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTransitGatewayPolicyTableEntryAsync(
-        AwsEc2ModifyTransitGatewayPolicyTableEntryOptions? options = null,
+        AwsEc2ModifyTransitGatewayPolicyTableEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTransitGatewayPolicyTableEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10310,11 +10400,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTransitGatewayPrefixListReferenceAsync(
-        AwsEc2ModifyTransitGatewayPrefixListReferenceOptions? options = null,
+        AwsEc2ModifyTransitGatewayPrefixListReferenceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTransitGatewayPrefixListReferenceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10325,11 +10415,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyTransitGatewayVpcAttachmentAsync(
-        AwsEc2ModifyTransitGatewayVpcAttachmentOptions? options = null,
+        AwsEc2ModifyTransitGatewayVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyTransitGatewayVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10340,11 +10430,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVerifiedAccessEndpointAsync(
-        AwsEc2ModifyVerifiedAccessEndpointOptions? options = null,
+        AwsEc2ModifyVerifiedAccessEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVerifiedAccessEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10355,11 +10445,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVerifiedAccessEndpointPolicyAsync(
-        AwsEc2ModifyVerifiedAccessEndpointPolicyOptions? options = null,
+        AwsEc2ModifyVerifiedAccessEndpointPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVerifiedAccessEndpointPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10370,11 +10460,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVerifiedAccessGroupAsync(
-        AwsEc2ModifyVerifiedAccessGroupOptions? options = null,
+        AwsEc2ModifyVerifiedAccessGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVerifiedAccessGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10385,11 +10475,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVerifiedAccessGroupPolicyAsync(
-        AwsEc2ModifyVerifiedAccessGroupPolicyOptions? options = null,
+        AwsEc2ModifyVerifiedAccessGroupPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVerifiedAccessGroupPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10400,11 +10490,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVerifiedAccessInstanceLoggingConfigurationAsync(
-        AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions? options = null,
+        AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10415,11 +10505,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVerifiedAccessInstanceAsync(
-        AwsEc2ModifyVerifiedAccessInstanceOptions? options = null,
+        AwsEc2ModifyVerifiedAccessInstanceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVerifiedAccessInstanceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10430,11 +10520,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVerifiedAccessTrustProviderAsync(
-        AwsEc2ModifyVerifiedAccessTrustProviderOptions? options = null,
+        AwsEc2ModifyVerifiedAccessTrustProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVerifiedAccessTrustProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10445,11 +10535,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVolumeAttributeAsync(
-        AwsEc2ModifyVolumeAttributeOptions? options = null,
+        AwsEc2ModifyVolumeAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVolumeAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10460,11 +10550,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVolumeAsync(
-        AwsEc2ModifyVolumeOptions? options = null,
+        AwsEc2ModifyVolumeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVolumeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10475,11 +10565,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcAttributeAsync(
-        AwsEc2ModifyVpcAttributeOptions? options = null,
+        AwsEc2ModifyVpcAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10490,11 +10580,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcBlockPublicAccessExclusionAsync(
-        AwsEc2ModifyVpcBlockPublicAccessExclusionOptions? options = null,
+        AwsEc2ModifyVpcBlockPublicAccessExclusionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcBlockPublicAccessExclusionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10505,11 +10595,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcBlockPublicAccessOptionsAsync(
-        AwsEc2ModifyVpcBlockPublicAccessOptionsOptions? options = null,
+        AwsEc2ModifyVpcBlockPublicAccessOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcBlockPublicAccessOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10520,11 +10610,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcEncryptionControlAsync(
-        AwsEc2ModifyVpcEncryptionControlOptions? options = null,
+        AwsEc2ModifyVpcEncryptionControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcEncryptionControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10535,11 +10625,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcEndpointConnectionNotificationAsync(
-        AwsEc2ModifyVpcEndpointConnectionNotificationOptions? options = null,
+        AwsEc2ModifyVpcEndpointConnectionNotificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcEndpointConnectionNotificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10550,11 +10640,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcEndpointAsync(
-        AwsEc2ModifyVpcEndpointOptions? options = null,
+        AwsEc2ModifyVpcEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10565,11 +10655,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcEndpointPayerResponsibilityAsync(
-        AwsEc2ModifyVpcEndpointPayerResponsibilityOptions? options = null,
+        AwsEc2ModifyVpcEndpointPayerResponsibilityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcEndpointPayerResponsibilityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10580,11 +10670,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcEndpointServiceConfigurationAsync(
-        AwsEc2ModifyVpcEndpointServiceConfigurationOptions? options = null,
+        AwsEc2ModifyVpcEndpointServiceConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcEndpointServiceConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10595,11 +10685,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcEndpointServicePayerResponsibilityAsync(
-        AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions? options = null,
+        AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10610,11 +10700,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcEndpointServicePermissionsAsync(
-        AwsEc2ModifyVpcEndpointServicePermissionsOptions? options = null,
+        AwsEc2ModifyVpcEndpointServicePermissionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcEndpointServicePermissionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10625,11 +10715,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcPeeringConnectionOptionsAsync(
-        AwsEc2ModifyVpcPeeringConnectionOptionsOptions? options = null,
+        AwsEc2ModifyVpcPeeringConnectionOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcPeeringConnectionOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10640,11 +10730,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpcTenancyAsync(
-        AwsEc2ModifyVpcTenancyOptions? options = null,
+        AwsEc2ModifyVpcTenancyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpcTenancyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10655,11 +10745,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpnConnectionAsync(
-        AwsEc2ModifyVpnConnectionOptions? options = null,
+        AwsEc2ModifyVpnConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpnConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10670,11 +10760,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpnConnectionOptionsAsync(
-        AwsEc2ModifyVpnConnectionOptionsOptions? options = null,
+        AwsEc2ModifyVpnConnectionOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpnConnectionOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10685,11 +10775,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpnTunnelCertificateAsync(
-        AwsEc2ModifyVpnTunnelCertificateOptions? options = null,
+        AwsEc2ModifyVpnTunnelCertificateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpnTunnelCertificateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10700,11 +10790,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyVpnTunnelOptionsAsync(
-        AwsEc2ModifyVpnTunnelOptionsOptions? options = null,
+        AwsEc2ModifyVpnTunnelOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ModifyVpnTunnelOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10715,11 +10805,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MonitorInstancesAsync(
-        AwsEc2MonitorInstancesOptions? options = null,
+        AwsEc2MonitorInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2MonitorInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10730,11 +10820,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MoveAddressToVpcAsync(
-        AwsEc2MoveAddressToVpcOptions? options = null,
+        AwsEc2MoveAddressToVpcOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2MoveAddressToVpcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10745,11 +10835,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MoveByoipCidrToIpamAsync(
-        AwsEc2MoveByoipCidrToIpamOptions? options = null,
+        AwsEc2MoveByoipCidrToIpamOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2MoveByoipCidrToIpamOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10760,11 +10850,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MoveCapacityReservationInstancesAsync(
-        AwsEc2MoveCapacityReservationInstancesOptions? options = null,
+        AwsEc2MoveCapacityReservationInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2MoveCapacityReservationInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10775,11 +10865,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ProvisionByoipCidrAsync(
-        AwsEc2ProvisionByoipCidrOptions? options = null,
+        AwsEc2ProvisionByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ProvisionByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10790,11 +10880,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ProvisionIpamByoasnAsync(
-        AwsEc2ProvisionIpamByoasnOptions? options = null,
+        AwsEc2ProvisionIpamByoasnOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ProvisionIpamByoasnOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10805,11 +10895,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ProvisionIpamPoolCidrAsync(
-        AwsEc2ProvisionIpamPoolCidrOptions? options = null,
+        AwsEc2ProvisionIpamPoolCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ProvisionIpamPoolCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10820,11 +10910,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ProvisionPublicIpv4PoolCidrAsync(
-        AwsEc2ProvisionPublicIpv4PoolCidrOptions? options = null,
+        AwsEc2ProvisionPublicIpv4PoolCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ProvisionPublicIpv4PoolCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10835,11 +10925,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PurchaseCapacityBlockExtensionAsync(
-        AwsEc2PurchaseCapacityBlockExtensionOptions? options = null,
+        AwsEc2PurchaseCapacityBlockExtensionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2PurchaseCapacityBlockExtensionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10850,11 +10940,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PurchaseCapacityBlockAsync(
-        AwsEc2PurchaseCapacityBlockOptions? options = null,
+        AwsEc2PurchaseCapacityBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2PurchaseCapacityBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10865,11 +10955,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PurchaseHostReservationAsync(
-        AwsEc2PurchaseHostReservationOptions? options = null,
+        AwsEc2PurchaseHostReservationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2PurchaseHostReservationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10880,11 +10970,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PurchaseReservedInstancesOfferingAsync(
-        AwsEc2PurchaseReservedInstancesOfferingOptions? options = null,
+        AwsEc2PurchaseReservedInstancesOfferingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2PurchaseReservedInstancesOfferingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10895,11 +10985,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PurchaseScheduledInstancesAsync(
-        AwsEc2PurchaseScheduledInstancesOptions? options = null,
+        AwsEc2PurchaseScheduledInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2PurchaseScheduledInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10910,11 +11000,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RebootInstancesAsync(
-        AwsEc2RebootInstancesOptions? options = null,
+        AwsEc2RebootInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RebootInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10925,11 +11015,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterImageAsync(
-        AwsEc2RegisterImageOptions? options = null,
+        AwsEc2RegisterImageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RegisterImageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10940,11 +11030,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterInstanceEventNotificationAttributesAsync(
-        AwsEc2RegisterInstanceEventNotificationAttributesOptions? options = null,
+        AwsEc2RegisterInstanceEventNotificationAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RegisterInstanceEventNotificationAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10955,11 +11045,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterTransitGatewayMulticastGroupMembersAsync(
-        AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions? options = null,
+        AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10970,11 +11060,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterTransitGatewayMulticastGroupSourcesAsync(
-        AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions? options = null,
+        AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -10985,11 +11075,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectCapacityReservationBillingOwnershipAsync(
-        AwsEc2RejectCapacityReservationBillingOwnershipOptions? options = null,
+        AwsEc2RejectCapacityReservationBillingOwnershipOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectCapacityReservationBillingOwnershipOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11000,11 +11090,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectTransitGatewayClientVpnAttachmentAsync(
-        AwsEc2RejectTransitGatewayClientVpnAttachmentOptions? options = null,
+        AwsEc2RejectTransitGatewayClientVpnAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectTransitGatewayClientVpnAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11019,7 +11109,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectTransitGatewayMulticastDomainAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectTransitGatewayMulticastDomainAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11030,11 +11120,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectTransitGatewayPeeringAttachmentAsync(
-        AwsEc2RejectTransitGatewayPeeringAttachmentOptions? options = null,
+        AwsEc2RejectTransitGatewayPeeringAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectTransitGatewayPeeringAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11045,11 +11135,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectTransitGatewayVpcAttachmentAsync(
-        AwsEc2RejectTransitGatewayVpcAttachmentOptions? options = null,
+        AwsEc2RejectTransitGatewayVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectTransitGatewayVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11060,11 +11150,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectVpcEndpointConnectionsAsync(
-        AwsEc2RejectVpcEndpointConnectionsOptions? options = null,
+        AwsEc2RejectVpcEndpointConnectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectVpcEndpointConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11075,11 +11165,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectVpcPeeringConnectionAsync(
-        AwsEc2RejectVpcPeeringConnectionOptions? options = null,
+        AwsEc2RejectVpcPeeringConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RejectVpcPeeringConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11094,7 +11184,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReleaseAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReleaseAddressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11105,11 +11195,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReleaseHostsAsync(
-        AwsEc2ReleaseHostsOptions? options = null,
+        AwsEc2ReleaseHostsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReleaseHostsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11120,11 +11210,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReleaseIpamPoolAllocationAsync(
-        AwsEc2ReleaseIpamPoolAllocationOptions? options = null,
+        AwsEc2ReleaseIpamPoolAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReleaseIpamPoolAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11135,11 +11225,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceIamInstanceProfileAssociationAsync(
-        AwsEc2ReplaceIamInstanceProfileAssociationOptions? options = null,
+        AwsEc2ReplaceIamInstanceProfileAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceIamInstanceProfileAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11154,7 +11244,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceImageCriteriaInAllowedImagesSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceImageCriteriaInAllowedImagesSettingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11165,11 +11255,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceImageInstanceTypeSpecificationAsync(
-        AwsEc2ReplaceImageInstanceTypeSpecificationOptions? options = null,
+        AwsEc2ReplaceImageInstanceTypeSpecificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceImageInstanceTypeSpecificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11180,11 +11270,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceNetworkAclAssociationAsync(
-        AwsEc2ReplaceNetworkAclAssociationOptions? options = null,
+        AwsEc2ReplaceNetworkAclAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceNetworkAclAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11195,11 +11285,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceNetworkAclEntryAsync(
-        AwsEc2ReplaceNetworkAclEntryOptions? options = null,
+        AwsEc2ReplaceNetworkAclEntryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceNetworkAclEntryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11210,11 +11300,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceRouteAsync(
-        AwsEc2ReplaceRouteOptions? options = null,
+        AwsEc2ReplaceRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11225,11 +11315,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceRouteTableAssociationAsync(
-        AwsEc2ReplaceRouteTableAssociationOptions? options = null,
+        AwsEc2ReplaceRouteTableAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceRouteTableAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11240,11 +11330,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceTransitGatewayRouteAsync(
-        AwsEc2ReplaceTransitGatewayRouteOptions? options = null,
+        AwsEc2ReplaceTransitGatewayRouteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceTransitGatewayRouteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11255,11 +11345,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceVpnTunnelAsync(
-        AwsEc2ReplaceVpnTunnelOptions? options = null,
+        AwsEc2ReplaceVpnTunnelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReplaceVpnTunnelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11270,11 +11360,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReportInstanceStatusAsync(
-        AwsEc2ReportInstanceStatusOptions? options = null,
+        AwsEc2ReportInstanceStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ReportInstanceStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11285,11 +11375,26 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RequestSpotFleetAsync(
-        AwsEc2RequestSpotFleetOptions? options = null,
+        AwsEc2RequestSpotFleetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RequestSpotFleetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a Spot Instance request. For more information, see Work with Spot Instance in the Amazon EC2 User Guide . WARNING: We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for request- ing Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RequestSpotInstancesAsync(
+        AwsEc2RequestSpotInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RequestSpotInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11300,11 +11405,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetAddressAttributeAsync(
-        AwsEc2ResetAddressAttributeOptions? options = null,
+        AwsEc2ResetAddressAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetAddressAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11319,7 +11424,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetEbsDefaultKmsKeyIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetEbsDefaultKmsKeyIdOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11330,11 +11435,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetFpgaImageAttributeAsync(
-        AwsEc2ResetFpgaImageAttributeOptions? options = null,
+        AwsEc2ResetFpgaImageAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetFpgaImageAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11345,11 +11450,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetImageAttributeAsync(
-        AwsEc2ResetImageAttributeOptions? options = null,
+        AwsEc2ResetImageAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetImageAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11360,11 +11465,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetInstanceAttributeAsync(
-        AwsEc2ResetInstanceAttributeOptions? options = null,
+        AwsEc2ResetInstanceAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetInstanceAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11375,11 +11480,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetNetworkInterfaceAttributeAsync(
-        AwsEc2ResetNetworkInterfaceAttributeOptions? options = null,
+        AwsEc2ResetNetworkInterfaceAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetNetworkInterfaceAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11390,11 +11495,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetSnapshotAttributeAsync(
-        AwsEc2ResetSnapshotAttributeOptions? options = null,
+        AwsEc2ResetSnapshotAttributeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2ResetSnapshotAttributeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11405,11 +11510,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAddressToClassicAsync(
-        AwsEc2RestoreAddressToClassicOptions? options = null,
+        AwsEc2RestoreAddressToClassicOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RestoreAddressToClassicOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11420,11 +11525,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreImageFromRecycleBinAsync(
-        AwsEc2RestoreImageFromRecycleBinOptions? options = null,
+        AwsEc2RestoreImageFromRecycleBinOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RestoreImageFromRecycleBinOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11435,11 +11540,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreManagedPrefixListVersionAsync(
-        AwsEc2RestoreManagedPrefixListVersionOptions? options = null,
+        AwsEc2RestoreManagedPrefixListVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RestoreManagedPrefixListVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11450,11 +11555,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreSnapshotFromRecycleBinAsync(
-        AwsEc2RestoreSnapshotFromRecycleBinOptions? options = null,
+        AwsEc2RestoreSnapshotFromRecycleBinOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RestoreSnapshotFromRecycleBinOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11465,11 +11570,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreSnapshotTierAsync(
-        AwsEc2RestoreSnapshotTierOptions? options = null,
+        AwsEc2RestoreSnapshotTierOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RestoreSnapshotTierOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11480,11 +11585,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreVolumeFromRecycleBinAsync(
-        AwsEc2RestoreVolumeFromRecycleBinOptions? options = null,
+        AwsEc2RestoreVolumeFromRecycleBinOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RestoreVolumeFromRecycleBinOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11495,11 +11600,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevokeClientVpnIngressAsync(
-        AwsEc2RevokeClientVpnIngressOptions? options = null,
+        AwsEc2RevokeClientVpnIngressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RevokeClientVpnIngressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11510,11 +11615,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevokeSecurityGroupEgressAsync(
-        AwsEc2RevokeSecurityGroupEgressOptions? options = null,
+        AwsEc2RevokeSecurityGroupEgressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RevokeSecurityGroupEgressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11529,7 +11634,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RevokeSecurityGroupIngressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RevokeSecurityGroupIngressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11544,7 +11649,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RunInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RunInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11555,11 +11660,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RunScheduledInstancesAsync(
-        AwsEc2RunScheduledInstancesOptions? options = null,
+        AwsEc2RunScheduledInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2RunScheduledInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11570,11 +11675,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchLocalGatewayRoutesAsync(
-        AwsEc2SearchLocalGatewayRoutesOptions? options = null,
+        AwsEc2SearchLocalGatewayRoutesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2SearchLocalGatewayRoutesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11585,11 +11690,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchTransitGatewayMulticastGroupsAsync(
-        AwsEc2SearchTransitGatewayMulticastGroupsOptions? options = null,
+        AwsEc2SearchTransitGatewayMulticastGroupsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2SearchTransitGatewayMulticastGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11600,11 +11705,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchTransitGatewayRoutesAsync(
-        AwsEc2SearchTransitGatewayRoutesOptions? options = null,
+        AwsEc2SearchTransitGatewayRoutesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2SearchTransitGatewayRoutesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11615,11 +11720,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendDiagnosticInterruptAsync(
-        AwsEc2SendDiagnosticInterruptOptions? options = null,
+        AwsEc2SendDiagnosticInterruptOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2SendDiagnosticInterruptOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11630,11 +11735,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartDeclarativePoliciesReportAsync(
-        AwsEc2StartDeclarativePoliciesReportOptions? options = null,
+        AwsEc2StartDeclarativePoliciesReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2StartDeclarativePoliciesReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11645,11 +11750,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartInstancesAsync(
-        AwsEc2StartInstancesOptions? options = null,
+        AwsEc2StartInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2StartInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11660,11 +11765,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartNetworkInsightsAccessScopeAnalysisAsync(
-        AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions? options = null,
+        AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11675,11 +11780,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartNetworkInsightsAnalysisAsync(
-        AwsEc2StartNetworkInsightsAnalysisOptions? options = null,
+        AwsEc2StartNetworkInsightsAnalysisOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2StartNetworkInsightsAnalysisOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11690,11 +11795,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartVpcEndpointServicePrivateDnsVerificationAsync(
-        AwsEc2StartVpcEndpointServicePrivateDnsVerificationOptions? options = null,
+        AwsEc2StartVpcEndpointServicePrivateDnsVerificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2StartVpcEndpointServicePrivateDnsVerificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11705,11 +11810,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopInstancesAsync(
-        AwsEc2StopInstancesOptions? options = null,
+        AwsEc2StopInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2StopInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11720,11 +11825,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TerminateClientVpnConnectionsAsync(
-        AwsEc2TerminateClientVpnConnectionsOptions? options = null,
+        AwsEc2TerminateClientVpnConnectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2TerminateClientVpnConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11735,11 +11840,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TerminateInstancesAsync(
-        AwsEc2TerminateInstancesOptions? options = null,
+        AwsEc2TerminateInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2TerminateInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11750,11 +11855,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnassignIpv6AddressesAsync(
-        AwsEc2UnassignIpv6AddressesOptions? options = null,
+        AwsEc2UnassignIpv6AddressesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UnassignIpv6AddressesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11765,11 +11870,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnassignPrivateIpAddressesAsync(
-        AwsEc2UnassignPrivateIpAddressesOptions? options = null,
+        AwsEc2UnassignPrivateIpAddressesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UnassignPrivateIpAddressesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11780,11 +11885,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnassignPrivateNatGatewayAddressAsync(
-        AwsEc2UnassignPrivateNatGatewayAddressOptions? options = null,
+        AwsEc2UnassignPrivateNatGatewayAddressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UnassignPrivateNatGatewayAddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11795,11 +11900,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnlockSnapshotAsync(
-        AwsEc2UnlockSnapshotOptions? options = null,
+        AwsEc2UnlockSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UnlockSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11810,11 +11915,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnmonitorInstancesAsync(
-        AwsEc2UnmonitorInstancesOptions? options = null,
+        AwsEc2UnmonitorInstancesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UnmonitorInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11829,7 +11934,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateCapacityManagerMonitoredTagKeysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateCapacityManagerMonitoredTagKeysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11840,11 +11945,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCapacityManagerOrganizationsAccessAsync(
-        AwsEc2UpdateCapacityManagerOrganizationsAccessOptions? options = null,
+        AwsEc2UpdateCapacityManagerOrganizationsAccessOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateCapacityManagerOrganizationsAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11855,11 +11960,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateInterruptibleCapacityReservationAllocationAsync(
-        AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions? options = null,
+        AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11874,7 +11979,7 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateSecurityGroupRuleDescriptionsEgressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateSecurityGroupRuleDescriptionsEgressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11889,7 +11994,22 @@ public class AwsEc2 : IAwsEc2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateSecurityGroupRuleDescriptionsIngressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2UpdateSecurityGroupRuleDescriptionsIngressOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas for inbound or outbound rules per security group and security groups per network interface. Only authorized AWS services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ValidateSecurityGroupQuotasForInterfaceAsync(
+        AwsEc2ValidateSecurityGroupQuotasForInterfaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -11900,11 +12020,11 @@ public class AwsEc2 : IAwsEc2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WithdrawByoipCidrAsync(
-        AwsEc2WithdrawByoipCidrOptions? options = null,
+        AwsEc2WithdrawByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2WithdrawByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

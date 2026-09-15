@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "delete-user")]
-public record AwsTransferDeleteUserOptions : AwsOptions
+public record AwsTransferDeleteUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--server-id")]
-    public string? ServerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the user belonging to a file transfer protocol-enabled server you specify. No response returns from this operation. NOTE: When you delete a user from a server, the user's information is lost. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance that has the user assigned to it. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="UserName">A unique string that identifies a user that is being deleted from a server. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    public AwsTransferDeleteUserOptions(
+        string ServerId,
+        string UserName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+    }
+
+    private AwsTransferDeleteUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferDeleteUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferDeleteUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A system-assigned unique identifier for a server instance that has the user assigned to it. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--server-id")]
+    public string? ServerId { get; private init; }
+
+    /// <summary>
+    /// A unique string that identifies a user that is being deleted from a server. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "put-sip-media-application-logging-configuration")]
-public record AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions : AwsOptions
+public record AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the logging configuration for the specified SIP media applica- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SipMediaApplicationId">The SIP media application ID. Constraints: o pattern: .*\S.*</param>
+    public AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions(
+        string SipMediaApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SipMediaApplicationId);
+        this.SipMediaApplicationId = SipMediaApplicationId;
+    }
+
+    private AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The SIP media application ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--sip-media-application-id")]
-    public string? SipMediaApplicationId { get; set; }
+    public string? SipMediaApplicationId { get; private init; }
 
     /// <summary>
     /// The logging configuration for the specified SIP media application. EnableSipMediaApplicationMessageLogs -&gt; (boolean) Enables message logging for the specified SIP media application. Shorthand Syntax: EnableSipMediaApplicationMessageLogs=boolean JSON Syntax: { "EnableSipMediaApplicationMessageLogs": true|false }
@@ -35,5 +72,22 @@ public record AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

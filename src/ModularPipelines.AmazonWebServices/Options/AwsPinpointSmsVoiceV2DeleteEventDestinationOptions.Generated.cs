@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "delete-event-destination")]
-public record AwsPinpointSmsVoiceV2DeleteEventDestinationOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2DeleteEventDestinationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an existing event destination. An event destination is a location where you send response information about the messages that you send. For example, when a message is deliv- ered successfully, you can send information about that event to an Ama- zon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set or the configuration set's Amazon Resource Name (ARN) to remove the event destination from. The Con- figurateSetName and ConfigurationSetArn can be found using the De- scribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="EventDestinationName">The name of the event destination to delete. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+</param>
+    public AwsPinpointSmsVoiceV2DeleteEventDestinationOptions(
+        string ConfigurationSetName,
+        string EventDestinationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+        global::System.ArgumentNullException.ThrowIfNull(EventDestinationName);
+        this.EventDestinationName = EventDestinationName;
+    }
+
+    private AwsPinpointSmsVoiceV2DeleteEventDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteEventDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteEventDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set or the configuration set's Amazon Resource Name (ARN) to remove the event destination from. The Con- figurateSetName and ConfigurationSetArn can be found using the De- scribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--configuration-set-name")]
+    public string? ConfigurationSetName { get; private init; }
+
+    /// <summary>
+    /// The name of the event destination to delete. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+
+    /// </summary>
     [CliOption("--event-destination-name")]
-    public string? EventDestinationName { get; set; }
+    public string? EventDestinationName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

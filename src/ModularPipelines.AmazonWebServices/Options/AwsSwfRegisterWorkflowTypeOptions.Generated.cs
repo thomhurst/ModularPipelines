@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "register-workflow-type")]
-public record AwsSwfRegisterWorkflowTypeOptions : AwsOptions
+public record AwsSwfRegisterWorkflowTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers a new workflow type and its configuration settings in the specified domain. The retention period for the workflow history is set by the Register- Domain action. WARNING: If the type already exists, then a TypeAlreadyExists fault is returned. You cannot change the configuration settings of a workflow type once it is registered and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Re...
+    /// </summary>
+    /// <param name="Domain">The name of the domain in which to register the workflow type. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The name of the workflow type. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256</param>
+    /// <param name="WorkflowVersion">The version of the workflow type. NOTE: The workflow type consists of the name and version, the combina- tion of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflow- Types action. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64</param>
+    public AwsSwfRegisterWorkflowTypeOptions(
+        string Domain,
+        string Name,
+        string WorkflowVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowVersion);
+        this.WorkflowVersion = WorkflowVersion;
+    }
+
+    private AwsSwfRegisterWorkflowTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfRegisterWorkflowTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfRegisterWorkflowTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain in which to register the workflow type. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The name of the workflow type. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The version of the workflow type. NOTE: The workflow type consists of the name and version, the combina- tion of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflow- Types action. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--workflow-version")]
+    public string? WorkflowVersion { get; private init; }
 
     /// <summary>
     /// Textual description of the workflow type. Constraints: o max: 1024
@@ -70,13 +124,27 @@ public record AwsSwfRegisterWorkflowTypeOptions : AwsOptions
     [CliOption("--default-lambda-role")]
     public string? DefaultLambdaRole { get; set; }
 
-    [CliOption("--workflow-version")]
-    public string? WorkflowVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

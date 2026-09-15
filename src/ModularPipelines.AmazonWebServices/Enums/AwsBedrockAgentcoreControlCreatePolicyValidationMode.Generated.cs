@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --validationmode.
+/// Allowed values for --validation-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlCreatePolicyValidationMode
 {
     [EnumValue("FAIL_ON_ANY_FINDINGS")]
-    FailOnAnyFindings = 1,
+    FailOnAnyFindings,
 
     [EnumValue("IGNORE_ALL_FINDINGS")]
-    IgnoreAllFindings = 2
+    IgnoreAllFindings
 }

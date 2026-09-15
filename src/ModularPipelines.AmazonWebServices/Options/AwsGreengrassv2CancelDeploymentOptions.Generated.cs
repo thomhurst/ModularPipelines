@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrassv2", "cancel-deployment")]
-public record AwsGreengrassv2CancelDeploymentOptions : AwsOptions
+public record AwsGreengrassv2CancelDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deploy- ment, this operation doesn't change anything for that device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeploymentId">The ID of the deployment. Constraints: o min: 1</param>
+    public AwsGreengrassv2CancelDeploymentOptions(
+        string DeploymentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+    }
+
+    private AwsGreengrassv2CancelDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassv2CancelDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassv2CancelDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the deployment. Constraints: o min: 1
+    /// </summary>
     [CliOption("--deployment-id")]
-    public string? DeploymentId { get; set; }
+    public string? DeploymentId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

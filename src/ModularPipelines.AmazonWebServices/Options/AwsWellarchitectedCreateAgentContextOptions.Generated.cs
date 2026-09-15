@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "create-agent-context")]
-public record AwsWellarchitectedCreateAgentContextOptions : AwsOptions
+public record AwsWellarchitectedCreateAgentContextOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommenda- tion generation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile to associate the con- text with. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
+    /// <param name="Title">The title of the context. Constraints: o min: 1 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+</param>
+    /// <param name="ContextType">The type of the context. Possible values: o APPLICATION</param>
+    /// <param name="Content">The typed content of the context. The structure contains applica- tion-specific fields such as account IDs, Regions, services, and re- source types. accountIds -&gt; (list) The Amazon Web Services account IDs associated with this appli- cation context. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} regions -&gt; (list) The Amazon Web Services Regions where this application operates. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]{2}(-gov)?-[a-z]+-\d+ awsServices -&gt; (list) The Amazon Web Services services used by this application. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTypes -&gt; (list) The Amazon Web Services resource types relevant to this applica- tion. Constraints: o min: 0 o max: 1500 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTags -&gt; (list) Resource tags used to scope this application context. Constraints: o min: 0 o max: 20 (structure) A key-value pair representing a resource tag used to scope context content. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])* applicationOverview -&gt; (string) A free-form overview of the application. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* industry -&gt; (string) The industry vertical for this application. Constraints: o min: 0 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* applicationType -&gt; (string) The type of the application. Possible values: o SAS o DESKTOP_APPLICATION o OTHER criticality -&gt; (string) The business criticality of the application. Possible values: o MISSION_CRITICAL o BUSINESS_CRITICAL o NON_CRITICAL o TEST_DEVELOPMENT architectureOverview -&gt; (string) A free-form description of the application architecture. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* additionalContext -&gt; (string) Additional context not captured by other fields. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* Shorthand Syntax: accountIds=string,string,regions=string,string,awsServices=string,string,resourceTypes=string,string,resourceTags=[{key=string,value=string},{key=string,value=string}],applicationOverview=string,industry=string,applicationType=string,criticality=string,architectureOverview=string,additionalContext=string JSON Syntax: { "accountIds": ["string", ...], "regions": ["string", ...], "awsServices": ["string", ...], "resourceTypes": ["string", ...], "resourceTags": [ { "key": "string", "value": "string" } ... ], "applicationOverview": "string", "industry": "string", "applicationType": "SAS"|"DESKTOP_APPLICATION"|"OTHER", "criticality": "MISSION_CRITICAL"|"BUSINESS_CRITICAL"|"NON_CRITICAL"|"TEST_DEVELOPMENT", "architectureOverview": "string", "additionalContext": "string" }</param>
+    public AwsWellarchitectedCreateAgentContextOptions(
+        string ProfileArn,
+        string Title,
+        AwsWellarchitectedCreateAgentContextContextType ContextType,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileArn);
+        this.ProfileArn = ProfileArn;
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+        global::System.ArgumentNullException.ThrowIfNull(ContextType);
+        this.ContextType = ContextType;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsWellarchitectedCreateAgentContextOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedCreateAgentContextOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedCreateAgentContextOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the profile to associate the con- text with. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
+    /// </summary>
+    [CliOption("--profile-arn")]
+    public string? ProfileArn { get; private init; }
+
+    /// <summary>
+    /// The title of the context. Constraints: o min: 1 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
+    /// </summary>
+    [CliOption("--title")]
+    public string? Title { get; private init; }
+
+    /// <summary>
+    /// The type of the context. Possible values: o APPLICATION
+    /// </summary>
+    [CliOption("--context-type")]
+    public AwsWellarchitectedCreateAgentContextContextType? ContextType { get; private init; }
+
+    /// <summary>
+    /// The typed content of the context. The structure contains applica- tion-specific fields such as account IDs, Regions, services, and re- source types. accountIds -&gt; (list) The Amazon Web Services account IDs associated with this appli- cation context. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} regions -&gt; (list) The Amazon Web Services Regions where this application operates. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]{2}(-gov)?-[a-z]+-\d+ awsServices -&gt; (list) The Amazon Web Services services used by this application. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTypes -&gt; (list) The Amazon Web Services resource types relevant to this applica- tion. Constraints: o min: 0 o max: 1500 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTags -&gt; (list) Resource tags used to scope this application context. Constraints: o min: 0 o max: 20 (structure) A key-value pair representing a resource tag used to scope context content. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])* applicationOverview -&gt; (string) A free-form overview of the application. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* industry -&gt; (string) The industry vertical for this application. Constraints: o min: 0 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* applicationType -&gt; (string) The type of the application. Possible values: o SAS o DESKTOP_APPLICATION o OTHER criticality -&gt; (string) The business criticality of the application. Possible values: o MISSION_CRITICAL o BUSINESS_CRITICAL o NON_CRITICAL o TEST_DEVELOPMENT architectureOverview -&gt; (string) A free-form description of the application architecture. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* additionalContext -&gt; (string) Additional context not captured by other fields. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* Shorthand Syntax: accountIds=string,string,regions=string,string,awsServices=string,string,resourceTypes=string,string,resourceTags=[{key=string,value=string},{key=string,value=string}],applicationOverview=string,industry=string,applicationType=string,criticality=string,architectureOverview=string,additionalContext=string JSON Syntax: { "accountIds": ["string", ...], "regions": ["string", ...], "awsServices": ["string", ...], "resourceTypes": ["string", ...], "resourceTags": [ { "key": "string", "value": "string" } ... ], "applicationOverview": "string", "industry": "string", "applicationType": "SAS"|"DESKTOP_APPLICATION"|"OTHER", "criticality": "MISSION_CRITICAL"|"BUSINESS_CRITICAL"|"NON_CRITICAL"|"TEST_DEVELOPMENT", "architectureOverview": "string", "additionalContext": "string" }
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
     /// </summary>
@@ -29,22 +100,27 @@ public record AwsWellarchitectedCreateAgentContextOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--profile-arn")]
-    public string? ProfileArn { get; set; }
-
-    [CliOption("--title")]
-    public string? Title { get; set; }
-
-    [CliOption("--context-type")]
-    public string? ContextType { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

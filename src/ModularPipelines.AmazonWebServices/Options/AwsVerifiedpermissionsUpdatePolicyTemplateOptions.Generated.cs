@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "update-policy-template")]
-public record AwsVerifiedpermissionsUpdatePolicyTemplateOptions : AwsOptions
+public record AwsVerifiedpermissionsUpdatePolicyTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-store-id")]
-    public string? PolicyStoreId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the specified policy template. You can update only the descrip- tion and the some elements of the policyBody . WARNING: Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in autho- rization decisions that involve all template-linked policies instan- tiated from this template. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the servi...
+    /// </summary>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy tem- plate that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyTemplateId">Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: o ID: PTEXAMPLEabcdefg111111 o Name: name/example-policy-template Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="Statement">Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body: o The action referenced by the policy template. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o The effect (permit or forbid ) of the policy template. o The principal referenced by the policy template. o The resource referenced by the policy template. Constraints: o min: 1</param>
+    public AwsVerifiedpermissionsUpdatePolicyTemplateOptions(
+        string PolicyStoreId,
+        string PolicyTemplateId,
+        string Statement
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyStoreId);
+        this.PolicyStoreId = PolicyStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyTemplateId);
+        this.PolicyTemplateId = PolicyTemplateId;
+        global::System.ArgumentNullException.ThrowIfNull(Statement);
+        this.Statement = Statement;
+    }
+
+    private AwsVerifiedpermissionsUpdatePolicyTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsUpdatePolicyTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsUpdatePolicyTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of the policy store that contains the policy tem- plate that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
+    [CliOption("--policy-store-id")]
+    public string? PolicyStoreId { get; private init; }
+
+    /// <summary>
+    /// Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: o ID: PTEXAMPLEabcdefg111111 o Name: name/example-policy-template Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
     [CliOption("--policy-template-id")]
-    public string? PolicyTemplateId { get; set; }
+    public string? PolicyTemplateId { get; private init; }
+
+    /// <summary>
+    /// Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body: o The action referenced by the policy template. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o The effect (permit or forbid ) of the policy template. o The principal referenced by the policy template. o The resource referenced by the policy template. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--statement")]
+    public string? Statement { get; private init; }
 
     /// <summary>
     /// Specifies a new description to apply to the policy template. Constraints: o min: 0 o max: 150
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--statement")]
-    public string? Statement { get; set; }
 
     /// <summary>
     /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/ . NOTE: If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("" ). If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error. Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*
@@ -47,5 +98,22 @@ public record AwsVerifiedpermissionsUpdatePolicyTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

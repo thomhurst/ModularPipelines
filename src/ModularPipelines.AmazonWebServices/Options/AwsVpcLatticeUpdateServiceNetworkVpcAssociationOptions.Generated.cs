@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "update-service-network-vpc-association")]
-public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOptions
+public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit secu- rity groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceNetworkVpcAssociationIdentifier">The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassocia- tion/snva-[0-9a-z]{17}))</param>
+    public AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions(
+        string ServiceNetworkVpcAssociationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceNetworkVpcAssociationIdentifier);
+        this.ServiceNetworkVpcAssociationIdentifier = ServiceNetworkVpcAssociationIdentifier;
+    }
+
+    private AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassocia- tion/snva-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--service-network-vpc-association-identifier")]
-    public string? ServiceNetworkVpcAssociationIdentifier { get; set; }
+    public string? ServiceNetworkVpcAssociationIdentifier { get; private init; }
 
     /// <summary>
     /// The IDs of the security groups. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
@@ -30,7 +67,10 @@ public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOption
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
-    [CliFlag("--private-dns-enabled")]
+    /// <summary>
+    /// Indicates if private DNS is enabled for the VPC association.
+    /// </summary>
+    [CliFlag("--private-dns-enabled", NegatedName = "--no-private-dns-enabled")]
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>
@@ -44,5 +84,22 @@ public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

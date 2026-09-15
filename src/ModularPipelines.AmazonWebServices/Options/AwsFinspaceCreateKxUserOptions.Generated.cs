@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "create-kx-user")]
-public record AwsFinspaceCreateKxUserOptions : AwsOptions
+public record AwsFinspaceCreateKxUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user in FinSpace kdb environment with an associated IAM role. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment where you want to create a user. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    /// <param name="UserName">A unique identifier for the user. Constraints: o min: 1 o max: 50 o pattern: ^[0-9A-Za-z_-]{1,50}$</param>
+    /// <param name="IamRole">The IAM role ARN that will be associated with the user. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$</param>
+    public AwsFinspaceCreateKxUserOptions(
+        string EnvironmentId,
+        string UserName,
+        string IamRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(IamRole);
+        this.IamRole = IamRole;
+    }
+
+    private AwsFinspaceCreateKxUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceCreateKxUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceCreateKxUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment where you want to create a user. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the user. Constraints: o min: 1 o max: 50 o pattern: ^[0-9A-Za-z_-]{1,50}$
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
+    /// <summary>
+    /// The IAM role ARN that will be associated with the user. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$
+    /// </summary>
     [CliOption("--iam-role")]
-    public string? IamRole { get; set; }
+    public string? IamRole { get; private init; }
 
     /// <summary>
     /// A list of key-value pairs to label the user. You can add up to 50 tags to a user. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -50,5 +101,22 @@ public record AwsFinspaceCreateKxUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

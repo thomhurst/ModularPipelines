@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-glossary-term")]
-public record AwsGlueCreateGlossaryTermOptions : AwsOptions
+public record AwsGlueCreateGlossaryTermOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--glossary-identifier")]
-    public string? GlossaryIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a glossary term within a business glossary in Glue Data Cata- log. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlossaryIdentifier">The unique identifier of the glossary in which to create the term.</param>
+    /// <param name="Name">The name of the glossary term. Constraints: o min: 1 o max: 256</param>
+    public AwsGlueCreateGlossaryTermOptions(
+        string GlossaryIdentifier,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlossaryIdentifier);
+        this.GlossaryIdentifier = GlossaryIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsGlueCreateGlossaryTermOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateGlossaryTermOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateGlossaryTermOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the glossary in which to create the term.
+    /// </summary>
+    [CliOption("--glossary-identifier")]
+    public string? GlossaryIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the glossary term. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A short description of the glossary term. Constraints: o min: 1 o max: 1024
@@ -52,5 +96,22 @@ public record AwsGlueCreateGlossaryTermOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

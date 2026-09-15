@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "associate-permission")]
-public record AwsQbusinessAssociatePermissionOptions : AwsOptions
+public record AwsQbusinessAssociatePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or updates a permission policy for a Amazon Q Business applica- tion, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="StatementId">A unique identifier for the policy statement. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Actions">The list of Amazon Q Business actions that the ISV is allowed to perform. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: qbusiness:[a-zA-Z]+ Syntax: "string" "string" ...</param>
+    /// <param name="Principal">The Amazon Resource Name of the IAM role for the ISV that is being granted permission. Constraints: o min: 1 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+</param>
+    public AwsQbusinessAssociatePermissionOptions(
+        string ApplicationId,
+        string StatementId,
+        IEnumerable<string> Actions,
+        string Principal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        global::System.ArgumentNullException.ThrowIfNull(Principal);
+        this.Principal = Principal;
+    }
+
+    private AwsQbusinessAssociatePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessAssociatePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessAssociatePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the policy statement. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
+    /// <summary>
+    /// The list of Amazon Q Business actions that the ISV is allowed to perform. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: qbusiness:[a-zA-Z]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
+    public IEnumerable<string>? Actions { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name of the IAM role for the ISV that is being granted permission. Constraints: o min: 1 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+
+    /// </summary>
+    [CliOption("--principal")]
+    public string? Principal { get; private init; }
 
     /// <summary>
     /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific at- tributes of the request. Constraints: o min: 1 o max: 10 (structure) Defines a condition that restricts when a permission is effec- tive. Conditions allow you to control access based on specific attributes of the request. conditionOperator -&gt; (string) [required] The operator to use for the condition evaluation. This deter- mines how the condition values are compared. Possible values: o StringEquals conditionKey -&gt; (string) [required] The key for the condition. This identifies the attribute that the condition applies to. Constraints: o pattern: aws:[a-zA-Z][a-zA-Z0-9-/:]* conditionValues -&gt; (list) [required] The values to compare against using the specified condition operator. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]* Shorthand Syntax: conditionOperator=string,conditionKey=string,conditionValues=string,string ... JSON Syntax: [ { "conditionOperator": "StringEquals", "conditionKey": "string", "conditionValues": ["string", ...] } ... ]
@@ -36,13 +108,27 @@ public record AwsQbusinessAssociatePermissionOptions : AwsOptions
     [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }
 
-    [CliOption("--principal")]
-    public string? Principal { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

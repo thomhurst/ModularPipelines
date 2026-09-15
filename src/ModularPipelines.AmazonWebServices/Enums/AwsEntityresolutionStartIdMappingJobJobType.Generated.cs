@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobtype.
+/// Allowed values for --job-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEntityresolutionStartIdMappingJobJobType
 {
     [EnumValue("BATCH")]
-    Batch = 1,
-
-    [EnumValue("INCREMENTAL")]
-    Incremental = 2,
+    Batch,
 
     [EnumValue("DELETE_ONLY")]
-    DeleteOnly = 3
+    DeleteOnly,
+
+    [EnumValue("INCREMENTAL")]
+    Incremental
 }

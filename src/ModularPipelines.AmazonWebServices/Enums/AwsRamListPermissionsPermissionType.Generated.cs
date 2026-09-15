@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --permissiontype.
+/// Allowed values for --permission-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRamListPermissionsPermissionType
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("AWS_MANAGED")]
-    AwsManaged = 2,
+    AwsManaged,
 
     [EnumValue("CUSTOMER_MANAGED")]
-    CustomerManaged = 3
+    CustomerManaged
 }

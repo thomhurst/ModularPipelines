@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "update-task-protection")]
-public record AwsEcsUpdateTaskProtectionOptions : AwsOptions
+public record AwsEcsUpdateTaskProtectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the protection status of a task. You can set protectionEnabled to true to protect your task from termination during scale-in events from Service Autoscaling or deployments . Task-protection, by default, expires after 2 hours at which point Ama- zon ECS clears the protectionEnabled property making the task eligible for termination by a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to 2,880 minutes (48 hours). To specify the c...
+    /// </summary>
+    /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.</param>
+    /// <param name="Tasks">A list of up to 10 task IDs or full ARN entries. (string) Syntax: "string" "string" ...</param>
+    /// <param name="ProtectionEnabled">Specify true to mark a task for protection and false to unset pro- tection, making it eligible for termination.</param>
+    public AwsEcsUpdateTaskProtectionOptions(
+        string Cluster,
+        IEnumerable<string> Tasks,
+        bool ProtectionEnabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tasks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tasks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tasks));
+            }
+
+            Tasks = materialized;
+        }
+        this.Tasks = Tasks;
+        this.ProtectionEnabled = ProtectionEnabled;
+    }
+
+    private AwsEcsUpdateTaskProtectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsUpdateTaskProtectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsUpdateTaskProtectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
+    /// </summary>
     [CliOption("--cluster")]
-    public string? Cluster { get; set; }
+    public string? Cluster { get; private init; }
 
+    /// <summary>
+    /// A list of up to 10 task IDs or full ARN entries. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--tasks", GroupValues = true)]
-    public IEnumerable<string>? Tasks { get; set; }
+    public IEnumerable<string>? Tasks { get; private init; }
 
-    [CliFlag("--protection-enabled")]
-    public bool? ProtectionEnabled { get; set; }
+    /// <summary>
+    /// Specify true to mark a task for protection and false to unset pro- tection, making it eligible for termination.
+    /// </summary>
+    [CliFlag("--protection-enabled", NegatedName = "--no-protection-enabled")]
+    public bool? ProtectionEnabled { get; private init; }
 
     /// <summary>
     /// If you set protectionEnabled to true , you can specify the duration for task protection in minutes. You can specify a value from 1 minute to up to 2,880 minutes (48 hours). During this time, your task will not be terminated by scale-in events from Service Auto Scaling or deployments. After this time period lapses, protectionEn- abled will be reset to false . If you dont specify the time, then the task is automatically pro- tected for 120 minutes (2 hours).
@@ -41,5 +102,22 @@ public record AwsEcsUpdateTaskProtectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

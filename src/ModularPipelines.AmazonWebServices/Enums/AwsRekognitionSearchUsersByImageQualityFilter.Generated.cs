@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --qualityfilter.
+/// Allowed values for --quality-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRekognitionSearchUsersByImageQualityFilter
 {
-    [EnumValue("NONE")]
-    None = 1,
-
     [EnumValue("AUTO")]
-    Auto = 2,
-
-    [EnumValue("LOW")]
-    Low = 3,
-
-    [EnumValue("MEDIUM")]
-    Medium = 4,
+    Auto,
 
     [EnumValue("HIGH")]
-    High = 5
+    High,
+
+    [EnumValue("LOW")]
+    Low,
+
+    [EnumValue("MEDIUM")]
+    Medium,
+
+    [EnumValue("NONE")]
+    None
 }

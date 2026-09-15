@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "reset-user-password")]
-public record AwsDsResetUserPasswordOptions : AwsOptions
+public record AwsDsResetUserPasswordOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenti- cated following the API call. You can reset the password for any user in your directory with the fol- lowing exceptions: o For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user. o For Managed Microsoft AD, you can only reset the password for a user...
+    /// </summary>
+    /// <param name="DirectoryId">Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="UserName">The user name of the user whose password will be reset. Constraints: o min: 1 o max: 64 o pattern: ^(?!.*\\|.*"|.*\/|.*\[|.*\]|.*:|.*;|.*\||.*=|.*,|.*\+|.*\*|.*\?|.*&lt;|.*&gt;|.*@).*$</param>
+    /// <param name="NewPassword">The new password that will be reset. Constraints: o min: 1 o max: 127</param>
+    public AwsDsResetUserPasswordOptions(
+        string DirectoryId,
+        string UserName,
+        string NewPassword
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(NewPassword);
+        this.NewPassword = NewPassword;
+    }
+
+    private AwsDsResetUserPasswordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsResetUserPasswordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsResetUserPasswordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
+    /// <summary>
+    /// The user name of the user whose password will be reset. Constraints: o min: 1 o max: 64 o pattern: ^(?!.*\\|.*"|.*\/|.*\[|.*\]|.*:|.*;|.*\||.*=|.*,|.*\+|.*\*|.*\?|.*&lt;|.*&gt;|.*@).*$
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
+    /// <summary>
+    /// The new password that will be reset. Constraints: o min: 1 o max: 127
+    /// </summary>
     [SecretValue]
     [CliOption("--new-password")]
-    public string? NewPassword { get; set; }
+    public string? NewPassword { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

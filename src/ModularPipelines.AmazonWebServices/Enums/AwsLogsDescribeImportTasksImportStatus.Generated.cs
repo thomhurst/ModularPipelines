@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --importstatus.
+/// Allowed values for --import-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsDescribeImportTasksImportStatus
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
-
     [EnumValue("CANCELLED")]
-    Cancelled = 2,
+    Cancelled,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress
 }

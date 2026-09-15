@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-mitigation-action")]
-public record AwsIotCreateMitigationActionOptions : AwsOptions
+public record AwsIotCreateMitigationActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Defines an action that can be applied to audit findings by using Star- tAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see Mitigation actions . Each mitigation action can apply only one type of change. Requires permission to access the CreateMitigationAction action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActionName">A friendly name for the action. Choose a friendly name that accu- rately describes the action (for example, EnableLoggingAction ). Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="RoleArn">The ARN of the IAM role that is used to apply the mitigation action. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ActionParams">Defines the type of action and the parameters for that action. updateDeviceCertificateParams -&gt; (structure) Parameters to define a mitigation action that changes the state of the device certificate to inactive. action -&gt; (string) [required] The action that you want to apply to the device certificate. The only supported value is DEACTIVATE . Possible values: o DEACTIVATE updateCACertificateParams -&gt; (structure) Parameters to define a mitigation action that changes the state of the CA certificate to inactive. action -&gt; (string) [required] The action that you want to apply to the CA certificate. The only supported value is DEACTIVATE . Possible values: o DEACTIVATE addThingsToThingGroupParams -&gt; (structure) Parameters to define a mitigation action that moves devices as- sociated with a certificate to one or more specified thing groups, typically for quarantine. thingGroupNames -&gt; (list) [required] The list of groups to which you want to add the things that triggered the mitigation action. You can add a thing to a maximum of 10 groups, but you can't add a thing to more than one group in the same hierarchy. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ overrideDynamicGroups -&gt; (boolean) Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic thing groups. replaceDefaultPolicyVersionParams -&gt; (structure) Parameters to define a mitigation action that adds a blank pol- icy to restrict permissions. templateName -&gt; (string) [required] The name of the template to be applied. The only supported value is BLANK_POLICY . Possible values: o BLANK_POLICY enableIoTLoggingParams -&gt; (structure) Parameters to define a mitigation action that enables Amazon Web Services IoT Core logging at a specified level of detail. roleArnForLogging -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role used for log- ging. Constraints: o min: 20 o max: 2048 logLevel -&gt; (string) [required] Specifies the type of information to be logged. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED publishFindingToSnsParams -&gt; (structure) Parameters to define a mitigation action that publishes findings to Amazon Simple Notification Service (Amazon SNS. You can im- plement your own custom actions in response to the Amazon SNS messages. topicArn -&gt; (string) [required] The ARN of the topic to which you want to publish the find- ings. Constraints: o max: 350 Shorthand Syntax: updateDeviceCertificateParams={action=string},updateCACertificateParams={action=string},addThingsToThingGroupParams={thingGroupNames=[string,string],overrideDynamicGroups=boolean},replaceDefaultPolicyVersionParams={templateName=string},enableIoTLoggingParams={roleArnForLogging=string,logLevel=string},publishFindingToSnsParams={topicArn=string} JSON Syntax: { "updateDeviceCertificateParams": { "action": "DEACTIVATE" }, "updateCACertificateParams": { "action": "DEACTIVATE" }, "addThingsToThingGroupParams": { "thingGroupNames": ["string", ...], "overrideDynamicGroups": true|false }, "replaceDefaultPolicyVersionParams": { "templateName": "BLANK_POLICY" }, "enableIoTLoggingParams": { "roleArnForLogging": "string", "logLevel": "DEBUG"|"INFO"|"ERROR"|"WARN"|"DISABLED" }, "publishFindingToSnsParams": { "topicArn": "string" } }</param>
+    public AwsIotCreateMitigationActionOptions(
+        string ActionName,
+        string RoleArn,
+        string ActionParams
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionName);
+        this.ActionName = ActionName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ActionParams);
+        this.ActionParams = ActionParams;
+    }
+
+    private AwsIotCreateMitigationActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateMitigationActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateMitigationActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A friendly name for the action. Choose a friendly name that accu- rately describes the action (for example, EnableLoggingAction ). Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--action-name")]
-    public string? ActionName { get; set; }
+    public string? ActionName { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role that is used to apply the mitigation action. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// Defines the type of action and the parameters for that action. updateDeviceCertificateParams -&gt; (structure) Parameters to define a mitigation action that changes the state of the device certificate to inactive. action -&gt; (string) [required] The action that you want to apply to the device certificate. The only supported value is DEACTIVATE . Possible values: o DEACTIVATE updateCACertificateParams -&gt; (structure) Parameters to define a mitigation action that changes the state of the CA certificate to inactive. action -&gt; (string) [required] The action that you want to apply to the CA certificate. The only supported value is DEACTIVATE . Possible values: o DEACTIVATE addThingsToThingGroupParams -&gt; (structure) Parameters to define a mitigation action that moves devices as- sociated with a certificate to one or more specified thing groups, typically for quarantine. thingGroupNames -&gt; (list) [required] The list of groups to which you want to add the things that triggered the mitigation action. You can add a thing to a maximum of 10 groups, but you can't add a thing to more than one group in the same hierarchy. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ overrideDynamicGroups -&gt; (boolean) Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic thing groups. replaceDefaultPolicyVersionParams -&gt; (structure) Parameters to define a mitigation action that adds a blank pol- icy to restrict permissions. templateName -&gt; (string) [required] The name of the template to be applied. The only supported value is BLANK_POLICY . Possible values: o BLANK_POLICY enableIoTLoggingParams -&gt; (structure) Parameters to define a mitigation action that enables Amazon Web Services IoT Core logging at a specified level of detail. roleArnForLogging -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role used for log- ging. Constraints: o min: 20 o max: 2048 logLevel -&gt; (string) [required] Specifies the type of information to be logged. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED publishFindingToSnsParams -&gt; (structure) Parameters to define a mitigation action that publishes findings to Amazon Simple Notification Service (Amazon SNS. You can im- plement your own custom actions in response to the Amazon SNS messages. topicArn -&gt; (string) [required] The ARN of the topic to which you want to publish the find- ings. Constraints: o max: 350 Shorthand Syntax: updateDeviceCertificateParams={action=string},updateCACertificateParams={action=string},addThingsToThingGroupParams={thingGroupNames=[string,string],overrideDynamicGroups=boolean},replaceDefaultPolicyVersionParams={templateName=string},enableIoTLoggingParams={roleArnForLogging=string,logLevel=string},publishFindingToSnsParams={topicArn=string} JSON Syntax: { "updateDeviceCertificateParams": { "action": "DEACTIVATE" }, "updateCACertificateParams": { "action": "DEACTIVATE" }, "addThingsToThingGroupParams": { "thingGroupNames": ["string", ...], "overrideDynamicGroups": true|false }, "replaceDefaultPolicyVersionParams": { "templateName": "BLANK_POLICY" }, "enableIoTLoggingParams": { "roleArnForLogging": "string", "logLevel": "DEBUG"|"INFO"|"ERROR"|"WARN"|"DISABLED" }, "publishFindingToSnsParams": { "topicArn": "string" } }
+    /// </summary>
     [CliOption("--action-params")]
-    public string? ActionParams { get; set; }
+    public string? ActionParams { get; private init; }
 
     /// <summary>
     /// Metadata that can be used to manage the mitigation action. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,22 @@ public record AwsIotCreateMitigationActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,31 +11,74 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 12 months after creation. If a case was cre- ated more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
+/// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 24 months after creation. If a case was cre- ated more than 24 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "describe-communications")]
-public record AwsSupportDescribeCommunicationsOptions : AwsOptions
+public record AwsSupportDescribeCommunicationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The end date for a filtered date search on support case communica- tions. Case communications are available for 12 months after cre- ation.
+    /// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 24 months after creation. If a case was cre- ated more than 24 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
+    /// </summary>
+    /// <param name="CaseId">The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47</param>
+    public AwsSupportDescribeCommunicationsOptions(
+        string CaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+    }
+
+    private AwsSupportDescribeCommunicationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportDescribeCommunicationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportDescribeCommunicationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
+    /// </summary>
+    [CliOption("--case-id")]
+    public string? CaseId { get; private init; }
+
+    /// <summary>
+    /// The end date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
     /// </summary>
     [CliOption("--before-time")]
     public string? BeforeTime { get; set; }
 
     /// <summary>
-    /// The start date for a filtered date search on support case communica- tions. Case communications are available for 12 months after cre- ation.
+    /// The start date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
     /// </summary>
     [CliOption("--after-time")]
     public string? AfterTime { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning communications. When set to true , the request is validated but no communications are returned, and the operation returns a DryRunOper- ationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +104,22 @@ public record AwsSupportDescribeCommunicationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

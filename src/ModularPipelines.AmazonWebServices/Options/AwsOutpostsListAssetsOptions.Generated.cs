@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "list-assets")]
-public record AwsOutpostsListAssetsOptions : AwsOptions
+public record AwsOutpostsListAssetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resul...
+    /// </summary>
+    /// <param name="OutpostIdentifier">The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    public AwsOutpostsListAssetsOptions(
+        string OutpostIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
+        this.OutpostIdentifier = OutpostIdentifier;
+    }
+
+    private AwsOutpostsListAssetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsListAssetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsListAssetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--outpost-identifier")]
-    public string? OutpostIdentifier { get; set; }
+    public string? OutpostIdentifier { get; private init; }
 
     /// <summary>
     /// Filters the results by the host ID of a Dedicated Host. (string) Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z0-9-]*$ Syntax: "string" "string" ...
@@ -67,5 +104,22 @@ public record AwsOutpostsListAssetsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

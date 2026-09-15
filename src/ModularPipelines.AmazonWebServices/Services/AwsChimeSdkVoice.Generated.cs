@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociatePhoneNumbersWithVoiceConnectorGroupAsync(
-        AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorGroupOptions? options = null,
+        AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociatePhoneNumbersWithVoiceConnectorAsync(
-        AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions? options = null,
+        AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeletePhoneNumberAsync(
-        AwsChimeSdkVoiceBatchDeletePhoneNumberOptions? options = null,
+        AwsChimeSdkVoiceBatchDeletePhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceBatchDeletePhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdatePhoneNumberAsync(
-        AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions? options = null,
+        AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePhoneNumberOrderAsync(
-        AwsChimeSdkVoiceCreatePhoneNumberOrderOptions? options = null,
+        AwsChimeSdkVoiceCreatePhoneNumberOrderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreatePhoneNumberOrderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSipMediaApplicationCallAsync(
-        AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions? options = null,
+        AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSipMediaApplicationAsync(
-        AwsChimeSdkVoiceCreateSipMediaApplicationOptions? options = null,
+        AwsChimeSdkVoiceCreateSipMediaApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreateSipMediaApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSipRuleAsync(
-        AwsChimeSdkVoiceCreateSipRuleOptions? options = null,
+        AwsChimeSdkVoiceCreateSipRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreateSipRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVoiceConnectorGroupAsync(
-        AwsChimeSdkVoiceCreateVoiceConnectorGroupOptions? options = null,
+        AwsChimeSdkVoiceCreateVoiceConnectorGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreateVoiceConnectorGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVoiceConnectorAsync(
-        AwsChimeSdkVoiceCreateVoiceConnectorOptions? options = null,
+        AwsChimeSdkVoiceCreateVoiceConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreateVoiceConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVoiceProfileDomainAsync(
-        AwsChimeSdkVoiceCreateVoiceProfileDomainOptions? options = null,
+        AwsChimeSdkVoiceCreateVoiceProfileDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreateVoiceProfileDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVoiceProfileAsync(
-        AwsChimeSdkVoiceCreateVoiceProfileOptions? options = null,
+        AwsChimeSdkVoiceCreateVoiceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceCreateVoiceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePhoneNumberAsync(
-        AwsChimeSdkVoiceDeletePhoneNumberOptions? options = null,
+        AwsChimeSdkVoiceDeletePhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeletePhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSipMediaApplicationAsync(
-        AwsChimeSdkVoiceDeleteSipMediaApplicationOptions? options = null,
+        AwsChimeSdkVoiceDeleteSipMediaApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteSipMediaApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSipRuleAsync(
-        AwsChimeSdkVoiceDeleteSipRuleOptions? options = null,
+        AwsChimeSdkVoiceDeleteSipRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteSipRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorEmergencyCallingConfigurationAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorEmergencyCallingConfigurationOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorEmergencyCallingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorEmergencyCallingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorExternalSystemsConfigurationAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorGroupAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorOriginationAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorOriginationOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorOriginationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorOriginationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorStreamingConfigurationAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorStreamingConfigurationOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorStreamingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorStreamingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorTerminationCredentialsAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorTerminationCredentialsOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorTerminationCredentialsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorTerminationCredentialsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceConnectorTerminationAsync(
-        AwsChimeSdkVoiceDeleteVoiceConnectorTerminationOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceConnectorTerminationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceConnectorTerminationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceProfileDomainAsync(
-        AwsChimeSdkVoiceDeleteVoiceProfileDomainOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceProfileDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceProfileDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVoiceProfileAsync(
-        AwsChimeSdkVoiceDeleteVoiceProfileOptions? options = null,
+        AwsChimeSdkVoiceDeleteVoiceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDeleteVoiceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociatePhoneNumbersFromVoiceConnectorGroupAsync(
-        AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOptions? options = null,
+        AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociatePhoneNumbersFromVoiceConnectorAsync(
-        AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorOptions? options = null,
+        AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -449,7 +449,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetGlobalSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetGlobalSettingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPhoneNumberAsync(
-        AwsChimeSdkVoiceGetPhoneNumberOptions? options = null,
+        AwsChimeSdkVoiceGetPhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetPhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPhoneNumberOrderAsync(
-        AwsChimeSdkVoiceGetPhoneNumberOrderOptions? options = null,
+        AwsChimeSdkVoiceGetPhoneNumberOrderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetPhoneNumberOrderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -494,7 +494,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetPhoneNumberSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetPhoneNumberSettingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSipMediaApplicationLoggingConfigurationAsync(
-        AwsChimeSdkVoiceGetSipMediaApplicationLoggingConfigurationOptions? options = null,
+        AwsChimeSdkVoiceGetSipMediaApplicationLoggingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetSipMediaApplicationLoggingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSipMediaApplicationAsync(
-        AwsChimeSdkVoiceGetSipMediaApplicationOptions? options = null,
+        AwsChimeSdkVoiceGetSipMediaApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetSipMediaApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSipRuleAsync(
-        AwsChimeSdkVoiceGetSipRuleOptions? options = null,
+        AwsChimeSdkVoiceGetSipRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetSipRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSpeakerSearchTaskAsync(
-        AwsChimeSdkVoiceGetSpeakerSearchTaskOptions? options = null,
+        AwsChimeSdkVoiceGetSpeakerSearchTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetSpeakerSearchTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorEmergencyCallingConfigurationAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorEmergencyCallingConfigurationOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorEmergencyCallingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorEmergencyCallingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorExternalSystemsConfigurationAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorExternalSystemsConfigurationOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorExternalSystemsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorExternalSystemsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +595,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorGroupAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorGroupOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +610,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorLoggingConfigurationAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorLoggingConfigurationOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorLoggingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorLoggingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +625,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -640,11 +640,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorOriginationAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorOriginationOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorOriginationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorOriginationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorStreamingConfigurationAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -670,11 +670,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorTerminationHealthAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorTerminationHealthOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorTerminationHealthOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorTerminationHealthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +685,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceConnectorTerminationAsync(
-        AwsChimeSdkVoiceGetVoiceConnectorTerminationOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceConnectorTerminationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceConnectorTerminationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +700,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceProfileDomainAsync(
-        AwsChimeSdkVoiceGetVoiceProfileDomainOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceProfileDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceProfileDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +715,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceProfileAsync(
-        AwsChimeSdkVoiceGetVoiceProfileOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -730,11 +730,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceToneAnalysisTaskAsync(
-        AwsChimeSdkVoiceGetVoiceToneAnalysisTaskOptions? options = null,
+        AwsChimeSdkVoiceGetVoiceToneAnalysisTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceGetVoiceToneAnalysisTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -749,7 +749,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListAvailableVoiceConnectorRegionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListAvailableVoiceConnectorRegionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -764,7 +764,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListPhoneNumberOrdersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListPhoneNumberOrdersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -779,7 +779,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListPhoneNumbersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListPhoneNumbersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -794,7 +794,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListSipMediaApplicationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListSipMediaApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -809,7 +809,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListSipRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListSipRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +820,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSupportedPhoneNumberCountriesAsync(
-        AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions? options = null,
+        AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -835,11 +835,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsChimeSdkVoiceListTagsForResourceOptions? options = null,
+        AwsChimeSdkVoiceListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -854,7 +854,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -869,7 +869,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -880,11 +880,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVoiceConnectorTerminationCredentialsAsync(
-        AwsChimeSdkVoiceListVoiceConnectorTerminationCredentialsOptions? options = null,
+        AwsChimeSdkVoiceListVoiceConnectorTerminationCredentialsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorTerminationCredentialsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -899,7 +899,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceProfileDomainsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceProfileDomainsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -910,11 +910,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVoiceProfilesAsync(
-        AwsChimeSdkVoiceListVoiceProfilesOptions? options = null,
+        AwsChimeSdkVoiceListVoiceProfilesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceProfilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -925,11 +925,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutSipMediaApplicationLoggingConfigurationAsync(
-        AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions? options = null,
+        AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -940,11 +940,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutVoiceConnectorEmergencyCallingConfigurationAsync(
-        AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions? options = null,
+        AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -955,11 +955,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutVoiceConnectorExternalSystemsConfigurationAsync(
-        AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptions? options = null,
+        AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -970,11 +970,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutVoiceConnectorLoggingConfigurationAsync(
-        AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions? options = null,
+        AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -985,11 +985,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutVoiceConnectorOriginationAsync(
-        AwsChimeSdkVoicePutVoiceConnectorOriginationOptions? options = null,
+        AwsChimeSdkVoicePutVoiceConnectorOriginationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutVoiceConnectorOriginationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1000,11 +1000,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutVoiceConnectorStreamingConfigurationAsync(
-        AwsChimeSdkVoicePutVoiceConnectorStreamingConfigurationOptions? options = null,
+        AwsChimeSdkVoicePutVoiceConnectorStreamingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutVoiceConnectorStreamingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1015,11 +1015,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutVoiceConnectorTerminationCredentialsAsync(
-        AwsChimeSdkVoicePutVoiceConnectorTerminationCredentialsOptions? options = null,
+        AwsChimeSdkVoicePutVoiceConnectorTerminationCredentialsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutVoiceConnectorTerminationCredentialsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1030,11 +1030,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutVoiceConnectorTerminationAsync(
-        AwsChimeSdkVoicePutVoiceConnectorTerminationOptions? options = null,
+        AwsChimeSdkVoicePutVoiceConnectorTerminationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoicePutVoiceConnectorTerminationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1045,11 +1045,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestorePhoneNumberAsync(
-        AwsChimeSdkVoiceRestorePhoneNumberOptions? options = null,
+        AwsChimeSdkVoiceRestorePhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceRestorePhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1064,7 +1064,7 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceSearchAvailablePhoneNumbersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceSearchAvailablePhoneNumbersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1075,11 +1075,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartSpeakerSearchTaskAsync(
-        AwsChimeSdkVoiceStartSpeakerSearchTaskOptions? options = null,
+        AwsChimeSdkVoiceStartSpeakerSearchTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceStartSpeakerSearchTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1090,11 +1090,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartVoiceToneAnalysisTaskAsync(
-        AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions? options = null,
+        AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1105,11 +1105,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopSpeakerSearchTaskAsync(
-        AwsChimeSdkVoiceStopSpeakerSearchTaskOptions? options = null,
+        AwsChimeSdkVoiceStopSpeakerSearchTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceStopSpeakerSearchTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1120,11 +1120,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopVoiceToneAnalysisTaskAsync(
-        AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions? options = null,
+        AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1135,11 +1135,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsChimeSdkVoiceTagResourceOptions? options = null,
+        AwsChimeSdkVoiceTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1150,11 +1150,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsChimeSdkVoiceUntagResourceOptions? options = null,
+        AwsChimeSdkVoiceUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1165,11 +1165,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGlobalSettingsAsync(
-        AwsChimeSdkVoiceUpdateGlobalSettingsOptions? options = null,
+        AwsChimeSdkVoiceUpdateGlobalSettingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateGlobalSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1180,11 +1180,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePhoneNumberAsync(
-        AwsChimeSdkVoiceUpdatePhoneNumberOptions? options = null,
+        AwsChimeSdkVoiceUpdatePhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdatePhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1195,11 +1195,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePhoneNumberSettingsAsync(
-        AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions? options = null,
+        AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1210,11 +1210,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSipMediaApplicationCallAsync(
-        AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions? options = null,
+        AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1225,11 +1225,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSipMediaApplicationAsync(
-        AwsChimeSdkVoiceUpdateSipMediaApplicationOptions? options = null,
+        AwsChimeSdkVoiceUpdateSipMediaApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateSipMediaApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1240,11 +1240,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSipRuleAsync(
-        AwsChimeSdkVoiceUpdateSipRuleOptions? options = null,
+        AwsChimeSdkVoiceUpdateSipRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateSipRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1255,11 +1255,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateVoiceConnectorGroupAsync(
-        AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions? options = null,
+        AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1270,11 +1270,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateVoiceConnectorAsync(
-        AwsChimeSdkVoiceUpdateVoiceConnectorOptions? options = null,
+        AwsChimeSdkVoiceUpdateVoiceConnectorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateVoiceConnectorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1285,11 +1285,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateVoiceProfileDomainAsync(
-        AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions? options = null,
+        AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1300,11 +1300,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateVoiceProfileAsync(
-        AwsChimeSdkVoiceUpdateVoiceProfileOptions? options = null,
+        AwsChimeSdkVoiceUpdateVoiceProfileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceUpdateVoiceProfileOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1315,11 +1315,11 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ValidateE911AddressAsync(
-        AwsChimeSdkVoiceValidateE911AddressOptions? options = null,
+        AwsChimeSdkVoiceValidateE911AddressOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceValidateE911AddressOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

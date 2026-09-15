@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appfabric", "batch-get-user-access-tasks")]
-public record AwsAppfabricBatchGetUserAccessTasksOptions : AwsOptions
+public record AwsAppfabricBatchGetUserAccessTasksOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-bundle-identifier")]
-    public string? AppBundleIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the Star- tUserAccessTasks action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TaskIdList">The tasks IDs to use for the request. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
+    public AwsAppfabricBatchGetUserAccessTasksOptions(
+        string AppBundleIdentifier,
+        IEnumerable<string> TaskIdList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppBundleIdentifier);
+        this.AppBundleIdentifier = AppBundleIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TaskIdList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TaskIdList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TaskIdList));
+            }
+
+            TaskIdList = materialized;
+        }
+        this.TaskIdList = TaskIdList;
+    }
+
+    private AwsAppfabricBatchGetUserAccessTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppfabricBatchGetUserAccessTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppfabricBatchGetUserAccessTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--app-bundle-identifier")]
+    public string? AppBundleIdentifier { get; private init; }
+
+    /// <summary>
+    /// The tasks IDs to use for the request. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--task-id-list", GroupValues = true)]
-    public IEnumerable<string>? TaskIdList { get; set; }
+    public IEnumerable<string>? TaskIdList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-user-phone-config")]
-public record AwsConnectUpdateUserPhoneConfigOptions : AwsOptions
+public record AwsConnectUpdateUserPhoneConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports addi- tional functionality that is not available in the UpdateUser- PhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PhoneConfig">Information about phone configuration settings for the user. PhoneType -&gt; (string) The phone type. Possible values: o SOFT_PHONE o DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This pa- rameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allo- cate a specific amount of ACW time. It essentially means an in- definite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTime- Limit is returned in milliseconds. Constraints: o min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: o pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }</param>
+    /// <param name="UserId">The identifier of the user account.</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectUpdateUserPhoneConfigOptions(
+        string PhoneConfig,
+        string UserId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneConfig);
+        this.PhoneConfig = PhoneConfig;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectUpdateUserPhoneConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateUserPhoneConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateUserPhoneConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about phone configuration settings for the user. PhoneType -&gt; (string) The phone type. Possible values: o SOFT_PHONE o DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This pa- rameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allo- cate a specific amount of ACW time. It essentially means an in- definite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTime- Limit is returned in milliseconds. Constraints: o min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: o pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }
+    /// </summary>
     [CliOption("--phone-config")]
-    public string? PhoneConfig { get; set; }
+    public string? PhoneConfig { get; private init; }
 
+    /// <summary>
+    /// The identifier of the user account.
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

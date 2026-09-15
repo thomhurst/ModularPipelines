@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --assignmentstatus.
+/// Allowed values for --assignment-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIamListVirtualMfaDevicesAssignmentStatus
 {
+    [EnumValue("Any")]
+    Any,
+
     [EnumValue("Assigned")]
-    Assigned = 1,
+    Assigned,
 
     [EnumValue("Unassigned")]
-    Unassigned = 2,
-
-    [EnumValue("Any")]
-    Any = 3
+    Unassigned
 }

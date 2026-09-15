@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "get-core-network-change-set")]
-public record AwsNetworkmanagerGetCoreNetworkChangeSetOptions : AwsOptions
+public record AwsNetworkmanagerGetCoreNetworkChangeSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a change set between the LIVE core network policy and a submit- ted policy. See also: AWS API Documentation get-core-network-change-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CoreN...
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="PolicyVersionId">The ID of the policy version.</param>
+    public AwsNetworkmanagerGetCoreNetworkChangeSetOptions(
+        string CoreNetworkId,
+        int PolicyVersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        this.PolicyVersionId = PolicyVersionId;
+    }
+
+    private AwsNetworkmanagerGetCoreNetworkChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerGetCoreNetworkChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerGetCoreNetworkChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
+    [CliOption("--core-network-id")]
+    public string? CoreNetworkId { get; private init; }
+
+    /// <summary>
+    /// The ID of the policy version.
+    /// </summary>
     [CliOption("--policy-version-id")]
-    public int? PolicyVersionId { get; set; }
+    public int? PolicyVersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +95,22 @@ public record AwsNetworkmanagerGetCoreNetworkChangeSetOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

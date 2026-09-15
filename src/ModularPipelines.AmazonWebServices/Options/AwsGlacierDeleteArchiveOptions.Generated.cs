@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glacier", "delete-archive")]
-public record AwsGlacierDeleteArchiveOptions : AwsOptions
+public record AwsGlacierDeleteArchiveOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation deletes an archive from a vault. Subsequent requests to initiate a retrieval of this archive will fail. Archive retrievals that are in progress for this archive ID may or may not succeed according to the following scenarios: o If the archive retrieval job is actively preparing the data for down- load when Amazon Glacier receives the delete archive request, the archival retrieval operation might fail. o If the archive retrieval job has successfully prepared the archive for download...
+    /// </summary>
+    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="VaultName">The name of the vault.</param>
+    /// <param name="ArchiveId">The ID of the archive to delete.</param>
+    public AwsGlacierDeleteArchiveOptions(
+        string AccountId,
+        string VaultName,
+        string ArchiveId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+        global::System.ArgumentNullException.ThrowIfNull(ArchiveId);
+        this.ArchiveId = ArchiveId;
+    }
+
+    private AwsGlacierDeleteArchiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlacierDeleteArchiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlacierDeleteArchiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The name of the vault.
+    /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultName { get; set; }
+    public string? VaultName { get; private init; }
 
+    /// <summary>
+    /// The ID of the archive to delete.
+    /// </summary>
     [CliOption("--archive-id")]
-    public string? ArchiveId { get; set; }
+    public string? ArchiveId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

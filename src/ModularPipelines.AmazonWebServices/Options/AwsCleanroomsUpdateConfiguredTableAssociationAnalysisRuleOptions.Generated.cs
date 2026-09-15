@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "update-configured-table-association-analysis-rule")]
-public record AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleOptions : AwsOptions
+public record AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the analysis rule for a configured table association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership that the configured table as- sociation belongs to. Currently accepts the membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredTableAssociationIdentifier">The identifier for the configured table association to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisRuleType">The analysis rule type that you want to update. Possible values: o AGGREGATION o LIST o CUSTOM</param>
+    /// <param name="AnalysisRulePolicy">The updated analysis rule policy for the congured table association. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: v1. v1 -&gt; (tagged union structure) The policy for the configured table association analysis rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: list, aggregation, custom. list -&gt; (structure) Analysis rule type that enables only list queries on a con- figured table. allowedResultReceivers -&gt; (list) The list of collaboration members who are allowed to re- ceive results of queries run with this configured table. (string) Constraints: o min: 12 o max: 12 o pattern: \d+ allowedAdditionalAnalyses -&gt; (list) The list of resources or wildcards (ARNs) that are al- lowed to perform additional analysis on query output. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:([\d]{12}|\*):member- ship\/[\*\d\w-]+\/configuredaudiencemodelassocia- tion\/[\*\d\w-]+$|^arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:([0-9]{12}|\*):member- ship\/[\*\d\w-]+\/configured-model-algorithm-associ- ation\/([-a-zA-Z0-9_\/.]+|\*) aggregation -&gt; (structure) Analysis rule type that enables only aggregation queries on a configured table. allowedResultReceivers -&gt; (list) The list of collaboration members who are allowed to re- ceive results of queries run with this configured table. (string) Constraints: o min: 12 o max: 12 o pattern: \d+ allowedAdditionalAnalyses -&gt; (list) The list of resources or wildcards (ARNs) that are al- lowed to perform additional analysis on query output. The allowedAdditionalAnalyses parameter is currently sup- ported for the list analysis rule (AnalysisRuleList ) and the custom analysis rule (AnalysisRuleCustom ). Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:([\d]{12}|\*):member- ship\/[\*\d\w-]+\/configuredaudiencemodelassocia- tion\/[\*\d\w-]+$|^arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:([0-9]{12}|\*):member- ship\/[\*\d\w-]+\/configured-model-algorithm-associ- ation\/([-a-zA-Z0-9_\/.]+|\*) custom -&gt; (structure) Analysis rule type that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy. allowedResultReceivers -&gt; (list) The list of collaboration members who are allowed to re- ceive results of queries run with this configured table. (string) Constraints: o min: 12 o max: 12 o pattern: \d+ allowedAdditionalAnalyses -&gt; (list) The list of resources or wildcards (ARNs) that are al- lowed to perform additional analysis on query output. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:([\d]{12}|\*):member- ship\/[\*\d\w-]+\/configuredaudiencemodelassocia- tion\/[\*\d\w-]+$|^arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:([0-9]{12}|\*):member- ship\/[\*\d\w-]+\/configured-model-algorithm-associ- ation\/([-a-zA-Z0-9_\/.]+|\*) JSON Syntax: { "v1": { "list": { "allowedResultReceivers": ["string", ...], "allowedAdditionalAnalyses": ["string", ...] }, "aggregation": { "allowedResultReceivers": ["string", ...], "allowedAdditionalAnalyses": ["string", ...] }, "custom": { "allowedResultReceivers": ["string", ...], "allowedAdditionalAnalyses": ["string", ...] } } }</param>
+    public AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleOptions(
+        string MembershipIdentifier,
+        string ConfiguredTableAssociationIdentifier,
+        AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleAnalysisRuleType AnalysisRuleType,
+        string AnalysisRulePolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredTableAssociationIdentifier);
+        this.ConfiguredTableAssociationIdentifier = ConfiguredTableAssociationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisRuleType);
+        this.AnalysisRuleType = AnalysisRuleType;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisRulePolicy);
+        this.AnalysisRulePolicy = AnalysisRulePolicy;
+    }
+
+    private AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the membership that the configured table as- sociation belongs to. Currently accepts the membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier for the configured table association to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--configured-table-association-identifier")]
-    public string? ConfiguredTableAssociationIdentifier { get; set; }
+    public string? ConfiguredTableAssociationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The analysis rule type that you want to update. Possible values: o AGGREGATION o LIST o CUSTOM
+    /// </summary>
     [CliOption("--analysis-rule-type")]
-    public string? AnalysisRuleType { get; set; }
+    public AwsCleanroomsUpdateConfiguredTableAssociationAnalysisRuleAnalysisRuleType? AnalysisRuleType { get; private init; }
 
+    /// <summary>
+    /// The updated analysis rule policy for the congured table association. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: v1. v1 -&gt; (tagged union structure) The policy for the configured table association analysis rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: list, aggregation, custom. list -&gt; (structure) Analysis rule type that enables only list queries on a con- figured table. allowedResultReceivers -&gt; (list) The list of collaboration members who are allowed to re- ceive results of queries run with this configured table. (string) Constraints: o min: 12 o max: 12 o pattern: \d+ allowedAdditionalAnalyses -&gt; (list) The list of resources or wildcards (ARNs) that are al- lowed to perform additional analysis on query output. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:([\d]{12}|\*):member- ship\/[\*\d\w-]+\/configuredaudiencemodelassocia- tion\/[\*\d\w-]+$|^arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:([0-9]{12}|\*):member- ship\/[\*\d\w-]+\/configured-model-algorithm-associ- ation\/([-a-zA-Z0-9_\/.]+|\*) aggregation -&gt; (structure) Analysis rule type that enables only aggregation queries on a configured table. allowedResultReceivers -&gt; (list) The list of collaboration members who are allowed to re- ceive results of queries run with this configured table. (string) Constraints: o min: 12 o max: 12 o pattern: \d+ allowedAdditionalAnalyses -&gt; (list) The list of resources or wildcards (ARNs) that are al- lowed to perform additional analysis on query output. The allowedAdditionalAnalyses parameter is currently sup- ported for the list analysis rule (AnalysisRuleList ) and the custom analysis rule (AnalysisRuleCustom ). Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:([\d]{12}|\*):member- ship\/[\*\d\w-]+\/configuredaudiencemodelassocia- tion\/[\*\d\w-]+$|^arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:([0-9]{12}|\*):member- ship\/[\*\d\w-]+\/configured-model-algorithm-associ- ation\/([-a-zA-Z0-9_\/.]+|\*) custom -&gt; (structure) Analysis rule type that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy. allowedResultReceivers -&gt; (list) The list of collaboration members who are allowed to re- ceive results of queries run with this configured table. (string) Constraints: o min: 12 o max: 12 o pattern: \d+ allowedAdditionalAnalyses -&gt; (list) The list of resources or wildcards (ARNs) that are al- lowed to perform additional analysis on query output. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 256 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:([\d]{12}|\*):member- ship\/[\*\d\w-]+\/configuredaudiencemodelassocia- tion\/[\*\d\w-]+$|^arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:([0-9]{12}|\*):member- ship\/[\*\d\w-]+\/configured-model-algorithm-associ- ation\/([-a-zA-Z0-9_\/.]+|\*) JSON Syntax: { "v1": { "list": { "allowedResultReceivers": ["string", ...], "allowedAdditionalAnalyses": ["string", ...] }, "aggregation": { "allowedResultReceivers": ["string", ...], "allowedAdditionalAnalyses": ["string", ...] }, "custom": { "allowedResultReceivers": ["string", ...], "allowedAdditionalAnalyses": ["string", ...] } } }
+    /// </summary>
     [CliOption("--analysis-rule-policy")]
-    public string? AnalysisRulePolicy { get; set; }
+    public string? AnalysisRulePolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --workertype.
+/// Allowed values for --worker-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueCreateDevEndpointWorkerType
 {
-    [EnumValue("Standard")]
-    Standard = 1,
+    [EnumValue("G.025X")]
+    G025X,
 
-    [EnumValue("G")]
-    G = 2
+    [EnumValue("G.1X")]
+    G1X,
+
+    [EnumValue("G.2X")]
+    G2X,
+
+    [EnumValue("G.4X")]
+    G4X,
+
+    [EnumValue("G.8X")]
+    G8X,
+
+    [EnumValue("Standard")]
+    Standard,
+
+    [EnumValue("Z.2X")]
+    Z2X
 }

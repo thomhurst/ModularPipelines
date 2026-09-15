@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-notebook-instance-lifecycle-config")]
-public record AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions : AwsOptions
+public record AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a lifecycle configuration that you can associate with a note- book instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin . View Amazon CloudWatch Logs for notebook instance lifecycle configura- tions in log group /aws/sagemaker/NotebookInstanc...
+    /// </summary>
+    /// <param name="NotebookInstanceLifecycleConfigName">The name of the lifecycle configuration. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    public AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions(
+        string NotebookInstanceLifecycleConfigName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NotebookInstanceLifecycleConfigName);
+        this.NotebookInstanceLifecycleConfigName = NotebookInstanceLifecycleConfigName;
+    }
+
+    private AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the lifecycle configuration. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
     [CliOption("--notebook-instance-lifecycle-config-name")]
-    public string? NotebookInstanceLifecycleConfigName { get; set; }
+    public string? NotebookInstanceLifecycleConfigName { get; private init; }
 
     /// <summary>
     /// A shell script that runs only once, when you create a notebook in- stance. The shell script must be a base64-encoded string. Constraints: o min: 0 o max: 1 (structure) Contains the notebook instance lifecycle configuration script. Each lifecycle configuration script has a limit of 16384 charac- ters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin . View Amazon CloudWatch Logs for notebook instance lifecycle con- figurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook] . Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configura- tions, see Step 2.1: (Optional) Customize a Notebook Instance . Content -&gt; (string) A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration. Constraints: o min: 1 o max: 16384 o pattern: [\S\s]+ Shorthand Syntax: Content=string ... JSON Syntax: [ { "Content": "string" } ... ]
@@ -47,5 +84,22 @@ public record AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

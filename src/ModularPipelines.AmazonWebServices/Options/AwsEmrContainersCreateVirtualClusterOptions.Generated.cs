@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-containers", "create-virtual-cluster")]
-public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions
+public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a virtual cluster. Virtual cluster is a managed entity on Ama- zon EMR on EKS. You can create, update, describe, list and delete vir- tual clusters. They do not consume any additional resource in your sys- tem. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The specified name of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="ContainerProvider">The container provider of the virtual cluster. type -&gt; (string) [required] The type of the container provider. Amazon EKS is the only sup- ported type as of now. Possible values: o EKS id -&gt; (string) [required] The ID of the container cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* info -&gt; (tagged union structure) The information about the container cluster. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksInfo. eksInfo -&gt; (structure) The information about the Amazon EKS cluster. namespace -&gt; (string) The namespaces of the Amazon EKS cluster. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? nodeLabel -&gt; (string) The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$ Shorthand Syntax: type=string,id=string,info={eksInfo={namespace=string,nodeLabel=string}} JSON Syntax: { "type": "EKS", "id": "string", "info": { "eksInfo": { "namespace": "string", "nodeLabel": "string" } } }</param>
+    public AwsEmrContainersCreateVirtualClusterOptions(
+        string Name,
+        string ContainerProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerProvider);
+        this.ContainerProvider = ContainerProvider;
+    }
+
+    private AwsEmrContainersCreateVirtualClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrContainersCreateVirtualClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrContainersCreateVirtualClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The specified name of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The container provider of the virtual cluster. type -&gt; (string) [required] The type of the container provider. Amazon EKS is the only sup- ported type as of now. Possible values: o EKS id -&gt; (string) [required] The ID of the container cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* info -&gt; (tagged union structure) The information about the container cluster. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksInfo. eksInfo -&gt; (structure) The information about the Amazon EKS cluster. namespace -&gt; (string) The namespaces of the Amazon EKS cluster. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? nodeLabel -&gt; (string) The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$ Shorthand Syntax: type=string,id=string,info={eksInfo={namespace=string,nodeLabel=string}} JSON Syntax: { "type": "EKS", "id": "string", "info": { "eksInfo": { "namespace": "string", "nodeLabel": "string" } } }
+    /// </summary>
     [CliOption("--container-provider")]
-    public string? ContainerProvider { get; set; }
+    public string? ContainerProvider { get; private init; }
 
     /// <summary>
     /// The client token of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
@@ -48,7 +92,10 @@ public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions
     [CliOption("--security-configuration-id")]
     public string? SecurityConfigurationId { get; set; }
 
-    [CliFlag("--session-enabled")]
+    /// <summary>
+    /// Indicates whether the virtual cluster has session support enabled.
+    /// </summary>
+    [CliFlag("--session-enabled", NegatedName = "--no-session-enabled")]
     public bool? SessionEnabled { get; set; }
 
     /// <summary>
@@ -62,5 +109,22 @@ public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-job-schema-version")]
-public record AwsSagemakerDescribeJobSchemaVersionOptions : AwsOptions
+public record AwsSagemakerDescribeJobSchemaVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the JSON schema for a specified job category and schema ver- sion. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : o ListJobSchemaVersions o CreateJob See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobCategory">The category of the job schema to describe. Possible values: o AgentRFT o AgentRFTEvaluation</param>
+    public AwsSagemakerDescribeJobSchemaVersionOptions(
+        AwsSagemakerDescribeJobSchemaVersionJobCategory JobCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobCategory);
+        this.JobCategory = JobCategory;
+    }
+
+    private AwsSagemakerDescribeJobSchemaVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeJobSchemaVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeJobSchemaVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The category of the job schema to describe. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// </summary>
     [CliOption("--job-category")]
-    public string? JobCategory { get; set; }
+    public AwsSagemakerDescribeJobSchemaVersionJobCategory? JobCategory { get; private init; }
 
     /// <summary>
     /// The version of the schema to retrieve. If not specified, the latest version is returned. Constraints: o min: 5 o max: 16 o pattern: \d+\.\d+\.\d+
@@ -35,5 +73,22 @@ public record AwsSagemakerDescribeJobSchemaVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

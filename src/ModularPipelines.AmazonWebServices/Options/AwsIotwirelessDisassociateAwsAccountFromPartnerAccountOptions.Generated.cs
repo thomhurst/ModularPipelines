@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "disassociate-aws-account-from-partner-account")]
-public record AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions : AwsOptions
+public record AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--partner-account-id")]
-    public string? PartnerAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Disassociates your AWS account from a partner account. If PartnerAc- countId and PartnerType are null , disassociates your AWS account from all partner accounts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PartnerAccountId">The partner account ID to disassociate from the AWS account. Constraints: o max: 256</param>
+    /// <param name="PartnerType">The partner type. Possible values: o Sidewalk</param>
+    public AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions(
+        string PartnerAccountId,
+        AwsIotwirelessDisassociateAwsAccountFromPartnerAccountPartnerType PartnerType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartnerAccountId);
+        this.PartnerAccountId = PartnerAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerType);
+        this.PartnerType = PartnerType;
+    }
+
+    private AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The partner account ID to disassociate from the AWS account. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--partner-account-id")]
+    public string? PartnerAccountId { get; private init; }
+
+    /// <summary>
+    /// The partner type. Possible values: o Sidewalk
+    /// </summary>
     [CliOption("--partner-type")]
-    public string? PartnerType { get; set; }
+    public AwsIotwirelessDisassociateAwsAccountFromPartnerAccountPartnerType? PartnerType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

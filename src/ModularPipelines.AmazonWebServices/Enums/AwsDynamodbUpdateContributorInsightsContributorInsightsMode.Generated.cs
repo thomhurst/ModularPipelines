@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --contributorinsightsmode.
+/// Allowed values for --contributor-insights-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbUpdateContributorInsightsContributorInsightsMode
 {
     [EnumValue("ACCESSED_AND_THROTTLED_KEYS")]
-    AccessedAndThrottledKeys = 1,
+    AccessedAndThrottledKeys,
 
     [EnumValue("THROTTLED_KEYS")]
-    ThrottledKeys = 2
+    ThrottledKeys
 }

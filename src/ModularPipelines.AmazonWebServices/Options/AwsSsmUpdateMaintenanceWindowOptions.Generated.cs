@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-maintenance-window")]
-public record AwsSsmUpdateMaintenanceWindowOptions : AwsOptions
+public record AwsSsmUpdateMaintenanceWindowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing maintenance window. Only specified parameters are modified. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No mainte- nance window tasks are permitted to start after the resulting end- time minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no mainte- nance windo...
+    /// </summary>
+    /// <param name="WindowId">The ID of the maintenance window to update. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
+    public AwsSsmUpdateMaintenanceWindowOptions(
+        string WindowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WindowId);
+        this.WindowId = WindowId;
+    }
+
+    private AwsSsmUpdateMaintenanceWindowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateMaintenanceWindowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateMaintenanceWindowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the maintenance window to update. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// </summary>
     [CliOption("--window-id")]
-    public string? WindowId { get; set; }
+    public string? WindowId { get; private init; }
 
     /// <summary>
     /// The name of the maintenance window. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
@@ -78,13 +115,22 @@ public record AwsSsmUpdateMaintenanceWindowOptions : AwsOptions
     [CliOption("--cutoff")]
     public int? Cutoff { get; set; }
 
-    [CliFlag("--allow-unassociated-targets")]
+    /// <summary>
+    /// Whether targets must be registered with the maintenance window be- fore tasks can be defined for those targets.
+    /// </summary>
+    [CliFlag("--allow-unassociated-targets", NegatedName = "--no-allow-unassociated-targets")]
     public bool? AllowUnassociatedTargets { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Whether the maintenance window is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// If True , then all fields that are required by the CreateMainte- nanceWindow operation are also required for this API request. Op- tional fields that aren't specified are set to null.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -92,5 +138,22 @@ public record AwsSsmUpdateMaintenanceWindowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synthetics", "delete-canary")]
-public record AwsSyntheticsDeleteCanaryOptions : AwsOptions
+public record AwsSyntheticsDeleteCanaryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-lambda")]
+    /// <summary>
+    /// Permanently deletes the specified canary. If the canary's ProvisionedResourceCleanup field is set to AUTOMATIC or you specify DeleteLambda in this operation as true , CloudWatch Syn- thetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted. After you delete a canary, you should also delete the follow- ing: o The CloudWatch alarms created for this canary. These alarms have a name of `` Synthetics...
+    /// </summary>
+    /// <param name="Name">The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    public AwsSyntheticsDeleteCanaryOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSyntheticsDeleteCanaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSyntheticsDeleteCanaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSyntheticsDeleteCanaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false . Your setting for this parameter is used only if the canary doesn't have AUTOMATIC for its ProvisionedResourceCleanup field. If that field is set to AUTOMATIC , then the Lambda functions and layers will be deleted when this canary is deleted. Type: Boolean
+    /// </summary>
+    [CliFlag("--delete-lambda", NegatedName = "--no-delete-lambda")]
     public bool? DeleteLambda { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsSyntheticsDeleteCanaryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

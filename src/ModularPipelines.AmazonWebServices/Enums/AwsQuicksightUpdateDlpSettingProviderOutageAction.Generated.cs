@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --provideroutageaction.
+/// Allowed values for --provider-outage-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightUpdateDlpSettingProviderOutageAction
 {
     [EnumValue("ALLOW")]
-    Allow = 1,
-
-    [EnumValue("WARN")]
-    Warn = 2,
+    Allow,
 
     [EnumValue("BLOCK")]
-    Block = 3
+    Block,
+
+    [EnumValue("WARN")]
+    Warn
 }

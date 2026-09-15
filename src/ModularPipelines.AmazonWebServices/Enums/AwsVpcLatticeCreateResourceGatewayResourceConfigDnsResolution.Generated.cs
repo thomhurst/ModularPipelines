@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourceconfigdnsresolution.
+/// Allowed values for --resource-config-dns-resolution.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsVpcLatticeCreateResourceGatewayResourceConfigDnsResolution
 {
     [EnumValue("IN_VPC")]
-    InVpc = 1,
+    InVpc,
 
     [EnumValue("PUBLIC")]
-    Public = 2
+    Public
 }

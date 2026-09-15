@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --membertype.
+/// Allowed values for --member-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityagentListMembershipsMemberType
 {
-    [EnumValue("USER")]
-    User = 1,
-
     [EnumValue("ALL")]
-    All = 2
+    All,
+
+    [EnumValue("USER")]
+    User
 }

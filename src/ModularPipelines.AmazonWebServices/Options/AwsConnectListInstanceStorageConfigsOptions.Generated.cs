@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "list-instance-storage-configs")]
-public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions
+public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ResourceType">A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES</param>
+    public AwsConnectListInstanceStorageConfigsOptions(
+        string InstanceId,
+        AwsConnectListInstanceStorageConfigsResourceType ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsConnectListInstanceStorageConfigsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectListInstanceStorageConfigsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectListInstanceStorageConfigsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsConnectListInstanceStorageConfigsResourceType? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +97,22 @@ public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

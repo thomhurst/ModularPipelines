@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-guru", "update-service-integration")]
-public record AwsDevopsGuruUpdateServiceIntegrationOptions : AwsOptions
+public record AwsDevopsGuruUpdateServiceIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to cre- ate an OpsItem for each generated insight. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceIntegration">An IntegratedServiceConfig object used to specify the integrated service you want to update, and whether you want to update it to en- abled or disabled. OpsCenter -&gt; (structure) Information about whether DevOps Guru is configured to create an OpsItem in Amazon Web Services Systems Manager OpsCenter for each created insight. You can use this to update the configura- tion. OptInStatus -&gt; (string) Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems Manager OpsItem for each created insight. Possible values: o ENABLED o DISABLED LogsAnomalyDetection -&gt; (structure) Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups. OptInStatus -&gt; (string) Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups. Possible values: o ENABLED o DISABLED KMSServerSideEncryption -&gt; (structure) Information about whether DevOps Guru is configured to encrypt server-side data using KMS. KMSKeyId -&gt; (string) Describes the specified KMS key. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". If you specify a predefined Amazon Web Services alias (an Amazon Web Services alias with no key ID), Amazon Web Ser- vices KMS associates the alias with an Amazon Web Services managed key and returns its KeyId and Arn in the response. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Alias name: alias/ExampleAlias Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/Exam- pleAlias Constraints: o min: 1 o max: 2048 o pattern: ^.*$ OptInStatus -&gt; (string) Specifies if DevOps Guru is enabled for KMS integration. Possible values: o ENABLED o DISABLED Type -&gt; (string) The type of KMS key used. Customer managed keys are the KMS keys that you create. Amazon Web Services owned keys are keys that are owned and managed by DevOps Guru. Possible values: o CUSTOMER_MANAGED_KEY o AWS_OWNED_KMS_KEY Shorthand Syntax: OpsCenter={OptInStatus=string},LogsAnomalyDetection={OptInStatus=string},KMSServerSideEncryption={KMSKeyId=string,OptInStatus=string,Type=string} JSON Syntax: { "OpsCenter": { "OptInStatus": "ENABLED"|"DISABLED" }, "LogsAnomalyDetection": { "OptInStatus": "ENABLED"|"DISABLED" }, "KMSServerSideEncryption": { "KMSKeyId": "string", "OptInStatus": "ENABLED"|"DISABLED", "Type": "CUSTOMER_MANAGED_KEY"|"AWS_OWNED_KMS_KEY" } }</param>
+    public AwsDevopsGuruUpdateServiceIntegrationOptions(
+        string ServiceIntegration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceIntegration);
+        this.ServiceIntegration = ServiceIntegration;
+    }
+
+    private AwsDevopsGuruUpdateServiceIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsGuruUpdateServiceIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsGuruUpdateServiceIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An IntegratedServiceConfig object used to specify the integrated service you want to update, and whether you want to update it to en- abled or disabled. OpsCenter -&gt; (structure) Information about whether DevOps Guru is configured to create an OpsItem in Amazon Web Services Systems Manager OpsCenter for each created insight. You can use this to update the configura- tion. OptInStatus -&gt; (string) Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems Manager OpsItem for each created insight. Possible values: o ENABLED o DISABLED LogsAnomalyDetection -&gt; (structure) Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups. OptInStatus -&gt; (string) Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups. Possible values: o ENABLED o DISABLED KMSServerSideEncryption -&gt; (structure) Information about whether DevOps Guru is configured to encrypt server-side data using KMS. KMSKeyId -&gt; (string) Describes the specified KMS key. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". If you specify a predefined Amazon Web Services alias (an Amazon Web Services alias with no key ID), Amazon Web Ser- vices KMS associates the alias with an Amazon Web Services managed key and returns its KeyId and Arn in the response. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Alias name: alias/ExampleAlias Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/Exam- pleAlias Constraints: o min: 1 o max: 2048 o pattern: ^.*$ OptInStatus -&gt; (string) Specifies if DevOps Guru is enabled for KMS integration. Possible values: o ENABLED o DISABLED Type -&gt; (string) The type of KMS key used. Customer managed keys are the KMS keys that you create. Amazon Web Services owned keys are keys that are owned and managed by DevOps Guru. Possible values: o CUSTOMER_MANAGED_KEY o AWS_OWNED_KMS_KEY Shorthand Syntax: OpsCenter={OptInStatus=string},LogsAnomalyDetection={OptInStatus=string},KMSServerSideEncryption={KMSKeyId=string,OptInStatus=string,Type=string} JSON Syntax: { "OpsCenter": { "OptInStatus": "ENABLED"|"DISABLED" }, "LogsAnomalyDetection": { "OptInStatus": "ENABLED"|"DISABLED" }, "KMSServerSideEncryption": { "KMSKeyId": "string", "OptInStatus": "ENABLED"|"DISABLED", "Type": "CUSTOMER_MANAGED_KEY"|"AWS_OWNED_KMS_KEY" } }
+    /// </summary>
     [CliOption("--service-integration")]
-    public string? ServiceIntegration { get; set; }
+    public string? ServiceIntegration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-catalog", "list-change-sets")]
-public record AwsMarketplaceCatalogListChangeSetsOptions : AwsOptions
+public record AwsMarketplaceCatalogListChangeSetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of en- tityId , ChangeSetName , and status. If you provide more than one fil- ter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve...
+    /// </summary>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
+    public AwsMarketplaceCatalogListChangeSetsOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsMarketplaceCatalogListChangeSetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceCatalogListChangeSetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceCatalogListChangeSetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
     /// <summary>
     /// An array of filter objects. Constraints: o min: 1 o max: 8 (structure) A filter object, used to optionally filter results from calls to the ListEntities and ListChangeSets actions. Name -&gt; (string) For ListEntities , the supported value for this is an Enti- tyId . For ListChangeSets , the supported values are as follows: Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+$ ValueList -&gt; (list) ListEntities - This is a list of unique EntityId s. ListChangeSets - The supported filter names and associ- ated ValueList s is as follows: o ChangeSetName - The supported ValueList is a list of non-unique ChangeSetName s. These are defined when you call the StartChangeSet action. o Status - The supported ValueList is a list of statuses for all change set requests. o EntityId - The supported ValueList is a list of unique En- tityId s. o BeforeStartTime - The supported ValueList is a list of all change sets that started before the filter value. o AfterStartTime - The supported ValueList is a list of all change sets that started after the filter value. o BeforeEndTime - The supported ValueList is a list of all change sets that ended before the filter value. o AfterEndTime - The supported ValueList is a list of all change sets that ended after the filter value. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: ^(.)+$ Shorthand Syntax: Name=string,ValueList=string,string ... JSON Syntax: [ { "Name": "string", "ValueList": ["string", ...] } ... ]
@@ -61,5 +98,22 @@ public record AwsMarketplaceCatalogListChangeSetsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

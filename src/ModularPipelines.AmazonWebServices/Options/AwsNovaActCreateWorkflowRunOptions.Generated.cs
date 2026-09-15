@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nova-act", "create-workflow-run")]
-public record AwsNovaActCreateWorkflowRunOptions : AwsOptions
+public record AwsNovaActCreateWorkflowRunOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-definition-name")]
-    public string? WorkflowDefinitionName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new execution instance of a workflow definition with speci- fied parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition to execute. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="ModelId">The ID of the AI model to use for workflow execution. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ClientInfo">Information about the client making the request, including compati- bility version and SDK version. compatibilityVersion -&gt; (integer) [required] The compatibility version of the client, used to ensure API com- patibility. sdkVersion -&gt; (string) The version of the SDK being used by the client. Constraints: o pattern: [\s\S]+ Shorthand Syntax: compatibilityVersion=integer,sdkVersion=string JSON Syntax: { "compatibilityVersion": integer, "sdkVersion": "string" }</param>
+    public AwsNovaActCreateWorkflowRunOptions(
+        string WorkflowDefinitionName,
+        string ModelId,
+        string ClientInfo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowDefinitionName);
+        this.WorkflowDefinitionName = WorkflowDefinitionName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientInfo);
+        this.ClientInfo = ClientInfo;
+    }
+
+    private AwsNovaActCreateWorkflowRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNovaActCreateWorkflowRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNovaActCreateWorkflowRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow definition to execute. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// </summary>
+    [CliOption("--workflow-definition-name")]
+    public string? WorkflowDefinitionName { get; private init; }
+
+    /// <summary>
+    /// The ID of the AI model to use for workflow execution. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--model-id")]
-    public string? ModelId { get; set; }
+    public string? ModelId { get; private init; }
+
+    /// <summary>
+    /// Information about the client making the request, including compati- bility version and SDK version. compatibilityVersion -&gt; (integer) [required] The compatibility version of the client, used to ensure API com- patibility. sdkVersion -&gt; (string) The version of the SDK being used by the client. Constraints: o pattern: [\s\S]+ Shorthand Syntax: compatibilityVersion=integer,sdkVersion=string JSON Syntax: { "compatibilityVersion": integer, "sdkVersion": "string" }
+    /// </summary>
+    [CliOption("--client-info")]
+    public string? ClientInfo { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -41,13 +95,27 @@ public record AwsNovaActCreateWorkflowRunOptions : AwsOptions
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
-    [CliOption("--client-info")]
-    public string? ClientInfo { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

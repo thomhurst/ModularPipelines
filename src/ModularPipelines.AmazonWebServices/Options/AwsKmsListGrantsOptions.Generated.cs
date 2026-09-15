@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "list-grants")]
-public record AwsKmsListGrantsOptions : AwsOptions
+public record AwsKmsListGrantsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of all grants for the specified KMS key. You must specify the KMS key in all requests. You can filter the grant list by grant ID, grantee principal, or grantee service principal. For detailed information about grants, including grant terminology, see Grants in KMS in the * Key Management Service Developer Guide * . For examples of creating grants in several programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI . NOTE: When a grant is created with the Grant...
+    /// </summary>
+    /// <param name="KeyId">Returns only grants for the specified KMS key. This parameter is re- quired. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    public AwsKmsListGrantsOptions(
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    private AwsKmsListGrantsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsListGrantsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsListGrantsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Returns only grants for the specified KMS key. This parameter is re- quired. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
 
     /// <summary>
     /// Returns only the grant with the specified grant ID. The grant ID uniquely identifies the grant. Constraints: o min: 1 o max: 128
@@ -67,5 +104,22 @@ public record AwsKmsListGrantsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

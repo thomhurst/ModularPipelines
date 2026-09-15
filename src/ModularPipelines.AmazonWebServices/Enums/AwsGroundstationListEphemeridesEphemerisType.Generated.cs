@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ephemeristype.
+/// Allowed values for --ephemeris-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGroundstationListEphemeridesEphemerisType
 {
-    [EnumValue("TLE")]
-    Tle = 1,
+    [EnumValue("AZ_EL")]
+    AzEl,
 
     [EnumValue("OEM")]
-    Oem = 2,
-
-    [EnumValue("AZ_EL")]
-    AzEl = 3,
+    Oem,
 
     [EnumValue("SERVICE_MANAGED")]
-    ServiceManaged = 4
+    ServiceManaged,
+
+    [EnumValue("TLE")]
+    Tle
 }

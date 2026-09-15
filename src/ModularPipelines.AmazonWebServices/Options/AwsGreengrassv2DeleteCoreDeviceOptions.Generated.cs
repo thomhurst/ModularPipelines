@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrassv2", "delete-core-device")]
-public record AwsGreengrassv2DeleteCoreDeviceOptions : AwsOptions
+public record AwsGreengrassv2DeleteCoreDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Greengrass core device, which is an IoT thing. This operation removes the core device from the list of core devices. This operation doesn't delete the IoT thing. For more information about how to delete the IoT thing, see DeleteThing in the IoT API Reference . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreDeviceThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
+    public AwsGreengrassv2DeleteCoreDeviceOptions(
+        string CoreDeviceThingName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreDeviceThingName);
+        this.CoreDeviceThingName = CoreDeviceThingName;
+    }
+
+    private AwsGreengrassv2DeleteCoreDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassv2DeleteCoreDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassv2DeleteCoreDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--core-device-thing-name")]
-    public string? CoreDeviceThingName { get; set; }
+    public string? CoreDeviceThingName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

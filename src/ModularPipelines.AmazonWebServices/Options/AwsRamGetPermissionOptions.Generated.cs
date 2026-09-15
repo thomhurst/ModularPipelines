@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "get-permission")]
-public record AwsRamGetPermissionOptions : AwsOptions
+public record AwsRamGetPermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the contents of a managed permission in JSON format. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions li- brary page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.</param>
+    public AwsRamGetPermissionOptions(
+        string PermissionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PermissionArn);
+        this.PermissionArn = PermissionArn;
+    }
+
+    private AwsRamGetPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamGetPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamGetPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions li- brary page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.
+    /// </summary>
     [CliOption("--permission-arn")]
-    public string? PermissionArn { get; set; }
+    public string? PermissionArn { get; private init; }
 
     /// <summary>
     /// Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the de- fault version. To see the list of available versions, use ListPermissionVersions .
@@ -35,5 +72,22 @@ public record AwsRamGetPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

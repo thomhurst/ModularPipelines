@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "list-code-security-scan-configuration-associations")]
-public record AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions : AwsOptions
+public record AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the associations between code repositories and Amazon Inspector code security scan configurations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanConfigurationArn">The Amazon Resource Name (ARN) of the scan configuration to list as- sociations for. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}</param>
+    public AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions(
+        string ScanConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanConfigurationArn);
+        this.ScanConfigurationArn = ScanConfigurationArn;
+    }
+
+    private AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the scan configuration to list as- sociations for. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}
+    /// </summary>
     [CliOption("--scan-configuration-arn")]
-    public string? ScanConfigurationArn { get; set; }
+    public string? ScanConfigurationArn { get; private init; }
 
     /// <summary>
     /// A token to use for paginating results that are returned in the re- sponse. Set the value of this parameter to null for the first re- quest to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page. Constraints: o min: 0 o max: 1000000
@@ -43,5 +80,22 @@ public record AwsInspector2ListCodeSecurityScanConfigurationAssociationsOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

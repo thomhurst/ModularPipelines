@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "update-proxy-rule-priorities")]
-public record AwsNetworkFirewallUpdateProxyRulePrioritiesOptions : AwsOptions
+public record AwsNetworkFirewallUpdateProxyRulePrioritiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates proxy rule priorities within a proxy rule group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleGroupRequestPhase">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Possible values: o PRE_DNS o PRE_REQ o POST_RES</param>
+    /// <param name="Rules">proxy rule resources to update to new positions. (structure) Proxy rule name and new desired position. ProxyRuleName -&gt; (string) The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ NewPosition -&gt; (integer) Where to move a proxy rule in a proxy rule group. Shorthand Syntax: ProxyRuleName=string,NewPosition=integer ... JSON Syntax: [ { "ProxyRuleName": "string", "NewPosition": integer } ... ]</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    public AwsNetworkFirewallUpdateProxyRulePrioritiesOptions(
+        AwsNetworkFirewallUpdateProxyRulePrioritiesRuleGroupRequestPhase RuleGroupRequestPhase,
+        IEnumerable<string> Rules,
+        string UpdateToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleGroupRequestPhase);
+        this.RuleGroupRequestPhase = RuleGroupRequestPhase;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rules));
+            }
+
+            Rules = materialized;
+        }
+        this.Rules = Rules;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateToken);
+        this.UpdateToken = UpdateToken;
+    }
+
+    private AwsNetworkFirewallUpdateProxyRulePrioritiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallUpdateProxyRulePrioritiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallUpdateProxyRulePrioritiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Possible values: o PRE_DNS o PRE_REQ o POST_RES
+    /// </summary>
+    [CliOption("--rule-group-request-phase")]
+    public AwsNetworkFirewallUpdateProxyRulePrioritiesRuleGroupRequestPhase? RuleGroupRequestPhase { get; private init; }
+
+    /// <summary>
+    /// proxy rule resources to update to new positions. (structure) Proxy rule name and new desired position. ProxyRuleName -&gt; (string) The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ NewPosition -&gt; (integer) Where to move a proxy rule in a proxy rule group. Shorthand Syntax: ProxyRuleName=string,NewPosition=integer ... JSON Syntax: [ { "ProxyRuleName": "string", "NewPosition": integer } ... ]
+    /// </summary>
+    [CliOption("--rules", GroupValues = true)]
+    public IEnumerable<string>? Rules { get; private init; }
+
+    /// <summary>
+    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// </summary>
+    [SecretValue]
+    [CliOption("--update-token")]
+    public string? UpdateToken { get; private init; }
+
     /// <summary>
     /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
@@ -34,20 +107,27 @@ public record AwsNetworkFirewallUpdateProxyRulePrioritiesOptions : AwsOptions
     [CliOption("--proxy-rule-group-arn")]
     public string? ProxyRuleGroupArn { get; set; }
 
-    [CliOption("--rule-group-request-phase")]
-    public string? RuleGroupRequestPhase { get; set; }
-
-    [CliOption("--rules", GroupValues = true)]
-    public IEnumerable<string>? Rules { get; set; }
-
-    [SecretValue]
-    [CliOption("--update-token")]
-    public string? UpdateToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

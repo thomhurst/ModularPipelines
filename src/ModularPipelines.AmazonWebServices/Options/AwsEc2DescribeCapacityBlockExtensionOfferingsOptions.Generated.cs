@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-capacity-block-extension-offerings")]
-public record AwsEc2DescribeCapacityBlockExtensionOfferingsOptions : AwsOptions
+public record AwsEc2DescribeCapacityBlockExtensionOfferingsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-block-extension-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
+    /// </summary>
+    /// <param name="CapacityBlockExtensionDurationHours">The duration of the Capacity Block extension offering in hours.</param>
+    /// <param name="CapacityReservationId">The ID of the Capacity reservation to be extended.</param>
+    public AwsEc2DescribeCapacityBlockExtensionOfferingsOptions(
+        int CapacityBlockExtensionDurationHours,
+        string CapacityReservationId
+    )
+    {
+        this.CapacityBlockExtensionDurationHours = CapacityBlockExtensionDurationHours;
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationId);
+        this.CapacityReservationId = CapacityReservationId;
+    }
+
+    private AwsEc2DescribeCapacityBlockExtensionOfferingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeCapacityBlockExtensionOfferingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeCapacityBlockExtensionOfferingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The duration of the Capacity Block extension offering in hours.
+    /// </summary>
     [CliOption("--capacity-block-extension-duration-hours")]
-    public int? CapacityBlockExtensionDurationHours { get; set; }
+    public int? CapacityBlockExtensionDurationHours { get; private init; }
 
+    /// <summary>
+    /// The ID of the Capacity reservation to be extended.
+    /// </summary>
     [CliOption("--capacity-reservation-id")]
-    public string? CapacityReservationId { get; set; }
+    public string? CapacityReservationId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +101,22 @@ public record AwsEc2DescribeCapacityBlockExtensionOfferingsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

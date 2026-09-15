@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "create-interconnect")]
-public record AwsDirectconnectCreateInterconnectOptions : AwsOptions
+public record AwsDirectconnectCreateInterconnectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location. An interconnect is a connection that is capable of hosting other con- nections. The Direct Connect Partner can use an interconnect to provide Direct Connect hosted connections to customers through their own net- work services. Like a standard connection, an interconnect links the partner's network to an Direct Connect location over a standard Ether- net fiber-optic cable. One end is connec...
+    /// </summary>
+    /// <param name="InterconnectName">The name of the interconnect.</param>
+    /// <param name="Bandwidth">The port bandwidth, in Gbps. The possible values are 1, 10, and 100.</param>
+    /// <param name="Location">The location of the interconnect.</param>
+    public AwsDirectconnectCreateInterconnectOptions(
+        string InterconnectName,
+        string Bandwidth,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InterconnectName);
+        this.InterconnectName = InterconnectName;
+        global::System.ArgumentNullException.ThrowIfNull(Bandwidth);
+        this.Bandwidth = Bandwidth;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    private AwsDirectconnectCreateInterconnectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectCreateInterconnectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectCreateInterconnectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the interconnect.
+    /// </summary>
     [CliOption("--interconnect-name")]
-    public string? InterconnectName { get; set; }
+    public string? InterconnectName { get; private init; }
 
+    /// <summary>
+    /// The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
+    /// </summary>
     [CliOption("--bandwidth")]
-    public string? Bandwidth { get; set; }
+    public string? Bandwidth { get; private init; }
 
+    /// <summary>
+    /// The location of the interconnect.
+    /// </summary>
     [CliOption("--location")]
-    public string? Location { get; set; }
+    public string? Location { get; private init; }
 
     /// <summary>
     /// The ID of the LAG.
@@ -48,7 +99,10 @@ public record AwsDirectconnectCreateInterconnectOptions : AwsOptions
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CliFlag("--request-mac-sec")]
+    /// <summary>
+    /// Indicates whether you want the interconnect to support MAC Security (MACsec).
+    /// </summary>
+    [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +110,22 @@ public record AwsDirectconnectCreateInterconnectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

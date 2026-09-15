@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-tables")]
-public record AwsGlueGetTablesOptions : AwsOptions
+public record AwsGlueGetTablesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the definitions of some or all of the tables in a given Data- base . See also: AWS API Documentation get-tables uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. get-tables is a paginated operation. Multiple API calls may be is...
+    /// </summary>
+    /// <param name="DatabaseName">The database in the catalog whose tables to list. For Hive compati- bility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    public AwsGlueGetTablesOptions(
+        string DatabaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+    }
+
+    private AwsGlueGetTablesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetTablesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetTablesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The database in the catalog whose tables to list. For Hive compati- bility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog where the tables reside. If none is pro- vided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
-
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
 
     /// <summary>
     /// A regular expression pattern. If present, only those tables whose names match the pattern are returned. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
@@ -55,7 +92,10 @@ public record AwsGlueGetTablesOptions : AwsOptions
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
-    [CliFlag("--include-status-details")]
+    /// <summary>
+    /// Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.
+    /// </summary>
+    [CliFlag("--include-status-details", NegatedName = "--no-include-status-details")]
     public bool? IncludeStatusDetails { get; set; }
 
     /// <summary>
@@ -88,5 +128,22 @@ public record AwsGlueGetTablesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

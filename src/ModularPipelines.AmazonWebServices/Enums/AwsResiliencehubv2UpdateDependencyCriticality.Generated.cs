@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2UpdateDependencyCriticality
 {
     [EnumValue("HARD")]
-    Hard = 1,
+    Hard,
 
     [EnumValue("SOFT")]
-    Soft = 2,
+    Soft,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 3
+    Unknown
 }

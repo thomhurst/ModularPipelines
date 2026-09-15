@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "create-access-point-for-object-lambda")]
-public record AwsS3controlCreateAccessPointForObjectLambdaOptions : AwsOptions
+public record AwsS3controlCreateAccessPointForObjectLambdaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported by directory buckets. Creates an Object Lambda Access Point. For more information, see Transforming objects with Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to CreateAccessPointForObjectLambda : o DeleteAccessPointForObjectLambda o GetAccessPointForObjectLambda o ListAccessPointsForObjectLambda See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID for owner of the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Name">The name you want to assign to this Object Lambda Access Point. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$</param>
+    /// <param name="Configuration">Object Lambda Access Point configuration as a JSON document. SupportingAccessPoint -&gt; (string) [required] Standard access point associated with the Object Lambda Access Point. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:s3:[^:]*:\d{12}:accesspoint/.* CloudWatchMetricsEnabled -&gt; (boolean) A container for whether the CloudWatch metrics configuration is enabled. AllowedFeatures -&gt; (list) A container for allowed features. Valid inputs are GetOb- ject-Range , GetObject-PartNumber , HeadObject-Range , and Head- Object-PartNumber . (string) Possible values: o GetObject-Range o GetObject-PartNumber o HeadObject-Range o HeadObject-PartNumber TransformationConfigurations -&gt; (list) [required] A container for transformation configurations for an Object Lambda Access Point. (structure) A configuration used when creating an Object Lambda Access Point transformation. Actions -&gt; (list) [required] A container for the action of an Object Lambda Access Point configuration. Valid inputs are GetObject , ListOb- jects , HeadObject , and ListObjectsV2 . (string) Possible values: o GetObject o HeadObject o ListObjects o ListObjectsV2 ContentTransformation -&gt; (tagged union structure) [required] A container for the content transformation of an Object Lambda Access Point configuration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: AwsLambda. AwsLambda -&gt; (structure) A container for an Lambda function. FunctionArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda func- tion. Constraints: o min: 1 o max: 1024 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LAT- EST|[a-zA-Z0-9-_]+))? FunctionPayload -&gt; (string) Additional JSON that provides supplemental data to the Lambda function used to transform objects. JSON Syntax: { "SupportingAccessPoint": "string", "CloudWatchMetricsEnabled": true|false, "AllowedFeatures": ["GetObject-Range"|"GetObject-PartNumber"|"HeadObject-Range"|"HeadObject-PartNumber", ...], "TransformationConfigurations": [ { "Actions": ["GetObject"|"HeadObject"|"ListObjects"|"ListObjectsV2", ...], "ContentTransformation": { "AwsLambda": { "FunctionArn": "string", "FunctionPayload": "string" } } } ... ] }</param>
+    public AwsS3controlCreateAccessPointForObjectLambdaOptions(
+        string AccountId,
+        string Name,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsS3controlCreateAccessPointForObjectLambdaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlCreateAccessPointForObjectLambdaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlCreateAccessPointForObjectLambdaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID for owner of the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The name you want to assign to this Object Lambda Access Point. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Object Lambda Access Point configuration as a JSON document. SupportingAccessPoint -&gt; (string) [required] Standard access point associated with the Object Lambda Access Point. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:s3:[^:]*:\d{12}:accesspoint/.* CloudWatchMetricsEnabled -&gt; (boolean) A container for whether the CloudWatch metrics configuration is enabled. AllowedFeatures -&gt; (list) A container for allowed features. Valid inputs are GetOb- ject-Range , GetObject-PartNumber , HeadObject-Range , and Head- Object-PartNumber . (string) Possible values: o GetObject-Range o GetObject-PartNumber o HeadObject-Range o HeadObject-PartNumber TransformationConfigurations -&gt; (list) [required] A container for transformation configurations for an Object Lambda Access Point. (structure) A configuration used when creating an Object Lambda Access Point transformation. Actions -&gt; (list) [required] A container for the action of an Object Lambda Access Point configuration. Valid inputs are GetObject , ListOb- jects , HeadObject , and ListObjectsV2 . (string) Possible values: o GetObject o HeadObject o ListObjects o ListObjectsV2 ContentTransformation -&gt; (tagged union structure) [required] A container for the content transformation of an Object Lambda Access Point configuration. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: AwsLambda. AwsLambda -&gt; (structure) A container for an Lambda function. FunctionArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda func- tion. Constraints: o min: 1 o max: 1024 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LAT- EST|[a-zA-Z0-9-_]+))? FunctionPayload -&gt; (string) Additional JSON that provides supplemental data to the Lambda function used to transform objects. JSON Syntax: { "SupportingAccessPoint": "string", "CloudWatchMetricsEnabled": true|false, "AllowedFeatures": ["GetObject-Range"|"GetObject-PartNumber"|"HeadObject-Range"|"HeadObject-PartNumber", ...], "TransformationConfigurations": [ { "Actions": ["GetObject"|"HeadObject"|"ListObjects"|"ListObjectsV2", ...], "ContentTransformation": { "AwsLambda": { "FunctionArn": "string", "FunctionPayload": "string" } } } ... ] }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

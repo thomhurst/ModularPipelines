@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "create-permission-set")]
-public record AwsSsoAdminCreatePermissionSetOptions : AwsOptions
+public record AwsSsoAdminCreatePermissionSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a permission set within a specified IAM Identity Center in- stance. NOTE: To grant users and groups access to Amazon Web Services account re- sources, use `` CreateAccountAssignment `` . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the PermissionSet . Constraints: o min: 1 o max: 32 o pattern: [\w+=,.@-]+</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    public AwsSsoAdminCreatePermissionSetOptions(
+        string Name,
+        string InstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+    }
+
+    private AwsSsoAdminCreatePermissionSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminCreatePermissionSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminCreatePermissionSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the PermissionSet . Constraints: o min: 1 o max: 32 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
+    [CliOption("--instance-arn")]
+    public string? InstanceArn { get; private init; }
 
     /// <summary>
     /// The description of the PermissionSet . Constraints: o min: 1 o max: 700 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
 
     /// <summary>
     /// The length of time that the application user sessions are valid in the ISO-8601 standard. Constraints: o min: 1 o max: 100 o pattern: (-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?
@@ -56,5 +100,22 @@ public record AwsSsoAdminCreatePermissionSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

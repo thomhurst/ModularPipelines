@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-template-active-version")]
-public record AwsPinpointUpdateTemplateActiveVersionOptions : AwsOptions
+public record AwsPinpointUpdateTemplateActiveVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the status of a specific version of a message template to ac- tive . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateActiveVersionRequest">Specifies which version of a message template to use as the active version of the template. Version -&gt; (string) The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any ex- isting version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versionsresource. Shorthand Syntax: Version=string JSON Syntax: { "Version": "string" }</param>
+    /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
+    /// <param name="TemplateType">The type of channel that the message template is designed for. Valid values are: EMAIL, PUSH, SMS, and VOICE.</param>
+    public AwsPinpointUpdateTemplateActiveVersionOptions(
+        string TemplateActiveVersionRequest,
+        string TemplateName,
+        string TemplateType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateActiveVersionRequest);
+        this.TemplateActiveVersionRequest = TemplateActiveVersionRequest;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateType);
+        this.TemplateType = TemplateType;
+    }
+
+    private AwsPinpointUpdateTemplateActiveVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateTemplateActiveVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateTemplateActiveVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies which version of a message template to use as the active version of the template. Version -&gt; (string) The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any ex- isting version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versionsresource. Shorthand Syntax: Version=string JSON Syntax: { "Version": "string" }
+    /// </summary>
     [CliOption("--template-active-version-request")]
-    public string? TemplateActiveVersionRequest { get; set; }
+    public string? TemplateActiveVersionRequest { get; private init; }
 
+    /// <summary>
+    /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
 
+    /// <summary>
+    /// The type of channel that the message template is designed for. Valid values are: EMAIL, PUSH, SMS, and VOICE.
+    /// </summary>
     [CliOption("--template-type")]
-    public string? TemplateType { get; set; }
+    public string? TemplateType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

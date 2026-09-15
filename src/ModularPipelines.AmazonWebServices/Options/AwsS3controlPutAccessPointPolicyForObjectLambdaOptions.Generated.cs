@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "put-access-point-policy-for-object-lambda")]
-public record AwsS3controlPutAccessPointPolicyForObjectLambdaOptions : AwsOptions
+public record AwsS3controlPutAccessPointPolicyForObjectLambdaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported by directory buckets. Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to PutAccessPointPolicyForObject- Lambda : o DeleteAccessPointPolicyForObjectLambda o GetAccessPointPolicyForObjectLambda See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The account ID for the account that owns the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Name">The name of the Object Lambda Access Point. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$</param>
+    /// <param name="Policy">Object Lambda Access Point resource policy document.</param>
+    public AwsS3controlPutAccessPointPolicyForObjectLambdaOptions(
+        string AccountId,
+        string Name,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsS3controlPutAccessPointPolicyForObjectLambdaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlPutAccessPointPolicyForObjectLambdaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlPutAccessPointPolicyForObjectLambdaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The account ID for the account that owns the specified Object Lambda Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The name of the Object Lambda Access Point. Constraints: o min: 3 o max: 45 o pattern: ^[a-z0-9]([a-z0-9\-]*[a-z0-9])?$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Object Lambda Access Point resource policy document.
+    /// </summary>
     [CliOption("--policy")]
-    public string? Policy { get; set; }
+    public string? Policy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

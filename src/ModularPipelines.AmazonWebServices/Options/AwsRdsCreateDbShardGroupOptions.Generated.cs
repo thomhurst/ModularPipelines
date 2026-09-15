@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-shard-group")]
-public record AwsRdsCreateDbShardGroupOptions : AwsOptions
+public record AwsRdsCreateDbShardGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-shard-group-identifier")]
-    public string? DbShardGroupIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new DB shard group for Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbShardGroupIdentifier">The name of the DB shard group.</param>
+    /// <param name="DbClusterIdentifier">The name of the primary DB cluster for the DB shard group.</param>
+    /// <param name="MaxAcu">The maximum capacity of the DB shard group in Aurora capacity units (ACUs).</param>
+    public AwsRdsCreateDbShardGroupOptions(
+        string DbShardGroupIdentifier,
+        string DbClusterIdentifier,
+        int MaxAcu
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbShardGroupIdentifier);
+        this.DbShardGroupIdentifier = DbShardGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        this.MaxAcu = MaxAcu;
+    }
+
+    private AwsRdsCreateDbShardGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbShardGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbShardGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB shard group.
+    /// </summary>
+    [CliOption("--db-shard-group-identifier")]
+    public string? DbShardGroupIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the primary DB cluster for the DB shard group.
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+    /// </summary>
+    [CliOption("--max-acu")]
+    public int? MaxAcu { get; private init; }
 
     /// <summary>
     /// Specifies whether to create standby standby DB data access shard for the DB shard group. Valid values are the following: o 0 - Creates a DB shard group without a standby DB data access shard. This is the default value. o 1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ). o 2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
@@ -33,16 +86,16 @@ public record AwsRdsCreateDbShardGroupOptions : AwsOptions
     [CliOption("--compute-redundancy")]
     public int? ComputeRedundancy { get; set; }
 
-    [CliOption("--max-acu")]
-    public int? MaxAcu { get; set; }
-
     /// <summary>
     /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
     /// </summary>
     [CliOption("--min-acu")]
     public int? MinAcu { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name Sys- tem (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP ad- dress. Default: The default behavior varies depending on whether DBSubnet- GroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: o If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB shard group is private. o If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: o If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB shard group is private. o If the subnets are part of a VPC that has an internet gateway at- tached to it, the DB shard group is public.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -56,5 +109,22 @@ public record AwsRdsCreateDbShardGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

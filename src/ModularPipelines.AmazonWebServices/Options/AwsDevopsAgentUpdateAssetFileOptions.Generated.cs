@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "update-asset-file")]
-public record AwsDevopsAgentUpdateAssetFileOptions : AwsOptions
+public record AwsDevopsAgentUpdateAssetFileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AssetId">The unique identifier of the asset containing the file Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Path">The path of the file within the asset to update Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+</param>
+    public AwsDevopsAgentUpdateAssetFileOptions(
+        string AgentSpaceId,
+        string AssetId,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(AssetId);
+        this.AssetId = AssetId;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    private AwsDevopsAgentUpdateAssetFileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentUpdateAssetFileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentUpdateAssetFileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the asset containing the file Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--asset-id")]
-    public string? AssetId { get; set; }
+    public string? AssetId { get; private init; }
 
+    /// <summary>
+    /// The path of the file within the asset to update Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+
+    /// </summary>
     [CliOption("--path")]
-    public string? Path { get; set; }
+    public string? Path { get; private init; }
 
     /// <summary>
     /// Updated file content. If omitted, the existing content is unchanged. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes, text. bytes -&gt; (blob) Binary file content Constraints: o min: 0 o max: 6291456 text -&gt; (string) Text file content Constraints: o min: 0 o max: 6291456 Shorthand Syntax: bytes=blob,text=string JSON Syntax: { "bytes": blob, "text": "string" }
@@ -55,5 +106,22 @@ public record AwsDevopsAgentUpdateAssetFileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

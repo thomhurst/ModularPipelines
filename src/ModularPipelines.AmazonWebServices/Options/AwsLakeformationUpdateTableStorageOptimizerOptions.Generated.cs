@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,27 +21,105 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "update-table-storage-optimizer")]
-public record AwsLakeformationUpdateTableStorageOptimizerOptions : AwsOptions
+public record AwsLakeformationUpdateTableStorageOptimizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of the storage optimizers for a table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">Name of the database where the table is present. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">Name of the table for which to enable the storage optimizer. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="StorageOptimizerConfig">Name of the configuration for the storage optimizer. key -&gt; (string) Possible values: o COMPACTION o GARBAGE_COLLECTION o ALL value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} Where valid key names are: COMPACTION GARBAGE_COLLECTION ALL JSON Syntax: {"COMPACTION"|"GARBAGE_COLLECTION"|"ALL": {"string": "string" ...} ...}</param>
+    public AwsLakeformationUpdateTableStorageOptimizerOptions(
+        string DatabaseName,
+        string TableName,
+        IReadOnlyList<KeyValue> StorageOptimizerConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StorageOptimizerConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(StorageOptimizerConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StorageOptimizerConfig));
+            }
+
+            StorageOptimizerConfig = materialized;
+        }
+        this.StorageOptimizerConfig = StorageOptimizerConfig;
+    }
+
+    private AwsLakeformationUpdateTableStorageOptimizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationUpdateTableStorageOptimizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationUpdateTableStorageOptimizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the database where the table is present. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// Name of the table for which to enable the storage optimizer. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// Name of the configuration for the storage optimizer. key -&gt; (string) Possible values: o COMPACTION o GARBAGE_COLLECTION o ALL value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} Where valid key names are: COMPACTION GARBAGE_COLLECTION ALL JSON Syntax: {"COMPACTION"|"GARBAGE_COLLECTION"|"ALL": {"string": "string" ...} ...}
+    /// </summary>
+    [CliOption("--storage-optimizer-config", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? StorageOptimizerConfig { get; private init; }
+
     /// <summary>
     /// The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
-
-    [CliOption("--storage-optimizer-config", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? StorageOptimizerConfig { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

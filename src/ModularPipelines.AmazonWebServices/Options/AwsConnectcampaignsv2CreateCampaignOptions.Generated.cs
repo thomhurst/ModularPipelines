@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaignsv2", "create-campaign")]
-public record AwsConnectcampaignsv2CreateCampaignOptions : AwsOptions
+public record AwsConnectcampaignsv2CreateCampaignOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a campaign for the specified Amazon Connect account. This API is idempotent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of an Amazon Connect Campaign name. Constraints: o min: 1 o max: 127</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
+    public AwsConnectcampaignsv2CreateCampaignOptions(
+        string Name,
+        string ConnectInstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectInstanceId);
+        this.ConnectInstanceId = ConnectInstanceId;
+    }
+
+    private AwsConnectcampaignsv2CreateCampaignOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsv2CreateCampaignOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsv2CreateCampaignOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an Amazon Connect Campaign name. Constraints: o min: 1 o max: 127
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--connect-instance-id")]
-    public string? ConnectInstanceId { get; set; }
+    public string? ConnectInstanceId { get; private init; }
 
     /// <summary>
     /// Campaign Channel Subtype config telephony -&gt; (structure) Telephony Channel Subtype config capacity -&gt; (double) Allocates outbound capacity for the specific channel subtype of this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 connectQueueId -&gt; (string) The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number. Constraints: o min: 0 o max: 500 outboundMode -&gt; (tagged union structure) [required] Telephony Outbound Mode NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: progressive, predictive, agentless, preview. progressive -&gt; (structure) Progressive config bandwidthAllocation -&gt; (double) [required] The bandwidth allocation of a queue resource. Constraints: o min: 0 o max: 2 predictive -&gt; (structure) Predictive config bandwidthAllocation -&gt; (double) [required] The bandwidth allocation of a queue resource. Constraints: o min: 0 o max: 2 pacingStrategies -&gt; (list) Pacing strategies the dialer enforces simultaneously. Constraints: o min: 1 o max: 1 (tagged union structure) Pacing constraint the dialer may enforce. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: aban- donmentRate. abandonmentRate -&gt; (structure) Configuration for abandonment-rate-based dialer throttling. targetRate -&gt; (double) [required] Target abandonment rate. Constraints: o min: 0.0 o max: 1.0 connectionStartPoint -&gt; (string) [required] Event from which connectionThresholdSeconds is measured. Possible values: o CONNECTED_TO_SYSTEM o GREETING_START o GREETING_END connectionThresholdSeconds -&gt; (integer) [re- quired] Seconds after connectionStartPoint before a contact counts as abandoned. Constraints: o min: 1 evaluationWindow -&gt; (string) [required] Rolling window over which abandonmentRate is computed. Constraints: o min: 0 o max: 5 o pattern: PT([1-9]|1[0-9]|2[0-4])H agentless -&gt; (structure) Agentless config preview -&gt; (structure) Preview config bandwidthAllocation -&gt; (double) [required] The bandwidth allocation of a queue resource. Constraints: o min: 0 o max: 2 timeoutConfig -&gt; (structure) [required] Timeout Config for preview contacts. durationInSeconds -&gt; (integer) [required] Timeout duration for a preview contact in seconds. Constraints: o min: 1 o max: 300 agentActions -&gt; (list) Actions that can be performed by agent during preview phase. (string) Actions that can performed on a contact by an agent Possible values: o DISCARD defaultOutboundConfig -&gt; (structure) [required] Default Telephony Outbound config connectContactFlowId -&gt; (string) [required] The identifier of the contact flow for the outbound call. Constraints: o min: 0 o max: 500 connectSourcePhoneNumber -&gt; (string) The phone number associated with the Amazon Connect in- stance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: o min: 0 o max: 100 answerMachineDetectionConfig -&gt; (structure) Answering Machine Detection config enableAnswerMachineDetection -&gt; (boolean) [required] Enable or disable answering machine detection awaitAnswerMachinePrompt -&gt; (boolean) Enable or disable await answer machine prompt ringTimeout -&gt; (integer) Ring timeout for outbound calls Constraints: o min: 15 o max: 60 sms -&gt; (structure) SMS Channel Subtype config capacity -&gt; (double) Allocates outbound capacity for the specific channel subtype of this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 outboundMode -&gt; (tagged union structure) [required] SMS Outbound Mode NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: agentless. agentless -&gt; (structure) Agentless config defaultOutboundConfig -&gt; (structure) [required] Default SMS Outbound config connectSourcePhoneNumberArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? wisdomTemplateArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? email -&gt; (structure) Email Channel Subtype config capacity -&gt; (double) Allocates outbound capacity for the specific channel subtype of this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 outboundMode -&gt; (tagged union structure) [required] Email Outbound Mode NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: agentless. agentless -&gt; (structure) Agentless config defaultOutboundConfig -&gt; (structure) [required] Default Email Outbound config connectSourceEmailAddress -&gt; (string) [required] Source/Destination Email address used for Email messages Constraints: o min: 1 o max: 255 o pattern: .*[^\s@]+@[^\s@]+\.[^\s@]+.* sourceEmailAddressDisplayName -&gt; (string) Display name for Email Address Constraints: o min: 0 o max: 256 wisdomTemplateArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? whatsApp -&gt; (structure) WhatsApp Channel Subtype config capacity -&gt; (double) Allocates outbound capacity for the specific channel subtype of this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 outboundMode -&gt; (tagged union structure) [required] WhatsApp Outbound Mode NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: agentless. agentless -&gt; (structure) Agentless config defaultOutboundConfig -&gt; (structure) [required] Default WhatsApp Outbound config connectSourcePhoneNumberArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? wisdomTemplateArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? JSON Syntax: { "telephony": { "capacity": double, "connectQueueId": "string", "outboundMode": { "progressive": { "bandwidthAllocation": double }, "predictive": { "bandwidthAllocation": double, "pacingStrategies": [ { "abandonmentRate": { "targetRate": double, "connectionStartPoint": "CONNECTED_TO_SYSTEM"|"GREETING_START"|"GREETING_END", "connectionThresholdSeconds": integer, "evaluationWindow": "string" } } ... ] }, "agentless": { }, "preview": { "bandwidthAllocation": double, "timeoutConfig": { "durationInSeconds": integer }, "agentActions": ["DISCARD", ...] } }, "defaultOutboundConfig": { "connectContactFlowId": "string", "connectSourcePhoneNumber": "string", "answerMachineDetectionConfig": { "enableAnswerMachineDetection": true|false, "awaitAnswerMachinePrompt": true|false }, "ringTimeout": integer } }, "sms": { "capacity": double, "outboundMode": { "agentless": { } }, "defaultOutboundConfig": { "connectSourcePhoneNumberArn": "string", "wisdomTemplateArn": "string" } }, "email": { "capacity": double, "outboundMode": { "agentless": { } }, "defaultOutboundConfig": { "connectSourceEmailAddress": "string", "sourceEmailAddressDisplayName": "string", "wisdomTemplateArn": "string" } }, "whatsApp": { "capacity": double, "outboundMode": { "agentless": { } }, "defaultOutboundConfig": { "connectSourcePhoneNumberArn": "string", "wisdomTemplateArn": "string" } } }
@@ -88,5 +132,22 @@ public record AwsConnectcampaignsv2CreateCampaignOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

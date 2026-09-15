@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rolesanywhere", "import-crl")]
-public record AwsRolesanywhereImportCrlOptions : AwsOptions
+public record AwsRolesanywhereImportCrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports the certificate revocation list (CRL). A CRL is a list of cer- tificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the certificate revocation list (CRL). Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*</param>
+    /// <param name="CrlData">The x509 v3 specified certificate revocation list (CRL). Constraints: o min: 1 o max: 300000</param>
+    /// <param name="TrustAnchorArn">The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*)</param>
+    public AwsRolesanywhereImportCrlOptions(
+        string Name,
+        string CrlData,
+        string TrustAnchorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(CrlData);
+        this.CrlData = CrlData;
+        global::System.ArgumentNullException.ThrowIfNull(TrustAnchorArn);
+        this.TrustAnchorArn = TrustAnchorArn;
+    }
+
+    private AwsRolesanywhereImportCrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRolesanywhereImportCrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRolesanywhereImportCrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the certificate revocation list (CRL). Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The x509 v3 specified certificate revocation list (CRL). Constraints: o min: 1 o max: 300000
+    /// </summary>
     [CliOption("--crl-data")]
-    public string? CrlData { get; set; }
+    public string? CrlData { get; private init; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*)
+    /// </summary>
+    [CliOption("--trust-anchor-arn")]
+    public string? TrustAnchorArn { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the certificate revocation list (CRL) is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -36,13 +93,27 @@ public record AwsRolesanywhereImportCrlOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--trust-anchor-arn")]
-    public string? TrustAnchorArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

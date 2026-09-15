@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-spot-placement-scores")]
-public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
+public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using In- stanceRequirementsWithMetadata and letting Amazon EC2 choose the opti- mal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes . For more information, see Spot placement score in the Amazon EC2 User Guide . See also: AWS API Documentation get-spot-p...
+    /// </summary>
+    /// <param name="TargetCapacity">The target capacity. Constraints: o min: 1 o max: 2000000000</param>
+    public AwsEc2GetSpotPlacementScoresOptions(
+        int TargetCapacity
+    )
+    {
+        this.TargetCapacity = TargetCapacity;
+    }
+
+    private AwsEc2GetSpotPlacementScoresOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetSpotPlacementScoresOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetSpotPlacementScoresOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The target capacity. Constraints: o min: 1 o max: 2000000000
+    /// </summary>
+    [CliOption("--target-capacity")]
+    public int? TargetCapacity { get; private init; }
+
     /// <summary>
     /// The instance types. We recommend that you specify at least three in- stance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will al- ways be low. If you specify InstanceTypes , you can't specify InstanceRequire- mentsWithMetadata . Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-types", GroupValues = true)]
     public IEnumerable<string>? InstanceTypes { get; set; }
-
-    [CliOption("--target-capacity")]
-    public int? TargetCapacity { get; set; }
 
     /// <summary>
     /// The unit for the target capacity. Possible values: o vcpu o memory-mib o units
@@ -38,7 +74,10 @@ public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
     [CliOption("--target-capacity-unit-type")]
     public AwsEc2GetSpotPlacementScoresTargetCapacityUnitType? TargetCapacityUnitType { get; set; }
 
-    [CliFlag("--single-availability-zone")]
+    /// <summary>
+    /// Specify true so that the response returns a list of scored Avail- ability Zones. Otherwise, the response returns a list of scored Re- gions. A list of scored Availability Zones is useful if you want to launch all of your Spot capacity into a single Availability Zone.
+    /// </summary>
+    [CliFlag("--single-availability-zone", NegatedName = "--no-single-availability-zone")]
     public bool? SingleAvailabilityZone { get; set; }
 
     /// <summary>
@@ -53,10 +92,16 @@ public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
     [CliOption("--instance-requirements-with-metadata")]
     public string? InstanceRequirementsWithMetadata { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--include-local-zones")]
+    /// <summary>
+    /// Specify true so that the response returns scores that include Local Zones. Otherwise, the response ignores Local Zones. When you request regional scores, Local Zone capacity counts toward its parent Region.
+    /// </summary>
+    [CliFlag("--include-local-zones", NegatedName = "--no-include-local-zones")]
     public bool? IncludeLocalZones { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -83,5 +128,22 @@ public record AwsEc2GetSpotPlacementScoresOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

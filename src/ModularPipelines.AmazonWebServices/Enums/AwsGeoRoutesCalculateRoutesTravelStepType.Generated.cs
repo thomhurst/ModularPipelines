@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --travelsteptype.
+/// Allowed values for --travel-step-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoRoutesCalculateRoutesTravelStepType
 {
     [EnumValue("Default")]
-    Default = 1,
+    Default,
 
     [EnumValue("TurnByTurn")]
-    TurnByTurn = 2
+    TurnByTurn
 }

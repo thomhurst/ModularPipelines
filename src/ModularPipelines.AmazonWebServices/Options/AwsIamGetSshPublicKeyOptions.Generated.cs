@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-ssh-public-key")]
-public record AwsIamGetSshPublicKeyOptions : AwsOptions
+public record AwsIamGetSshPublicKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the specified SSH public key, including metadata about the key. The SSH public key retrieved by this operation is used only for authen- ticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserName">The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="SshPublicKeyId">The unique identifier for the SSH public key. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+</param>
+    /// <param name="Encoding">Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH . To retrieve the public key in PEM format, use PEM . Possible values: o SSH o PEM</param>
+    public AwsIamGetSshPublicKeyOptions(
+        string UserName,
+        string SshPublicKeyId,
+        AwsIamGetSshPublicKeyEncoding Encoding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(SshPublicKeyId);
+        this.SshPublicKeyId = SshPublicKeyId;
+        global::System.ArgumentNullException.ThrowIfNull(Encoding);
+        this.Encoding = Encoding;
+    }
+
+    private AwsIamGetSshPublicKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetSshPublicKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetSshPublicKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the SSH public key. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+
+    /// </summary>
     [CliOption("--ssh-public-key-id")]
-    public string? SshPublicKeyId { get; set; }
+    public string? SshPublicKeyId { get; private init; }
 
+    /// <summary>
+    /// Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH . To retrieve the public key in PEM format, use PEM . Possible values: o SSH o PEM
+    /// </summary>
     [CliOption("--encoding")]
-    public string? Encoding { get; set; }
+    public AwsIamGetSshPublicKeyEncoding? Encoding { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

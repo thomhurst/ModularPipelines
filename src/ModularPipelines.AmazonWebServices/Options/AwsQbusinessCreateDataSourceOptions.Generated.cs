@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "create-data-source")]
-public record AwsQbusinessCreateDataSourceOptions : AwsOptions
+public record AwsQbusinessCreateDataSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a data source connector for an Amazon Q Business application. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an ex- ception is raised. See also: AWS API Documentation create-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the t...
+    /// </summary>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application the data source will be attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the index that you want to use with the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="DisplayName">A name for the data source connector. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="Configuration">Configuration information to connect your data source repository to Amazon Q Business. Use this parameter to provide a JSON schema with configuration information specific to your data source connector. Each data source has a JSON schema provided by Amazon Q Business that you must use. For example, the Amazon S3 and Web Crawler con- nectors require the following JSON schemas: o Amazon S3 JSON schema o Web Crawler JSON schema You can find configuration templates for your specific data source using the following steps: o Navigate to the Supported connectors page in the Amazon Q Business User Guide, and select the data source of your choice. o Then, from your specific data source connector page, select Using the API . You will find the JSON schema for your data source, in- cluding parameter descriptions, in this section. JSON Syntax: {...}</param>
+    public AwsQbusinessCreateDataSourceOptions(
+        string ApplicationId,
+        string IndexId,
+        string DisplayName,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsQbusinessCreateDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessCreateDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessCreateDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q Business application the data source will be attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the index that you want to use with the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
+    /// <summary>
+    /// A name for the data source connector. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
 
+    /// <summary>
+    /// Configuration information to connect your data source repository to Amazon Q Business. Use this parameter to provide a JSON schema with configuration information specific to your data source connector. Each data source has a JSON schema provided by Amazon Q Business that you must use. For example, the Amazon S3 and Web Crawler con- nectors require the following JSON schemas: o Amazon S3 JSON schema o Web Crawler JSON schema You can find configuration templates for your specific data source using the following steps: o Navigate to the Supported connectors page in the Amazon Q Business User Guide, and select the data source of your choice. o Then, from your specific data source connector page, select Using the API . You will find the JSON schema for your data source, in- cluding parameter descriptions, in this section. JSON Syntax: {...}
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// Configuration information for an Amazon VPC (Virtual Private Cloud) to connect to your data source. For more information, see Using Ama- zon VPC with Amazon Q Business connectors . subnetIds -&gt; (list) [required] A list of identifiers for subnets within your Amazon VPC. The subnets should be able to connect to each other in the VPC, and they should have outgoing access to the Internet through a NAT device. (string) Constraints: o min: 1 o max: 200 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] A list of identifiers of security groups within your Amazon VPC. The security groups should enable Amazon Q Business to connect to the data source. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 200 o pattern: [-0-9a-zA-Z]+ Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] }
@@ -88,5 +146,22 @@ public record AwsQbusinessCreateDataSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

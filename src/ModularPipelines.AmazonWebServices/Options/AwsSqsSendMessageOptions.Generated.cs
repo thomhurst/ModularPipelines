@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "send-message")]
-public record AwsSqsSendMessageOptions : AwsOptions
+public record AwsSqsSendMessageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Delivers a message to the specified queue. WARNING: A message can include only XML, JSON, and unformatted text. The fol- lowing Unicode characters are allowed. For more information, see the W3C specification for characters . #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. En- sure that your message body includes only valid characters to a...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue to which a message is sent. Queue URLs and names are case-sensitive.</param>
+    /// <param name="MessageBody">The message to send. The minimum size is one character. The maximum size is 1 MiB or 1,048,576 bytes WARNING: A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the W3C specification for characters . #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid charac- ters to avoid this exception.</param>
+    public AwsSqsSendMessageOptions(
+        string QueueUrl,
+        string MessageBody
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+        global::System.ArgumentNullException.ThrowIfNull(MessageBody);
+        this.MessageBody = MessageBody;
+    }
+
+    private AwsSqsSendMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsSendMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsSendMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue to which a message is sent. Queue URLs and names are case-sensitive.
+    /// </summary>
+    [CliOption("--queue-url")]
+    public string? QueueUrl { get; private init; }
+
+    /// <summary>
+    /// The message to send. The minimum size is one character. The maximum size is 1 MiB or 1,048,576 bytes WARNING: A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the W3C specification for characters . #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid charac- ters to avoid this exception.
+    /// </summary>
     [CliOption("--message-body")]
-    public string? MessageBody { get; set; }
+    public string? MessageBody { get; private init; }
 
     /// <summary>
     /// The length of time, in seconds, for which to delay a specific mes- sage. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the de- fault value for the queue applies. NOTE: When you set FifoQueue , you can't set DelaySeconds per message. You can set this parameter only on a queue level.
@@ -63,5 +107,22 @@ public record AwsSqsSendMessageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

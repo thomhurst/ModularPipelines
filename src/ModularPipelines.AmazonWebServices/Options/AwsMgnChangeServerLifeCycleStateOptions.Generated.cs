@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "change-server-life-cycle-state")]
-public record AwsMgnChangeServerLifeCycleStateOptions : AwsOptions
+public record AwsMgnChangeServerLifeCycleStateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is al- ready launchable (dataReplicationInfo.lagDuration is not null.) See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerId">The request to change the source server migration lifecycle state by source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="LifeCycle">The request to change the source server migration lifecycle state. state -&gt; (string) [required] The request to change the source server migration lifecycle state. Possible values: o READY_FOR_TEST o READY_FOR_CUTOVER o CUTOVER Shorthand Syntax: state=string JSON Syntax: { "state": "READY_FOR_TEST"|"READY_FOR_CUTOVER"|"CUTOVER" }</param>
+    public AwsMgnChangeServerLifeCycleStateOptions(
+        string SourceServerId,
+        string LifeCycle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+        global::System.ArgumentNullException.ThrowIfNull(LifeCycle);
+        this.LifeCycle = LifeCycle;
+    }
+
+    private AwsMgnChangeServerLifeCycleStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnChangeServerLifeCycleStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnChangeServerLifeCycleStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The request to change the source server migration lifecycle state by source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
+    [CliOption("--source-server-id")]
+    public string? SourceServerId { get; private init; }
+
+    /// <summary>
+    /// The request to change the source server migration lifecycle state. state -&gt; (string) [required] The request to change the source server migration lifecycle state. Possible values: o READY_FOR_TEST o READY_FOR_CUTOVER o CUTOVER Shorthand Syntax: state=string JSON Syntax: { "state": "READY_FOR_TEST"|"READY_FOR_CUTOVER"|"CUTOVER" }
+    /// </summary>
     [CliOption("--life-cycle")]
-    public string? LifeCycle { get; set; }
+    public string? LifeCycle { get; private init; }
 
     /// <summary>
     /// The request to change the source server migration account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
@@ -38,5 +82,22 @@ public record AwsMgnChangeServerLifeCycleStateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "update-reputation-entity-customer-managed-status")]
-public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOptions
+public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the en- tity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending ca- pability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send re...
+    /// </summary>
+    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE</param>
+    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
+    /// <param name="SendingStatus">The new customer-managed sending status for the reputation entity. This can be one of the following: o ENABLED Allow sending for this entity. o DISABLED Prevent sending for this entity. o REINSTATED Allow sending even if there are active reputation findings. Possible values: o ENABLED o REINSTATED o DISABLED</param>
+    public AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions(
+        AwsSesv2UpdateReputationEntityCustomerManagedStatusReputationEntityType ReputationEntityType,
+        string ReputationEntityReference,
+        AwsSesv2UpdateReputationEntityCustomerManagedStatusSendingStatus SendingStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReputationEntityType);
+        this.ReputationEntityType = ReputationEntityType;
+        global::System.ArgumentNullException.ThrowIfNull(ReputationEntityReference);
+        this.ReputationEntityReference = ReputationEntityReference;
+        global::System.ArgumentNullException.ThrowIfNull(SendingStatus);
+        this.SendingStatus = SendingStatus;
+    }
+
+    private AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
+    /// </summary>
     [CliOption("--reputation-entity-type")]
-    public string? ReputationEntityType { get; set; }
+    public AwsSesv2UpdateReputationEntityCustomerManagedStatusReputationEntityType? ReputationEntityType { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1
+    /// </summary>
     [CliOption("--reputation-entity-reference")]
-    public string? ReputationEntityReference { get; set; }
+    public string? ReputationEntityReference { get; private init; }
 
+    /// <summary>
+    /// The new customer-managed sending status for the reputation entity. This can be one of the following: o ENABLED Allow sending for this entity. o DISABLED Prevent sending for this entity. o REINSTATED Allow sending even if there are active reputation findings. Possible values: o ENABLED o REINSTATED o DISABLED
+    /// </summary>
     [CliOption("--sending-status")]
-    public string? SendingStatus { get; set; }
+    public AwsSesv2UpdateReputationEntityCustomerManagedStatusSendingStatus? SendingStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

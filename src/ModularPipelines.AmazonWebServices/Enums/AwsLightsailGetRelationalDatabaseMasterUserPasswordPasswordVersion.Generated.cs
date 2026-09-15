@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --passwordversion.
+/// Allowed values for --password-version.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLightsailGetRelationalDatabaseMasterUserPasswordPasswordVersion
 {
     [EnumValue("CURRENT")]
-    Current = 1,
-
-    [EnumValue("PREVIOUS")]
-    Previous = 2,
+    Current,
 
     [EnumValue("PENDING")]
-    Pending = 3
+    Pending,
+
+    [EnumValue("PREVIOUS")]
+    Previous
 }

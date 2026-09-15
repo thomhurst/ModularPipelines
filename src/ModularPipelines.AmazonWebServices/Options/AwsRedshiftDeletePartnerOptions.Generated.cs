@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "delete-partner")]
-public record AwsRedshiftDeletePartnerOptions : AwsOptions
+public record AwsRedshiftDeletePartnerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
+    /// <param name="ClusterIdentifier">The cluster identifier of the cluster that receives data from the partner. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="DatabaseName">The name of the database that receives data from the partner. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$</param>
+    /// <param name="PartnerName">The name of the partner that is authorized to send data. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$</param>
+    public AwsRedshiftDeletePartnerOptions(
+        string AccountId,
+        string ClusterIdentifier,
+        string DatabaseName,
+        string PartnerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerName);
+        this.PartnerName = PartnerName;
+    }
+
+    private AwsRedshiftDeletePartnerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDeletePartnerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDeletePartnerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The cluster identifier of the cluster that receives data from the partner. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the database that receives data from the partner. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// The name of the partner that is authorized to send data. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$
+    /// </summary>
     [CliOption("--partner-name")]
-    public string? PartnerName { get; set; }
+    public string? PartnerName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

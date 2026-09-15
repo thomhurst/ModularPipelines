@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSnowDeviceManagementListExecutionsState
 {
-    [EnumValue("QUEUED")]
-    Queued = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
-
     [EnumValue("CANCELED")]
-    Canceled = 3,
+    Canceled,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 5,
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("QUEUED")]
+    Queued,
 
     [EnumValue("REJECTED")]
-    Rejected = 6,
+    Rejected,
+
+    [EnumValue("SUCCEEDED")]
+    Succeeded,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 7
+    TimedOut
 }

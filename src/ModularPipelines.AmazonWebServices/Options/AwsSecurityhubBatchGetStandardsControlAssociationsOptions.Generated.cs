@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "batch-get-standards-control-associations")]
-public record AwsSecurityhubBatchGetStandardsControlAssociationsOptions : AwsOptions
+public record AwsSecurityhubBatchGetStandardsControlAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the association has a NOT_READY_FOR_UPDATES value for StandardsControlsUpdatable . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StandardsControlAssociationIds">An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a stan- dard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards. (structure) An array with one or more objects that includes a security con- trol (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards. SecurityControlId -&gt; (string) [required] The unique identifier (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) of a secu- rity control across standards. Constraints: o pattern: .*\S.* StandardsArn -&gt; (string) [required] The ARN of a standard. Constraints: o pattern: .*\S.* Shorthand Syntax: SecurityControlId=string,StandardsArn=string ... JSON Syntax: [ { "SecurityControlId": "string", "StandardsArn": "string" } ... ]</param>
+    public AwsSecurityhubBatchGetStandardsControlAssociationsOptions(
+        IEnumerable<string> StandardsControlAssociationIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StandardsControlAssociationIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StandardsControlAssociationIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StandardsControlAssociationIds));
+            }
+
+            StandardsControlAssociationIds = materialized;
+        }
+        this.StandardsControlAssociationIds = StandardsControlAssociationIds;
+    }
+
+    private AwsSecurityhubBatchGetStandardsControlAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubBatchGetStandardsControlAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubBatchGetStandardsControlAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a stan- dard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards. (structure) An array with one or more objects that includes a security con- trol (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards. SecurityControlId -&gt; (string) [required] The unique identifier (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) of a secu- rity control across standards. Constraints: o pattern: .*\S.* StandardsArn -&gt; (string) [required] The ARN of a standard. Constraints: o pattern: .*\S.* Shorthand Syntax: SecurityControlId=string,StandardsArn=string ... JSON Syntax: [ { "SecurityControlId": "string", "StandardsArn": "string" } ... ]
+    /// </summary>
     [CliOption("--standards-control-association-ids", GroupValues = true)]
-    public IEnumerable<string>? StandardsControlAssociationIds { get; set; }
+    public IEnumerable<string>? StandardsControlAssociationIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

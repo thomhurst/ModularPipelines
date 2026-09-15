@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "put-classification-export-configuration")]
-public record AwsMacie2PutClassificationExportConfigurationOptions : AwsOptions
+public record AwsMacie2PutClassificationExportConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or updates the configuration settings for storing data classifica- tion results. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Configuration">The location to store data classification results in, and the en- cryption settings to use when storing results in that location. s3Destination -&gt; (structure) The S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket. bucketName -&gt; (string) [required] The name of the bucket. This must be the name of an existing general purpose bucket. expectedBucketOwner -&gt; (string) The unique identifier (ID) for the Amazon Web Services ac- count that owns the bucket. This must be the ID for the ac- count that owns the specified bucket. keyPrefix -&gt; (string) The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket. kmsKeyArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's en- abled in the same Amazon Web Services Region as the bucket. Shorthand Syntax: s3Destination={bucketName=string,expectedBucketOwner=string,keyPrefix=string,kmsKeyArn=string} JSON Syntax: { "s3Destination": { "bucketName": "string", "expectedBucketOwner": "string", "keyPrefix": "string", "kmsKeyArn": "string" } }</param>
+    public AwsMacie2PutClassificationExportConfigurationOptions(
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsMacie2PutClassificationExportConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2PutClassificationExportConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2PutClassificationExportConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The location to store data classification results in, and the en- cryption settings to use when storing results in that location. s3Destination -&gt; (structure) The S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket. bucketName -&gt; (string) [required] The name of the bucket. This must be the name of an existing general purpose bucket. expectedBucketOwner -&gt; (string) The unique identifier (ID) for the Amazon Web Services ac- count that owns the bucket. This must be the ID for the ac- count that owns the specified bucket. keyPrefix -&gt; (string) The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket. kmsKeyArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's en- abled in the same Amazon Web Services Region as the bucket. Shorthand Syntax: s3Destination={bucketName=string,expectedBucketOwner=string,keyPrefix=string,kmsKeyArn=string} JSON Syntax: { "s3Destination": { "bucketName": "string", "expectedBucketOwner": "string", "keyPrefix": "string", "kmsKeyArn": "string" } }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

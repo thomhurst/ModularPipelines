@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInternetmonitorUpdateMonitorStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
     [EnumValue("ACTIVE")]
-    Active = 2,
-
-    [EnumValue("INACTIVE")]
-    Inactive = 3,
+    Active,
 
     [EnumValue("ERROR")]
-    Error = 4
+    Error,
+
+    [EnumValue("INACTIVE")]
+    Inactive,
+
+    [EnumValue("PENDING")]
+    Pending
 }

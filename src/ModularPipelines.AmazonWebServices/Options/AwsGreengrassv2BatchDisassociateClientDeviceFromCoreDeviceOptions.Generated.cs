@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrassv2", "batch-disassociate-client-device-from-core-device")]
-public record AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions : AwsOptions
+public record AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a list of client devices from a core device. After you disassociate a client device from a core device, the client device won't be able to use cloud discovery to retrieve the core device's con- nectivity information and certificates. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreDeviceThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
+    public AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions(
+        string CoreDeviceThingName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreDeviceThingName);
+        this.CoreDeviceThingName = CoreDeviceThingName;
+    }
+
+    private AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--core-device-thing-name")]
+    public string? CoreDeviceThingName { get; private init; }
+
     /// <summary>
     /// The list of client devices to disassociate. Constraints: o min: 1 o max: 100 (structure) Contains a request to disassociate a client device from a core device. The BatchDisassociateClientDeviceWithCoreDevice opera- tion consumes a list of these requests. thingName -&gt; (string) [required] The name of the IoT thing that represents the client device to disassociate. Constraints: o min: 1 o max: 128 Shorthand Syntax: thingName=string ... JSON Syntax: [ { "thingName": "string" } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; set; }
 
-    [CliOption("--core-device-thing-name")]
-    public string? CoreDeviceThingName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

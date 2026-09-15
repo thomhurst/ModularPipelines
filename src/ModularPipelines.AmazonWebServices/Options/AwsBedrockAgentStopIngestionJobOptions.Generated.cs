@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "stop-ingestion-job")]
-public record AwsBedrockAgentStopIngestionJobOptions : AwsOptions
+public record AwsBedrockAgentStopIngestionJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops a currently running data ingestion job. You can send a StartIngestionJob request again to ingest the rest of your data when you are ready. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="IngestionJobId">The unique identifier of the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    public AwsBedrockAgentStopIngestionJobOptions(
+        string KnowledgeBaseId,
+        string DataSourceId,
+        string IngestionJobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+        global::System.ArgumentNullException.ThrowIfNull(IngestionJobId);
+        this.IngestionJobId = IngestionJobId;
+    }
+
+    private AwsBedrockAgentStopIngestionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentStopIngestionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentStopIngestionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the knowledge base for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    public string? KnowledgeBaseId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the data source for the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the data ingestion job you want to stop. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--ingestion-job-id")]
-    public string? IngestionJobId { get; set; }
+    public string? IngestionJobId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -33,63 +33,93 @@ public class AwsSupport : IAwsSupport
     #region Commands
 
     /// <summary>
-    /// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Ente...
+    /// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Ser...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddAttachmentsToSetAsync(
-        AwsSupportAddAttachmentsToSetOptions? options = null,
+        AwsSupportAddAttachmentsToSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAddAttachmentsToSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Adds additional customer communication to an Amazon Web Services Sup- port case. Use the caseId parameter to identify the case to which to add communication. You can list a set of email addresses to copy on the communication by using the ccEmailAddresses parameter. The communica- tionBody value contains the text of the communication. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services...
+    /// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communi- cation, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the upload- Ids parameter. WARNING: Amazon Web Services Support automatically redacts sensitive informa- tion from su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddCommunicationToCaseAsync(
-        AwsSupportAddCommunicationToCaseOptions? options = null,
+        AwsSupportAddCommunicationToCaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportAddCommunicationToCaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. A successful CreateCase request...
+    /// Completes an attachment upload that was started with GetAttachmentU- ploadLinks . After you upload a part of the file to its presigned Ama- zon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use De- scribeAtt...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CompleteAttachmentUploadAsync(
+        AwsSupportCompleteAttachmentUploadOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCaseAsync(
-        AwsSupportCreateCaseOptions? options = null,
+        AwsSupportCreateCaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportCreateCaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns the attachment that has the specified ID. Attachments can in- clude screenshots, error logs, or other files that describe your issue. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are re- turned in the AttachmentDetails objects that are returned by the De- scribeCommunications operation. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services S...
+    /// Returns the attachment that has the specified ID. Attachments can in- clude screenshots, error logs, or other files that describe your issue. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are re- turned in the AttachmentDetails objects that are returned by the De- scribeCommunications operation. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAttachmentAsync(
-        AwsSupportDescribeAttachmentOptions? options = null,
+        AwsSupportDescribeAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the current status, file name, and progress of a multipart at- tachment upload that was started with GetAttachmentUploadLinks . Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through CompleteAttachmentUpload , the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. Af- ter every part has been reported and the service finishes processing the upl...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAttachmentUploadStatusAsync(
+        AwsSupportDescribeAttachmentUploadStatusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -104,37 +134,37 @@ public class AwsSupport : IAwsSupport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeCasesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeCasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 12 months after creation. If a case was cre- ated more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
+    /// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 24 months after creation. If a case was cre- ated more than 24 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pag- ination of the results. Set maxResults to the number of cases that you want...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCommunicationsAsync(
-        AwsSupportDescribeCommunicationsOptions? options = null,
+        AwsSupportDescribeCommunicationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeCommunicationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the ...
+    /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCreateCaseOptionsAsync(
-        AwsSupportDescribeCreateCaseOptionsOptions? options = null,
+        AwsSupportDescribeCreateCaseOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeCreateCaseOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -149,11 +179,11 @@ public class AwsSupport : IAwsSupport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeServicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the CaseDetails data type that you include for a CreateCase request. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException er...
+    /// Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the CaseDetails data type that you include for a CreateCase request. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -164,37 +194,37 @@ public class AwsSupport : IAwsSupport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeSeverityLevelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeSeverityLevelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will in- clude a ISO 639-1 code for the language , and the language display name. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionR...
+    /// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will in- clude a ISO 639-1 code for the language , and the language display name. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Servi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSupportedLanguagesAsync(
-        AwsSupportDescribeSupportedLanguagesOptions? options = null,
+        AwsSupportDescribeSupportedLanguagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeSupportedLanguagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port pl...
+    /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Servi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTrustedAdvisorCheckRefreshStatusesAsync(
-        AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions? options = null,
+        AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,60 +235,90 @@ public class AwsSupport : IAwsSupport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTrustedAdvisorCheckResultAsync(
-        AwsSupportDescribeTrustedAdvisorCheckResultOptions? options = null,
+        AwsSupportDescribeTrustedAdvisorCheckResultOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeTrustedAdvisorCheckResultOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn...
+    /// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTrustedAdvisorChecksAsync(
-        AwsSupportDescribeTrustedAdvisorChecksOptions? options = null,
+        AwsSupportDescribeTrustedAdvisorChecksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeTrustedAdvisorChecksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Returns the results for the Trusted Advisor check summaries for the check IDs that you specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains an array of TrustedAdvisorCheckSummary objects. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enter...
+    /// Returns the results for the Trusted Advisor check summaries for the check IDs that you specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains an array of TrustedAdvisorCheckSummary objects. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn'...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTrustedAdvisorCheckSummariesAsync(
-        AwsSupportDescribeTrustedAdvisorCheckSummariesOptions? options = null,
+        AwsSupportDescribeTrustedAdvisorCheckSummariesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportDescribeTrustedAdvisorCheckSummariesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Suppo...
+    /// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks . The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires. NOTE: o You must have an Amazon Web Services Business Support+, A...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetAttachmentDownloadLinkAsync(
+        AwsSupportGetAttachmentDownloadLinkOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes ; the response returns a unique uploadId , the part size, the total number of parts, and a list of presigned up- load URLs for the requested range of parts. A maximum of 10 upload URLs are retur...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetAttachmentUploadLinksAsync(
+        AwsSupportGetAttachmentUploadLinksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the DescribeTrustedAdvisor- Checks operation. Some checks are refreshed automatically. If you call the Re- freshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a TrustedAdvisorCheckRefreshStatus object. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RefreshTrustedAdvisorCheckAsync(
-        AwsSupportRefreshTrustedAdvisorCheckOptions? options = null,
+        AwsSupportRefreshTrustedAdvisorCheckOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportRefreshTrustedAdvisorCheckOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Resolves a support case. This operation takes a caseId and returns the initial and final state of the case. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message ap- pears. For information about changing your support plan, see Amazon W...
+    /// Resolves a support case. This operation takes a caseId and returns the initial and final state of the case. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -269,7 +329,7 @@ public class AwsSupport : IAwsSupport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportResolveCaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSupportResolveCaseOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

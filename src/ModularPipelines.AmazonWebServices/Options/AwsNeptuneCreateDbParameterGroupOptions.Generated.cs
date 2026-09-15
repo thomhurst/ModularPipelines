@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "create-db-parameter-group")]
-public record AwsNeptuneCreateDbParameterGroupOptions : AwsOptions
+public record AwsNeptuneCreateDbParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom val- ues for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBIn- stance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB inst...
+    /// </summary>
+    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens NOTE: This value is stored as a lowercase string.</param>
+    /// <param name="DbParameterGroupFamily">The DB parameter group family name. A DB parameter group can be as- sociated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.</param>
+    /// <param name="Description">The description for the DB parameter group.</param>
+    public AwsNeptuneCreateDbParameterGroupOptions(
+        string DbParameterGroupName,
+        string DbParameterGroupFamily,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupName);
+        this.DbParameterGroupName = DbParameterGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupFamily);
+        this.DbParameterGroupFamily = DbParameterGroupFamily;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsNeptuneCreateDbParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneCreateDbParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneCreateDbParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB parameter group. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens NOTE: This value is stored as a lowercase string.
+    /// </summary>
     [CliOption("--db-parameter-group-name")]
-    public string? DbParameterGroupName { get; set; }
+    public string? DbParameterGroupName { get; private init; }
 
+    /// <summary>
+    /// The DB parameter group family name. A DB parameter group can be as- sociated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
+    /// </summary>
     [CliOption("--db-parameter-group-family")]
-    public string? DbParameterGroupFamily { get; set; }
+    public string? DbParameterGroupFamily { get; private init; }
 
+    /// <summary>
+    /// The description for the DB parameter group.
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     /// <summary>
     /// The tags to be assigned to the new DB parameter group. (structure) Metadata assigned to an Amazon Neptune resource consisting of a key-value pair. Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,22 @@ public record AwsNeptuneCreateDbParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

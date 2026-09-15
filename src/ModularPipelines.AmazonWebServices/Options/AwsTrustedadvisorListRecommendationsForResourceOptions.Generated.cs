@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trustedadvisor", "list-recommendations-for-resource")]
-public record AwsTrustedadvisorListRecommendationsForResourceOptions : AwsOptions
+public record AwsTrustedadvisorListRecommendationsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List all Trusted Advisor recommendations for a given AWS resource ARN. See also: AWS API Documentation list-recommendations-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recommendati...
+    /// </summary>
+    /// <param name="AwsResourceArn">The ARN of the AWS resource to query recommendations for Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*</param>
+    public AwsTrustedadvisorListRecommendationsForResourceOptions(
+        string AwsResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsResourceArn);
+        this.AwsResourceArn = AwsResourceArn;
+    }
+
+    private AwsTrustedadvisorListRecommendationsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTrustedadvisorListRecommendationsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTrustedadvisorListRecommendationsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the AWS resource to query recommendations for Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*
+    /// </summary>
     [CliOption("--aws-resource-arn")]
-    public string? AwsResourceArn { get; set; }
+    public string? AwsResourceArn { get; private init; }
 
     /// <summary>
     /// The pillar that the recommendation belongs to Possible values: o cost_optimizing o performance o security o service_limits o fault_tolerance o operational_excellence
@@ -74,5 +111,22 @@ public record AwsTrustedadvisorListRecommendationsForResourceOptions : AwsOption
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

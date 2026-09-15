@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --promotemode.
+/// Allowed values for --promote-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLookoutequipmentCreateRetrainingSchedulerPromoteMode
 {
     [EnumValue("MANAGED")]
-    Managed = 1,
+    Managed,
 
     [EnumValue("MANUAL")]
-    Manual = 2
+    Manual
 }

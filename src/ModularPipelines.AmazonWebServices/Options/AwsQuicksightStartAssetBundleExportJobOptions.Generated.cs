@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "start-asset-bundle-export-job")]
-public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
+public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon Quick Sight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAsset- BundleExportJob API call. When a job is successfully completed, a down- load URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleEx- portJob API call. Each Amazon Quick Sight ...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account to export assets from. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AssetBundleExportJobId">The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="ResourceArns">An array of resource ARNs to export. The following resources are supported. o Analysis o Dashboard o DataSet o DataSource o RefreshSchedule o Theme o VPCConnection The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported. Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ExportFormat">The export data format. Possible values: o CLOUDFORMATION_JSON o QUICKSIGHT_JSON</param>
+    public AwsQuicksightStartAssetBundleExportJobOptions(
+        string AwsAccountId,
+        string AssetBundleExportJobId,
+        IEnumerable<string> ResourceArns,
+        AwsQuicksightStartAssetBundleExportJobExportFormat ExportFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AssetBundleExportJobId);
+        this.AssetBundleExportJobId = AssetBundleExportJobId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceArns));
+            }
+
+            ResourceArns = materialized;
+        }
+        this.ResourceArns = ResourceArns;
+        global::System.ArgumentNullException.ThrowIfNull(ExportFormat);
+        this.ExportFormat = ExportFormat;
+    }
+
+    private AwsQuicksightStartAssetBundleExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightStartAssetBundleExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightStartAssetBundleExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account to export assets from. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--asset-bundle-export-job-id")]
-    public string? AssetBundleExportJobId { get; set; }
+    public string? AssetBundleExportJobId { get; private init; }
 
+    /// <summary>
+    /// An array of resource ARNs to export. The following resources are supported. o Analysis o Dashboard o DataSet o DataSource o RefreshSchedule o Theme o VPCConnection The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported. Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
-    public IEnumerable<string>? ResourceArns { get; set; }
+    public IEnumerable<string>? ResourceArns { get; private init; }
 
-    [CliFlag("--include-all-dependencies")]
-    public bool? IncludeAllDependencies { get; set; }
-
+    /// <summary>
+    /// The export data format. Possible values: o CLOUDFORMATION_JSON o QUICKSIGHT_JSON
+    /// </summary>
     [CliOption("--export-format")]
-    public string? ExportFormat { get; set; }
+    public AwsQuicksightStartAssetBundleExportJobExportFormat? ExportFormat { get; private init; }
+
+    /// <summary>
+    /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you pro- vided a Dashboard ARN to the ResourceArns parameter. If you set In- cludeAllDependencies to TRUE , any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
+    /// </summary>
+    [CliFlag("--include-all-dependencies", NegatedName = "--no-include-all-dependencies")]
+    public bool? IncludeAllDependencies { get; set; }
 
     /// <summary>
     /// An optional collection of structures that generate CloudFormation parameters to override the existing resource property values when the resource is exported to a new CloudFormation template. Use this field if the ExportFormat field of a StartAssetBundleEx- portJobRequest API call is set to CLOUDFORMATION_JSON . ResourceIdOverrideConfiguration -&gt; (structure) An optional list of structures that control how resource IDs are parameterized in the returned CloudFormation template. PrefixForAllResources -&gt; (boolean) An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The pre- fix is only added to the asset IDs and does not change the name of the asset. VPCConnections -&gt; (list) An optional list of structures that control how VPCConnection resources are parameterized in the returned CloudFormation tem- plate. Constraints: o min: 1 o max: 50 (structure) Controls how a specific VPCConnection resource is parameter- ized in the outputted CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific VPCConnection resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of VPCConnection resource properties to generate variables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name o DnsResolvers o RoleArn RefreshSchedules -&gt; (list) An optional list of structures that control how RefreshSchedule resources are parameterized in the returned CloudFormation tem- plate. Constraints: o min: 1 o max: 50 (structure) Controls how a specific RefreshSchedule resource is parame- terized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific RefreshSchedule resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of RefreshSchedule resource properties to generate variables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o StartAfterDateTime DataSources -&gt; (list) An optional list of structures that control how DataSource re- sources are parameterized in the returned CloudFormation tem- plate. Constraints: o min: 1 o max: 50 (structure) Controls how a specific DataSource resource is parameterized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific DataSource resource whose over- ride properties are configured in this structure. Properties -&gt; (list) [required] A list of DataSource resource properties to generate variables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name o DisableSsl o SecretArn o Username o Password o Domain o WorkGroup o Host o Port o Database o DataSetName o Catalog o InstanceId o ClusterId o ManifestFileLocation o Warehouse o RoleArn o ProductType DataSets -&gt; (list) An optional list of structures that control how DataSet re- sources are parameterized in the returned CloudFormation tem- plate. Constraints: o min: 1 o max: 50 (structure) Controls how a specific DataSet resource is parameterized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific DataSet resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of DataSet resource properties to generate vari- ables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name o RefreshFailureEmailAlertStatus Themes -&gt; (list) An optional list of structures that control how Theme resources are parameterized in the returned CloudFormation template. Constraints: o min: 1 o max: 50 (structure) Controls how a specific Theme resource is parameterized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific Theme resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of Theme resource properties to generate variables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name Analyses -&gt; (list) An optional list of structures that control how Analysis re- sources are parameterized in the returned CloudFormation tem- plate. Constraints: o min: 1 o max: 50 (structure) Controls how a specific Analysis resource is parameterized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific Analysis resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of Analysis resource properties to generate vari- ables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name Dashboards -&gt; (list) An optional list of structures that control how Dashboard re- sources are parameterized in the returned CloudFormation tem- plate. Constraints: o min: 1 o max: 50 (structure) Controls how a specific Dashboard resource is parameterized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific Dashboard resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of Dashboard resource properties to generate vari- ables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name Folders -&gt; (list) An optional list of structures that controls how Folder re- sources are parameterized in the returned CloudFormation tem- plate. Constraints: o min: 1 o max: 50 (structure) Controls how a specific Folder resource is parameterized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific Folder resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of Folder resource properties to generate vari- ables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name o ParentFolderArn TopicsV2 -&gt; (list) An optional list of structures that controls how Topic resources are parameterized in the returned CloudFormation template. Constraints: o min: 1 o max: 50 (structure) Controls how a specific Topic resource is parameterized in the returned CloudFormation template. Arn -&gt; (string) [required] The ARN of the specific Topic resource whose override properties are configured in this structure. Properties -&gt; (list) [required] A list of Topic resource properties to generate variables for in the returned CloudFormation template. Constraints: o min: 1 o max: 10 (string) Possible values: o Name o Description JSON Syntax: { "ResourceIdOverrideConfiguration": { "PrefixForAllResources": true|false }, "VPCConnections": [ { "Arn": "string", "Properties": ["Name"|"DnsResolvers"|"RoleArn", ...] } ... ], "RefreshSchedules": [ { "Arn": "string", "Properties": ["StartAfterDateTime", ...] } ... ], "DataSources": [ { "Arn": "string", "Properties": ["Name"|"DisableSsl"|"SecretArn"|"Username"|"Password"|"Domain"|"WorkGroup"|"Host"|"Port"|"Database"|"DataSetName"|"Catalog"|"InstanceId"|"ClusterId"|"ManifestFileLocation"|"Warehouse"|"RoleArn"|"ProductType", ...] } ... ], "DataSets": [ { "Arn": "string", "Properties": ["Name"|"RefreshFailureEmailAlertStatus", ...] } ... ], "Themes": [ { "Arn": "string", "Properties": ["Name", ...] } ... ], "Analyses": [ { "Arn": "string", "Properties": ["Name", ...] } ... ], "Dashboards": [ { "Arn": "string", "Properties": ["Name", ...] } ... ], "Folders": [ { "Arn": "string", "Properties": ["Name"|"ParentFolderArn", ...] } ... ], "TopicsV2": [ { "Arn": "string", "Properties": ["Name"|"Description", ...] } ... ] }
@@ -43,10 +115,16 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
     [CliOption("--cloud-formation-override-property-configuration")]
     public string? CloudFormationOverridePropertyConfiguration { get; set; }
 
-    [CliFlag("--include-permissions")]
+    /// <summary>
+    /// A Boolean that determines whether all permissions for each resource ARN are exported with the job. If you set IncludePermissions to TRUE , any permissions associated with each resource are exported.
+    /// </summary>
+    [CliFlag("--include-permissions", NegatedName = "--no-include-permissions")]
     public bool? IncludePermissions { get; set; }
 
-    [CliFlag("--include-tags")]
+    /// <summary>
+    /// A Boolean that determines whether all tags for each resource ARN are exported with the job. If you set IncludeTags to TRUE , any tags as- sociated with each resource are exported.
+    /// </summary>
+    [CliFlag("--include-tags", NegatedName = "--no-include-tags")]
     public bool? IncludeTags { get; set; }
 
     /// <summary>
@@ -55,7 +133,10 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
     [CliOption("--validation-strategy")]
     public string? ValidationStrategy { get; set; }
 
-    [CliFlag("--include-folder-memberships")]
+    /// <summary>
+    /// A Boolean that determines if the exported asset carries over infor- mation about the folders that the asset is a member of.
+    /// </summary>
+    [CliFlag("--include-folder-memberships", NegatedName = "--no-include-folder-memberships")]
     public bool? IncludeFolderMemberships { get; set; }
 
     /// <summary>
@@ -69,5 +150,22 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

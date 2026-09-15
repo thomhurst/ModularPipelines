@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ce", "get-commitment-purchase-analysis")]
-public record AwsCeGetCommitmentPurchaseAnalysisOptions : AwsOptions
+public record AwsCeGetCommitmentPurchaseAnalysisOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a commitment purchase analysis result based on the AnalysisId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnalysisId">The analysis ID that's associated with the commitment purchase analysis. Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$</param>
+    public AwsCeGetCommitmentPurchaseAnalysisOptions(
+        string AnalysisId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisId);
+        this.AnalysisId = AnalysisId;
+    }
+
+    private AwsCeGetCommitmentPurchaseAnalysisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCeGetCommitmentPurchaseAnalysisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCeGetCommitmentPurchaseAnalysisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The analysis ID that's associated with the commitment purchase analysis. Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$
+    /// </summary>
     [CliOption("--analysis-id")]
-    public string? AnalysisId { get; set; }
+    public string? AnalysisId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

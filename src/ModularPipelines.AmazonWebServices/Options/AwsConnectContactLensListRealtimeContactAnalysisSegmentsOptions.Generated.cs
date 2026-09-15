@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect-contact-lens", "list-realtime-contact-analysis-segments")]
-public record AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions : AwsOptions
+public record AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides a list of analysis segments for a real-time analysis session for voice. NOTE: Voice data is retained for 24 hours. You must invoke this API during that time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="ContactId">The identifier of the contact. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    public AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions(
+        string InstanceId,
+        string ContactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+    }
+
+    private AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the contact. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
@@ -46,5 +90,22 @@ public record AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions : 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

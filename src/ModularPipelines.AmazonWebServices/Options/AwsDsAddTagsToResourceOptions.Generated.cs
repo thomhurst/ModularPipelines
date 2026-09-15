@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "add-tags-to-resource")]
-public record AwsDsAddTagsToResourceOptions : AwsOptions
+public record AwsDsAddTagsToResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">Identifier (ID) for the directory to which to add the tag. Constraints: o pattern: ^[d]-[0-9a-f]{10}$</param>
+    /// <param name="Tags">The tags to be assigned to the directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsDsAddTagsToResourceOptions(
+        string ResourceId,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsDsAddTagsToResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsAddTagsToResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsAddTagsToResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier (ID) for the directory to which to add the tag. Constraints: o pattern: ^[d]-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The tags to be assigned to the directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

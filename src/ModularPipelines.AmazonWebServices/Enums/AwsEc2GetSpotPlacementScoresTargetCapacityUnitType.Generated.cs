@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetcapacityunittype.
+/// Allowed values for --target-capacity-unit-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2GetSpotPlacementScoresTargetCapacityUnitType
 {
-    [EnumValue("vcpu")]
-    Vcpu = 1,
-
     [EnumValue("memory-mib")]
-    MemoryMib = 2,
+    MemoryMib,
 
     [EnumValue("units")]
-    Units = 3
+    Units,
+
+    [EnumValue("vcpu")]
+    Vcpu
 }

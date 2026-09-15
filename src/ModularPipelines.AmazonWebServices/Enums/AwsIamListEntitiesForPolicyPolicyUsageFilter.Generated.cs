@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --policyusagefilter.
+/// Allowed values for --policy-usage-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIamListEntitiesForPolicyPolicyUsageFilter
 {
-    [EnumValue("PermissionsPolicy")]
-    PermissionsPolicy = 1,
-
     [EnumValue("PermissionsBoundary")]
-    PermissionsBoundary = 2
+    PermissionsBoundary,
+
+    [EnumValue("PermissionsPolicy")]
+    PermissionsPolicy
 }

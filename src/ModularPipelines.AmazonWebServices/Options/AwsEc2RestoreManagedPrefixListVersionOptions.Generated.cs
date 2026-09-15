@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "restore-managed-prefix-list-version")]
-public record AwsEc2RestoreManagedPrefixListVersionOptions : AwsOptions
+public record AwsEc2RestoreManagedPrefixListVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Restores the entries from a previous version of a managed prefix list to a new version of the prefix list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PrefixListId">The ID of the prefix list.</param>
+    /// <param name="PreviousVersion">The version to restore.</param>
+    /// <param name="CurrentVersion">The current version number for the prefix list.</param>
+    public AwsEc2RestoreManagedPrefixListVersionOptions(
+        string PrefixListId,
+        int PreviousVersion,
+        int CurrentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrefixListId);
+        this.PrefixListId = PrefixListId;
+        this.PreviousVersion = PreviousVersion;
+        this.CurrentVersion = CurrentVersion;
+    }
+
+    private AwsEc2RestoreManagedPrefixListVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2RestoreManagedPrefixListVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2RestoreManagedPrefixListVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the prefix list.
+    /// </summary>
     [CliOption("--prefix-list-id")]
-    public string? PrefixListId { get; set; }
+    public string? PrefixListId { get; private init; }
 
+    /// <summary>
+    /// The version to restore.
+    /// </summary>
     [CliOption("--previous-version")]
-    public int? PreviousVersion { get; set; }
+    public int? PreviousVersion { get; private init; }
 
+    /// <summary>
+    /// The current version number for the prefix list.
+    /// </summary>
     [CliOption("--current-version")]
-    public int? CurrentVersion { get; set; }
+    public int? CurrentVersion { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

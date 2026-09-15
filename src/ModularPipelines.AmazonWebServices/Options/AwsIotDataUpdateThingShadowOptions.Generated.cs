@@ -21,8 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot-data", "update-thing-shadow")]
 public record AwsIotDataUpdateThingShadowOptions : AwsOptions
 {
+    /// <summary>
+    /// Updates the shadow for the specified thing. Requires permission to access the UpdateThingShadow action. For more information, see UpdateThingShadow in the IoT Developer Guide. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https...
+    /// </summary>
+    /// <param name="ThingName">The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="Payload">The state information, in JSON format. outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsIotDataUpdateThingShadowOptions(
+        string ThingName,
+        string Payload,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThingName);
+        this.ThingName = ThingName;
+        global::System.ArgumentNullException.ThrowIfNull(Payload);
+        this.Payload = Payload;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ThingName, out string Payload, out string Outfile)
+    {
+        ThingName = this.ThingName;
+        Payload = this.Payload;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
     [CliOption("--thing-name")]
-    public string? ThingName { get; set; }
+    public string ThingName { get; private init; }
+
+    /// <summary>
+    /// The state information, in JSON format. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--payload")]
+    public string Payload { get; private init; }
 
     /// <summary>
     /// The name of the shadow. Constraints: o min: 1 o max: 64 o pattern: [$a-zA-Z0-9:_-]+
@@ -30,7 +66,10 @@ public record AwsIotDataUpdateThingShadowOptions : AwsOptions
     [CliOption("--shadow-name")]
     public string? ShadowName { get; set; }
 
-    [CliOption("--payload")]
-    public string? Payload { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "get-assessment-report")]
-public record AwsInspectorGetAssessmentReportOptions : AwsOptions
+public record AwsInspectorGetAssessmentReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Produces an assessment report that includes detailed and comprehensive results of a specified assessment run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssessmentRunArn">The ARN that specifies the assessment run for which you want to gen- erate a report. Constraints: o min: 1 o max: 300</param>
+    /// <param name="ReportFileFormat">Specifies the file format (html or pdf) of the assessment report that you want to generate. Possible values: o HTML o PDF</param>
+    /// <param name="ReportType">Specifies the type of the assessment report that you want to gener- ate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports . Possible values: o FINDING o FULL</param>
+    public AwsInspectorGetAssessmentReportOptions(
+        string AssessmentRunArn,
+        AwsInspectorGetAssessmentReportReportFileFormat ReportFileFormat,
+        AwsInspectorGetAssessmentReportReportType ReportType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentRunArn);
+        this.AssessmentRunArn = AssessmentRunArn;
+        global::System.ArgumentNullException.ThrowIfNull(ReportFileFormat);
+        this.ReportFileFormat = ReportFileFormat;
+        global::System.ArgumentNullException.ThrowIfNull(ReportType);
+        this.ReportType = ReportType;
+    }
+
+    private AwsInspectorGetAssessmentReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorGetAssessmentReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorGetAssessmentReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN that specifies the assessment run for which you want to gen- erate a report. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--assessment-run-arn")]
-    public string? AssessmentRunArn { get; set; }
+    public string? AssessmentRunArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the file format (html or pdf) of the assessment report that you want to generate. Possible values: o HTML o PDF
+    /// </summary>
     [CliOption("--report-file-format")]
-    public string? ReportFileFormat { get; set; }
+    public AwsInspectorGetAssessmentReportReportFileFormat? ReportFileFormat { get; private init; }
 
+    /// <summary>
+    /// Specifies the type of the assessment report that you want to gener- ate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports . Possible values: o FINDING o FULL
+    /// </summary>
     [CliOption("--report-type")]
-    public string? ReportType { get; set; }
+    public AwsInspectorGetAssessmentReportReportType? ReportType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

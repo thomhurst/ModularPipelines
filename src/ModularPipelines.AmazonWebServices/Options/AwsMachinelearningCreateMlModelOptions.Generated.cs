@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "create-ml-model")]
-public record AwsMachinelearningCreateMlModelOptions : AwsOptions
+public record AwsMachinelearningCreateMlModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new MLModel using the DataSource and the recipe as informa- tion sources. An MLModel is nearly immutable. Users can update only the MLModelName and the ScoreThreshold in an MLModel without creating a new MLModel . CreateMLModel is an asynchronous operation. In response to Cre- ateMLModel , Amazon Machine Learning (Amazon ML) immediately returns and sets the MLModel status to PENDING . After the MLModel has been created and ready is for use, Amazon ML sets the status to COMPLETED . You ...
+    /// </summary>
+    /// <param name="MlModelId">A user-supplied ID that uniquely identifies the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelType">The category of supervised learning that this MLModel will address. Choose from the following types: o Choose REGRESSION if the MLModel will be used to predict a numeric value. o Choose BINARY if the MLModel result has two possible values. o Choose MULTICLASS if the MLModel result has a limited number of values. For more information, see the Amazon Machine Learning Developer Guide . Possible values: o REGRESSION o BINARY o MULTICLASS</param>
+    /// <param name="TrainingDataSourceId">The DataSource that points to the training data. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsMachinelearningCreateMlModelOptions(
+        string MlModelId,
+        AwsMachinelearningCreateMlModelMlModelType MlModelType,
+        string TrainingDataSourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MlModelId);
+        this.MlModelId = MlModelId;
+        global::System.ArgumentNullException.ThrowIfNull(MlModelType);
+        this.MlModelType = MlModelType;
+        global::System.ArgumentNullException.ThrowIfNull(TrainingDataSourceId);
+        this.TrainingDataSourceId = TrainingDataSourceId;
+    }
+
+    private AwsMachinelearningCreateMlModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningCreateMlModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningCreateMlModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-supplied ID that uniquely identifies the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--ml-model-id")]
-    public string? MlModelId { get; set; }
+    public string? MlModelId { get; private init; }
+
+    /// <summary>
+    /// The category of supervised learning that this MLModel will address. Choose from the following types: o Choose REGRESSION if the MLModel will be used to predict a numeric value. o Choose BINARY if the MLModel result has two possible values. o Choose MULTICLASS if the MLModel result has a limited number of values. For more information, see the Amazon Machine Learning Developer Guide . Possible values: o REGRESSION o BINARY o MULTICLASS
+    /// </summary>
+    [CliOption("--ml-model-type")]
+    public AwsMachinelearningCreateMlModelMlModelType? MlModelType { get; private init; }
+
+    /// <summary>
+    /// The DataSource that points to the training data. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--training-data-source-id")]
+    public string? TrainingDataSourceId { get; private init; }
 
     /// <summary>
     /// A user-supplied name or description of the MLModel . Constraints: o max: 1024 o pattern: .*\S.*|^$
@@ -31,17 +89,11 @@ public record AwsMachinelearningCreateMlModelOptions : AwsOptions
     [CliOption("--ml-model-name")]
     public string? MlModelName { get; set; }
 
-    [CliOption("--ml-model-type")]
-    public string? MlModelType { get; set; }
-
     /// <summary>
     /// A list of the training parameters in the MLModel . The list is im- plemented as a map of key-value pairs. The following is the current set of training parameters: o sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance. The value is an integer that ranges from 100000 to 2147483648 . The default value is 33554432 . o sgd.maxPasses - The number of times that the training process tra- verses the observations to build the MLModel . The value is an in- teger that ranges from 1 to 10000 . The default value is 10 . o sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none . The default value is none . We strongly recommend that you shuffle your data. o sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coeffi- cients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08 . The value is a double that ranges from 0 to MAX_DOUBLE . The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this para- meter sparingly. o sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coeffi- cients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08 . The value is a double that ranges from 0 to MAX_DOU- BLE . The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly. key -&gt; (string) String type. value -&gt; (string) String type. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
-
-    [CliOption("--training-data-source-id")]
-    public string? TrainingDataSourceId { get; set; }
 
     /// <summary>
     /// The data recipe for creating the MLModel . You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default. Constraints: o max: 131071
@@ -60,5 +112,22 @@ public record AwsMachinelearningCreateMlModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

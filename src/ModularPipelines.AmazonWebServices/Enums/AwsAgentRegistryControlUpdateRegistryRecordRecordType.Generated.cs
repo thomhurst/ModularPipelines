@@ -11,20 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recordtype.
+/// Allowed values for --record-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAgentRegistryControlUpdateRegistryRecordRecordType
 {
-    [EnumValue("MCP")]
-    Mcp = 1,
-
     [EnumValue("AGENT")]
-    Agent = 2,
+    Agent,
 
     [EnumValue("CUSTOM")]
-    Custom = 3,
+    Custom,
+
+    [EnumValue("GATEWAY")]
+    Gateway,
+
+    [EnumValue("MCP")]
+    Mcp,
 
     [EnumValue("SKILL")]
-    Skill = 4
+    Skill
 }

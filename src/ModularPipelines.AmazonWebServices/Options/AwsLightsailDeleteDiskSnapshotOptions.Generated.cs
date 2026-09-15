@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "delete-disk-snapshot")]
-public record AwsLightsailDeleteDiskSnapshotOptions : AwsOptions
+public record AwsLightsailDeleteDiskSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremen- tal, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snap- shot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snap- shots will have access to all the information needed to restore the disk. The delete disk snapshot operation supp...
+    /// </summary>
+    /// <param name="DiskSnapshotName">The name of the disk snapshot you want to delete (my-disk-snapshot ). Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailDeleteDiskSnapshotOptions(
+        string DiskSnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskSnapshotName);
+        this.DiskSnapshotName = DiskSnapshotName;
+    }
+
+    private AwsLightsailDeleteDiskSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailDeleteDiskSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailDeleteDiskSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the disk snapshot you want to delete (my-disk-snapshot ). Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--disk-snapshot-name")]
-    public string? DiskSnapshotName { get; set; }
+    public string? DiskSnapshotName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

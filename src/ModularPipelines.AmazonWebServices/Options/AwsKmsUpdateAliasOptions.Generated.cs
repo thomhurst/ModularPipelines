@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "update-alias")]
-public record AwsKmsUpdateAliasOptions : AwsOptions
+public record AwsKmsUpdateAliasOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--alias-name")]
-    public string? AliasName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an existing KMS alias with a different KMS key. Each alias is associated with only one KMS key at a time, although a KMS key can have multiple aliases. The alias and the KMS key must be in the same Amazon Web Services account and Region. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . The current and new KMS key must be the same type (both symmetric or both asymmetri...
+    /// </summary>
+    /// <param name="AliasName">Identifies the alias that is changing its KMS key. This value must begin with alias/ followed by the alias name, such as alias/Exam- pleAlias . You cannot use UpdateAlias to change the alias name. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$</param>
+    /// <param name="TargetKeyId">Identifies the customer managed key to associate with the alias. You don't have permission to associate an alias with an Amazon Web Ser- vices managed key . The KMS key must be in the same Amazon Web Services account and Re- gion as the alias. Also, the new target KMS key must be the same type as the current target KMS key (both symmetric or both asymmet- ric or both HMAC) and they must have the same key usage. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To verify that the alias is mapped to the correct KMS key, use ListAliases . Constraints: o min: 1 o max: 2048</param>
+    public AwsKmsUpdateAliasOptions(
+        string AliasName,
+        string TargetKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasName);
+        this.AliasName = AliasName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetKeyId);
+        this.TargetKeyId = TargetKeyId;
+    }
+
+    private AwsKmsUpdateAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsUpdateAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsUpdateAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies the alias that is changing its KMS key. This value must begin with alias/ followed by the alias name, such as alias/Exam- pleAlias . You cannot use UpdateAlias to change the alias name. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$
+    /// </summary>
+    [CliOption("--alias-name")]
+    public string? AliasName { get; private init; }
+
+    /// <summary>
+    /// Identifies the customer managed key to associate with the alias. You don't have permission to associate an alias with an Amazon Web Ser- vices managed key . The KMS key must be in the same Amazon Web Services account and Re- gion as the alias. Also, the new target KMS key must be the same type as the current target KMS key (both symmetric or both asymmet- ric or both HMAC) and they must have the same key usage. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To verify that the alias is mapped to the correct KMS key, use ListAliases . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--target-key-id")]
-    public string? TargetKeyId { get; set; }
+    public string? TargetKeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "update-profile")]
-public record AwsCustomerProfilesUpdateProfileOptions : AwsOptions
+public record AwsCustomerProfilesUpdateProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the properties of a profile. The ProfileId is required for up- dating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}</param>
+    public AwsCustomerProfilesUpdateProfileOptions(
+        string DomainName,
+        string ProfileId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+    }
+
+    private AwsCustomerProfilesUpdateProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesUpdateProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesUpdateProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}
+    /// </summary>
     [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    public string? ProfileId { get; private init; }
 
     /// <summary>
     /// Any additional information relevant to the customers profile. Constraints: o min: 0 o max: 1000
@@ -184,5 +228,22 @@ public record AwsCustomerProfilesUpdateProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

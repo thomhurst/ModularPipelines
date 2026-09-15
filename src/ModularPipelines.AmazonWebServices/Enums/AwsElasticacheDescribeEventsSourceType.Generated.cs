@@ -11,35 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheDescribeEventsSourceType
 {
     [EnumValue("cache-cluster")]
-    CacheCluster = 1,
+    CacheCluster,
 
     [EnumValue("cache-parameter-group")]
-    CacheParameterGroup = 2,
+    CacheParameterGroup,
 
     [EnumValue("cache-security-group")]
-    CacheSecurityGroup = 3,
+    CacheSecurityGroup,
 
     [EnumValue("cache-subnet-group")]
-    CacheSubnetGroup = 4,
+    CacheSubnetGroup,
 
     [EnumValue("replication-group")]
-    ReplicationGroup = 5,
+    ReplicationGroup,
 
     [EnumValue("serverless-cache")]
-    ServerlessCache = 6,
+    ServerlessCache,
 
     [EnumValue("serverless-cache-snapshot")]
-    ServerlessCacheSnapshot = 7,
+    ServerlessCacheSnapshot,
 
     [EnumValue("user")]
-    User = 8,
+    User,
 
     [EnumValue("user-group")]
-    UserGroup = 9
+    UserGroup
 }

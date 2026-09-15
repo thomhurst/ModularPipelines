@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --exclusionstatus.
+/// Allowed values for --exclusion-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTrustedadvisorListOrganizationRecommendationResourcesExclusionStatus
 {
     [EnumValue("excluded")]
-    Excluded = 1,
+    Excluded,
 
     [EnumValue("included")]
-    Included = 2
+    Included
 }

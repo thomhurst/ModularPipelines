@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --tlspolicy.
+/// Allowed values for --tls-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMailmanagerCreateIngressPointTlsPolicy
 {
-    [EnumValue("REQUIRED")]
-    Required = 1,
+    [EnumValue("FIPS")]
+    Fips,
 
     [EnumValue("OPTIONAL")]
-    Optional = 2,
+    Optional,
 
-    [EnumValue("FIPS")]
-    Fips = 3
+    [EnumValue("REQUIRED")]
+    Required
 }

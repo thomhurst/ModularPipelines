@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,9 +22,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-ipam-resource-cidrs")]
-public record AwsEc2GetIpamResourceCidrsOptions : AwsOptions
+public record AwsEc2GetIpamResourceCidrsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discov- ery is an IPAM component that enables IPAM to manage and monitor re- sources that belong to the owning account. See also: AWS API Documentation get-ipam-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can d...
+    /// </summary>
+    /// <param name="IpamScopeId">The ID of the scope that the resource is in.</param>
+    public AwsEc2GetIpamResourceCidrsOptions(
+        string IpamScopeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamScopeId);
+        this.IpamScopeId = IpamScopeId;
+    }
+
+    private AwsEc2GetIpamResourceCidrsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetIpamResourceCidrsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetIpamResourceCidrsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the scope that the resource is in.
+    /// </summary>
+    [CliOption("--ipam-scope-id")]
+    public string? IpamScopeId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -31,9 +74,6 @@ public record AwsEc2GetIpamResourceCidrsOptions : AwsOptions
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
-
-    [CliOption("--ipam-scope-id")]
-    public string? IpamScopeId { get; set; }
 
     /// <summary>
     /// The ID of the IPAM pool that the resource is in.
@@ -89,5 +129,22 @@ public record AwsEc2GetIpamResourceCidrsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

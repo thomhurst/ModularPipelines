@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keyformat.
+/// Allowed values for --key-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateKeyPairKeyFormat
 {
     [EnumValue("pem")]
-    Pem = 1,
+    Pem,
 
     [EnumValue("ppk")]
-    Ppk = 2
+    Ppk
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpc-peering-connection-options")]
-public record AwsEc2ModifyVpcPeeringConnectionOptionsOptions : AwsOptions
+public record AwsEc2ModifyVpcPeeringConnectionOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the VPC peering connection options on one side of a VPC peer- ing connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Se...
+    /// </summary>
+    /// <param name="VpcPeeringConnectionId">The ID of the VPC peering connection.</param>
+    public AwsEc2ModifyVpcPeeringConnectionOptionsOptions(
+        string VpcPeeringConnectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcPeeringConnectionId);
+        this.VpcPeeringConnectionId = VpcPeeringConnectionId;
+    }
+
+    private AwsEc2ModifyVpcPeeringConnectionOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpcPeeringConnectionOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpcPeeringConnectionOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the VPC peering connection.
+    /// </summary>
+    [CliOption("--vpc-peering-connection-id")]
+    public string? VpcPeeringConnectionId { get; private init; }
+
     /// <summary>
     /// The VPC peering connection options for the accepter VPC. AllowDnsResolutionFromRemoteVpc -&gt; (boolean) If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC. AllowEgressFromLocalClassicLinkToRemoteVpc -&gt; (boolean) Deprecated. AllowEgressFromLocalVpcToRemoteClassicLink -&gt; (boolean) Deprecated. Shorthand Syntax: AllowDnsResolutionFromRemoteVpc=boolean,AllowEgressFromLocalClassicLinkToRemoteVpc=boolean,AllowEgressFromLocalVpcToRemoteClassicLink=boolean JSON Syntax: { "AllowDnsResolutionFromRemoteVpc": true|false, "AllowEgressFromLocalClassicLinkToRemoteVpc": true|false, "AllowEgressFromLocalVpcToRemoteClassicLink": true|false }
     /// </summary>
     [CliOption("--accepter-peering-connection-options")]
     public string? AccepterPeeringConnectionOptions { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -36,13 +79,27 @@ public record AwsEc2ModifyVpcPeeringConnectionOptionsOptions : AwsOptions
     [CliOption("--requester-peering-connection-options")]
     public string? RequesterPeeringConnectionOptions { get; set; }
 
-    [CliOption("--vpc-peering-connection-id")]
-    public string? VpcPeeringConnectionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

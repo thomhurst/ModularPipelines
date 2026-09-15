@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --globaltablebillingmode.
+/// Allowed values for --global-table-billing-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbUpdateGlobalTableSettingsGlobalTableBillingMode
 {
-    [EnumValue("PROVISIONED")]
-    Provisioned = 1,
-
     [EnumValue("PAY_PER_REQUEST")]
-    PayPerRequest = 2
+    PayPerRequest,
+
+    [EnumValue("PROVISIONED")]
+    Provisioned
 }

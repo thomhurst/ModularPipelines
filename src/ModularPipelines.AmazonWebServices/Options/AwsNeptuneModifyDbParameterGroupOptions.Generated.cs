@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "modify-db-parameter-group")]
-public record AwsNeptuneModifyDbParameterGroupOptions : AwsOptions
+public record AwsNeptuneModifyDbParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-parameter-group-name")]
-    public string? DbParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName , Parame- terValue , and ApplyMethod . A maximum of 20 parameters can be modified in a single request. NOTE: Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB in- stance associated with the parameter group before the change can take effect. WARNING: After you modify a DB parameter group, you...
+    /// </summary>
+    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: o If supplied, must match the name of an existing DBParameterGroup.</param>
+    /// <param name="Parameters">An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maxi- mum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-re- boot NOTE: You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB in- stance without failover. (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational im- plications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: o immediate o pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]</param>
+    public AwsNeptuneModifyDbParameterGroupOptions(
+        string DbParameterGroupName,
+        IEnumerable<string> Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupName);
+        this.DbParameterGroupName = DbParameterGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Parameters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Parameters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Parameters));
+            }
+
+            Parameters = materialized;
+        }
+        this.Parameters = Parameters;
+    }
+
+    private AwsNeptuneModifyDbParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneModifyDbParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneModifyDbParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB parameter group. Constraints: o If supplied, must match the name of an existing DBParameterGroup.
+    /// </summary>
+    [CliOption("--db-parameter-group-name")]
+    public string? DbParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maxi- mum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-re- boot NOTE: You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB in- stance without failover. (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational im- plications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: o immediate o pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]
+    /// </summary>
     [CliOption("--parameters", GroupValues = true)]
-    public IEnumerable<string>? Parameters { get; set; }
+    public IEnumerable<string>? Parameters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

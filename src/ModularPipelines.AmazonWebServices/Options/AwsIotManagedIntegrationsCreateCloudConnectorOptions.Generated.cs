@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "create-cloud-connector")]
-public record AwsIotManagedIntegrationsCreateCloudConnectorOptions : AwsOptions
+public record AwsIotManagedIntegrationsCreateCloudConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a C2C (cloud-to-cloud) connector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The display name of the C2C connector. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+</param>
+    /// <param name="EndpointConfig">The configuration details for the cloud connector endpoint, includ- ing connection parameters and authentication requirements. lambda -&gt; (structure) The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function used as an endpoint. Constraints: o pattern: (arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:func- tion:)?([a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?) Shorthand Syntax: lambda={arn=string} JSON Syntax: { "lambda": { "arn": "string" } }</param>
+    public AwsIotManagedIntegrationsCreateCloudConnectorOptions(
+        string Name,
+        string EndpointConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointConfig);
+        this.EndpointConfig = EndpointConfig;
+    }
+
+    private AwsIotManagedIntegrationsCreateCloudConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsCreateCloudConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsCreateCloudConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The display name of the C2C connector. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration details for the cloud connector endpoint, includ- ing connection parameters and authentication requirements. lambda -&gt; (structure) The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function used as an endpoint. Constraints: o pattern: (arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:func- tion:)?([a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?) Shorthand Syntax: lambda={arn=string} JSON Syntax: { "lambda": { "arn": "string" } }
+    /// </summary>
     [CliOption("--endpoint-config")]
-    public string? EndpointConfig { get; set; }
+    public string? EndpointConfig { get; private init; }
 
     /// <summary>
     /// A description of the C2C connector. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
@@ -53,5 +97,22 @@ public record AwsIotManagedIntegrationsCreateCloudConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

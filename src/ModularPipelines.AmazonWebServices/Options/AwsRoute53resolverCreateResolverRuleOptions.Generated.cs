@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "create-resolver-rule")]
-public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions
+public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255</param>
+    /// <param name="RuleType">When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE . When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a sub- domain of that domain, specify SYSTEM . For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType . To then have Resolver process queries for apex.example.com, you cre- ate a rule and specify SYSTEM for RuleType . Currently, only Resolver can create rules that have a value of RE- CURSIVE for RuleType . Possible values: o FORWARD o SYSTEM o RECURSIVE o DELEGATE</param>
+    public AwsRoute53resolverCreateResolverRuleOptions(
+        string CreatorRequestId,
+        AwsRoute53resolverCreateResolverRuleRuleType RuleType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CreatorRequestId);
+        this.CreatorRequestId = CreatorRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RuleType);
+        this.RuleType = RuleType;
+    }
+
+    private AwsRoute53resolverCreateResolverRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverCreateResolverRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverCreateResolverRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--creator-request-id")]
-    public string? CreatorRequestId { get; set; }
+    public string? CreatorRequestId { get; private init; }
+
+    /// <summary>
+    /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE . When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a sub- domain of that domain, specify SYSTEM . For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType . To then have Resolver process queries for apex.example.com, you cre- ate a rule and specify SYSTEM for RuleType . Currently, only Resolver can create rules that have a value of RE- CURSIVE for RuleType . Possible values: o FORWARD o SYSTEM o RECURSIVE o DELEGATE
+    /// </summary>
+    [CliOption("--rule-type")]
+    public AwsRoute53resolverCreateResolverRuleRuleType? RuleType { get; private init; }
 
     /// <summary>
     /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--rule-type")]
-    public string? RuleType { get; set; }
 
     /// <summary>
     /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps . If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific do- main name (www.example.com). Constraints: o min: 1 o max: 256
@@ -68,5 +113,22 @@ public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

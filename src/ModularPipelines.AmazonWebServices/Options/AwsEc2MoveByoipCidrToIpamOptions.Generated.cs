@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,94 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "move-byoip-cidr-to-ipam")]
-public record AwsEc2MoveByoipCidrToIpamOptions : AwsOptions
+public record AwsEc2MoveByoipCidrToIpamOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool. If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Ser- vices for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Cidr">The BYOIP CIDR.</param>
+    /// <param name="IpamPoolId">The IPAM pool ID.</param>
+    /// <param name="IpamPoolOwner">The Amazon Web Services account ID of the owner of the IPAM pool.</param>
+    public AwsEc2MoveByoipCidrToIpamOptions(
+        string Cidr,
+        string IpamPoolId,
+        string IpamPoolOwner
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+        global::System.ArgumentNullException.ThrowIfNull(IpamPoolId);
+        this.IpamPoolId = IpamPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(IpamPoolOwner);
+        this.IpamPoolOwner = IpamPoolOwner;
+    }
+
+    private AwsEc2MoveByoipCidrToIpamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2MoveByoipCidrToIpamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2MoveByoipCidrToIpamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The BYOIP CIDR.
+    /// </summary>
     [CliOption("--cidr")]
-    public string? Cidr { get; set; }
+    public string? Cidr { get; private init; }
 
+    /// <summary>
+    /// The IPAM pool ID.
+    /// </summary>
     [CliOption("--ipam-pool-id")]
-    public string? IpamPoolId { get; set; }
+    public string? IpamPoolId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account ID of the owner of the IPAM pool.
+    /// </summary>
     [CliOption("--ipam-pool-owner")]
-    public string? IpamPoolOwner { get; set; }
+    public string? IpamPoolOwner { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-identity", "create-app-instance-user")]
-public record AwsChimeSdkIdentityCreateAppInstanceUserOptions : AwsOptions
+public record AwsChimeSdkIdentityCreateAppInstanceUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user under an Amazon Chime AppInstance . The request consists of a unique appInstanceUserId and Name for that user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppInstanceArn">The ARN of the AppInstance request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceUserId">The user ID of the AppInstance . Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?</param>
+    /// <param name="Name">The user's name. Constraints: o min: 1 o max: 100 o pattern: .*\S.*</param>
+    public AwsChimeSdkIdentityCreateAppInstanceUserOptions(
+        string AppInstanceArn,
+        string AppInstanceUserId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppInstanceArn);
+        this.AppInstanceArn = AppInstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(AppInstanceUserId);
+        this.AppInstanceUserId = AppInstanceUserId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsChimeSdkIdentityCreateAppInstanceUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkIdentityCreateAppInstanceUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkIdentityCreateAppInstanceUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the AppInstance request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--app-instance-arn")]
-    public string? AppInstanceArn { get; set; }
+    public string? AppInstanceArn { get; private init; }
 
+    /// <summary>
+    /// The user ID of the AppInstance . Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?
+    /// </summary>
     [CliOption("--app-instance-user-id")]
-    public string? AppInstanceUserId { get; set; }
+    public string? AppInstanceUserId { get; private init; }
 
+    /// <summary>
+    /// The user's name. Constraints: o min: 1 o max: 100 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The request's metadata. Limited to a 1KB string in UTF-8. Constraints: o min: 0 o max: 1024 o pattern: .*
@@ -61,5 +112,22 @@ public record AwsChimeSdkIdentityCreateAppInstanceUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

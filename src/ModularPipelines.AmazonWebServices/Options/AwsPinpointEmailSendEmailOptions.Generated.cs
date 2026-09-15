@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "send-email")]
-public record AwsPinpointEmailSendEmailOptions : AwsOptions
+public record AwsPinpointEmailSendEmailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends an email message. You can use the Amazon Pinpoint Email API to send two types of messages: o Simple A standard email message. When you create this type of mes- sage, you specify the sender, the recipient, and the message body, and Amazon Pinpoint assembles the message for you. o Raw A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain at...
+    /// </summary>
+    /// <param name="Destination">An object that contains the recipients of the email message. ToAddresses -&gt; (list) An array that contains the email addresses of the "To" recipi- ents for the email. (string) CcAddresses -&gt; (list) An array that contains the email addresses of the "CC" (carbon copy) recipients for the email. (string) BccAddresses -&gt; (list) An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email. (string) Shorthand Syntax: ToAddresses=string,string,CcAddresses=string,string,BccAddresses=string,string JSON Syntax: { "ToAddresses": ["string", ...], "CcAddresses": ["string", ...], "BccAddresses": ["string", ...] }</param>
+    /// <param name="Content">An object that contains the body of the message. You can send either a Simple message or a Raw message. Simple -&gt; (structure) The simple email message. The message consists of a subject and a message body. Subject -&gt; (structure) [required] The subject line of the email. The subject line can only con- tain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using en- coded-word syntax, as described in RFC 2047 . Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Body -&gt; (structure) [required] The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both. Text -&gt; (structure) An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Html -&gt; (structure) An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Raw -&gt; (structure) The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the mes- sage. o Each part of a multipart MIME message must be formatted prop- erly. o If you include attachments, they must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should en- code that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't ex- ceed 1,000 characters. This restriction is defined in RFC 5321 . Data -&gt; (blob) [required] The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the message. o Each part of a multipart MIME message must be formatted properly. o Attachments must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321 . Template -&gt; (structure) The template to use for the email message. TemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the template. TemplateData -&gt; (string) An object that defines the values to use for message vari- ables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable. Constraints: o max: 262144 JSON Syntax: { "Simple": { "Subject": { "Data": "string", "Charset": "string" }, "Body": { "Text": { "Data": "string", "Charset": "string" }, "Html": { "Data": "string", "Charset": "string" } } }, "Raw": { "Data": blob }, "Template": { "TemplateArn": "string", "TemplateData": "string" } }</param>
+    public AwsPinpointEmailSendEmailOptions(
+        string Destination,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsPinpointEmailSendEmailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailSendEmailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailSendEmailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An object that contains the recipients of the email message. ToAddresses -&gt; (list) An array that contains the email addresses of the "To" recipi- ents for the email. (string) CcAddresses -&gt; (list) An array that contains the email addresses of the "CC" (carbon copy) recipients for the email. (string) BccAddresses -&gt; (list) An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email. (string) Shorthand Syntax: ToAddresses=string,string,CcAddresses=string,string,BccAddresses=string,string JSON Syntax: { "ToAddresses": ["string", ...], "CcAddresses": ["string", ...], "BccAddresses": ["string", ...] }
+    /// </summary>
+    [CliOption("--destination")]
+    public string? Destination { get; private init; }
+
+    /// <summary>
+    /// An object that contains the body of the message. You can send either a Simple message or a Raw message. Simple -&gt; (structure) The simple email message. The message consists of a subject and a message body. Subject -&gt; (structure) [required] The subject line of the email. The subject line can only con- tain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using en- coded-word syntax, as described in RFC 2047 . Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Body -&gt; (structure) [required] The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both. Text -&gt; (structure) An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Html -&gt; (structure) An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Raw -&gt; (structure) The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the mes- sage. o Each part of a multipart MIME message must be formatted prop- erly. o If you include attachments, they must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should en- code that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't ex- ceed 1,000 characters. This restriction is defined in RFC 5321 . Data -&gt; (blob) [required] The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the message. o Each part of a multipart MIME message must be formatted properly. o Attachments must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321 . Template -&gt; (structure) The template to use for the email message. TemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the template. TemplateData -&gt; (string) An object that defines the values to use for message vari- ables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable. Constraints: o max: 262144 JSON Syntax: { "Simple": { "Subject": { "Data": "string", "Charset": "string" }, "Body": { "Text": { "Data": "string", "Charset": "string" }, "Html": { "Data": "string", "Charset": "string" } } }, "Raw": { "Data": blob }, "Template": { "TemplateArn": "string", "TemplateData": "string" } }
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
+
     /// <summary>
     /// The email address that you want to use as the "From" address for the email. The address that you specify has to be verified.
     /// </summary>
     [CliOption("--from-email-address")]
     public string? FromEmailAddress { get; set; }
-
-    [CliOption("--destination")]
-    public string? Destination { get; set; }
 
     /// <summary>
     /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply. (string) Syntax: "string" "string" ...
@@ -41,9 +88,6 @@ public record AwsPinpointEmailSendEmailOptions : AwsOptions
     /// </summary>
     [CliOption("--feedback-forwarding-email-address")]
     public string? FeedbackForwardingEmailAddress { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. (structure) Contains the name and value of a tag that you apply to an email. You can use message tags when you publish email sending events. Name -&gt; (string) [required] The name of the message tag. The message tag name has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. Value -&gt; (string) [required] The value of the message tag. The message tag value has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
@@ -62,5 +106,22 @@ public record AwsPinpointEmailSendEmailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

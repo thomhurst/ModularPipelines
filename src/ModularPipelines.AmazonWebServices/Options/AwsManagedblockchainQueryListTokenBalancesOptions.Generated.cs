@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain-query", "list-token-balances")]
-public record AwsManagedblockchainQueryListTokenBalancesOptions : AwsOptions
+public record AwsManagedblockchainQueryListTokenBalancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This action returns the following for a given blockchain network: o Lists all token balances owned by an address (either a contract ad- dress or a wallet address). o Lists all token balances for all tokens created by a contract. o Lists all token balances for a given token. NOTE: You must always specify the network property of the tokenFilter when using this operation. See also: AWS API Documentation list-token-balances is a paginated operation. Multiple API calls may be issued in order to retri...
+    /// </summary>
+    /// <param name="TokenFilter">The contract address or a token identifier on the blockchain network by which to filter the request. You must specify the contractAddress property of this container when listing tokens minted by a contract. NOTE: You must always specify the network property of this container when using this operation. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the address of the contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }</param>
+    public AwsManagedblockchainQueryListTokenBalancesOptions(
+        string TokenFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TokenFilter);
+        this.TokenFilter = TokenFilter;
+    }
+
+    private AwsManagedblockchainQueryListTokenBalancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainQueryListTokenBalancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainQueryListTokenBalancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The contract address or a token identifier on the blockchain network by which to filter the request. You must specify the contractAddress property of this container when listing tokens minted by a contract. NOTE: You must always specify the network property of this container when using this operation. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the address of the contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token-filter")]
+    public string? TokenFilter { get; private init; }
+
     /// <summary>
     /// The contract or wallet address on the blockchain network by which to filter the request. You must specify the address property of the ownerFilter when listing balances of tokens owned by the address. address -&gt; (string) [required] The contract or wallet address. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }
     /// </summary>
     [CliOption("--owner-filter")]
     public string? OwnerFilter { get; set; }
-
-    [SecretValue]
-    [CliOption("--token-filter")]
-    public string? TokenFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -56,5 +93,22 @@ public record AwsManagedblockchainQueryListTokenBalancesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

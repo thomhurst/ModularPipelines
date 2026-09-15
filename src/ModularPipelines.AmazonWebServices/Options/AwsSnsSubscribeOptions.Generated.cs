@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "subscribe")]
-public record AwsSnsSubscribeOptions : AwsOptions
+public record AwsSnsSubscribeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--topic-arn")]
-    public string? TopicArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the Confirm- Subscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the sub- scription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TopicArn">The ARN of the topic you want to subscribe to.</param>
+    /// <param name="Protocol">The protocol that you want to use. Supported protocols include: o http delivery of JSON-encoded message via HTTP POST o https delivery of JSON-encoded message via HTTPS POST o email delivery of message via SMTP o email-json delivery of JSON-encoded message via SMTP o sms delivery of message via SMS o sqs delivery of JSON-encoded message to an Amazon SQS queue o application delivery of JSON-encoded message to an EndpointArn for a mobile app and device o lambda delivery of JSON-encoded message to an Lambda function o firehose delivery of JSON-encoded message to an Amazon Data Fire- hose delivery stream.</param>
+    public AwsSnsSubscribeOptions(
+        string TopicArn,
+        string Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TopicArn);
+        this.TopicArn = TopicArn;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    private AwsSnsSubscribeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsSubscribeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsSubscribeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the topic you want to subscribe to.
+    /// </summary>
+    [CliOption("--topic-arn")]
+    public string? TopicArn { get; private init; }
+
+    /// <summary>
+    /// The protocol that you want to use. Supported protocols include: o http delivery of JSON-encoded message via HTTP POST o https delivery of JSON-encoded message via HTTPS POST o email delivery of message via SMTP o email-json delivery of JSON-encoded message via SMTP o sms delivery of message via SMS o sqs delivery of JSON-encoded message to an Amazon SQS queue o application delivery of JSON-encoded message to an EndpointArn for a mobile app and device o lambda delivery of JSON-encoded message to an Lambda function o firehose delivery of JSON-encoded message to an Amazon Data Fire- hose delivery stream.
+    /// </summary>
     [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    public string? Protocol { get; private init; }
 
     /// <summary>
     /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the spe- cial request parameters that the Subscribe action uses: o DeliveryPolicy The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints. o FilterPolicy The simple JSON object that lets your subscriber re- ceive only a subset of messages, rather than receiving every mes- sage published to the topic. o FilterPolicyScope This attribute lets you choose the filtering scope by using one of the following string value types: o MessageAttributes (default) The filter is applied on the mes- sage attributes. o MessageBody The filter is applied on the message body. o RawMessageDelivery When set to true , enables raw message deliv- ery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata. o RedrivePolicy When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be de- livered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or repro- cessing. The following attribute applies only to Amazon Data Firehose deliv- ery stream subscriptions: o SubscriptionRoleArn The ARN of the IAM role that has the follow- ing: o Permission to write to the Firehose delivery stream o Amazon SNS listed as a trusted entity Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see Fanout to Firehose delivery streams in the Amazon SNS Developer Guide . The following attributes apply only to FIFO topics : o ReplayPolicy Adds or updates an inline policy document for a sub- scription to replay messages stored in the specified Amazon SNS topic. o ReplayStatus Retrieves the status of the subscription message re- play, which can be one of the following: o Completed The replay has successfully redelivered all messages, and is now delivering newly published messages. If an ending point was specified in the ReplayPolicy then the subscription will no longer receive newly published messages. o In progress The replay is currently replaying the selected mes- sages. o Failed The replay was unable to complete. o Pending The default state while the replay initiates. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -34,7 +78,10 @@ public record AwsSnsSubscribeOptions : AwsOptions
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
-    [CliFlag("--return-subscription-arn")]
+    /// <summary>
+    /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to true , the response includes the ARN in all cases, even if the subscription is not yet confirmed. In addi- tion to the ARN for confirmed subscriptions, the response also in- cludes the pending subscription ARN value for subscriptions that aren't yet confirmed. A subscription becomes confirmed when the sub- scriber calls the ConfirmSubscription action with a confirmation to- ken. The default value is false .
+    /// </summary>
+    [CliFlag("--return-subscription-arn", NegatedName = "--no-return-subscription-arn")]
     public bool? ReturnSubscriptionArn { get; set; }
 
     /// <summary>
@@ -48,5 +95,22 @@ public record AwsSnsSubscribeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

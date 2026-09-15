@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehendmedical", "start-snomedct-inference-job")]
-public record AwsComprehendmedicalStartSnomedctInferenceJobOptions : AwsOptions
+public record AwsComprehendmedicalStartSnomedctInferenceJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputDataConfig">The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed. S3Bucket -&gt; (string) [required] The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the input data files in the S3 bucket. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="OutputDataConfig">The output properties for a detection job. S3Bucket -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the output data files in the S3 bucket. Amazon Com- prehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the AWS Identity and Access Man- agement (IAM) role that grants Amazon Comprehend Medical read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="LanguageCode">The language of the input documents. All documents must be in the same language. Possible values: o en</param>
+    public AwsComprehendmedicalStartSnomedctInferenceJobOptions(
+        string InputDataConfig,
+        string OutputDataConfig,
+        string DataAccessRoleArn,
+        AwsComprehendmedicalStartSnomedctInferenceJobLanguageCode LanguageCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsComprehendmedicalStartSnomedctInferenceJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendmedicalStartSnomedctInferenceJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendmedicalStartSnomedctInferenceJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed. S3Bucket -&gt; (string) [required] The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the input data files in the S3 bucket. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// </summary>
     [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
+    public string? InputDataConfig { get; private init; }
 
+    /// <summary>
+    /// The output properties for a detection job. S3Bucket -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the output data files in the S3 bucket. Amazon Com- prehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// </summary>
     [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
+    public string? OutputDataConfig { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Man- agement (IAM) role that grants Amazon Comprehend Medical read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
     [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// The language of the input documents. All documents must be in the same language. Possible values: o en
+    /// </summary>
+    [CliOption("--language-code")]
+    public AwsComprehendmedicalStartSnomedctInferenceJobLanguageCode? LanguageCode { get; private init; }
 
     /// <summary>
     /// The user generated name the asynchronous InferSNOMEDCT job. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
@@ -50,13 +112,27 @@ public record AwsComprehendmedicalStartSnomedctInferenceJobOptions : AwsOptions
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

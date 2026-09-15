@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --homedirectorytype.
+/// Allowed values for --home-directory-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTransferUpdateUserHomeDirectoryType
 {
-    [EnumValue("PATH")]
-    Path = 1,
-
     [EnumValue("LOGICAL")]
-    Logical = 2
+    Logical,
+
+    [EnumValue("PATH")]
+    Path
 }

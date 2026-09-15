@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("translate", "stop-text-translation-job")]
-public record AwsTranslateStopTextTranslationJobOptions : AwsOptions
+public record AwsTranslateStopTextTranslationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS , the job will be marked for termina- tion and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartText- TranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a ba...
+    /// </summary>
+    /// <param name="JobId">The job ID of the job to be stopped. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
+    public AwsTranslateStopTextTranslationJobOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    private AwsTranslateStopTextTranslationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranslateStopTextTranslationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranslateStopTextTranslationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The job ID of the job to be stopped. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

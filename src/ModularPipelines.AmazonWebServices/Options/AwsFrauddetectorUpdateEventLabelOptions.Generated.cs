@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "update-event-label")]
-public record AwsFrauddetectorUpdateEventLabelOptions : AwsOptions
+public record AwsFrauddetectorUpdateEventLabelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified event with a new label. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventId">The ID of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The event type of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="AssignedLabel">The new label to assign to the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="LabelTimestamp">The timestamp associated with the label. The timestamp must be spec- ified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30</param>
+    public AwsFrauddetectorUpdateEventLabelOptions(
+        string EventId,
+        string EventTypeName,
+        string AssignedLabel,
+        string LabelTimestamp
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+        global::System.ArgumentNullException.ThrowIfNull(EventTypeName);
+        this.EventTypeName = EventTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(AssignedLabel);
+        this.AssignedLabel = AssignedLabel;
+        global::System.ArgumentNullException.ThrowIfNull(LabelTimestamp);
+        this.LabelTimestamp = LabelTimestamp;
+    }
+
+    private AwsFrauddetectorUpdateEventLabelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorUpdateEventLabelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorUpdateEventLabelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--event-id")]
-    public string? EventId { get; set; }
+    public string? EventId { get; private init; }
 
+    /// <summary>
+    /// The event type of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--event-type-name")]
-    public string? EventTypeName { get; set; }
+    public string? EventTypeName { get; private init; }
 
+    /// <summary>
+    /// The new label to assign to the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--assigned-label")]
-    public string? AssignedLabel { get; set; }
+    public string? AssignedLabel { get; private init; }
 
+    /// <summary>
+    /// The timestamp associated with the label. The timestamp must be spec- ified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30
+    /// </summary>
     [CliOption("--label-timestamp")]
-    public string? LabelTimestamp { get; set; }
+    public string? LabelTimestamp { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

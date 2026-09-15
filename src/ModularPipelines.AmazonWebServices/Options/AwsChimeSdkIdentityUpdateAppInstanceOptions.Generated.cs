@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-identity", "update-app-instance")]
-public record AwsChimeSdkIdentityUpdateAppInstanceOptions : AwsOptions
+public record AwsChimeSdkIdentityUpdateAppInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates AppInstance metadata. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppInstanceArn">The ARN of the AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Name">The name that you want to change. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
+    /// <param name="Metadata">The metadata that you want to change. Constraints: o min: 0 o max: 1024 o pattern: .*</param>
+    public AwsChimeSdkIdentityUpdateAppInstanceOptions(
+        string AppInstanceArn,
+        string Name,
+        string Metadata
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppInstanceArn);
+        this.AppInstanceArn = AppInstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Metadata);
+        this.Metadata = Metadata;
+    }
+
+    private AwsChimeSdkIdentityUpdateAppInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkIdentityUpdateAppInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkIdentityUpdateAppInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--app-instance-arn")]
-    public string? AppInstanceArn { get; set; }
+    public string? AppInstanceArn { get; private init; }
 
+    /// <summary>
+    /// The name that you want to change. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The metadata that you want to change. Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// </summary>
     [CliOption("--metadata")]
-    public string? Metadata { get; set; }
+    public string? Metadata { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

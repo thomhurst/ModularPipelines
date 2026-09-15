@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "update-problem")]
-public record AwsApplicationInsightsUpdateProblemOptions : AwsOptions
+public record AwsApplicationInsightsUpdateProblemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the visibility of the problem or specifies the problem as RE- SOLVED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProblemId">The ID of the problem. Constraints: o min: 38 o max: 38 o pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    public AwsApplicationInsightsUpdateProblemOptions(
+        string ProblemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProblemId);
+        this.ProblemId = ProblemId;
+    }
+
+    private AwsApplicationInsightsUpdateProblemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsUpdateProblemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsUpdateProblemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the problem. Constraints: o min: 38 o max: 38 o pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--problem-id")]
-    public string? ProblemId { get; set; }
+    public string? ProblemId { get; private init; }
 
     /// <summary>
     /// The status of the problem. Arguments can be passed for only problems that show a status of RECOVERING . Possible values: o RESOLVED
@@ -42,5 +79,22 @@ public record AwsApplicationInsightsUpdateProblemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

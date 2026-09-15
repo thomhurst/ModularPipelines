@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "add-tags-to-resource")]
-public record AwsSsmAddTagsToResourceOptions : AwsOptions
+public record AwsSsmAddTagsToResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, man- aged nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you...
+    /// </summary>
+    /// <param name="ResourceType">Specifies the type of resource you are tagging. NOTE: The ManagedInstance type for this API operation is for on-premises managed nodes. You must specify the name of the man- aged node in the following format: mi-*ID_number* `` . For exam- ple, ``mi-1a2b3c4d5e6f . Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector</param>
+    /// <param name="ResourceId">The resource ID you want to tag. Use the ID of the resource. Here are some examples: MaintenanceWindow : mw-012345abcde PatchBaseline : pb-012345abcde Automation : example-c160-4567-8519-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, Resour- ceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmeta- data/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. If you're tagging a shared document, you must use the full ARN of the document. ManagedInstance : mi-012345abcde NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the man- aged node in the following format: mi-*ID_number* `` . For exam- ple, ``mi-1a2b3c4d5e6f .</param>
+    /// <param name="Tags">One or more tags. The value parameter is required. WARNING: Don't enter personally identifiable information in this field. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsSsmAddTagsToResourceOptions(
+        AwsSsmAddTagsToResourceResourceType ResourceType,
+        string ResourceId,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsSsmAddTagsToResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmAddTagsToResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmAddTagsToResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the type of resource you are tagging. NOTE: The ManagedInstance type for this API operation is for on-premises managed nodes. You must specify the name of the man- aged node in the following format: mi-*ID_number* `` . For exam- ple, ``mi-1a2b3c4d5e6f . Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsSsmAddTagsToResourceResourceType? ResourceType { get; private init; }
 
+    /// <summary>
+    /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: MaintenanceWindow : mw-012345abcde PatchBaseline : pb-012345abcde Automation : example-c160-4567-8519-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, Resour- ceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmeta- data/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. If you're tagging a shared document, you must use the full ARN of the document. ManagedInstance : mi-012345abcde NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the man- aged node in the following format: mi-*ID_number* `` . For exam- ple, ``mi-1a2b3c4d5e6f .
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// One or more tags. The value parameter is required. WARNING: Don't enter personally identifiable information in this field. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

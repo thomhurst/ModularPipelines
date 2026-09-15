@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "delete-virtual-mfa-device")]
-public record AwsIamDeleteVirtualMfaDeviceOptions : AwsOptions
+public record AwsIamDeleteVirtualMfaDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a virtual MFA device. NOTE: You must deactivate a user's virtual MFA device before you can delete it. For information about deactivating MFA devices, see DeactivateMFADevice . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SerialNumber">The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+</param>
+    public AwsIamDeleteVirtualMfaDeviceOptions(
+        string SerialNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SerialNumber);
+        this.SerialNumber = SerialNumber;
+    }
+
+    private AwsIamDeleteVirtualMfaDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamDeleteVirtualMfaDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamDeleteVirtualMfaDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+
+    /// </summary>
     [CliOption("--serial-number")]
-    public string? SerialNumber { get; set; }
+    public string? SerialNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

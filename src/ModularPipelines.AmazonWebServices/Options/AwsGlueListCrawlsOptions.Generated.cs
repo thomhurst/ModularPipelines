@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "list-crawls")]
-public record AwsGlueListCrawlsOptions : AwsOptions
+public record AwsGlueListCrawlsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history fea- ture, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: o Retrive all the crawls of a specified crawler. o Retrieve all the crawls of a specified crawler within a limited count. o Retrieve all the crawls of a specified crawler in a specific time range. o Retrieve all the crawls of a specified crawler with...
+    /// </summary>
+    /// <param name="CrawlerName">The name of the crawler whose runs you want to retrieve. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    public AwsGlueListCrawlsOptions(
+        string CrawlerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CrawlerName);
+        this.CrawlerName = CrawlerName;
+    }
+
+    private AwsGlueListCrawlsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueListCrawlsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueListCrawlsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the crawler whose runs you want to retrieve. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--crawler-name")]
-    public string? CrawlerName { get; set; }
+    public string? CrawlerName { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return. The default is 20, and max- imum is 100. Constraints: o min: 1 o max: 1000
@@ -49,5 +86,22 @@ public record AwsGlueListCrawlsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

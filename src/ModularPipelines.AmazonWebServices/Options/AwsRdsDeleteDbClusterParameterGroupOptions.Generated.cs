@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "delete-db-cluster-parameter-group")]
-public record AwsRdsDeleteDbClusterParameterGroupOptions : AwsOptions
+public record AwsRdsDeleteDbClusterParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a specified DB cluster parameter group. The DB cluster parame- ter group to be deleted can't be associated with any DB clusters. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group. Constraints: o Must be the name of an existing DB cluster parameter group. o You can't delete a default DB cluster parameter group. o Can't be associated with any DB clusters.</param>
+    public AwsRdsDeleteDbClusterParameterGroupOptions(
+        string DbClusterParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterParameterGroupName);
+        this.DbClusterParameterGroupName = DbClusterParameterGroupName;
+    }
+
+    private AwsRdsDeleteDbClusterParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDeleteDbClusterParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDeleteDbClusterParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB cluster parameter group. Constraints: o Must be the name of an existing DB cluster parameter group. o You can't delete a default DB cluster parameter group. o Can't be associated with any DB clusters.
+    /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
-    public string? DbClusterParameterGroupName { get; set; }
+    public string? DbClusterParameterGroupName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

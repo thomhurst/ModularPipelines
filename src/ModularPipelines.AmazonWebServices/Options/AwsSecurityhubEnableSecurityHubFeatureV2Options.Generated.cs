@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "enable-security-hub-feature-v2")]
-public record AwsSecurityhubEnableSecurityHubFeatureV2Options : AwsOptions
+public record AwsSecurityhubEnableSecurityHubFeatureV2Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already en- abled, no changes are made. You cannot enable a feature that is managed by an organization policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FeatureName">The name of the feature to enable. Possible values: o NETWORK_SCANNING</param>
+    public AwsSecurityhubEnableSecurityHubFeatureV2Options(
+        AwsSecurityhubEnableSecurityHubFeatureV2FeatureName FeatureName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FeatureName);
+        this.FeatureName = FeatureName;
+    }
+
+    private AwsSecurityhubEnableSecurityHubFeatureV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubEnableSecurityHubFeatureV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubEnableSecurityHubFeatureV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the feature to enable. Possible values: o NETWORK_SCANNING
+    /// </summary>
     [CliOption("--feature-name")]
-    public string? FeatureName { get; set; }
+    public AwsSecurityhubEnableSecurityHubFeatureV2FeatureName? FeatureName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

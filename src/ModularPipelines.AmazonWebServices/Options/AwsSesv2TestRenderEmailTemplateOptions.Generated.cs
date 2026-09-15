@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "test-render-email-template")]
-public record AwsSesv2TestRenderEmailTemplateOptions : AwsOptions
+public record AwsSesv2TestRenderEmailTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the template. Constraints: o min: 1</param>
+    /// <param name="TemplateData">A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144</param>
+    public AwsSesv2TestRenderEmailTemplateOptions(
+        string TemplateName,
+        string TemplateData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateData);
+        this.TemplateData = TemplateData;
+    }
+
+    private AwsSesv2TestRenderEmailTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2TestRenderEmailTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2TestRenderEmailTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the template. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--template-name")]
+    public string? TemplateName { get; private init; }
+
+    /// <summary>
+    /// A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144
+    /// </summary>
     [CliOption("--template-data")]
-    public string? TemplateData { get; set; }
+    public string? TemplateData { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

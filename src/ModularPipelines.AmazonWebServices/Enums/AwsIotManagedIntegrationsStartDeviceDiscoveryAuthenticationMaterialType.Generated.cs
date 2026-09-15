@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationmaterialtype.
+/// Allowed values for --authentication-material-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsStartDeviceDiscoveryAuthenticationMaterialType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("ZWAVE_INSTALL_CODE")]
-    ZwaveInstallCode = 1
+    ZwaveInstallCode
 }

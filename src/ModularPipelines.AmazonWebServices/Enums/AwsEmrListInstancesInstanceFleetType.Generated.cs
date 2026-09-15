@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instancefleettype.
+/// Allowed values for --instance-fleet-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrListInstancesInstanceFleetType
 {
-    [EnumValue("MASTER")]
-    Master = 1,
-
     [EnumValue("CORE")]
-    Core = 2,
+    Core,
+
+    [EnumValue("MASTER")]
+    Master,
 
     [EnumValue("TASK")]
-    Task = 3
+    Task
 }

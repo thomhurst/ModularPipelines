@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "list-mobile-device-access-overrides")]
-public record AwsWorkmailListMobileDeviceAccessOverridesOptions : AwsOptions
+public record AwsWorkmailListMobileDeviceAccessOverridesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The WorkMail organization under which to list mobile device access overrides. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    public AwsWorkmailListMobileDeviceAccessOverridesOptions(
+        string OrganizationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+    }
+
+    private AwsWorkmailListMobileDeviceAccessOverridesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailListMobileDeviceAccessOverridesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailListMobileDeviceAccessOverridesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The WorkMail organization under which to list mobile device access overrides. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
     /// <summary>
     /// The WorkMail user under which you list the mobile device access overrides. Accepts the following types of user identities: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
@@ -55,5 +92,22 @@ public record AwsWorkmailListMobileDeviceAccessOverridesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

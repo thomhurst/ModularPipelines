@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "configure-agent")]
-public record AwsCodeguruprofilerConfigureAgentOptions : AwsOptions
+public record AwsCodeguruprofilerConfigureAgentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used by profiler agents to report their current state and to receive remote configuration updates. For example, ConfigureAgent can be used to tell an agent whether to profile or not and for how long to return profiling data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfilingGroupName">The name of the profiling group for which the configured agent is collecting profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    public AwsCodeguruprofilerConfigureAgentOptions(
+        string ProfilingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+    }
+
+    private AwsCodeguruprofilerConfigureAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerConfigureAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerConfigureAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the profiling group for which the configured agent is collecting profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
+
     /// <summary>
     /// A universally unique identifier (UUID) for a profiling instance. For example, if the profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS Fargate container, it is the con- tainer's task ID. Constraints: o min: 1 o max: 255
     /// </summary>
@@ -34,13 +74,27 @@ public record AwsCodeguruprofilerConfigureAgentOptions : AwsOptions
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

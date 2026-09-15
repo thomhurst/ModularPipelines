@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "describe-security-policy")]
-public record AwsTransferDescribeSecurityPolicyOptions : AwsOptions
+public record AwsTransferDescribeSecurityPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SecurityPolicyName">Specify the text name of the security policy for which you want the details. Constraints: o min: 0 o max: 100 o pattern: Transfer[A-Za-z0-9]*SecurityPolicy-[A-Za-z0-9-]+</param>
+    public AwsTransferDescribeSecurityPolicyOptions(
+        string SecurityPolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicyName);
+        this.SecurityPolicyName = SecurityPolicyName;
+    }
+
+    private AwsTransferDescribeSecurityPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferDescribeSecurityPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferDescribeSecurityPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the text name of the security policy for which you want the details. Constraints: o min: 0 o max: 100 o pattern: Transfer[A-Za-z0-9]*SecurityPolicy-[A-Za-z0-9-]+
+    /// </summary>
     [CliOption("--security-policy-name")]
-    public string? SecurityPolicyName { get; set; }
+    public string? SecurityPolicyName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

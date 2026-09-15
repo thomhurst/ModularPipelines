@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddApplicationCloudWatchLoggingOptionAsync(
-        AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions? options = null,
+        AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddApplicationInputAsync(
-        AwsKinesisanalyticsv2AddApplicationInputOptions? options = null,
+        AwsKinesisanalyticsv2AddApplicationInputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2AddApplicationInputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,26 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddApplicationInputProcessingConfigurationAsync(
-        AwsKinesisanalyticsv2AddApplicationInputProcessingConfigurationOptions? options = null,
+        AwsKinesisanalyticsv2AddApplicationInputProcessingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2AddApplicationInputProcessingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-applica- tion stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your ap- plication using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-ap...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddApplicationOutputAsync(
+        AwsKinesisanalyticsv2AddApplicationOutputOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +100,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddApplicationReferenceDataSourceAsync(
-        AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions? options = null,
+        AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +115,26 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddApplicationVpcConfigurationAsync(
-        AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions? options = null,
+        AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a Managed Service for Apache Flink application. For information about creating a Managed Service for Apache Flink application, see Creating an Application . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateApplicationAsync(
+        AwsKinesisanalyticsv2CreateApplicationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +145,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateApplicationPresignedUrlAsync(
-        AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions? options = null,
+        AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +160,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateApplicationSnapshotAsync(
-        AwsKinesisanalyticsv2CreateApplicationSnapshotOptions? options = null,
+        AwsKinesisanalyticsv2CreateApplicationSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2CreateApplicationSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +175,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationCloudWatchLoggingOptionAsync(
-        AwsKinesisanalyticsv2DeleteApplicationCloudWatchLoggingOptionOptions? options = null,
+        AwsKinesisanalyticsv2DeleteApplicationCloudWatchLoggingOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DeleteApplicationCloudWatchLoggingOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +190,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationInputProcessingConfigurationAsync(
-        AwsKinesisanalyticsv2DeleteApplicationInputProcessingConfigurationOptions? options = null,
+        AwsKinesisanalyticsv2DeleteApplicationInputProcessingConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DeleteApplicationInputProcessingConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +205,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationAsync(
-        AwsKinesisanalyticsv2DeleteApplicationOptions? options = null,
+        AwsKinesisanalyticsv2DeleteApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DeleteApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +220,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationOutputAsync(
-        AwsKinesisanalyticsv2DeleteApplicationOutputOptions? options = null,
+        AwsKinesisanalyticsv2DeleteApplicationOutputOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DeleteApplicationOutputOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +235,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationReferenceDataSourceAsync(
-        AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions? options = null,
+        AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +250,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationSnapshotAsync(
-        AwsKinesisanalyticsv2DeleteApplicationSnapshotOptions? options = null,
+        AwsKinesisanalyticsv2DeleteApplicationSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DeleteApplicationSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +265,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationVpcConfigurationAsync(
-        AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions? options = null,
+        AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +280,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeApplicationOperationAsync(
-        AwsKinesisanalyticsv2DescribeApplicationOperationOptions? options = null,
+        AwsKinesisanalyticsv2DescribeApplicationOperationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DescribeApplicationOperationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +295,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeApplicationAsync(
-        AwsKinesisanalyticsv2DescribeApplicationOptions? options = null,
+        AwsKinesisanalyticsv2DescribeApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DescribeApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +310,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeApplicationSnapshotAsync(
-        AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions? options = null,
+        AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +325,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeApplicationVersionAsync(
-        AwsKinesisanalyticsv2DescribeApplicationVersionOptions? options = null,
+        AwsKinesisanalyticsv2DescribeApplicationVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DescribeApplicationVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +340,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DiscoverInputSchemaAsync(
-        AwsKinesisanalyticsv2DiscoverInputSchemaOptions? options = null,
+        AwsKinesisanalyticsv2DiscoverInputSchemaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2DiscoverInputSchemaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +355,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListApplicationOperationsAsync(
-        AwsKinesisanalyticsv2ListApplicationOperationsOptions? options = null,
+        AwsKinesisanalyticsv2ListApplicationOperationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationOperationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +370,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListApplicationSnapshotsAsync(
-        AwsKinesisanalyticsv2ListApplicationSnapshotsOptions? options = null,
+        AwsKinesisanalyticsv2ListApplicationSnapshotsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationSnapshotsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -359,7 +389,7 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +400,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListApplicationVersionsAsync(
-        AwsKinesisanalyticsv2ListApplicationVersionsOptions? options = null,
+        AwsKinesisanalyticsv2ListApplicationVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +415,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsKinesisanalyticsv2ListTagsForResourceOptions? options = null,
+        AwsKinesisanalyticsv2ListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +430,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RollbackApplicationAsync(
-        AwsKinesisanalyticsv2RollbackApplicationOptions? options = null,
+        AwsKinesisanalyticsv2RollbackApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2RollbackApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +445,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartApplicationAsync(
-        AwsKinesisanalyticsv2StartApplicationOptions? options = null,
+        AwsKinesisanalyticsv2StartApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2StartApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +460,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopApplicationAsync(
-        AwsKinesisanalyticsv2StopApplicationOptions? options = null,
+        AwsKinesisanalyticsv2StopApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2StopApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +475,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsKinesisanalyticsv2TagResourceOptions? options = null,
+        AwsKinesisanalyticsv2TagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2TagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +490,11 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsKinesisanalyticsv2UntagResourceOptions? options = null,
+        AwsKinesisanalyticsv2UntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2UntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +505,26 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateApplicationMaintenanceConfigurationAsync(
-        AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions? options = null,
+        AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing Managed Service for Apache Flink application. Using this operation, you can update application code, input configuration, and output configuration. Managed Service for Apache Flink updates the ApplicationVersionId each time you update your application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateApplicationAsync(
+        AwsKinesisanalyticsv2UpdateApplicationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

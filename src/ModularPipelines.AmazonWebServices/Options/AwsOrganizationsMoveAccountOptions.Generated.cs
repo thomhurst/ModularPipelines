@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "move-account")]
-public record AwsOrganizationsMoveAccountOptions : AwsOptions
+public record AwsOrganizationsMoveAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. You can only call this operation from the management account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">ID for the account that you want to move. The regex pattern for an account ID string requires exactly 12 dig- its. Constraints: o max: 12 o pattern: ^\d{12}$</param>
+    /// <param name="SourceParentId">ID for the root or organizational unit that you want to move the ac- count from. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    /// <param name="DestinationParentId">ID for the root or organizational unit that you want to move the ac- count to. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    public AwsOrganizationsMoveAccountOptions(
+        string AccountId,
+        string SourceParentId,
+        string DestinationParentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceParentId);
+        this.SourceParentId = SourceParentId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationParentId);
+        this.DestinationParentId = DestinationParentId;
+    }
+
+    private AwsOrganizationsMoveAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsMoveAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsMoveAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID for the account that you want to move. The regex pattern for an account ID string requires exactly 12 dig- its. Constraints: o max: 12 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// ID for the root or organizational unit that you want to move the ac- count from. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// </summary>
     [CliOption("--source-parent-id")]
-    public string? SourceParentId { get; set; }
+    public string? SourceParentId { get; private init; }
 
+    /// <summary>
+    /// ID for the root or organizational unit that you want to move the ac- count to. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// </summary>
     [CliOption("--destination-parent-id")]
-    public string? DestinationParentId { get; set; }
+    public string? DestinationParentId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

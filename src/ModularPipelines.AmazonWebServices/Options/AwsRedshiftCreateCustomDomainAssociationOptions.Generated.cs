@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-custom-domain-association")]
-public record AwsRedshiftCreateCustomDomainAssociationOptions : AwsOptions
+public record AwsRedshiftCreateCustomDomainAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CustomDomainName">The custom domain name for a custom domain association. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
+    /// <param name="CustomDomainCertificateArn">The certificate Amazon Resource Name (ARN) for the custom domain name association. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="ClusterIdentifier">The cluster identifier that the custom domain is associated with. Constraints: o max: 2147483647</param>
+    public AwsRedshiftCreateCustomDomainAssociationOptions(
+        string CustomDomainName,
+        string CustomDomainCertificateArn,
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomDomainName);
+        this.CustomDomainName = CustomDomainName;
+        global::System.ArgumentNullException.ThrowIfNull(CustomDomainCertificateArn);
+        this.CustomDomainCertificateArn = CustomDomainCertificateArn;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsRedshiftCreateCustomDomainAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateCustomDomainAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateCustomDomainAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The custom domain name for a custom domain association. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
+    /// </summary>
     [CliOption("--custom-domain-name")]
-    public string? CustomDomainName { get; set; }
+    public string? CustomDomainName { get; private init; }
 
+    /// <summary>
+    /// The certificate Amazon Resource Name (ARN) for the custom domain name association. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
     [CliOption("--custom-domain-certificate-arn")]
-    public string? CustomDomainCertificateArn { get; set; }
+    public string? CustomDomainCertificateArn { get; private init; }
 
+    /// <summary>
+    /// The cluster identifier that the custom domain is associated with. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

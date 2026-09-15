@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-write", "update-table")]
-public record AwsTimestreamWriteUpdateTableOptions : AwsOptions
+public record AwsTimestreamWriteUpdateTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the retention duration of the memory store and magnetic store for your Timestream table. Note that the change in retention duration takes effect immediately. For example, if the retention period of the memory store was initially set to 2 hours and then changed to 24 hours, the memory store will be capable of holding 24 hours of data, but will be populated with 24 hours of data 22 hours after this change was made. Timestream does not retrieve data from the magnetic store to populate the ...
+    /// </summary>
+    /// <param name="DatabaseName">The name of the Timestream database.</param>
+    /// <param name="TableName">The name of the Timestream table.</param>
+    public AwsTimestreamWriteUpdateTableOptions(
+        string DatabaseName,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsTimestreamWriteUpdateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamWriteUpdateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamWriteUpdateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Timestream database.
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the Timestream table.
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
     /// <summary>
     /// The retention duration of the memory store and the magnetic store. MemoryStoreRetentionPeriodInHours -&gt; (long) [required] The duration for which data must be stored in the memory store. Constraints: o min: 1 o max: 8766 MagneticStoreRetentionPeriodInDays -&gt; (long) [required] The duration for which data must be stored in the magnetic store. Constraints: o min: 1 o max: 73000 Shorthand Syntax: MemoryStoreRetentionPeriodInHours=long,MagneticStoreRetentionPeriodInDays=long JSON Syntax: { "MemoryStoreRetentionPeriodInHours": long, "MagneticStoreRetentionPeriodInDays": long }
@@ -50,5 +94,22 @@ public record AwsTimestreamWriteUpdateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

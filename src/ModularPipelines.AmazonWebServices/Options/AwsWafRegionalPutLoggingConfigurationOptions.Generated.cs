@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf-regional", "put-logging-configuration")]
-public record AwsWafRegionalPutLoggingConfigurationOptions : AwsOptions
+public record AwsWafRegionalPutLoggingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates a LoggingConfiguration with a specified web ACL. You can access information about all traffic that AWS WAF inspects us- ing the following steps: o Create an Amazon Kinesis Data Firehose. Cre...
+    /// </summary>
+    /// <param name="LoggingConfiguration">The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor. NOTE: When specifying Type in RedactedFields , you must use one of the following values: URI , QUERY_STRING , HEADER , or METHOD . ResourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs . Constraints: o min: 1 o max: 1224 o pattern: .*\S.* LogDestinationConfigs -&gt; (list) [required] An array of Amazon Kinesis Data Firehose ARNs. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1224 o pattern: .*\S.* RedactedFields -&gt; (list) The parts of the request that you want redacted from the logs. For example, if you redact the cookie field, the cookie field in the firehose will be xxx . (structure) NOTE: This is AWS WAF Classic documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies where in a web request to look for TargetString . Type -&gt; (string) [required] The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following: o HEADER : A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data . o METHOD : The HTTP method, which indicated the type of operation that the request is asking the origin to per- form. Amazon CloudFront supports the following methods: DELETE , GET , HEAD , OPTIONS , PATCH , POST , and PUT . o QUERY_STRING : A query string, which is the part of a URL that appears after a ? character, if any. o URI : The part of a web request that identifies a re- source, for example, /images/daily-ad.jpg . o BODY : The part of a request that contains any addi- tional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet . o SINGLE_QUERY_ARG : The parameter in the query string that you will inspect, such as UserName or SalesRegion . The maximum length for SINGLE_QUERY_ARG is 30 charac- ters. o ALL_QUERY_ARGS : Similar to SINGLE_QUERY_ARG , but rather than inspecting a single parameter, AWS WAF will inspect all parameters within the query for the value or regex pattern that you specify in TargetString . Possible values: o URI o QUERY_STRING o HEADER o METHOD o BODY o SINGLE_QUERY_ARG o ALL_QUERY_ARGS Data -&gt; (string) When the value of Type is HEADER , enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer . The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG , enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion . The parameter name is not case sensitive. If the value of Type is any other value, omit Data . Constraints: o min: 1 o max: 128 o pattern: .*\S.* Shorthand Syntax: ResourceArn=string,LogDestinationConfigs=string,string,RedactedFields=[{Type=string,Data=string},{Type=string,Data=string}] JSON Syntax: { "ResourceArn": "string", "LogDestinationConfigs": ["string", ...], "RedactedFields": [ { "Type": "URI"|"QUERY_STRING"|"HEADER"|"METHOD"|"BODY"|"SINGLE_QUERY_ARG"|"ALL_QUERY_ARGS", "Data": "string" } ... ] }</param>
+    public AwsWafRegionalPutLoggingConfigurationOptions(
+        string LoggingConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoggingConfiguration);
+        this.LoggingConfiguration = LoggingConfiguration;
+    }
+
+    private AwsWafRegionalPutLoggingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafRegionalPutLoggingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafRegionalPutLoggingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor. NOTE: When specifying Type in RedactedFields , you must use one of the following values: URI , QUERY_STRING , HEADER , or METHOD . ResourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs . Constraints: o min: 1 o max: 1224 o pattern: .*\S.* LogDestinationConfigs -&gt; (list) [required] An array of Amazon Kinesis Data Firehose ARNs. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1224 o pattern: .*\S.* RedactedFields -&gt; (list) The parts of the request that you want redacted from the logs. For example, if you redact the cookie field, the cookie field in the firehose will be xxx . (structure) NOTE: This is AWS WAF Classic documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies where in a web request to look for TargetString . Type -&gt; (string) [required] The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following: o HEADER : A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data . o METHOD : The HTTP method, which indicated the type of operation that the request is asking the origin to per- form. Amazon CloudFront supports the following methods: DELETE , GET , HEAD , OPTIONS , PATCH , POST , and PUT . o QUERY_STRING : A query string, which is the part of a URL that appears after a ? character, if any. o URI : The part of a web request that identifies a re- source, for example, /images/daily-ad.jpg . o BODY : The part of a request that contains any addi- tional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet . o SINGLE_QUERY_ARG : The parameter in the query string that you will inspect, such as UserName or SalesRegion . The maximum length for SINGLE_QUERY_ARG is 30 charac- ters. o ALL_QUERY_ARGS : Similar to SINGLE_QUERY_ARG , but rather than inspecting a single parameter, AWS WAF will inspect all parameters within the query for the value or regex pattern that you specify in TargetString . Possible values: o URI o QUERY_STRING o HEADER o METHOD o BODY o SINGLE_QUERY_ARG o ALL_QUERY_ARGS Data -&gt; (string) When the value of Type is HEADER , enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer . The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG , enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion . The parameter name is not case sensitive. If the value of Type is any other value, omit Data . Constraints: o min: 1 o max: 128 o pattern: .*\S.* Shorthand Syntax: ResourceArn=string,LogDestinationConfigs=string,string,RedactedFields=[{Type=string,Data=string},{Type=string,Data=string}] JSON Syntax: { "ResourceArn": "string", "LogDestinationConfigs": ["string", ...], "RedactedFields": [ { "Type": "URI"|"QUERY_STRING"|"HEADER"|"METHOD"|"BODY"|"SINGLE_QUERY_ARG"|"ALL_QUERY_ARGS", "Data": "string" } ... ] }
+    /// </summary>
     [CliOption("--logging-configuration")]
-    public string? LoggingConfiguration { get; set; }
+    public string? LoggingConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

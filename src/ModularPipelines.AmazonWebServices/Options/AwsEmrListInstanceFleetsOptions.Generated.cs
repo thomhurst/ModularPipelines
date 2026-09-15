@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "list-instance-fleets")]
-public record AwsEmrListInstanceFleetsOptions : AwsOptions
+public record AwsEmrListInstanceFleetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all available details about the instance fleets in a cluster. NOTE: The instance fleet configuration is available only in Amazon EMR re- leases 4.8.0 and later, excluding 5.0.x versions. See also: AWS API Documentation list-instance-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
+    /// </summary>
+    /// <param name="ClusterId">The unique identifier of the cluster. Constraints: o max: 256</param>
+    public AwsEmrListInstanceFleetsOptions(
+        string ClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+    }
+
+    private AwsEmrListInstanceFleetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrListInstanceFleetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrListInstanceFleetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the cluster. Constraints: o max: 256
+    /// </summary>
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string? ClusterId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +80,22 @@ public record AwsEmrListInstanceFleetsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deviceprofiletype.
+/// Allowed values for --device-profile-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotwirelessListDeviceProfilesDeviceProfileType
 {
-    [EnumValue("Sidewalk")]
-    Sidewalk = 1,
-
     [EnumValue("LoRaWAN")]
-    LoRaWan = 2
+    LoRaWan,
+
+    [EnumValue("Sidewalk")]
+    Sidewalk
 }

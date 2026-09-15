@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --devicerememberedstatus.
+/// Allowed values for --device-remembered-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCognitoIdpUpdateDeviceStatusDeviceRememberedStatus
 {
-    [EnumValue("remembered")]
-    Remembered = 1,
-
     [EnumValue("not_remembered")]
-    NotRemembered = 2
+    NotRemembered,
+
+    [EnumValue("remembered")]
+    Remembered
 }

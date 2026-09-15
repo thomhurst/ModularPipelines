@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupsearchListSearchResultExportJobsStatus
 {
-    [EnumValue("RUNNING")]
-    Running = 1,
+    [EnumValue("COMPLETED")]
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
-    [EnumValue("COMPLETED")]
-    Completed = 3
+    [EnumValue("RUNNING")]
+    Running
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "list-function-versions-by-capacity-provider")]
-public record AwsLambdaListFunctionVersionsByCapacityProviderOptions : AwsOptions
+public record AwsLambdaListFunctionVersionsByCapacityProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of function versions that are configured to use a spe- cific capacity provider. See also: AWS API Documentation list-function-versions-by-capacity-provider is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the followi...
+    /// </summary>
+    /// <param name="CapacityProviderName">The name of the capacity provider to list function versions for. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    public AwsLambdaListFunctionVersionsByCapacityProviderOptions(
+        string CapacityProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityProviderName);
+        this.CapacityProviderName = CapacityProviderName;
+    }
+
+    private AwsLambdaListFunctionVersionsByCapacityProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaListFunctionVersionsByCapacityProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaListFunctionVersionsByCapacityProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the capacity provider to list function versions for. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--capacity-provider-name")]
-    public string? CapacityProviderName { get; set; }
+    public string? CapacityProviderName { get; private init; }
 
     /// <summary>
     /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -49,5 +86,22 @@ public record AwsLambdaListFunctionVersionsByCapacityProviderOptions : AwsOption
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

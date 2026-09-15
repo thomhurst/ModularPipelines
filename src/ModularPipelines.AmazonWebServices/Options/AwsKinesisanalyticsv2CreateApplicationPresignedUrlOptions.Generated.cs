@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "create-application-presigned-url")]
-public record AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions : AwsOptions
+public record AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates and returns a URL that you can use to connect to an applica- tion's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds p...
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="UrlType">The type of the extension for which to create and return a URL. Cur- rently, the only valid extension URL type is FLINK_DASHBOARD_URL . Possible values: o FLINK_DASHBOARD_URL o ZEPPELIN_UI_URL</param>
+    public AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions(
+        string ApplicationName,
+        AwsKinesisanalyticsv2CreateApplicationPresignedUrlUrlType UrlType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(UrlType);
+        this.UrlType = UrlType;
+    }
+
+    private AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// The type of the extension for which to create and return a URL. Cur- rently, the only valid extension URL type is FLINK_DASHBOARD_URL . Possible values: o FLINK_DASHBOARD_URL o ZEPPELIN_UI_URL
+    /// </summary>
     [CliOption("--url-type")]
-    public string? UrlType { get; set; }
+    public AwsKinesisanalyticsv2CreateApplicationPresignedUrlUrlType? UrlType { get; private init; }
 
     /// <summary>
     /// The duration in seconds for which the returned URL will be valid. Constraints: o min: 1800 o max: 43200
@@ -38,5 +83,22 @@ public record AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

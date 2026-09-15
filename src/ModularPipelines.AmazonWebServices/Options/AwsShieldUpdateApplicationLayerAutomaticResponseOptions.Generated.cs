@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("shield", "update-application-layer-automatic-response")]
-public record AwsShieldUpdateApplicationLayerAutomaticResponseOptions : AwsOptions
+public record AwsShieldUpdateApplicationLayerAutomaticResponseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the resource. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.*</param>
+    /// <param name="Action">Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in re- sponse to DDoS attacks. You specify this as part of the configura- tion for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced cre- ates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource. Block -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. You must specify exactly one action, either Block or Count . Count -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. You must specify exactly one action, either Block or Count . Shorthand Syntax: Block={},Count={} JSON Syntax: { "Block": { }, "Count": { } }</param>
+    public AwsShieldUpdateApplicationLayerAutomaticResponseOptions(
+        string ResourceArn,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsShieldUpdateApplicationLayerAutomaticResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsShieldUpdateApplicationLayerAutomaticResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsShieldUpdateApplicationLayerAutomaticResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN (Amazon Resource Name) of the resource. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.*
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in re- sponse to DDoS attacks. You specify this as part of the configura- tion for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced cre- ates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource. Block -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. You must specify exactly one action, either Block or Count . Count -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. You must specify exactly one action, either Block or Count . Shorthand Syntax: Block={},Count={} JSON Syntax: { "Block": { }, "Count": { } }
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public string? Action { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

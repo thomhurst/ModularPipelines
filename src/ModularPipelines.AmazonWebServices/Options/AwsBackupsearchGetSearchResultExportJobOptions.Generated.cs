@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backupsearch", "get-search-result-export-job")]
-public record AwsBackupsearchGetSearchResultExportJobOptions : AwsOptions
+public record AwsBackupsearchGetSearchResultExportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation retrieves the metadata of an export job. An export job is an operation that transmits the results of a search job to a specified S3 bucket in a .csv file. An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExportJobIdentifier">This is the unique string that identifies a specific export job. Required for this operation.</param>
+    public AwsBackupsearchGetSearchResultExportJobOptions(
+        string ExportJobIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExportJobIdentifier);
+        this.ExportJobIdentifier = ExportJobIdentifier;
+    }
+
+    private AwsBackupsearchGetSearchResultExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupsearchGetSearchResultExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupsearchGetSearchResultExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is the unique string that identifies a specific export job. Required for this operation.
+    /// </summary>
     [CliOption("--export-job-identifier")]
-    public string? ExportJobIdentifier { get; set; }
+    public string? ExportJobIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

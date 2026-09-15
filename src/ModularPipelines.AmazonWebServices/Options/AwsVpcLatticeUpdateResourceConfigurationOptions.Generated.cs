@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "update-resource-configuration")]
-public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions
+public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified resource configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceConfigurationIdentifier">The ID of the resource configuration. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))</param>
+    public AwsVpcLatticeUpdateResourceConfigurationOptions(
+        string ResourceConfigurationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfigurationIdentifier);
+        this.ResourceConfigurationIdentifier = ResourceConfigurationIdentifier;
+    }
+
+    private AwsVpcLatticeUpdateResourceConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeUpdateResourceConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeUpdateResourceConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the resource configuration. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--resource-configuration-identifier")]
-    public string? ResourceConfigurationIdentifier { get; set; }
+    public string? ResourceConfigurationIdentifier { get; private init; }
 
     /// <summary>
     /// Identifies the resource configuration in one of the following ways: o Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS data- bases, can be identified by their ARN. o Domain name - Any domain name that is publicly resolvable. o IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dnsResource, ipResource, arnResource. dnsResource -&gt; (structure) The DNS name of the resource. domainName -&gt; (string) The domain name of the resource. Constraints: o min: 3 o max: 255 ipAddressType -&gt; (string) The type of IP address. Dualstack is currently not supported. Possible values: o IPV4 o IPV6 o DUALSTACK ipResource -&gt; (structure) The IP resource. ipAddress -&gt; (string) The IP address of the IP resource. Constraints: o min: 4 o max: 39 arnResource -&gt; (structure) The Amazon Resource Name (ARN) of the resource. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:[a-z0-9][-.a-z0-9]{0,62}:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023} Shorthand Syntax: dnsResource={domainName=string,ipAddressType=string},ipResource={ipAddress=string},arnResource={arn=string} JSON Syntax: { "dnsResource": { "domainName": "string", "ipAddressType": "IPV4"|"IPV6"|"DUALSTACK" }, "ipResource": { "ipAddress": "string" }, "arnResource": { "arn": "string" } }
@@ -30,7 +67,10 @@ public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions
     [CliOption("--resource-configuration-definition")]
     public string? ResourceConfigurationDefinition { get; set; }
 
-    [CliFlag("--allow-association-to-shareable-service-network")]
+    /// <summary>
+    /// tion-to-shareable-service-network (boolean) Indicates whether to add the resource configuration to service net- works that are shared with other accounts.
+    /// </summary>
+    [CliFlag("--allow-association-to-shareable-service-network", NegatedName = "--no-allow-association-to-shareable-service-network")]
     public bool? AllowAssociationToShareableServiceNetwork { get; set; }
 
     /// <summary>
@@ -44,5 +84,22 @@ public record AwsVpcLatticeUpdateResourceConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

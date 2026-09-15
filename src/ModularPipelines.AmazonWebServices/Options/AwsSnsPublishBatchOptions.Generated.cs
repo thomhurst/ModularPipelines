@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "publish-batch")]
-public record AwsSnsPublishBatchOptions : AwsOptions
+public record AwsSnsPublishBatchOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--topic-arn")]
-    public string? TopicArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Publishes up to 10 messages to the specified topic in a single batch. This is a batch version of the Publish API. If you try to send more than 10 messages in a single batch request, you will receive a TooManyEntriesInBatchRequest exception. For FIFO topics, multiple messages within a single batch are published in the order they are sent, and messages are deduplicated within the batch and across batches for five minutes. The result of publishing each message is reported individually in the respon...
+    /// </summary>
+    /// <param name="TopicArn">The Amazon resource name (ARN) of the topic you want to batch pub- lish to.</param>
+    /// <param name="PublishBatchRequestEntries">A list of PublishBatch request entries to be sent to the SNS topic. (structure) Contains the details of a single Amazon SNS message along with an Id that identifies a message within the batch. Id -&gt; (string) [required] An identifier for the message in this batch. NOTE: The Ids of a batch request must be unique within a re- quest. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). Message -&gt; (string) [required] The body of the message. Subject -&gt; (string) The subject of the batch message. MessageStructure -&gt; (string) Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish ac- tion, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json , the value of the Message parameter must: o be a syntactically valid JSON object; and o contain at least a top-level JSON key of "default" with a value that is a string. You can define other top-level keys that define the message you want to send to a specific transport protocol (for exam- ple, http). MessageAttributes -&gt; (map) Each message attribute consists of a Name , Type , and Value . For more information, see Amazon SNS message attributes in the Amazon SNS Developer Guide. Name -&gt; (string) Value -&gt; (structure) The user-specified message attribute value. For string data types, the value attribute has the same restrictions on the content as the message body. For more information, see Publish . Name, type, and value must not be empty or null. In addi- tion, the message body should not be empty or null. All parts of the message attribute, including name, type, and value, are included in the message size restriction, which is currently 256 KB (262,144 bytes). For more in- formation, see Amazon SNS message attributes and Publishing to a mobile phone in the Amazon SNS Developer Guide. DataType -&gt; (string) [required] Amazon SNS supports the following logical data types: String, String.Array, Number, and Binary. For more in- formation, see Message Attribute Data Types . StringValue -&gt; (string) Strings are Unicode with UTF8 binary encoding. For a list of code values, see ASCII Printable Characters . BinaryValue -&gt; (blob) Binary type attributes can store any binary data, for example, compressed data, encrypted data, or images. MessageDeduplicationId -&gt; (string) This parameter applies only to FIFO (first-in-first-out) top- ics. o This parameter applies only to FIFO (first-in-first-out) topics. The MessageDeduplicationId can contain up to 128 alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~) . o Every message must have a unique MessageDeduplicationId , which is a token used for deduplication of sent messages within the 5 minute minimum deduplication interval. o The scope of deduplication depends on the FifoThrough- putScope attribute, when set to Topic the message dedupli- cation scope is across the entire topic, when set to Mes- sageGroup the message deduplication scope is within each individual message group. o If a message with a particular MessageDeduplicationId is sent successfully, subsequent messages within the dedupli- cation scope and interval, with the same MessageDeduplica- tionId , are accepted successfully but aren't delivered. o Every message must have a unique MessageDeduplicationId . o You may provide a MessageDeduplicationId explicitly. o If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your topic, Amazon SNS uses a SHA-256 hash to generate the MessageD- eduplicationId using the body of the message (but not the attributes of the message). o If you don't provide a MessageDeduplicationId and the topic doesn't have ContentBasedDeduplication set, the ac- tion fails with an error. o If the topic has a ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one. o When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication scope and interval are treated as duplicates and only one copy of the message is delivered. o If you send one message with ContentBasedDeduplication en- abled, and then another message with a MessageDeduplica- tionId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates, within the deduplication scope and interval, and only one copy of the message is delivered. NOTE: The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageD- eduplicationId after the deduplication interval, Amazon SNS can't detect duplicate messages. Amazon SNS continues to keep track of the message dedu- plication ID even after the message is received and deleted. MessageGroupId -&gt; (string) FIFO topics: The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, mes- sages in different message groups might be processed out of order). To interleave multiple ordered streams within a sin- gle topic, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple con- sumers can process the topic, but the session data of each user is processed in a FIFO fashion. You must associate a non-empty MessageGroupId with a message. If you do not pro- vide a MessageGroupId , the action fails. Standard topics: The MessageGroupId is optional and is for- warded only to Amazon SQS standard subscriptions to activate fair queues . The MessageGroupId is not used for, or sent to, any other endpoint types. The length of MessageGroupId is 128 characters. MessageGroupId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~) . Shorthand Syntax: Id=string,Message=string,Subject=string,MessageStructure=string,MessageAttributes={KeyName1={DataType=string,StringValue=string,BinaryValue=blob},KeyName2={DataType=string,StringValue=string,BinaryValue=blob}},MessageDeduplicationId=string,MessageGroupId=string ... JSON Syntax: [ { "Id": "string", "Message": "string", "Subject": "string", "MessageStructure": "string", "MessageAttributes": {"string": { "DataType": "string", "StringValue": "string", "BinaryValue": blob } ...}, "MessageDeduplicationId": "string", "MessageGroupId": "string" } ... ]</param>
+    public AwsSnsPublishBatchOptions(
+        string TopicArn,
+        IEnumerable<string> PublishBatchRequestEntries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TopicArn);
+        this.TopicArn = TopicArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PublishBatchRequestEntries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PublishBatchRequestEntries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PublishBatchRequestEntries));
+            }
+
+            PublishBatchRequestEntries = materialized;
+        }
+        this.PublishBatchRequestEntries = PublishBatchRequestEntries;
+    }
+
+    private AwsSnsPublishBatchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsPublishBatchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsPublishBatchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon resource name (ARN) of the topic you want to batch pub- lish to.
+    /// </summary>
+    [CliOption("--topic-arn")]
+    public string? TopicArn { get; private init; }
+
+    /// <summary>
+    /// A list of PublishBatch request entries to be sent to the SNS topic. (structure) Contains the details of a single Amazon SNS message along with an Id that identifies a message within the batch. Id -&gt; (string) [required] An identifier for the message in this batch. NOTE: The Ids of a batch request must be unique within a re- quest. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). Message -&gt; (string) [required] The body of the message. Subject -&gt; (string) The subject of the batch message. MessageStructure -&gt; (string) Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish ac- tion, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json , the value of the Message parameter must: o be a syntactically valid JSON object; and o contain at least a top-level JSON key of "default" with a value that is a string. You can define other top-level keys that define the message you want to send to a specific transport protocol (for exam- ple, http). MessageAttributes -&gt; (map) Each message attribute consists of a Name , Type , and Value . For more information, see Amazon SNS message attributes in the Amazon SNS Developer Guide. Name -&gt; (string) Value -&gt; (structure) The user-specified message attribute value. For string data types, the value attribute has the same restrictions on the content as the message body. For more information, see Publish . Name, type, and value must not be empty or null. In addi- tion, the message body should not be empty or null. All parts of the message attribute, including name, type, and value, are included in the message size restriction, which is currently 256 KB (262,144 bytes). For more in- formation, see Amazon SNS message attributes and Publishing to a mobile phone in the Amazon SNS Developer Guide. DataType -&gt; (string) [required] Amazon SNS supports the following logical data types: String, String.Array, Number, and Binary. For more in- formation, see Message Attribute Data Types . StringValue -&gt; (string) Strings are Unicode with UTF8 binary encoding. For a list of code values, see ASCII Printable Characters . BinaryValue -&gt; (blob) Binary type attributes can store any binary data, for example, compressed data, encrypted data, or images. MessageDeduplicationId -&gt; (string) This parameter applies only to FIFO (first-in-first-out) top- ics. o This parameter applies only to FIFO (first-in-first-out) topics. The MessageDeduplicationId can contain up to 128 alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~) . o Every message must have a unique MessageDeduplicationId , which is a token used for deduplication of sent messages within the 5 minute minimum deduplication interval. o The scope of deduplication depends on the FifoThrough- putScope attribute, when set to Topic the message dedupli- cation scope is across the entire topic, when set to Mes- sageGroup the message deduplication scope is within each individual message group. o If a message with a particular MessageDeduplicationId is sent successfully, subsequent messages within the dedupli- cation scope and interval, with the same MessageDeduplica- tionId , are accepted successfully but aren't delivered. o Every message must have a unique MessageDeduplicationId . o You may provide a MessageDeduplicationId explicitly. o If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your topic, Amazon SNS uses a SHA-256 hash to generate the MessageD- eduplicationId using the body of the message (but not the attributes of the message). o If you don't provide a MessageDeduplicationId and the topic doesn't have ContentBasedDeduplication set, the ac- tion fails with an error. o If the topic has a ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one. o When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication scope and interval are treated as duplicates and only one copy of the message is delivered. o If you send one message with ContentBasedDeduplication en- abled, and then another message with a MessageDeduplica- tionId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates, within the deduplication scope and interval, and only one copy of the message is delivered. NOTE: The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageD- eduplicationId after the deduplication interval, Amazon SNS can't detect duplicate messages. Amazon SNS continues to keep track of the message dedu- plication ID even after the message is received and deleted. MessageGroupId -&gt; (string) FIFO topics: The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, mes- sages in different message groups might be processed out of order). To interleave multiple ordered streams within a sin- gle topic, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple con- sumers can process the topic, but the session data of each user is processed in a FIFO fashion. You must associate a non-empty MessageGroupId with a message. If you do not pro- vide a MessageGroupId , the action fails. Standard topics: The MessageGroupId is optional and is for- warded only to Amazon SQS standard subscriptions to activate fair queues . The MessageGroupId is not used for, or sent to, any other endpoint types. The length of MessageGroupId is 128 characters. MessageGroupId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~) . Shorthand Syntax: Id=string,Message=string,Subject=string,MessageStructure=string,MessageAttributes={KeyName1={DataType=string,StringValue=string,BinaryValue=blob},KeyName2={DataType=string,StringValue=string,BinaryValue=blob}},MessageDeduplicationId=string,MessageGroupId=string ... JSON Syntax: [ { "Id": "string", "Message": "string", "Subject": "string", "MessageStructure": "string", "MessageAttributes": {"string": { "DataType": "string", "StringValue": "string", "BinaryValue": blob } ...}, "MessageDeduplicationId": "string", "MessageGroupId": "string" } ... ]
+    /// </summary>
     [CliOption("--publish-batch-request-entries", GroupValues = true)]
-    public IEnumerable<string>? PublishBatchRequestEntries { get; set; }
+    public IEnumerable<string>? PublishBatchRequestEntries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --publishto.
+/// Allowed values for --publish-to.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaPublishVersionPublishTo
 {
     [EnumValue("LATEST_PUBLISHED")]
-    LatestPublished = 1
+    LatestPublished,
+
+    [EnumValue("o")]
+    O
 }

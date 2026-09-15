@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMturkListReviewableHitsStatus
 {
     [EnumValue("Reviewable")]
-    Reviewable = 1,
+    Reviewable,
 
     [EnumValue("Reviewing")]
-    Reviewing = 2
+    Reviewing
 }

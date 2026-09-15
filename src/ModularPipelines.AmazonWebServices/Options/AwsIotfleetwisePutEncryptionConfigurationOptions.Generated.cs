@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotfleetwise", "put-encryption-configuration")]
-public record AwsIotfleetwisePutEncryptionConfigurationOptions : AwsOptions
+public record AwsIotfleetwisePutEncryptionConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and man- age. For more information, see Data encryption in the Amazon Web Ser- vices IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EncryptionType">The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services man- aged key. Possible values: o KMS_BASED_ENCRYPTION o FLEETWISE_DEFAULT_ENCRYPTION</param>
+    public AwsIotfleetwisePutEncryptionConfigurationOptions(
+        AwsIotfleetwisePutEncryptionConfigurationEncryptionType EncryptionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionType);
+        this.EncryptionType = EncryptionType;
+    }
+
+    private AwsIotfleetwisePutEncryptionConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotfleetwisePutEncryptionConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotfleetwisePutEncryptionConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services man- aged key. Possible values: o KMS_BASED_ENCRYPTION o FLEETWISE_DEFAULT_ENCRYPTION
+    /// </summary>
+    [CliOption("--encryption-type")]
+    public AwsIotfleetwisePutEncryptionConfigurationEncryptionType? EncryptionType { get; private init; }
+
     /// <summary>
     /// The ID of the KMS key that is used for encryption. Constraints: o min: 0 o max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliOption("--encryption-type")]
-    public string? EncryptionType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

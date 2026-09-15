@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datadeletionpolicy.
+/// Allowed values for --data-deletion-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentCreateDataSourceDataDeletionPolicy
 {
-    [EnumValue("RETAIN")]
-    Retain = 1,
-
     [EnumValue("DELETE")]
-    Delete = 2
+    Delete,
+
+    [EnumValue("RETAIN")]
+    Retain
 }

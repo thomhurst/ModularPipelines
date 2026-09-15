@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-document")]
-public record AwsSsmCreateDocumentOptions : AwsOptions
+public record AwsSsmCreateDocumentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your man- aged nodes. For more information about SSM documents, including infor- mation about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Content">The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also in- cludes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide . o Create an SSM document (console) o Create an SSM document (command line) o Create an SSM document (API) Constraints: o min: 1</param>
+    /// <param name="Name">A name for the SSM document. WARNING: You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes: o aws o amazon o amzn o AWSEC2 o AWSConfigRemediation o AWSSupport Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    public AwsSsmCreateDocumentOptions(
+        string Content,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmCreateDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreateDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreateDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also in- cludes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide . o Create an SSM document (console) o Create an SSM document (command line) o Create an SSM document (API) Constraints: o min: 1
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// A name for the SSM document. WARNING: You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes: o aws o amazon o amzn o AWSEC2 o AWSConfigRemediation o AWSSupport Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A list of SSM documents required by a document. This parameter is used exclusively by AppConfig. When a user creates an AppConfig con- figuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationCon- figuration document requires an ApplicationConfigurationSchema docu- ment for validation purposes. For more information, see What is App- Config? in the AppConfig User Guide . Constraints: o min: 1 (structure) An SSM document required by the current document. Name -&gt; (string) [required] The name of the required SSM document. The name can be an Amazon Resource Name (ARN). Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$ Version -&gt; (string) The document version required by the current document. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$) RequireType -&gt; (string) The document type of the required SSM document. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{1,128}$ VersionName -&gt; (string) An optional field specifying the version of the artifact as- sociated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{1,128}$ Shorthand Syntax: Name=string,Version=string,RequireType=string,VersionName=string ... JSON Syntax: [ { "Name": "string", "Version": "string", "RequireType": "string", "VersionName": "string" } ... ]
@@ -36,9 +83,6 @@ public record AwsSsmCreateDocumentOptions : AwsOptions
     /// </summary>
     [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// An optional field where you can specify a friendly name for the SSM document. This value can differ for each version of the document. You can update this value at a later time using the UpdateDocument operation. Constraints: o max: 1024 o pattern: ^[\w\.\-\:\/ ]*$
@@ -81,5 +125,22 @@ public record AwsSsmCreateDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signin", "delete-resource-permission-statement")]
-public record AwsSigninDeleteResourcePermissionStatementOptions : AwsOptions
+public record AwsSigninDeleteResourcePermissionStatementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Remove a permission statement from the account's SignIn resource-based policy See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StatementId">Unique identifier of the permission statement to delete Constraints: o pattern: [A-Za-z0-9+/]{64}=?</param>
+    public AwsSigninDeleteResourcePermissionStatementOptions(
+        string StatementId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+    }
+
+    private AwsSigninDeleteResourcePermissionStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSigninDeleteResourcePermissionStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSigninDeleteResourcePermissionStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique identifier of the permission statement to delete Constraints: o pattern: [A-Za-z0-9+/]{64}=?
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
     /// <summary>
     /// Idempotency token for the request Constraints: o min: 1 o max: 64 o pattern: [!-~]+
@@ -37,5 +74,22 @@ public record AwsSigninDeleteResourcePermissionStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

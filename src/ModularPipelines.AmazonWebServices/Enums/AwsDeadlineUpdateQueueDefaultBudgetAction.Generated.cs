@@ -11,11 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --defaultbudgetaction.
+/// Allowed values for --default-budget-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineUpdateQueueDefaultBudgetAction
 {
     [EnumValue("NONE")]
-    None = 1
+    None,
+
+    [EnumValue("STOP_SCHEDULING_AND_CANCEL_TASKS")]
+    StopSchedulingAndCancelTasks,
+
+    [EnumValue("STOP_SCHEDULING_AND_COMPLETE_TASKS")]
+    StopSchedulingAndCompleteTasks
 }

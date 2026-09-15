@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --shapeattribute.
+/// Allowed values for --shape-attribute.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbCreateExadbVmClusterShapeAttribute
 {
-    [EnumValue("SMART_STORAGE")]
-    SmartStorage = 1,
-
     [EnumValue("BLOCK_STORAGE")]
-    BlockStorage = 2
+    BlockStorage,
+
+    [EnumValue("SMART_STORAGE")]
+    SmartStorage
 }

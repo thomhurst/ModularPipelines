@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --controlfindinggenerator.
+/// Allowed values for --control-finding-generator.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityhubEnableSecurityHubControlFindingGenerator
 {
-    [EnumValue("STANDARD_CONTROL")]
-    StandardControl = 1,
-
     [EnumValue("SECURITY_CONTROL")]
-    SecurityControl = 2
+    SecurityControl,
+
+    [EnumValue("STANDARD_CONTROL")]
+    StandardControl
 }

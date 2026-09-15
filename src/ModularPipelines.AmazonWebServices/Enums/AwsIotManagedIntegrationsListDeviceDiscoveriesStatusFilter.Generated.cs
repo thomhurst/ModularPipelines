@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusfilter.
+/// Allowed values for --status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsListDeviceDiscoveriesStatusFilter
 {
+    [EnumValue("FAILED")]
+    Failed,
+
     [EnumValue("RUNNING")]
-    Running = 1,
+    Running,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 2,
-
-    [EnumValue("FAILED")]
-    Failed = 3,
+    Succeeded,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 4
+    TimedOut
 }

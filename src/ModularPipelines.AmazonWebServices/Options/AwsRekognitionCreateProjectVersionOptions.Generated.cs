@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "create-project-version")]
-public record AwsRekognitionCreateProjectVersionOptions : AwsOptions
+public record AwsRekognitionCreateProjectVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new version of Amazon Rekognition project (like a Custom La- bels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a wh...
+    /// </summary>
+    /// <param name="ProjectArn">The ARN of the Amazon Rekognition project that will manage the project version you want to train. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="VersionName">A name for the version of the project version. This value must be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="OutputConfig">The Amazon S3 bucket location to store the results of training. The bucket can be any S3 bucket in your AWS account. You need s3:PutOb- ject permission on the bucket. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }</param>
+    public AwsRekognitionCreateProjectVersionOptions(
+        string ProjectArn,
+        string VersionName,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsRekognitionCreateProjectVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionCreateProjectVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionCreateProjectVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Amazon Rekognition project that will manage the project version you want to train. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// </summary>
     [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    public string? ProjectArn { get; private init; }
 
+    /// <summary>
+    /// A name for the version of the project version. This value must be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 bucket location to store the results of training. The bucket can be any S3 bucket in your AWS account. You need s3:PutOb- ject permission on the bucket. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }
+    /// </summary>
     [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
+    public string? OutputConfig { get; private init; }
 
     /// <summary>
     /// Specifies an external manifest that the services uses to train the project version. If you specify TrainingData you must also specify TestingData . The project must not have any associated datasets. Assets -&gt; (list) A manifest file that contains references to the training images and ground-truth annotations. (structure) Assets are the images that you use to train and evaluate a model version. Assets can also contain validation information that you use to debug a failed model training. GroundTruthManifest -&gt; (structure) The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file. S3Object -&gt; (structure) Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can spec- ify the object version. Constraints: o min: 1 o max: 1024 JSON Syntax: { "Assets": [ { "GroundTruthManifest": { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } } } ... ] }
@@ -72,5 +123,22 @@ public record AwsRekognitionCreateProjectVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

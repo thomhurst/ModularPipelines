@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --clusterscalabilitytype.
+/// Allowed values for --cluster-scalability-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsCreateDbClusterClusterScalabilityType
 {
-    [EnumValue("standard")]
-    Standard = 1,
-
     [EnumValue("limitless")]
-    Limitless = 2
+    Limitless,
+
+    [EnumValue("standard")]
+    Standard
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "modify-endpoint-encryption-mode")]
-public record AwsWorkspacesModifyEndpointEncryptionModeOptions : AwsOptions
+public record AwsWorkspacesModifyEndpointEncryptionModeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="EndpointEncryptionMode">The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools. Possible values: o STANDARD_TLS o FIPS_VALIDATED</param>
+    public AwsWorkspacesModifyEndpointEncryptionModeOptions(
+        string DirectoryId,
+        AwsWorkspacesModifyEndpointEncryptionModeEndpointEncryptionMode EndpointEncryptionMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointEncryptionMode);
+        this.EndpointEncryptionMode = EndpointEncryptionMode;
+    }
+
+    private AwsWorkspacesModifyEndpointEncryptionModeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesModifyEndpointEncryptionModeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesModifyEndpointEncryptionModeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools. Possible values: o STANDARD_TLS o FIPS_VALIDATED
+    /// </summary>
     [CliOption("--endpoint-encryption-mode")]
-    public string? EndpointEncryptionMode { get; set; }
+    public AwsWorkspacesModifyEndpointEncryptionModeEndpointEncryptionMode? EndpointEncryptionMode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

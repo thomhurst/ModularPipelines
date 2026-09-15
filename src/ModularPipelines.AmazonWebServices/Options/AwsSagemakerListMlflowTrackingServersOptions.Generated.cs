@@ -39,7 +39,7 @@ public record AwsSagemakerListMlflowTrackingServersOptions : AwsOptions
     /// Filter for tracking servers with a specified creation status. Possible values: o Creating o Created o CreateFailed o Updating o Updated o UpdateFailed o Deleting o DeleteFailed o Stopping o Stopped o StopFailed o Starting o Started o StartFailed o MaintenanceInProgress o MaintenanceComplete o MaintenanceFailed
     /// </summary>
     [CliOption("--tracking-server-status")]
-    public string? TrackingServerStatus { get; set; }
+    public AwsSagemakerListMlflowTrackingServersTrackingServerStatus? TrackingServerStatus { get; set; }
 
     /// <summary>
     /// Filter for tracking servers using the specified MLflow version. Constraints: o min: 0 o max: 16 o pattern: [0-9]*.[0-9]*.[0-9]*

@@ -16,30 +16,30 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListMlflowAppsStatus
 {
-    [EnumValue("Creating")]
-    Creating = 1,
-
     [EnumValue("Created")]
-    Created = 2,
+    Created,
 
     [EnumValue("CreateFailed")]
-    CreateFailed = 3,
+    CreateFailed,
 
-    [EnumValue("Updating")]
-    Updating = 4,
-
-    [EnumValue("Updated")]
-    Updated = 5,
-
-    [EnumValue("UpdateFailed")]
-    UpdateFailed = 6,
-
-    [EnumValue("Deleting")]
-    Deleting = 7,
-
-    [EnumValue("DeleteFailed")]
-    DeleteFailed = 8,
+    [EnumValue("Creating")]
+    Creating,
 
     [EnumValue("Deleted")]
-    Deleted = 9
+    Deleted,
+
+    [EnumValue("DeleteFailed")]
+    DeleteFailed,
+
+    [EnumValue("Deleting")]
+    Deleting,
+
+    [EnumValue("Updated")]
+    Updated,
+
+    [EnumValue("UpdateFailed")]
+    UpdateFailed,
+
+    [EnumValue("Updating")]
+    Updating
 }

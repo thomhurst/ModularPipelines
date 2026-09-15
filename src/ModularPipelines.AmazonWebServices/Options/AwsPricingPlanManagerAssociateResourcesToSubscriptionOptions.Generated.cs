@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pricing-plan-manager", "associate-resources-to-subscription")]
-public record AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions : AwsOptions
+public record AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds one or more resources to an existing subscription. The subscrip- tion must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated re- sources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The ARN of the subscription to add resources to. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ResourceArns">The ARNs of the resources to add to the subscription. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="IfMatch">The ETag value from a previous GetSubscription or ListSubscriptions response.</param>
+    public AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions(
+        string Arn,
+        IEnumerable<string> ResourceArns,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceArns));
+            }
+
+            ResourceArns = materialized;
+        }
+        this.ResourceArns = ResourceArns;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the subscription to add resources to. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
 
+    /// <summary>
+    /// The ARNs of the resources to add to the subscription. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
-    public IEnumerable<string>? ResourceArns { get; set; }
+    public IEnumerable<string>? ResourceArns { get; private init; }
 
+    /// <summary>
+    /// The ETag value from a previous GetSubscription or ListSubscriptions response.
+    /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
+    public string? IfMatch { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: o min: 1 o max: 64
@@ -43,5 +105,22 @@ public record AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scratchstoragemode.
+/// Allowed values for --scratch-storage-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsStartRunScratchStorageMode
 {
     [EnumValue("LOCAL")]
-    Local = 1,
+    Local,
 
     [EnumValue("SHARED")]
-    Shared = 2,
-
-    [EnumValue("Constraints")]
-    Constraints = 3
+    Shared
 }

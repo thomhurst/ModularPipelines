@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amp", "update-scraper-logging-configuration")]
-public record AwsAmpUpdateScraperLoggingConfigurationOptions : AwsOptions
+public record AwsAmpUpdateScraperLoggingConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scraper-id")]
-    public string? ScraperId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the logging configuration for a Amazon Managed Service for Prometheus scraper. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScraperId">The ID of the scraper whose logging configuration will be updated. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="LoggingDestination">The destination where scraper logs will be sent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch Logs configuration for the scraper logging desti- nation. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* Shorthand Syntax: cloudWatchLogs={logGroupArn=string} JSON Syntax: { "cloudWatchLogs": { "logGroupArn": "string" } }</param>
+    public AwsAmpUpdateScraperLoggingConfigurationOptions(
+        string ScraperId,
+        string LoggingDestination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScraperId);
+        this.ScraperId = ScraperId;
+        global::System.ArgumentNullException.ThrowIfNull(LoggingDestination);
+        this.LoggingDestination = LoggingDestination;
+    }
+
+    private AwsAmpUpdateScraperLoggingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmpUpdateScraperLoggingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmpUpdateScraperLoggingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the scraper whose logging configuration will be updated. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// </summary>
+    [CliOption("--scraper-id")]
+    public string? ScraperId { get; private init; }
+
+    /// <summary>
+    /// The destination where scraper logs will be sent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch Logs configuration for the scraper logging desti- nation. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* Shorthand Syntax: cloudWatchLogs={logGroupArn=string} JSON Syntax: { "cloudWatchLogs": { "logGroupArn": "string" } }
+    /// </summary>
     [CliOption("--logging-destination")]
-    public string? LoggingDestination { get; set; }
+    public string? LoggingDestination { get; private init; }
 
     /// <summary>
     /// The list of scraper components to configure for logging. Constraints: o min: 1 (structure) A component of a Amazon Managed Service for Prometheus scraper that can be configured for logging. type -&gt; (string) [required] The type of the scraper component. Possible values: o SERVICE_DISCOVERY o COLLECTOR o EXPORTER config -&gt; (structure) The configuration settings for the scraper component. options -&gt; (map) Configuration options for the scraper component. key -&gt; (string) value -&gt; (string) Shorthand Syntax: type=string,config={options={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "type": "SERVICE_DISCOVERY"|"COLLECTOR"|"EXPORTER", "config": { "options": {"string": "string" ...} } } ... ]
@@ -38,5 +82,22 @@ public record AwsAmpUpdateScraperLoggingConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

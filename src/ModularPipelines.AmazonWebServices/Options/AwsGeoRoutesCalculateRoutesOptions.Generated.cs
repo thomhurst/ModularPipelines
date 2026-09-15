@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-routes", "calculate-routes")]
-public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
+public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// CalculateRoutes computes routes given the following required parame- ters: Origin and Destination . For more information, see Calculate routes in the Amazon Location Ser- vice Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Destination">The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude] . Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    /// <param name="Origin">The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    public AwsGeoRoutesCalculateRoutesOptions(
+        IEnumerable<string> Destination,
+        IEnumerable<string> Origin
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Destination);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Destination));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Destination));
+            }
+
+            Destination = materialized;
+        }
+        this.Destination = Destination;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Origin);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Origin));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Origin));
+            }
+
+            Origin = materialized;
+        }
+        this.Origin = Origin;
+    }
+
+    private AwsGeoRoutesCalculateRoutesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGeoRoutesCalculateRoutesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGeoRoutesCalculateRoutesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude] . Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// </summary>
+    [CliOption("--destination", GroupValues = true)]
+    public IEnumerable<string>? Destination { get; private init; }
+
+    /// <summary>
+    /// The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// </summary>
+    [CliOption("--origin", GroupValues = true)]
+    public IEnumerable<string>? Origin { get; private init; }
+
     /// <summary>
     /// Features that are allowed while calculating a route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Hot -&gt; (boolean) Allow Hot (High Occupancy Toll) lanes while calculating the route. Default value: false Hov -&gt; (boolean) Allow Hov (High Occupancy vehicle) lanes while calculating the route. Default value: false Shorthand Syntax: Hot=boolean,Hov=boolean JSON Syntax: { "Hot": true|false, "Hov": true|false }
     /// </summary>
@@ -40,7 +112,10 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     [CliOption("--avoid")]
     public string? Avoid { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// Uses the current time as the time of departure.
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>
@@ -48,9 +123,6 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     /// </summary>
     [CliOption("--departure-time")]
     public string? DepartureTime { get; set; }
-
-    [CliOption("--destination", GroupValues = true)]
-    public IEnumerable<string>? Destination { get; set; }
 
     /// <summary>
     /// Destination related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. AvoidActionsForDistance -&gt; (long) The distance in meters from the destination point within which certain routing actions (such as U-turns or left turns across traffic) are restricted. This helps generate more practical routes by avoiding potentially dangerous maneuvers near the end- point. Constraints: o max: 2000 AvoidUTurns -&gt; (boolean) Avoid U-turns for calculation on highways and motorways. Heading -&gt; (double) GPS Heading at the position. Constraints: o min: 0.0 o max: 360.0 Matching -&gt; (structure) Options to configure matching the provided position to the road network. NameHint -&gt; (string) Attempts to match the provided position to a road similar to the provided name. Constraints: o min: 0 o max: 100 OnRoadThreshold -&gt; (long) If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the high- way/bridge/tunnel/sliproad. Unit : meters Constraints: o min: 0 o max: 4294967295 Radius -&gt; (long) Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit : meters Constraints: o min: 0 o max: 4294967295 Strategy -&gt; (string) Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road. Possible values: o MatchAny o MatchMostSignificantRoad SideOfStreet -&gt; (structure) Options to configure matching the provided position to a side of the street. Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longi- tude, latitude]. Constraints: o min: 2 o max: 2 (double) UseWith -&gt; (string) Strategy that defines when the side of street position should be used. Default value: DividedStreetOnly Possible values: o AnyStreet o DividedStreetOnly StopDuration -&gt; (long) Duration of the stop. Unit : seconds Constraints: o min: 0 o max: 4294967295 Shorthand Syntax: AvoidActionsForDistance=long,AvoidUTurns=boolean,Heading=double,Matching={NameHint=string,OnRoadThreshold=long,Radius=long,Strategy=string},SideOfStreet={Position=[double,double],UseWith=string},StopDuration=long JSON Syntax: { "AvoidActionsForDistance": long, "AvoidUTurns": true|false, "Heading": double, "Matching": { "NameHint": "string", "OnRoadThreshold": long, "Radius": long, "Strategy": "MatchAny"|"MatchMostSignificantRoad" }, "SideOfStreet": { "Position": [double, ...], "UseWith": "AnyStreet"|"DividedStreetOnly" }, "StopDuration": long }
@@ -112,9 +184,6 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
     [CliOption("--optimize-routing-for")]
     public AwsGeoRoutesCalculateRoutesOptimizeRoutingFor? OptimizeRoutingFor { get; set; }
 
-    [CliOption("--origin", GroupValues = true)]
-    public IEnumerable<string>? Origin { get; set; }
-
     /// <summary>
     /// Specifies how the origin point should be matched to the road network and any routing constraints that apply when the traveler is depart- ing the origin. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. AvoidActionsForDistance -&gt; (long) Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have suffi- cient time to make an action at an origin or a destination. Constraints: o max: 2000 AvoidUTurns -&gt; (boolean) Avoid U-turns for calculation on highways and motorways. Heading -&gt; (double) GPS Heading at the position. Constraints: o min: 0.0 o max: 360.0 Matching -&gt; (structure) Options to configure matching the provided position to the road network. NameHint -&gt; (string) Attempts to match the provided position to a road similar to the provided name. Constraints: o min: 0 o max: 100 OnRoadThreshold -&gt; (long) If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the high- way/bridge/tunnel/sliproad. Unit : meters Constraints: o min: 0 o max: 4294967295 Radius -&gt; (long) Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit : meters Constraints: o min: 0 o max: 4294967295 Strategy -&gt; (string) Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road. Possible values: o MatchAny o MatchMostSignificantRoad SideOfStreet -&gt; (structure) Options to configure matching the provided position to a side of the street. Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longi- tude, latitude]. Constraints: o min: 2 o max: 2 (double) UseWith -&gt; (string) Strategy that defines when the side of street position should be used. Default value: DividedStreetOnly Possible values: o AnyStreet o DividedStreetOnly Shorthand Syntax: AvoidActionsForDistance=long,AvoidUTurns=boolean,Heading=double,Matching={NameHint=string,OnRoadThreshold=long,Radius=long,Strategy=string},SideOfStreet={Position=[double,double],UseWith=string} JSON Syntax: { "AvoidActionsForDistance": long, "AvoidUTurns": true|false, "Heading": double, "Matching": { "NameHint": "string", "OnRoadThreshold": long, "Radius": long, "Strategy": "MatchAny"|"MatchMostSignificantRoad" }, "SideOfStreet": { "Position": [double, ...], "UseWith": "AnyStreet"|"DividedStreetOnly" } }
     /// </summary>
@@ -168,5 +237,22 @@ public record AwsGeoRoutesCalculateRoutesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

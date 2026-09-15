@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --retentionmode.
+/// Allowed values for --retention-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsStartRunRetentionMode
 {
-    [EnumValue("RETAIN")]
-    Retain = 1,
-
     [EnumValue("REMOVE")]
-    Remove = 2,
+    Remove,
 
-    [EnumValue("Constraints")]
-    Constraints = 3
+    [EnumValue("RETAIN")]
+    Retain
 }

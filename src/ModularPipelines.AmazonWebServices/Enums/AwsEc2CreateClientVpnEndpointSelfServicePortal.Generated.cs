@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --selfserviceportal.
+/// Allowed values for --self-service-portal.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateClientVpnEndpointSelfServicePortal
 {
-    [EnumValue("enabled")]
-    Enabled = 1,
-
     [EnumValue("disabled")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("enabled")]
+    Enabled
 }

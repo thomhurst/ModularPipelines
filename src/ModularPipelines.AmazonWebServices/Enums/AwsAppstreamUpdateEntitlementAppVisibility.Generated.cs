@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --appvisibility.
+/// Allowed values for --app-visibility.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppstreamUpdateEntitlementAppVisibility
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("ASSOCIATED")]
-    Associated = 2
+    Associated
 }

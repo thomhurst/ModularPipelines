@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-serverless", "get-session-endpoint")]
-public record AwsEmrServerlessGetSessionEndpointOptions : AwsOptions
+public record AwsEmrServerlessGetSessionEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the session endpoint URL and a time-limited authentication to- ken for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentica- tion token expires to obtain a new token. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The ID of the application that the session belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="SessionId">The ID of the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    public AwsEmrServerlessGetSessionEndpointOptions(
+        string ApplicationId,
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsEmrServerlessGetSessionEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrServerlessGetSessionEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrServerlessGetSessionEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application that the session belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The ID of the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

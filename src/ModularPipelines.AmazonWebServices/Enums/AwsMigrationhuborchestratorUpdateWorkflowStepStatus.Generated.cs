@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsMigrationhuborchestratorUpdateWorkflowStepStatus
 {
     [EnumValue("AWAITING_DEPENDENCIES")]
-    AwaitingDependencies = 1,
-
-    [EnumValue("SKIPPED")]
-    Skipped = 2,
-
-    [EnumValue("READY")]
-    Ready = 3,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 4,
+    AwaitingDependencies,
 
     [EnumValue("COMPLETED")]
-    Completed = 5,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 6,
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
 
     [EnumValue("PAUSED")]
-    Paused = 7,
+    Paused,
+
+    [EnumValue("READY")]
+    Ready,
+
+    [EnumValue("SKIPPED")]
+    Skipped,
 
     [EnumValue("USER_ATTENTION_REQUIRED")]
-    UserAttentionRequired = 8
+    UserAttentionRequired
 }

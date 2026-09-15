@@ -11,50 +11,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enginename.
+/// Allowed values for --engine-name.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsDescribeOptionGroupsEngineName
 {
     [EnumValue("db2-ae")]
-    Db2Ae = 1,
+    Db2Ae,
 
     [EnumValue("db2-ce")]
-    Db2Ce = 2,
+    Db2Ce,
 
     [EnumValue("db2-se")]
-    Db2Se = 3,
+    Db2Se,
 
     [EnumValue("mariadb")]
-    Mariadb = 4,
+    Mariadb,
 
     [EnumValue("mysql")]
-    Mysql = 5,
+    Mysql,
 
     [EnumValue("oracle-ee")]
-    OracleEe = 6,
+    OracleEe,
 
     [EnumValue("oracle-ee-cdb")]
-    OracleEeCdb = 7,
+    OracleEeCdb,
 
     [EnumValue("oracle-se2")]
-    OracleSe2 = 8,
+    OracleSe2,
 
     [EnumValue("oracle-se2-cdb")]
-    OracleSe2Cdb = 9,
+    OracleSe2Cdb,
 
     [EnumValue("postgres")]
-    Postgres = 10,
+    Postgres,
 
     [EnumValue("sqlserver-ee")]
-    SqlServerEe = 11,
-
-    [EnumValue("sqlserver-se")]
-    SqlServerSe = 12,
+    SqlserverEe,
 
     [EnumValue("sqlserver-ex")]
-    SqlServerEx = 13,
+    SqlserverEx,
+
+    [EnumValue("sqlserver-se")]
+    SqlserverSe,
 
     [EnumValue("sqlserver-web")]
-    SqlServerWeb = 14
+    SqlserverWeb
 }

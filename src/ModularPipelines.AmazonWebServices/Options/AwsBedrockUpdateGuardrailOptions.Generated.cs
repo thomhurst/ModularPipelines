@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "update-guardrail")]
-public record AwsBedrockUpdateGuardrailOptions : AwsOptions
+public record AwsBedrockUpdateGuardrailOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--guardrail-identifier")]
-    public string? GuardrailIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a guardrail with the values you specify. o Specify a name and optional description . o Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOut- putsMessaging fields. o Specify topics for the guardrail to deny in the topicPolicyConfig ob- ject. Each GuardrailTopicConfig object in the topicsConfig list per- tains to one topic. o Give a name and description so that the guardrail can properly identify the topic. o S...
+    /// </summary>
+    /// <param name="GuardrailIdentifier">The unique identifier of the guardrail. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
+    /// <param name="Name">A name for the guardrail. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z-_]+</param>
+    /// <param name="BlockedInputMessaging">The message to return when the guardrail blocks a prompt. Constraints: o min: 1 o max: 500</param>
+    /// <param name="BlockedOutputsMessaging">The message to return when the guardrail blocks a model response. Constraints: o min: 1 o max: 500</param>
+    public AwsBedrockUpdateGuardrailOptions(
+        string GuardrailIdentifier,
+        string Name,
+        string BlockedInputMessaging,
+        string BlockedOutputsMessaging
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GuardrailIdentifier);
+        this.GuardrailIdentifier = GuardrailIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(BlockedInputMessaging);
+        this.BlockedInputMessaging = BlockedInputMessaging;
+        global::System.ArgumentNullException.ThrowIfNull(BlockedOutputsMessaging);
+        this.BlockedOutputsMessaging = BlockedOutputsMessaging;
+    }
+
+    private AwsBedrockUpdateGuardrailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockUpdateGuardrailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockUpdateGuardrailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the guardrail. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
+    /// </summary>
+    [CliOption("--guardrail-identifier")]
+    public string? GuardrailIdentifier { get; private init; }
+
+    /// <summary>
+    /// A name for the guardrail. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z-_]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The message to return when the guardrail blocks a prompt. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--blocked-input-messaging")]
+    public string? BlockedInputMessaging { get; private init; }
+
+    /// <summary>
+    /// The message to return when the guardrail blocks a model response. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--blocked-outputs-messaging")]
+    public string? BlockedOutputsMessaging { get; private init; }
 
     /// <summary>
     /// A description of the guardrail. Constraints: o min: 1 o max: 200
@@ -75,12 +139,6 @@ public record AwsBedrockUpdateGuardrailOptions : AwsOptions
     [CliOption("--cross-region-config")]
     public string? CrossRegionConfig { get; set; }
 
-    [CliOption("--blocked-input-messaging")]
-    public string? BlockedInputMessaging { get; set; }
-
-    [CliOption("--blocked-outputs-messaging")]
-    public string? BlockedOutputsMessaging { get; set; }
-
     /// <summary>
     /// The ARN of the KMS key with which to encrypt the guardrail. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)
     /// </summary>
@@ -92,5 +150,22 @@ public record AwsBedrockUpdateGuardrailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

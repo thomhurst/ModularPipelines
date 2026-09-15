@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "create-stack-instances")]
-public record AwsCloudformationCreateStackInstancesOptions : AwsOptions
+public record AwsCloudformationCreateStackInstancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates stack instances for the specified accounts, within the speci- fied Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets , and you must specify at least one value for Regions . NOTE: The maximum number of organizational unit (OUs) supported by a Cre- ateStackInstances operation is 50. If you need more than 50, consider the following options: o Batch processing: If you ...
+    /// </summary>
+    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to create stack instances from.</param>
+    /// <param name="Regions">The names of one or more Amazon Web Services Regions where you want to create stack instances using the specified Amazon Web Services accounts. (string) Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$ Syntax: "string" "string" ...</param>
+    public AwsCloudformationCreateStackInstancesOptions(
+        string StackSetName,
+        IEnumerable<string> Regions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackSetName);
+        this.StackSetName = StackSetName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Regions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Regions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Regions));
+            }
+
+            Regions = materialized;
+        }
+        this.Regions = Regions;
+    }
+
+    private AwsCloudformationCreateStackInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationCreateStackInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationCreateStackInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or unique ID of the StackSet that you want to create stack instances from.
+    /// </summary>
     [CliOption("--stack-set-name")]
-    public string? StackSetName { get; set; }
+    public string? StackSetName { get; private init; }
+
+    /// <summary>
+    /// The names of one or more Amazon Web Services Regions where you want to create stack instances using the specified Amazon Web Services accounts. (string) Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--regions", GroupValues = true)]
+    public IEnumerable<string>? Regions { get; private init; }
 
     /// <summary>
     /// [Self-managed permissions] The account IDs of one or more Amazon Web Services accounts that you want to create stack instances in the specified Region(s) for. You can specify Accounts or DeploymentTargets , but not both. (string) Constraints: o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
@@ -36,9 +94,6 @@ public record AwsCloudformationCreateStackInstancesOptions : AwsOptions
     /// </summary>
     [CliOption("--deployment-targets")]
     public string? DeploymentTargets { get; set; }
-
-    [CliOption("--regions", GroupValues = true)]
-    public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
     /// A list of StackSet parameters whose values you want to override in the selected stack instances. Any overridden parameter values will be applied to all stack in- stances in the specified accounts and Amazon Web Services Regions. When specifying parameters and their values, be aware of how Cloud- Formation sets parameter values during stack instance operations: o To override the current value for a parameter, include the parame- ter and specify its value. o To leave an overridden parameter set to its present value, include the parameter and specify UsePreviousValue as true . (You can't specify both a value and set UsePreviousValue to true .) o To set an overridden parameter back to the value specified in the StackSet, specify a parameter list but don't include the parameter in the list. o To leave all parameters set to their present values, don't specify this property at all. During StackSet updates, any parameter values overridden for a stack instance aren't updated, but retain their overridden value. You can only override the parameter values that are specified in the StackSet; to add or delete a parameter itself, use UpdateStackSet to update the StackSet template. (structure) The Parameter data type. ParameterKey -&gt; (string) The key associated with the parameter. If you don't specify a key and value for a particular parameter, CloudFormation uses the default value that's specified in your template. ParameterValue -&gt; (string) The input value associated with the parameter. UsePreviousValue -&gt; (boolean) During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true , do not specify a parameter value. ResolvedValue -&gt; (string) Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Man- ager parameter types in the template. For more information, see Specify existing resources at runtime with CloudForma- tion-supplied parameter types in the CloudFormation User Guide . Shorthand Syntax: ParameterKey=string,ParameterValue=string,UsePreviousValue=boolean,ResolvedValue=string ... JSON Syntax: [ { "ParameterKey": "string", "ParameterValue": "string", "UsePreviousValue": true|false, "ResolvedValue": "string" } ... ]
@@ -69,5 +124,22 @@ public record AwsCloudformationCreateStackInstancesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

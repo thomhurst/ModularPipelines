@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --integrationtype.
+/// Allowed values for --integration-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceCreateVoiceConnectorIntegrationType
 {
     [EnumValue("CONNECT_ANALYTICS_CONNECTOR")]
-    ConnectAnalyticsConnector = 1
+    ConnectAnalyticsConnector,
+
+    [EnumValue("CONNECT_CALL_TRANSFER_CONNECTOR")]
+    ConnectCallTransferConnector
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "add-layer-version-permission")]
-public record AwsLambdaAddLayerVersionPermissionOptions : AwsOptions
+public record AwsLambdaAddLayerVersionPermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds permissions to the resource-based policy of a version of an Lambda layer . Use this action to grant layer usage permission to other ac- counts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts. To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="VersionNumber">The version number.</param>
+    /// <param name="StatementId">An identifier that distinguishes the policy from others on the same layer version. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)</param>
+    /// <param name="Action">The API action that grants access to the layer. For example, lambda:GetLayerVersion . Constraints: o min: 0 o max: 22 o pattern: lambda:GetLayerVersion</param>
+    /// <param name="Principal">An account ID, or * to grant layer usage permission to all accounts in an organization, or all Amazon Web Services accounts (if organi- zationId is not specified). For the last case, make sure that you really do want all Amazon Web Services accounts to have usage per- mission to this layer. Constraints: o min: 0 o max: 10000 o pattern: \d{12}|\*|arn:(aws[a-zA-Z-]*):iam::\d{12}:root</param>
+    public AwsLambdaAddLayerVersionPermissionOptions(
+        string LayerName,
+        int VersionNumber,
+        string StatementId,
+        string Action,
+        string Principal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LayerName);
+        this.LayerName = LayerName;
+        this.VersionNumber = VersionNumber;
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Principal);
+        this.Principal = Principal;
+    }
+
+    private AwsLambdaAddLayerVersionPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaAddLayerVersionPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaAddLayerVersionPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--layer-name")]
-    public string? LayerName { get; set; }
+    public string? LayerName { get; private init; }
 
+    /// <summary>
+    /// The version number.
+    /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; set; }
+    public int? VersionNumber { get; private init; }
 
+    /// <summary>
+    /// An identifier that distinguishes the policy from others on the same layer version. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
+    /// <summary>
+    /// The API action that grants access to the layer. For example, lambda:GetLayerVersion . Constraints: o min: 0 o max: 22 o pattern: lambda:GetLayerVersion
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public string? Action { get; private init; }
 
+    /// <summary>
+    /// An account ID, or * to grant layer usage permission to all accounts in an organization, or all Amazon Web Services accounts (if organi- zationId is not specified). For the last case, make sure that you really do want all Amazon Web Services accounts to have usage per- mission to this layer. Constraints: o min: 0 o max: 10000 o pattern: \d{12}|\*|arn:(aws[a-zA-Z-]*):iam::\d{12}:root
+    /// </summary>
     [CliOption("--principal")]
-    public string? Principal { get; set; }
+    public string? Principal { get; private init; }
 
     /// <summary>
     /// With the principal set to * , grant permission to all accounts in the specified organization. Constraints: o min: 0 o max: 34 o pattern: o-[a-z0-9]{10,32}
@@ -53,5 +117,22 @@ public record AwsLambdaAddLayerVersionPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

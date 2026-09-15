@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "delete-file-share")]
-public record AwsStoragegatewayDeleteFileShareOptions : AwsOptions
+public record AwsStoragegatewayDeleteFileShareOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--file-share-arn")]
-    public string? FileShareArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Deletes a file share from an S3 File Gateway. This operation is only supported for S3 File Gateways. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share to be deleted. Constraints: o min: 50 o max: 500</param>
+    public AwsStoragegatewayDeleteFileShareOptions(
+        string FileShareArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileShareArn);
+        this.FileShareArn = FileShareArn;
+    }
+
+    private AwsStoragegatewayDeleteFileShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayDeleteFileShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayDeleteFileShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the file share to be deleted. Constraints: o min: 50 o max: 500
+    /// </summary>
+    [CliOption("--file-share-arn")]
+    public string? FileShareArn { get; private init; }
+
+    /// <summary>
+    /// If this value is set to true , the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Oth- erwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsStoragegatewayDeleteFileShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

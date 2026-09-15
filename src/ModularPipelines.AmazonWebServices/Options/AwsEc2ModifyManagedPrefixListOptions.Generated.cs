@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-managed-prefix-list")]
-public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions
+public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the specified managed prefix list. Adding or removing entries in a prefix list creates a new version of the prefix list. Changing the name of the prefix list does not affect the version. If you specify a current version number that does not match the true current version number, the request fails. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PrefixListId">The ID of the prefix list.</param>
+    public AwsEc2ModifyManagedPrefixListOptions(
+        string PrefixListId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrefixListId);
+        this.PrefixListId = PrefixListId;
+    }
+
+    private AwsEc2ModifyManagedPrefixListOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyManagedPrefixListOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyManagedPrefixListOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the prefix list.
+    /// </summary>
     [CliOption("--prefix-list-id")]
-    public string? PrefixListId { get; set; }
+    public string? PrefixListId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The current version of the prefix list.
@@ -57,7 +97,10 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions
     [CliOption("--max-entries")]
     public int? MaxEntries { get; set; }
 
-    [CliFlag("--ipam-prefix-list-resolver-sync-enabled")]
+    /// <summary>
+    /// solver-sync-enabled (boolean) Indicates whether synchronization with an IPAM prefix list resolver should be enabled for this managed prefix list. When enabled, the prefix list CIDRs are automatically updated based on the associated resolver's CIDR selection rules.
+    /// </summary>
+    [CliFlag("--ipam-prefix-list-resolver-sync-enabled", NegatedName = "--no-ipam-prefix-list-resolver-sync-enabled")]
     public bool? IpamPrefixListResolverSyncEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -65,5 +108,22 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

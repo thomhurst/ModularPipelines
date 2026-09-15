@@ -47,10 +47,16 @@ public record AwsEc2DescribeApplicationStatusChecksOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--include-all")]
+    /// <summary>
+    /// Specifies whether to include recently deleted application status checks that remain available during the deletion grace period. If you omit this parameter or set it to false , the response includes only active checks.
+    /// </summary>
+    [CliFlag("--include-all", NegatedName = "--no-include-all")]
     public bool? IncludeAll { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "describe-flywheel-iteration")]
-public record AwsComprehendDescribeFlywheelIterationOptions : AwsOptions
+public record AwsComprehendDescribeFlywheelIterationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--flywheel-arn")]
-    public string? FlywheelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see Flywheel overview in the Amazon Com- prehend Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlywheelArn">Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="FlywheelIterationId">Constraints: o max: 63 o pattern: [0-9]{8}T[0-9]{6}Z</param>
+    public AwsComprehendDescribeFlywheelIterationOptions(
+        string FlywheelArn,
+        string FlywheelIterationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlywheelArn);
+        this.FlywheelArn = FlywheelArn;
+        global::System.ArgumentNullException.ThrowIfNull(FlywheelIterationId);
+        this.FlywheelIterationId = FlywheelIterationId;
+    }
+
+    private AwsComprehendDescribeFlywheelIterationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendDescribeFlywheelIterationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendDescribeFlywheelIterationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
+    [CliOption("--flywheel-arn")]
+    public string? FlywheelArn { get; private init; }
+
+    /// <summary>
+    /// Constraints: o max: 63 o pattern: [0-9]{8}T[0-9]{6}Z
+    /// </summary>
     [CliOption("--flywheel-iteration-id")]
-    public string? FlywheelIterationId { get; set; }
+    public string? FlywheelIterationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

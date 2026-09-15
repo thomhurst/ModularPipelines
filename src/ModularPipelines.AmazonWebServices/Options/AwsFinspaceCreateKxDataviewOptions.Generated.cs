@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "create-kx-dataview")]
-public record AwsFinspaceCreateKxDataviewOptions : AwsOptions
+public record AwsFinspaceCreateKxDataviewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to cre- ate the dataview. Constraints: o min: 1 o max: 32 o pattern: .*\S.*</param>
+    /// <param name="DatabaseName">The name of the database where you want to create a dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="DataviewName">A unique identifier for the dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="AzMode">The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI</param>
+    public AwsFinspaceCreateKxDataviewOptions(
+        string EnvironmentId,
+        string DatabaseName,
+        string DataviewName,
+        AwsFinspaceCreateKxDataviewAzMode AzMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(DataviewName);
+        this.DataviewName = DataviewName;
+        global::System.ArgumentNullException.ThrowIfNull(AzMode);
+        this.AzMode = AzMode;
+    }
+
+    private AwsFinspaceCreateKxDataviewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceCreateKxDataviewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceCreateKxDataviewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment, where you want to cre- ate the dataview. Constraints: o min: 1 o max: 32 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// The name of the database where you want to create a dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--dataview-name")]
-    public string? DataviewName { get; set; }
+    public string? DataviewName { get; private init; }
 
+    /// <summary>
+    /// The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI
+    /// </summary>
     [CliOption("--az-mode")]
-    public string? AzMode { get; set; }
+    public AwsFinspaceCreateKxDataviewAzMode? AzMode { get; private init; }
 
     /// <summary>
     /// The identifier of the availability zones. Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$
@@ -53,10 +112,16 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions
     [CliOption("--segment-configurations", GroupValues = true)]
     public IEnumerable<string>? SegmentConfigurations { get; set; }
 
-    [CliFlag("--auto-update")]
+    /// <summary>
+    /// The option to specify whether you want to apply all the future addi- tions and corrections automatically to the dataview, when you ingest new changesets. The default value is false.
+    /// </summary>
+    [CliFlag("--auto-update", NegatedName = "--no-auto-update")]
     public bool? AutoUpdate { get; set; }
 
-    [CliFlag("--read-write")]
+    /// <summary>
+    /// The option to specify whether you want to make the dataview writable to perform database maintenance. The following are some considera- tions related to writable dataviews. o You cannot create partial writable dataviews. When you create writeable dataviews you must provide the entire database path. o You cannot perform updates on a writeable dataview. Hence, autoUp- date must be set as False if readWrite is True for a dataview. o You must also use a unique volume for creating a writeable dataview. So, if you choose a volume that is already in use by an- other dataview, the dataview creation fails. o Once you create a dataview as writeable, you cannot change it to read-only. So, you cannot update the readWrite parameter later.
+    /// </summary>
+    [CliFlag("--read-write", NegatedName = "--no-read-write")]
     public bool? ReadWrite { get; set; }
 
     /// <summary>
@@ -83,5 +148,22 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

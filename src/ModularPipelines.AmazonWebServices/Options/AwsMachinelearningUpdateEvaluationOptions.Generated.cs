@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "update-evaluation")]
-public record AwsMachinelearningUpdateEvaluationOptions : AwsOptions
+public record AwsMachinelearningUpdateEvaluationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--evaluation-id")]
-    public string? EvaluationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the EvaluationName of an Evaluation . You can use the GetEvaluation operation to view the contents of the up- dated data element. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EvaluationId">The ID assigned to the Evaluation during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="EvaluationName">A new user-supplied name or description of the Evaluation that will replace the current content. Constraints: o max: 1024 o pattern: .*\S.*|^$</param>
+    public AwsMachinelearningUpdateEvaluationOptions(
+        string EvaluationId,
+        string EvaluationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationId);
+        this.EvaluationId = EvaluationId;
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationName);
+        this.EvaluationName = EvaluationName;
+    }
+
+    private AwsMachinelearningUpdateEvaluationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningUpdateEvaluationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningUpdateEvaluationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the Evaluation during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--evaluation-id")]
+    public string? EvaluationId { get; private init; }
+
+    /// <summary>
+    /// A new user-supplied name or description of the Evaluation that will replace the current content. Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// </summary>
     [CliOption("--evaluation-name")]
-    public string? EvaluationName { get; set; }
+    public string? EvaluationName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

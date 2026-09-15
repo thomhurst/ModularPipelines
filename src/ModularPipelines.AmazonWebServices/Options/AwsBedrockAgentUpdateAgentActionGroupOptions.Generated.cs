@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "update-agent-action-group")]
-public record AwsBedrockAgentUpdateAgentActionGroupOptions : AwsOptions
+public record AwsBedrockAgentUpdateAgentActionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration for an action group for an agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentId">The unique identifier of the agent for which to update the action group. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The unique identifier of the agent version for which to update the action group. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
+    /// <param name="ActionGroupId">The unique identifier of the action group. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="ActionGroupName">Specifies a new name for the action group. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    public AwsBedrockAgentUpdateAgentActionGroupOptions(
+        string AgentId,
+        string AgentVersion,
+        string ActionGroupId,
+        string ActionGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentVersion);
+        this.AgentVersion = AgentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroupId);
+        this.ActionGroupId = ActionGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroupName);
+        this.ActionGroupName = ActionGroupName;
+    }
+
+    private AwsBedrockAgentUpdateAgentActionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentUpdateAgentActionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentUpdateAgentActionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent for which to update the action group. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the agent version for which to update the action group. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// </summary>
     [CliOption("--agent-version")]
-    public string? AgentVersion { get; set; }
+    public string? AgentVersion { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the action group. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--action-group-id")]
-    public string? ActionGroupId { get; set; }
+    public string? ActionGroupId { get; private init; }
 
+    /// <summary>
+    /// Specifies a new name for the action group. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// </summary>
     [CliOption("--action-group-name")]
-    public string? ActionGroupName { get; set; }
+    public string? ActionGroupName { get; private init; }
 
     /// <summary>
     /// Specifies a new name for the action group. Constraints: o min: 1 o max: 200
@@ -82,5 +140,22 @@ public record AwsBedrockAgentUpdateAgentActionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

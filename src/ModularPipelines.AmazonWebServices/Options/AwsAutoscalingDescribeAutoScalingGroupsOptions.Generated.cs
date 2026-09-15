@@ -28,7 +28,10 @@ public record AwsAutoscalingDescribeAutoScalingGroupsOptions : AwsOptions
     [CliOption("--auto-scaling-group-names", GroupValues = true)]
     public IEnumerable<string>? AutoScalingGroupNames { get; set; }
 
-    [CliFlag("--include-instances")]
+    /// <summary>
+    /// Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
+    /// </summary>
+    [CliFlag("--include-instances", NegatedName = "--no-include-instances")]
     public bool? IncludeInstances { get; set; }
 
     /// <summary>

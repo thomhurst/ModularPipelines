@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "update-directory-setup")]
-public record AwsDsUpdateDirectorySetupOptions : AwsOptions
+public record AwsDsUpdateDirectorySetupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates directory configuration for the specified update type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory to update. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="UpdateType">The type of update to perform on the directory. Possible values: o OS o NETWORK o SIZE</param>
+    public AwsDsUpdateDirectorySetupOptions(
+        string DirectoryId,
+        AwsDsUpdateDirectorySetupUpdateType UpdateType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateType);
+        this.UpdateType = UpdateType;
+    }
+
+    private AwsDsUpdateDirectorySetupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsUpdateDirectorySetupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsUpdateDirectorySetupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory to update. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The type of update to perform on the directory. Possible values: o OS o NETWORK o SIZE
+    /// </summary>
     [CliOption("--update-type")]
-    public string? UpdateType { get; set; }
+    public AwsDsUpdateDirectorySetupUpdateType? UpdateType { get; private init; }
 
     /// <summary>
     /// Operating system configuration to apply during the directory update operation. OSVersion -&gt; (string) OS version that the directory needs to be updated to. Possible values: o SERVER_2012 o SERVER_2019 Shorthand Syntax: OSVersion=string JSON Syntax: { "OSVersion": "SERVER_2012"|"SERVER_2019" }
@@ -45,7 +90,10 @@ public record AwsDsUpdateDirectorySetupOptions : AwsOptions
     [CliOption("--network-update-settings")]
     public string? NetworkUpdateSettings { get; set; }
 
-    [CliFlag("--create-snapshot-before-update")]
+    /// <summary>
+    /// Specifies whether to create a directory snapshot before performing the update.
+    /// </summary>
+    [CliFlag("--create-snapshot-before-update", NegatedName = "--no-create-snapshot-before-update")]
     public bool? CreateSnapshotBeforeUpdate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -53,5 +101,22 @@ public record AwsDsUpdateDirectorySetupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

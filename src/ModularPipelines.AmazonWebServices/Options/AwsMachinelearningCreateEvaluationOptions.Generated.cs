@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "create-evaluation")]
-public record AwsMachinelearningCreateEvaluationOptions : AwsOptions
+public record AwsMachinelearningCreateEvaluationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Evaluation of an MLModel . An MLModel is evaluated on a set of observations associated to a DataSource . Like a DataSource for an MLModel , the DataSource for an Evaluation contains values for the Target Variable . The Evaluation compares the predicted result for each observation to the actual outcome and provides a summary so that you know how effective the MLModel functions on the test data. Evaluation generates a relevant performance metric, such as BinaryAUC, Regression- RMSE o...
+    /// </summary>
+    /// <param name="EvaluationId">A user-supplied ID that uniquely identifies the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelId">The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="EvaluationDataSourceId">The ID of the DataSource for the evaluation. The schema of the Data- Source must match the schema used to create the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsMachinelearningCreateEvaluationOptions(
+        string EvaluationId,
+        string MlModelId,
+        string EvaluationDataSourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationId);
+        this.EvaluationId = EvaluationId;
+        global::System.ArgumentNullException.ThrowIfNull(MlModelId);
+        this.MlModelId = MlModelId;
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationDataSourceId);
+        this.EvaluationDataSourceId = EvaluationDataSourceId;
+    }
+
+    private AwsMachinelearningCreateEvaluationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningCreateEvaluationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningCreateEvaluationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-supplied ID that uniquely identifies the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--evaluation-id")]
-    public string? EvaluationId { get; set; }
+    public string? EvaluationId { get; private init; }
+
+    /// <summary>
+    /// The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--ml-model-id")]
+    public string? MlModelId { get; private init; }
+
+    /// <summary>
+    /// The ID of the DataSource for the evaluation. The schema of the Data- Source must match the schema used to create the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--evaluation-data-source-id")]
+    public string? EvaluationDataSourceId { get; private init; }
 
     /// <summary>
     /// A user-supplied name or description of the Evaluation . Constraints: o max: 1024 o pattern: .*\S.*|^$
@@ -30,16 +87,27 @@ public record AwsMachinelearningCreateEvaluationOptions : AwsOptions
     [CliOption("--evaluation-name")]
     public string? EvaluationName { get; set; }
 
-    [CliOption("--ml-model-id")]
-    public string? MlModelId { get; set; }
-
-    [CliOption("--evaluation-data-source-id")]
-    public string? EvaluationDataSourceId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

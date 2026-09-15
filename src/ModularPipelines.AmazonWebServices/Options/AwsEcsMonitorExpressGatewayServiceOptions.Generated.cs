@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ecs", "monitor-express-gateway-service")]
 public record AwsEcsMonitorExpressGatewayServiceOptions : AwsOptions
 {
+    /// <summary>
+    /// Monitors the progress of resource creation for an ECS Express Gateway Service. This command provides real-time monitoring of service deploy- ments showing the status of load balancers, security groups, auto-scal- ing configurations, and other AWS resources as they are created or up- dated. Use --resource-view RESOURCE to view all service resources, or --resource-view DEPLOYMENT to track only resources that have changed in the most recent deployment. Choose --mode INTERACTIVE for real-time displa...
+    /// </summary>
+    /// <param name="ServiceArn"></param>
+    public AwsEcsMonitorExpressGatewayServiceOptions(
+        string ServiceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+    }
+
+    public void Deconstruct(out string ServiceArn)
+    {
+        ServiceArn = this.ServiceArn;
+    }
+
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string ServiceArn { get; private init; }
 
     [CliOption("--resource-view")]
     public string? ResourceView { get; set; }

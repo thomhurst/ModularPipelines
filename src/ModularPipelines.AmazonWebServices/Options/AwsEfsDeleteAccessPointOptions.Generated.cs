@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "delete-access-point")]
-public record AwsEfsDeleteAccessPointOptions : AwsOptions
+public record AwsEfsDeleteAccessPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified access point. After deletion is complete, new clients can no longer connect to the access points. Clients connected to the access point at the time of deletion will continue to function until they terminate their connection. This operation requires permissions for the elasticfilesystem:DeleteAc- cessPoint action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccessPointId">The ID of the access point that you want to delete. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:ac- cess-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$</param>
+    public AwsEfsDeleteAccessPointOptions(
+        string AccessPointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessPointId);
+        this.AccessPointId = AccessPointId;
+    }
+
+    private AwsEfsDeleteAccessPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsDeleteAccessPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsDeleteAccessPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the access point that you want to delete. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:ac- cess-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$
+    /// </summary>
     [CliOption("--access-point-id")]
-    public string? AccessPointId { get; set; }
+    public string? AccessPointId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

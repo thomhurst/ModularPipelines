@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "list-tags-for-resource")]
-public record AwsIottwinmakerListTagsForResourceOptions : AwsOptions
+public record AwsIottwinmakerListTagsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all tags associated with a resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iottwin- maker:[a-z0-9-]+:[0-9]{12}:[\/a-zA-Z0-9_\-\.:]+</param>
+    public AwsIottwinmakerListTagsForResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsIottwinmakerListTagsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerListTagsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerListTagsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iottwin- maker:[a-z0-9-]+:[0-9]{12}:[\/a-zA-Z0-9_\-\.:]+
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: o min: 0 o max: 200
@@ -43,5 +80,22 @@ public record AwsIottwinmakerListTagsForResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

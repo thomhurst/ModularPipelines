@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "update-quote")]
-public record AwsOutpostsUpdateQuoteOptions : AwsOptions
+public record AwsOutpostsUpdateQuoteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified quote. You can modify the requested capacities, constraints, payment options, payment terms, or Outpost association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QuoteIdentifier">The ID of the quote. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$</param>
+    public AwsOutpostsUpdateQuoteOptions(
+        string QuoteIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QuoteIdentifier);
+        this.QuoteIdentifier = QuoteIdentifier;
+    }
+
+    private AwsOutpostsUpdateQuoteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsUpdateQuoteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsUpdateQuoteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the quote. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--quote-identifier")]
-    public string? QuoteIdentifier { get; set; }
+    public string? QuoteIdentifier { get; private init; }
 
     /// <summary>
     /// The ID or ARN of the Outpost to associate with the quote. Specify an empty string to remove the Outpost association. Constraints: o min: 0 o max: 180 o pattern: ^((arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17})?$
@@ -43,7 +80,7 @@ public record AwsOutpostsUpdateQuoteOptions : AwsOptions
     public IEnumerable<string>? RequestedCapacities { get; set; }
 
     /// <summary>
-    /// The updated physical constraints for the quote. Constraints: o max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , and RACK_MAX_WEIGHT_LBS . Possible values: o RACK_MAXIMUM o RACK_MAX_POWER_KVA o RACK_MAX_WEIGHT_LBS Value -&gt; (string) The value of the constraint. Constraints: o min: 1 o max: 2048 o pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS", "Value": "string" } ... ]
+    /// The updated physical constraints for the quote. Constraints: o max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , RACK_MAX_WEIGHT_LBS , and RACK_SPACE_CONSTRAINED . Possible values: o RACK_MAXIMUM o RACK_MAX_POWER_KVA o RACK_MAX_WEIGHT_LBS o RACK_SPACE_CONSTRAINED Value -&gt; (string) The value of the constraint. Constraints: o min: 1 o max: 2048 o pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS"|"RACK_SPACE_CONSTRAINED", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--requested-constraints", GroupValues = true)]
     public IEnumerable<string>? RequestedConstraints { get; set; }
@@ -71,5 +108,22 @@ public record AwsOutpostsUpdateQuoteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

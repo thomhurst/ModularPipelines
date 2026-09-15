@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --defaultauthscheme.
+/// Allowed values for --default-auth-scheme.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsModifyDbProxyDefaultAuthScheme
 {
     [EnumValue("IAM_AUTH")]
-    IamAuth = 1,
+    IamAuth,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

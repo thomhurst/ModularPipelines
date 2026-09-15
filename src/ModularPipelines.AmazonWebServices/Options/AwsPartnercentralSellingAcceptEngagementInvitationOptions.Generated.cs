@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "accept-engagement-invitation")]
-public record AwsPartnercentralSellingAcceptEngagementInvitationOptions : AwsOptions
+public record AwsPartnercentralSellingAcceptEngagementInvitationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use the AcceptEngagementInvitation action to accept an engagement invi- tation shared by AWS. Accepting the invitation indicates your willing- ness to participate in the engagement, granting you access to all en- gagement-related data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox , which determine the environment in which the engagement invitation is man- aged. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
+    public AwsPartnercentralSellingAcceptEngagementInvitationOptions(
+        string Catalog,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsPartnercentralSellingAcceptEngagementInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingAcceptEngagementInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingAcceptEngagementInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox , which determine the environment in which the engagement invitation is man- aged. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

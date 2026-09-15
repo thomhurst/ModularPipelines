@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsListTaskDefinitionFamiliesStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("INACTIVE")]
-    Inactive = 2,
+    Active,
 
     [EnumValue("ALL")]
-    All = 3
+    All,
+
+    [EnumValue("INACTIVE")]
+    Inactive
 }
