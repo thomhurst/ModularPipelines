@@ -576,7 +576,7 @@ public partial class RequiredConstructorValidationTests
         var instance = Activator.CreateInstance(options)!;
         var input = new IndependentSetViews(comparer);
         options.GetProperty("Values")!.SetValue(instance, input);
-        var retained = (HashSet<object>) options.GetProperty("Values")!.GetValue(instance)!;
+        var retained = (IReadOnlySet<object>) options.GetProperty("Values")!.GetValue(instance)!;
         string[] expected = positional ? ["first=second", "first=second"] : ["--requirement", "first", "second", "--requirement", "first", "second"];
         for (var pass = 0; pass < 2; pass++)
         {
@@ -584,13 +584,18 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
         }
 
-        await Assert.That(retained).IsSameReferenceAs(input);
-        await Assert.That(retained.Comparer).IsSameReferenceAs(input.Comparer);
+        if (collectionType != "IReadOnlySet<object>?")
+        {
+            await Assert.That(retained).IsSameReferenceAs(input);
+            await Assert.That(((HashSet<object>) retained).Comparer).IsSameReferenceAs(input.Comparer);
+        }
+
+        await Assert.That(retained.SetEquals((IEnumerable<object>) input)).IsTrue();
         // This custom source defines its typed view independently of ordinary membership.
         // Mutating its object set must retain that behavior rather than invent a new mapping.
-        retained.Clear();
-        retained.Add("ordinary object addition");
-        await Assert.That(input.Contains("ordinary object addition")).IsTrue();
+        input.Clear();
+        input.Add("ordinary object addition");
+        await Assert.That(retained.Contains("ordinary object addition")).IsTrue();
         await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
     }
@@ -782,17 +787,99 @@ public partial class RequiredConstructorValidationTests
             CreateKeyValueView();
     }
 
+    [Test]
+    [Arguments(false, "IReadOnlySet<string>?")]
+    [Arguments(true, "IReadOnlySet<string>?")]
+    [Arguments(false, "global::System.Collections.Generic.IReadOnlySet<string>?")]
+    [Arguments(true, "global::System.Collections.Generic.IReadOnlySet<string>?")]
+    [Arguments(false, "IReadOnlySet<object>?")]
+    [Arguments(true, "IReadOnlySet<object>?")]
+    public async Task Alternative_ReadOnly_Sets_Snapshot_SingleUse_Renderer_Views(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var objectSet = collectionType.Contains("<object>", StringComparison.Ordinal);
+        object input = objectSet ? new IndependentSetViews("strings-only", singleUse: true) : new SingleUseStringSetViews();
+        var property = options.GetProperty("Values")!;
+        property.SetValue(instance, input);
+        string[] expected = (objectSet, positional) switch
+        {
+            (true, true) => ["first=second", "first=second"],
+            (true, false) => ["--requirement", "first", "second", "--requirement", "first", "second"],
+            (false, true) => ["typed=value"],
+            (false, false) => ["--requirement", "typed", "value"],
+        };
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
+        }
+
+        if (input is SingleUseStringSetViews strings)
+        {
+            var retained = (IReadOnlySet<string>) property.GetValue(instance)!;
+            await Assert.That(retained.Count).IsEqualTo(1);
+            await Assert.That(retained.Contains("ORDINARY")).IsTrue();
+            await Assert.That(retained.SetEquals(["ORDINARY"])).IsTrue();
+            await Assert.That(retained.IsSubsetOf(["ORDINARY"])).IsTrue();
+            await Assert.That(retained.IsProperSubsetOf(["ORDINARY", "other"])).IsTrue();
+            await Assert.That(retained.IsSupersetOf(["ORDINARY"])).IsTrue();
+            await Assert.That(retained.IsProperSupersetOf([])).IsTrue();
+            await Assert.That(retained.Overlaps(["ORDINARY"])).IsTrue();
+            await Assert.That(strings.Renderer.PairEnumerationCount).IsEqualTo(positional ? 0 : 1);
+            await Assert.That(strings.Renderer.KeyValueEnumerationCount).IsEqualTo(positional ? 1 : 0);
+        }
+        else
+        {
+            var objects = (IndependentSetViews) input;
+            var retained = (IReadOnlySet<object>) property.GetValue(instance)!;
+            await Assert.That(retained.Count).IsEqualTo(1);
+            await Assert.That(retained.Contains("ordinary object view")).IsTrue();
+            await Assert.That(objects.PairEnumerationCount).IsEqualTo(positional ? 0 : 1);
+            await Assert.That(objects.KeyValueEnumerationCount).IsEqualTo(positional ? 1 : 0);
+        }
+    }
+
+    private sealed class SingleUseStringSetViews : HashSet<string>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public SingleUseStringSetViews() : base(StringComparer.OrdinalIgnoreCase) => Add("ordinary");
+
+        public StringRendererViews Renderer { get; } = new(singleUse: true);
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.CliValuePair>) Renderer).GetEnumerator();
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.KeyValue>) Renderer).GetEnumerator();
+    }
+
     private sealed class IndependentSetViews : HashSet<object>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
     {
-        public IndependentSetViews(string comparer) : base(comparer switch
+        private readonly bool _singleUse;
+
+        public IndependentSetViews(string comparer, bool singleUse = false) : base(comparer switch
         {
             "reference" => ReferenceEqualityComparer.Instance,
             "all-equal" => EqualityComparer<object>.Create(static (_, _) => true, static _ => 0),
             _ => EqualityComparer<object>.Create(static (left, right) => (string) left! == (string) right!, static value => ((string) value).GetHashCode()),
-        }) => Add("ordinary object view");
+        })
+        {
+            _singleUse = singleUse;
+            Add("ordinary object view");
+        }
+
+        public int PairEnumerationCount { get; private set; }
+
+        public int KeyValueEnumerationCount { get; private set; }
 
         IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
         {
+            if (++PairEnumerationCount > 1 && _singleUse)
+            {
+                throw new InvalidOperationException("Pair input can only be enumerated once.");
+            }
+
             var pair = new ModularPipelines.Models.CliValuePair("first", "second");
             yield return pair;
             yield return pair;
@@ -800,6 +887,11 @@ public partial class RequiredConstructorValidationTests
 
         IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
         {
+            if (++KeyValueEnumerationCount > 1 && _singleUse)
+            {
+                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
+            }
+
             var pair = new ModularPipelines.Models.KeyValue("first", "second");
             yield return pair;
             yield return pair;

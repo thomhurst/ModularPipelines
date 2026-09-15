@@ -690,7 +690,7 @@ public class OptionsClassGenerator : ICodeGenerator
                         global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
                             ((global::System.Collections.Generic.IEnumerable<{{elementType}}>)_values).GetEnumerator();
             """);
-        if (collectionType is "IReadOnlyCollection" or "IReadOnlyList")
+        if (collectionType is "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
         {
             sb.AppendLine();
             sb.AppendLine("        public int Count => source.Count;");
@@ -700,6 +700,17 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             sb.AppendLine();
             sb.AppendLine($"        public {declaredElement} this[int index] => source[index];");
+        }
+
+        if (collectionType == "IReadOnlySet")
+        {
+            sb.AppendLine();
+            sb.AppendLine($"        public bool Contains({declaredElement} item) => source.Contains(item);");
+            foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
+            {
+                sb.AppendLine();
+                sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => source.{method}(other);");
+            }
         }
 
         sb.AppendLine("    }");

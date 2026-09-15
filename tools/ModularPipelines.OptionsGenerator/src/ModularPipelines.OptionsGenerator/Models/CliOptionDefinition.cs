@@ -221,6 +221,12 @@ public record CliOptionDefinition
     private static string? GetTypedSnapshotCollectionType(
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
     {
+        if (SymbolEqualityComparer.Default.Equals(propertyType.OriginalDefinition,
+                compilation.GetTypeByMetadataName("System.Collections.Generic.IReadOnlySet`1")))
+        {
+            return "IReadOnlySet";
+        }
+
         if (elementType.SpecialType != SpecialType.System_Object)
         {
             return propertyType.OriginalDefinition.SpecialType switch
@@ -339,7 +345,7 @@ public record CliOptionDefinition
         var snapshot = collectionType is not null
             ? $"new {{1}}{elementName}({values})"
             : $"({propertyName})(object)global::System.Linq.Enumerable.ToArray({values})";
-        if (collectionType is "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList")
+        if (collectionType is "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
         {
             snapshot = $"new {{1}}{elementName}({{0}}, {values})";
         }
