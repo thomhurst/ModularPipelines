@@ -524,12 +524,13 @@ public class OptionsClassGenerator : ICodeGenerator
             return GetTypedCollectionPresenceExpression(propertyName, "CliOptionValue", "false");
         }
 
-        var collectionPresence = GetTypedCollectionPresenceExpression(propertyName, "KeyValue", $"{propertyName}?.Cast<object>().Any() == true");
+        var ordinaryPresence = $"({propertyName} is not null && {GetNonNullCollectionPresenceExpression($"global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object){propertyName})")})";
+        var collectionPresence = GetTypedCollectionPresenceExpression(propertyName, "KeyValue", ordinaryPresence);
         // Character sequences use scalar rendering; validation must not consume them.
         var presence = $"((object?){propertyName} is global::System.Collections.Generic.IEnumerable<char>"
                + $" ? (object?){propertyName} is not string || !string.IsNullOrWhiteSpace({propertyName}?.ToString())"
                + $" : {collectionPresence})";
-        if (option is null)
+        if (option is null || option.CollectionSeparator is not null)
         {
             return presence;
         }
@@ -542,9 +543,12 @@ public class OptionsClassGenerator : ICodeGenerator
     private static string GetTypedCollectionPresenceExpression(string propertyName, string elementName, string fallback)
     {
         var enumerableType = $"global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.{elementName}>";
-        // A predicate forces enumeration of the typed view rather than an object-list Count shortcut.
-        return $"((object?){propertyName} is {enumerableType} ? global::System.Linq.Enumerable.Any(({enumerableType})(object){propertyName}, static item => item is not null) : {fallback})";
+        return $"((object?){propertyName} is {enumerableType} ? {GetNonNullCollectionPresenceExpression($"({enumerableType})(object){propertyName}")} : {fallback})";
     }
+
+    // A predicate matches rendering's null filtering and avoids unrelated collection Count shortcuts.
+    private static string GetNonNullCollectionPresenceExpression(string values) =>
+        $"global::System.Linq.Enumerable.Any({values}, static item => item is not null)";
 
     private static string FormatChoice(string[] propertyNames) =>
         propertyNames.Length switch
@@ -587,7 +591,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var propertyType = option.IsRequired && requiredPropertiesAreNonNullable && !RequiresNullableFlagProperty(option)
             ? option.PropertyType.TrimEnd('?')
             : option.PropertyType;
-        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative, option.IsCollection, valueArity: option.ValueArity);
+        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative, option.IsCollection, option);
     }
 
     private static void GeneratePositionalArgument(
@@ -615,12 +619,12 @@ public class OptionsClassGenerator : ICodeGenerator
             propertyType = propertyType.TrimEnd('?');
         }
 
-        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative, positional.IsVariadic, preserveValuePairs: false);
+        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative, positional.IsVariadic);
     }
 
     private static void GeneratePropertyDeclaration(
-        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null, bool preserveValuePairs = true,
-        CliOptionValueArity valueArity = CliOptionValueArity.Required)
+        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null,
+        CliOptionDefinition? option = null)
     {
         var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
         // Required collections are already materialized by their constructor. Optional
@@ -628,9 +632,19 @@ public class OptionsClassGenerator : ICodeGenerator
         if (!isRequired && participatesInAlternative
             && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
+            var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
+            var preserveValuePairs = option is not null && option.CollectionSeparator is null;
             var typedSnapshotPrefix = $"__{propertyName}Snapshot";
             var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
                 propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
+            if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
+                && option.ValueSeparator != " ")
+            {
+                // The renderer checks pair format before joining the selected values.
+                // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
+                snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
+            }
+
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
             sb.AppendLine("        get;");

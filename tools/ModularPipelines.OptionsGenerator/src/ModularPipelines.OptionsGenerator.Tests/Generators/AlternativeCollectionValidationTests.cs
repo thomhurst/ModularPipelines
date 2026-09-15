@@ -983,21 +983,23 @@ public partial class RequiredConstructorValidationTests
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<char>) this).GetEnumerator();
     }
-    private static IReadOnlyList<string> RenderAlternativeCollection(object instance, bool positional, CliOptionValueArity valueArity = CliOptionValueArity.Required)
+    private static IReadOnlyList<string> RenderAlternativeCollection(object instance, bool positional, CliOptionValueArity valueArity = CliOptionValueArity.Required,
+        string? collectionSeparator = null, OptionFormat format = OptionFormat.SpaceSeparated)
     {
         var property = instance.GetType().GetProperty("Values")!;
         PropertyCommandLinePart part = positional
             ? new ArgumentPart("Values", property.GetValue, new CliArgumentAttribute(0))
-            : new OptionPart("Values", property.GetValue, new CliOptionAttribute("--requirement") { ValueArity = valueArity });
+            : new OptionPart("Values", property.GetValue, new CliOptionAttribute("--requirement") { ValueArity = valueArity, CollectionSeparator = collectionSeparator, Format = format });
         return new CommandArgumentBuilder().BuildArguments([part], instance);
     }
-    private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType, bool? isCollection = null, CliOptionValueArity valueArity = CliOptionValueArity.Required)
+    private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType, bool? isCollection = null, CliOptionValueArity valueArity = CliOptionValueArity.Required,
+        string? collectionSeparator = null, string valueSeparator = " ")
     {
         List<CliOptionDefinition> options =
             [new() { SwitchName = "--fallback", PropertyName = "Fallback", CSharpType = "string?" }];
         if (!positional)
         {
-            options.Add(new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType, IsCollection = isCollection, ValueArity = valueArity });
+            options.Add(new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType, IsCollection = isCollection, ValueArity = valueArity, CollectionSeparator = collectionSeparator, ValueSeparator = valueSeparator });
         }
 
         var member = new CliRequiredAlternativeMember

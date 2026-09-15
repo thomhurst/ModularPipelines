@@ -411,6 +411,8 @@ public partial class RequiredConstructorValidationTests
                 public sealed class CliOptionAttribute(string name) : System.Attribute
                 {
                     public CliOptionValueArity ValueArity { get; set; }
+                    public string? CollectionSeparator { get; set; }
+                    public OptionFormat Format { get; set; }
                 }
                 public sealed class CliSubCommandAttribute(params string[] parts) : System.Attribute;
                 public sealed class CliArgumentAttribute(int position) : System.Attribute

@@ -75,16 +75,14 @@ public record CliOptionDefinition
 
     internal static bool TryGetCollectionShape(string cSharpType, out bool isCollection)
     {
-        var resolution = CollectionShapes.GetOrAdd(
-            cSharpType,
-            static typeName => ResolveCollectionShape(typeName));
+        var resolution = GetCollectionShape(cSharpType);
         isCollection = resolution.IsCollection;
         return resolution.IsResolved;
     }
 
     internal static bool MayBeReferenceType(string cSharpType)
     {
-        var resolution = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
+        var resolution = GetCollectionShape(cSharpType);
         return !resolution.IsResolved || resolution.IsReferenceType;
     }
 
@@ -92,7 +90,7 @@ public record CliOptionDefinition
         string cSharpType, string valueExpression, bool retainUnsupportedCollections = false, string typedSnapshotPrefix = "__Snapshot", bool preserveValuePairs = true,
         CliOptionValueArity valueArity = CliOptionValueArity.Required)
     {
-        var shape = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
+        var shape = GetCollectionShape(cSharpType);
         if (retainUnsupportedCollections)
         {
             if (!shape.IsResolved)
@@ -120,14 +118,17 @@ public record CliOptionDefinition
     }
 
     internal static string? GetTypedSnapshotCollectionType(string cSharpType) =>
-        CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).TypedSnapshotCollectionType;
+        GetCollectionShape(cSharpType).TypedSnapshotCollectionType;
 
     internal static string GetSnapshotElementTypeName(string cSharpType) =>
-        CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).ElementTypeName
+        GetCollectionShape(cSharpType).ElementTypeName
         ?? throw new InvalidOperationException($"Collection element type for '{cSharpType}' is unresolved.");
 
     internal static bool IsSnapshotElementType(string cSharpType, string elementName) =>
-        MatchesRendererElementType(CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).ElementTypeIdentity, elementName);
+        MatchesRendererElementType(GetCollectionShape(cSharpType).ElementTypeIdentity, elementName);
+
+    private static CollectionShapeResolution GetCollectionShape(string cSharpType) =>
+        CollectionShapes.GetOrAdd(cSharpType.TrimEnd('?'), static typeName => ResolveCollectionShape(typeName));
 
     internal static int FindIndexBySwitch(
         IReadOnlyList<CliOptionDefinition> options,
