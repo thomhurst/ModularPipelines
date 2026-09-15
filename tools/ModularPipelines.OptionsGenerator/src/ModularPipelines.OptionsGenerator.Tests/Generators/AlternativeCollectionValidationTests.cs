@@ -595,6 +595,129 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
     }
 
+    [Test]
+    [Arguments(false, "IEnumerable<string>?")]
+    [Arguments(true, "IEnumerable<string>?")]
+    [Arguments(false, "List<string>?")]
+    [Arguments(true, "List<string>?")]
+    [Arguments(false, "IEnumerable<KeyValue>?")]
+    [Arguments(false, "List<KeyValue>?")]
+    [Arguments(true, "IEnumerable<CliValuePair>?")]
+    [Arguments(true, "List<CliValuePair>?")]
+    [Arguments(false, "System.Collections.ArrayList?")]
+    [Arguments(true, "System.Collections.ArrayList?")]
+    public async Task Alternative_Incompatible_Typed_Views_Retain_Their_Source(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        object input = collectionType switch
+        {
+            "IEnumerable<string>?" or "List<string>?" => new StringRendererViews(),
+            "IEnumerable<KeyValue>?" or "List<KeyValue>?" => new KeyValueListWithPairView(),
+            "IEnumerable<CliValuePair>?" or "List<CliValuePair>?" => new PairListWithKeyValueView(),
+            _ => new ArrayListRendererViews(),
+        };
+        var property = options.GetProperty("Values")!;
+        property.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            string[] expected = positional ? ["typed=value"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
+        }
+
+        await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
+    }
+
+    [Test]
+    [Arguments(false, "IEnumerable<KeyValue>?")]
+    [Arguments(true, "IEnumerable<KeyValue>?")]
+    [Arguments(false, "IEnumerable<global::ModularPipelines.Models.KeyValue>?")]
+    [Arguments(true, "IEnumerable<global::ModularPipelines.Models.KeyValue>?")]
+    [Arguments(false, "IEnumerable<KeyValue?>?")]
+    [Arguments(true, "IEnumerable<KeyValue?>?")]
+    public async Task Alternative_Matching_Typed_Views_Still_Snapshot_Once(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseKeyValues();
+        options.GetProperty("Values")!.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            string[] expected = positional ? ["typed=value"] : ["--requirement", "typed=value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
+        }
+
+        await Assert.That(input.EnumerationCount).IsEqualTo(1);
+    }
+
+    private sealed class SingleUseKeyValues : IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public int EnumerationCount { get; private set; }
+
+        public IEnumerator<ModularPipelines.Models.KeyValue> GetEnumerator()
+        {
+            if (++EnumerationCount != 1)
+            {
+                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
+            }
+
+            yield return new("typed", "value");
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    private static IEnumerator<ModularPipelines.Models.CliValuePair> CreatePairView()
+    {
+        yield return new("typed", "value");
+    }
+
+    private static IEnumerator<ModularPipelines.Models.KeyValue> CreateKeyValueView()
+    {
+        yield return new("typed", "value");
+    }
+    private sealed class StringRendererViews : List<string>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public StringRendererViews() => Add("ordinary");
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+            CreatePairView();
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+            CreateKeyValueView();
+    }
+
+    private sealed class KeyValueListWithPairView : List<ModularPipelines.Models.KeyValue>, IEnumerable<ModularPipelines.Models.CliValuePair>
+    {
+        public KeyValueListWithPairView() => Add(new("ordinary", "value"));
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+            CreatePairView();
+    }
+
+    private sealed class PairListWithKeyValueView : List<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public PairListWithKeyValueView() => Add(new("ordinary", "value"));
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+            CreateKeyValueView();
+    }
+
+    private sealed class ArrayListRendererViews : ArrayList, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public ArrayListRendererViews() => Add("ordinary");
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+            CreatePairView();
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+            CreateKeyValueView();
+    }
+
     private sealed class IndependentSetViews : HashSet<object>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
     {
         public IndependentSetViews(string comparer) : base(comparer switch

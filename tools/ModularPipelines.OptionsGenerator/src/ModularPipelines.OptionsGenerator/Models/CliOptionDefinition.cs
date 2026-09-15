@@ -247,17 +247,48 @@ public record CliOptionDefinition
     {
         var snapshot = GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true) ?? "{0}";
         var supportsTypedSnapshot = (isArrayAssignable || typedSnapshotCollectionType is not null) && elementType.SpecialType == SpecialType.System_Object;
-        if (supportsTypedSnapshot)
-        {
-            snapshot = GetTypedSnapshotExpression(propertyType, typedSnapshotCollectionType, "KeyValue", "keyValues", snapshot);
-        }
+        snapshot = supportsTypedSnapshot
+            ? GetTypedSnapshotExpression(propertyType, typedSnapshotCollectionType, "KeyValue", "keyValues", snapshot)
+            : RetainIncompatibleTypedView(elementType, "KeyValue", snapshot);
 
         // Scalar character rendering precedes ordinary collection rendering, while
         // option value pairs take precedence over both in CommandArgumentBuilder.
         snapshot = $"(object){{0}} is global::System.Collections.Generic.IEnumerable<char> ? {{0}} : ({snapshot})";
-        return preserveValuePairs && supportsTypedSnapshot
+        if (!preserveValuePairs)
+        {
+            return snapshot;
+        }
+
+        return supportsTypedSnapshot
             ? GetTypedSnapshotExpression(propertyType, typedSnapshotCollectionType, "CliValuePair", "valuePairs", snapshot)
-            : snapshot;
+            : RetainIncompatibleTypedView(elementType, "CliValuePair", snapshot);
+    }
+
+    private static string RetainIncompatibleTypedView(ITypeSymbol declaredElementType, string elementName, string fallback)
+    {
+        // Unresolved domain names can be bound as Nullable<T> in the probe even
+        // though the generated property uses the real reference type.
+        if (declaredElementType is INamedTypeSymbol
+            {
+                OriginalDefinition.SpecialType: SpecialType.System_Nullable_T,
+                TypeArguments.Length: 1,
+            } nullableType)
+        {
+            declaredElementType = nullableType.TypeArguments[0];
+        }
+
+        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var declaredName = declaredElementType.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        // Generated options import ModularPipelines.Models, so an unqualified domain
+        // name also denotes the matching renderer element type when the probe cannot resolve it.
+        if (declaredName == elementName || declaredName == elementType)
+        {
+            return fallback;
+        }
+
+        // A snapshot of the declared elements cannot represent this different runtime
+        // view. Preserve the implementation and its mutation behavior without enumerating it.
+        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{elementType}> ? {{0}} : ({fallback})";
     }
 
     private static string GetTypedSnapshotExpression(
