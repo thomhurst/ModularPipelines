@@ -2288,6 +2288,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 && !isBoolean
                 && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
                 && !option.IsStructuredValue
+                && !option.IsScalarValue
                 && !ShouldTreatOptionAsScalar(command.CommandParts, option.SwitchName)
                 && !option.AcceptsMultipleValues)
             {

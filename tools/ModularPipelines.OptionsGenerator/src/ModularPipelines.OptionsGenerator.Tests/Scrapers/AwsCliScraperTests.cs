@@ -350,6 +350,64 @@ public class AwsCliScraperTests
     }
 
     [Test]
+    [Arguments("filter", "string", "A filter string. ListUsers returns a paginated list of zero or more users.")]
+    [Arguments("policy-document", "string", "Specify the policy in JSON. Specify one or more destinations in the document.")]
+    [Arguments("app-template-body", "string", "A JSON string containing an array of resources.")]
+    [Arguments("expression", "string", "An expression containing key=value pairs. May be specified multiple times.")]
+    [Arguments("count", "integer", "The number of items. Supports multiple operations.")]
+    public async Task Explicit_Scalar_Types_Override_Collection_Prose(string name, string type, string description)
+    {
+        var helpText = $"""
+            OPTIONS
+                   --{name} ({type})
+                    {description}
+            """;
+        var scraper = new TestAwsCliScraper(helpText);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var parsed in scraper.ScrapeAsync())
+        {
+            commands.Add(parsed);
+        }
+        var command = commands.Single();
+        var option = command.Options.Single();
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        await Assert.That(option.GroupValues).IsFalse();
+        await Assert.That(option.IsKeyValue).IsFalse();
+        var expectedType = type == "integer" ? "int?" : "string?";
+        await Assert.That(option.CSharpType).IsEqualTo(expectedType);
+        var files = await new OptionsClassGenerator().GenerateAsync(scraper.CreateToolDefinition() with { Commands = [command] });
+        var content = files.Single(file => file.RelativePath.EndsWith("Options.Generated.cs", StringComparison.Ordinal)).Content;
+        await Assert.That(content).DoesNotContain("GroupValues = true");
+        await Assert.That(content).Contains($"public {expectedType} {option.PropertyName}");
+    }
+
+    [Test]
+    [Arguments("--egress | --ingress", true)]
+    [Arguments("[--egress | --ingress]", false)]
+    [Arguments("--egress |\n       --ingress", true)]
+    public async Task Documented_Nonstandard_Boolean_Pairs_Preserve_False(string synopsis, bool required)
+    {
+        var helpText = $"""
+            SYNOPSIS
+                   aws ec2 replace-network-acl-entry
+                   {synopsis}
+
+            OPTIONS
+                   "--egress" | "--ingress" (boolean)
+                    Indicates whether to replace the egress rule.
+            """;
+        var scraper = new TestAwsCliScraper();
+        var command = (await scraper.Parse(["aws", "ec2", "replace-network-acl-entry"], helpText))!;
+        var option = command.Options.Single();
+        await Assert.That(option.NegatedSwitchName).IsEqualTo("--ingress");
+        await Assert.That(option.IsRequired).IsEqualTo(required);
+        var files = await new OptionsClassGenerator().GenerateAsync(scraper.CreateToolDefinition() with { Commands = [command] });
+        var content = files.Single(file => file.RelativePath.EndsWith("Options.Generated.cs", StringComparison.Ordinal)).Content;
+        await Assert.That(content).Contains("[CliFlag(\"--egress\", NegatedName = \"--ingress\")]");
+        await Assert.That(content).DoesNotContain("if (!Egress)");
+    }
+
+    [Test]
     public async Task Paired_Boolean_Switches_Become_One_Negatable_Option()
     {
         var scraper = new AwsCliScraper(
@@ -1197,7 +1255,7 @@ public class AwsCliScraperTests
                            --entities-path (string)
                             A path that contains multiple levels.
 
-                           --recipient (string) May be specified multiple times.
+                           --recipient (list) May be specified multiple times.
                     """,
                 _ => string.Empty,
             };
@@ -1239,9 +1297,28 @@ public class AwsCliScraperTests
         await Assert.That(content).Contains("Required collection must contain at least one value.");
     }
 
-    private sealed class TestAwsCliScraper()
+    private sealed class AwsCommandHelpExecutor(string helpText) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(Result(arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o fixture",
+                "fixture help" => "AVAILABLE COMMANDS\n       o apply",
+                "fixture apply help" => helpText,
+                _ => string.Empty,
+            }));
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class TestAwsCliScraper(string? commandHelp = null)
         : AwsCliScraper(
-            new AwsFixtureExecutor(string.Empty),
+            commandHelp is null ? new AwsFixtureExecutor(string.Empty) : new AwsCommandHelpExecutor(commandHelp),
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<AwsCliScraper>.Instance)
     {

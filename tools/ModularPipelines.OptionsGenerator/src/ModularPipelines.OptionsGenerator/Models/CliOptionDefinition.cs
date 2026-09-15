@@ -560,6 +560,12 @@ public record CliOptionDefinition
     internal bool IsStructuredValue { get; init; }
 
     /// <summary>
+    /// Whether an explicit CLI type declares one scalar value, taking precedence over
+    /// collection-shaped prose about results or the contents of that value.
+    /// </summary>
+    internal bool IsScalarValue { get; init; }
+
+    /// <summary>
     /// Whether the scraper synthesized this option from another option's negation syntax.
     /// Explicit declarations take precedence and must retain their own constraint identity.
     /// </summary>
