@@ -519,10 +519,11 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"{propertyName} is not null";
         }
 
+        var collectionPresence = GetTypedCollectionPresenceExpression(propertyName, "KeyValue", $"{propertyName}?.Cast<object>().Any() == true");
         // Character sequences use scalar rendering; validation must not consume them.
         var presence = $"((object?){propertyName} is global::System.Collections.Generic.IEnumerable<char>"
                + $" ? (object?){propertyName} is not string || !string.IsNullOrWhiteSpace({propertyName}?.ToString())"
-               + $" : {propertyName}?.Cast<object>().Any() == true)";
+               + $" : {collectionPresence})";
         if (option is null)
         {
             return presence;
@@ -530,8 +531,14 @@ public class OptionsClassGenerator : ICodeGenerator
 
         // Option rendering selects the pair interface before the ordinary collection
         // view. Mutations visible only through the object view do not emit pair values.
-        const string pairValues = "global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>";
-        return $"((object?){propertyName} is {pairValues} ? global::System.Linq.Enumerable.Any(({pairValues})(object){propertyName}, static pair => pair is not null) : {presence})";
+        return GetTypedCollectionPresenceExpression(propertyName, "CliValuePair", presence);
+    }
+
+    private static string GetTypedCollectionPresenceExpression(string propertyName, string elementName, string fallback)
+    {
+        var enumerableType = $"global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.{elementName}>";
+        // A predicate forces enumeration of the typed view rather than an object-list Count shortcut.
+        return $"((object?){propertyName} is {enumerableType} ? global::System.Linq.Enumerable.Any(({enumerableType})(object){propertyName}, static item => item is not null) : {fallback})";
     }
 
     private static string FormatChoice(string[] propertyNames) =>
@@ -615,17 +622,21 @@ public class OptionsClassGenerator : ICodeGenerator
         if (!isRequired && participatesInAlternative
             && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
-            var valuePairSnapshotType = $"__{propertyName}ValuePairSnapshot";
+            var typedSnapshotPrefix = $"__{propertyName}Snapshot";
             var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
-                propertyType, "values", retainUnsupportedCollections: true, valuePairSnapshotType, preserveValuePairs);
+                propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs);
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
             sb.AppendLine("        get;");
             sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
             sb.AppendLine("    }");
-            if (preserveValuePairs && CliOptionDefinition.NeedsValuePairSnapshotAdapter(propertyType))
+            if (CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType) is { } collectionType)
             {
-                GenerateValuePairSnapshotAdapter(sb, valuePairSnapshotType);
+                GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "KeyValue", collectionType);
+                if (preserveValuePairs)
+                {
+                    GenerateTypedSnapshotAdapter(sb, typedSnapshotPrefix, "CliValuePair", collectionType);
+                }
             }
 
             return;
@@ -634,20 +645,23 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
     }
 
-    private static void GenerateValuePairSnapshotAdapter(StringBuilder sb, string typeName)
+    private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName, string collectionType)
     {
+        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var comparerParameter = collectionType == "HashSet" ? ", global::System.Collections.Generic.IEqualityComparer<object> comparer" : string.Empty;
+        var comparerArgument = collectionType == "HashSet" ? ", comparer" : string.Empty;
         sb.AppendLine();
         sb.AppendLine($$"""
-                private sealed class {{typeName}}(global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-                    : global::System.Collections.Generic.List<object>(global::System.Linq.Enumerable.Select(values, static pair => (object)pair)),
-                        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+                private sealed class {{typePrefix}}{{elementName}}(global::System.Collections.Generic.IEnumerable<{{elementType}}> values{{comparerParameter}})
+                    : global::System.Collections.Generic.{{collectionType}}<object>(global::System.Linq.Enumerable.Select(values, static pair => (object)pair){{comparerArgument}}),
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>
                 {
-                    global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-                        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator()
+                    global::System.Collections.Generic.IEnumerator<{{elementType}}>
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator()
                     {
                         foreach (var value in this)
                         {
-                            if (value is global::ModularPipelines.Models.CliValuePair pair)
+                            if (value is {{elementType}} pair)
                             {
                                 yield return pair;
                             }

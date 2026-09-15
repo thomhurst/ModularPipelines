@@ -257,10 +257,10 @@ public partial class RequiredConstructorValidationTests
     {
         var assembly = Compile(await GenerateAlternativeCollection(false, collectionType));
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
-        var elementType = assembly.GetType("ModularPipelines.Models.KeyValue")!;
+        var elementType = typeof(ModularPipelines.Models.KeyValue);
         var values = Array.CreateInstance(elementType, 2);
-        values.SetValue(Activator.CreateInstance(elementType), 0);
-        values.SetValue(Activator.CreateInstance(elementType), 1);
+        values.SetValue(new ModularPipelines.Models.KeyValue("first", "value"), 0);
+        values.SetValue(new ModularPipelines.Models.KeyValue("second", "value"), 1);
         var supplied = Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType), [values]);
         var instance = Activator.CreateInstance(options)!;
         options.GetProperty("Values")!.SetValue(instance, supplied);
@@ -451,6 +451,212 @@ public partial class RequiredConstructorValidationTests
         }
 
         await Assert.That(input.EnumerationCount).IsEqualTo(0);
+    }
+
+    [Test]
+    [Arguments(false, "IEnumerable<object>?")]
+    [Arguments(true, "IEnumerable<object>?")]
+    [Arguments(false, "IReadOnlyList<object>?")]
+    [Arguments(true, "IReadOnlyList<object>?")]
+    [Arguments(false, "IList<object>?")]
+    [Arguments(true, "IList<object>?")]
+    [Arguments(false, "ICollection<object>?")]
+    [Arguments(true, "ICollection<object>?")]
+    [Arguments(false, "List<object>?")]
+    [Arguments(true, "List<object>?")]
+    [Arguments(false, "System.Collections.IList?")]
+    [Arguments(true, "System.Collections.IList?")]
+    [Arguments(false, "System.Collections.IEnumerable?")]
+    [Arguments(true, "System.Collections.IEnumerable?")]
+    [Arguments(false, "System.Collections.ICollection?")]
+    [Arguments(true, "System.Collections.ICollection?")]
+    public async Task Alternative_Collections_Snapshot_The_KeyValue_Interface(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("Values")!;
+        var input = new SingleUseMutableKeyValues();
+        property.SetValue(instance, input);
+        input.Clear();
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, positional))
+                .IsEquivalentTo(positional ? new[] { "first=second" } : ["--requirement", "first=second"]);
+        }
+
+        await Assert.That(input.EnumerationCount).IsEqualTo(1);
+        if (property.GetValue(instance) is IList { IsFixedSize: false } retained)
+        {
+            retained.Clear();
+            var pair = new ModularPipelines.Models.KeyValue("third", "fourth", ":");
+            retained.Add(pair);
+            retained.Add("ordinary object addition");
+            retained.Add(null!);
+            await Assert.That(retained.Count).IsEqualTo(3);
+            await Assert.That(RenderAlternativeCollection(instance, positional))
+                .IsEquivalentTo(positional ? new[] { "third:fourth" } : ["--requirement", "third:fourth"]);
+            retained.Remove(pair);
+            await Assert.That(retained.Count).IsEqualTo(2);
+            await Assert.That(RenderAlternativeCollection(instance, positional)).IsEmpty();
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    [Arguments(false, "IEnumerable<object>?")]
+    [Arguments(true, "IEnumerable<object>?")]
+    [Arguments(false, "IReadOnlyList<object>?")]
+    [Arguments(true, "IReadOnlyList<object>?")]
+    [Arguments(false, "System.Collections.IEnumerable?")]
+    [Arguments(true, "System.Collections.IEnumerable?")]
+    [Arguments(false, "System.Collections.IList?")]
+    [Arguments(true, "System.Collections.IList?")]
+    public async Task Alternative_Default_KeyValue_Arrays_Allow_Fallback(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        options.GetProperty("Values")!.SetValue(instance, default(System.Collections.Immutable.ImmutableArray<ModularPipelines.Models.KeyValue>));
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
+        await Assert.That(RenderAlternativeCollection(instance, positional)).IsEmpty();
+        options.GetProperty("Fallback")!.SetValue(instance, "fallback");
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task Alternative_Snapshots_Follow_Runtime_View_Precedence(bool positional, bool characterView)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, "IList<object>?"))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = characterView ? new CharacterAndPairViews() : new PairAndKeyValueViews();
+        options.GetProperty("Values")!.SetValue(instance, input);
+        string[] expected = positional
+            ? [characterView ? "scalar-value" : "first=second"]
+            : ["--requirement", "pair-first", "pair-second"];
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
+        }
+
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(positional ? 0 : 1);
+        await Assert.That(input.EnumerationCount).IsEqualTo(positional && !characterView ? 1 : 0);
+    }
+
+    [Test]
+    [Arguments(false, "ISet<object>?")]
+    [Arguments(true, "ISet<object>?")]
+    [Arguments(false, "IReadOnlySet<object>?")]
+    [Arguments(true, "IReadOnlySet<object>?")]
+    [Arguments(false, "HashSet<object>?")]
+    [Arguments(true, "HashSet<object>?")]
+    public async Task Alternative_Set_Snapshots_Preserve_Typed_Views_And_Comparers(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseSetViews();
+        options.GetProperty("Values")!.SetValue(instance, input);
+        var retained = (HashSet<object>) options.GetProperty("Values")!.GetValue(instance)!;
+        await Assert.That(retained.Comparer).IsSameReferenceAs(input.Comparer);
+        input.Clear();
+        string[] expected = positional ? ["first=second"] : ["--requirement", "first", "second"];
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected);
+        }
+
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(positional ? 0 : 1);
+        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(positional ? 1 : 0);
+        retained.Add(positional
+            ? new ModularPipelines.Models.KeyValue("first", "second")
+            : new ModularPipelines.Models.CliValuePair("first", "second"));
+        // Reference equality keeps both equal-valued instances.
+        await Assert.That(retained.Count).IsEqualTo(2);
+        await Assert.That(RenderAlternativeCollection(instance, positional)).IsEquivalentTo(expected.Concat(expected));
+        retained.Clear();
+        retained.Add("ordinary object addition");
+        retained.Add(null!);
+        await Assert.That(retained.Count).IsEqualTo(2);
+        await Assert.That(RenderAlternativeCollection(instance, positional)).IsEmpty();
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
+    }
+
+    private sealed class SingleUseSetViews : HashSet<object>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public SingleUseSetViews() : base(ReferenceEqualityComparer.Instance) => Add("ordinary object view");
+
+        public int PairEnumerationCount { get; private set; }
+
+        public int KeyValueEnumerationCount { get; private set; }
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        {
+            if (++PairEnumerationCount != 1)
+            {
+                throw new InvalidOperationException("Pair input can only be enumerated once.");
+            }
+
+            yield return new("first", "second");
+        }
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        {
+            if (++KeyValueEnumerationCount != 1)
+            {
+                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
+            }
+
+            yield return new("first", "second");
+        }
+    }
+
+    private class PairAndKeyValueViews : SingleUseMutableKeyValues, IEnumerable<ModularPipelines.Models.CliValuePair>
+    {
+        public int PairEnumerationCount { get; private set; }
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        {
+            if (++PairEnumerationCount != 1)
+            {
+                throw new InvalidOperationException("Pair input can only be enumerated once.");
+            }
+
+            yield return new("pair-first", "pair-second");
+        }
+    }
+
+    private sealed class CharacterAndPairViews : PairAndKeyValueViews, IEnumerable<char>
+    {
+        public override string ToString() => "scalar-value";
+
+        IEnumerator<char> IEnumerable<char>.GetEnumerator() =>
+            throw new InvalidOperationException("Scalar character sequences must not be enumerated.");
+    }
+
+    private class SingleUseMutableKeyValues : List<object>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public int EnumerationCount { get; private set; }
+
+        public SingleUseMutableKeyValues() => Add("ordinary object view");
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        {
+            if (++EnumerationCount != 1)
+            {
+                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
+            }
+
+            yield return new("first", "second");
+        }
     }
 
     private sealed class SingleUseMutablePairs : List<object>, IEnumerable<ModularPipelines.Models.CliValuePair>
