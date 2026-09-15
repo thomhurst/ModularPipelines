@@ -1,4 +1,4 @@
-using ModularPipelines.Exceptions;
+using System.Reflection;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Google.Services;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
@@ -50,10 +50,11 @@ public class GcloudResourceArgumentTests
     [Arguments(typeof(GcloudKmsKeyringsDeleteOptions))]
     [Arguments(typeof(GcloudMetastoreServicesMigrationsDescribeOptions))]
     [Arguments(typeof(GcloudMetastoreServicesMigrationsDeleteOptions))]
-    public async Task Missing_Resource_Is_Rejected(Type optionsType)
+    public async Task Null_Resource_Is_Rejected_By_Constructor(Type optionsType)
     {
-        var options = CreateOptions(optionsType, "");
-        await Assert.That(() => BuildArguments(options)).Throws<CommandOptionsValidationException>();
+        var exception = await Assert.That(() => CreateOptions(optionsType, null!))
+            .Throws<TargetInvocationException>();
+        await Assert.That(exception.InnerException).IsTypeOf<ArgumentNullException>();
     }
 
     private static object CreateOptions(Type optionsType, string resource) =>

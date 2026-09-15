@@ -10,6 +10,120 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("[default: info]", " [default: info]", true)]
+    [Arguments("[default: info]", " [default: info]", false)]
+    [Arguments("[possible values: info, debug]", "", true)]
+    [Arguments("[possible values: info, debug]", "", false)]
+    [Arguments("[alias: verbosity]", " [alias: verbosity]", true)]
+    [Arguments("[alias: verbosity]", " [alias: verbosity]", false)]
+    [Arguments("Possible values:\n          - info: Standard output\n          - debug: Detailed output", "", true)]
+    public async Task Clap_Metadata_Does_Not_Consume_Prose_Paragraph_Boundaries(string metadata, string retainedMetadata, bool separateParagraph)
+    {
+        var helpText = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --level <LEVEL>\n          Log level\n\n          "
+            + metadata + (separateParagraph ? "\n\n" : "\n") + "          Set via LOG_LEVEL env var.\n";
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+        var option = command!.Options.Single();
+        await Assert.That(option.Description)
+            .IsEqualTo($"Log level{(separateParagraph ? "." : "")}{retainedMetadata} Set via LOG_LEVEL env var.");
+        if (metadata.StartsWith("[possible values:", StringComparison.Ordinal) || metadata.StartsWith("Possible values:", StringComparison.Ordinal))
+        {
+            await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+                .IsEquivalentTo(["info", "debug"]);
+        }
+    }
+
+    [Test]
+    [Arguments("", ".")]
+    [Arguments(".", ".")]
+    [Arguments("!", "!")]
+    [Arguments("?", "?")]
+    [Arguments(":", ":")]
+    [Arguments(";", ";")]
+    [Arguments(" \"Done!\"", " \"Done!\"")]
+    [Arguments(" (done.)", " (done.)")]
+    [Arguments(" `done?`", " `done?`")]
+    [Arguments(" [done!]", " [done!]")]
+    [Arguments(" “done!”", " “done!”")]
+    [Arguments("。", "。")]
+    [Arguments("！", "！")]
+    [Arguments("؟", "؟")]
+    [Arguments(" (unstable)", " (unstable).")]
+    [Arguments(" \"name\"", " \"name\".")]
+    public async Task Clap_Paragraphs_Preserve_Sentences_And_Metadata(string ending, string expectedEnding)
+    {
+        var helpText = $"""
+            Usage: pnpm install [OPTIONS]
+
+            Options:
+                  --reporter <REPORTER>
+                      Select the reporter{ending}
+
+                      Reporter output wraps
+                      across terminal lines.
+
+                      [possible values: default,
+                      silent]
+
+                      [default: default]
+
+                  --offline
+                      Use cached packages.
+            """;
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+        var reporter = command!.Options.Single(option => option.SwitchName == "--reporter");
+        await Assert.That(reporter.Description)
+            .IsEqualTo($"Select the reporter{expectedEnding} Reporter output wraps across terminal lines. [default: default]");
+        await Assert.That(reporter.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["default", "silent"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
+            .IsEqualTo("Use cached packages.");
+    }
+
+    [Test]
+    [Arguments("--custom <VALUE>", "The authentication token value.", true)]
+    [Arguments("--custom <VALUE>", "Select the output format.", false)]
+    [Arguments("--custom", "Show the authentication token value.", false)]
+    [Arguments("--custom <VALUE>", "The path to the authentication token value.", false)]
+    public async Task Secret_Descriptions_Are_Recognized_Without_A_Type_Enhancer(string declaration, string description, bool expectedSecret)
+    {
+        var help = $"Usage: pnpm example [OPTIONS]\n\nOptions:\n  {declaration}  {description}\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "example"], help))!;
+        await Assert.That(command.Options.Single().IsSecret).IsEqualTo(expectedSecret);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Test",
+            OutputDirectory = "src/ModularPipelines.Test",
+            Commands = [command],
+        });
+        await Assert.That(generated.Single().Content.Contains("[SecretValue]")).IsEqualTo(expectedSecret);
+    }
+
+    [Test]
+    [Arguments("-v, --verbose...", "int?", true)]
+    [Arguments("-q, --quiet", "bool?", false)]
+    public async Task Repeated_Clap_Flags_Preserve_Counts(string declaration, string expectedType, bool numeric)
+    {
+        var help = $"Usage: pnpm example [OPTIONS]\n\nOptions:\n  {declaration}  Set output verbosity.\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "example"], help))!;
+        var option = command.Options.Single();
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.IsNumeric).IsEqualTo(numeric);
+        await Assert.That(option.PropertyType).IsEqualTo(expectedType);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Node",
+            OutputDirectory = "src/ModularPipelines.Node",
+            Commands = [command],
+        });
+        await Assert.That(generated.Single().Content).Contains($"[CliFlag(\"{option.SwitchName}\", ShortForm = \"{option.ShortForm}\")]");
+        await Assert.That(generated.Single().Content).Contains($"public {expectedType} {option.PropertyName} {{ get; set; }}");
+    }
+
+    [Test]
     [Arguments("--verbose", false)]
     [Arguments("--verbose", true)]
     [Arguments("-v", false)]
@@ -670,7 +784,7 @@ public class PnpmCliScraperTests
             // neither generated nor covered by a value option fail generation.
             command = command with { UsagePositionalArguments = usage.PositionalArguments };
             command.ValidateOperandCoverage();
-            return command;
+            return ApplyIgnoredOptionPolicy(command);
         }
 
         public IEnumerable<string> Subcommands(string helpText) => ExtractSubcommands(helpText);

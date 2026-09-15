@@ -123,7 +123,7 @@ public partial class NbgvCliScraper(
             }
 
             var switchName = match.Groups["long"].Value;
-            if (switchName == "--help" || !seenSwitches.Add(switchName))
+            if (!seenSwitches.Add(switchName))
             {
                 continue;
             }

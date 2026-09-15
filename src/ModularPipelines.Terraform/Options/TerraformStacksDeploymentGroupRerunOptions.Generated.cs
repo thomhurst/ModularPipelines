@@ -15,14 +15,34 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Rerun deployments within a deployment group.
 /// </summary>
-/// <param name="DeploymentNames">A comma-separated list of deployment names to rerun within the deployment group (required).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-group", "rerun")]
-public record TerraformStacksDeploymentGroupRerunOptions(
-    [property: CliOption("-deployment-names", Format = OptionFormat.EqualsSeparated)] string DeploymentNames
-) : TerraformOptions
+public record TerraformStacksDeploymentGroupRerunOptions : TerraformOptions
 {
+    /// <summary>
+    /// Rerun deployments within a deployment group.
+    /// </summary>
+    /// <param name="DeploymentNames">A comma-separated list of deployment names to rerun within the deployment group (required).</param>
+    public TerraformStacksDeploymentGroupRerunOptions(
+        string DeploymentNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentNames);
+        this.DeploymentNames = DeploymentNames;
+    }
+
+    public void Deconstruct(out string DeploymentNames)
+    {
+        DeploymentNames = this.DeploymentNames;
+    }
+
+    /// <summary>
+    /// A comma-separated list of deployment names to rerun within the deployment group (required).
+    /// </summary>
+    [CliOption("-deployment-names", Format = OptionFormat.EqualsSeparated)]
+    public string DeploymentNames { get; private init; }
+
     /// <summary>
     /// The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided.
     /// </summary>

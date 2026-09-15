@@ -197,9 +197,15 @@ public class UsageSynopsisParserTests
         var resolved = UsageSynopsisParser.ResolveOptionUsage(usage, options);
         var repeated = UsageSynopsisParser.ResolveOptionUsage(resolved, options);
 
-        // A flat OR group cannot express (--verbose AND TARGET) OR --file.
-        await Assert.That(resolved.RequiredAlternativeGroups).IsEmpty();
-        await Assert.That(repeated.RequiredAlternativeGroups).IsEmpty();
+        foreach (var result in new[] { resolved, repeated })
+        {
+            var group = result.RequiredAlternativeGroups.Single();
+            await Assert.That(group.Members.Single().OptionSwitch).IsEqualTo("--file");
+            var bundle = group.Groups.Single();
+            await Assert.That(bundle.IsChoice).IsFalse();
+            await Assert.That(bundle.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+                .IsEquivalentTo(["--verbose", "Target"]);
+        }
         await Assert.That(resolved.PositionalArguments.Single().PropertyName).IsEqualTo("Target");
         await Assert.That(resolved.PositionalArguments.Single().IsRequired).IsFalse();
     }
@@ -1194,7 +1200,10 @@ public class UsageSynopsisParserTests
 
         var result = UsageSynopsisParser.Parse(helpText, ["tool", "copy"]);
 
-        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+        var group = result.RequiredAlternativeGroups.Single();
+        await Assert.That(group.Members).IsEmpty();
+        await Assert.That(group.Groups.Count).IsEqualTo(2);
+        await Assert.That(group.Groups.All(branch => !branch.IsChoice && branch.Members.Count == 2)).IsTrue();
     }
 
     [Test]

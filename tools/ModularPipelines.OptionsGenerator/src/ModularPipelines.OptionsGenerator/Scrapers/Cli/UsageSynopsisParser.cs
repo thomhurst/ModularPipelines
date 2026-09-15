@@ -153,7 +153,7 @@ public static class UsageSynopsisParser
             RequirednessCandidates = [.. result.RequirednessCandidates.Select(RemoveCommandGroupPlaceholders)],
             RequiredAlternativeGroups =
             [
-                .. result.RequiredAlternativeGroups.Where(group => group.Members.All(member =>
+                .. result.RequiredAlternativeGroups.Where(group => group.EnumerateMembers().All(member =>
                     member.PositionalPropertyName is not { } propertyName
                     || !commandGroupPlaceholders.Contains(propertyName))),
             ],
@@ -260,7 +260,7 @@ public static class UsageSynopsisParser
                 candidate.UnparsedOperandTokens,
                 candidate.RequiredOptionSwitches))
             .Concat(candidate.RequiredAlternativeGroups.SelectMany(static candidateGroup =>
-                candidateGroup.Members))
+                candidateGroup.EnumerateMembers()))
             .Select(GetAlternativeMemberKey)
             .ToHashSet(StringComparer.Ordinal);
 
@@ -311,7 +311,7 @@ public static class UsageSynopsisParser
                 .Where(member => !commonKeys.Contains(GetAlternativeMemberKey(member)))
                 .ToArray())
             .ToArray();
-        if (branchMembers.Any(static members => members.Length != 1))
+        if (branchMembers.Any(static members => members.Length == 0))
         {
             return [];
         }
@@ -327,7 +327,13 @@ public static class UsageSynopsisParser
         }
 
         return alternatives.Count > 1
-            ? [new UsageRequiredAlternativeGroup { Members = alternatives }]
+            ? [new UsageRequiredAlternativeGroup
+            {
+                Members = DistinctAlternativeMembers(branchMembers
+                    .Where(static members => members.Length == 1).SelectMany(static members => members)),
+                Groups = [.. branchMembers.Where(static members => members.Length > 1)
+                    .Select(static members => new UsageRequiredAlternativeGroup { IsChoice = false, Members = members })],
+            }]
             : [];
     }
 
@@ -1888,9 +1894,22 @@ public sealed record UsageSynopsisParseResult
 public sealed record UsageRequiredAlternativeGroup
 {
     /// <summary>
+    /// Whether members and nested groups are alternatives rather than one required bundle.
+    /// </summary>
+    public bool IsChoice { get; init; } = true;
+
+    /// <summary>
     /// Option switches and positional properties participating in the choice.
     /// </summary>
     public required IReadOnlyList<UsageRequiredAlternativeMember> Members { get; init; }
+
+    /// <summary>
+    /// Required bundles participating as branches in this choice.
+    /// </summary>
+    public IReadOnlyList<UsageRequiredAlternativeGroup> Groups { get; init; } = [];
+
+    internal IEnumerable<UsageRequiredAlternativeMember> EnumerateMembers() =>
+        Members.Concat(Groups.SelectMany(static group => group.EnumerateMembers()));
 }
 
 /// <summary>

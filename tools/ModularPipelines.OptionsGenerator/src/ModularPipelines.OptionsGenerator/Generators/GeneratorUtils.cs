@@ -747,7 +747,7 @@ public static partial class GeneratorUtils
 
         return command.RequiredOptions.Count > 0 ||
                command.PositionalArguments.Any(p => p.IsRequired) ||
-               command.RequiredAlternativeGroups.Count > 0;
+               command.RequiredAlternativeGroups.Any(group => group.IsRequired);
     }
 
     internal static IReadOnlyList<RequiredConstructorParameter> GetRequiredConstructorParameters(
